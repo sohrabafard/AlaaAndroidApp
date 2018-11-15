@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AlaaAndroidApp.iml" filepath="$PROJECT_DIR$/AlaaAndroidApp.iml" />
+      <module fileurl="file://G:\AndriodStudio\AlaaAndroidApp\AllaApp.iml" filepath="G:\AndriodStudio\AlaaAndroidApp\AllaApp.iml" />
+      <module fileurl="file://G:\AndriodStudio\AllaApp\Test.iml" filepath="G:\AndriodStudio\AllaApp\Test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+    </modules>
+  </component>
+</project>

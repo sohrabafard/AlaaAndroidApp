@@ -1,0 +1,4 @@
+<resources>
+	<dimen name="fab_margin">28.8dp</dimen>
+	<dimen name="card_size_video">120dp</dimen>
+</resources>

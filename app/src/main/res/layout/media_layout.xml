@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="1dp"
+    android:clickable="true"
+    android:elevation="6dp"
+    android:focusable="true"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgFrame"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="1dp"
+            android:src="@color/colorPrimary"
+            android:adjustViewBounds="true"
+            android:background="@color/WhiteSmoke"
+            android:scaleType="centerCrop" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_gravity="right|bottom"
+            android:button="@drawable/circle_checkbox"
+            android:elevation="4dp"
+            android:visibility="visible" />
+
+    </FrameLayout>
+
+
+</android.support.v7.widget.CardView>

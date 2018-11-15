@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/White"
+    android:layoutDirection="rtl"
+    android:orientation="vertical"
+    android:padding="6dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dialog_right_margin"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_header"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:text="لینک های دانلود "
+                android:textColor="#232F34"
+                android:textStyle="bold"
+                android:textSize="@dimen/dialog_header_text_size" />
+
+        </LinearLayout>
+
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:textDirection="rtl">
+
+            <RadioButton
+                android:id="@+id/radioExcellentQuality"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dialog_item_height"
+                android:checked="true"
+                android:paddingRight="@dimen/dialog_radio_space_to_text"
+                android:text=""
+                android:textColor="#232F34" />
+
+            <RadioButton
+                android:id="@+id/radioHighQuality"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dialog_item_height"
+                android:paddingRight="@dimen/dialog_radio_space_to_text"
+                android:text=""
+                android:textColor="#232F34" />
+
+            <RadioButton
+                android:id="@+id/radioMediumQuality"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dialog_item_height"
+                android:paddingRight="@dimen/dialog_radio_space_to_text"
+                android:text=""
+                android:textColor="#232F34" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_footer"
+            android:layout_marginTop="28dp"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtDownload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/White"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:enabled="true"
+                android:clickable="true"
+                android:textSize="14sp"
+                android:text="@string/download"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/txtCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/White"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:clickable="true"
+                android:text="@string/cancel"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>
