@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Gray"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <!--   <FrameLayout
+           android:id="@+id/mediaVideoFrame"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@color/Red"
+           android:visibility="gone">-->
+
+    <com.google.android.exoplayer2.ui.AspectRatioFrameLayout
+        android:id="@+id/mediaVideoFrame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:resize_mode="fixed_width">
+
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/exoplayer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="0dp"
+            android:visibility="gone"
+            app:fastforward_increment="30000"
+            app:resize_mode="fill"
+            app:rewind_increment="30000"
+            app:show_buffering="true"
+            app:show_timeout="5000"
+            app:shutter_background_color="@color/White">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+        </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+    </com.google.android.exoplayer2.ui.AspectRatioFrameLayout>
+
+    <!-- </FrameLayout>-->
+
+    <RelativeLayout
+        android:id="@+id/relativePreview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imgPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/imgPlay"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_circle_play"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_play"
+            android:tint="@color/White" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linRootPlayList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/WhiteSmoke"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/linHeaderPlayList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:text="4 فیلم"
+                android:textColor="@color/Gray" />
+
+            <ImageView
+                android:id="@+id/imgShowPlayList"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="bottom|right"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:src="@drawable/ic_arrow_up" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linBodyPlayList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerPlayList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/White"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <include layout="@layout/details_video" />
+
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>
