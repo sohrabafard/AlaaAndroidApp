@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/register">
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:background="@color/Green"
+            android:defaultValue="true"
+            android:key="@string/setting_external_download"
+            android:summary="@string/setting_summary_download" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="@string/notification">
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/setting_summary_get_notif_new_video"
+            android:summary="@string/setting_summary_get_notif_new_video" />
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/setting_summary_get_notif_favorite_video"
+            android:summary="@string/setting_summary_get_notif_favorite_video" />
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/setting_summary_get_notif_product"
+            android:summary="@string/setting_summary_get_notif_product" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/player">
+
+        <ir.sanatisharif.android.konkur96.dialog.DialogPrefDownload
+            android:dialogTitle="انتخاب کیفیت"
+            android:key="@string/player_quality"
+            android:summary="240p"
+            android:title="انتخاب کیفیت پخش آنلاین" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/storage">
+
+        <ir.sanatisharif.android.konkur96.dialog.DialogPrefChangeStorage
+            android:dialogTitle="انتخاب حافظه دخیره سازی"
+            android:key="@string/storage"
+            android:summary="داخلی"
+            android:title="انتخاب حافظه دخیره سازی" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

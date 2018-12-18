@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#364150">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:textDirection="rtl">
+
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/ala_ok" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:gravity="center"
+            android:text="آلاء - خدمات نوین آموزش"
+            android:textColor="@color/White"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:gravity="center"
+            android:text="مجری توسعه عدالت آموزشی"
+            android:textColor="@color/White"
+            android:textSize="13sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/shape_back_register"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:gravity="center"
+                android:text="@string/login_desc"
+                android:textColor="@color/DimGray"
+                android:textSize="13sp" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/edtPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@color/White"
+                android:gravity="right|bottom"
+                android:hint="@string/phone"
+                android:inputType="phone"
+                android:layoutDirection="ltr"
+                android:paddingRight="8dp"
+                android:text=""
+                android:textColorHint="@color/Gray"
+                android:textColorLink="@color/White"
+                android:textDirection="ltr"
+                app:met_errorColor="@color/Red"
+                app:met_floatingLabel="normal"
+                app:met_primaryColor="@color/colorPrimary"
+                app:met_textColor="@color/Black"
+                app:met_textColorHint="@color/Gray"
+                app:met_underlineColor="@color/colorPrimary" />
+
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/edtPersonalCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@color/White"
+                android:gravity="right|bottom"
+                android:hint="@string/personalCode"
+                android:inputType="number"
+                android:layoutDirection="rtl"
+                android:paddingRight="8dp"
+                android:textColorHint="@color/Gray"
+                android:textColorLink="@color/White"
+                android:textDirection="rtl"
+                app:met_errorColor="@color/Red"
+                app:met_floatingLabel="normal"
+                app:met_primaryColor="@color/colorPrimary"
+                app:met_textColor="@color/Black"
+                app:met_textColorHint="@color/Gray"
+                app:met_underlineColor="@color/colorPrimary" />
+
+            <Button
+                style="@style/Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_button"
+                android:text="@string/login" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
