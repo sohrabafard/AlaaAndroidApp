@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.os.Handler;
 
 import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 
@@ -69,6 +70,7 @@ public class AppConfig extends Application {
 
         //check and create directories
         if (!FileManager.checkFileExist(FileManager.getRootPath())) {
+
             FileManager.createRootDir();//create root
             FileManager.createAudioDir();//create audio
         }

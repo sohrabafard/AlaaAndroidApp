@@ -29,7 +29,6 @@
             android:padding="0dp"
             android:visibility="gone"
             app:fastforward_increment="30000"
-            app:resize_mode="fill"
             app:rewind_increment="30000"
             app:show_buffering="true"
             app:show_timeout="5000"
@@ -45,7 +44,7 @@
         </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
     </com.google.android.exoplayer2.ui.AspectRatioFrameLayout>
 
-    <!-- </FrameLayout>-->
+    <!--  </FrameLayout>-->
 
     <RelativeLayout
         android:id="@+id/relativePreview"

@@ -540,8 +540,15 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     private void resizePlayer() {
 
-        mExoPlayerView.getLayoutParams().height = (int) (AppConfig.width * 0.7f);
+        int h = (int) (AppConfig.width * 0.7f);
+        mediaVideoFrame.getLayoutParams().height = h;
+        mediaVideoFrame.getLayoutParams().width = AppConfig.width;
+
+        mExoPlayerView.getLayoutParams().height = h;
         mExoPlayerView.getLayoutParams().width = AppConfig.width;
+
+        relativePreview.getLayoutParams().height = h;
+        relativePreview.getLayoutParams().width = AppConfig.width;
     }
 
     private void initFullscreenDialog() {
@@ -645,7 +652,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 new DefaultRenderersFactory(getContext()),
                 trackSelector,
                 loadControl);
-        
+
         mExoPlayerView.setPlayer(player);
 
         boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
@@ -657,7 +664,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
                 Util.getUserAgent(context, "mediaPlayerSample"));
         mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(Uri.parse(mUrl));
+                .createMediaSource(Uri.parse(mUrl));//http://edu-edu.ir/jokLike/1.mp3
 
         player.addListener(new PlayerEventListener());
         player.prepare(mVideoSource, !haveResumePosition, false);
@@ -851,6 +858,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     }
     //</editor-fold>
 
+    //<editor-fold desc="phoneStateReceiver">
     BroadcastReceiver phoneStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -870,4 +878,5 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             }
         }
     };
+    //</editor-fold>
 }

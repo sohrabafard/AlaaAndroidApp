@@ -56,7 +56,7 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.0.0'
     implementation 'com.android.support:cardview-v7:27.0.0'
     implementation 'com.android.support:preference-v14:27.0.0'
-   // implementation 'com.android.support:support-dynamic-animation:27.0.0'
+    implementation 'com.android.support:support-dynamic-animation:27.0.0'
    // implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     //------------- google lib ------------
     //noinspection GradleCompatible

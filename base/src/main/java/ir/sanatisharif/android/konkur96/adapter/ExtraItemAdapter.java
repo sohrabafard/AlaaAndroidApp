@@ -109,7 +109,7 @@ public class ExtraItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onClick(View view) {
 
-                    addFrg(DetailsVideoFrg.newInstance(categoryItemSets.get(position)), "DetailsVideoFrg");
+                    addFrg(DetailsVideoFrg.newInstance(), "DetailsVideoFrg");
 
                 }
             });
@@ -129,7 +129,7 @@ public class ExtraItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         public boolean onMenuItemClick(MenuItem item1) {
                             int i = item1.getItemId();
                             if (i == R.id.action_watch) {
-                                addFrg(DetailsVideoFrg.newInstance(categoryItemSets.get(position)), "DetailsVideoFrg");
+                                addFrg(DetailsVideoFrg.newInstance(), "DetailsVideoFrg");
 
                                 return true;
                             } else if (i == R.id.action_share) {
