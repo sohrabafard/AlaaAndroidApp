@@ -52,9 +52,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:gravity="right"
-            android:text="1200 ویو"
+            android:text="1200 "
             android:textColor="@color/Gray"
             android:textSize="13sp" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_view"
+            android:tint="@color/Monochromatic_2" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -67,7 +73,7 @@
             android:layout_height="32dp"
             android:layout_margin="4dp"
             android:src="@drawable/ic_download"
-            android:tint="@color/Gray" />
+            android:tint="@color/Monochromatic_3" />
 
         <ImageView
             android:id="@+id/imgReady"
@@ -75,7 +81,7 @@
             android:layout_height="32dp"
             android:layout_margin="4dp"
             android:src="@drawable/ic_ok_24dp"
-            android:tint="@color/colorPrimary"
+            android:tint="@color/Monochromatic_3"
             android:visibility="gone" />
 
         <ImageView
@@ -84,7 +90,7 @@
             android:layout_height="32dp"
             android:layout_margin="4dp"
             android:src="@drawable/ic_like_off"
-            android:tint="@color/Gray" />
+            android:tint="@color/Monochromatic_2" />
 
 
         <ImageView
@@ -93,7 +99,7 @@
             android:layout_height="32dp"
             android:layout_margin="4dp"
             android:src="@drawable/ic_share"
-            android:tint="@color/Gray" />
+            android:tint="@color/Monochromatic_3" />
 
 
         <ImageView
@@ -102,7 +108,7 @@
             android:layout_height="32dp"
             android:layout_margin="4dp"
             android:src="@drawable/ic_favorite_off"
-            android:tint="@color/Gray" />
+            android:tint="@color/Monochromatic_3" />
 
     </LinearLayout>
 
@@ -184,15 +190,15 @@
 
             </LinearLayout>
 
-       <!--     <TextView
-                android:id="@+id/txtِRating1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:gravity="right"
-                android:text="4.5"
-                android:textColor="@color/Green"
-                android:textSize="24sp" />-->
+            <!--     <TextView
+                     android:id="@+id/txtِRating1"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_margin="4dp"
+                     android:gravity="right"
+                     android:text="4.5"
+                     android:textColor="@color/Green"
+                     android:textSize="24sp" />-->
 
 
         </LinearLayout>
@@ -204,15 +210,15 @@
             android:background="@color/White"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-       <!-- <TextView
-            android:id="@+id/txtِMoreComment1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:gravity="center"
-            android:text="@string/more_comment"
-            android:textColor="@color/Green"
-            android:textSize="16sp" />-->
+        <!-- <TextView
+             android:id="@+id/txtِMoreComment1"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_margin="4dp"
+             android:gravity="center"
+             android:text="@string/more_comment"
+             android:textColor="@color/Green"
+             android:textSize="16sp" />-->
 
     </LinearLayout>
 

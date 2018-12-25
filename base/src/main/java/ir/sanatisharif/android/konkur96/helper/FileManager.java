@@ -148,7 +148,7 @@ public class FileManager {
         for (File file : files) {
             if (file.isFile()) {
                 filesArrayList.add(file);
-                Log.i("LOG", "getFilesInDirs: " + file.getPath());
+              //  Log.i("LOG", "getFilesInDirs: " + file.getPath());
             } else if (file.isDirectory()) {
                 getFilesInDirs(file.getAbsoluteFile());
             }

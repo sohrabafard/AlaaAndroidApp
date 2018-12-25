@@ -214,7 +214,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             disableWakeLockScreen();
 
 
-        } else if (i == R.id.imgShowPlayList) {
+        } else if (i == R.id.linHeaderPlayList || i == R.id.imgShowPlayList) {
             if (!showPlayList) {
                 linBodyPlayList.setVisibility(View.VISIBLE);
                 imgShowPlayList.setImageResource(R.drawable.ic_down);
@@ -483,14 +483,12 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         txtTitle = view.findViewById(R.id.txtTitle);
         txtAuthor = view.findViewById(R.id.txtAuthor);
 
-
         //preview
         relativePreview = view.findViewById(R.id.relativePreview);
         imgPlay = view.findViewById(R.id.imgPlay);
         imgPreview = view.findViewById(R.id.imgPreview);
 
         //play list
-
         linRootPlayList = view.findViewById(R.id.linRootPlayList);
         linBodyPlayList = view.findViewById(R.id.linBodyPlayList);
         linHeaderPlayList = view.findViewById(R.id.linHeaderPlayList);
@@ -535,13 +533,21 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         imgDownload.setOnClickListener(this);
         imgShowPlayList.setOnClickListener(this);
+        linHeaderPlayList.setOnClickListener(this);
         imgPlay.setOnClickListener(this);
     }
 
     private void resizePlayer() {
 
-        mExoPlayerView.getLayoutParams().height = (int) (AppConfig.width * 0.7f);
+        int h = (int) (AppConfig.width * 0.7f);
+        mediaVideoFrame.getLayoutParams().height = h;
+        mediaVideoFrame.getLayoutParams().width = AppConfig.width;
+
+        mExoPlayerView.getLayoutParams().height = h;
         mExoPlayerView.getLayoutParams().width = AppConfig.width;
+
+        relativePreview.getLayoutParams().height = h;
+        relativePreview.getLayoutParams().width = AppConfig.width;
     }
 
     private void initFullscreenDialog() {

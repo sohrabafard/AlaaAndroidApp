@@ -3,6 +3,8 @@ package ir.sanatisharif.android.konkur96.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.animation.SpringAnimation;
+import android.support.animation.SpringForce;
 import android.widget.ImageView;
 
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -22,7 +24,7 @@ public class SplashActivity extends ActivityBase {
         containerHeight(this);
 
         img1 = findViewById(R.id.img1);
-      /*  SpringAnimation springAnim = new SpringAnimation(img1, SpringAnimation.TRANSLATION_Y, 0);
+        SpringAnimation springAnim = new SpringAnimation(img1, SpringAnimation.TRANSLATION_Y, 0);
 
         SpringForce springForce = new SpringForce();
         springForce.setFinalPosition(-(AppConfig.height / 3));
@@ -30,7 +32,7 @@ public class SplashActivity extends ActivityBase {
         springForce.setDampingRatio(SpringForce.DAMPING_RATIO_HIGH_BOUNCY);
         //springAnim.setStartVelocity(40);
         springAnim.setSpring(springForce);
-        springAnim.start();*/
+        springAnim.start();
 
 
         if (!MyPreferenceManager.getInatanse().getOnboarding()) {

@@ -1,6 +1,7 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.common.wrappers.InstantApps;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -164,34 +167,42 @@ public class DashboardMainFrg1 extends BaseFragment {
 
     private void setDummyData() {
 
+        MainItem item = new MainItem();
+        // Only runs on API levels < 26.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            // Only runs in an Installed App.
+            if (!InstantApps.isInstantApp(getContext())) {
 
-        //get video offline
-        FileManager.getInstance().clearFilesList();
-        FileManager.getInstance().getFilesInDirs(new File(FileManager.getMediaPath()));
-        ArrayList<File> files = FileManager.getInstance().getFilesArrayList();
-        ArrayList<Video> videos = new ArrayList<>();
+                //get video offline
+                FileManager.getInstance().clearFilesList();
+                FileManager.getInstance().getFilesInDirs(new File(FileManager.getMediaPath()));
+                ArrayList<File> files = FileManager.getInstance().getFilesArrayList();
+                ArrayList<Video> videos = new ArrayList<>();
 
-        if (files != null) {
+                if (files != null) {
 
-            for (File f : files) {
+                    for (File f : files) {
 
-                Video v = new Video();
-                v.setName(f.getName());
-                v.setPath(f.getPath());
-                v.setSize(f.length() + "");
-                videos.add(v);
+                        Video v = new Video();
+                        v.setName(f.getName());
+                        v.setPath(f.getPath());
+                        v.setSize(f.length() + "");
+                        videos.add(v);
+                    }
+
+
+                    adapter.notifyDataSetChanged();
+                }
+
+                item.setId(0);
+                item.setType(AppConstants.VIDEO_OFFLINE_ITEM);
+                item.setTitle("دانلود شده ها");
+                item.setItems(videos);
+                items.add(item);
+
             }
-
-
-            adapter.notifyDataSetChanged();
         }
 
-        MainItem item = new MainItem();
-        item.setId(0);
-        item.setType(AppConstants.VIDEO_OFFLINE_ITEM);
-        item.setTitle("دانلود شده ها");
-        item.setItems(videos);
-        items.add(item);
 
         //row 1-> category
         ArrayList<CategoryItemSet> videoItemSets = new ArrayList<>();
