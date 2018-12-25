@@ -29,7 +29,6 @@ public class AppConstants {
      */
     public static final String ROOT = "allaTV";
     public static final String MEDIA = "media";
-    public static final String VIDEO = "video";
     public static final String AUDIO = "audio";
     public static final String PDF = "pdf";
     public static final String HTML = "html";

@@ -102,8 +102,15 @@
                             android:textSize="12sp" />
 
                     </LinearLayout>
-
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imgMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dip"
+                    android:src="@mipmap/ic_over_flow"
+                    android:visibility="visible" />
 
 
             </LinearLayout>

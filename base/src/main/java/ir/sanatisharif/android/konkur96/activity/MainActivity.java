@@ -305,7 +305,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             transaction.show(fragments.lastElement());
             transaction.commit();
 
-            Log.i("LOG", "addFrg close " + fragments.lastElement().getTag());
+           // Log.i("LOG", "addFrg close " + fragments.lastElement().getTag());
             if (fragments.lastElement() instanceof AllaMainFrg) {
                 bottomNavigation.setCurrentItem(0, false);
             } else if (fragments.lastElement() instanceof CongressMainFrg) {
