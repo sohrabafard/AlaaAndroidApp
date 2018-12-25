@@ -53,7 +53,6 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                 addFrg(DetailsVideoFrg.newInstance(itemsList.get(position)), "DetailsVideoFrg");
             }
         });
-
     }
 
     @Override

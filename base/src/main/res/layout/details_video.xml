@@ -52,9 +52,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:gravity="right"
-            android:text="1200 ویو"
+            android:text="1200 "
             android:textColor="@color/Gray"
             android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/img1"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_margin="4dp"
+            android:tint="@color/Monochromatic_3"
+            android:src="@drawable/ic_view" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -75,7 +83,7 @@
             android:layout_height="32dp"
             android:layout_margin="4dp"
             android:src="@drawable/ic_ok_24dp"
-            android:tint="@color/Green"
+            android:tint="@color/Monochromatic_3"
             android:visibility="visible" />
 
         <ImageView

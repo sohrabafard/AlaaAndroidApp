@@ -107,6 +107,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private TextView txtVote;
     private TextView txtAuthor;
     private TextView txtTitle;
+    private TextView txtSeen;
 
     //preview
     private RelativeLayout relativePreview;
@@ -214,7 +215,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             disableWakeLockScreen();
 
 
-        } else if (i == R.id.imgShowPlayList) {
+        } else if (i == R.id.linRootPlayList) {
             if (!showPlayList) {
                 linBodyPlayList.setVisibility(View.VISIBLE);
                 imgShowPlayList.setImageResource(R.drawable.ic_down);
@@ -482,6 +483,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         txtVote = view.findViewById(R.id.txtVote);
         txtTitle = view.findViewById(R.id.txtTitle);
         txtAuthor = view.findViewById(R.id.txtAuthor);
+        txtSeen = view.findViewById(R.id.txtSeen);
 
 
         //preview
