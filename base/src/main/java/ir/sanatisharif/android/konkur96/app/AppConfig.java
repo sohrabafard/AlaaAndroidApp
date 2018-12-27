@@ -31,7 +31,7 @@ public class AppConfig extends Application {
     public static Handler HANDLER = new Handler();
     public static LayoutInflater layoutinflater;
     static ConnectivityManager Manager = null;
-    public static int width = 140, height = 140, itemHeight = 140;
+    public static int width = 140, height = 140, itemHeight = 140 , shopItemHeight = 100;
 
     // Font
     public static Typeface fontIRSensLight;

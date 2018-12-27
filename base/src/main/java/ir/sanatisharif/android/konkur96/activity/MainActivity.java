@@ -39,6 +39,7 @@ import ir.sanatisharif.android.konkur96.fragment.DashboardMainFrg1;
 import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
 import ir.sanatisharif.android.konkur96.fragment.ForumMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.RegisterFrg;
+import ir.sanatisharif.android.konkur96.fragment.ShopMainFragment;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackMessage;
@@ -186,11 +187,13 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         AHBottomNavigationItem item2 = new AHBottomNavigationItem("", R.drawable.ic_friend);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem("", R.drawable.ic_forum);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem("", R.drawable.ic_user);
+        AHBottomNavigationItem item5 = new AHBottomNavigationItem("", R.drawable.ic_shopping_cart);
 
         bottomNavigationItems.add(item1);
         bottomNavigationItems.add(item2);
         bottomNavigationItems.add(item3);
         bottomNavigationItems.add(item4);
+        bottomNavigationItems.add(item5);
 
         bottomNavigation.setAccentColor(getResources().getColor(R.color.colorPrimary));
         bottomNavigation.addItems(bottomNavigationItems);
@@ -272,6 +275,10 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             case 3:
                 manageStack();
                 addFrg(DashboardMainFrg1.newInstance(), "DashboardMainFrg");
+                break;
+            case 4:
+                manageStack();
+                addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
                 break;
         }
 

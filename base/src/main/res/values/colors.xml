@@ -191,4 +191,12 @@
     <color name="colorWarning">#FFA726</color>
     <color name="colorError">#EF5350</color>
 
+
+
+
+    <color name="txtColor">#3A3A3A</color>
+
+
+
+
 </resources>
