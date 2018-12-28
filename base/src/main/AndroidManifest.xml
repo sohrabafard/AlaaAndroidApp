@@ -159,6 +159,8 @@
             android:screenOrientation="landscape"></activity>
         <activity android:name="ir.sanatisharif.android.konkur96.activity.ArchActivity"></activity>
 
+        //for ImageGallery
+        <activity android:name=".activity.GalleryFullView"/>
 
     </application>
 

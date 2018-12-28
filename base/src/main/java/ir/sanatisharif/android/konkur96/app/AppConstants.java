@@ -21,6 +21,12 @@ public class AppConstants {
     public static final int CATEGORY_SHOP_ITEM_SET = 2;
     public static final int SHOP_BANNER_ITEM = 3;
 
+
+    //Bought Adapter
+    public static final int BOUGHT_SLIDER_ITEM = 0;
+    public static final int CATEGORY_BOUGHT_ITEM_SET = 1;
+    public static final int BOUGHT_BANNER_ITEM = 2;
+
     // show video offline
     public static final int VIDEO_SHOW_GRID = 0;
     public static final int VIDEO_SHOW_LINEAR = 1;

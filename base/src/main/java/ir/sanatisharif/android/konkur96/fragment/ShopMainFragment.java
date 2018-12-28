@@ -12,12 +12,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.activity.GalleryFullView;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MainShopItemAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -26,6 +28,8 @@ import ir.sanatisharif.android.konkur96.model.BannerItem;
 import ir.sanatisharif.android.konkur96.model.CategoryItemSet;
 import ir.sanatisharif.android.konkur96.model.Content;
 import ir.sanatisharif.android.konkur96.model.Events;
+import ir.sanatisharif.android.konkur96.model.FullScreenModel;
+import ir.sanatisharif.android.konkur96.model.ImageGalleryModel;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.model.MainShopItem;
 import ir.sanatisharif.android.konkur96.model.ShopItem;
@@ -35,6 +39,10 @@ public class ShopMainFragment extends BaseFragment {
 
     RecyclerView shopMainRecyclerView;
     Toolbar pageToolbar;
+
+    // for ImageGallery
+    private final String TAG_MODEL = "TAG_MODEL";
+    private ArrayList<ImageGalleryModel> images;
 
     private MainShopItemAdapter adapter;
     private ArrayList<MainShopItem> items = new ArrayList<>();
@@ -356,6 +364,65 @@ public class ShopMainFragment extends BaseFragment {
         setToolbar(pageToolbar, "آلاء مجری توسعه عدالت آموزشی");
 
     }
+
+
+    public void openFullView(int position) {
+
+        FullScreenModel fullScreenModel = new FullScreenModel(position, images);
+
+        if (getImages() != null && getImages().size() != 0) {
+            Intent showListView = new Intent(getContext(), GalleryFullView.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(TAG_MODEL, fullScreenModel);
+            showListView.putExtras(bundle);
+            showListView.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getContext().startActivity(showListView);
+        } else {
+            Toast.makeText(getContext(), "please add image" , Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public ArrayList<ImageGalleryModel> getImages() {
+        return images;
+    }
+
+
+    // how it's work from another class
+   /* initImages()
+    val ops = GalleryWorker(this) // this will call our worker for full screen or list
+    ops.images = imagesOb
+
+
+    private fun initImages() {
+
+
+        val items = arrayOf(
+                "https://www.planwallpaper.com/static/images/3D-HD-Wallpaper-03-Dekstop.jpg",
+                "https://www.planwallpaper.com/static/images/3d-nature-800x600.jpg",
+                "https://www.planwallpaper.com/static/images/3d-butterfly-wallpaper-for-desktop-unique-nature-hd-wallpapers.jpg",
+                "https://www.planwallpaper.com/static/images/3d-nature-wallpaper-wide-n5a2h.jpg",
+                "https://www.planwallpaper.com/static/images/3D-Wallpapers-Green-Nature-Abstract.jpg",
+                "https://cdn.asiatatler.com/asiatatler/ph/i/2018/10/story/45412/08143805-000_1944oa.dd9c0033203.original-c08144036-1584x780.jpg",
+                "http://imagesvc.timeincapp.com/v3/foundry/image/?q=70&w=1440&url=https%3A%2F%2Ftimedotcom.files.wordpress.com%2F2017%2F06%2Fkhadh515.jpg%3Fquality%3D85",
+                "https://www-assets0.herokucdn.com/assets/wallpapers/java/thumb-8ca3e635babeebdeeade5e6ae94d36e6cc604eec59c8576fb20acac86a0f0290.png",
+                "https://vignette.wikia.nocookie.net/disney/images/4/49/ChickenLittle-0.png/revision/latest?cb=20171126021925",
+                "https://dl4success.com/wp-content/uploads/2015/08/1718082_1_b_14301a73.jpg",
+                "https://s3.amazonaws.com/creativetim_bucket/products/71/original/opt_mdr_thumbnail.jpg?1517307720",
+                "https://www.wallpaper.net.in/file/5636/600x380/16:9/java-logo-wallpaper_16126385.png"
+        )
+
+        imagesOb = ArrayList<ImageGalleryModel>(items.size)
+
+        for (i in items.indices) {
+            val temp = ImageGalleryModel()
+            temp.imagePath = items[i]
+            temp.imageTitle = " عنوان $i "
+            temp.imageDesc = " توضیحات $i"
+            imagesOb.add(temp)
+        }
+
+    }*/
+
 
 }
 
