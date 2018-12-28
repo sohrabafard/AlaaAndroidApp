@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
+import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.ui.view.CustomShopItemView;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
@@ -53,8 +54,9 @@ public class IncredibleOfferItemAdapter extends RecyclerView.Adapter<IncredibleO
         holder.customShopItemView.setPrice(ShopUtils.formatPrice(price));
         holder.customShopItemView.setDiscount(ShopUtils.formatPrice(item.getPrice()));
         holder.customShopItemView.setImage(item.getImageUrl());
-        //todo: complete this
-        //holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ExtraItemFrg.newInstance(AppConstants.CONTENT_ITEM_SET), "ExtraItemFrg"));
+
+        
+        holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ProductDetailFragment.newInstance(item), "IncredibleOffer"));
 
 
     }

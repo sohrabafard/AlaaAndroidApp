@@ -33,8 +33,8 @@ import ir.sanatisharif.android.konkur96.model.ViewSlider;
 
 public class ShopMainFragment extends BaseFragment {
 
-    RecyclerView myRecyclerView;
-    Toolbar mToolbar;
+    RecyclerView shopMainRecyclerView;
+    Toolbar pageToolbar;
 
     private MainShopItemAdapter adapter;
     private ArrayList<MainShopItem> items = new ArrayList<>();
@@ -344,16 +344,16 @@ public class ShopMainFragment extends BaseFragment {
     private void initView(View v) {
 
         //recyclerView
-        myRecyclerView = v.findViewById(R.id.recyclerView_main_shop);
-        myRecyclerView.setNestedScrollingEnabled(false);
-        myRecyclerView.setHasFixedSize(true);
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
+        shopMainRecyclerView = v.findViewById(R.id.recyclerView_main_shop);
+        shopMainRecyclerView.setNestedScrollingEnabled(false);
+        shopMainRecyclerView.setHasFixedSize(true);
+        shopMainRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
         adapter = new MainShopItemAdapter(AppConfig.context, items);
         adapter.setSize(AppConfig.width, AppConfig.height);
-        myRecyclerView.setAdapter(adapter);
+        shopMainRecyclerView.setAdapter(adapter);
 
         setHasOptionsMenu(true);
-        setToolbar(mToolbar, "آلاء مجری توسعه عدالت آموزشی");
+        setToolbar(pageToolbar, "آلاء مجری توسعه عدالت آموزشی");
 
     }
 

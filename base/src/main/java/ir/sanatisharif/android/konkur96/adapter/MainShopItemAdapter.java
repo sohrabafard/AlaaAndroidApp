@@ -122,9 +122,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             itemRowHolder.indicator = itemRowHolder.itemView.findViewById(R.id.indicator);
             itemRowHolder.indicator.setViewPager(itemRowHolder.view_pager);
 
-        }
-
-        if (viewType == AppConstants.CATEGORY_SHOP_ITEM_SET) {
+        } else if (viewType == AppConstants.CATEGORY_SHOP_ITEM_SET) {
 
             final MainShopItem model = dataList.get(position);
 
@@ -262,7 +260,6 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             view_pager = view.findViewById(R.id.view_pager);
 
-            view_pager.startAutoScroll(10000);
             view_pager.startAutoScroll(5000);
             view_pager.setBorderAnimation(true);
 

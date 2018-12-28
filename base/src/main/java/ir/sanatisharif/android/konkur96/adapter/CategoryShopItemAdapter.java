@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
+import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.model.ShopItem;
 import ir.sanatisharif.android.konkur96.ui.view.CustomShopItemView;
@@ -52,8 +53,7 @@ public class CategoryShopItemAdapter extends RecyclerView.Adapter<CategoryShopIt
         holder.customShopItemView.setVisibilityDiscount(View.GONE);
         holder.customShopItemView.setImage(item.getImageUrl());
 
-        //todo: complete this
-       // holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ExtraItemFrg.newInstance(AppConstants.CONTENT_ITEM_SET), "ExtraItemFrg"));
+        holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ProductDetailFragment.newInstance(item),"ProductDetailFragment"));
 
 
     }
