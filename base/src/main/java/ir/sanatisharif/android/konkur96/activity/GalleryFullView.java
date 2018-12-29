@@ -201,8 +201,8 @@ public class GalleryFullView extends AppCompatActivity implements PositionFounde
 
     public void recyclerAnimation() {
         int resId = R.anim.item_animation_scale;
-        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getApplicationContext(), resId);
-        recyclerIndicator.setLayoutAnimation(animation);
+//        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getApplicationContext(), resId);
+//        recyclerIndicator.setLayoutAnimation(animation);
     }
 
     public ImageGalleryModel getTitleAndDesc(int pos) {

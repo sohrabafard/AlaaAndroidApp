@@ -160,7 +160,9 @@
         <activity android:name="ir.sanatisharif.android.konkur96.activity.ArchActivity"></activity>
 
         //for ImageGallery
-        <activity android:name=".activity.GalleryFullView"/>
+        <activity
+            android:name="ir.sanatisharif.android.konkur96.activity.GalleryFullView"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 

@@ -2,7 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/Black"
     android:layoutDirection="rtl"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -17,14 +17,14 @@
         android:src="@drawable/ic_left_arrow"
         android:layout_gravity="left|center_vertical"
         android:padding="8dp"
-        android:background="@color/colorAccent"
+        android:background="@color/CadetBlue"
         android:layout_width="40dp"
         android:layout_height="40dp" />
 
     <ImageView
         android:id="@+id/img_right"
         android:src="@drawable/ic_right_arrow"
-        android:background="@color/colorAccent"
+        android:background="@color/CadetBlue"
         android:padding="8dp"
         android:layout_gravity="right|center_vertical"
         android:layout_width="40dp"
@@ -48,7 +48,7 @@
     <TextView
         android:id="@+id/tv_title_screen"
         android:text="Title"
-        android:background="@color/colorAccent"
+        android:background="@color/Black"
         android:padding="3dp"
         android:fontFamily="@font/iransansbold"
         android:textSize="16sp"
@@ -62,7 +62,7 @@
     <TextView
         android:id="@+id/tv_desc_screen"
         android:text="Description"
-        android:background="@color/colorAccent"
+        android:background="@color/Black"
         android:padding="3dp"
         android:gravity="right"
         android:layout_marginRight="5dp"
