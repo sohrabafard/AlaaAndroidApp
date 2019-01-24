@@ -167,7 +167,7 @@ public class CustomShopItemView extends LinearLayout {
 
 
         // setSize
-        setImageSize();
+        //setImageSize();
 
         cardViewRoot.setOnClickListener(v -> {
 
@@ -183,7 +183,7 @@ public class CustomShopItemView extends LinearLayout {
         GlideApp.with(AppConfig.context)
                 .load(url)
                 .override(width, height)
-                .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
+                //.transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
                 .into(new SimpleTarget<Drawable>(460, 259) {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {

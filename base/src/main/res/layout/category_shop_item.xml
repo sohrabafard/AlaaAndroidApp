@@ -11,7 +11,7 @@
     android:layoutDirection="rtl"
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/LightGrey"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="0dp"
     app:cardElevation="1dp">
 
     <RelativeLayout
@@ -29,12 +29,11 @@
 
             <ImageView
                 android:id="@+id/imgItem"
-                android:layout_width="@dimen/card_size_video"
+                android:layout_width="150dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:layout_marginTop="5dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/shape_preload_image" />
 
 
@@ -46,7 +45,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="6dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/White"
                 android:ellipsize="end"
                 android:gravity="right"
                 android:maxLines="1"
@@ -78,7 +76,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/txtTitle"
-                        android:background="@color/White"
                         android:ellipsize="end"
                         android:gravity="right"
                         android:maxLines="1"
@@ -98,7 +95,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="6dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/White"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:maxLines="1"
@@ -114,7 +110,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="6dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/White"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:maxLines="1"

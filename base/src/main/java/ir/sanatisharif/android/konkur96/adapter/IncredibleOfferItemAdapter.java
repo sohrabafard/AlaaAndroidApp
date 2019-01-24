@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
 import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.ui.view.CustomShopItemView;

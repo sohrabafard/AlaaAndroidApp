@@ -260,7 +260,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             view_pager = view.findViewById(R.id.view_pager);
 
-            view_pager.startAutoScroll(5000);
+            view_pager.startAutoScroll(50000);
             view_pager.setBorderAnimation(true);
 
             int h = (int) (AppConfig.width * 0.39f);
