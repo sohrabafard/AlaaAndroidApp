@@ -192,7 +192,9 @@
     <color name="colorError">#EF5350</color>
 
 
-
+    <!-- Page Indicator -->
+    <color name="activeIndicator">#546170</color>
+    <color name="inactiveIndicator">#F0EEED</color>
 
     <color name="txtColor">#3A3A3A</color>
 
