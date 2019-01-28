@@ -1,17 +1,21 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import ir.sanatisharif.android.konkur96.R;
 
-public class WebLandingActivity extends BaseFragment {
+public class WebLandingFragment extends BaseFragment {
 
     private WebView webView;
     private String recivedURL= "https://sanatisharif.ir";
@@ -28,6 +32,15 @@ public class WebLandingActivity extends BaseFragment {
         initView(view);
         loadURL(recivedURL);
 
+        webView.setWebViewClient(new WebViewClient() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                view.loadUrl(request.getUrl().toString());
+                return false;
+            }
+        });
+
     }
 
     private void initView(View view) {
@@ -42,13 +55,16 @@ public class WebLandingActivity extends BaseFragment {
     }
 
 
-    public static WebLandingActivity newInstance(String url) {
+
+
+    public static WebLandingFragment newInstance(String url) {
 
         Bundle args = new Bundle();
         args.putString("URL_KEY", url);
-        WebLandingActivity fragment = new WebLandingActivity();
+        WebLandingFragment fragment = new WebLandingFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
 
 }

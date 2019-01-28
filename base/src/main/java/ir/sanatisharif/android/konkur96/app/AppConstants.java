@@ -35,6 +35,9 @@ public class AppConstants {
     public static final int LINK_TO_INTERNAL = 0;
     public static final int LINK_TO_EXTERNAL = 1;
 
+    //Open Link in WebView
+    public static final int LINK_TO_WEB_VIEW = 0;
+
 
     /**
      * file

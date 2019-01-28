@@ -100,6 +100,8 @@ public class ShopMainFragment extends BaseFragment {
     private void setDummyData() {
 
         //---------------------- slider ----------------------------------------------------
+
+        // for load URL into webView change AppConstants to LINK_TO_WEB_VIEW
         ArrayList<ViewSlider> v = new ArrayList<>();
         v.add(new ViewSlider("1",
                 "https://sanatisharif.ir/image/9/1280/500/asiatech-alaa222%20%281%29_20180812155522.jpg?1",

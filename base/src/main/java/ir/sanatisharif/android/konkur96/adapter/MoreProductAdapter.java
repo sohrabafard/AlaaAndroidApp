@@ -1,5 +1,6 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,27 +8,40 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.model.MoreProductModel;
 
 public class MoreProductAdapter extends RecyclerView.Adapter<MoreProductAdapter.MyViewHolder> {
-    private String[] mDataset;
+
+
+    private ArrayList<MoreProductModel> moreProductModels;
+    private Context context;
+
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtMoreProduct;
+        TextView txtTitleMoreProduct;
+        TextView txtAuthorMoreProduct;
+        TextView txtPriceMore;
         ImageView imgMoreProduct;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            txtMoreProduct = itemView.findViewById(R.id.txt_more_product);
-            imgMoreProduct = itemView.findViewById(R.id.img_more_product);
+            txtTitleMoreProduct = itemView.findViewById(R.id.txt_titel_more);
+            txtAuthorMoreProduct = itemView.findViewById(R.id.txt_author_more);
+            txtPriceMore = itemView.findViewById(R.id.txt_price_more);
+            imgMoreProduct = itemView.findViewById(R.id.img_item_more);
         }
-
 
     }
 
-    public MoreProductAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public MoreProductAdapter(Context context, ArrayList<MoreProductModel> moreProductModels) {
+        this.context = context;
+        this.moreProductModels = moreProductModels;
     }
 
     @Override
@@ -43,14 +57,26 @@ public class MoreProductAdapter extends RecyclerView.Adapter<MoreProductAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+
+        MoreProductModel testModel = moreProductModels.get(position);
+
         //dummay data
-        holder.txtMoreProduct.setText("Product");
-        holder.imgMoreProduct.setImageResource(R.drawable.ala_ok);
+
+            holder.txtTitleMoreProduct.setText(testModel.getTitle());
+            holder.txtAuthorMoreProduct.setText(testModel.getAuthor());
+            holder.txtPriceMore.setText(testModel.getPrice());
+
+            Glide.with(context)
+                    .load(testModel.getImageUrl())
+                    .into(holder.imgMoreProduct);
+
+
+
 
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return moreProductModels.size();
     }
 }

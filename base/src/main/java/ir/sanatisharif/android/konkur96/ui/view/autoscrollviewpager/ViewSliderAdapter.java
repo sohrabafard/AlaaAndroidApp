@@ -60,6 +60,8 @@ public class ViewSliderAdapter extends PagerAdapter {
 
                 if (imageList.get(position).getKindOfIntent() == AppConstants.LINK_TO_EXTERNAL) {
                     Utils.loadUrl(imageList.get(position).getIntentUrl(), AppConfig.context);
+                } else if (imageList.get(position).getKindOfIntent() == AppConstants.LINK_TO_WEB_VIEW) {
+                    // push to webView Fragment with URL address
                 }
             }
         });

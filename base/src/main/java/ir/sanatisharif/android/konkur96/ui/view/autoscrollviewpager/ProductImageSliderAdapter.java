@@ -67,7 +67,7 @@ public class ProductImageSliderAdapter extends PagerAdapter {
                 });
         img.setOnClickListener(view -> {
 
-            //todo: complete this
+            //todo: Connect this to main Pictures
             initImages();
             imgGallery.openFullView(1);
 

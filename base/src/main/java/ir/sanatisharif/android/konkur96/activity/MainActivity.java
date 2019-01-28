@@ -41,6 +41,7 @@ import ir.sanatisharif.android.konkur96.fragment.ForumMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.RegisterFrg;
 import ir.sanatisharif.android.konkur96.fragment.ShopMainFragment;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
+import ir.sanatisharif.android.konkur96.fragment.WebLandingFragment;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackMessage;
 import ir.sanatisharif.android.konkur96.model.Events;
@@ -268,8 +269,10 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 break;
 
             case 2:
+                //todo: test web landing here
                 manageStack();
-                addFrg(ForumMainFrg.newInstance(), "ForumMainFrg");
+                //addFrg(ForumMainFrg.newInstance(), "ForumMainFrg");
+                addFrg(WebLandingFragment.newInstance("https://sanatisharif.ir"), "ForumMainFrg");
                 break;
 
             case 3:
