@@ -1,8 +1,12 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,8 +14,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -26,6 +37,7 @@ import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.model.ProductSliderModel;
 import ir.sanatisharif.android.konkur96.model.ShopItem;
+import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ProductImageSliderAdapter;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
@@ -36,7 +48,16 @@ public class ProductDetailFragment extends BaseFragment {
     Toolbar pageToolbar;
     AutoScrollViewPager imgSlider;
     CirclePageIndicator imgSliderIndicator;
+    CardView cardAttrProduct;
 
+    ImageView imgVideoRelatedOne;
+    ImageView imgVideoRelatedTwo;
+
+    Dialog dialog;
+
+    Spinner spinnerMainProduct;
+    Spinner spinnerExtraProduct;
+    Spinner spinnerExtraProductDay;
 
     TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice;
     JustifiedTextView txtShortDesc, txtDesc;
@@ -85,8 +106,55 @@ public class ProductDetailFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         initView(view);
-
         setDummyData();
+
+        cardAttrProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLayoutDialog();
+            }
+        });
+
+
+      //todo : add video player
+
+
+        Glide.with(getContext())
+                .load("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/171125105021.jpg?w=253&h=142")
+                .into(imgVideoRelatedOne);
+
+        Glide.with(getContext())
+                .load("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/170917011741.jpg?w=253&h=142")
+                .into(imgVideoRelatedTwo);
+
+        spinnerMainProduct.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+        spinnerMainProduct.setOnItemSelectedListener(spinnerMainProduct.getOnItemSelectedListener());
+        ArrayAdapter<CharSequence> mainProductAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.dummy_main_product, android.R.layout.simple_spinner_item);
+
+        mainProductAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerMainProduct.setAdapter(mainProductAdapter);
+
+
+
+        spinnerExtraProduct.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+        spinnerExtraProduct.setOnItemSelectedListener(spinnerMainProduct.getOnItemSelectedListener());
+        ArrayAdapter<CharSequence> extraProductAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.dummy_extra_product, android.R.layout.simple_spinner_item);
+
+        extraProductAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerExtraProduct.setAdapter(extraProductAdapter);
+
+
+
+        spinnerExtraProductDay.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+        spinnerExtraProductDay.setOnItemSelectedListener(spinnerMainProduct.getOnItemSelectedListener());
+        ArrayAdapter<CharSequence> extraProductAdapterDay = ArrayAdapter.createFromResource(getContext(),
+                R.array.dummy_extra_product_day, android.R.layout.simple_spinner_item);
+
+        extraProductAdapterDay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerExtraProductDay.setAdapter(extraProductAdapterDay);
+
     }
 
     @Override
@@ -182,6 +250,15 @@ public class ProductDetailFragment extends BaseFragment {
 
         txtShortDesc.setTypeface(AppConfig.fontIRSensLight);
         txtDesc.setTypeface(AppConfig.fontIRSensLight);
+
+        imgVideoRelatedOne = v.findViewById(R.id.img_related_video);
+        imgVideoRelatedTwo = v.findViewById(R.id.img_related_video_two);
+
+        cardAttrProduct = v.findViewById(R.id.card_attr_product);
+
+        spinnerMainProduct = v.findViewById(R.id.spinner_main_product);
+        spinnerExtraProduct = v.findViewById(R.id.spinner_extra_product);
+        spinnerExtraProductDay = v.findViewById(R.id.spinner_extra_product_day);
     }
 
     private void initImageSlider(View v){
@@ -203,6 +280,15 @@ public class ProductDetailFragment extends BaseFragment {
         //Set Indicator
         imgSliderIndicator.setViewPager(imgSlider);
 
+    }
+
+
+    private void showLayoutDialog() {
+
+        dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_view_attr);
+        dialog.show();
     }
 
 
