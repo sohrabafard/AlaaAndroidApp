@@ -20,6 +20,7 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
+import ir.sanatisharif.android.konkur96.fragment.MoreProductFragment;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
@@ -139,6 +140,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 //todo: complete this
                // addFrg(ExtraItemFrg.newInstance(AppConstants.CATEGORY_ITEM_SET), "ExtraItemFrg");
+                addFrg(MoreProductFragment.newInstance(AppConstants.CATEGORY_ITEM_SET), "ExtraItemFrg");
 
             });
 
