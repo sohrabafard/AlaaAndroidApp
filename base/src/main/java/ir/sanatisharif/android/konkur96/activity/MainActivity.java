@@ -72,6 +72,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((AppConfig) getApplication()).getAppComponent().inject(this);
         setContentView(R.layout.activity_main4);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {

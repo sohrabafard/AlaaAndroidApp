@@ -6,19 +6,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
-import android.os.Environment;
 import android.os.Handler;
-
 import android.support.v7.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 
-
-import java.io.File;
-
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.ApiModule;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
-import ir.sanatisharif.android.konkur96.utils.Utils;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 
@@ -74,5 +68,15 @@ public class AppConfig extends Application {
             FileManager.createRootDir();//create root
             FileManager.createAudioDir();//create audio
         }
+    }
+
+//    private final AppComponent mAppComponent = DaggerAppComponent.builder()
+//            .appModule(new AppModule(this)).apiModule(new ApiModule()).build();
+
+    private final AppComponent mAppComponent = DaggerAppComponent.builder().apiModule(new ApiModule()).build();
+
+
+    public AppComponent getAppComponent() {
+        return mAppComponent;
     }
 }
