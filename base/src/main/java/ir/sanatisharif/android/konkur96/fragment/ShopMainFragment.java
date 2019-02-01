@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +25,10 @@ import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MainShopItemAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
+import ir.sanatisharif.android.konkur96.handler.ApiCallBack;
+import ir.sanatisharif.android.konkur96.handler.Repository;
+import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
+import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.BannerItem;
 import ir.sanatisharif.android.konkur96.model.CategoryItemSet;
 import ir.sanatisharif.android.konkur96.model.Content;
@@ -67,6 +72,13 @@ public class ShopMainFragment extends BaseFragment {
         initView(view);
 
         setDummyData();
+
+        Repository repository = new RepositoryImpl(getActivity());
+
+        repository.getMainShop(data -> {
+
+            Log.d("Test", (String) ((Result.Error) data).value);
+        });
     }
 
     @Override
