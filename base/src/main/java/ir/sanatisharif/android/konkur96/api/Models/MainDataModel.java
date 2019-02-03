@@ -36,8 +36,8 @@ public class MainDataModel implements Parcelable {
     @SerializedName("products")
     private ArrayList<ProductModel> products;
 
-//    @SerializedName("banners")
-//    private String banners;
+    @SerializedName("banners")
+    private ArrayList<MainBannerModel> banners;
 
 
     protected MainDataModel(Parcel in) {
@@ -48,6 +48,7 @@ public class MainDataModel implements Parcelable {
         updated_at = in.readString();
         url = in.readString();
         products = in.createTypedArrayList(ProductModel.CREATOR);
+        banners = in.createTypedArrayList(MainBannerModel.CREATOR);
     }
 
     @Override
@@ -59,6 +60,7 @@ public class MainDataModel implements Parcelable {
         dest.writeString(updated_at);
         dest.writeString(url);
         dest.writeTypedList(products);
+        dest.writeTypedList(banners);
     }
 
     @Override
@@ -132,5 +134,13 @@ public class MainDataModel implements Parcelable {
 
     public void setProducts(ArrayList<ProductModel> products) {
         this.products = products;
+    }
+
+    public ArrayList<MainBannerModel> getBanners() {
+        return banners;
+    }
+
+    public void setBanners(ArrayList<MainBannerModel> banners) {
+        this.banners = banners;
     }
 }

@@ -77,7 +77,17 @@ public class ShopMainFragment extends BaseFragment {
 
         repository.getMainShop(data -> {
 
-            Log.d("Test", (String) ((Result.Error) data).value);
+            if (data instanceof Result.Success){
+
+                Log.d("Test", "");
+
+            }else {
+
+                Log.d("Test", (String) ((Result.Error) data).value);
+            }
+
+
+
         });
     }
 

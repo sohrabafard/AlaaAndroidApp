@@ -3,9 +3,11 @@ package ir.sanatisharif.android.konkur96.api.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ProductModel implements Parcelable {
 
@@ -57,7 +59,12 @@ public class ProductModel implements Parcelable {
     @SerializedName("attributes")
     private AttributesModel attributes;
 
+//    @SerializedName("samplePhotos")
+//    @Expose
+//    private Map<String, ProductPhotoModel> samplePhotos;
+
     @SerializedName("samplePhotos")
+    @Expose
     private ArrayList<ProductPhotoModel> samplePhotos;
 
     @SerializedName("children")
@@ -65,7 +72,6 @@ public class ProductModel implements Parcelable {
 
     @SerializedName("bons")
     private ArrayList<BonModel> bons;
-
 
     protected ProductModel(Parcel in) {
         id = in.readInt();
