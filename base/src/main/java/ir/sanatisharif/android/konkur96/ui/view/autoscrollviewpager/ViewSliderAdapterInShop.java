@@ -16,23 +16,16 @@ import java.util.List;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.MainBannerModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.model.ViewSlider;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
-import ir.sanatisharif.android.konkur96.utils.Utils;
 
-/**
- * Created by Mohamad on 10/11/2018.
- */
-
-public class ViewSliderAdapter extends PagerAdapter {
+public class ViewSliderAdapterInShop extends PagerAdapter {
 
     private Context mContext;
     private ImageView img;
-    private List<ViewSlider> imageList;
+    private List<MainBannerModel> imageList;
     private LayoutInflater inflater;
 
-    public ViewSliderAdapter(Context context, List<ViewSlider> list) {
+    public ViewSliderAdapterInShop(Context context, List<MainBannerModel> list) {
         mContext = context;
         imageList = list;
         inflater = LayoutInflater.from(context);
@@ -46,7 +39,7 @@ public class ViewSliderAdapter extends PagerAdapter {
         int h = (int) (AppConfig.width * 0.39f);
         img.getLayoutParams().height = h;
         GlideApp.with(AppConfig.context)
-                .load(imageList.get(position).getImgUrl())
+                .load(imageList.get(position).getUrl())
                 .fitCenter()
                 //.override(AppConfig.width, AppConfig.itemHeight)
                 .into(new SimpleTarget<Drawable>(1280, 500) {
@@ -57,11 +50,11 @@ public class ViewSliderAdapter extends PagerAdapter {
                 });
         img.setOnClickListener(view -> {
 
-                if (imageList.get(position).getKindOfIntent() == AppConstants.LINK_TO_EXTERNAL) {
-                    Utils.loadUrl(imageList.get(position).getIntentUrl(), AppConfig.context);
-                } else if (imageList.get(position).getKindOfIntent() == AppConstants.LINK_TO_WEB_VIEW) {
-                    // push to webView Fragment with URL address
-                }
+//                if (imageList.get(position).getKindOfIntent() == AppConstants.LINK_TO_EXTERNAL) {
+//                    Utils.loadUrl(imageList.get(position).getIntentUrl(), AppConfig.context);
+//                } else if (imageList.get(position).getKindOfIntent() == AppConstants.LINK_TO_WEB_VIEW) {
+//                    // push to webView Fragment with URL address
+//                }
         });
         collection.addView(imageLayout);
         return imageLayout;
@@ -84,6 +77,6 @@ public class ViewSliderAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return imageList.get(position).getText();
+        return imageList.get(position).getTitle();
     }
 }

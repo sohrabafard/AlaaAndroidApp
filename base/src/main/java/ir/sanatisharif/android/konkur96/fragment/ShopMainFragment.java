@@ -13,29 +13,22 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.activity.GalleryFullView;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MainShopItemAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.handler.ApiCallBack;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.BannerItem;
-import ir.sanatisharif.android.konkur96.model.CategoryItemSet;
-import ir.sanatisharif.android.konkur96.model.Content;
 import ir.sanatisharif.android.konkur96.model.Events;
-import ir.sanatisharif.android.konkur96.model.FullScreenModel;
-import ir.sanatisharif.android.konkur96.model.ImageGalleryModel;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.model.MainShopItem;
 import ir.sanatisharif.android.konkur96.model.ShopItem;
@@ -358,27 +351,37 @@ public class ShopMainFragment extends BaseFragment {
         adapter.notifyDataSetChanged();
     }
 
-    private void getData(){
+    private void getData() {
 
         repository.getMainShop(data -> {
 
-            if (data instanceof Result.Success){
+            if (data instanceof Result.Success) {
 
                 setData((MainModel) ((Result.Success) data).value);
 
-            }else {
+            } else {
 
                 Log.d("Test", (String) ((Result.Error) data).value);
             }
 
 
-
         });
     }
 
-    private void setData(MainModel data){
+    private void setData(MainModel data) {
+
+        //---------------------- slider ----------------------------------------------------
+
+        MainShopItem item = new MainShopItem();
+        item.setId(0);
+        item.setType(AppConstants.SHOP_SLIDER_ITEM);
+        item.setItems(data.getMainBanner());
+        items.add(item);
+
+        //---------------------- End slider ----------------------------------------------------
 
 
+        adapter.notifyDataSetChanged();
     }
 
     private void initView(View v) {
@@ -396,9 +399,6 @@ public class ShopMainFragment extends BaseFragment {
         setToolbar(pageToolbar, "آلاء مجری توسعه عدالت آموزشی");
 
     }
-
-
-
 
 
 }

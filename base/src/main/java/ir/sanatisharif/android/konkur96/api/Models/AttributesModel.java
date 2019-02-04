@@ -10,19 +10,19 @@ import java.util.ArrayList;
 public class AttributesModel implements Parcelable {
 
     @SerializedName("main")
-    private ArrayList<AttributesModel> main;
+    private ArrayList<AttributeModel> main;
 
     @SerializedName("information")
-    private ArrayList<AttributesModel> information;
+    private ArrayList<AttributeModel> information;
 
     @SerializedName("extra")
-    private ArrayList<AttributesModel> extra;
+    private ArrayList<AttributeModel> extra;
 
 
     protected AttributesModel(Parcel in) {
-        main = in.createTypedArrayList(AttributesModel.CREATOR);
-        information = in.createTypedArrayList(AttributesModel.CREATOR);
-        extra = in.createTypedArrayList(AttributesModel.CREATOR);
+        main = in.createTypedArrayList(AttributeModel.CREATOR);
+        information = in.createTypedArrayList(AttributeModel.CREATOR);
+        extra = in.createTypedArrayList(AttributeModel.CREATOR);
     }
 
     @Override
@@ -49,27 +49,27 @@ public class AttributesModel implements Parcelable {
         }
     };
 
-    public ArrayList<AttributesModel> getMain() {
+    public ArrayList<AttributeModel> getMain() {
         return main;
     }
 
-    public void setMain(ArrayList<AttributesModel> main) {
+    public void setMain(ArrayList<AttributeModel> main) {
         this.main = main;
     }
 
-    public ArrayList<AttributesModel> getInformation() {
+    public ArrayList<AttributeModel> getInformation() {
         return information;
     }
 
-    public void setInformation(ArrayList<AttributesModel> information) {
+    public void setInformation(ArrayList<AttributeModel> information) {
         this.information = information;
     }
 
-    public ArrayList<AttributesModel> getExtra() {
+    public ArrayList<AttributeModel> getExtra() {
         return extra;
     }
 
-    public void setExtra(ArrayList<AttributesModel> extra) {
+    public void setExtra(ArrayList<AttributeModel> extra) {
         this.extra = extra;
     }
 }

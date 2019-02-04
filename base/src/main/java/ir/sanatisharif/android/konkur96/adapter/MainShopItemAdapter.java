@@ -28,6 +28,7 @@ import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.MainShopItem;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ViewSliderAdapter;
+import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ViewSliderAdapterInShop;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
@@ -117,7 +118,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             final SliderHolder itemRowHolder = (SliderHolder) holder;
 
             ArrayList items = dataList.get(position).getItems();
-            itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items));
+            itemRowHolder.view_pager.setAdapter(new ViewSliderAdapterInShop(AppConfig.context, items));
             itemRowHolder.view_pager.startAutoScroll();
 
             itemRowHolder.indicator = itemRowHolder.itemView.findViewById(R.id.indicator);
