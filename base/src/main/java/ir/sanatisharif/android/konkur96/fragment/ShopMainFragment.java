@@ -23,6 +23,7 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.GalleryFullView;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MainShopItemAdapter;
+import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.handler.ApiCallBack;
@@ -44,6 +45,8 @@ public class ShopMainFragment extends BaseFragment {
 
     RecyclerView shopMainRecyclerView;
     Toolbar pageToolbar;
+
+    Repository repository;
 
 
     private MainShopItemAdapter adapter;
@@ -68,27 +71,12 @@ public class ShopMainFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        repository = new RepositoryImpl(getActivity());
 
         initView(view);
 
-        setDummyData();
+        getData();
 
-        Repository repository = new RepositoryImpl(getActivity());
-
-        repository.getMainShop(data -> {
-
-            if (data instanceof Result.Success){
-
-                Log.d("Test", "");
-
-            }else {
-
-                Log.d("Test", (String) ((Result.Error) data).value);
-            }
-
-
-
-        });
     }
 
     @Override
@@ -368,6 +356,29 @@ public class ShopMainFragment extends BaseFragment {
         //--------------------------- End row 5 -------------------------------------------------
 
         adapter.notifyDataSetChanged();
+    }
+
+    private void getData(){
+
+        repository.getMainShop(data -> {
+
+            if (data instanceof Result.Success){
+
+                setData((MainModel) ((Result.Success) data).value);
+
+            }else {
+
+                Log.d("Test", (String) ((Result.Error) data).value);
+            }
+
+
+
+        });
+    }
+
+    private void setData(MainModel data){
+
+
     }
 
     private void initView(View v) {

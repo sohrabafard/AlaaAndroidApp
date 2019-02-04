@@ -57,6 +57,7 @@ public class ProductModel implements Parcelable {
     private String photo;
 
     @SerializedName("attributes")
+    @Expose
     private AttributesModel attributes;
 
 //    @SerializedName("samplePhotos")
