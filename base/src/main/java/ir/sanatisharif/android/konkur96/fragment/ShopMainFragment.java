@@ -33,6 +33,8 @@ import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.model.MainShopItem;
 import ir.sanatisharif.android.konkur96.model.ShopItem;
 import ir.sanatisharif.android.konkur96.model.ViewSlider;
+import ir.sanatisharif.android.konkur96.utils.ShopUtils;
+import ir.sanatisharif.android.konkur96.utils.Utils;
 
 public class ShopMainFragment extends BaseFragment {
 
@@ -67,6 +69,7 @@ public class ShopMainFragment extends BaseFragment {
         repository = new RepositoryImpl(getActivity());
 
         initView(view);
+
 
         getData();
 
@@ -370,16 +373,11 @@ public class ShopMainFragment extends BaseFragment {
 
     private void setData(MainModel data) {
 
-        //---------------------- slider ----------------------------------------------------
+        //---------------------- convert ----------------------------------------------
+        items.clear();
+        items.addAll(ShopUtils.convertToMainShopModel(data));
 
-        MainShopItem item = new MainShopItem();
-        item.setId(0);
-        item.setType(AppConstants.SHOP_SLIDER_ITEM);
-        item.setItems(data.getMainBanner());
-        items.add(item);
-
-        //---------------------- End slider ----------------------------------------------------
-
+        //---------------------- update adapter ----------------------------------------------
 
         adapter.notifyDataSetChanged();
     }

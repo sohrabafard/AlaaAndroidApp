@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
 import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
@@ -19,11 +20,11 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class CategoryShopItemAdapter extends RecyclerView.Adapter<CategoryShopItemAdapter.ContentHolder> {
 
-    private ArrayList<ShopItem> itemsList;
+    private ArrayList<ProductModel> itemsList;
     private Context mContext;
 
 
-    public CategoryShopItemAdapter(Context context, ArrayList<ShopItem> itemsList) {
+    public CategoryShopItemAdapter(Context context, ArrayList<ProductModel> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -44,16 +45,15 @@ public class CategoryShopItemAdapter extends RecyclerView.Adapter<CategoryShopIt
 
 
 
-        ShopItem item = itemsList.get(position);
+        ProductModel item = itemsList.get(position);
 
         holder.customShopItemView.setClickItem(position, item);
-        holder.customShopItemView.setTitle(item.getTitle());
-        holder.customShopItemView.setAuthor(item.getAuthor());
-        holder.customShopItemView.setPrice(ShopUtils.formatPrice(item.getPrice()));
+        holder.customShopItemView.setTitle(item.getName());
+        holder.customShopItemView.setPrice(ShopUtils.formatPrice(item.getAmount()));
         holder.customShopItemView.setVisibilityDiscount(View.GONE);
-        holder.customShopItemView.setImage(item.getImageUrl());
+        holder.customShopItemView.setImage(item.getPhoto());
 
-        holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ProductDetailFragment.newInstance(item),"ProductDetailFragment"));
+       // holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ProductDetailFragment.newInstance(item),"ProductDetailFragment"));
 
 
     }

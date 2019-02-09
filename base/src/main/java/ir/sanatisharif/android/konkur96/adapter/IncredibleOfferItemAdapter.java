@@ -45,10 +45,9 @@ public class IncredibleOfferItemAdapter extends RecyclerView.Adapter<IncredibleO
 
         long price = ( item.getPrice() ) -  ( item.getDiscount() );
 
-
-        holder.customShopItemView.setClickItem(position, item);
+       //todo: change model
+       // holder.customShopItemView.setClickItem(position, item);
         holder.customShopItemView.setTitle(item.getTitle());
-        holder.customShopItemView.setAuthor(item.getAuthor());
         holder.customShopItemView.setPrice(ShopUtils.formatPrice(price));
         holder.customShopItemView.setDiscount(ShopUtils.formatPrice(item.getPrice()));
         holder.customShopItemView.setImage(item.getImageUrl());

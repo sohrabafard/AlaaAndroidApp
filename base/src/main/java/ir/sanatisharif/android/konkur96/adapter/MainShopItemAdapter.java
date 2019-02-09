@@ -103,7 +103,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             String title = dataList.get(position).getTitle();
             itemRowHolder.txtTitle.setText(title);
 
-            BannerItemAdapter itemListDataAdapter = new BannerItemAdapter(mContext, items);
+            ShopBannerItemAdapter itemListDataAdapter = new ShopBannerItemAdapter(mContext, items);
 
             itemRowHolder.recyclerView.setHasFixedSize(true);
             LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
@@ -139,8 +139,6 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     mClickListener.onItemClick(position, items, v, itemRowHolder);
                 }
 
-                //todo: complete this
-               // addFrg(ExtraItemFrg.newInstance(AppConstants.CATEGORY_ITEM_SET), "ExtraItemFrg");
                 addFrg(MoreProductFragment.newInstance(AppConstants.CATEGORY_ITEM_SET), "ExtraItemFrg");
 
             });
