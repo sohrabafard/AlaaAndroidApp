@@ -53,7 +53,7 @@ public class CategoryShopItemAdapter extends RecyclerView.Adapter<CategoryShopIt
         holder.customShopItemView.setVisibilityDiscount(View.GONE);
         holder.customShopItemView.setImage(item.getPhoto());
 
-       // holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ProductDetailFragment.newInstance(item),"ProductDetailFragment"));
+        holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ProductDetailFragment.newInstance(item),"ProductDetailFragment"));
 
 
     }

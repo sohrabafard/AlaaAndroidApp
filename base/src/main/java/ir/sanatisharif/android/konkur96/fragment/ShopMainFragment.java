@@ -34,7 +34,6 @@ import ir.sanatisharif.android.konkur96.model.MainShopItem;
 import ir.sanatisharif.android.konkur96.model.ShopItem;
 import ir.sanatisharif.android.konkur96.model.ViewSlider;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
-import ir.sanatisharif.android.konkur96.utils.Utils;
 
 public class ShopMainFragment extends BaseFragment {
 

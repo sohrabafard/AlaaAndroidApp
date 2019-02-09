@@ -32,6 +32,7 @@ import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
@@ -62,15 +63,17 @@ public class ProductDetailFragment extends BaseFragment {
     TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice;
     JustifiedTextView txtShortDesc, txtDesc;
 
+    private ProductModel model;
+
 
     private ProductImageSliderAdapter adapter;
     private ArrayList<ProductSliderModel> items = new ArrayList<>();
 
 
-    public static ProductDetailFragment newInstance(ShopItem item) {
+    public static ProductDetailFragment newInstance(ProductModel item) {
 
         Bundle args = new Bundle();
-        args.putSerializable("item", item);
+        args.putParcelable("item", item);
         ProductDetailFragment fragment = new ProductDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -105,55 +108,60 @@ public class ProductDetailFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            model = bundle.getParcelable("item");
+        }
+
         initView(view);
         setDummyData();
 
-        cardAttrProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showLayoutDialog();
-            }
-        });
-
-
-      //todo : add video player
-
-
-        Glide.with(getContext())
-                .load("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/171125105021.jpg?w=253&h=142")
-                .into(imgVideoRelatedOne);
-
-        Glide.with(getContext())
-                .load("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/170917011741.jpg?w=253&h=142")
-                .into(imgVideoRelatedTwo);
-
-        spinnerMainProduct.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-        spinnerMainProduct.setOnItemSelectedListener(spinnerMainProduct.getOnItemSelectedListener());
-        ArrayAdapter<CharSequence> mainProductAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.dummy_main_product, android.R.layout.simple_spinner_item);
-
-        mainProductAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerMainProduct.setAdapter(mainProductAdapter);
-
-
-
-        spinnerExtraProduct.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-        spinnerExtraProduct.setOnItemSelectedListener(spinnerMainProduct.getOnItemSelectedListener());
-        ArrayAdapter<CharSequence> extraProductAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.dummy_extra_product, android.R.layout.simple_spinner_item);
-
-        extraProductAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerExtraProduct.setAdapter(extraProductAdapter);
-
-
-
-        spinnerExtraProductDay.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-        spinnerExtraProductDay.setOnItemSelectedListener(spinnerMainProduct.getOnItemSelectedListener());
-        ArrayAdapter<CharSequence> extraProductAdapterDay = ArrayAdapter.createFromResource(getContext(),
-                R.array.dummy_extra_product_day, android.R.layout.simple_spinner_item);
-
-        extraProductAdapterDay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerExtraProductDay.setAdapter(extraProductAdapterDay);
+//        cardAttrProduct.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showLayoutDialog();
+//            }
+//        });
+//
+//
+//      //todo : add video player
+//
+//
+//        Glide.with(getContext())
+//                .load("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/171125105021.jpg?w=253&h=142")
+//                .into(imgVideoRelatedOne);
+//
+//        Glide.with(getContext())
+//                .load("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/170917011741.jpg?w=253&h=142")
+//                .into(imgVideoRelatedTwo);
+//
+//        spinnerMainProduct.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+//        spinnerMainProduct.setOnItemSelectedListener(spinnerMainProduct.getOnItemSelectedListener());
+//        ArrayAdapter<CharSequence> mainProductAdapter = ArrayAdapter.createFromResource(getContext(),
+//                R.array.dummy_main_product, android.R.layout.simple_spinner_item);
+//
+//        mainProductAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerMainProduct.setAdapter(mainProductAdapter);
+//
+//
+//
+//        spinnerExtraProduct.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+//        spinnerExtraProduct.setOnItemSelectedListener(spinnerMainProduct.getOnItemSelectedListener());
+//        ArrayAdapter<CharSequence> extraProductAdapter = ArrayAdapter.createFromResource(getContext(),
+//                R.array.dummy_extra_product, android.R.layout.simple_spinner_item);
+//
+//        extraProductAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerExtraProduct.setAdapter(extraProductAdapter);
+//
+//
+//
+//        spinnerExtraProductDay.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+//        spinnerExtraProductDay.setOnItemSelectedListener(spinnerMainProduct.getOnItemSelectedListener());
+//        ArrayAdapter<CharSequence> extraProductAdapterDay = ArrayAdapter.createFromResource(getContext(),
+//                R.array.dummy_extra_product_day, android.R.layout.simple_spinner_item);
+//
+//        extraProductAdapterDay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerExtraProductDay.setAdapter(extraProductAdapterDay);
 
     }
 

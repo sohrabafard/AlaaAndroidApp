@@ -39,7 +39,7 @@ public class ShopUtils {
             MainDataModel temp = blockData.get(i);
 
             if (temp.getProducts() != null && temp.getProducts().size() > 0){
-
+                //---------------------- block products ----------------------------------------------------
                 item = new MainShopItem();
                 item.setId(i);
                 item.setType(AppConstants.CATEGORY_SHOP_ITEM_SET);
@@ -49,7 +49,7 @@ public class ShopUtils {
             }
 
             if (temp.getBanners() != null && temp.getBanners().size() > 0){
-
+                //---------------------- block banners ----------------------------------------------------
                 item = new MainShopItem();
                 item.setId(i);
                 item.setType(AppConstants.SHOP_BANNER_ITEM);
