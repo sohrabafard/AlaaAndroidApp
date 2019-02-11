@@ -17,14 +17,14 @@ public class ShopUtils {
     }
 
 
-    public static ArrayList<MainShopItem> convertToMainShopModel(MainModel apiModel){
+    public static ArrayList<MainShopItem> convertToMainShopModel(MainModel apiModel, boolean first){
 
         ArrayList<MainShopItem> items = new ArrayList<>();
         ArrayList<MainDataModel> blockData = apiModel.getBlock().getData();
         MainShopItem item;
 
 
-        if (apiModel.getMainBanner() != null){
+        if (apiModel.getMainBanner() != null && first){
 
             //---------------------- slider ----------------------------------------------------
             item = new MainShopItem();

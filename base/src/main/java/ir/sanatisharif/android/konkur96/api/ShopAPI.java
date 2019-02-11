@@ -17,5 +17,5 @@ public interface ShopAPI {
 
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @GET
-    Call<MainModel> getPagination(@Url String url);
+    Observable<MainModel> getPagination(@Url String url);
 }

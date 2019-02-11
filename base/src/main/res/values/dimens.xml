@@ -16,7 +16,7 @@
 
     <!-- OnBoard. -->
 
-    <dimen name="activity_horizontal_margin">16dp</dimen>
+
     <dimen name="pager_dot_size">8dp</dimen>
     <dimen name="pager_height">16dp</dimen>
     <dimen name="ob_header_top_margin">50dp</dimen>
@@ -41,5 +41,10 @@
     <dimen name="round_image">12dp</dimen>
 
     <dimen name="tvJustufMargin">6dp</dimen>
+
+    <dimen name="activity_middle_margin">8dp</dimen>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+
 
 </resources>

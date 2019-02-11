@@ -199,6 +199,12 @@
     <color name="txtColor">#3A3A3A</color>
 
 
+    <color name="no_pagination_color_button_repeat">@color/colorPrimary</color>
+    <color name="no_pagination_color_button_repeat_selected">@color/colorAccent</color>
+    <color name="no_pagination_error_background">@color/White</color>
+    <color name="no_pagination_error_color_separate_line">@color/LightGrey</color>
+
+
 
 
 </resources>

@@ -27,10 +27,19 @@ public class RepositoryImpl implements Repository {
         shopAPI.getMain()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mainModel -> {
-                    callBack.onResponse(new Result.Success(mainModel));
-                }, throwable -> {
-                    callBack.onResponse(new Result.Error(throwable.getMessage()));
-                });
+                .subscribe(mainModel -> callBack.onResponse(new Result.Success(mainModel)),
+                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void getNextPage(String url, ApiCallBack callBack) {
+
+        shopAPI.getPagination(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mainModel -> callBack.onResponse(new Result.Success(mainModel)),
+                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+
     }
 }

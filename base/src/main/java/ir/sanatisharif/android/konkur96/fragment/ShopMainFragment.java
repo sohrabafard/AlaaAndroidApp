@@ -3,6 +3,7 @@ package ir.sanatisharif.android.konkur96.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +34,8 @@ import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.model.MainShopItem;
 import ir.sanatisharif.android.konkur96.model.ShopItem;
 import ir.sanatisharif.android.konkur96.model.ViewSlider;
+import ir.sanatisharif.android.konkur96.ui.component.paginate.callback.OnLoadMoreListener;
+import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.myPaginate;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 public class ShopMainFragment extends BaseFragment {
@@ -42,6 +45,13 @@ public class ShopMainFragment extends BaseFragment {
 
     Repository repository;
 
+    myPaginate paginate;
+
+    LinearLayoutManager linearLayoutManager;
+
+    MainModel mainModel;
+
+    boolean isPaginate = false;
 
     private MainShopItemAdapter adapter;
     private ArrayList<MainShopItem> items = new ArrayList<>();
@@ -68,10 +78,7 @@ public class ShopMainFragment extends BaseFragment {
         repository = new RepositoryImpl(getActivity());
 
         initView(view);
-
-
         getData();
-
     }
 
     @Override
@@ -359,7 +366,7 @@ public class ShopMainFragment extends BaseFragment {
 
             if (data instanceof Result.Success) {
 
-                setData((MainModel) ((Result.Success) data).value);
+                setData((MainModel) ((Result.Success) data).value, true);
 
             } else {
 
@@ -368,16 +375,58 @@ public class ShopMainFragment extends BaseFragment {
 
 
         });
+
+
     }
 
-    private void setData(MainModel data) {
+    private void getDataPaginat() {
 
-        //---------------------- convert ----------------------------------------------
-        items.clear();
-        items.addAll(ShopUtils.convertToMainShopModel(data));
+        if (isPaginate){
 
-        //---------------------- update adapter ----------------------------------------------
+            repository.getNextPage(mainModel.getBlock().getNext_page_url(), data -> {
 
+                if (data instanceof Result.Success) {
+
+                    setData((MainModel) ((Result.Success) data).value, false);
+
+                } else {
+
+                    Log.d("Test", (String) ((Result.Error) data).value);
+                }
+
+
+            });
+
+        }
+
+
+    }
+
+
+    private void setData(MainModel data, Boolean first) {
+
+        //---------------------- set mainModel data ---------------------------------------------
+        mainModel = data;
+
+
+        //---------------------- set paginate data ----------------------------------------------
+        if (null != mainModel && null != mainModel.getBlock().getNext_page_url()){
+
+            isPaginate = true;
+            paginate.setNoMoreItems(false);
+
+        }else {
+
+            isPaginate = false;
+            paginate.setNoMoreItems(true);
+        }
+
+
+        //---------------------- convert -------------------------------------------------------
+        items.addAll(ShopUtils.convertToMainShopModel(data, first));
+
+
+        //---------------------- update adapter ------------------------------------------------
         adapter.notifyDataSetChanged();
     }
 
@@ -387,14 +436,29 @@ public class ShopMainFragment extends BaseFragment {
         shopMainRecyclerView = v.findViewById(R.id.recyclerView_main_shop);
         shopMainRecyclerView.setNestedScrollingEnabled(false);
         shopMainRecyclerView.setHasFixedSize(true);
-        shopMainRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
+        linearLayoutManager =new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
+        shopMainRecyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MainShopItemAdapter(AppConfig.context, items);
         adapter.setSize(AppConfig.width, AppConfig.height);
         shopMainRecyclerView.setAdapter(adapter);
+        shopMainRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        paginate = myPaginate.with(shopMainRecyclerView)
+                .setOnLoadMoreListener(() -> getDataPaginat())
+                .build();
 
         setHasOptionsMenu(true);
         setToolbar(pageToolbar, "آلاء مجری توسعه عدالت آموزشی");
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (null !=  paginate){
+
+            paginate.unbind();
+        }
     }
 
 
