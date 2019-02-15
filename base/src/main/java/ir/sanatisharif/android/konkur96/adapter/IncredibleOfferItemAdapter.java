@@ -1,12 +1,14 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.ui.view.CustomShopItemView;
@@ -16,11 +18,11 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class IncredibleOfferItemAdapter extends RecyclerView.Adapter<IncredibleOfferItemAdapter.ContentHolder> {
 
-    private ArrayList<IncredibleOffer> itemsList;
+    private ArrayList<ProductModel> itemsList;
     private Context mContext;
 
 
-    public IncredibleOfferItemAdapter(Context context, ArrayList<IncredibleOffer> itemsList) {
+    public IncredibleOfferItemAdapter(Context context, ArrayList<ProductModel> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -41,19 +43,15 @@ public class IncredibleOfferItemAdapter extends RecyclerView.Adapter<IncredibleO
 
 
 
-        IncredibleOffer item = itemsList.get(position);
+        ProductModel item = itemsList.get(position);
 
-        long price = ( item.getPrice() ) -  ( item.getDiscount() );
+        holder.customShopItemView.setClickItem(position, item);
+        holder.customShopItemView.setTitle(item.getName());
+        holder.customShopItemView.setPrice(ShopUtils.formatPrice(item.getAmount()));
+        holder.customShopItemView.setVisibilityDiscount(View.GONE);
+        holder.customShopItemView.setImage(item.getPhoto());
 
-       //todo: change model
-       // holder.customShopItemView.setClickItem(position, item);
-        holder.customShopItemView.setTitle(item.getTitle());
-        holder.customShopItemView.setPrice(ShopUtils.formatPrice(price));
-        holder.customShopItemView.setDiscount(ShopUtils.formatPrice(item.getPrice()));
-        holder.customShopItemView.setImage(item.getImageUrl());
-
-        
-        holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ProductDetailFragment.newInstance(item), "IncredibleOffer"));
+        holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ProductDetailFragment.newInstance(item),"ProductDetailFragment"));
 
 
     }

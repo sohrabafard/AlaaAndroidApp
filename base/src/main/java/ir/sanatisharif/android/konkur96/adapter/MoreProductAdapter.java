@@ -2,81 +2,76 @@ package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.model.MoreProductModel;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
+import ir.sanatisharif.android.konkur96.ui.view.CustomShopItemView;
+import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
-public class MoreProductAdapter extends RecyclerView.Adapter<MoreProductAdapter.MyViewHolder> {
+import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
+
+public class MoreProductAdapter extends RecyclerView.Adapter<MoreProductAdapter.ContentHolder> {
+
+    private ArrayList<ProductModel> itemsList;
+    private Context mContext;
 
 
-    private ArrayList<MoreProductModel> moreProductModels;
-    private Context context;
-
-
-    static class MyViewHolder extends RecyclerView.ViewHolder {
-
-        TextView txtTitleMoreProduct;
-        TextView txtAuthorMoreProduct;
-        TextView txtPriceMore;
-        ImageView imgMoreProduct;
-
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            txtTitleMoreProduct = itemView.findViewById(R.id.txt_titel_more);
-            txtAuthorMoreProduct = itemView.findViewById(R.id.txt_author_more);
-            txtPriceMore = itemView.findViewById(R.id.txt_price_more);
-            imgMoreProduct = itemView.findViewById(R.id.img_item_more);
-        }
-
-    }
-
-    public MoreProductAdapter(Context context, ArrayList<MoreProductModel> moreProductModels) {
-        this.context = context;
-        this.moreProductModels = moreProductModels;
+    public MoreProductAdapter(Context context, ArrayList<ProductModel> itemsList) {
+        this.itemsList = itemsList;
+        this.mContext = context;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                              int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_more_product, parent, false);
+    public ContentHolder onCreateViewHolder(ViewGroup parent, int typeviewsingle) {
 
-        MyViewHolder vh = new MyViewHolder(itemView);
-        return vh;
+        CustomShopItemView itemView = new CustomShopItemView(parent.getContext());
+        itemView.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+        return new ContentHolder(itemView);
     }
 
-
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-
-        MoreProductModel testModel = moreProductModels.get(position);
-
-        //dummay data
-
-            holder.txtTitleMoreProduct.setText(testModel.getTitle());
-            holder.txtAuthorMoreProduct.setText(testModel.getAuthor());
-            holder.txtPriceMore.setText(testModel.getPrice());
-
-            Glide.with(context)
-                    .load(testModel.getImageUrl())
-                    .into(holder.imgMoreProduct);
+    public void onBindViewHolder(final ContentHolder holder, final int position) {
 
 
+
+        ProductModel item = itemsList.get(position);
+
+        holder.customShopItemView.setClickItem(position, item);
+        holder.customShopItemView.setTitle(item.getName());
+        holder.customShopItemView.setPrice(ShopUtils.formatPrice(item.getAmount()));
+        holder.customShopItemView.setVisibilityDiscount(View.GONE);
+        holder.customShopItemView.setImage(item.getPhoto());
+
+        holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ProductDetailFragment.newInstance(item),"ProductDetailFragment"));
 
 
     }
 
     @Override
     public int getItemCount() {
-        return moreProductModels.size();
+        return (null != itemsList ? itemsList.size() : 0);
     }
+
+
+    public class ContentHolder extends RecyclerView.ViewHolder {
+
+        CustomShopItemView customShopItemView;
+
+        public ContentHolder(View itemView) {
+            super(itemView);
+            customShopItemView = (CustomShopItemView) itemView;
+        }
+
+        public CustomShopItemView getCustomCatItem() {
+            return customShopItemView;
+        }
+    }
+
 }

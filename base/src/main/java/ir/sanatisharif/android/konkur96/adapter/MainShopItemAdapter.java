@@ -1,6 +1,7 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
@@ -133,15 +134,25 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             final CategoryShopItemHolder itemRowHolder = (CategoryShopItemHolder) holder;
 
-            itemRowHolder.txtMore.setOnClickListener(v -> {
+            if (model.isMore()){
 
-                if (mClickListener != null) {
-                    mClickListener.onItemClick(position, items, v, itemRowHolder);
-                }
+                itemRowHolder.txtMore.setVisibility(View.VISIBLE);
 
-                addFrg(MoreProductFragment.newInstance(AppConstants.CATEGORY_ITEM_SET), "ExtraItemFrg");
+                itemRowHolder.txtMore.setOnClickListener(v -> {
 
-            });
+                    if (mClickListener != null) {
+                        mClickListener.onItemClick(position, items, v, itemRowHolder);
+                    }
+
+                    addFrg(MoreProductFragment.newInstance(model.getUrl()), "ExtraItemFrg");
+
+                });
+
+            }else {
+
+                itemRowHolder.txtMore.setVisibility(View.GONE);
+
+            }
 
             itemRowHolder.txtTitle.setText(title);
 
@@ -217,6 +228,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             txtMore.setVisibility(View.GONE);
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);
+            txtTitle.setTextColor(Color.RED);
             txtMore.setTypeface(AppConfig.fontIRSensNumber);
             recyclerView.getLayoutParams().height = AppConfig.itemHeight;
         }
@@ -232,8 +244,6 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             recyclerView.getLayoutParams().height = AppConfig.itemHeight;
         }
     }
-
-
 
     public class BannerItemHolder extends RecyclerView.ViewHolder {
 

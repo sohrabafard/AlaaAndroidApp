@@ -21,6 +21,9 @@ public class MainDataModel implements Parcelable {
     @SerializedName("order")
     private int order;
 
+    @SerializedName("offer")
+    private boolean offer;
+
     @SerializedName("updated_at")
     private String updated_at;
 
@@ -39,12 +42,12 @@ public class MainDataModel implements Parcelable {
     @SerializedName("banners")
     private ArrayList<MainBannerModel> banners;
 
-
     protected MainDataModel(Parcel in) {
         id = in.readInt();
         type = in.readInt();
         title = in.readString();
         order = in.readInt();
+        offer = in.readByte() != 0;
         updated_at = in.readString();
         url = in.readString();
         products = in.createTypedArrayList(ProductModel.CREATOR);
@@ -57,6 +60,7 @@ public class MainDataModel implements Parcelable {
         dest.writeInt(type);
         dest.writeString(title);
         dest.writeInt(order);
+        dest.writeByte((byte) (offer ? 1 : 0));
         dest.writeString(updated_at);
         dest.writeString(url);
         dest.writeTypedList(products);
@@ -110,6 +114,14 @@ public class MainDataModel implements Parcelable {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public boolean isOffer() {
+        return offer;
+    }
+
+    public void setOffer(boolean offer) {
+        this.offer = offer;
     }
 
     public String getUpdated_at() {

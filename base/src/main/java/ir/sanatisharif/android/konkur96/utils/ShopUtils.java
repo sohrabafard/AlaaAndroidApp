@@ -52,12 +52,41 @@ public class ShopUtils {
 
             if (temp.getProducts() != null && temp.getProducts().size() > 0){
                 //---------------------- block products ----------------------------------------------------
-                item = new MainShopItem();
-                item.setId(i);
-                item.setType(AppConstants.CATEGORY_SHOP_ITEM_SET);
-                item.setTitle(temp.getTitle());
-                item.setItems(temp.getProducts());
-                items.add(item);
+                if (temp.isOffer()){
+                    item = new MainShopItem();
+                    item.setId(i);
+                    item.setType(AppConstants.INCREDIBLEOFFER_ITEM_SET);
+                    item.setTitle(temp.getTitle());
+                    item.setItems(temp.getProducts());
+                    if (temp.getUrl() != null){
+
+                        item.setMore(true);
+                        item.setUrl(temp.getUrl());
+
+                    }else {
+
+                        item.setMore(false);
+                    }
+                    items.add(item);
+                }else {
+
+                    item = new MainShopItem();
+                    item.setId(i);
+                    item.setType(AppConstants.CATEGORY_SHOP_ITEM_SET);
+                    item.setTitle(temp.getTitle());
+                    item.setItems(temp.getProducts());
+                    if (temp.getUrl() != null){
+
+                        item.setMore(true);
+                        item.setUrl(temp.getUrl());
+
+                    }else {
+
+                        item.setMore(false);
+                    }
+                    items.add(item);
+                }
+
             }
 
             if (temp.getBanners() != null && temp.getBanners().size() > 0){

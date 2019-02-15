@@ -6,15 +6,9 @@ public class MainShopItem {
     private int id;
     private int type;
     private String title;
+    private String url;
+    private  boolean more;
     private ArrayList<?> items;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public int getId() {
         return id;
@@ -30,6 +24,30 @@ public class MainShopItem {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public boolean isMore() {
+        return more;
+    }
+
+    public void setMore(boolean more) {
+        this.more = more;
     }
 
     public ArrayList<?> getItems() {

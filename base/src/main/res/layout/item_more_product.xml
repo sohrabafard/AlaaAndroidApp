@@ -52,41 +52,7 @@
                 android:textColor="#3A3A3A"
                 android:textSize="12sp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:orientation="horizontal">
 
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_teacher" />
-
-                    <TextView
-                        android:id="@+id/txt_author_more"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/txtTitle"
-                        android:ellipsize="end"
-                        android:gravity="right"
-                        android:maxLines="1"
-                        android:padding="5dp"
-                        android:text="author"
-                        android:textColor="#6D6D6D"
-                        android:textSize="11sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/txtDiscount"
@@ -101,7 +67,7 @@
                 android:text="Discount"
                 android:textColor="@color/Red"
                 android:textSize="12sp"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/txt_price_more"

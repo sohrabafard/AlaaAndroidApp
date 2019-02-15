@@ -1,25 +1,70 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MoreProductAdapter;
-import ir.sanatisharif.android.konkur96.model.MoreProductModel;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
+import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.handler.Repository;
+import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
+import ir.sanatisharif.android.konkur96.handler.Result;
+import ir.sanatisharif.android.konkur96.model.Events;
+import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.myPaginate;
 
 public class MoreProductFragment extends BaseFragment{
 
+    Toolbar pageToolbar;
+
     private RecyclerView recyclerMoreProduct;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private GridLayoutManager gridLayoutManager;
+
+
+    Repository repository;
+
+    ResultModel resultModel;
+
+    boolean isPaginate = false;
+
+    private String url;
+
+    myPaginate paginate;
+
+    private MoreProductAdapter adapter;
+
+    private ArrayList<ProductModel> items = new ArrayList<>();
+
+    public static MoreProductFragment newInstance(String url) {
+
+        Bundle args = new Bundle();
+        args.putString("url", url);
+        MoreProductFragment fragment = new MoreProductFragment();
+        fragment.setArguments(args);
+        return fragment;
+
+    }
 
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,81 +76,149 @@ public class MoreProductFragment extends BaseFragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        repository = new RepositoryImpl(getActivity());
 
+        initURL();
         initView(view);
-
-        recyclerMoreProduct.setHasFixedSize(true);
-        mLayoutManager = new GridLayoutManager(getContext(), 3);
-        recyclerMoreProduct.setLayoutManager(mLayoutManager);
-
-
-        mAdapter = new MoreProductAdapter(getContext() , dummydata());
-        recyclerMoreProduct.setAdapter(mAdapter);
+        if (null != url){
+            getData();
+        }
 
 
+
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main_shop, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.actionSetting) {
+
+        }
+        if (id == android.R.id.home) {
+            Events.CloseFragment closeFragment = new Events.CloseFragment();
+            closeFragment.setTagFragments("");
+            EventBus.getDefault().post(closeFragment);
+
+        } else if (id == R.id.actionSetting) {
+            startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void initURL(){
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            url = bundle.getString("url");
+        }
     }
 
     private void initView(View view) {
 
+        //recyclerView
         recyclerMoreProduct = view.findViewById(R.id.recycler_more_product);
+        recyclerMoreProduct.setNestedScrollingEnabled(false);
+        recyclerMoreProduct.setHasFixedSize(true);
+        gridLayoutManager = new GridLayoutManager(AppConfig.context, 3);
+        recyclerMoreProduct.setLayoutManager(gridLayoutManager);
+        adapter = new MoreProductAdapter(AppConfig.context, items);
+        recyclerMoreProduct.setAdapter(adapter);
+        recyclerMoreProduct.setItemAnimator(new DefaultItemAnimator());
+        paginate = myPaginate.with(recyclerMoreProduct)
+                .setOnLoadMoreListener(() -> getDataPaginat())
+                .build();
+
+        setHasOptionsMenu(true);
+        setToolbar(pageToolbar, "آلاء مجری توسعه عدالت آموزشی");
+    }
+
+    private void getData() {
+
+        repository.getMore(url, data -> {
+
+            if (data instanceof Result.Success) {
+
+                setData((ResultModel) ((Result.Success) data).value);
+
+            } else {
+
+                Log.d("Test", (String) ((Result.Error) data).value);
+            }
+
+
+        });
 
 
     }
 
-    private ArrayList<MoreProductModel> dummydata() {
+    private void getDataPaginat() {
 
-        ArrayList<MoreProductModel> moreProductModels = new ArrayList<>();
+        if (isPaginate){
 
-        MoreProductModel moreProductModels1 = new MoreProductModel();
-        MoreProductModel moreProductModels2 = new MoreProductModel();
-        MoreProductModel moreProductModels3 = new MoreProductModel();
-        MoreProductModel moreProductModels4 = new MoreProductModel();
-        MoreProductModel moreProductModels5 = new MoreProductModel();
+            repository.getNextPageProduct(resultModel.getResult().getNext_page_url(), data -> {
 
-        moreProductModels1.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/171019113948.jpg?w=460&h=259");
-        moreProductModels1.setTitle("زیست یازدهم");
-        moreProductModels1.setAuthor(" عباس راسنی");
-        moreProductModels1.setPrice("200000");
+                if (data instanceof Result.Success) {
 
-        moreProductModels2.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/170920041635.jpg?w=253&h=142");
-        moreProductModels2.setTitle("صفر تا صد فیزیک یازدهم");
-        moreProductModels2.setAuthor(" فرشید داداشی");
-        moreProductModels2.setPrice("400000");
+                    setData((ResultModel) ((Result.Success) data).value);
 
-        moreProductModels3.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/zist_yazdahom_1810011438.jpg?w=253&h=142");
-        moreProductModels3.setTitle("زیست یازدهم");
-        moreProductModels3.setAuthor("جلال موقاری");
-        moreProductModels3.setPrice("400000");
+                } else {
 
-        moreProductModels4.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/zaban11_1810070959.jpg?w=253&h=142");
-        moreProductModels4.setTitle("صفر تا صد زبان");
-        moreProductModels4.setAuthor("علی اکبر عزتی");
-        moreProductModels4.setPrice("600000");
+                    Log.d("Test", (String) ((Result.Error) data).value);
+                }
 
-        moreProductModels5.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/170920125924.jpg?w=253&h=142");
-        moreProductModels5.setTitle("صفر تا صد زبان");
-        moreProductModels5.setAuthor("علی اکبر عزتی");
-        moreProductModels5.setPrice("100000");
 
-        moreProductModels.add(moreProductModels1);
-        moreProductModels.add(moreProductModels2);
-        moreProductModels.add(moreProductModels3);
-        moreProductModels.add(moreProductModels4);
-        moreProductModels.add(moreProductModels5);
+            });
 
-        return moreProductModels;
+        }
+
 
     }
 
+    private void setData(ResultModel data) {
 
-    public static MoreProductFragment newInstance(int type) {
+        //---------------------- set mainModel data ---------------------------------------------
+        resultModel = data;
 
-        Bundle args = new Bundle();
-        args.putInt("type", type);
-        MoreProductFragment fragment = new MoreProductFragment();
-        fragment.setArguments(args);
-        return fragment;
+
+        //---------------------- set paginate data ----------------------------------------------
+        if (null != resultModel && null != resultModel.getResult().getNext_page_url()){
+
+            isPaginate = true;
+            paginate.setNoMoreItems(false);
+
+        }else {
+
+            isPaginate = false;
+            paginate.setNoMoreItems(true);
+        }
+
+
+        //---------------------- convert -------------------------------------------------------
+        items.addAll(data.getResult().getData());
+
+
+        //---------------------- update adapter ------------------------------------------------
+        adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
+        if (null !=  paginate){
+
+            paginate.unbind();
+        }
+    }
 }

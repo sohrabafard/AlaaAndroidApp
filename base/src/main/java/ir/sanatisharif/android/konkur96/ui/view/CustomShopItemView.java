@@ -79,6 +79,11 @@ public class CustomShopItemView extends LinearLayout {
         this.item = item;
     }
 
+    public void setBackColor(int color){
+
+        cardViewRoot.setCardBackgroundColor(color);
+    }
+
     public String getTitle() {
         return txtTitle.getText().toString();
     }
@@ -158,7 +163,7 @@ public class CustomShopItemView extends LinearLayout {
 
         GlideApp.with(AppConfig.context)
                 .load(url)
-                .override(width, height)
+                .override(200, 250)
                 //.transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
                 .into(new SimpleTarget<Drawable>(460, 259) {
                     @Override
