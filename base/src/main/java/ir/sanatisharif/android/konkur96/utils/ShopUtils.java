@@ -1,12 +1,24 @@
 package ir.sanatisharif.android.konkur96.utils;
 
+import android.os.Build;
+import android.text.Html;
+import android.text.Spanned;
+import android.widget.TextView;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Random;
 
 import ir.sanatisharif.android.konkur96.api.Models.MainDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
+import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
+import ir.sanatisharif.android.konkur96.api.Models.TypeModel;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
+import ir.sanatisharif.android.konkur96.model.DownloadUrl;
 import ir.sanatisharif.android.konkur96.model.MainShopItem;
+import ir.sanatisharif.android.konkur96.model.ProductSliderModel;
+import ir.sanatisharif.android.konkur96.model.ProductType;
+import ir.sanatisharif.android.konkur96.model.Video;
 
 public class ShopUtils {
 
@@ -60,5 +72,87 @@ public class ShopUtils {
         }
 
         return  items;
+    }
+
+
+    public static ArrayList<ProductSliderModel> convertToProductSliderModel(ArrayList<ProductPhotoModel> photos){
+
+        ArrayList<ProductSliderModel> items = new ArrayList<>();
+
+        for (int i = 0 ; i < photos.size(); i++){
+
+            ProductPhotoModel temp = photos.get(i);
+
+            items.add(new ProductSliderModel(temp.getTitle(), temp.getUrl(), i));
+        }
+
+
+        return items;
+    }
+
+    public static Spanned setHTMLText(String text){
+
+        if (null != text){
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                return Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT);
+            } else {
+                return Html.fromHtml(text);
+            }
+        }else {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                return Html.fromHtml(" ", Html.FROM_HTML_MODE_COMPACT);
+            } else {
+                return Html.fromHtml(" ");
+            }
+        }
+
+
+    }
+
+    public static Video createVideoModelByURL(String url){
+
+
+        ArrayList<DownloadUrl> downloadUrls = new ArrayList<>();
+
+        DownloadUrl downloadUrl = new DownloadUrl();
+        downloadUrl.setUrl(url);
+        downloadUrls.add(downloadUrl);
+
+        Video item = new Video();
+        item.setDownloadUrls(downloadUrls);
+
+
+        return item;
+    }
+
+    public static ProductType getType(TypeModel typeModel){
+
+        if (typeModel != null){
+
+            switch (typeModel.getType().trim()) {
+                case "simple":
+
+                    return ProductType.SIMPLE;
+
+                case "selectable":
+
+                    return ProductType.SELECTABLE;
+
+                case "configurable":
+
+                    return ProductType.CONFIGURABLE;
+
+                default:
+
+                    return null;
+            }
+
+        }else {
+
+            return null;
+        }
+
     }
 }

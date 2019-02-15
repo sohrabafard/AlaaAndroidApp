@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
@@ -17,7 +18,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/slider_item_set_adapter" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/intro_video"/>
 
             <include layout="@layout/details_product" />
 

@@ -2,10 +2,10 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -15,59 +15,41 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
-import com.viewpagerindicator.CirclePageIndicator;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
-import ir.sanatisharif.android.konkur96.model.ProductSliderModel;
-import ir.sanatisharif.android.konkur96.model.ShopItem;
+import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.model.Video;
-import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager;
-import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ProductImageSliderAdapter;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 public class ProductDetailFragment extends BaseFragment {
 
 
-    Toolbar pageToolbar;
-    AutoScrollViewPager imgSlider;
-    CirclePageIndicator imgSliderIndicator;
-    CardView cardAttrProduct;
+     Toolbar pageToolbar;
+     CardView cardAttrProduct;
 
-    ImageView imgVideoRelatedOne;
-    ImageView imgVideoRelatedTwo;
+     ImageView image;
 
-    Dialog dialog;
+     Dialog dialog;
 
-    Spinner spinnerMainProduct;
-    Spinner spinnerExtraProduct;
-    Spinner spinnerExtraProductDay;
-
-    TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice;
-    JustifiedTextView txtShortDesc, txtDesc;
+     TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice;
+     JustifiedTextView txtShortDesc, txtDesc;
 
     private ProductModel model;
-
-
-    private ProductImageSliderAdapter adapter;
-    private ArrayList<ProductSliderModel> items = new ArrayList<>();
+    private ProductType type;
 
 
     public static ProductDetailFragment newInstance(ProductModel item) {
@@ -108,13 +90,15 @@ public class ProductDetailFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            model = bundle.getParcelable("item");
+
+        initModel();
+        if (model != null){
+
+            initView(view);
+            initAction();
+            setData();
         }
 
-        initView(view);
-        setDummyData();
 
 //        cardAttrProduct.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -192,44 +176,18 @@ public class ProductDetailFragment extends BaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private void initModel(){
 
-    private void setDummyData() {
-
-        //---------------------- slider ----------------------------------------------------
-
-        items.add(new ProductSliderModel("1",
-                "https://sanatisharif.ir/image/9/1280/500/asiatech-alaa222%20%281%29_20180812155522.jpg?1", 1));
-        items.add(new ProductSliderModel("2",
-                "https://sanatisharif.ir/image/9/1280/500/IMG_20180920_004154_394_20180919201252.jpg?1", 2));
-        items.add(new ProductSliderModel("3",
-                "https://sanatisharif.ir/image/9/1280/500/BIG-SLIDE-1%20%282%29_20180429193412.jpg?1", 3));
-        items.add(new ProductSliderModel("4",
-                "https://sanatisharif.ir/image/9/1280/500/BIG-SLIDE-7_20181015143731.jpg?1", 4));
-
-        //---------------------- End slider ----------------------------------------------------
-
-        adapter.notifyDataSetChanged();
-
-        //---------------------- Details ----------------------------------------------------
-
-        txtName.setText("بسته طلایی کنکور تمام دروس");
-        txtAuthor.setText("کازیان");
-
-        txtPrice.setText(ShopUtils.formatPrice(200000) + " تومان ");
-
-        txtShortDesc.setText("لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. ");
-        txtDesc.setText("لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. ");
-
-
-
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            model = bundle.getParcelable("item");
+            type = ShopUtils.getType(model.getType());
+        }
     }
 
     private void initView(View v) {
 
-
-        initImageSlider(v);
         initDetails(v);
-
         setHasOptionsMenu(true);
         setToolbar(pageToolbar, "آلاء مجری توسعه عدالت آموزشی");
 
@@ -248,6 +206,10 @@ public class ProductDetailFragment extends BaseFragment {
         txtShortDesc = v.findViewById(R.id.txt_short_desc);
         txtDesc = v.findViewById(R.id.txt_desc);
 
+        image = v.findViewById(R.id.img);
+
+        cardAttrProduct = v.findViewById(R.id.card_attr_product);
+
         //Set Typeface
         txtName.setTypeface(AppConfig.fontIRSensLight);
         txtAuthor.setTypeface(AppConfig.fontIRSensLight);
@@ -259,44 +221,72 @@ public class ProductDetailFragment extends BaseFragment {
         txtShortDesc.setTypeface(AppConfig.fontIRSensLight);
         txtDesc.setTypeface(AppConfig.fontIRSensLight);
 
-        imgVideoRelatedOne = v.findViewById(R.id.img_related_video);
-        imgVideoRelatedTwo = v.findViewById(R.id.img_related_video_two);
-
-        cardAttrProduct = v.findViewById(R.id.card_attr_product);
-
-        spinnerMainProduct = v.findViewById(R.id.spinner_main_product);
-        spinnerExtraProduct = v.findViewById(R.id.spinner_extra_product);
-        spinnerExtraProductDay = v.findViewById(R.id.spinner_extra_product_day);
     }
 
-    private void initImageSlider(View v){
+    private void initAction(){
 
-        //image Slider
-        imgSlider = v.findViewById(R.id.view_pager);
-        imgSlider.startAutoScroll(50000);
-        imgSlider.setBorderAnimation(true);
-        imgSlider.getLayoutParams().height = 250;
+        cardAttrProduct.setOnClickListener(v -> showAtrrDialog());
+    }
 
-        //image Slider Indicator
-        imgSliderIndicator = v.findViewById(R.id.indicator);
+    private void setData(){
 
-        //Set adapter
-        adapter = new ProductImageSliderAdapter(AppConfig.context, items);
-        imgSlider.setAdapter(adapter);
-        imgSlider.startAutoScroll();
+        //---------------------- introvideo ----------------------------------------------------
 
-        //Set Indicator
-        imgSliderIndicator.setViewPager(imgSlider);
+        setIntroVideo(model.getIntroVideo());
+
+        //---------------------- Details ----------------------------------------------------
+
+        txtName.setText(model.getName());
+
+        setPrice();
+
+        txtShortDesc.setText(ShopUtils.setHTMLText(model.getShortDescription()));
+
+        txtDesc.setText(ShopUtils.setHTMLText(model.getLongDescription()));
+
+        Glide.with(AppConfig.context)
+                .load(model.getPhoto())
+                .into(image);
+
 
     }
 
+    private void showAtrrDialog() {
 
-    private void showLayoutDialog() {
+        FragmentManager fm = getFragmentManager();
+        DialogFragment newFragment = new ProductAttrDialogFragment(model.getAttributes().getInformation());
+        newFragment.show(fm, "ProductAttr");
+    }
 
-        dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_view_attr);
-        dialog.show();
+    private void setIntroVideo(String url){
+
+        Video video = ShopUtils.createVideoModelByURL(url);
+        if (video != null) {
+            VideoPlayFrg videoPlayFrg = VideoPlayFrg.newInstance(video, false);
+            getFragmentManager().beginTransaction()
+                    .add(R.id.intro_video, videoPlayFrg, "videoPlayFrg")
+                    .commit();
+        }
+
+    }
+
+    private void setPrice(){
+
+        if (type == ProductType.SIMPLE){
+
+            if (model.getAmount() > 0 ){
+
+                txtPrice.setText(ShopUtils.formatPrice(model.getAmount()) + " تومان ");
+
+            }else {
+
+                txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
+            }
+
+        }else {
+
+            txtPrice.setVisibility(View.GONE);
+        }
     }
 
 

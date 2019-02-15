@@ -2,6 +2,7 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.arch.lifecycle.Lifecycle;
@@ -82,6 +83,7 @@ public class VideoPlayFrg extends BaseFragment {
     private int mResumeWindow;
     private long mResumePosition;
     private String mUrl;
+    private Boolean isLandScape;
 
     //lock
     PowerManager pm;
@@ -98,16 +100,37 @@ public class VideoPlayFrg extends BaseFragment {
         return fragment;
     }
 
+    public static VideoPlayFrg newInstance(Video video, boolean isLandScape) {
+
+        Bundle args = new Bundle();
+        args.putString("path", video.getPath());
+        args.putBoolean("isLandScape", isLandScape);
+        VideoPlayFrg fragment = new VideoPlayFrg();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mLifecycleRegistry = new LifecycleRegistry(this);
         mLifecycleRegistry.markState(Lifecycle.State.CREATED);
+        isLandScape = getArguments().getBoolean("isLandScape");
+        if (this.isLandScape != null){
+            if (this.isLandScape){
+                initWakeLockScreen();
+                // Fragment locked in landscape screen orientation
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
+        }else {
 
-        initWakeLockScreen();
-        // Fragment locked in landscape screen orientation
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            initWakeLockScreen();
+            // Fragment locked in landscape screen orientation
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+
+
     }
 
 
@@ -298,6 +321,7 @@ public class VideoPlayFrg extends BaseFragment {
 
 
             mUrl = getArguments().getString("path");//"https://cdn.sanatisharif.ir/media/170/240p/170023fghg.mp4";
+            isLandScape = getArguments().getBoolean("isLandScape");
             initFullscreenDialog();
             initFullscreenButton();
 
@@ -309,9 +333,11 @@ public class VideoPlayFrg extends BaseFragment {
 
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
                     Util.getUserAgent(context, "mediaPlayerSample"));
-            mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(Uri.parse(mUrl));
 
+            if (mUrl != null){
+                mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                        .createMediaSource(Uri.parse(mUrl));
+            }
         }
 
         initExoPlayer();
@@ -423,6 +449,7 @@ public class VideoPlayFrg extends BaseFragment {
     };
 
     //<editor-fold desc="lock">
+    @SuppressLint("InvalidWakeLockTag")
     private void initWakeLockScreen() {
         pm = (PowerManager) getContext().getSystemService(POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
@@ -431,7 +458,10 @@ public class VideoPlayFrg extends BaseFragment {
 
 
         km = (KeyguardManager) getContext().getSystemService(KEYGUARD_SERVICE);
-        kl = km.newKeyguardLock("alla");
+        if (km != null){
+            kl = km.newKeyguardLock("alla");
+        }
+
 
     }
 
