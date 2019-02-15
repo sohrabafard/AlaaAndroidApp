@@ -17,14 +17,14 @@
         android:src="@drawable/ic_left_arrow"
         android:layout_gravity="left|center_vertical"
         android:padding="8dp"
-        android:background="@color/CadetBlue"
+        android:background="#fb8C00"
         android:layout_width="40dp"
         android:layout_height="40dp" />
 
     <ImageView
         android:id="@+id/img_right"
         android:src="@drawable/ic_right_arrow"
-        android:background="@color/CadetBlue"
+        android:background="#fb8C00"
         android:padding="8dp"
         android:layout_gravity="right|center_vertical"
         android:layout_width="40dp"
@@ -47,11 +47,10 @@
 
     <TextView
         android:id="@+id/tv_title_screen"
-        android:text="Title"
-        android:background="@color/Black"
+        android:background="#fb8C00"
         android:padding="3dp"
         android:fontFamily="@font/iransansbold"
-        android:textSize="16sp"
+        android:textSize="13sp"
         android:layout_gravity="right"
         android:layout_marginRight="5dp"
         android:textColor="@color/White"
@@ -61,8 +60,7 @@
 
     <TextView
         android:id="@+id/tv_desc_screen"
-        android:text="Description"
-        android:background="@color/Black"
+        android:background="#fb8C00"
         android:padding="3dp"
         android:gravity="right"
         android:layout_marginRight="5dp"

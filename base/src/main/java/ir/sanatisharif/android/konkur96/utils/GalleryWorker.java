@@ -5,18 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.activity.GalleryFullView;
+import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
 import ir.sanatisharif.android.konkur96.model.FullScreenModel;
-import ir.sanatisharif.android.konkur96.model.ImageGalleryModel;
 
 public class GalleryWorker {
 
     private final String TAG_MODEL = "TAG_MODEL";
     private Context context;
-    private ArrayList<ImageGalleryModel> images;
+    private ArrayList<ProductPhotoModel> images;
 
 
     public GalleryWorker(Context context) {
@@ -37,15 +36,15 @@ public class GalleryWorker {
             showFullView.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(showFullView);
         } else {
-            Toast.makeText(context, "please add image" , Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "تصویری برای نمایش وجود ندارد" , Toast.LENGTH_LONG).show();
         }
     }
 
-    public ArrayList<ImageGalleryModel> getImages() {
+    public ArrayList<ProductPhotoModel> getImages() {
         return images;
     }
 
-    public void setImages(ArrayList<ImageGalleryModel> images) {
+    public void setImages(ArrayList<ProductPhotoModel> images) {
         this.images = images;
     }
 

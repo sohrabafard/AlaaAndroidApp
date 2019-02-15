@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.FullScreenAdapter;
 import ir.sanatisharif.android.konkur96.adapter.IndicatorAdapter;
+import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
 import ir.sanatisharif.android.konkur96.interfaces.PositionFounder;
 import ir.sanatisharif.android.konkur96.model.FullScreenModel;
 import ir.sanatisharif.android.konkur96.model.ImageGalleryModel;
@@ -91,10 +92,18 @@ public class GalleryFullView extends AppCompatActivity implements PositionFounde
             public void onPageSelected(int position) {
                 initPosition(position);
 
-                ImageGalleryModel temp = getTitleAndDesc(position);
+                ProductPhotoModel temp = getTitleAndDesc(position);
 
-                title.setText(temp.getImageTitle());
-                description.setText(temp.getImageDesc());
+                if (temp.getTitle() == null) {
+                    title.setVisibility(View.GONE);
+                }
+
+                if (temp.getDescription() == null) {
+                    description.setVisibility(View.GONE);
+                }
+
+                title.setText(temp.getTitle());
+                description.setText(temp.getDescription());
 
             }
 
@@ -153,7 +162,7 @@ public class GalleryFullView extends AppCompatActivity implements PositionFounde
         }
     }
 
-    private ArrayList<ImageGalleryModel> getAllImage() {
+    private ArrayList<ProductPhotoModel> getAllImage() {
         return fullScreenModel.getImageGalleryModels();
     }
 
@@ -205,9 +214,9 @@ public class GalleryFullView extends AppCompatActivity implements PositionFounde
 //        recyclerIndicator.setLayoutAnimation(animation);
     }
 
-    public ImageGalleryModel getTitleAndDesc(int pos) {
+    public ProductPhotoModel getTitleAndDesc(int pos) {
 
-        ArrayList<ImageGalleryModel> imageGalleryModels = getAllImage();
+        ArrayList<ProductPhotoModel> imageGalleryModels = getAllImage();
 
         return imageGalleryModels.get(pos);
     }

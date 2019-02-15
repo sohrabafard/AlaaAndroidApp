@@ -18,35 +18,40 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.model.Video;
+import ir.sanatisharif.android.konkur96.utils.GalleryWorker;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 public class ProductDetailFragment extends BaseFragment {
 
 
      Toolbar pageToolbar;
-     CardView cardAttrProduct;
+     CardView cardAttrProduct, cardSampleProduct;
 
      ImageView image;
 
-     Dialog dialog;
-
      TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice;
      JustifiedTextView txtShortDesc, txtDesc;
+
+    GalleryWorker imgGallery;
 
     private ProductModel model;
     private ProductType type;
@@ -97,6 +102,7 @@ public class ProductDetailFragment extends BaseFragment {
             initView(view);
             initAction();
             setData();
+            imgGallery = new GalleryWorker(getContext());
         }
 
 
@@ -209,6 +215,7 @@ public class ProductDetailFragment extends BaseFragment {
         image = v.findViewById(R.id.img);
 
         cardAttrProduct = v.findViewById(R.id.card_attr_product);
+        cardSampleProduct = v.findViewById(R.id.card_sample_product);
 
         //Set Typeface
         txtName.setTypeface(AppConfig.fontIRSensLight);
@@ -226,7 +233,9 @@ public class ProductDetailFragment extends BaseFragment {
     private void initAction(){
 
         cardAttrProduct.setOnClickListener(v -> showAtrrDialog());
+        cardSampleProduct.setOnClickListener(v -> showSampleProduct());
     }
+
 
     private void setData(){
 
@@ -256,6 +265,13 @@ public class ProductDetailFragment extends BaseFragment {
         FragmentManager fm = getFragmentManager();
         DialogFragment newFragment = new ProductAttrDialogFragment(model.getAttributes().getInformation());
         newFragment.show(fm, "ProductAttr");
+    }
+
+    private void showSampleProduct() {
+
+        imgGallery.setImages(model.getSamplePhotos());
+        imgGallery.openFullView(0);
+
     }
 
     private void setIntroVideo(String url){

@@ -14,16 +14,17 @@ import com.github.chrisbanes.photoview.PhotoView;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
 import ir.sanatisharif.android.konkur96.model.ImageGalleryModel;
 
 public class FullScreenAdapter extends PagerAdapter {
 
     Context context;
-    ArrayList<ImageGalleryModel> items;
+    ArrayList<ProductPhotoModel> items;
     LayoutInflater inflater;
     private int selectedPosition;
 
-    public FullScreenAdapter(Context context, ArrayList<ImageGalleryModel> items, int selectedPos) {
+    public FullScreenAdapter(Context context, ArrayList<ProductPhotoModel> items, int selectedPos) {
         this.context = context;
         this.items = items;
         this.selectedPosition = selectedPos;
@@ -45,7 +46,7 @@ public class FullScreenAdapter extends PagerAdapter {
 
         inflater = (LayoutInflater) context.getApplicationContext().getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.item_fullscreen_pager, container, false);
-        ImageGalleryModel temp = getModel(position);
+        ProductPhotoModel temp = getModel(position);
 
         PhotoView photoView;
         photoView = (PhotoView) itemView.findViewById(R.id.img_fullscreen);
@@ -53,7 +54,7 @@ public class FullScreenAdapter extends PagerAdapter {
 
         try {
             Glide.with(context)
-                    .load(temp.getImagePath())
+                    .load(temp.getUrl())
                     .into(photoView);
 
 
@@ -71,7 +72,7 @@ public class FullScreenAdapter extends PagerAdapter {
     }
 
 
-    private ImageGalleryModel getModel(int position) {
+    private ProductPhotoModel getModel(int position) {
 
         return items.get(position);
     }

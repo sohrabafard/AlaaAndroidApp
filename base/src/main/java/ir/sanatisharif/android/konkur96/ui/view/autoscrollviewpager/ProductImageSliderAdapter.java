@@ -1,3 +1,4 @@
+/*
 package ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager;
 
 import android.content.Context;
@@ -132,4 +133,4 @@ public class ProductImageSliderAdapter extends PagerAdapter {
 
     }
 
-}
+}*/

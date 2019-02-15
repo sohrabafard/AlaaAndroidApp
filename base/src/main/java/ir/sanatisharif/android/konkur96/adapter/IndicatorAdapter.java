@@ -11,13 +11,14 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
 import ir.sanatisharif.android.konkur96.interfaces.PositionFounder;
 import ir.sanatisharif.android.konkur96.model.ImageGalleryModel;
 
 public class IndicatorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
-    private ArrayList<ImageGalleryModel> imageGalleryModels;
+    private ArrayList<ProductPhotoModel> imageGalleryModels;
     private int selectedPosition;
     private PositionFounder positionFounder;
 
@@ -25,7 +26,7 @@ public class IndicatorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private int TAG_SELECTED = 1;
     private int TAG_EMPTY = 2;
 
-    public IndicatorAdapter(Context context, ArrayList<ImageGalleryModel> imageGalleryModels, int selectedPosition, PositionFounder pos) {
+    public IndicatorAdapter(Context context, ArrayList<ProductPhotoModel> imageGalleryModels, int selectedPosition, PositionFounder pos) {
         this.context = context;
         this.imageGalleryModels = imageGalleryModels;
         this.selectedPosition = selectedPosition;
@@ -54,9 +55,9 @@ public class IndicatorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             imgIndicator = itemView.findViewById(R.id.img_indicator);
         }
 
-        void bindView(final ImageGalleryModel model, final int pos) {
+        void bindView(final ProductPhotoModel model, final int pos) {
             Glide.with(context)
-                    .load(model.getImagePath())
+                    .load(model.getUrl())
                     .into(imgIndicator);
 
             itemView.getLayoutParams().width = (int) (getScreenWidth() / 3);
@@ -78,9 +79,9 @@ public class IndicatorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             imgIndicator = itemView.findViewById(R.id.img_indicator);
         }
 
-        void bindView(final ImageGalleryModel model, final int pos) {
+        void bindView(final ProductPhotoModel model, final int pos) {
             Glide.with(context)
-                    .load(model.getImagePath())
+                    .load(model.getUrl())
                     .into(imgIndicator);
 
             itemView.getLayoutParams().width = (int) (getScreenWidth() / 3);
