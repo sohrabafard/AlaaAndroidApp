@@ -28,6 +28,12 @@ public class ShopUtils {
         return formatter.format(number);
     }
 
+    public static String formatPrice(int number){
+
+        DecimalFormat formatter = new DecimalFormat("#,###,###");
+        return formatter.format(number);
+    }
+
 
     public static ArrayList<MainShopItem> convertToMainShopModel(MainModel apiModel, boolean first){
 

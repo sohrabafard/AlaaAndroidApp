@@ -68,11 +68,15 @@ public class ProductModel implements Parcelable {
     @Expose
     private ArrayList<ProductPhotoModel> samplePhotos;
 
-    @SerializedName("children")
-    private ArrayList<ProductModel> children;
+    @SerializedName("price")
+    private PriceModel price;
 
     @SerializedName("bons")
     private ArrayList<BonModel> bons;
+
+    @SerializedName("children")
+    private ArrayList<ProductModel> children;
+
 
     protected ProductModel(Parcel in) {
         id = in.readInt();
@@ -90,8 +94,9 @@ public class ProductModel implements Parcelable {
         photo = in.readString();
         attributes = in.readParcelable(AttributesModel.class.getClassLoader());
         samplePhotos = in.createTypedArrayList(ProductPhotoModel.CREATOR);
-        children = in.createTypedArrayList(ProductModel.CREATOR);
+        price = in.readParcelable(PriceModel.class.getClassLoader());
         bons = in.createTypedArrayList(BonModel.CREATOR);
+        children = in.createTypedArrayList(ProductModel.CREATOR);
     }
 
     @Override
@@ -111,8 +116,9 @@ public class ProductModel implements Parcelable {
         dest.writeString(photo);
         dest.writeParcelable(attributes, flags);
         dest.writeTypedList(samplePhotos);
-        dest.writeTypedList(children);
+        dest.writeParcelable(price, flags);
         dest.writeTypedList(bons);
+        dest.writeTypedList(children);
     }
 
     @Override
@@ -252,12 +258,12 @@ public class ProductModel implements Parcelable {
         this.samplePhotos = samplePhotos;
     }
 
-    public ArrayList<ProductModel> getChildren() {
-        return children;
+    public PriceModel getPrice() {
+        return price;
     }
 
-    public void setChildren(ArrayList<ProductModel> children) {
-        this.children = children;
+    public void setPrice(PriceModel price) {
+        this.price = price;
     }
 
     public ArrayList<BonModel> getBons() {
@@ -266,5 +272,13 @@ public class ProductModel implements Parcelable {
 
     public void setBons(ArrayList<BonModel> bons) {
         this.bons = bons;
+    }
+
+    public ArrayList<ProductModel> getChildren() {
+        return children;
+    }
+
+    public void setChildren(ArrayList<ProductModel> children) {
+        this.children = children;
     }
 }

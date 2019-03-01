@@ -1,12 +1,15 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
-import android.app.Dialog;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,23 +17,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
-
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
+import ir.sanatisharif.android.konkur96.adapter.ProductBonsAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
 import ir.sanatisharif.android.konkur96.model.Events;
@@ -43,15 +42,20 @@ import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 public class ProductDetailFragment extends BaseFragment {
 
 
-     Toolbar pageToolbar;
-     CardView cardAttrProduct, cardSampleProduct;
+    Toolbar pageToolbar;
+    private CardView cardAttrProduct, cardSampleProduct;
 
-     ImageView image;
+    private ImageView image;
+    private FrameLayout intro;
 
-     TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice;
-     JustifiedTextView txtShortDesc, txtDesc;
+    private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice;
+    private JustifiedTextView txtShortDesc, txtDesc;
 
-    GalleryWorker imgGallery;
+    private CardView cardDesc, cardBon;
+
+    private GalleryWorker imgGallery;
+
+    private RecyclerView bonsRecyclerView;
 
     private ProductModel model;
     private ProductType type;
@@ -97,7 +101,7 @@ public class ProductDetailFragment extends BaseFragment {
 
 
         initModel();
-        if (model != null){
+        if (model != null) {
 
             initView(view);
             initAction();
@@ -182,7 +186,7 @@ public class ProductDetailFragment extends BaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initModel(){
+    private void initModel() {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -199,7 +203,7 @@ public class ProductDetailFragment extends BaseFragment {
 
     }
 
-    private void initDetails(View v){
+    private void initDetails(View v) {
 
         //Product Name
         txtName = v.findViewById(R.id.txt_name);
@@ -214,8 +218,17 @@ public class ProductDetailFragment extends BaseFragment {
 
         image = v.findViewById(R.id.img);
 
+
+        intro = v.findViewById(R.id.intro_video);
+
         cardAttrProduct = v.findViewById(R.id.card_attr_product);
         cardSampleProduct = v.findViewById(R.id.card_sample_product);
+
+        cardDesc = v.findViewById(R.id.card_desc);
+        cardBon = v.findViewById(R.id.card_bon);
+
+
+        bonsRecyclerView = v.findViewById(R.id.recycler_bons);
 
         //Set Typeface
         txtName.setTypeface(AppConfig.fontIRSensLight);
@@ -228,16 +241,19 @@ public class ProductDetailFragment extends BaseFragment {
         txtShortDesc.setTypeface(AppConfig.fontIRSensLight);
         txtDesc.setTypeface(AppConfig.fontIRSensLight);
 
+
+
     }
 
-    private void initAction(){
+    private void initAction() {
 
         cardAttrProduct.setOnClickListener(v -> showAtrrDialog());
         cardSampleProduct.setOnClickListener(v -> showSampleProduct());
     }
 
 
-    private void setData(){
+    @SuppressLint("SetTextI18n")
+    private void setData() {
 
         //---------------------- introvideo ----------------------------------------------------
 
@@ -251,11 +267,35 @@ public class ProductDetailFragment extends BaseFragment {
 
         txtShortDesc.setText(ShopUtils.setHTMLText(model.getShortDescription()));
 
-        txtDesc.setText(ShopUtils.setHTMLText(model.getLongDescription()));
+        if (null != model.getLongDescription()){
+
+            txtDesc.setText(ShopUtils.setHTMLText(model.getLongDescription()));
+
+        }else {
+
+            cardDesc.setVisibility(View.GONE);
+        }
+
+
 
         Glide.with(AppConfig.context)
                 .load(model.getPhoto())
                 .into(image);
+
+        if (null != model.getBons() && model.getBons().size() > 0){
+
+            //setadapter
+            ProductBonsAdapter adapter = new ProductBonsAdapter(model.getBons());
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            bonsRecyclerView.setLayoutManager(mLayoutManager);
+            bonsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            bonsRecyclerView.setAdapter(adapter);
+
+        }else {
+
+            cardBon.setVisibility(View.GONE);
+
+        }
 
 
     }
@@ -274,37 +314,54 @@ public class ProductDetailFragment extends BaseFragment {
 
     }
 
-    private void setIntroVideo(String url){
+    private void setIntroVideo(String url) {
 
-        Video video = ShopUtils.createVideoModelByURL(url);
-        if (video != null) {
-            VideoPlayFrg videoPlayFrg = VideoPlayFrg.newInstance(video, false);
-            getFragmentManager().beginTransaction()
-                    .add(R.id.intro_video, videoPlayFrg, "videoPlayFrg")
-                    .commit();
-        }
+        if (null != url){
 
-    }
-
-    private void setPrice(){
-
-        if (type == ProductType.SIMPLE){
-
-            if (model.getAmount() > 0 ){
-
-                txtPrice.setText(ShopUtils.formatPrice(model.getAmount()) + " تومان ");
-
-            }else {
-
-                txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
+            Video video = ShopUtils.createVideoModelByURL(url);
+            if (video != null) {
+                VideoPlayFrg videoPlayFrg = VideoPlayFrg.newInstance(video, false);
+                getFragmentManager().beginTransaction()
+                        .add(R.id.intro_video, videoPlayFrg, "videoPlayFrg")
+                        .commit();
             }
 
         }else {
 
-            txtPrice.setVisibility(View.GONE);
+            intro.setVisibility(View.GONE);
         }
+
+
+
     }
 
+    private void setPrice() {
+
+//        if (type == ProductType.SIMPLE) {
+//
+//            if (model.getAmount() > 0) {
+//
+//                txtPrice.setText(ShopUtils.formatPrice(model.getAmount()) + " تومان ");
+//
+//            } else {
+//
+//                txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
+//            }
+//
+//        } else {
+//
+//            txtPrice.setVisibility(View.GONE);
+//        }
+
+        if (model.getPrice().getMfinal() > 0) {
+
+            txtPrice.setText(ShopUtils.formatPrice(model.getPrice().getMfinal()) + " تومان ");
+
+        } else {
+
+            txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
+        }
+    }
 
 
 }

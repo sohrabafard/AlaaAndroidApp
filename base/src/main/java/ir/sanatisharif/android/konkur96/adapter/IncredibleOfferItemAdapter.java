@@ -47,8 +47,12 @@ public class IncredibleOfferItemAdapter extends RecyclerView.Adapter<IncredibleO
 
         holder.customShopItemView.setClickItem(position, item);
         holder.customShopItemView.setTitle(item.getName());
-        holder.customShopItemView.setPrice(ShopUtils.formatPrice(item.getAmount()));
-        holder.customShopItemView.setVisibilityDiscount(View.GONE);
+        holder.customShopItemView.setPrice(ShopUtils.formatPrice(item.getPrice().getMfinal()));
+        if (item.getPrice().getDiscount() > 0){
+
+            holder.customShopItemView.setDiscount(ShopUtils.formatPrice(item.getPrice().getBase()));
+
+        }
         holder.customShopItemView.setImage(item.getPhoto());
 
         holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ProductDetailFragment.newInstance(item),"ProductDetailFragment"));
