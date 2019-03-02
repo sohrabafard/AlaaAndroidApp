@@ -66,7 +66,7 @@
             </intent-filter>
 
 
-            <!-- <intent-filter>
+             <intent-filter>
                  <action android:name="android.intent.action.VIEW" />
 
                  <category android:name="android.intent.category.DEFAULT" />
@@ -133,9 +133,19 @@
                      android:scheme="http"
                      android:host="sanatisharif.ir"
                      android:pathPrefix="/login" />
-             </intent-filter>-->
+             </intent-filter>
 
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="sanatisharif.ir"
+                    android:pathPrefix="/shop" />
+            </intent-filter>
         </activity>
         <activity
             android:name="ir.sanatisharif.android.konkur96.activity.OnBoardingActivity"

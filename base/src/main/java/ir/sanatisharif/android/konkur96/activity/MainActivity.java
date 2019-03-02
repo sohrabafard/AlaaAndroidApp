@@ -229,6 +229,9 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                     Log.i(TAG, "handleIntent4: login");
                     addFrg(RegisterFrg.newInstance(), "RegisterFrg");
                     break;
+                case "/shop":
+                    addFrg(RegisterFrg.newInstance(), "ShopMainFragment");
+                    break;
             }
         }
 
