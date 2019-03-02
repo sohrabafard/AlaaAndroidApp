@@ -3,10 +3,13 @@ package ir.sanatisharif.android.konkur96.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,16 +23,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
@@ -328,6 +338,14 @@ public class ProductDetailFragment extends BaseFragment {
                 if (type == MainAttrType.SIMPLE){
 
                     createSimpleAttr(attr);
+
+                }else if (type == MainAttrType.CHECKBOX){
+
+                    createCheckBoxAttr(attr);
+
+                }else if (type == MainAttrType.DROPDOWN){
+
+                    createDropDown(attr);
                 }
             }
         }
@@ -344,7 +362,7 @@ public class ProductDetailFragment extends BaseFragment {
         textView.setLayoutParams(params);
         textView.setTextColor(Color.BLACK);
         textView.setTextSize(17);
-        textView.setGravity(Gravity.CENTER);
+        textView.setGravity(Gravity.RIGHT);
         textView.setPadding(15, 5, 15, 5);
         textView.setTypeface(AppConfig.fontIRSensLight);
 
@@ -359,11 +377,64 @@ public class ProductDetailFragment extends BaseFragment {
         bodyMainAttr.addView(textView);
     }
 
+    private void createCheckBoxAttr(AttributeModel attr){
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+
+        for (AttributeDataModel attrData : attr.getData()) {
+
+            CheckBox checkBox = new CheckBox(getContext());
+            checkBox.setLayoutParams(params);
+            checkBox.setText(attrData.getName());
+            checkBox.setTextColor(Color.BLACK);
+            checkBox.setTextSize(17);
+            checkBox.setGravity(Gravity.RIGHT);
+            checkBox.setPadding(15, 5, 15, 5);
+            checkBox.setTypeface(AppConfig.fontIRSensLight);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                checkBox.setButtonTintList(ContextCompat.getColorStateList(getContext(), R.color.checkboxtint));
+            }
+            bodyMainAttr.addView(checkBox);
+        }
+    }
+
+    private void createDropDown(AttributeModel attr){
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        List<String> spinnerArray = new ArrayList<>();
+        @SuppressLint("UseSparseArrays")
+        HashMap<Integer,String> spinnerMap = new HashMap<>();
+
+        Spinner spinner = new Spinner(getContext());
+        spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+        spinner.setLayoutParams(params);
+        for (AttributeDataModel attrData : attr.getData()) {
+
+            spinnerArray.add(attrData.getName());
+            spinnerMap.put(attrData.getId(),attrData.getName());
+        }
+        ArrayAdapter<String> attrAdapter = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_spinner_item, spinnerArray);
+
+        attrAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(attrAdapter);
+
+        bodyMainAttr.addView(spinner);
+
+    }
+
     private void showAtrrDialog() {
 
         FragmentManager fm = getFragmentManager();
         DialogFragment newFragment = new ProductAttrDialogFragment(model.getAttributes().getInformation());
         newFragment.show(fm, "ProductAttr");
+
     }
 
     private void showSampleProduct() {
