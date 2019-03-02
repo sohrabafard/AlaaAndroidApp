@@ -2,6 +2,7 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -11,6 +12,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -29,11 +34,14 @@ import org.greenrobot.eventbus.EventBus;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.ProductBonsAdapter;
+import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
+import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
+import ir.sanatisharif.android.konkur96.model.MainAttrType;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.utils.GalleryWorker;
@@ -48,10 +56,11 @@ public class ProductDetailFragment extends BaseFragment {
     private ImageView image;
     private FrameLayout intro;
 
-    private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice;
+    private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice, txtMainAttrCom;
     private JustifiedTextView txtShortDesc, txtDesc;
 
     private CardView cardDesc, cardBon;
+    private LinearLayout bodyMainAttr;
 
     private GalleryWorker imgGallery;
 
@@ -215,6 +224,7 @@ public class ProductDetailFragment extends BaseFragment {
 
         txtShortDesc = v.findViewById(R.id.txt_short_desc);
         txtDesc = v.findViewById(R.id.txt_desc);
+        txtMainAttrCom = v.findViewById(R.id.txt_main_attr_com);
 
         image = v.findViewById(R.id.img);
 
@@ -227,6 +237,8 @@ public class ProductDetailFragment extends BaseFragment {
         cardDesc = v.findViewById(R.id.card_desc);
         cardBon = v.findViewById(R.id.card_bon);
 
+        bodyMainAttr = v.findViewById(R.id.body_main_attr);
+
 
         bonsRecyclerView = v.findViewById(R.id.recycler_bons);
 
@@ -235,6 +247,7 @@ public class ProductDetailFragment extends BaseFragment {
         txtAuthor.setTypeface(AppConfig.fontIRSensLight);
         txtAtrr.setTypeface(AppConfig.fontIRSensLight);
         txtComment.setTypeface(AppConfig.fontIRSensLight);
+        txtMainAttrCom.setTypeface(AppConfig.fontIRSensLight);
 
         txtPrice.setTypeface(AppConfig.fontIRSensLight);
 
@@ -297,7 +310,53 @@ public class ProductDetailFragment extends BaseFragment {
 
         }
 
+        setMainAttr();
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setMainAttr(){
+
+        if (type == ProductType.CONFIGURABLE) {
+
+            bodyMainAttr.setVisibility(View.VISIBLE);
+
+            for (AttributeModel attr : model.getAttributes().getMain()){
+
+                MainAttrType type = ShopUtils.getMainAttrType(attr);
+
+                if (type == MainAttrType.SIMPLE){
+
+                    createSimpleAttr(attr);
+                }
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void createSimpleAttr(AttributeModel attr){
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        TextView textView = new TextView(getContext());
+        textView.setLayoutParams(params);
+        textView.setTextColor(Color.BLACK);
+        textView.setTextSize(17);
+        textView.setGravity(Gravity.CENTER);
+        textView.setPadding(15, 5, 15, 5);
+        textView.setTypeface(AppConfig.fontIRSensLight);
+
+        StringBuilder data = new StringBuilder();
+        for (AttributeDataModel attrData : attr.getData()) {
+
+            data.append(" ").append(attrData.getName()).append(" ");
+
+        }
+        textView.setText(attr.getTitle() + " : " + data);
+
+        bodyMainAttr.addView(textView);
     }
 
     private void showAtrrDialog() {
@@ -337,21 +396,6 @@ public class ProductDetailFragment extends BaseFragment {
 
     private void setPrice() {
 
-//        if (type == ProductType.SIMPLE) {
-//
-//            if (model.getAmount() > 0) {
-//
-//                txtPrice.setText(ShopUtils.formatPrice(model.getAmount()) + " تومان ");
-//
-//            } else {
-//
-//                txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
-//            }
-//
-//        } else {
-//
-//            txtPrice.setVisibility(View.GONE);
-//        }
 
         if (model.getPrice().getMfinal() > 0) {
 

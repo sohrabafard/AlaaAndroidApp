@@ -9,12 +9,14 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
+import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
 import ir.sanatisharif.android.konkur96.api.Models.TypeModel;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.model.DownloadUrl;
+import ir.sanatisharif.android.konkur96.model.MainAttrType;
 import ir.sanatisharif.android.konkur96.model.MainShopItem;
 import ir.sanatisharif.android.konkur96.model.ProductSliderModel;
 import ir.sanatisharif.android.konkur96.model.ProductType;
@@ -178,6 +180,36 @@ public class ShopUtils {
                 case "configurable":
 
                     return ProductType.CONFIGURABLE;
+
+                default:
+
+                    return null;
+            }
+
+        }else {
+
+            return null;
+        }
+
+    }
+
+
+    public static MainAttrType getMainAttrType(AttributeModel attributeModel){
+
+        if (attributeModel != null){
+
+            switch (attributeModel.getControl().trim()) {
+                case "simple":
+
+                    return MainAttrType.SIMPLE;
+
+                case "checkBox":
+
+                    return MainAttrType.CHECKBOX;
+
+                case "dropDown":
+
+                    return MainAttrType.DROPDOWN;
 
                 default:
 
