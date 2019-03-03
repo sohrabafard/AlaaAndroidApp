@@ -39,6 +39,7 @@
     <color name="tab_unchecked">#FFFFFF</color>
 
     <color name="White">#FFFFFF</color>
+    <color name="tag_color">#659BE0</color>
     <color name="Ivory">#FFFFF0</color>
     <color name="LightYellow">#FFFFE0</color>
     <color name="Yellow">#FFFF00</color>
@@ -179,6 +180,7 @@
     <color name="Navy">#000080</color>
     <color name="Black">#000000</color>
     <color name="Black_1">#222222</color>
+    <color name="Black_2">#3C3C3C</color>
 
 
     <color name="list_divider">#dedede</color>

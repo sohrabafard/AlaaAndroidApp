@@ -21,6 +21,8 @@ import com.balysv.materialripple.MaterialRippleLayout;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
+import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
 
 /**
  * Created by Mohamad on 11/2/2018.
@@ -29,6 +31,7 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 public abstract class BaseFragment extends Fragment implements LifecycleOwner {
 
     private Toolbar toolbar;
+    private TextView txtTitle;
     private LifecycleRegistry mLifecycleRegistry;
 
 
@@ -47,13 +50,20 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
     @Override
     public void onStart() {
         super.onStart();
-
         mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+    }
+
+
+    @Override
     public void onStop() {
         super.onStop();
+        AppConfig.mInstance.setICheckNetwork(null);
         mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
     }
 
@@ -77,7 +87,9 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
 
-        ((TextView) (mToolbar.findViewById(R.id.txtToolbarTitle))).setText(txtTitle);
+        if (mToolbar.getChildAt(0) instanceof TextView) {
+            ((TextView) (mToolbar.findViewById(R.id.txtToolbarTitle))).setText(txtTitle);
+        }
 
         toolbar = mToolbar;
     }

@@ -1,0 +1,107 @@
+{
+  "id": 8844,
+  "contenttype_id": 8,
+  "name": "فصل چهارم فیزیک دوازدهم: برهم کنش های موج (قسمت چهارم)، قوانین تار مرتعش",
+  "description": "<p>رسیدیم به بحث قوانین تارهای مرتعش، بحثایی که در موج ایستاده داریم، میخوایم ببینم موج ایستاده وقتی در تارهای مرتعش ایجاد میشه چه مسائلی رو در بر داره، مثال های خوبی رو براتون انتخاب کردم که با هم میبینیم.</p>",
+  "tags": {
+    "bucket": "content",
+    "tags": [
+      "فیلم",
+      "فیزیک",
+      "کازرانیان",
+      "کنکور",
+      "رشته_ریاضی",
+      "رشته_تجربی",
+      "نظام_آموزشی_جدید",
+      "متوسطه2",
+      "صفر_تا_صد",
+      "ضبط_استودیو",
+      "دوازدهم"
+    ]
+  },
+  "context": null,
+  "file": {
+    "video": [
+      {
+        "uuid": "b24f92f9-1d0d-408e-a1b8-117ca694bcbf",
+        "disk": "alaaCdnSFTP",
+        "url": "https://cdn.sanatisharif.ir/media/202/HD_720p/202082body.mp4",
+        "fileName": "/media/202/HD_720p/202082body.mp4",
+        "size": null,
+        "caption": "کیفیت عالی",
+        "res": "720p",
+        "type": "video",
+        "ext": "mp4",
+        "link": "https://cdn.sanatisharif.ir/media/202/HD_720p/202082body.mp4"
+      },
+      {
+        "uuid": "13450394-e60a-45b3-8b3d-e2c1c597c0dc",
+        "disk": "alaaCdnSFTP",
+        "url": "https://cdn.sanatisharif.ir/media/202/hq/202082body.mp4",
+        "fileName": "/media/202/hq/202082body.mp4",
+        "size": null,
+        "caption": "کیفیت بالا",
+        "res": "480p",
+        "type": "video",
+        "ext": "mp4",
+        "link": "https://cdn.sanatisharif.ir/media/202/hq/202082body.mp4"
+      },
+      {
+        "uuid": "519a0914-0e5f-4fef-b04b-18b37a9ed083",
+        "disk": "alaaCdnSFTP",
+        "url": "https://cdn.sanatisharif.ir/media/202/240p/202082body.mp4",
+        "fileName": "/media/202/240p/202082body.mp4",
+        "size": null,
+        "caption": "کیفیت متوسط",
+        "res": "240p",
+        "type": "video",
+        "ext": "mp4",
+        "link": "https://cdn.sanatisharif.ir/media/202/240p/202082body.mp4"
+      }
+    ]
+  },
+  "duration": null,
+  "thumbnail": "https://cdn.sanatisharif.ir/media/thumbnails/202/202082body.jpg",
+  "isFree": 1,
+  "order": 82,
+  "page_view": null,
+  "created_at": "2019-01-18 09:40:45",
+  "updated_at": "2019-01-27 17:15:17",
+  "url": "http://79.127.123.246:8080/c/8844",
+  "author": {
+    "firstName": null,
+    "lastName": "کازرانیان"
+  },
+  "set": {
+    "id": 202,
+    "name": "صفر تا صد فیزیک کنکور(نظام آموزشی جدید) (1397-1398) کازرانیان",
+    "description": null,
+    "photo": "https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/physics1809261648.jpg",
+    "tags": {
+      "bucket": "contentset",
+      "tags": [
+        "فیزیک",
+        "کنکور",
+        "رشته_تجربی",
+        "رشته_ریاضی",
+        "کازرانیان",
+        "نظام_آموزشی_جدید",
+        "متوسطه2",
+        "دوره_آموزشی",
+        "دهم",
+        "صفر_تا_صد",
+        "یازدهم",
+        "دوازدهم"
+      ]
+    },
+    "created_at": "2018-09-26 16:00:00",
+    "updated_at": "2018-09-26 16:00:00",
+    "contents_count": 84,
+    "url": "http://79.127.123.246:8080/c/8844",
+    "shortName": "0 تا 100 فیزیک کنکور نظام جدید",
+    "author": {
+      "firstName": null,
+      "lastName": "کازرانیان"
+    }
+  }
+}

@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
@@ -35,6 +37,8 @@ import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.listener.OnItemLongListener;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
+import ir.sanatisharif.android.konkur96.ui.GlideRequest;
+import ir.sanatisharif.android.konkur96.ui.GlideRequests;
 
 
 /**
@@ -42,7 +46,7 @@ import ir.sanatisharif.android.konkur96.ui.GlideApp;
  */
 public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloadedAdapter.CustomViewHolder> {
 
-    private ArrayList<Video> list;
+    private List<Video> list;
     private Context mContext;
     private int layout;
     private String TAG = "LOG";
@@ -50,14 +54,24 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
     private OnItemLongListener onItemLongListener;
     private OnItemCheckedListener onItemCheckedListener;
     private Boolean isVisible = false;
-    int type = 0;
+    private final GlideRequest<Drawable> requestBuilder;
+    int type = 0, height, width, size_grid = 0;
 
-    public VideoDownloadedAdapter(Context context, ArrayList<Video> list, int type) {
+    public VideoDownloadedAdapter(Context context, List<Video> list, int type, GlideRequests glideRequests) {
         this.list = list;
         this.mContext = context;
         this.type = type;
+        requestBuilder = glideRequests.asDrawable().fitCenter();
+        setSize();
     }
 
+    private void setSize() {
+
+        height = (int) (AppConfig.width * 0.39f);
+        height -= 48;
+        width = (int) (height * 1.77f);
+        size_grid = (AppConfig.width / 3);
+    }
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -76,29 +90,24 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
             @Override
             public void onClick(View view) {
 
-               /* if (onItemClickListener != null)
-                    onItemClickListener.onItemClick(position, item, view, holder);*/
-
                 Intent intent = new Intent(AppConfig.currentActivity, VideoPlayActivity.class);
-                intent.putExtra("video", (Video) item);
+                intent.putExtra("path", item.getPath());
                 AppConfig.currentActivity.startActivity(intent);
             }
         });
 
         if (type == AppConstants.VIDEO_SHOW_LINEAR) {
 
-            int height = (int) (AppConfig.width * 0.39f);
-            height -= 48;
-            int width = (int) (height * 1.77f);
-
             holder.imgFrame.getLayoutParams().width = width;
             holder.imgFrame.getLayoutParams().height = height;
 
             if (FileManager.checkFileExist(item.getPath())) {
-                GlideApp.with(AppConfig.context)
+                requestBuilder
                         .load(Uri.fromFile(new File(item.getPath())))
                         .override(width, height)
                         .thumbnail(0.1f)
+                        .dontTransform()
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                         .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
                         .into(new SimpleTarget<Drawable>(460, 259) {
                             @Override
@@ -116,8 +125,8 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
 
                 if (AppConfig.width != 0) {
 
-                    holder.imgFrame.getLayoutParams().width = (AppConfig.width / 3);
-                    holder.imgFrame.getLayoutParams().height = (AppConfig.width / 3);
+                    holder.imgFrame.getLayoutParams().width = size_grid;
+                    holder.imgFrame.getLayoutParams().height = size_grid;
 
                 } else {
 
@@ -126,12 +135,19 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
                 }
 
                 //get frame local
-                GlideApp.with(AppConfig.currentActivity)
+                requestBuilder
                         .load(Uri.fromFile(new File(item.getPath())))
+                        .override(holder.imgFrame.getWidth(), holder.imgFrame.getWidth())
                         .centerCrop()
                         .thumbnail(0.1f)
-                        .override(holder.imgFrame.getWidth(), holder.imgFrame.getWidth())
-                        .into(holder.imgFrame);
+                        .dontTransform()
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                        .into(new SimpleTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                                holder.imgFrame.setImageDrawable(resource);
+                            }
+                        });
             }
 
             holder.imgFrame.setOnLongClickListener(new View.OnLongClickListener() {

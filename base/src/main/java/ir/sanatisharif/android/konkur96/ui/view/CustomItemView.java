@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,6 +23,7 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 
 import ir.sanatisharif.android.konkur96.model.Item;
+import ir.sanatisharif.android.konkur96.model.main_page.Set;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
 
 
@@ -34,12 +36,11 @@ public class CustomItemView extends LinearLayout {
     //-------- define primary type
     private String title;
     private String author;
-    private int viewCount;
     private int contentCount;
     private String imageUrl;
     private int width, height;
     private int position;
-    private Item item;
+    private Set item;
 
     //-------  define views
     private View view;
@@ -73,7 +74,7 @@ public class CustomItemView extends LinearLayout {
             title = a.getString(R.styleable.CustomItemView_title) != null ? a.getString(R.styleable.CustomItemView_title) : "not set";
             author = a.getString(R.styleable.CustomItemView_author) != null ? a.getString(R.styleable.CustomItemView_author) : "not set";
             contentCount = a.getInteger(R.styleable.CustomItemView_contentCount, 0);
-            viewCount = a.getInteger(R.styleable.CustomItemView_viewCount, 0);
+            //viewCount = a.getInteger(R.styleable.CustomItemView_viewCount, 0);
 
         } finally {
             a.recycle();
@@ -82,7 +83,7 @@ public class CustomItemView extends LinearLayout {
         init(context);
     }
 
-    public void setClickItem(int pos, Item item) {
+    public void setClickItem(int pos, Set item) {
 
         this.position = pos;
         this.item = item;
@@ -165,56 +166,6 @@ public class CustomItemView extends LinearLayout {
         });
 
     }
-
-  /*  public void setItem(final Item item, final int position) {
-
-        txtTitle.setText(item.getTitle());
-        txtAuthor.setText(item.getAuthor() + " | ");
-        txtContentCount.setText("6");
-
-        txtTitle.measure(0, 0);
-        txtAuthor.measure(0, 0);
-
-        //w= 460 and h = 259
-        height = AppConfig.itemHeight - txtTitle.getMeasuredHeight() - txtAuthor.getMeasuredHeight();
-
-        height -= 24;
-        width = (int) (height * 1.77f);
-
-        imgItem.getLayoutParams().width = width;
-        imgItem.getLayoutParams().height = height;
-
-        GlideApp.with(AppConfig.context)
-                .load(item.getImageUrl())
-                .override(width, height)
-                .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
-                .into(new SimpleTarget<Drawable>(460, 259) {
-                    @Override
-                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                        imgItem.setImageDrawable(resource);
-                    }
-                });
-
-
-        cardViewRoot.setOnClickListener(new OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View v) {
-
-                if (onClickItem != null) {
-                    onClickItem.OnClick(position, item);
-                }
-            }
-        });
-
-       *//* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ViewAnimationUtils.createCircularReveal(layout_click,
-                    (int) motionEvent.getX(),
-                    (int) motionEvent.getX(),
-                    0,
-                    100 * 2).start();
-        }*//*
-    }*/
 
     private void loadImageWithGlide(String url) {
 

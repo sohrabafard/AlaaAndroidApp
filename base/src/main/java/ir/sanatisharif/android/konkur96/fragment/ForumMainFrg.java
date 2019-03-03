@@ -1,7 +1,6 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProviders;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.viewmodel.UserViewModel;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -41,10 +39,10 @@ public class ForumMainFrg extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ViewModel viewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-
-        recyclerView=view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        ViewModel viewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+//
+//        recyclerView=view.findViewById(R.id.recyclerView);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
     }
 }

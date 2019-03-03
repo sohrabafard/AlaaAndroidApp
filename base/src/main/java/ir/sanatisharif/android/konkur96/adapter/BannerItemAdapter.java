@@ -18,20 +18,22 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.BannerItem;
+import ir.sanatisharif.android.konkur96.model.main_page.Banner;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
 
 
 public class BannerItemAdapter extends RecyclerView.Adapter<BannerItemAdapter.BannerHolder> {
 
-    private ArrayList<BannerItem> itemsList;
+    private List<Banner> itemsList;
     private Context mContext;
 
 
-    public BannerItemAdapter(Context context, ArrayList<BannerItem> itemsList) {
+    public BannerItemAdapter(Context context, List<Banner> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -45,9 +47,8 @@ public class BannerItemAdapter extends RecyclerView.Adapter<BannerItemAdapter.Ba
     @Override
     public void onBindViewHolder(final BannerHolder holder, final int position) {
 
-        BannerItem item = itemsList.get(position);
+        Banner item = itemsList.get(position);
 
-        holder.txtTitle.setText(item.getTitle());
 
         int h = AppConfig.itemHeight - 34;
         int w = (int) (AppConfig.width * 0.75f);

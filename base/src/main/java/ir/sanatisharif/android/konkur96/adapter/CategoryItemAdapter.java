@@ -5,21 +5,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
-import ir.sanatisharif.android.konkur96.model.CategoryItemSet;
+import ir.sanatisharif.android.konkur96.app.AppConstants;
+import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
+import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
+import ir.sanatisharif.android.konkur96.model.main_page.Set;
 import ir.sanatisharif.android.konkur96.ui.view.CustomItemView;
+import ir.sanatisharif.android.konkur96.utils.Utils;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapter.CategoryHolder> {
 
-    private ArrayList<CategoryItemSet> itemsList;
+    private List<Set> itemsList;
     private Context mContext;
 
 
-    public CategoryItemAdapter(Context context, ArrayList<CategoryItemSet> itemsList) {
+    public CategoryItemAdapter(Context context, List<Set> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -38,19 +41,19 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
     @Override
     public void onBindViewHolder(final CategoryHolder holder, final int position) {
 
-        CategoryItemSet item = itemsList.get(position);
+        final Set item = itemsList.get(position);
         holder.customItemView.setClickItem(position, item);
-        holder.customItemView.setTitle(item.getTitle());
-        holder.customItemView.setAuthor(item.getAuthor());
-      //  holder.customItemView.setContentCount(6);
-        holder.customItemView.setImage(item.getImageUrl());
-
+        holder.customItemView.setTitle(item.getShortName());
+        holder.customItemView.setAuthor(item.getAuthor().getLastName());
+        holder.customItemView.setContentCount(item.getContentsCount());
+        holder.customItemView.setImage(item.getPhoto());
 
         holder.getCustomCatItem().setOnClickItem(new CustomItemView.OnClickItem() {
             @Override
             public void OnClick(int position, Object item) {
 
-                addFrg(DetailsVideoFrg.newInstance(itemsList.get(position)), "DetailsVideoFrg");
+                String url = itemsList.get(position).getContentUrl();
+                addFrg(FilterTagsFrg.newInstance(url, null), "DetailsVideoFrg");
             }
         });
     }
