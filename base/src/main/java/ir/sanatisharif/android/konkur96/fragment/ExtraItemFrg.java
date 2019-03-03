@@ -1,9 +1,9 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,18 +15,25 @@ import android.view.ViewGroup;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.activity.SettingActivity;
-import ir.sanatisharif.android.konkur96.adapter.ExtraItemAdapter;
+import ir.sanatisharif.android.konkur96.activity.ActivityBase;
+import ir.sanatisharif.android.konkur96.adapter.FilterAdapter;
+import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
-import ir.sanatisharif.android.konkur96.model.CategoryItemSet;
-import ir.sanatisharif.android.konkur96.model.Content;
+import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
+import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.Events;
-
-import static ir.sanatisharif.android.konkur96.activity.ActivityBase.toastShow;
+import ir.sanatisharif.android.konkur96.model.filter.Filter;
+import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
+import ir.sanatisharif.android.konkur96.model.main_page.Set;
+import ir.sanatisharif.android.konkur96.ui.GlideApp;
+import ir.sanatisharif.android.konkur96.ui.GlideRequests;
+import ir.sanatisharif.android.konkur96.ui.view.MDToast;
+import ir.sanatisharif.android.konkur96.utils.Utils;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -34,22 +41,21 @@ import static ir.sanatisharif.android.konkur96.activity.ActivityBase.toastShow;
 
 public class ExtraItemFrg extends BaseFragment {
 
-    private RecyclerView myRecyclerView;
     private Toolbar mToolbar;
-    private ExtraItemAdapter adapter;
-    private ArrayList<Object> categoryItemSets = new ArrayList<>();
-    //fake
-    private int type;
+    private RecyclerView myRecyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private FilterAdapter adapter;
+    private List<FilterBaseModel> mList = new ArrayList<>();
+    private List<String> params;
 
-    public static ExtraItemFrg newInstance(int type) {
+    public static ExtraItemFrg newInstance(String url) {
 
         Bundle args = new Bundle();
-        args.putInt("type", type);
+        args.putString("url", url);
         ExtraItemFrg fragment = new ExtraItemFrg();
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,9 +67,15 @@ public class ExtraItemFrg extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         initView(view);
-        setDummyData();
+
+        params = Utils.getParamsFromUrl(getArguments().getString("url"));
+        if (params != null)
+            getData();
+        else
+            ActivityBase.toastShow(getResources().getString(R.string.errNotExistTags), MDToast.TYPE_ERROR);
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -72,143 +84,29 @@ public class ExtraItemFrg extends BaseFragment {
         switch (id) {
             case android.R.id.home:
 
-                toastShow("ssss",0);
                 Events.CloseFragment closeFragment = new Events.CloseFragment();
                 closeFragment.setTagFragments("");
                 EventBus.getDefault().post(closeFragment);
 
                 break;
-
         }
 
         return super.onOptionsItemSelected(item);
-    }
-    private void setDummyData() {
-
-        CategoryItemSet videoItemSet = new CategoryItemSet();
-        //category dummy
-        if (getArguments().getInt("type") == AppConstants.CATEGORY_ITEM_SET) {
-
-            videoItemSet.setId(0);
-            videoItemSet.setTitle("صفر تا صد فیزیک کنکور");
-            videoItemSet.setAuthor(" کازیان ");
-            videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/physics1809261648.jpg?w=460&h=259");
-            videoItemSet.setDuration("1:23");
-            videoItemSet.setView("300");
-            categoryItemSets.add(videoItemSet);
-
-            videoItemSet = new CategoryItemSet();
-            videoItemSet.setId(1);
-            videoItemSet.setTitle("صفر تا صد شیمی کنکور");
-            videoItemSet.setAuthor(" مهدی صنیعی ");
-            videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/shimi_1809301705.jpg?w=460&h=259");
-            videoItemSet.setDuration("1:23");
-            videoItemSet.setView("300");
-            categoryItemSets.add(videoItemSet);
-
-            videoItemSet = new CategoryItemSet();
-            videoItemSet.setId(2);
-            videoItemSet.setTitle("صفر تا صد حسابان کنکور");
-            videoItemSet.setAuthor("  صادق ثابتی ");
-            videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/hesaban_1806091555.jpg?w=460&h=259");
-            videoItemSet.setDuration("1:23");
-            videoItemSet.setView("300");
-            categoryItemSets.add(videoItemSet);
-
-
-            videoItemSet = new CategoryItemSet();
-            videoItemSet.setId(3);
-            videoItemSet.setTitle("صفر تا صد ریاضی تجربی کنکور");
-            videoItemSet.setAuthor(" محمد صادق ثابتی ");
-            videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/riyazi_tajrobi_1809261626.jpg?w=460&h=259");
-            videoItemSet.setDuration("1:23");
-            videoItemSet.setView("300");
-            categoryItemSets.add(videoItemSet);
-
-            videoItemSet = new CategoryItemSet();
-            videoItemSet.setId(4);
-            videoItemSet.setTitle("صفر تا صد عربی کنکور");
-            videoItemSet.setAuthor(" پدرام علیمرادی");
-            videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/arabi_1806091641.jpg?w=460&h=259");
-            videoItemSet.setDuration("1:23");
-            videoItemSet.setView("300");
-            categoryItemSets.add(videoItemSet);
-
-            videoItemSet = new CategoryItemSet();
-            videoItemSet.setId(5);
-            videoItemSet.setTitle("صفر تا صد منطق کنکور");
-            videoItemSet.setAuthor(" حسام الدین حلالی");
-            videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/171005032754.jpg?w=460&h=259");
-            videoItemSet.setDuration("1:23");
-            videoItemSet.setView("300");
-            categoryItemSets.add(videoItemSet);
-
-        }
-        //content dummy
-
-        if (getArguments().getInt("type") == AppConstants.CONTENT_ITEM_SET) {
-            Content content = new Content();
-            content.setId(0);
-            content.setDocType(R.drawable.ic_pdf);
-            content.setTitle("صفر تا صد فیزیک کنکور");
-            content.setAuthor(" کازیان ");
-            content.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/physics1809261648.jpg?w=460&h=259");
-            content.setView("300");
-            categoryItemSets.add(content);
-
-            content = new Content();
-            content.setId(1);
-            content.setDocType(R.drawable.ic_pdf);
-            content.setTitle("صفر تا صد شیمی کنکور");
-            content.setAuthor(" مهدی صنیعی ");
-            content.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/shimi_1809301705.jpg?w=460&h=259");
-            content.setView("300");
-            categoryItemSets.add(content);
-
-            content = new Content();
-            content.setId(2);
-            content.setDocType(R.drawable.ic_html);
-            content.setTitle("صفر تا صد حسابان کنکور");
-            content.setAuthor("  صادق ثابتی ");
-            content.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/hesaban_1806091555.jpg?w=460&h=259");
-            content.setView("300");
-            categoryItemSets.add(content);
-
-            content = new Content();
-            content.setId(4);
-            content.setDocType(R.drawable.ic_html);
-            content.setTitle("صفر تا صد عربی کنکور");
-            content.setAuthor(" پدرام علیمرادی");
-            content.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/arabi_1806091641.jpg?w=460&h=259");
-            content.setView("300");
-            categoryItemSets.add(content);
-
-            content = new Content();
-            content.setId(5);
-            content.setDocType(R.drawable.ic_html);
-            content.setTitle("صفر تا صد منطق کنکور");
-            content.setAuthor(" حسام الدین حلالی");
-            content.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/171005032754.jpg?w=460&h=259");
-            content.setView("300");
-            categoryItemSets.add(content);
-
-        }
-        adapter.updateList(categoryItemSets);
-        adapter.notifyDataSetChanged();
-
     }
 
     private void initView(View v) {
 
         setHasOptionsMenu(true);
         mToolbar = (Toolbar) v.findViewById(R.id.toolbar);
-        setToolbar(mToolbar,"");
-        //recylerview
+        setToolbar(mToolbar, "");
+
+        swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
         myRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
         myRecyclerView.setNestedScrollingEnabled(false);
         myRecyclerView.setHasFixedSize(true);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
-        adapter = new ExtraItemAdapter(AppConfig.context, getArguments().getInt("type"));
+        adapter = new FilterAdapter(AppConfig.context, mList, GlideApp.with(this));
         myRecyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
@@ -218,6 +116,38 @@ public class ExtraItemFrg extends BaseFragment {
             }
         });
     }
+
+    private void getData() {
+
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
+
+        MainApi.getInstance().getContentOnlyCall(params.get(0), new IServerCallbackObject() {
+            @Override
+            public void onSuccess(Object obj) {
+
+                Filter filter = (Filter) obj;
+                if (filter.getResult().getVideo() != null) {
+                    List<VideoCourse> videos = filter.getResult().getVideo().getData();
+                    mList.addAll(videos);
+                }
+
+                adapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+
+            }
+
+            @Override
+            public void onFailure(String message) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
 
 }
 

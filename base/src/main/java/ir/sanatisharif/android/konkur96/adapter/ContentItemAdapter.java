@@ -6,21 +6,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
 import ir.sanatisharif.android.konkur96.model.Content;
 import ir.sanatisharif.android.konkur96.ui.view.CustomItemView;
+import ir.sanatisharif.android.konkur96.utils.Utils;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class ContentItemAdapter extends RecyclerView.Adapter<ContentItemAdapter.ContentHolder> {
 
-    private ArrayList<Content> itemsList;
+    private List<Content> itemsList;
     private Context mContext;
 
 
-    public ContentItemAdapter(Context context, ArrayList<Content> itemsList) {
+    public ContentItemAdapter(Context context, List<Content> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -40,21 +42,20 @@ public class ContentItemAdapter extends RecyclerView.Adapter<ContentItemAdapter.
     public void onBindViewHolder(final ContentHolder holder, final int position) {
 
         Content item = itemsList.get(position);
-        holder.customItemView.setClickItem(position, item);
+        //holder.customItemView.setClickItem(position, item);
         holder.customItemView.setTitle(item.getTitle());
-        holder.customItemView.setAuthor(item.getAuthor());
+        holder.customItemView.setAuthor(item.getAuthor().getLastName());
         holder.customItemView.setContentCount(16);
-        holder.customItemView.setImage(item.getImageUrl());
+        holder.customItemView.setImage(item.getPhoto());
 
         holder.getCustomCatItem().setOnClickItem(new CustomItemView.OnClickItem() {
             @Override
             public void OnClick(int position, Object item) {
 
-                addFrg(ExtraItemFrg.newInstance(AppConstants.CONTENT_ITEM_SET), "ExtraItemFrg");
+
+                //addFrg(ExtraItemFrg.newInstance(AppConstants.ITEM_CONTENT), "ExtraItemFrg");
             }
         });
-
-
     }
 
     @Override

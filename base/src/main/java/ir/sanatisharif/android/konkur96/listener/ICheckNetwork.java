@@ -6,5 +6,5 @@ package ir.sanatisharif.android.konkur96.listener;
 
 public interface ICheckNetwork {
 
-    void onCheckNetwork(Boolean flag);
+    void onCheckNetwork(boolean flag);
 }

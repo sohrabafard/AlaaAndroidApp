@@ -12,12 +12,15 @@ import android.os.Handler;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.ProgressBar;
 
 
 import java.io.File;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
+import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
+import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -26,12 +29,14 @@ public class AppConfig extends Application {
 
     //   private GoogleAnalytics sAnalytics;
 
+    public static AppConfig mInstance;
     public static Context context;
     public static Activity currentActivity;
     public static Handler HANDLER = new Handler();
     public static LayoutInflater layoutinflater;
     static ConnectivityManager Manager = null;
     public static int width = 140, height = 140, itemHeight = 140;
+    public static boolean showNoInternetDialog = false;
 
     // Font
     public static Typeface fontIRSensLight;
@@ -40,6 +45,7 @@ public class AppConfig extends Application {
     //new
     public static final String TAG = AppConfig.class.getSimpleName();
     public static SharedPreferences sharedPreferencesSetting;
+    public static int[] colorSwipeRefreshing;
 
     @Override
     public void onCreate() {
@@ -47,6 +53,7 @@ public class AppConfig extends Application {
 
         //  Fabric.with(this, new Crashlytics());
 
+        mInstance = this;
         context = getApplicationContext();
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -74,5 +81,26 @@ public class AppConfig extends Application {
             FileManager.createRootDir();//create root
             FileManager.createAudioDir();//create audio
         }
+
+        if (colorSwipeRefreshing == null)
+            colorSwipeRefreshing = new int[]
+                    {
+                            getResources().getColor(R.color.Monochromatic_1),
+                            getResources().getColor(R.color.Monochromatic_2),
+                            getResources().getColor(R.color.Monochromatic_3),
+                            getResources().getColor(R.color.Monochromatic_4),
+                    };
+    }
+
+    public static synchronized AppConfig getInstance() {
+        return mInstance;
+    }
+
+    public void setICheckNetwork(ICheckNetwork iCheckNetwork) {
+        NetworkChangedReceiver.iCheckNetwork = iCheckNetwork;
+    }
+
+    public void changeProgressColor(ProgressBar loader) {
+        loader.getIndeterminateDrawable().setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 }

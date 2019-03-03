@@ -1,16 +1,13 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.wrappers.InstantApps;
@@ -27,26 +26,26 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.security.PrivateKey;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
-import ir.sanatisharif.android.konkur96.adapter.VideoDownloadedAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
-import ir.sanatisharif.android.konkur96.model.BannerItem;
 import ir.sanatisharif.android.konkur96.model.CategoryItemSet;
-import ir.sanatisharif.android.konkur96.model.Content;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.Video;
-import ir.sanatisharif.android.konkur96.model.ViewSlider;
+import ir.sanatisharif.android.konkur96.model.filter.VideoRoot;
+import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import ir.sanatisharif.android.konkur96.ui.view.CircleTransform;
+import ir.sanatisharif.android.konkur96.utils.AccountInfo;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
+import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -54,10 +53,13 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class DashboardMainFrg1 extends BaseFragment {
 
-    private Button btnRegister;
+    private User user;
+    private AccountInfo accountInfo;
+    private LinearLayout linStudentInfo, linDashboardHeader, linStudentImage;
     private ImageView imgUser;
     private Toolbar mToolbar;
     private RecyclerView myRecyclerView;
+    private TextView txtNationalCode, txtMobile, txtFullName, txtField;
 
     private MainItemAdapter adapter;
     private ArrayList<MainItem> items = new ArrayList<>();
@@ -80,24 +82,13 @@ public class DashboardMainFrg1 extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+        accountInfo = new AccountInfo(getContext(), getActivity());
+        user = accountInfo.getInfo(ACCOUNT_TYPE);
         initUi(view);
-        setDummyData();
+        setData();
 
-        GlideApp.with(AppConfig.context)
-                .load("http://yakhmakgroup.ir/jokLike/v1/images/imageLogo/1765554797035373646.jpg")
-                .transform(new CircleTransform(AppConfig.context))
-                .into(imgUser);
-
-
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                addFrg(RegisterFrg.newInstance(), "RegisterFrg");
-            }
-        });
     }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -124,23 +115,52 @@ public class DashboardMainFrg1 extends BaseFragment {
 
     private void initUi(View view) {
 
-
-        RecyclerView myRecyclerView;
-
-        btnRegister = view.findViewById(R.id.btnRegister);
-        imgUser = view.findViewById(R.id.imgUser);
-        myRecyclerView = view.findViewById(R.id.recyclerView);
-
         setToolbar(mToolbar, "داشبورد");
 
+        //init
+        linDashboardHeader = view.findViewById(R.id.linDashboardHeader);
+        linStudentInfo = view.findViewById(R.id.linStudentInfo);
+        imgUser = view.findViewById(R.id.imgUser);
+        myRecyclerView = view.findViewById(R.id.recyclerView);
+        txtFullName = view.findViewById(R.id.txtFullName);
+        txtField = view.findViewById(R.id.txtField);
+        txtMobile = view.findViewById(R.id.txtMobile);
+        txtNationalCode = view.findViewById(R.id.txtNationalCode);
+
+        //set adapter recyclerview
         myRecyclerView.setNestedScrollingEnabled(false);
         myRecyclerView.setHasFixedSize(true);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
-        adapter = new MainItemAdapter(AppConfig.context, items);
+        adapter = new MainItemAdapter(AppConfig.context, items,GlideApp.with(this));
         adapter.setSize(AppConfig.width, AppConfig.height);
         myRecyclerView.setAdapter(adapter);
 
+        //------ overlay linear student over header
     }
+
+    //<editor-fold desc="set data">
+    private void setData() {
+        if (user != null) {
+            GlideApp.with(AppConfig.context)
+                    .load("http")
+                    .transform(new CircleTransform())
+                    .placeholder(R.mipmap.ic_launcher)
+                    .into(imgUser);
+
+            if (user.getLastName() != null && user.getFirstName() != null)
+                txtFullName.setText(user.getFirstName() + " " + user.getLastName());
+            if (user.getInfo().getMajor().getName() != null)
+                txtField.setText(user.getInfo().getMajor().getName());
+            if (user.getMobile() != null)
+                txtMobile.setText(user.getMobile());
+            if (user.getNationalCode() != null)
+                txtNationalCode.setText(user.getNationalCode());
+        }
+
+        loadVideoOffline();
+    }
+    //</editor-fold>
+
 
     @Override
     public void onStart() {
@@ -157,24 +177,16 @@ public class DashboardMainFrg1 extends BaseFragment {
     @Subscribe
     public void getVideos(Events.VideoDeleted videoDeleted) {
 
-
-        ArrayList<Video> videos = (ArrayList<Video>) items.get(0).getItems();//item 0 is video list
-
-        videos.remove(videoDeleted.getPosition());
-        items.get(0).setItems(videos);
-        adapter.notifyItemRemoved(videoDeleted.getPosition());
+//        ArrayList<Video> videos = (ArrayList<VideoRoot>) items.get(0).getItems();//item 0 is video list
+//
+//        videos.remove(videoDeleted.getPosition());
+//        items.get(0).setVideos(videos);
+//        adapter.notifyItemRemoved(videoDeleted.getPosition());
     }
 
-    /**
-     * Migrates data from the Instant App.
-     */
-    private void migrateDataFromInstantApp() {
+    private void loadVideoOffline() {
 
-    }
-
-    private void setDummyData() {
-
-        MainItem item = new MainItem();
+        MainItem item;
 
         // Only runs on API levels < 26.
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
@@ -182,6 +194,14 @@ public class DashboardMainFrg1 extends BaseFragment {
             if (!InstantApps.isInstantApp(getContext())) {
 
                 if (FileManager.checkFileExist(FileManager.getMediaPath())) {
+
+                    //add header to recycler view
+                    item = new MainItem();
+                    item.setId(0);
+                    item.setTitle("دانلود شده ها");
+                    item.setUrl(AppConstants.MORE_VIDEO_OFFLINE);
+                    item.setType(AppConstants.HEADER_DATA);
+                    items.add(item);
 
                     //get video offline
                     FileManager.getInstance().clearFilesList();
@@ -199,126 +219,20 @@ public class DashboardMainFrg1 extends BaseFragment {
                             v.setSize(f.length() + "");
                             videos.add(v);
                         }
-
-
-                        adapter.notifyDataSetChanged();
                     }
-
+                    item = new MainItem();
                     item.setId(0);
                     item.setType(AppConstants.VIDEO_OFFLINE_ITEM);
-                    item.setTitle("دانلود شده ها");
-                    item.setItems(videos);
+                    item.setVideos(videos);
                     items.add(item);
 
                 }
             }
         }
 
-        //row 1-> category
-        ArrayList<CategoryItemSet> videoItemSets = new ArrayList<>();
-
-        CategoryItemSet videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(0);
-        videoItemSet.setTitle("صفر تا صد فیزیک کنکور");
-        videoItemSet.setAuthor(" کازیان ");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/physics1809261648.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(1);
-        videoItemSet.setTitle("صفر تا صد شیمی کنکور");
-        videoItemSet.setAuthor(" مهدی صنیعی ");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/shimi_1809301705.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(2);
-        videoItemSet.setTitle("صفر تا صد حسابان کنکور");
-        videoItemSet.setAuthor(" محمد صادق ثابتی ");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/hesaban_1806091555.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(3);
-        videoItemSet.setTitle("صفر تا صد ریاضی تجربی کنکور");
-        videoItemSet.setAuthor(" محمد صادق ثابتی ");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/riyazi_tajrobi_1809261626.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(4);
-        videoItemSet.setTitle("صفر تا صد عربی کنکور");
-        videoItemSet.setAuthor(" پدرام علیمرادی");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/arabi_1806091641.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(5);
-        videoItemSet.setTitle("صفر تا صد منطق کنکور");
-        videoItemSet.setAuthor(" حسام الدین حلالی");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/171005032754.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-
-        item = new MainItem();
-        item.setId(0);
-        item.setType(AppConstants.CATEGORY_ITEM_SET);
-        item.setTitle("محبوبترین");
-        item.setItems(videoItemSets);
-        items.add(item);
-
-        //-------------------content-----------------------------------------
-
-        //row 3 -> category
-
-        videoItemSets = new ArrayList<>();
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(0);
-        videoItemSet.setTitle("زیست کنکور");
-        videoItemSet.setAuthor(" ابوالفضل جعفری");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/171125105021.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(1);
-        videoItemSet.setTitle("آرایه های ادبی");
-        videoItemSet.setAuthor(" ابوالفضل جعفری");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/170917011741.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(2);
-        videoItemSet.setTitle("مشاوره");
-        videoItemSet.setAuthor(" محمد علی امینی راد");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/140701010549.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(3);
-        videoItemSet.setTitle("شیمی شب کنکور");
-        videoItemSet.setAuthor(" مهدی صنیعی");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/170920034146.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(3);
-        videoItemSet.setTitle("نکته و تست فیزیک");
-        videoItemSet.setAuthor(" پیمان طلوعی");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/170925055613.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-
-        item = new MainItem();
-        item.setId(1);
-        item.setType(AppConstants.CATEGORY_ITEM_SET);
-        item.setTitle("کنکور نظام قدیم");
-        item.setItems(videoItemSets);
-        items.add(item);
-
 
         adapter.notifyDataSetChanged();
+
     }
 }
 

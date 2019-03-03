@@ -6,31 +6,60 @@ package ir.sanatisharif.android.konkur96.model;
 
 public class ViewSlider {
 
-    private String text;
+    private int id;
+    private int order;
+    private String title;
+    private String shortDescription;
     private String imgUrl;
-    private String intentUrl;
+    private String intentLink;
     private int kindOfIntent;
 
-    public ViewSlider() {}
+    public ViewSlider() {
+    }
 
     public ViewSlider(String text, String imgUrl) {
-        this.text = text;
+        this.title = text;
         this.imgUrl = imgUrl;
     }
 
     public ViewSlider(String text, String imgUrl, String intentUrl, int kindOfIntent) {
-        this.text = text;
+        this.title = text;
         this.imgUrl = imgUrl;
-        this.intentUrl = intentUrl;
+        this.intentLink = intentUrl;
         this.kindOfIntent = kindOfIntent;
     }
 
-    public String getText() {
-        return text;
+
+    public int getId() {
+        return id;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
     }
 
     public String getImgUrl() {
@@ -41,12 +70,12 @@ public class ViewSlider {
         this.imgUrl = imgUrl;
     }
 
-    public String getIntentUrl() {
-        return intentUrl;
+    public String getIntentLink() {
+        return intentLink;
     }
 
-    public void setIntentUrl(String intentUrl) {
-        this.intentUrl = intentUrl;
+    public void setIntentLink(String intentLink) {
+        this.intentLink = intentLink;
     }
 
     public int getKindOfIntent() {

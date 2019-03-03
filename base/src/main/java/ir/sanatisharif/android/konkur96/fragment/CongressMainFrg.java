@@ -1,10 +1,11 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,8 +14,16 @@ import android.widget.Button;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.concurrent.Executor;
+
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.SearchDataSource;
+import ir.sanatisharif.android.konkur96.api.SearchListAdapter;
+import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.model.Events;
+import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
+import ir.sanatisharif.android.konkur96.utils.MainThreadExecutor;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -22,7 +31,8 @@ import ir.sanatisharif.android.konkur96.model.Events;
 
 public class CongressMainFrg extends BaseFragment {
 
-    Button btnChangeLiveData;
+    private SearchListAdapter adapter;
+    MainThreadExecutor executor;
 
     public static CongressMainFrg newInstance() {
 
@@ -43,8 +53,15 @@ public class CongressMainFrg extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-     btnChangeLiveData=view.findViewById(R.id.btnChangeLiveData);
+//        executor = new MainThreadExecutor();
+//        adapter = new SearchListAdapter();
+//
+//        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.currentActivity));
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setAdapter(adapter);
+//
+//        setupDataSource();
 
     }
 
@@ -65,5 +82,35 @@ public class CongressMainFrg extends BaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupDataSource() {
+
+      /*  // Initialize Data Source
+        SearchDataSource dataSource = new SearchDataSource(" http://79.127.123.246:8080/c?set=191&contentOnly=1");
+
+        // Configure paging
+        PagedList.Config config = new PagedList.Config.Builder()
+                // Number of items to fetch at once. [Required]
+                .setPageSize(5)
+                // Number of items to fetch on initial load. Should be greater than Page size. [Optional]
+                .setInitialLoadSizeHint(10)
+                .setEnablePlaceholders(true) // Show empty views until data is available
+                .build();
+
+
+        // Build PagedList
+        PagedList<VideoCourse> list =
+                new PagedList.Builder<>(dataSource, config) // Can pass `pageSize` directly instead of `config`
+                        // Do fetch operations on the main thread. We'll instead be using Retrofit's
+                        // built-in enqueue() method for background api calls.
+                        .setFetchExecutor(executor)
+                        // Send updates on the main thread
+                        .setNotifyExecutor(executor)
+                        .build();
+
+
+        // Required only once. Paging will handle fetching and updating the list.
+        adapter.submitList(list);*/
+
+    }
 }
 

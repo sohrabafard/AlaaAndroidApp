@@ -43,7 +43,7 @@ public class ExtraItemView extends LinearLayout {
     private CardView cardViewRoot;
     private LinearLayout layout_click;
     private TextView txtTitle, txtView, txtAuthor;
-    private ImageView imgItem, imgAuthor, imgMenu, imgPlay;
+    private ImageView imgItem, imgMenu, imgPlay;
     //---------------------
     private OnClickItem onClickItem;
 
@@ -112,7 +112,7 @@ public class ExtraItemView extends LinearLayout {
     private void loadImageWithGlide(String imageUrl) {
 
         GlideApp.with(AppConfig.context)
-                .load(item.getImageUrl())
+                .load(item.getPhoto())
                 .override(width, height)
                 //.transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
                 .into(new SimpleTarget<Drawable>(460, 259) {
@@ -138,7 +138,6 @@ public class ExtraItemView extends LinearLayout {
         txtView = (TextView) findViewById(R.id.txtView);
         txtAuthor = (TextView) findViewById(R.id.txtAuthor);
         imgItem = (ImageView) findViewById(R.id.imgItem);
-        imgAuthor = (ImageView) view.findViewById(R.id.imgAuthor);
         imgMenu = (ImageView) view.findViewById(R.id.imgMenu);
         imgPlay = (ImageView) view.findViewById(R.id.imgPlay);
 

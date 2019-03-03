@@ -44,7 +44,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.VideoHol
 
         GlideApp.with(AppConfig.context)
                 .load("http://yakhmakgroup.ir/jokLike/v1/images/imageLogo/1765554797035373646.jpg")
-                .transform(new CircleTransform(AppConfig.context))
+                .transform(new CircleTransform())
                 .override(72,72)
                 .into(holder.imgUser);
     }

@@ -1,16 +1,31 @@
 package ir.sanatisharif.android.konkur96.model;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import ir.sanatisharif.android.konkur96.model.main_page.Banner;
+import ir.sanatisharif.android.konkur96.model.main_page.MainBanner;
+import ir.sanatisharif.android.konkur96.model.main_page.Product;
+import ir.sanatisharif.android.konkur96.model.main_page.Set;
 
 /**
  * Created by Mohamad on 10/6/2018.
  */
 
 public class MainItem {
+
     private int id;
     private int type;
     private String title;
-    private ArrayList<?> items;
+    private boolean offer;
+    private int order;
+    private String url;
+    private List<MainBanner> sliders;
+    private List<Set> sets;
+    private List<Content> contents;
+    private List<Banner> banners;
+    private List<Product> products;
+    private List<Video> videos;
 
     public String getTitle() {
         return title;
@@ -36,11 +51,75 @@ public class MainItem {
         this.type = type;
     }
 
-    public ArrayList<?> getItems() {
-        return items;
+    public boolean isOffer() {
+        return offer;
     }
 
-    public void setItems(ArrayList<?> items) {
-        this.items = items;
+    public void setOffer(boolean offer) {
+        this.offer = offer;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public List<MainBanner> getSliders() {
+        return sliders;
+    }
+
+    public void setSliders(List<MainBanner> sliders) {
+        this.sliders = sliders;
+    }
+
+    public List<Set> getSets() {
+        return sets;
+    }
+
+    public void setSets(List<Set> sets) {
+        this.sets = sets;
+    }
+
+    public List<Content> getContents() {
+        return contents;
+    }
+
+    public void setContents(List<Content> contents) {
+        this.contents = contents;
+    }
+
+    public List<Banner> getBanners() {
+        return banners;
+    }
+
+    public void setBanners(List<Banner> banners) {
+        this.banners = banners;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public List<Video> getVideos() {
+        return videos;
+    }
+
+    public void setVideos(List<Video> videos) {
+        this.videos = videos;
     }
 }

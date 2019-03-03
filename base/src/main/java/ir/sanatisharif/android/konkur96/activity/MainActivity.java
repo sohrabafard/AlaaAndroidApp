@@ -1,8 +1,6 @@
 package ir.sanatisharif.android.konkur96.activity;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -34,19 +32,21 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.UpdateInfoDialogFrg;
 import ir.sanatisharif.android.konkur96.fragment.AllaMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.CongressMainFrg;
-import ir.sanatisharif.android.konkur96.fragment.DashboardMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.DashboardMainFrg1;
 import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
 import ir.sanatisharif.android.konkur96.fragment.ForumMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.RegisterFrg;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
-import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackMessage;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
+import ir.sanatisharif.android.konkur96.utils.AccountInfo;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
+
+import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
+import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 //https://blog.iamsuleiman.com/bottom-navigation-bar-android-tutorial/
 public class MainActivity extends ActivityBase implements AHBottomNavigation.OnTabSelectedListener, ICheckNetwork {
@@ -54,6 +54,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     private FirebaseAnalytics mFirebaseAnalytics;
     private static final String TAG = "MainActivity";
     private NetworkChangedReceiver networkChangedReceiver;
+    private AccountInfo accountInfo;
 
     private static AHBottomNavigation bottomNavigation;
     private static Stack<Fragment> fragments;
@@ -78,7 +79,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
+        accountInfo = new AccountInfo(getApplicationContext(), this);
         containerHeight(this);
         fragments = new Stack<>();
         fm = getSupportFragmentManager();
@@ -107,6 +108,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
+
     }
 
     @Override
@@ -120,42 +122,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
-
-  /*  private void customResponseObject() {
-
-//http://www.yakhmakgroup.ir/jokLike/v1/service.php?action=getMessage
-        GsonRequest gsonRequest = new GsonRequest("http://www.yakhmakgroup.ir/jokLike/v1/",
-                CustomResponseList.class, null, new Response.Listener() {
-
-            @Override
-
-            public void onResponse(Object response) {
-
-                // Handle response
-
-            }
-
-        }, new Response.ErrorListener() {
-
-            @Override
-
-            public void onErrorResponse(VolleyError error) {
-
-                // Handle error
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    // HTTP Status Code: 401 Unauthorized
-                }
-
-            }
-
-        });
-
-        // Add gson request to volley request queue.
-
-        ApiVolley.getInstance().addToRequestQueue(gsonRequest, "");
-
-    }*/
 
     @Override
     public boolean onTabSelected(int position, boolean wasSelected) {
@@ -171,7 +137,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             flag = ((VideoDownloadedFrg) fragments.lastElement()).onBack();
             if (!flag)
                 close();
-
         } else
             close();
 
@@ -182,9 +147,9 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         bottomNavigation = findViewById(R.id.bottom_navigation);
 
         ArrayList<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem("", R.drawable.tab_home);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem("", R.drawable.ic_home);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem("", R.drawable.ic_friend);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem("", R.drawable.ic_forum);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem("", R.drawable.ic_message);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem("", R.drawable.ic_user);
 
         bottomNavigationItems.add(item1);
@@ -205,29 +170,23 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         String data = intent.getDataString();// https://sanatisharif.ir/c/8087
 
         if (Intent.ACTION_VIEW.equals(action) && data != null) {
-            // Ex: String recipeId = data.substring(data.lastIndexOf("/") + 1);
             Uri appLinkData = intent.getData();
-            //  Log.i(TAG, "handleIntent1: " + appLinkData);
-            // Log.i(TAG, "handleIntent: " + appLinkData.getPath());
+            Log.i(TAG, "handleIntent1: " + appLinkData);
+            Log.i(TAG, "handleIntent: " + appLinkData.getPath());
 
-            switch (appLinkData.getPath()) {
-                case "/":
-                    Log.i(TAG, "handleIntent4: sanatisharif");
-                    break;
-                case "/c":
-                    Log.i(TAG, "handleIntent4: c");
-                    addFrg(DetailsVideoFrg.newInstance(), "RegisterFrg");
-                    break;
-                case "/product":
-                    Log.i(TAG, "handleIntent4: product");
-                    break;
-                case "/login":
-                    Log.i(TAG, "handleIntent4: login");
-                    addFrg(RegisterFrg.newInstance(), "RegisterFrg");
-                    break;
+            if (appLinkData.getPath().startsWith("/c")) {
+                addFrg(DetailsVideoFrg.newInstance(data), "DetailsVideoFrg");
+            } else if (appLinkData.getPath().startsWith("/product")) {
+
+            } else if (appLinkData.getPath().startsWith("/login")) {
+                if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+                    accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS);
+                    addFrg(DashboardMainFrg1.newInstance(), "DashboardMainFrg1");
+                }
+            } else if (appLinkData.getPath().startsWith("/")) {
             }
-        }
 
+        }
     }
 
     private void retrieveToken() {
@@ -256,7 +215,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         switch (tab_id) {
             case 0:
                 manageStack();
-                //  addFrg(AllaMainFrg.newInstance(), "alla");
                 break;
 
             case 1:
@@ -271,7 +229,12 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
             case 3:
                 manageStack();
-                addFrg(DashboardMainFrg1.newInstance(), "DashboardMainFrg");
+
+                if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+                    accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS);
+
+                    addFrg(DashboardMainFrg1.newInstance(), "FilterTagsFrg");
+                }
                 break;
         }
 
@@ -305,14 +268,14 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             transaction.show(fragments.lastElement());
             transaction.commit();
 
-           // Log.i("LOG", "addFrg close " + fragments.lastElement().getTag());
+            // Log.i("LOG", "addFrg close " + fragments.lastElement().getTag());
             if (fragments.lastElement() instanceof AllaMainFrg) {
                 bottomNavigation.setCurrentItem(0, false);
             } else if (fragments.lastElement() instanceof CongressMainFrg) {
                 bottomNavigation.setCurrentItem(1, false);
             } else if (fragments.lastElement() instanceof ForumMainFrg) {
                 bottomNavigation.setCurrentItem(2, false);
-            } else if (fragments.lastElement() instanceof DashboardMainFrg) {
+            } else if (fragments.lastElement() instanceof DashboardMainFrg1) {
                 bottomNavigation.setCurrentItem(3, false);
             }
 
@@ -351,7 +314,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     }
 
     @Override
-    public void onCheckNetwork(Boolean flag) {
+    public void onCheckNetwork(boolean flag) {
     }
 
     @Subscribe

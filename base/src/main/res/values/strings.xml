@@ -18,6 +18,7 @@
     <string name="ob_desc3">We have a very small charge for non-Wonep calls to mobiles or landlines</string>
 
     <string name="more">بیشتر</string>
+    <string name="bag">کیف پول</string>
     <string name="watch">تماشا</string>
     <string name="desc">
         این مبحث یکی دو تا سوال ازش طرح میشه تو کنکور، تا اونجا پیش رفتیم که توی نثر چقدر می تونه نکته های پیچیده ای وجود داشته باشه  اگر ما از روش درست استفاده نکنیم، اگر از روش درست استفاده کنیم چقدر آنچه که از دید دیگران پیچیده هست برای ما ساده هست، توجه به نقش نماها و توجه به گذر فعل و توجه به  حذف اجزاء جمله، حالا همین ها رو باید در بیت ها هم بتونیم اجرا کنیم  که این فقط از عهده شما بر میاد
@@ -46,7 +47,7 @@
     <string name="player">پخش کننده</string>
     <string name="player_quality">player_quality</string>
     <string name="storage">storage</string>
-    <string name="login_desc">برای ورود نیازی به ثبت نام نیست تنها شماره موبایل و کدملی خود را وارد نمایید.</string>
+    <string name="login_desc">برای ورود تنها شماره موبایل و کدملی خود را وارد نمایید.</string>
     <string name="login">ورود</string>
     <string name="register">ثبت نام</string>
     <string name="twiceClick">برای خروج یکبار دیگر کلیک کنید</string>
@@ -68,6 +69,37 @@
         <item>240p</item>
     </string-array>
 
+    <string-array name="filterTab">
+        <item>دروس</item>
+        <item>محصولات</item>
+        <item>ویدیو</item>
+        <item>جزوه</item>
+        <item>مقاله</item>
+    </string-array>
+
+    <string-array name="FilterSection">
+        <item>همه_مقاطع</item>
+        <item>دهم</item>
+        <item>یازدهم</item>
+        <item>یازدهم</item>
+        <item>دوازدهم</item>
+        <item>نظام_قدیم</item>
+
+    </string-array>
+
+    <string-array name="FilterField">
+        <item>همه_رشته_ها</item>
+        <item>رشته_ریاضی</item>
+        <item>رشته_تجربی</item>
+        <item>رشته_انسانی</item>
+    </string-array>
+
+
+
+    <string-array name="FilterTeacher">
+        <item>همه دبیر</item>
+    </string-array>
+
     <string-array name="storage_entries">
         <item>حافظه داخلی</item>
         <item>حافظه خارجی</item>
@@ -79,6 +111,28 @@
     </string-array>
 
     <string name="asset_statements" translatable="false">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://sanatisharif.ir\",\n  }\n}]</string>
+    <string name="empty_phone">شماره مویابل خالی است</string>
+    <string name="empty_personal_code">کدملی خالی است</string>
+    <string name="not_valid_personal_code">فرمت کدملی درست نیست</string>
+    <string name="not_valid_phone">فرمت شماره موبایل درست نیست</string>
+    <string name="firstName">نام</string>
+    <string name="lastName">نام خانوادگی</string>
+    <string name="email">ایمیل</string>
+    <string name="doNot_account">قبلا توی آلاء ثبت نام نکردم</string>
+    <string name="accountExist">توی آلاء اکانت دارم</string>
+    <string name="empty_first_name">نام کاربری خالی است</string>
+    <string name="empty_last_name">نام خانوادگی خالی است</string>
+    <string name="empty_email">ایمیل خالی است</string>
+    <string name="not_valid_email">فرمت ایمیل درست نیست</string>
+    <string name="register_success">اکانت با موفقیت ایجاد شد.</string>
+    <string name="search_into_alla">جستحو در آلاء</string>
+    <string name="errNotExistTags">خطا در پردازش پارامترها</string>
+    <string name="alla_1">موسسه غیر تجاری آلاء</string>
+    <string name="not_internet">اتصال شما به اینترنت قط شده است دوباره تلاش کنید</string>
+    <string name="repeat_try">تلاش مجدد</string>
+    <string name="txtSection">انتخاب مقطه تحصیلی</string>
+    <string name="txtField">انتخاب رشته تحصیلی</string>
+    <string name="nationalCode">کدملی</string>
 
 
 </resources>
