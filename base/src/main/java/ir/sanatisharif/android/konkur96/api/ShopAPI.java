@@ -1,11 +1,18 @@
 package ir.sanatisharif.android.konkur96.api;
 
+import java.util.ArrayList;
+
 import io.reactivex.Observable;
+import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Url;
 
 public interface ShopAPI {
@@ -28,4 +35,12 @@ public interface ShopAPI {
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @GET
     Observable<ResultModel> getMore(@Url String url);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @FormUrlEncoded
+    @POST("api/v1/getPrice/{product_id}")
+    Observable<GETPriceModel> getPrice(@Path("product_id") String productId, @Field("mainAttributeValues[]") ArrayList<Integer> mainAttributeValues, @Field("extraAttributeValues[]") ArrayList<Integer> extraAttributeValues);
+
+
+
 }

@@ -49,9 +49,13 @@ import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.ProductBonsAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
+import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
+import ir.sanatisharif.android.konkur96.handler.Repository;
+import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
+import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.model.MainAttrType;
@@ -83,6 +87,9 @@ public class ProductDetailFragment extends BaseFragment {
     private ProductType type;
 
     private List<Integer> attrList = new ArrayList<>();
+    private List<Integer> attrExtraList = new ArrayList<>();
+
+    private Repository repository;
 
     public static ProductDetailFragment newInstance(ProductModel item) {
 
@@ -122,6 +129,7 @@ public class ProductDetailFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        repository = new RepositoryImpl(getActivity());
 
         initModel();
         if (model != null) {
@@ -230,7 +238,10 @@ public class ProductDetailFragment extends BaseFragment {
 
         cardAttrProduct.setOnClickListener(v -> showAtrrDialog());
         cardSampleProduct.setOnClickListener(v -> showSampleProduct());
-        btnAddToCard.setOnClickListener(v -> Log.e("", ""));
+        btnAddToCard.setOnClickListener(v -> {
+            Log.e("", "");
+            getPrice();
+        });
     }
 
 
@@ -280,6 +291,8 @@ public class ProductDetailFragment extends BaseFragment {
         }
 
         setMainAttr();
+
+
 
     }
 
@@ -483,6 +496,28 @@ public class ProductDetailFragment extends BaseFragment {
 
             attrList = ShopUtils.removeElements(attrList, val);
         }
+    }
+
+    private void getPrice() {
+
+        ArrayList<Integer> mainAttributeValues = new ArrayList<>(attrList);
+        ArrayList<Integer> extraAttributeValues = new ArrayList<>(attrExtraList);
+
+        repository.getPrice(String.valueOf(model.getId()), mainAttributeValues, extraAttributeValues, data -> {
+
+            if (data instanceof Result.Success) {
+
+                Log.d("Test", (String) ((Result.Success) data).value);
+
+            } else {
+
+                Log.d("Test", (String) ((Result.Error) data).value);
+            }
+
+
+        });
+
+
     }
 
 

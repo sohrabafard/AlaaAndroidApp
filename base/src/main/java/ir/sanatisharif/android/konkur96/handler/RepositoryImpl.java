@@ -3,10 +3,13 @@ package ir.sanatisharif.android.konkur96.handler;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
 import ir.sanatisharif.android.konkur96.api.ShopAPI;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -67,5 +70,16 @@ public class RepositoryImpl implements Repository {
                 .subscribe(ResultModel -> callBack.onResponse(new Result.Success(ResultModel)),
                         throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
 
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void getPrice(String productId, ArrayList<Integer> mainAttributeValues, ArrayList<Integer> extraAttributeValues, ApiCallBack callBack) {
+
+        shopAPI.getPrice(productId, mainAttributeValues, extraAttributeValues)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(GETPriceModel -> callBack.onResponse(new Result.Success(GETPriceModel)),
+                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
     }
 }
