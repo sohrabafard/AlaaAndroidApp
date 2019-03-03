@@ -3,11 +3,11 @@ package ir.sanatisharif.android.konkur96.utils;
 import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
-import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.LinkedList;
+import java.util.List;
 
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainDataModel;
@@ -221,5 +221,15 @@ public class ShopUtils {
             return null;
         }
 
+    }
+
+    public static List<Integer> removeElements(List<Integer> input, int deleteMe) {
+        List<Integer> result = new LinkedList<>();
+
+        for(int item : input)
+            if(deleteMe != item)
+                result.add(item);
+
+        return result;
     }
 }

@@ -23,8 +23,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,6 +35,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.common.util.ArrayUtils;
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -69,7 +72,7 @@ public class ProductDetailFragment extends BaseFragment {
     private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice, txtMainAttrCom;
     private JustifiedTextView txtShortDesc, txtDesc;
 
-    private CardView cardDesc, cardBon;
+    private CardView cardDesc, cardBon, btnAddToCard;
     private LinearLayout bodyMainAttr;
 
     private GalleryWorker imgGallery;
@@ -79,6 +82,7 @@ public class ProductDetailFragment extends BaseFragment {
     private ProductModel model;
     private ProductType type;
 
+    private List<Integer> attrList = new ArrayList<>();
 
     public static ProductDetailFragment newInstance(ProductModel item) {
 
@@ -127,54 +131,6 @@ public class ProductDetailFragment extends BaseFragment {
             setData();
             imgGallery = new GalleryWorker(getContext());
         }
-
-
-//        cardAttrProduct.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showLayoutDialog();
-//            }
-//        });
-//
-//
-//      //todo : add video player
-//
-//
-//        Glide.with(getContext())
-//                .load("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/171125105021.jpg?w=253&h=142")
-//                .into(imgVideoRelatedOne);
-//
-//        Glide.with(getContext())
-//                .load("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/170917011741.jpg?w=253&h=142")
-//                .into(imgVideoRelatedTwo);
-//
-//        spinnerMainProduct.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-//        spinnerMainProduct.setOnItemSelectedListener(spinnerMainProduct.getOnItemSelectedListener());
-//        ArrayAdapter<CharSequence> mainProductAdapter = ArrayAdapter.createFromResource(getContext(),
-//                R.array.dummy_main_product, android.R.layout.simple_spinner_item);
-//
-//        mainProductAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinnerMainProduct.setAdapter(mainProductAdapter);
-//
-//
-//
-//        spinnerExtraProduct.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-//        spinnerExtraProduct.setOnItemSelectedListener(spinnerMainProduct.getOnItemSelectedListener());
-//        ArrayAdapter<CharSequence> extraProductAdapter = ArrayAdapter.createFromResource(getContext(),
-//                R.array.dummy_extra_product, android.R.layout.simple_spinner_item);
-//
-//        extraProductAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinnerExtraProduct.setAdapter(extraProductAdapter);
-//
-//
-//
-//        spinnerExtraProductDay.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-//        spinnerExtraProductDay.setOnItemSelectedListener(spinnerMainProduct.getOnItemSelectedListener());
-//        ArrayAdapter<CharSequence> extraProductAdapterDay = ArrayAdapter.createFromResource(getContext(),
-//                R.array.dummy_extra_product_day, android.R.layout.simple_spinner_item);
-//
-//        extraProductAdapterDay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinnerExtraProductDay.setAdapter(extraProductAdapterDay);
 
     }
 
@@ -247,6 +203,8 @@ public class ProductDetailFragment extends BaseFragment {
         cardDesc = v.findViewById(R.id.card_desc);
         cardBon = v.findViewById(R.id.card_bon);
 
+        btnAddToCard = v.findViewById(R.id.btn_addToCard);
+
         bodyMainAttr = v.findViewById(R.id.body_main_attr);
 
 
@@ -272,6 +230,7 @@ public class ProductDetailFragment extends BaseFragment {
 
         cardAttrProduct.setOnClickListener(v -> showAtrrDialog());
         cardSampleProduct.setOnClickListener(v -> showSampleProduct());
+        btnAddToCard.setOnClickListener(v -> Log.e("", ""));
     }
 
 
@@ -345,7 +304,7 @@ public class ProductDetailFragment extends BaseFragment {
 
                 }else if (type == MainAttrType.DROPDOWN){
 
-                    createDropDown(attr);
+                    createDropDownAttr(attr);
                 }
             }
         }
@@ -389,6 +348,7 @@ public class ProductDetailFragment extends BaseFragment {
             CheckBox checkBox = new CheckBox(getContext());
             checkBox.setLayoutParams(params);
             checkBox.setText(attrData.getName());
+            checkBox.setTag(attrData.getId());
             checkBox.setTextColor(Color.BLACK);
             checkBox.setTextSize(17);
             checkBox.setGravity(Gravity.RIGHT);
@@ -397,11 +357,21 @@ public class ProductDetailFragment extends BaseFragment {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 checkBox.setButtonTintList(ContextCompat.getColorStateList(getContext(), R.color.checkboxtint));
             }
+            checkBox.setOnCheckedChangeListener((compoundButton, check) -> {
+                if (check){
+
+                     addToAttrList((int) compoundButton.getTag());
+
+                }else {
+
+                    removeToAttrList((int) compoundButton.getTag());
+                }
+            });
             bodyMainAttr.addView(checkBox);
         }
     }
 
-    private void createDropDown(AttributeModel attr){
+    private void createDropDownAttr(AttributeModel attr){
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -409,7 +379,7 @@ public class ProductDetailFragment extends BaseFragment {
 
         List<String> spinnerArray = new ArrayList<>();
         @SuppressLint("UseSparseArrays")
-        HashMap<Integer,String> spinnerMap = new HashMap<>();
+        HashMap<String, Integer> spinnerMap = new HashMap<>();
 
         Spinner spinner = new Spinner(getContext());
         spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
@@ -417,13 +387,32 @@ public class ProductDetailFragment extends BaseFragment {
         for (AttributeDataModel attrData : attr.getData()) {
 
             spinnerArray.add(attrData.getName());
-            spinnerMap.put(attrData.getId(),attrData.getName());
+            spinnerMap.put(attrData.getName(),attrData.getId());
         }
         ArrayAdapter<String> attrAdapter = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item, spinnerArray);
 
         attrAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(attrAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long ij) {
+                for (int i = 0; i < spinnerArray.size(); i++) {
+                    String spinner = spinnerArray.get(i);
+                    int id = spinnerMap.get(spinner);
+                    removeToAttrList(id);
+                }
+
+                addToAttrList(spinnerMap.get(spinnerArray.get(position)));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+
+        });
 
         bodyMainAttr.addView(spinner);
 
@@ -465,6 +454,7 @@ public class ProductDetailFragment extends BaseFragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void setPrice() {
 
 
@@ -475,6 +465,23 @@ public class ProductDetailFragment extends BaseFragment {
         } else {
 
             txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
+        }
+    }
+
+
+    private void addToAttrList(int val){
+
+        if (!attrList.contains(val)) {
+
+            attrList.add(val);
+        }
+    }
+
+    private void removeToAttrList(int val){
+
+        if (attrList.contains(val)) {
+
+            attrList = ShopUtils.removeElements(attrList, val);
         }
     }
 
