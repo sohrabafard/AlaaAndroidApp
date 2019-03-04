@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class GETPriceModel implements Parcelable {
+public class GETPriceModel extends BaseErrorModel implements Parcelable {
 
     @SerializedName("outOfStock")
     private String outOfStock;
@@ -14,32 +14,8 @@ public class GETPriceModel implements Parcelable {
     private PriceModel cost;
 
     protected GETPriceModel(Parcel in) {
-        outOfStock = in.readString();
-        cost = in.readParcelable(PriceModel.class.getClassLoader());
+        super(in);
     }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(outOfStock);
-        dest.writeParcelable(cost, flags);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<GETPriceModel> CREATOR = new Creator<GETPriceModel>() {
-        @Override
-        public GETPriceModel createFromParcel(Parcel in) {
-            return new GETPriceModel(in);
-        }
-
-        @Override
-        public GETPriceModel[] newArray(int size) {
-            return new GETPriceModel[size];
-        }
-    };
 
     public String getOutOfStock() {
         return outOfStock;

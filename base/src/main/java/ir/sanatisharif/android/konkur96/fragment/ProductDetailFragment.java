@@ -30,9 +30,11 @@ import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.common.util.ArrayUtils;
@@ -49,6 +51,7 @@ import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.ProductBonsAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
+import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -75,6 +78,8 @@ public class ProductDetailFragment extends BaseFragment {
 
     private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice, txtMainAttrCom;
     private JustifiedTextView txtShortDesc, txtDesc;
+
+    private ProgressBar progPrice;
 
     private CardView cardDesc, cardBon, btnAddToCard;
     private LinearLayout bodyMainAttr;
@@ -215,8 +220,9 @@ public class ProductDetailFragment extends BaseFragment {
 
         bodyMainAttr = v.findViewById(R.id.body_main_attr);
 
-
         bonsRecyclerView = v.findViewById(R.id.recycler_bons);
+
+        progPrice = v.findViewById(R.id.prog_price);
 
         //Set Typeface
         txtName.setTypeface(AppConfig.fontIRSensLight);
@@ -240,7 +246,6 @@ public class ProductDetailFragment extends BaseFragment {
         cardSampleProduct.setOnClickListener(v -> showSampleProduct());
         btnAddToCard.setOnClickListener(v -> {
             Log.e("", "");
-            getPrice();
         });
     }
 
@@ -379,6 +384,8 @@ public class ProductDetailFragment extends BaseFragment {
 
                     removeToAttrList((int) compoundButton.getTag());
                 }
+
+                getPrice();
             });
             bodyMainAttr.addView(checkBox);
         }
@@ -418,6 +425,7 @@ public class ProductDetailFragment extends BaseFragment {
                 }
 
                 addToAttrList(spinnerMap.get(spinnerArray.get(position)));
+                getPrice();
             }
 
             @Override
@@ -498,16 +506,35 @@ public class ProductDetailFragment extends BaseFragment {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void getPrice() {
 
         ArrayList<Integer> mainAttributeValues = new ArrayList<>(attrList);
         ArrayList<Integer> extraAttributeValues = new ArrayList<>(attrExtraList);
+        progPrice.setVisibility(View.VISIBLE);
 
         repository.getPrice(String.valueOf(model.getId()), mainAttributeValues, extraAttributeValues, data -> {
-
+            progPrice.setVisibility(View.GONE);
             if (data instanceof Result.Success) {
 
-                Log.d("Test", (String) ((Result.Success) data).value);
+                GETPriceModel temp = (GETPriceModel) ((Result.Success) data).value;
+
+                if (null == temp.getError()){
+
+                    if (temp.getCost().getMfinal() > 0) {
+
+                        txtPrice.setText(ShopUtils.formatPrice(temp.getCost().getMfinal()) + " تومان ");
+
+                    } else {
+
+                        txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
+                    }
+
+                }else {
+
+                    Toast.makeText(getContext(),temp.getError().getMessage(),Toast.LENGTH_LONG).show();
+                }
+
 
             } else {
 
