@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public interface IServerCallbackMessage {
 
     public void onStart();
-    public void onFinish();
     public void onSuccess(String str);
+    public void onFinish();
     public void onFailure(String message);
 }

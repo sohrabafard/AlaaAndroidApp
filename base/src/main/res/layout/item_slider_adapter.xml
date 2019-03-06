@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/White"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_pager"
+        android:layout_centerHorizontal="true"
+        android:gravity="bottom"
+        android:padding="10dip"
+        app:centered="true"
+        app:fillColor="@color/Monochromatic_3"
+        app:pageColor="#fff"
+        app:strokeColor="@color/Monochromatic_1"
+        snap="false" />
+
+</RelativeLayout>

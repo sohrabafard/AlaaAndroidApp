@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/Black"
+    android:layoutDirection="rtl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ProgressBar
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"/>
+
+    <com.duolingo.open.rtlviewpager.RtlViewPager
+        android:id="@+id/pager_fullscreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ImageView
+        android:id="@+id/img_left"
+        android:src="@drawable/ic_left_arrow"
+        android:layout_gravity="left|center_vertical"
+        android:padding="8dp"
+        android:background="#fb8C00"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
+    <ImageView
+        android:id="@+id/img_right"
+        android:src="@drawable/ic_right_arrow"
+        android:background="#fb8C00"
+        android:padding="8dp"
+        android:layout_gravity="right|center_vertical"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/bottem_sheet"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        app:behavior_peekHeight="35dp"
+        >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_title_screen"
+        android:background="#fb8C00"
+        android:padding="3dp"
+        android:fontFamily="@font/iransansbold"
+        android:textSize="13sp"
+        android:layout_gravity="right"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/White"
+        android:gravity="right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_desc_screen"
+        android:background="#fb8C00"
+        android:padding="3dp"
+        android:gravity="right"
+        android:layout_marginRight="5dp"
+        android:fontFamily="@font/iransansbold"
+        android:textSize="9sp"
+        android:layout_gravity="right"
+        android:textColor="@color/White"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_indicator"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

@@ -2,6 +2,7 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
@@ -17,17 +18,19 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.C;
@@ -54,27 +57,32 @@ import com.google.android.exoplayer2.util.Util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.adapter.CommentAdapter;
 import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
 import ir.sanatisharif.android.konkur96.adapter.PlayListAdapter;
+import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.dialog.DeleteFileDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.DownloadDialogFrg;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
+import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
-import ir.sanatisharif.android.konkur96.model.CategoryItemSet;
-import ir.sanatisharif.android.konkur96.model.Comment;
-import ir.sanatisharif.android.konkur96.model.DownloadUrl;
-import ir.sanatisharif.android.konkur96.model.Item;
+import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
+import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.MainItem;
-import ir.sanatisharif.android.konkur96.model.PlayList;
+import ir.sanatisharif.android.konkur96.model.Video;
+import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
+import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import ir.sanatisharif.android.konkur96.utils.Utils;
+import me.gujun.android.taggroup.TagGroup;
 
 import static android.content.Context.KEYGUARD_SERVICE;
 import static android.content.Context.POWER_SERVICE;
+import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConfig.context;
-import static ir.sanatisharif.android.konkur96.app.AppConfig.itemHeight;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -87,40 +95,34 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
     private final static String TAG = "LOG";
 
-    private static Item item;
-    private boolean showPlayList = false;
+    private static List<VideoCourse> videoCourses;
+    private DataCourse course;
+    private static int positionPlaying;
+    private boolean showPlayList = true;
     private int mResumeWindow;
     private long mResumePosition;
-    private String mUrl;///= "https://cdn.sanatisharif.ir/media/170/240p/170023fghg.mp4";
-    private ArrayList<DownloadUrl> downloadUrls = new ArrayList<>();
-
-    //ui
-    private ProgressBar progressBar;
+    private String mUrl;
+    private ProgressBar progressBarExoplaying;
     private RecyclerView myRecyclerView;
-    private RecyclerView recyclerViewComment;
     private ImageView imgDownload;
     private ImageView imgReady;
-    private ImageView imgLike;
     private ImageView imgShare;
-    private ImageView imgFavorite;
     private FrameLayout mediaVideoFrame;
-    private TextView txtVote;
+    private TextView txtDesc;
     private TextView txtAuthor;
     private TextView txtTitle;
+    private TagGroup tagGroup;
+    private ProgressBar loader;
 
     //preview
-    private RelativeLayout relativePreview;
+    private FrameLayout relativePreview;
     private ImageView imgPreview;
     private ImageView imgPlay;
 
     //play list
-    private LinearLayout linRootPlayList;
-    private LinearLayout linBodyPlayList;
-    private LinearLayout linHeaderPlayList;
-    private ImageView imgShowPlayList;
+    private ImageView imgArrow;
     private RecyclerView recyclerPlayList;
     private PlayListAdapter playListAdapter;
-    private ArrayList<PlayList> playLists = new ArrayList<>();
 
     //player
     private PlaybackControlView controlView;
@@ -134,9 +136,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     //comment
     private MainItemAdapter adapter;
-    private CommentAdapter commentAdapter;
     private ArrayList<MainItem> items = new ArrayList<>();
-    private ArrayList<Comment> comments = new ArrayList<>();
 
     //lock
     private PowerManager pm;
@@ -144,20 +144,20 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private KeyguardManager km;
     private KeyguardManager.KeyguardLock kl;
 
-
-    public static DetailsVideoFrg newInstance(Item item_in) {
+    public static DetailsVideoFrg newInstance(List<? extends FilterBaseModel> v, int pos) {
 
         Bundle args = new Bundle();
-        //  args.putSerializable("item", item);
-        item = item_in;
         DetailsVideoFrg fragment = new DetailsVideoFrg();
         fragment.setArguments(args);
+        videoCourses = (List<VideoCourse>) v;
+        positionPlaying = pos;
         return fragment;
     }
 
-    public static DetailsVideoFrg newInstance() {
+    public static DetailsVideoFrg newInstance(String url) {
 
         Bundle args = new Bundle();
+        args.putString("url", url);
         DetailsVideoFrg fragment = new DetailsVideoFrg();
         fragment.setArguments(args);
         return fragment;
@@ -184,14 +184,34 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initView(view);
-        setData();
-
-        if (savedInstanceState != null) {
-            mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
-            mResumePosition = savedInstanceState.getLong(STATE_RESUME_POSITION);
-            mExoPlayerFullscreen = savedInstanceState.getBoolean(STATE_PLAYER_FULLSCREEN);
+        initView(view, savedInstanceState);
+        //get data from api and url
+        if (getArguments().getString("url") != null) {
+            String url = getArguments().getString("url");
+            String id = url.substring(url.lastIndexOf("/") + 1);
+            getData(id);
+        } else//get data from list
+        {
+            course = videoCourses.get(positionPlaying);
+            setData();
         }
+
+    }
+
+    private void getData(String id) {
+
+        MainApi.getInstance().getDetailsCourse(id, new IServerCallbackObject() {
+            @Override
+            public void onSuccess(Object obj) {
+                course = (DataCourse) obj;
+                setData();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Log.i(TAG, "onSuccess:error " + message);
+            }
+        });
     }
 
     @Override
@@ -214,30 +234,80 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             disableWakeLockScreen();
 
 
-        } else if (i == R.id.linHeaderPlayList || i == R.id.imgShowPlayList) {
+        } else if (i == R.id.imgArrow) {
             if (!showPlayList) {
-                linBodyPlayList.setVisibility(View.VISIBLE);
-                imgShowPlayList.setImageResource(R.drawable.ic_down);
+                recyclerPlayList.setVisibility(View.VISIBLE);
+                animationRotate(imgArrow, 0, 180, 200);
                 showPlayList = true;
             } else {
-                linBodyPlayList.setVisibility(View.GONE);
-                imgShowPlayList.setImageResource(R.drawable.ic_arrow_up);
+                recyclerPlayList.setVisibility(View.GONE);
+                animationRotate(imgArrow, 180, 360, 200);
                 showPlayList = false;
             }
 
         } else if (i == R.id.imgDownload) {
-            DownloadDialogFrg.newInstance(downloadUrls).
-                    show(((AppCompatActivity) getActivity()).getSupportFragmentManager(), "dialog");
+
+            if (course.getFile().getVideo() != null) {
+                DownloadDialogFrg dialog = new DownloadDialogFrg();
+                dialog.setData(course.getFile().getVideo(), course.getName());
+                dialog.setComplete(new DownloadComplete() {
+                    @Override
+                    public void complete() {
+                        imgDownload.setVisibility(View.GONE);
+                        imgReady.setVisibility(View.VISIBLE);
+                    }
+                });
+                dialog.show(getFragmentManager(), "dialog");
+            }
+
+
         } else if (i == R.id.imgPlay) {
 
-            if (!checkExistVideo(downloadUrls))
-                mUrl = downloadUrls.get(0).getUrl();
+            if (!checkExistVideo(course.getFile().getVideo()))
+                mUrl = course.getFile().getVideo().get(0).getUrl();
             initExoPlayer(mUrl);
 
             relativePreview.setVisibility(View.GONE);
             mediaVideoFrame.setVisibility(View.VISIBLE);
             mExoPlayerView.setVisibility(View.VISIBLE);
 
+        } else if (i == R.id.imgReady) {
+
+            if (course.getFile().getVideo() != null) {
+                DeleteFileDialogFrg deleteFileDialogFrg = new DeleteFileDialogFrg();
+                deleteFileDialogFrg.setVideos(course.getFile().getVideo());
+                deleteFileDialogFrg.show(getFragmentManager(), "deleteFileDialogFrg");
+            }
+        } else if (i == R.id.imgShare) {
+
+            String alla = getResources().getString(R.string.alla_1);
+            String title = course.getName();
+            String author = course.getAuthor().getFullName();
+            String url = course.getUrl();
+            int order = course.getOrder();
+
+            String share = String.format("%s \n\n %s \n\n %s جلسه %d \n\n %s", alla, title, author, order, url);
+
+            Utils.share(share, getContext());
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(phoneStateReceiver);
+        releasePlayer();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mExoPlayerFullscreen) {
+            ((ViewGroup) mExoPlayerView.getParent()).removeView(mExoPlayerView);
+            mFullScreenDialog.addContentView(mExoPlayerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(AppConfig.currentActivity, R.drawable.ic_fullscreen_skrink));
+            mFullScreenDialog.show();
         }
     }
 
@@ -251,218 +321,53 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         super.onSaveInstanceState(outState);
     }
 
-    private void setData() {
-
-        // "https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/physics1809261648.jpg?w=253&h=142"
-        if (item != null) {
-            Utils.loadGlide(imgPreview,
-                    item.getImageUrl(),
-                    mExoPlayerView.getLayoutParams().width,
-                    mExoPlayerView.getLayoutParams().height);
-
-            txtTitle.setText(item.getTitle());
-            txtAuthor.setText(item.getAuthor());
-
-        }
-
-        DownloadUrl downloadUrl = new DownloadUrl();
-        downloadUrl.setUrl("https://cdn.sanatisharif.ir/media/202/hq/202063wkjk.mp4");
-        downloadUrl.setQuality("کیفیت بالا (59 مگابایت)");
-        downloadUrl.setTitle("فصل دوم فیزیک دوازدهم");
-        downloadUrl.setDescription("");
-        downloadUrls.add(downloadUrl);
-
-        downloadUrl = new DownloadUrl();
-        downloadUrl.setUrl("https://cdn.sanatisharif.ir/media/202/HD_720p/202063wkjk.mp4");
-        downloadUrl.setQuality("کیفیت عالی (734 مگابایت)");
-        downloadUrl.setTitle("فصل دوم فیزیک دوازدهم");
-        downloadUrl.setDescription("");
-        downloadUrls.add(downloadUrl);
-
-        downloadUrl = new DownloadUrl();
-        downloadUrl.setUrl("https://cdn.sanatisharif.ir/media/202/240p/202063wkjk.mp4");
-        downloadUrl.setQuality("کیفیت متوسط (25 مگابایت)");
-        downloadUrl.setTitle("فصل دوم فیزیک دوازدهم");
-        downloadUrl.setDescription("");
-        downloadUrls.add(downloadUrl);
-
-        //video
-        ArrayList<CategoryItemSet> videoItemSets = new ArrayList<>();
-
-        CategoryItemSet videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(0);
-        videoItemSet.setTitle("صفر تا صد فیزیک کنکور");
-        videoItemSet.setAuthor(" کازیان ");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/physics1809261648.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(1);
-        videoItemSet.setTitle("صفر تا صد شیمی کنکور");
-        videoItemSet.setAuthor(" مهدی صنیعی ");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/shimi_1809301705.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(2);
-        videoItemSet.setTitle("صفر تا صد حسابان کنکور");
-        videoItemSet.setAuthor(" محمد صادق ثابتی ");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/hesaban_1806091555.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(3);
-        videoItemSet.setTitle("صفر تا صد ریاضی تجربی کنکور");
-        videoItemSet.setAuthor(" محمد صادق ثابتی ");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/riyazi_tajrobi_1809261626.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(4);
-        videoItemSet.setTitle("صفر تا صد عربی کنکور");
-        videoItemSet.setAuthor(" پدرام علیمرادی");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/arabi_1806091641.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(5);
-        videoItemSet.setTitle("صفر تا صد منطق کنکور");
-        videoItemSet.setAuthor(" حسام الدین حلالی");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/171005032754.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-
-        MainItem item = new MainItem();
-        item.setId(0);
-        item.setType(0);
-        item.setTitle("کنکور نظام جدید ");
-        item.setItems(videoItemSets);
-        items.add(item);
-
-
-        //---------------------------------
-        videoItemSets = new ArrayList<>();
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(0);
-        videoItemSet.setTitle("صفر تا صد زبان");
-        videoItemSet.setAuthor("علی اکبر عزتی");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/zaban11_1810070959.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(1);
-        videoItemSet.setTitle("زیست یازدهم");
-        videoItemSet.setAuthor(" جلال موقاری");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/zist_yazdahom_1810011438.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(2);
-        videoItemSet.setTitle("صفر تا صد فیزیک یازدهم");
-        videoItemSet.setAuthor(" فرشید داداشی");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/170920041635.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-        videoItemSet = new CategoryItemSet();
-        videoItemSet.setId(3);
-        videoItemSet.setTitle("زیست یازدهم");
-        videoItemSet.setAuthor(" عباس راسنی");
-        videoItemSet.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/171019113948.jpg?w=253&h=142");
-        videoItemSets.add(videoItemSet);
-
-
-        item = new MainItem();
-        item.setId(3);
-        item.setType(0);
-        item.setTitle("مقطع یازدهم");
-        item.setItems(videoItemSets);
-        items.add(item);
-
-        adapter.notifyDataSetChanged();
-
-        //comment
-
-        Comment c = new Comment();
-        c.setName("علی");
-        c.setContent("خوب");
-        comments.add(c);
-
-        c = new Comment();
-        c.setName("زهرا");
-        c.setContent("عالیییی");
-        comments.add(c);
-
-        c = new Comment();
-        c.setName("هومن");
-        c.setContent("لایک");
-        comments.add(c);
-
-        c = new Comment();
-        c.setName("احمدی");
-        c.setContent("عالی بود");
-        comments.add(c);
-
-        commentAdapter.notifyDataSetChanged();
-
-
-        //playList
-
-        PlayList pl = new PlayList();
-        pl.setTitle("زیست یازدهم");
-        pl.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/171019113948.jpg?w=460&h=259");
-
-        ArrayList<DownloadUrl> downloadUrls1 = new ArrayList<>();
-
-        downloadUrl = new DownloadUrl();
-        downloadUrl.setUrl("https://cdn.sanatisharif.ir/media/204/HD_720p/204034acde.mp4");
-        downloadUrl.setQuality("کیفیت عالی (473 مگابایت)");
-        downloadUrl.setTitle("زیست یادهم");
-        downloadUrls1.add(downloadUrl);
-
-        downloadUrl = new DownloadUrl();
-        downloadUrl.setUrl("https://cdn.sanatisharif.ir/media/204/240p/204034acde.mp4?download=1");
-        downloadUrl.setQuality("کیفیت بالا (70 مگابایت)");
-        downloadUrl.setTitle("زیست یادهم");
-        downloadUrl.setDescription("");
-        downloadUrls1.add(downloadUrl);
-
-        downloadUrl = new DownloadUrl();
-        downloadUrl.setUrl("https://cdn.sanatisharif.ir/media/204/240p/204034acde.mp4");
-        downloadUrl.setQuality("کیفیت متوسظ (70 مگابایت)");
-        downloadUrl.setTitle("زیست یادهم");
-        downloadUrl.setDescription("");
-        downloadUrls1.add(downloadUrl);
-
-        pl.setDownloadUrls(downloadUrls1);
-        playLists.add(pl);
-
-
-        pl = new PlayList();
-        pl.setTitle("صفرتا صد زبان");
-        pl.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/zaban11_1810070959.jpg?w=460&h=259");
-        pl.setDownloadUrls(downloadUrls1);
-        playLists.add(pl);
-
-
-        pl = new PlayList();
-        pl.setTitle("صفرتا صد زبان");
-        pl.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/zaban11_1810070959.jpg?w=460&h=259");
-        pl.setDownloadUrls(downloadUrls1);
-        playLists.add(pl);
-
-        pl = new PlayList();
-        pl.setTitle("صفرتا صد زبان");
-        pl.setImageUrl("https://cdn.sanatisharif.ir/upload/contentset/departmentlesson/zaban11_1810070959.jpg?w=460&h=259");
-        pl.setDownloadUrls(downloadUrls1);
-        playLists.add(pl);
-
-        playListAdapter.notifyDataSetChanged();
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        releasePlayer();
     }
 
-    private void initView(View view) {
+    private void animationRotate(View view, float of, float to, int duration) {
 
+        ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(view,
+                "rotation", of, to);
+        imageViewObjectAnimator.setDuration(duration);
+        imageViewObjectAnimator.setInterpolator(new AccelerateInterpolator());
+        imageViewObjectAnimator.start();
+    }
+
+    private void setData() {
+
+        Utils.loadGlide(imgPreview,
+                course.getThumbnail(),
+                mExoPlayerView.getLayoutParams().width, mExoPlayerView.getLayoutParams().height);
+
+        txtAuthor.setText(course.getAuthor().getFullName());
+        txtTitle.setText(course.getName());
+        txtDesc.setText(Html.fromHtml(course.getDescription()));
+        tagGroup.setTags(course.getTags().getTags());
+
+
+        tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
+            @Override
+            public void onTagClick(String tag) {
+                ArrayList<String> tags = new ArrayList<>();
+                tags.add(tag);
+                addFrg(FilterTagsFrg.newInstance(null, tags), "FilterTagsFrg");
+            }
+        });
+        if (course.getFile() != null && course.getFile().getVideo().size() > 0)
+            checkExistVideo(course.getFile().getVideo());
+        playListAdapter.notifyDataSetChanged();
+    }
+
+    private void initView(View view, Bundle savedInstanceState) {
+
+        if (savedInstanceState != null) {
+            mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
+            mResumePosition = savedInstanceState.getLong(STATE_RESUME_POSITION);
+            mExoPlayerFullscreen = savedInstanceState.getBoolean(STATE_PLAYER_FULLSCREEN);
+        }
         if (mExoPlayerView == null) {
 
             mExoPlayerView = (SimpleExoPlayerView) getView().findViewById(R.id.exoplayer);
@@ -472,16 +377,16 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         }
 
         myRecyclerView = view.findViewById(R.id.recyclerView);
-        recyclerViewComment = view.findViewById(R.id.recyclerViewComment);
         imgDownload = view.findViewById(R.id.imgDownload);
         imgReady = view.findViewById(R.id.imgReady);
-        imgLike = view.findViewById(R.id.imgLike);
         imgShare = view.findViewById(R.id.imgShare);
-        imgFavorite = view.findViewById(R.id.imgFavorite);
         mediaVideoFrame = view.findViewById(R.id.mediaVideoFrame);
-        txtVote = view.findViewById(R.id.txtVote);
+        txtDesc = view.findViewById(R.id.txtDesc);
         txtTitle = view.findViewById(R.id.txtTitle);
         txtAuthor = view.findViewById(R.id.txtAuthor);
+        tagGroup = view.findViewById(R.id.tag_group);
+        loader = view.findViewById(R.id.loader);
+        AppConfig.getInstance().changeProgressColor(loader);
 
         //preview
         relativePreview = view.findViewById(R.id.relativePreview);
@@ -489,41 +394,36 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         imgPreview = view.findViewById(R.id.imgPreview);
 
         //play list
-        linRootPlayList = view.findViewById(R.id.linRootPlayList);
-        linBodyPlayList = view.findViewById(R.id.linBodyPlayList);
-        linHeaderPlayList = view.findViewById(R.id.linHeaderPlayList);
-        imgShowPlayList = view.findViewById(R.id.imgShowPlayList);
+        imgArrow = view.findViewById(R.id.imgArrow);
         recyclerPlayList = view.findViewById(R.id.recyclerPlayList);
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-
+        progressBarExoplaying = (ProgressBar) view.findViewById(R.id.progressBar);
+        AppConfig.getInstance().changeProgressColor(progressBarExoplaying);
 
         myRecyclerView.setNestedScrollingEnabled(false);
         myRecyclerView.setHasFixedSize(true);
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
-        adapter = new MainItemAdapter(AppConfig.context, items);
+        myRecyclerView.setNestedScrollingEnabled(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
+        myRecyclerView.setLayoutManager(layoutManager);
+        adapter = new MainItemAdapter(AppConfig.context, items, GlideApp.with(this));
         adapter.setSize(AppConfig.width, AppConfig.height);
         myRecyclerView.setAdapter(adapter);
 
-        recyclerViewComment.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
-        commentAdapter = new CommentAdapter(AppConfig.context, comments);
-        recyclerViewComment.setAdapter(commentAdapter);
-
         //--------------play list
-        playListAdapter = new PlayListAdapter(getContext(), playLists);
-        recyclerPlayList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        playListAdapter = new PlayListAdapter(getContext(), videoCourses, GlideApp.with(getContext()));
+        recyclerPlayList.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false));
         recyclerPlayList.setAdapter(playListAdapter);
         playListAdapter.setOnClick(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, Object item, View view, RecyclerView.ViewHolder vh) {
 
-                if (!checkExistVideo(((PlayList) item).getDownloadUrls())) {
-                    mUrl = ((PlayList) item).getDownloadUrls().get(0).getUrl();
-                }
-                if (player != null)
-                    player.release();
-                initExoPlayer(mUrl);
-
+                loader.setVisibility(View.VISIBLE);
+                positionPlaying = position;
+                course = (DataCourse) item;
+                setData();
+                loader.setVisibility(View.GONE);
+                playListAdapter.setItemSelect(positionPlaying);
             }
         });
 
@@ -532,14 +432,17 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         setRipple();
 
         imgDownload.setOnClickListener(this);
-        imgShowPlayList.setOnClickListener(this);
-        linHeaderPlayList.setOnClickListener(this);
+        imgReady.setOnClickListener(this);
+        imgArrow.setOnClickListener(this);
         imgPlay.setOnClickListener(this);
+        imgShare.setOnClickListener(this);
     }
+
+    //<editor-fold desc="Player">
 
     private void resizePlayer() {
 
-        int h = (int) (AppConfig.width * 0.7f);
+        int h = (int) (AppConfig.width * 0.56);
         mediaVideoFrame.getLayoutParams().height = h;
         mediaVideoFrame.getLayoutParams().width = AppConfig.width;
 
@@ -552,7 +455,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     private void initFullscreenDialog() {
 
-        mFullScreenDialog = new Dialog(AppConfig.currentActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
+        mFullScreenDialog = new Dialog(getActivity(), android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
             public void onBackPressed() {
                 if (mExoPlayerFullscreen)
                     closeFullscreenDialog();
@@ -651,7 +554,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 new DefaultRenderersFactory(getContext()),
                 trackSelector,
                 loadControl);
-        
+
         mExoPlayerView.setPlayer(player);
 
         boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
@@ -663,7 +566,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
                 Util.getUserAgent(context, "mediaPlayerSample"));
         mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(Uri.parse(mUrl));
+                .createMediaSource(Uri.parse(mUrl));//http://edu-edu.ir/jokLike/1.mp3
 
         player.addListener(new PlayerEventListener());
         player.prepare(mVideoSource, !haveResumePosition, false);
@@ -681,34 +584,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         if (getActivity().getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        getActivity().unregisterReceiver(phoneStateReceiver);
-        releasePlayer();
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (mExoPlayerFullscreen) {
-            ((ViewGroup) mExoPlayerView.getParent()).removeView(mExoPlayerView);
-            mFullScreenDialog.addContentView(mExoPlayerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(AppConfig.currentActivity, R.drawable.ic_fullscreen_skrink));
-            mFullScreenDialog.show();
-        }
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        releasePlayer();
     }
 
     private void releasePlayer() {
@@ -742,12 +617,12 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
                     break;
                 case Player.STATE_READY:      // The player is able to immediately play
-                    progressBar.setVisibility(View.GONE);
+                    progressBarExoplaying.setVisibility(View.GONE);
                     controlView.findViewById(R.id.exo_play).animate().alpha(1).setDuration(400).setListener(animatorShow);
                     controlView.findViewById(R.id.exo_pause).animate().alpha(1).setDuration(400).setListener(animatorShow);
                     break;
                 case Player.STATE_ENDED:      // The player has finished playing the media
-                    progressBar.setVisibility(View.GONE);
+                    progressBarExoplaying.setVisibility(View.GONE);
 
                     break;
             }
@@ -755,22 +630,22 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     }
 
+    //</editor-fold>
+
     private void setRipple() {
 
-        ripple(imgShowPlayList, 24);
-        ripple(imgDownload, 24);
-        ripple(imgReady, 24);
-        ripple(imgFavorite, 24);
+        ripple(imgArrow, 24);
+        // ripple(imgDownload, 24);
+        // ripple(imgReady, 24);
         ripple(imgShare, 24);
-        ripple(imgLike, 24);
 
     }
 
-    private boolean checkExistVideo(ArrayList<DownloadUrl> downloadUrls) {
+    private boolean checkExistVideo(List<Video> videos) {
 
-        for (int i = 0; i < downloadUrls.size(); i++) {
+        for (int i = 0; i < videos.size(); i++) {
 
-            String url = downloadUrls.get(i).getUrl();
+            String url = videos.get(i).getUrl();
 
             String mediaPath = FileManager.getPathFromAllaUrl(url);
             String fileName = FileManager.getFileNameFromUrl(url);
@@ -780,6 +655,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 imgReady.setVisibility(View.VISIBLE);
                 mUrl = file.getPath();
                 return true;
+            } else {
+                imgDownload.setVisibility(View.VISIBLE);
+                imgReady.setVisibility(View.GONE);
             }
 
         }
@@ -857,6 +735,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     }
     //</editor-fold>
 
+    //<editor-fold desc="phoneStateReceiver">
     BroadcastReceiver phoneStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -874,6 +753,14 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     player.setPlayWhenReady(false);
                 }
             }
+        }
+    };
+    //</editor-fold>
+
+    RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(context) {
+        @Override
+        protected int getVerticalSnapPreference() {
+            return LinearSmoothScroller.SNAP_TO_START;
         }
     };
 }

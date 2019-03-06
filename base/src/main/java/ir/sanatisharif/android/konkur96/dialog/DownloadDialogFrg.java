@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
@@ -32,6 +33,7 @@ import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
 import ir.sanatisharif.android.konkur96.model.DownloadUrl;
+import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.utils.DownloadFile;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
@@ -43,6 +45,8 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
     //------init UI
     private static final String TAG = "LOG";
+    private static ArrayList<Video> videos = new ArrayList<>();
+    private static String title;
 
     private TextView txtDownload;
     private TextView txtCancel;
@@ -55,16 +59,25 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
     private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
     private static final int PERMISSION_ALL = 1;
-    View dialog;
-    SharedPreferences sharedPreferences;
-    private static ArrayList<DownloadUrl> downloadUrls = new ArrayList<>();
+    private View dialog;
+    private SharedPreferences sharedPreferences;
+    private DownloadComplete downloadComplete;
 
-    public static DownloadDialogFrg newInstance(ArrayList<DownloadUrl> Urls) {
+    public static DownloadDialogFrg newInstance(List<Video> v, String t) {
         DownloadDialogFrg frag = new DownloadDialogFrg();
-        downloadUrls.addAll(Urls);
+        videos.addAll(v);
+        title = t;
         return frag;
     }
 
+    public void setData(List<Video> v, String t) {
+        videos.addAll(v);
+        title = t;
+    }
+
+    public void setComplete(DownloadComplete downloadComplete) {
+        this.downloadComplete = downloadComplete;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +89,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        downloadUrls.clear();
+        videos.clear();
     }
 
     @Nullable
@@ -95,7 +108,6 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         txtDownload = dialog.findViewById(R.id.txtDownload);
         txtCancel = dialog.findViewById(R.id.txtCancel);
 
@@ -109,9 +121,19 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        radioExcellentQuality.setText(downloadUrls.get(0).getQuality());
-        radioHighQuality.setText(downloadUrls.get(1).getQuality());
-        radioMediumQuality.setText(downloadUrls.get(2).getQuality());
+        radioExcellentQuality.setText(toString(videos.get(0).getCaption(), videos.get(0).getRes()));
+        radioHighQuality.setText(toString(videos.get(1).getCaption(), videos.get(1).getRes()));
+        radioMediumQuality.setText(toString(videos.get(2).getCaption(), videos.get(2).getRes()));
+
+        String pref = sharedPreferences.getString(getString(R.string.player_quality), "240");
+
+        if (pref.equals("HD_720")) {
+            radioExcellentQuality.setChecked(true);
+        } else if (pref.equals("hq")) {
+            radioHighQuality.setChecked(true);
+        } else if (pref.equals("240p")) {
+            radioMediumQuality.setChecked(true);
+        }
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -128,19 +150,19 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                 if (checkLocationPermission()) {
                     if (radioGroup.getCheckedRadioButtonId() == R.id.radioExcellentQuality) {
 
-                        createDir(downloadUrls.get(0).getUrl(), downloadUrls.get(0).getTitle());
+                        createDir(videos.get(0).getUrl(), title);
 
                     } else if (radioGroup.getCheckedRadioButtonId() == R.id.radioHighQuality) {
 
-                        createDir(downloadUrls.get(1).getUrl(), downloadUrls.get(1).getTitle());
+                        createDir(videos.get(1).getUrl(), title);
 
                     } else if (radioGroup.getCheckedRadioButtonId() == R.id.radioMediumQuality) {
 
-                        createDir(downloadUrls.get(2).getUrl(), downloadUrls.get(2).getTitle());
+                        createDir(videos.get(2).getUrl(), title);
                     }
+
+                    dismiss();
                 }
-
-
             }
         });
         txtCancel.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +199,6 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         return true;
     }
 
-
     private void createDir(String url, String title) {
 
         String mediaPath = FileManager.getPathFromAllaUrl(url);
@@ -197,6 +218,9 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                 @Override
                 public void complete() {
 
+                    if (downloadComplete != null) {
+                        downloadComplete.complete();
+                    }
                     Utils.addVideoToGallery(f, AppConfig.currentActivity);
                 }
             });
@@ -207,4 +231,8 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         }
     }
 
+    public String toString(String caption, String title) {
+
+        return String.format("%s - %s", caption, title);
+    }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Alla Setting" />
+
+    <PreferenceScreen
+        android:key="alla_settings"
+        android:summary=""
+        android:title="Alla Setting">
+        <intent
+            android:action="ir.sanatisharif.android.SETTING"
+            android:targetClass="ir.sanatisharif.android.konkur96.activity.MainActivity"
+            android:targetPackage="org.telegram.messenger" />
+    </PreferenceScreen>
+</PreferenceScreen>

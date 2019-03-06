@@ -15,7 +15,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ActivityBase extends AppCompatActivity {
 
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));

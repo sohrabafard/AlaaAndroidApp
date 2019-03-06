@@ -2,7 +2,9 @@ package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,26 +13,48 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.model.PlayList;
+import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
+import ir.sanatisharif.android.konkur96.ui.GlideRequest;
+import ir.sanatisharif.android.konkur96.ui.GlideRequests;
 
 public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoHolder> {
 
-    private ArrayList<PlayList> itemsList;
+    private List<VideoCourse> itemsList;
     private Context mContext;
     private OnItemClickListener onItemClickListener;
+    private GlideRequest<Drawable> requestBuilder;
+    private int width, height, pos = -1;
 
-    public PlayListAdapter(Context context, ArrayList<PlayList> itemsList) {
+    public PlayListAdapter(Context context, List<VideoCourse> itemsList, GlideRequests glideRequests) {
         this.itemsList = itemsList;
         this.mContext = context;
+        requestBuilder = glideRequests.asDrawable().fitCenter();
+        setSize();
+        pos = -1;
+    }
+
+    private void setSize() {
+        width = AppConfig.width / 2;
+        height = (int) (width * 0.56f);
+        width -= 40;
+    }
+
+    public void setItemSelect(int pos) {
+        this.pos = pos;
+        notifyDataSetChanged();
     }
 
     public void setOnClick(OnItemClickListener onItemClickListener) {
@@ -46,20 +70,28 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
     @Override
     public void onBindViewHolder(final VideoHolder holder, final int position) {
 
-        final PlayList item = itemsList.get(position);
+        final VideoCourse item = itemsList.get(position);
+        holder.txtTitle.setText(item.getName());
+        holder.txtSession.setText("   جلسه " + item.getOrder());
 
-        holder.txtTitle.setText(item.getTitle());
+        if (pos > -1 && position == pos) {
+            if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                holder.root.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list) );
+            } else {
+                holder.root.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
+            }
+            // holder.root.setBackgroundColor(mContext.getResources().getColor(R.color.shades_2));
+        } else {
+            holder.root.setBackgroundColor(mContext.getResources().getColor(R.color.White));
+        }
 
-        int width = AppConfig.width / 3;
-        width -= 8;
-        int height = (int) (width * 0.56f);
         holder.imgPlayList.getLayoutParams().width = width;
         holder.imgPlayList.getLayoutParams().height = height;
 
-        GlideApp.with(AppConfig.context)
-                .load(item.getImageUrl())
+        requestBuilder
+                .load(item.getThumbnail())
                 .override(width, height)
-                // .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
+                .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
                 .into(new SimpleTarget<Drawable>(460, 259) {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
@@ -76,6 +108,15 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
                 }
             }
         });
+        holder.root.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(position, item, view, holder);
+                }
+                return true;
+            }
+        });
 
     }
 
@@ -89,16 +130,18 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
 
         private LinearLayout root;
         private ImageView imgPlayList;
-        private TextView txtTitle;
+        private TextView txtTitle, txtSession;
 
         private VideoHolder(View view) {
             super(view);
 
-
             root = view.findViewById(R.id.root);
             imgPlayList = view.findViewById(R.id.imgPlayList);
             txtTitle = view.findViewById(R.id.txtTitle);
+            txtSession = view.findViewById(R.id.txtSession);
+
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);
+            txtSession.setTypeface(AppConfig.fontIRSensNumber);
 
             ripple(root, 0);
         }

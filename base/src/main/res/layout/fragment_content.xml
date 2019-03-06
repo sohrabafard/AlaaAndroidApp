@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
@@ -25,17 +26,7 @@
                 android:layout_gravity="top|center"
                 android:src="@drawable/ic_pdf" />
 
-            <TextView
-                android:id="@+id/txtPDFSize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="4dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="4.5 مگابایت"
-                android:textColor="@color/Green"
-                android:textSize="12sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -51,10 +42,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:gravity="center|right"
-                android:text="
- جلسه 23 - انواع جمله و نقش واژه ها (قسمت سوم)"
+                android:text=""
                 android:textColor="#070707"
-                android:textSize="17sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/txtAuthor"
@@ -62,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:gravity="center|right"
-                android:text="  دکتر هامون سبطی "
+                android:text=""
                 android:textColor="#070707"
                 android:textSize="13sp" />
 
@@ -77,55 +67,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:gravity="center">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <RatingBar
-                            android:id="@+id/rating"
-                            style="?android:attr/ratingBarStyleSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="8dp"
-                            android:numStars="5"
-                            android:rating="4.5"
-                            android:stepSize="0.1" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/img"
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
-                                android:layout_margin="4dp"
-                                android:src="@drawable/ic_author" />
-
-
-                            <TextView
-                                android:id="@+id/txtVote"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="4dp"
-                                android:gravity="right"
-                                android:text="67"
-                                android:textColor="@color/Green"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
+                    android:gravity="center" />
 
                 <Button
+                    android:id="@+id/btnDownload"
                     style="@style/Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -133,11 +78,22 @@
                     android:background="@drawable/shape_button"
                     android:text="@string/download" />
 
+                <Button
+                    android:id="@+id/btnOpenPDF"
+                    style="@style/Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@drawable/shape_button"
+                    android:text="@string/openPDf"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
 
         </LinearLayout>
     </LinearLayout>
+
 
     <View
         android:id="@+id/view4324"
@@ -147,18 +103,47 @@
         android:background="@drawable/shape_separator"
         android:foregroundGravity="center" />
 
-    <com.uncopt.android.widget.text.justify.JustifiedTextView
-        android:id="@+id/txtDesc"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:layout_marginTop="-16dp"
-        android:focusable="true"
-        android:focusableInTouchMode="false"
-        android:gravity="right"
-        android:paddingLeft="@dimen/tvJustufMargin"
-        android:paddingRight="@dimen/tvJustufMargin"
-        android:text="@string/desc"
-        android:textColor="#4A4A4A"
-        android:textSize="15sp" />
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.uncopt.android.widget.text.justify.JustifiedTextView
+                android:id="@+id/txtDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_marginTop="-16dp"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:gravity="right"
+                android:paddingLeft="@dimen/tvJustufMargin"
+                android:paddingRight="@dimen/tvJustufMargin"
+                android:textColor="#4A4A4A"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <me.gujun.android.taggroup.TagGroup
+                android:id="@+id/tag_group"
+                style="@style/TagGroup"
+                android:layout_margin="4dp"
+                app:atg_backgroundColor="@color/Monochromatic_7"
+                app:atg_borderColor="@color/Monochromatic_3"
+                app:atg_checkedBackgroundColor="@color/White"
+                app:atg_textColor="@color/Black_2"
+                app:atg_textSize="14sp" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

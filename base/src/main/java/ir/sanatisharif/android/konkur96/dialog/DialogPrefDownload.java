@@ -37,11 +37,10 @@ public class DialogPrefDownload extends DialogPreference {
     }
 
     public void setValue(String value) {
-        mValue = value;
+        this.mValue = value;
 
         // Save to SharedPreference
         persistString(mValue);
-        this.mValue = value;
     }
 
     /**

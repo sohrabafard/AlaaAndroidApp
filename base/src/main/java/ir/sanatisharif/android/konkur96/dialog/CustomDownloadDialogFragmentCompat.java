@@ -45,9 +45,9 @@ public class CustomDownloadDialogFragmentCompat extends PreferenceDialogFragment
     private void init(View view, String value) {
         radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
 
-        ((RadioButton) radioGroup.getChildAt(0)).setText(playerEntry[0]);
-        ((RadioButton) radioGroup.getChildAt(1)).setText(playerEntry[1]);
-        ((RadioButton) radioGroup.getChildAt(2)).setText(playerEntry[2]);
+        ((RadioButton) radioGroup.getChildAt(0)).setText(playerEntry[0] + " - " + playerValue[0]);
+        ((RadioButton) radioGroup.getChildAt(1)).setText(playerEntry[1] + " - " + playerValue[1]);
+        ((RadioButton) radioGroup.getChildAt(2)).setText(playerEntry[2] + " - " + playerValue[2]);
 
         if (value != null) {
             if (value.equals(playerValue[0])) {

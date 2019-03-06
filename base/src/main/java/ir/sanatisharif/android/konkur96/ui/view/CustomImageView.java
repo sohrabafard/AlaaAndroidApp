@@ -14,6 +14,7 @@ import android.widget.ImageView;
  */
 
 @SuppressLint("AppCompatCustomView")
+
 public class CustomImageView extends ImageView {
 
     public static float radius = 24.0f;

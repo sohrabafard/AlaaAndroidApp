@@ -9,6 +9,7 @@ import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 
 import ir.sanatisharif.android.konkur96.R;
@@ -52,13 +53,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+          Preference pref1 = findPreference("player_quality");
+          pref1.setSummary(sharedPreferences.getString(pref1.getKey(), "240"));
+
+         // Preference pref2 = findPreference("storage");
+         // pref2.setSummary(sharedPreferences.getString(pref2.getKey(), "external"));
+
         onSharedPreferenceChanged(sharedPreferences, getString(R.string.setting_external_download));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //unregister the preferenceChange listener
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -76,10 +82,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
         Preference preference = findPreference(key);
 
-        if (key.equals(getString(R.string.setting_external_download))) {
-            Preference connectionPref = findPreference(key);
-            //Log.i(TAG, "onSharedPreferenceChanged1: " + sharedPreferences.getBoolean(key, true));
-        } else if (preference instanceof ListPreference) {
+        if (preference instanceof ListPreference) {
             ListPreference listPreference = (ListPreference) preference;
 
             int prefIndex = listPreference.findIndexOfValue(sharedPreferences.getString(key, ""));
@@ -87,11 +90,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 preference.setSummary(listPreference.getEntries()[prefIndex]);
             }
             //  Log.i(TAG, "onSharedPreferenceChanged1: " + listPreference.getEntries()[prefIndex]);
-        } else if (preference instanceof DialogPrefDownload) {
-            preference.setSummary(sharedPreferences.getString(preference.getKey(), ""));
+        }
+        if (preference instanceof DialogPrefDownload) {
+            preference.setSummary(sharedPreferences.getString(preference.getKey(), "240"));
 
-        } else if (preference instanceof DialogPrefChangeStorage) {
-            preference.setSummary(sharedPreferences.getString(preference.getKey(), ""));
+        }
+        if (preference instanceof DialogPrefChangeStorage) {
+            preference.setSummary(sharedPreferences.getString(preference.getKey(), "external"));
         }
 
 
@@ -114,7 +119,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                         ".PreferenceFragment.DIALOG");
             }
         } else if (preference instanceof DialogPrefChangeStorage) {
-
 
             dialogFragment = CustomStorageDialogFragmentCompat.newInstance(
                     preference.getKey(),

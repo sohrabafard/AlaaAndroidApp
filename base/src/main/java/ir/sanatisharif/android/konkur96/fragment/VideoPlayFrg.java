@@ -89,10 +89,10 @@ public class VideoPlayFrg extends BaseFragment {
     KeyguardManager km;
     KeyguardManager.KeyguardLock kl;
 
-    public static VideoPlayFrg newInstance(Video video) {
+    public static VideoPlayFrg newInstance(String path) {
 
         Bundle args = new Bundle();
-        args.putString("path", video.getPath());
+        args.putString("path", path);
         VideoPlayFrg fragment = new VideoPlayFrg();
         fragment.setArguments(args);
         return fragment;
@@ -131,7 +131,6 @@ public class VideoPlayFrg extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
         if (savedInstanceState != null) {
             mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
