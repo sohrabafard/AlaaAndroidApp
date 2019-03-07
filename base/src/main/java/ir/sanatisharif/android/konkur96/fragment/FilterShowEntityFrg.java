@@ -24,6 +24,7 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
+import ir.sanatisharif.android.konkur96.listener.ScrollOnRecycler;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.filter.ArticleRoot;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
@@ -51,6 +52,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
     private Pagination pagination;
     private int type = -1;
     private boolean repeatLoad = true;
+    private ScrollOnRecycler scrollOnRecycler;
 
     public static FilterShowEntityFrg newInstance() {
 
@@ -117,6 +119,26 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
         myRecyclerView.addOnScrollListener(endLess);
 
+        myRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (scrollOnRecycler != null) {
+                    if (dy > 0) {
+                        scrollOnRecycler.scrollUp(recyclerView, dy);
+
+                    } else if (dy < 0) {
+                        scrollOnRecycler.scrollDown(recyclerView, dy);
+                    }
+                }
+            }
+        });
+
+    }
+
+    public void setScrollOnRecycler(ScrollOnRecycler scrollOnRecycler) {
+        this.scrollOnRecycler = scrollOnRecycler;
     }
 
     //<editor-fold desc="set data">
@@ -219,16 +241,6 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                 }).create().show();
     }
 
-    @Override
-    public void onCheckNetwork(boolean flag) {
-
-        if (flag) {
-            if (endLess != null)
-                endLess.moreLoading();
-        } else
-            show();
-    }
-
     void show() {
 
         if (!AppConfig.showNoInternetDialog)
@@ -240,6 +252,15 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                     }
                 }
             }).show(getFragmentManager(), "");
+    }
+
+    @Override
+    public void onCheckNetwork(boolean flag) {
+        if (flag) {
+            if (endLess != null)
+                endLess.moreLoading();
+        } else
+            show();
     }
 }
 

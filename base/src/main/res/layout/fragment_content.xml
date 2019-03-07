@@ -26,17 +26,7 @@
                 android:layout_gravity="top|center"
                 android:src="@drawable/ic_pdf" />
 
-            <TextView
-                android:id="@+id/txtPDFSize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="4dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="4.5 مگابایت"
-                android:textColor="@color/Green"
-                android:textSize="12sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -88,6 +78,16 @@
                     android:background="@drawable/shape_button"
                     android:text="@string/download" />
 
+                <Button
+                    android:id="@+id/btnOpenPDF"
+                    style="@style/Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@drawable/shape_button"
+                    android:text="@string/openPDf"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
 
@@ -125,15 +125,24 @@
                 android:paddingLeft="@dimen/tvJustufMargin"
                 android:paddingRight="@dimen/tvJustufMargin"
                 android:textColor="#4A4A4A"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone" />
 
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <me.gujun.android.taggroup.TagGroup
                 android:id="@+id/tag_group"
                 style="@style/TagGroup"
-                app:atg_backgroundColor="@color/tag_color"
-                app:atg_borderColor="@color/tag_color"
-                app:atg_textColor="@color/White" />
+                android:layout_margin="4dp"
+                app:atg_backgroundColor="@color/Monochromatic_7"
+                app:atg_borderColor="@color/Monochromatic_3"
+                app:atg_checkedBackgroundColor="@color/White"
+                app:atg_textColor="@color/Black_2"
+                app:atg_textSize="14sp" />
+
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

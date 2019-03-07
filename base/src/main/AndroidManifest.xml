@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
+
     <application
         android:name="ir.sanatisharif.android.konkur96.app.AppConfig"
         android:allowBackup="true"
@@ -23,8 +24,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="HardcodedDebugMode">
-
+        tools:ignore="HardcodedDebugMode"
+        android:networkSecurityConfig="@xml/network_security_config"
+        tools:targetApi="n">
 
         <meta-data
             android:name="asset_statements"
@@ -64,19 +66,28 @@
             </intent-filter>
 
 
-            <intent-filter>
+             <intent-filter>
                  <action android:name="android.intent.action.VIEW" />
 
                  <category android:name="android.intent.category.DEFAULT" />
                  <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="https" />
-                <data android:scheme="http" />
-                <data android:host="sanatisharif.ir" />
-                <data android:pathPrefix="/c" />
-
+                 <data
+                     android:scheme="https"
+                     android:host="sanatisharif.ir"
+                     android:pathPrefix="/c" />
              </intent-filter>
+             <intent-filter>
+                 <action android:name="android.intent.action.VIEW" />
 
+                 <category android:name="android.intent.category.DEFAULT" />
+                 <category android:name="android.intent.category.BROWSABLE" />
+
+                 <data
+                     android:scheme="http"
+                     android:host="sanatisharif.ir"
+                     android:pathPrefix="/c" />
+             </intent-filter>
 
              <intent-filter>
                  <action android:name="android.intent.action.VIEW" />
@@ -84,13 +95,57 @@
                  <category android:name="android.intent.category.DEFAULT" />
                  <category android:name="android.intent.category.BROWSABLE" />
 
-                 <data android:scheme="https" />
-                 <data android:scheme="http" />
-                 <data android:host="sanatisharif.ir" />
-                 <data android:pathPrefix="/product" />
+                 <data
+                     android:scheme="https"
+                     android:host="sanatisharif.ir"
+                     android:pathPrefix="/product" />
+             </intent-filter>
+             <intent-filter>
+                 <action android:name="android.intent.action.VIEW" />
+
+                 <category android:name="android.intent.category.DEFAULT" />
+                 <category android:name="android.intent.category.BROWSABLE" />
+
+                 <data
+                     android:scheme="http"
+                     android:host="sanatisharif.ir"
+                     android:pathPrefix="/product" />
              </intent-filter>
 
+             <intent-filter>
+                 <action android:name="android.intent.action.VIEW" />
 
+                 <category android:name="android.intent.category.DEFAULT" />
+                 <category android:name="android.intent.category.BROWSABLE" />
+
+                 <data
+                     android:scheme="https"
+                     android:host="sanatisharif.ir"
+                     android:pathPrefix="/login" />
+             </intent-filter>
+             <intent-filter>
+                 <action android:name="android.intent.action.VIEW" />
+
+                 <category android:name="android.intent.category.DEFAULT" />
+                 <category android:name="android.intent.category.BROWSABLE" />
+
+                 <data
+                     android:scheme="http"
+                     android:host="sanatisharif.ir"
+                     android:pathPrefix="/login" />
+             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="sanatisharif.ir"
+                    android:pathPrefix="/shop" />
+            </intent-filter>
         </activity>
         <activity
             android:name="ir.sanatisharif.android.konkur96.activity.OnBoardingActivity"
@@ -105,13 +160,6 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".fragment.FilterShowEntityFrg" />
-
         <service
             android:name="ir.sanatisharif.android.konkur96.service.AuthenticatorService"
             android:exported="false">
@@ -123,15 +171,24 @@
                 android:resource="@xml/authenticator" />
         </service>
 
+        <receiver android:name="ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name="ir.sanatisharif.android.konkur96.activity.VideoPlayActivity"
             android:screenOrientation="landscape"></activity>
+
         <activity
             android:name="ir.sanatisharif.android.konkur96.account.AuthenticatorActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"/>
 
-        </activity>
-
+        //for ImageGallery
+        <activity
+            android:name="ir.sanatisharif.android.konkur96.activity.GalleryFullView"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 

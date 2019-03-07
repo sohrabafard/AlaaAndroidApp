@@ -9,7 +9,7 @@
     <ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="120dp" />
+        android:layout_height="wrap_content" />
 
     <com.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator"
@@ -20,8 +20,9 @@
         android:gravity="bottom"
         android:padding="10dip"
         app:centered="true"
-        app:fillColor="#df0623"
+        app:fillColor="@color/Monochromatic_3"
         app:pageColor="#fff"
-        app:snap="false" />
+        app:strokeColor="@color/Monochromatic_1"
+        snap="false" />
 
 </RelativeLayout>

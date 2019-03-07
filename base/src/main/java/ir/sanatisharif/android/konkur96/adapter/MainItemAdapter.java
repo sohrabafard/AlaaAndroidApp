@@ -48,7 +48,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private List<MainItem> dataList;
     private Context mContext;
-    private final  GlideRequests glideRequests;
+    private GlideRequests glideRequests;
     private OnItemClickListener mClickListener;
     int width = 0;
     //private SnapHelper snapHelper;
@@ -124,7 +124,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             final List<Set> items = dataList.get(position).getSets();
 
-            CategoryItemAdapter itemListDataAdapter = new CategoryItemAdapter(mContext, items);
+            CategoryItemAdapter itemListDataAdapter = new CategoryItemAdapter(mContext, items, glideRequests);
 
             itemRowHolder.recyclerView.setHasFixedSize(false);
             LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
@@ -175,7 +175,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             final SliderHolder itemRowHolder = (SliderHolder) holder;
 
             List<MainBanner> items = dataList.get(position).getSliders();
-            itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items));
+            itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items, glideRequests));
             itemRowHolder.view_pager.startAutoScroll();
 
             itemRowHolder.indicator = (CirclePageIndicator) itemRowHolder.itemView.findViewById(R.id.indicator);
@@ -194,7 +194,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
 
                 VideoDownloadedAdapter itemListDataAdapter = new
-                        VideoDownloadedAdapter(mContext, items, AppConstants.VIDEO_SHOW_LINEAR,glideRequests);
+                        VideoDownloadedAdapter(mContext, items, AppConstants.VIDEO_SHOW_LINEAR, glideRequests);
 
                 itemRowHolder.recyclerView.setHasFixedSize(false);
                 LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
@@ -266,7 +266,6 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             view_pager = (AutoScrollViewPager) view.findViewById(R.id.view_pager);
 
-            view_pager.startAutoScroll(10000);
             view_pager.startAutoScroll(5000);
             view_pager.setBorderAnimation(true);
 

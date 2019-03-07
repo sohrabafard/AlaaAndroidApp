@@ -41,12 +41,12 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/storage">
+    <PreferenceCategory  android:title="@string/storage">
 
         <ir.sanatisharif.android.konkur96.dialog.DialogPrefChangeStorage
             android:dialogTitle="انتخاب حافظه دخیره سازی"
             android:key="@string/storage"
-            android:summary="داخلی"
+            android:summary="external"
             android:title="انتخاب حافظه دخیره سازی" />
 
     </PreferenceCategory>

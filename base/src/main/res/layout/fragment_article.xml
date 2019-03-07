@@ -93,27 +93,20 @@
                 android:textColor="#4A4A4A"
                 android:textSize="14sp" />
 
-            <com.uncopt.android.widget.text.justify.JustifiedTextView
-                android:id="@+id/txtContext"
+            <WebView
+                android:id="@+id/webView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_marginTop="-16dp"
-                android:focusable="true"
-                android:focusableInTouchMode="false"
-                android:gravity="right"
-                android:paddingLeft="@dimen/tvJustufMargin"
-                android:paddingRight="@dimen/tvJustufMargin"
-                android:textColor="#4A4A4A"
-                android:textSize="14sp" />
-
+                android:layout_height="wrap_content" />
 
             <me.gujun.android.taggroup.TagGroup
                 android:id="@+id/tag_group"
                 style="@style/TagGroup"
-                app:atg_backgroundColor="@color/tag_color"
-                app:atg_borderColor="@color/tag_color"
-                app:atg_textColor="@color/White" />
+                android:layout_margin="4dp"
+                app:atg_backgroundColor="@color/Monochromatic_7"
+                app:atg_borderColor="@color/Monochromatic_3"
+                app:atg_checkedBackgroundColor="@color/White"
+                app:atg_textColor="@color/Black_2"
+                app:atg_textSize="14sp" />
 
         </LinearLayout>
 

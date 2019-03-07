@@ -48,11 +48,21 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context mContext;
     private OnItemClickListener mClickListener;
     private final GlideRequest<Drawable> requestBuilder;
+    private int width, height;
 
     public FilterAdapter(Context context, List<? extends FilterBaseModel> list, GlideRequests glideRequests) {
         this.mList = list;
         this.mContext = context;
         requestBuilder = glideRequests.asDrawable().fitCenter();
+        setSize();
+    }
+
+    private void setSize() {
+
+        //w= 460 and h = 259
+        width = AppConfig.width;
+        height = (int) (AppConfig.width * 0.56);
+
     }
 
     @Override
@@ -85,10 +95,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemHolder.txtAuthor.setText(item.getAuthor().getFullName());
             itemHolder.txtSession.setText(" - جلسه " + item.getOrder());
 
-            //w= 460 and h = 259
-            int width = AppConfig.width;
-            int height = (int) (AppConfig.width * 0.56);
-
+            //set Size
             itemHolder.imgItem.getLayoutParams().width = width;
             itemHolder.imgItem.getLayoutParams().height = height;
 
@@ -102,7 +109,6 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         @Override
                         public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                             itemHolder.imgItem.setImageDrawable(resource);
-                            itemHolder.imgPlay.setVisibility(View.VISIBLE);
                             itemHolder.loader.setVisibility(View.GONE);
                         }
 
@@ -113,37 +119,11 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                     });
 
-            itemHolder.imgPlay.setOnClickListener(new View.OnClickListener() {
+            itemHolder.layout_click.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     addFrg(DetailsVideoFrg.newInstance(mList, position), "DetailsVideoFrg");
-
-                }
-            });
-
-            itemHolder.imgMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    PopupMenu popup = new PopupMenu(AppConfig.currentActivity, view);
-                    popup.getMenuInflater().inflate(R.menu.menu_post, popup.getMenu());
-                    popup.show();
-
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item1) {
-                            int i = item1.getItemId();
-                            if (i == R.id.action_watch) {
-                                addFrg(DetailsVideoFrg.newInstance(mList, position), "DetailsVideoFrg");
-
-                                return true;
-                            } else if (i == R.id.action_share) {
-                                return true;
-                            }
-                            return false;
-                        }
-                    });
 
                 }
             });
@@ -169,10 +149,6 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             final SetHolder itemHolder = (SetHolder) holder;
             itemHolder.txtTitle.setText(item.getName());
             itemHolder.txtAuthor.setText(item.getAuthor().getFullName());
-
-            //w= 460 and h = 259
-            int width = AppConfig.width;
-            int height = (int) (AppConfig.width * 0.56);
 
             itemHolder.imgItem.getLayoutParams().width = width;
             itemHolder.imgItem.getLayoutParams().height = height;
@@ -263,6 +239,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             setTypeFace(txtTitle);
             setTypeFace(txtAuthor);
             setTypeFace(txtSession);
+            ripple(layout_click, 0);
 
         }
 
@@ -275,7 +252,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void ripple(View view, int radius) {
             MaterialRippleLayout.on(view)
                     .rippleOverlay(true)
-                    .rippleAlpha(0.1f)
+                    .rippleAlpha(0.2f)
                     .rippleRoundedCorners(radius)
                     .rippleHover(true)
                     .create();
@@ -284,21 +261,16 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class VideoHolder extends BaseHolder {
 
-        private ImageView imgMenu, imgPlay, imgItem;
+        private ImageView imgItem;
         private ProgressBar loader;
 
         private VideoHolder(View view) {
             super(view);
 
             imgItem = (ImageView) view.findViewById(R.id.imgItem);
-            imgMenu = (ImageView) view.findViewById(R.id.imgMenu);
-            imgPlay = (ImageView) view.findViewById(R.id.imgPlay);
             loader = view.findViewById(R.id.loader);
             loader.getIndeterminateDrawable().setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
 
-            //set ripple
-            ripple(imgPlay, 24);
-            ripple(imgMenu, 4);
         }
     }
 

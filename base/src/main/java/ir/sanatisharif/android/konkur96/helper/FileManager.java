@@ -52,6 +52,11 @@ public class FileManager {
         // External sdcard location
         return getRootPath() + AppConstants.AUDIO + File.separator;
     }
+    public static String getPDFPath() {
+
+        // External sdcard location
+        return getRootPath() + AppConstants.PDF + File.separator;
+    }
 
 
     /**
@@ -107,15 +112,16 @@ public class FileManager {
         return false;
     }
 
-   /* public static List<File> getFileList() {
+    public static Boolean createPDFDir() {
 
-        File directory = new File(getVideoPath());
-        File[] f = directory.listFiles();
-        if (f.length == 0) {
-            return null;
+        String pathName = getPDFPath();
+        File storageDir = new File(pathName);
+        if (!storageDir.exists()) {
+            return storageDir.mkdirs();
         }
-        return Arrays.asList(f);
-    }*/
+        return false;
+    }
+
 
     public static boolean deleteFileAndCheck(String pathName) {
 

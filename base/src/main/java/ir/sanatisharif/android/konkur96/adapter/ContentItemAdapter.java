@@ -12,7 +12,6 @@ import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
 import ir.sanatisharif.android.konkur96.model.Content;
 import ir.sanatisharif.android.konkur96.ui.view.CustomItemView;
-import ir.sanatisharif.android.konkur96.utils.Utils;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
@@ -42,9 +41,9 @@ public class ContentItemAdapter extends RecyclerView.Adapter<ContentItemAdapter.
     public void onBindViewHolder(final ContentHolder holder, final int position) {
 
         Content item = itemsList.get(position);
-        //holder.customItemView.setClickItem(position, item);
+     //   holder.customItemView.setClickItem(position, item);
         holder.customItemView.setTitle(item.getTitle());
-        holder.customItemView.setAuthor(item.getAuthor().getLastName());
+        holder.customItemView.setAuthor(item.getAuthor().getFullName());
         holder.customItemView.setContentCount(16);
         holder.customItemView.setImage(item.getPhoto());
 
@@ -52,10 +51,11 @@ public class ContentItemAdapter extends RecyclerView.Adapter<ContentItemAdapter.
             @Override
             public void OnClick(int position, Object item) {
 
-
-                //addFrg(ExtraItemFrg.newInstance(AppConstants.ITEM_CONTENT), "ExtraItemFrg");
+                //addFrg(ExtraItemFrg.newInstance(AppConstants.CONTENT_ITEM_SET), "ExtraItemFrg");
             }
         });
+
+
     }
 
     @Override
