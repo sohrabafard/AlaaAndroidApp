@@ -48,7 +48,9 @@ import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
+import ir.sanatisharif.android.konkur96.adapter.ProductAttrAdapter;
 import ir.sanatisharif.android.konkur96.adapter.ProductBonsAdapter;
+import ir.sanatisharif.android.konkur96.adapter.SelectableProductAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
@@ -64,6 +66,7 @@ import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.model.MainAttrType;
 import ir.sanatisharif.android.konkur96.model.ProductType;
+import ir.sanatisharif.android.konkur96.model.SelectableProduct;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.utils.GalleryWorker;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
@@ -78,12 +81,15 @@ public class ProductDetailFragment extends BaseFragment {
     private FrameLayout intro;
 
     private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice, txtMainAttrCom;
+
+    private RecyclerView selectableRecyclerView;
+
     private JustifiedTextView txtShortDesc, txtDesc;
 
     private ProgressBar progPrice;
 
     private CardView cardDesc, cardBon, btnAddToCard;
-    private LinearLayout bodyMainAttr;
+    private LinearLayout bodyMainAttr, bodySelectable;
 
     private GalleryWorker imgGallery;
 
@@ -201,6 +207,7 @@ public class ProductDetailFragment extends BaseFragment {
         txtAuthor = v.findViewById(R.id.txt_author);
         txtAtrr = v.findViewById(R.id.txt_atrr);
         txtComment = v.findViewById(R.id.txt_comment);
+        selectableRecyclerView = v.findViewById(R.id.recycler_selectable);
 
         txtPrice = v.findViewById(R.id.txt_price);
 
@@ -222,6 +229,7 @@ public class ProductDetailFragment extends BaseFragment {
         btnAddToCard = v.findViewById(R.id.btn_addToCard);
 
         bodyMainAttr = v.findViewById(R.id.body_main_attr);
+        bodySelectable = v.findViewById(R.id.body_selectable);
 
         bonsRecyclerView = v.findViewById(R.id.recycler_bons);
 
@@ -301,10 +309,42 @@ public class ProductDetailFragment extends BaseFragment {
 
         }
 
+
+        setSelectable();
         setMainAttr();
 
 
 
+    }
+
+    private void setSelectable(){
+
+        if (type == ProductType.SELECTABLE){
+
+            bodySelectable.setVisibility(View.VISIBLE);
+
+            ArrayList<SelectableProduct> items = ShopUtils.convertToSelectableProductModel(model.getChildren());
+
+            SelectableProductAdapter adapter = new SelectableProductAdapter(getContext(), items, new SelectableProductAdapter.CheckListeners() {
+                @Override
+                public void onItemCheck(ProductModel model, int position) {
+
+                    Toast.makeText(getContext(), model.getName() + " " + "check", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onItemUncheck(ProductModel model, int position) {
+
+                    Toast.makeText(getContext(), model.getName() + " " + "unCheck", Toast.LENGTH_LONG).show();
+
+                }
+            });
+
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            selectableRecyclerView.setLayoutManager(mLayoutManager);
+            selectableRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            selectableRecyclerView.setAdapter(adapter);
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -478,9 +518,12 @@ public class ProductDetailFragment extends BaseFragment {
 
     private void showAtrrDialog() {
 
-        FragmentManager fm = getFragmentManager();
-        DialogFragment newFragment = new ProductAttrDialogFragment(model.getAttributes().getInformation());
-        newFragment.show(fm, "ProductAttr");
+       if (null != model.getAttributes().getInformation()){
+
+           FragmentManager fm = getFragmentManager();
+           DialogFragment newFragment = new ProductAttrDialogFragment(model.getAttributes().getInformation());
+           newFragment.show(fm, "ProductAttr");
+       }
 
     }
 
@@ -494,8 +537,11 @@ public class ProductDetailFragment extends BaseFragment {
 
     private void showSampleProduct() {
 
-        imgGallery.setImages(model.getSamplePhotos());
-        imgGallery.openFullView(0);
+        if(null != model.getSamplePhotos()){
+
+            imgGallery.setImages(model.getSamplePhotos());
+            imgGallery.openFullView(0);
+        }
 
     }
 
