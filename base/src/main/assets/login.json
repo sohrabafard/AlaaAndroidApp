@@ -1,0 +1,46 @@
+{
+  "status": 1,
+  "msg": "user sign in.",
+  "redirectTo": "http://79.127.123.246:8080",
+  "data": {
+    "user": {
+      "firstName": "محمد",
+      "lastName": "فلاح",
+      "nameSlug": null,
+      "mobile": "09118296582",
+      "email_verified_at": null,
+      "mobile_verified_at": null,
+      "whatsapp": null,
+      "skype": null,
+      "nationalCode": "2580088520",
+      "lockProfile": 0,
+      "province": null,
+      "city": null,
+      "address": null,
+      "postalCode": null,
+      "school": null,
+      "created_at": "2018-09-16 21:24:45",
+      "updated_at": "2018-09-16 21:25:08",
+      "email": null,
+      "bio": null,
+      "introducedBy": null,
+      "bloodtype_id": null,
+      "allergy": null,
+      "medicalCondition": null,
+      "diet": null,
+      "info": {
+        "major": {
+          "id": 1,
+          "name": "ریاضی",
+          "description": "رشته_ریاضی"
+        },
+        "grade": null,
+        "gender": null,
+        "completion": 40,
+        "wallet": null
+      },
+      "gender": null
+    },
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImYxNGZmYjUwYjk5Y2M4MjkzMmRlNmNlY2ExNTc1M2RhNzY0ZDcwMWI4NzYxNDU0MTdlNzc0MmJmNWNkYzVmZjA5MTA4M2M5OGIzNTg3ZTM5In0.eyJhdWQiOiIxIiwianRpIjoiZjE0ZmZiNTBiOTljYzgyOTMyZGU2Y2VjYTE1NzUzZGE3NjRkNzAxYjg3NjE0NTQxN2U3NzQyYmY1Y2RjNWZmMDkxMDgzYzk4YjM1ODdlMzkiLCJpYXQiOjE1NDk2NTk1MTMsIm5iZiI6MTU0OTY1OTUxMywiZXhwIjoxNTgxMTk1NTEzLCJzdWIiOiIxNzg5ODIiLCJzY29wZXMiOltdfQ.mXUTtLD0rBxxWTYenElwBwtbZr_7OJs2bu-WAt8RmcPkv4Au9nS0G10WgBeL7HDxfeBhTP8r9NmuwY2Ng_Hfzfqa0n80HvKFLVqyw4fhiMpLHb5phNbi6drr7SXjFLTT2abUgpl3GiVG3ok--SJdf1IrRCrshm5la8Pq4jQb9rf0buTRcgoZmexbzRTPWdl_5b6_r7a6dL2CmIXnLXeJ0DsUi9zrJWhDNKMSuX7TQCYkV2tr88i21lvkIGxbvtSIDmmCbxBt5IyvRunSPBKsNN-kRGNTf-brvNclN6wAslDBDpfZlG_zcRVU3DtkhOIAA7WdDbGCkfQxgLOjb3FnJOUtm2_Eoe7w223ggty-6UDk9Sa-ZlPfJR2PXZU1bP8_fqI8K7QNvei7M1gJQ9y0E0sKKmrLmtfPEMX1-1k20ErZqYgYtMGiKHbZVkgcX-fsuNR_13q7Fb4I7aKuuR9nqCfTIx2EYJK9zyv2ozzjcobTIMgtOVquKd0ZK9p7XQlCEGXAhNPYbGCmBYcWj4fAJbtVHFr3giHiCmpiFvs67OW0xTDZk4spnxpwrdBPFz4Iu0wmREDXqE3yOGBjhHnMUudl_quj-NkhoFPs2dF6biydeDr7882Z_qvBTuwlulS7HrdOW0zzkIIBKs3Gv559QrlIIkYA5hMV7T2mv7q7E2A"
+  }
+}

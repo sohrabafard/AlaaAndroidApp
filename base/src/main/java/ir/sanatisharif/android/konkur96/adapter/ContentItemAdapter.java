@@ -43,9 +43,9 @@ public class ContentItemAdapter extends RecyclerView.Adapter<ContentItemAdapter.
         Content item = itemsList.get(position);
      //   holder.customItemView.setClickItem(position, item);
         holder.customItemView.setTitle(item.getTitle());
-        holder.customItemView.setAuthor(item.getAuthor());
+        holder.customItemView.setAuthor(item.getAuthor().getFullName());
         holder.customItemView.setContentCount(16);
-        holder.customItemView.setImage(item.getImageUrl());
+        holder.customItemView.setImage(item.getPhoto());
 
         holder.getCustomCatItem().setOnClickItem(new CustomItemView.OnClickItem() {
             @Override

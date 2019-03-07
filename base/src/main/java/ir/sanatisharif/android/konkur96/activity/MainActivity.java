@@ -336,8 +336,9 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         close();
     }
 
+
     @Override
-    public void onCheckNetwork(Boolean flag) {
+    public void onCheckNetwork(boolean flag) {
 
     }
 }

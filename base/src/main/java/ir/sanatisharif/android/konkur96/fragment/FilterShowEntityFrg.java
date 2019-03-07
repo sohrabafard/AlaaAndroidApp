@@ -255,7 +255,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
     }
 
     @Override
-    public void onCheckNetwork(Boolean flag) {
+    public void onCheckNetwork(boolean flag) {
         if (flag) {
             if (endLess != null)
                 endLess.moreLoading();

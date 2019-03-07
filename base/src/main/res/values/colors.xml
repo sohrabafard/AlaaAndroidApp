@@ -39,6 +39,7 @@
     <color name="tab_unchecked">#FFFFFF</color>
 
     <color name="White">#FFFFFF</color>
+    <color name="tag_color">#659BE0</color>
     <color name="Ivory">#FFFFF0</color>
     <color name="LightYellow">#FFFFE0</color>
     <color name="Yellow">#FFFF00</color>

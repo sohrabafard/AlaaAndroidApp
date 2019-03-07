@@ -49,7 +49,6 @@ public class BannerItemAdapter extends RecyclerView.Adapter<BannerItemAdapter.Ba
 
         Banner item = itemsList.get(position);
 
-        holder.txtTitle.setText(item.getTitle());
 
         int h = AppConfig.itemHeight - 34;
         int w = (int) (AppConfig.width * 0.75f);

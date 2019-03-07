@@ -232,8 +232,9 @@ public class AllaMainFrg extends BaseFragment implements
             }).show(getFragmentManager(), "");
     }
 
+
     @Override
-    public void onCheckNetwork(Boolean flag) {
+    public void onCheckNetwork(boolean flag) {
         if (!flag)//if false
             showNotInternetDialogFrg();
         else

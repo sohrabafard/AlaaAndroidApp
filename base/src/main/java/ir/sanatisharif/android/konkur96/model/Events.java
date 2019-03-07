@@ -37,7 +37,6 @@ public class Events {
 
     public static class VideoDeleted {
 
-        //private ArrayList<Video> videos = new ArrayList<>();
 
         private  int position;
 

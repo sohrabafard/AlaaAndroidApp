@@ -58,7 +58,7 @@ import ir.sanatisharif.android.konkur96.model.filter.Filter;
 
 public class FilterTagsFrg extends BaseFragment implements
         View.OnClickListener,
-        ICheckNetwork, ScrollOnRecycler {
+        ICheckNetwork,ScrollOnRecycler {
 
     private static final int NUMBER_TABS = 5;
     private static final int SET = 4;
@@ -488,7 +488,7 @@ public class FilterTagsFrg extends BaseFragment implements
     }
 
     @Override
-    public void onCheckNetwork(Boolean flag) {
+    public void onCheckNetwork(boolean flag) {
         if (!flag)//if false
             showNotInternetDialogFrg();
     }
