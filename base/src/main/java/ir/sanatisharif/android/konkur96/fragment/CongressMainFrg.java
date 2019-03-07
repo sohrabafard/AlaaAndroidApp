@@ -17,10 +17,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.concurrent.Executor;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.SearchDataSource;
-import ir.sanatisharif.android.konkur96.api.SearchListAdapter;
-import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
 import ir.sanatisharif.android.konkur96.utils.MainThreadExecutor;
@@ -31,8 +27,6 @@ import ir.sanatisharif.android.konkur96.utils.MainThreadExecutor;
 
 public class CongressMainFrg extends BaseFragment {
 
-    private SearchListAdapter adapter;
-    MainThreadExecutor executor;
 
     public static CongressMainFrg newInstance() {
 
@@ -53,15 +47,7 @@ public class CongressMainFrg extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        executor = new MainThreadExecutor();
-//        adapter = new SearchListAdapter();
-//
-//        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.currentActivity));
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setAdapter(adapter);
-//
-//        setupDataSource();
+
 
     }
 

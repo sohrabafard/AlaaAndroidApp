@@ -32,7 +32,6 @@
 
         </LinearLayout>
 
-
         <RadioGroup
             android:id="@+id/radioGroup"
             android:layout_width="match_parent"

@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:layoutDirection="rtl"
+    android:background="@color/White"
     android:orientation="vertical">
 
     <LinearLayout
@@ -31,7 +32,7 @@
                 android:layout_margin="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="4.5 مگابایت"
+                android:text=""
                 android:textColor="@color/Green"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -60,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:text="desc"
+                    android:text="@string/alla_1"
                     android:textColor="#606060"
                     android:textSize="12sp" />
 

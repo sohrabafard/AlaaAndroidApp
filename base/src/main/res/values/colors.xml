@@ -100,6 +100,7 @@
     <color name="Orchid">#DA70D6</color>
     <color name="Thistle">#D8BFD8</color>
     <color name="LightGrey">#D3D3D3</color>
+    <color name="LightGreyBack">#FAFAFA</color>
     <color name="Tan">#D2B48C</color>
     <color name="Chocolate">#D2691E</color>
     <color name="Peru">#CD853F</color>
@@ -193,4 +194,22 @@
     <color name="colorWarning">#FFA726</color>
     <color name="colorError">#EF5350</color>
 
+
+    <!-- Page Indicator -->
+    <color name="activeIndicator">#546170</color>
+    <color name="inactiveIndicator">#F0EEED</color>
+
+    <color name="txtColor">#3A3A3A</color>
+
+
+    <color name="no_pagination_color_button_repeat">@color/colorPrimary</color>
+    <color name="no_pagination_color_button_repeat_selected">@color/colorAccent</color>
+    <color name="no_pagination_error_background">@color/White</color>
+    <color name="no_pagination_error_color_separate_line">@color/LightGrey</color>
+
+
+
+
 </resources>
+
+

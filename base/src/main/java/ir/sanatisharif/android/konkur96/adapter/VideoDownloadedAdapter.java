@@ -73,6 +73,10 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
         size_grid = (AppConfig.width / 3);
     }
 
+    public void updateList(Video video, int position) {
+        list.set(position, video);
+    }
+
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.media_layout, null);
@@ -122,6 +126,15 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
 
             //load video frame
             if (FileManager.checkFileExist(item.getPath())) {
+
+                holder.checkBox.setVisibility(View.GONE);
+                if (!item.isChecked()) {
+                    Log.i(TAG, "onBindViewHolder: GONE " + item.isChecked());
+
+                } else if (item.isChecked()) {
+                    Log.i(TAG, "onBindViewHolder:VISIBLE  " + item.isChecked());
+                    holder.checkBox.setVisibility(View.VISIBLE);
+                }
 
                 if (AppConfig.width != 0) {
 

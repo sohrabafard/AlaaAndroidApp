@@ -25,6 +25,8 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.Item;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
+import ir.sanatisharif.android.konkur96.ui.GlideRequest;
+import ir.sanatisharif.android.konkur96.ui.GlideRequests;
 
 
 /**
@@ -51,6 +53,7 @@ public class CustomItemView extends LinearLayout {
     private TextView txtAuthor;
     private TextView txtContentCount;
     private ImageView imgItem;
+    private GlideRequest<Drawable> requestBuilder;
     //---------------
     private OnClickItem onClickItem;
 
@@ -62,6 +65,7 @@ public class CustomItemView extends LinearLayout {
     public CustomItemView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
+
     }
 
     public CustomItemView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -70,7 +74,6 @@ public class CustomItemView extends LinearLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomItemView, 0, 0);
 
         try {
-
             title = a.getString(R.styleable.CustomItemView_title) != null ? a.getString(R.styleable.CustomItemView_title) : "not set";
             author = a.getString(R.styleable.CustomItemView_author) != null ? a.getString(R.styleable.CustomItemView_author) : "not set";
             contentCount = a.getInteger(R.styleable.CustomItemView_contentCount, 0);
@@ -169,7 +172,7 @@ public class CustomItemView extends LinearLayout {
 
     private void loadImageWithGlide(String url) {
 
-        GlideApp.with(AppConfig.context)
+        requestBuilder
                 .load(url)
                 .override(width, height)
                 .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
@@ -199,6 +202,11 @@ public class CustomItemView extends LinearLayout {
     public void setOnClickItem(OnClickItem onClickItem) {
 
         this.onClickItem = onClickItem;
+    }
+
+    public void setGlide(GlideRequests glideRequests) {
+
+        requestBuilder = glideRequests.asDrawable().fitCenter();
     }
 
     public interface OnClickItem {

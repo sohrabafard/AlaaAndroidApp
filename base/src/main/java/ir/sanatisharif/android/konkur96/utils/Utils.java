@@ -13,9 +13,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +27,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
@@ -48,8 +45,6 @@ import ir.sanatisharif.android.konkur96.ui.GlideApp;
 
 public class Utils {
 
-
-    private static String TAG = "LOG";
 
     private Utils() {
         // no instance
@@ -114,29 +109,6 @@ public class Utils {
         Matcher match = pattern.matcher(phone);
 
         return match.matches();
-    }
-
-    public static Boolean validNationalCode(String code) {
-
-        String expression = "\\d{10}";
-        int len = code.length();
-        int sum = 0, div = 0, control = 0;
-
-        Pattern pattern = Pattern.compile(expression);
-        Matcher match = pattern.matcher(code);
-
-        if (!match.matches())
-            return false;
-
-        for (int i = 0; i < (len - 1); i++) {
-            sum += Integer.parseInt(code.substring(i, i + 1)) * (10 - i);
-        }
-        div = sum % 11;
-        control = Integer.parseInt(code.substring(9));
-
-        if ((div < 2 && div == control) || (div >= 2 && div == (11 - control)))
-            return true;
-        return false;
     }
 
 
@@ -218,11 +190,19 @@ public class Utils {
         return size;
     }
 
+    public static void share(String shareText, Context c) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, shareText);
+        intent.setType("text/*");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        c.startActivity(Intent.createChooser(intent, ""));
+    }
+
     public static void loadUrl(String url, Context c) {
         if (URLUtil.isHttpsUrl(url) || URLUtil.isHttpUrl(url)) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            c.startActivity(browserIntent);
+            AppConfig.currentActivity.startActivity(browserIntent);
         }
     }
 
@@ -259,40 +239,14 @@ public class Utils {
         GlideApp.with(AppConfig.context)
                 .load(url)
                 .override(width, height)
+                .fitCenter()
                 //.transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
-                .into(new SimpleTarget<Drawable>(width, height) {
+                .into(new SimpleTarget<Drawable>(460, 259) {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                         img.setImageDrawable(resource);
                     }
                 });
-    }
-
-    public static String loadFromAsset(Context context, String FileName) {
-        String json = "";
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(
-                    new InputStreamReader(context.getAssets().open(FileName)));
-
-            // do reading, usually loop until end of file reading
-            String mLine;
-            while ((mLine = reader.readLine()) != null) {
-                json += mLine;
-
-            }
-        } catch (IOException e) {
-            //log the exception
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    //log the exception
-                }
-            }
-        }
-        return json;
     }
 
     public static class ValidNationalCode {

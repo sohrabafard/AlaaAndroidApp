@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
@@ -21,6 +23,8 @@ import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.model.ViewSlider;
 import ir.sanatisharif.android.konkur96.model.main_page.MainBanner;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
+import ir.sanatisharif.android.konkur96.ui.GlideRequest;
+import ir.sanatisharif.android.konkur96.ui.GlideRequests;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
 /**
@@ -33,41 +37,47 @@ public class ViewSliderAdapter extends PagerAdapter {
     private ImageView img;
     private List<MainBanner> imageList;
     private LayoutInflater inflater;
+    private GlideRequest<Drawable> requestBuilder;
 
-    public ViewSliderAdapter(Context context, List<MainBanner> list) {
+    public ViewSliderAdapter(Context context, List<MainBanner> list, GlideRequests glideRequests) {
         mContext = context;
         imageList = list;
         inflater = LayoutInflater.from(context);
+        requestBuilder = glideRequests.asDrawable().fitCenter();
     }
 
     @Override
     public Object instantiateItem(ViewGroup collection, final int position) {
-        ViewGroup imageLayout = (ViewGroup) inflater.inflate(R.layout.view_slider, collection, false);
 
+        ViewGroup imageLayout = (ViewGroup) inflater.inflate(R.layout.view_slider, collection, false);
         img = (ImageView) imageLayout.findViewById(R.id.imageView);
         int h = (int) (AppConfig.width * 0.39f);
+        img.getLayoutParams().width = AppConfig.width;
         img.getLayoutParams().height = h;
-        GlideApp.with(AppConfig.context)
+
+        requestBuilder
                 .load(imageList.get(position).getUrl())
-                .fitCenter()
-                //.override(1280, 500)
-                // .into(img);
-                .into(new SimpleTarget<Drawable>(1280, 500) {
+                .override(AppConfig.width, h)
+                .dontTransform()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .placeholder(R.mipmap.ic_launcher)
+                .into(new SimpleTarget<Drawable>() {//1280, 500
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                         img.setImageDrawable(resource);
+                        Log.i("LOG", "onLoadFailed: ok " + imageList.get(position).getUrl());
                     }
 
-
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
+                        Log.i("LOG", "onLoadFailed: " + errorDrawable.toString());
+                    }
                 });
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-//                if (imageList.get(position).getKindOfIntent() == AppConstants.LINK_TO_EXTERNAL) {
-//
-//                }
                 Utils.loadUrl(imageList.get(position).getLink(), AppConfig.context);
             }
         });

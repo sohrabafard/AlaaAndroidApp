@@ -39,7 +39,6 @@ import ir.sanatisharif.android.konkur96.model.main_page.MainPagesInfo;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
-import ir.sanatisharif.android.konkur96.utils.AccountInfo;
 
 
 /**
@@ -220,14 +219,7 @@ public class AllaMainFrg extends BaseFragment implements
     }
 
     //</editor-fold>
-    @Override
-    public void onCheckNetwork(boolean flag) {
-        Log.i("LOG", "onCheckNetwork: "+flag);
-//        if (!flag)//if false
-//            showNotInternetDialogFrg();
-//        else
-//            getData();
-    }
+
 
     private void showNotInternetDialogFrg() {
 
@@ -238,6 +230,15 @@ public class AllaMainFrg extends BaseFragment implements
                     getData();
                 }
             }).show(getFragmentManager(), "");
+    }
+
+
+    @Override
+    public void onCheckNetwork(boolean flag) {
+        if (!flag)//if false
+            showNotInternetDialogFrg();
+        else
+            getData();
     }
 }
 

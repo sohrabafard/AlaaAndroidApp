@@ -7,7 +7,6 @@ import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import ir.sanatisharif.android.konkur96.model.Author;
 
 public class Set implements Parcelable
 {
