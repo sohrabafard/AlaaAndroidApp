@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,27 +49,50 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
     private List<Integer> attrList;
     private List<Integer> attrExtraList = new ArrayList<>();
-    private int id;
-    ArrayList<AttributeModel> extraAttrList;
+    private int id, totalPrice;
+    private ArrayList<AttributeModel> extraAttrList;
 
     private LinearLayout bodyExtraAttr;
+    private ProgressBar progPrice;
+    private CardView btnAddToCard;
+    private TextView txtPrice;
+
+
+
     private Repository repository;
 
+
     @SuppressLint("ValidFragment")
-    public ProductExtraAttrDialogFragment(int id, List<Integer> attrList, ArrayList<AttributeModel> extraAttrList) {
+    public ProductExtraAttrDialogFragment(int id, int totalPrice, List<Integer> attrList, ArrayList<AttributeModel> extraAttrList) {
 
         this.id = id;
+        this.totalPrice = totalPrice;
         this.attrList = attrList;
         this.extraAttrList = extraAttrList;
 
+
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.dialog_view_extra_attr, container, false);
 
         bodyExtraAttr = v.findViewById(R.id.body_extra_attr);
+        progPrice = v.findViewById(R.id.prog_price);
+        txtPrice = v.findViewById(R.id.txt_price);
+        btnAddToCard = v.findViewById(R.id.btn_addToCard);
+
+        if (totalPrice > 0) {
+
+            txtPrice.setText(ShopUtils.formatPrice(totalPrice) + " تومان ");
+
+        } else {
+
+            txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
+        }
+
 
         for (AttributeModel attr : extraAttrList){
 
@@ -100,7 +125,7 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+                100);
 
         TextView textView = new TextView(getContext());
         textView.setLayoutParams(params);
@@ -125,7 +150,12 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+                100);
+
+        if (null != attr.getTitle() && !attr.getTitle().isEmpty()){
+
+            createTxtTitle(attr.getTitle());
+        }
 
 
         for (AttributeDataModel attrData : attr.getData()) {
@@ -162,7 +192,12 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+                100);
+
+        if (null != attr.getTitle() && !attr.getTitle().isEmpty()){
+
+            createTxtTitle(attr.getTitle());
+        }
 
         List<String> spinnerArray = new ArrayList<>();
         @SuppressLint("UseSparseArrays")
@@ -171,6 +206,7 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
         Spinner spinner = new Spinner(getContext());
         spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         spinner.setLayoutParams(params);
+        spinner.setPadding(15, 5, 15, 5);
         for (AttributeDataModel attrData : attr.getData()) {
 
             spinnerArray.add(attrData.getName());
@@ -206,6 +242,26 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
+    private void createTxtTitle(String title){
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        TextView textView = new TextView(getContext());
+        textView.setLayoutParams(params);
+        textView.setTextColor(Color.BLACK);
+        textView.setTextSize(15);
+        textView.setGravity(Gravity.RIGHT);
+        textView.setPadding(15, 5, 15, 5);
+        textView.setTypeface(AppConfig.fontIRSensLight);
+
+        textView.setText(title + " : ");
+
+        bodyExtraAttr.addView(textView);
+    }
+
     private void addToAttrList(int val){
 
         if (!attrExtraList.contains(val)) {
@@ -227,12 +283,12 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
         ArrayList<Integer> mainAttributeValues = new ArrayList<>(attrList);
         ArrayList<Integer> extraAttributeValues = new ArrayList<>(attrExtraList);
-//        progPrice.setVisibility(View.VISIBLE);
+        progPrice.setVisibility(View.VISIBLE);
 
         repository = new RepositoryImpl(getActivity());
 
         repository.getPrice(String.valueOf(id), mainAttributeValues, extraAttributeValues, data -> {
-//            progPrice.setVisibility(View.GONE);
+            progPrice.setVisibility(View.GONE);
             if (data instanceof Result.Success) {
 
                 GETPriceModel temp = (GETPriceModel) ((Result.Success) data).value;
@@ -241,11 +297,11 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
                     if (temp.getCost().getMfinal() > 0) {
 
-//                        txtPrice.setText(ShopUtils.formatPrice(temp.getCost().getMfinal()) + " تومان ");
+                        txtPrice.setText(ShopUtils.formatPrice(temp.getCost().getMfinal()) + " تومان ");
 
                     } else {
 
-//                        txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
+                        txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
                     }
 
                 }else {

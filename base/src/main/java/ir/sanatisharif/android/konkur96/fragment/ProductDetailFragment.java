@@ -97,6 +97,8 @@ public class ProductDetailFragment extends BaseFragment {
 
     private Repository repository;
 
+    private int totalPrice = 0;
+
     public static ProductDetailFragment newInstance(ProductModel item) {
 
         Bundle args = new Bundle();
@@ -337,7 +339,7 @@ public class ProductDetailFragment extends BaseFragment {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+                100);
 
         TextView textView = new TextView(getContext());
         textView.setLayoutParams(params);
@@ -362,7 +364,12 @@ public class ProductDetailFragment extends BaseFragment {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+                100);
+
+        if (null != attr.getTitle() && !attr.getTitle().isEmpty()){
+
+            createTxtTitle(attr.getTitle());
+        }
 
 
         for (AttributeDataModel attrData : attr.getData()) {
@@ -399,7 +406,12 @@ public class ProductDetailFragment extends BaseFragment {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+                100);
+
+        if (null != attr.getTitle() && !attr.getTitle().isEmpty()){
+
+            createTxtTitle(attr.getTitle());
+        }
 
         List<String> spinnerArray = new ArrayList<>();
         @SuppressLint("UseSparseArrays")
@@ -408,6 +420,7 @@ public class ProductDetailFragment extends BaseFragment {
         Spinner spinner = new Spinner(getContext());
         spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         spinner.setLayoutParams(params);
+        spinner.setPadding(15, 5, 15, 5);
         for (AttributeDataModel attrData : attr.getData()) {
 
             spinnerArray.add(attrData.getName());
@@ -443,6 +456,26 @@ public class ProductDetailFragment extends BaseFragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
+    private void createTxtTitle(String title){
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        TextView textView = new TextView(getContext());
+        textView.setLayoutParams(params);
+        textView.setTextColor(Color.BLACK);
+        textView.setTextSize(15);
+        textView.setGravity(Gravity.RIGHT);
+        textView.setPadding(15, 5, 15, 5);
+        textView.setTypeface(AppConfig.fontIRSensLight);
+
+        textView.setText(title + " : ");
+
+        bodyMainAttr.addView(textView);
+    }
+
     private void showAtrrDialog() {
 
         FragmentManager fm = getFragmentManager();
@@ -454,7 +487,7 @@ public class ProductDetailFragment extends BaseFragment {
     private void showExtraAtrrDialog() {
 
         FragmentManager fm = getFragmentManager();
-        DialogFragment newFragment = new ProductExtraAttrDialogFragment(model.getId(), attrList, model.getAttributes().getExtra());
+        DialogFragment newFragment = new ProductExtraAttrDialogFragment(model.getId(), totalPrice, attrList, model.getAttributes().getExtra());
         newFragment.show(fm, "ProductExtraAttr");
 
     }
@@ -490,7 +523,7 @@ public class ProductDetailFragment extends BaseFragment {
 
 
         if (model.getPrice().getMfinal() > 0) {
-
+            totalPrice = model.getPrice().getMfinal();
             txtPrice.setText(ShopUtils.formatPrice(model.getPrice().getMfinal()) + " تومان ");
 
         } else {
@@ -532,7 +565,7 @@ public class ProductDetailFragment extends BaseFragment {
                 if (null == temp.getError()){
 
                     if (temp.getCost().getMfinal() > 0) {
-
+                        totalPrice = temp.getCost().getMfinal();
                         txtPrice.setText(ShopUtils.formatPrice(temp.getCost().getMfinal()) + " تومان ");
 
                     } else {
