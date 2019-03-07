@@ -56,6 +56,7 @@ import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
+import ir.sanatisharif.android.konkur96.dialog.ProductExtraAttrDialogFragment;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
@@ -245,7 +246,10 @@ public class ProductDetailFragment extends BaseFragment {
         cardAttrProduct.setOnClickListener(v -> showAtrrDialog());
         cardSampleProduct.setOnClickListener(v -> showSampleProduct());
         btnAddToCard.setOnClickListener(v -> {
-            Log.e("", "");
+            if ( null != model.getAttributes().getExtra()){
+
+                showExtraAtrrDialog();
+            }
         });
     }
 
@@ -444,6 +448,14 @@ public class ProductDetailFragment extends BaseFragment {
         FragmentManager fm = getFragmentManager();
         DialogFragment newFragment = new ProductAttrDialogFragment(model.getAttributes().getInformation());
         newFragment.show(fm, "ProductAttr");
+
+    }
+
+    private void showExtraAtrrDialog() {
+
+        FragmentManager fm = getFragmentManager();
+        DialogFragment newFragment = new ProductExtraAttrDialogFragment(model.getId(), attrList, model.getAttributes().getExtra());
+        newFragment.show(fm, "ProductExtraAttr");
 
     }
 
