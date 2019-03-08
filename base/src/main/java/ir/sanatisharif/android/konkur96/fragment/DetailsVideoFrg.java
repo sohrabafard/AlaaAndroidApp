@@ -3,6 +3,7 @@ package ir.sanatisharif.android.konkur96.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
@@ -16,7 +17,6 @@ import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -189,6 +188,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         if (getArguments().getString("url") != null) {
             String url = getArguments().getString("url");
             String id = url.substring(url.lastIndexOf("/") + 1);
+            this.mUrl = url;
             getData(id);
         } else//get data from list
         {
@@ -263,8 +263,11 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         } else if (i == R.id.imgPlay) {
 
-            if (!checkExistVideo(course.getFile().getVideo()))
-                mUrl = course.getFile().getVideo().get(0).getUrl();
+           if (null != course){
+
+               if (!checkExistVideo(course.getFile().getVideo()))
+                   mUrl = course.getFile().getVideo().get(0).getUrl();
+           }
             initExoPlayer(mUrl);
 
             relativePreview.setVisibility(View.GONE);
@@ -711,6 +714,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     //</editor-fold>
 
     //<editor-fold desc="lock">
+    @SuppressLint("InvalidWakeLockTag")
     private void initWakeLockScreen() {
         pm = (PowerManager) getContext().getSystemService(POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
@@ -719,7 +723,10 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
 
         km = (KeyguardManager) getContext().getSystemService(KEYGUARD_SERVICE);
-        kl = km.newKeyguardLock("alla");
+        if (null != km){
+            kl = km.newKeyguardLock("alla");
+        }
+
 
     }
 

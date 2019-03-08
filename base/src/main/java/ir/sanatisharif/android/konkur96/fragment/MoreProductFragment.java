@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,13 +34,14 @@ import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.myPaginate;
 
-public class MoreProductFragment extends BaseFragment{
+public class MoreProductFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
     Toolbar pageToolbar;
 
     private RecyclerView recyclerMoreProduct;
     private RecyclerView.Adapter mAdapter;
     private GridLayoutManager gridLayoutManager;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     Repository repository;
@@ -126,6 +128,10 @@ public class MoreProductFragment extends BaseFragment{
 
     private void initView(View view) {
 
+        //swipeRefreshLayout
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
+        swipeRefreshLayout.setOnRefreshListener(this);
         //recyclerView
         recyclerMoreProduct = view.findViewById(R.id.recycler_more_product);
         recyclerMoreProduct.setNestedScrollingEnabled(false);
@@ -145,15 +151,19 @@ public class MoreProductFragment extends BaseFragment{
 
     private void getData() {
 
+        swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
+
         repository.getMore(url, data -> {
 
             if (data instanceof Result.Success) {
 
                 setData((ResultModel) ((Result.Success) data).value);
+                swipeRefreshLayout.setRefreshing(false);
 
             } else {
 
                 Log.d("Test", (String) ((Result.Error) data).value);
+                swipeRefreshLayout.setRefreshing(false);
             }
 
 
@@ -166,15 +176,19 @@ public class MoreProductFragment extends BaseFragment{
 
         if (isPaginate){
 
+            swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
+
             repository.getNextPageProduct(resultModel.getResult().getNext_page_url(), data -> {
 
                 if (data instanceof Result.Success) {
 
                     setData((ResultModel) ((Result.Success) data).value);
+                    swipeRefreshLayout.setRefreshing(false);
 
                 } else {
 
                     Log.d("Test", (String) ((Result.Error) data).value);
+                    swipeRefreshLayout.setRefreshing(false);
                 }
 
 
@@ -220,5 +234,12 @@ public class MoreProductFragment extends BaseFragment{
 
             paginate.unbind();
         }
+    }
+
+
+    @Override
+    public void onRefresh() {
+        items.clear();
+        getData();
     }
 }

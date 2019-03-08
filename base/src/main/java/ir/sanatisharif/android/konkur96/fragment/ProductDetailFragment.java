@@ -561,20 +561,22 @@ public class ProductDetailFragment extends BaseFragment {
 
     private void setIntroVideo(String url) {
 
-//        if (null != url){
-//
+        if (null != url){
+
 //            Video video = ShopUtils.createVideoModelByURL(url);
 //            if (video != null) {
-//                VideoPlayFrg videoPlayFrg = VideoPlayFrg.newInstance(video.getPath());
-//                getFragmentManager().beginTransaction()
-//                        .add(R.id.intro_video, videoPlayFrg, "videoPlayFrg")
-//                        .commit();
+//
 //            }
-//
-//        }else {
-//
-//            intro.setVisibility(View.GONE);
-//        }
+
+            DetailsVideoFrg videoPlayFrg = DetailsVideoFrg.newInstance(url);
+            getFragmentManager().beginTransaction()
+                    .add(R.id.intro_video, videoPlayFrg, "videoPlayFrg")
+                    .commit();
+
+        }else {
+
+            intro.setVisibility(View.GONE);
+        }
 
     }
 

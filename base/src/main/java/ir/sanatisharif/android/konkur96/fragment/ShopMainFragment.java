@@ -3,6 +3,7 @@ package ir.sanatisharif.android.konkur96.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,18 +33,19 @@ import ir.sanatisharif.android.konkur96.model.MainShopItem;
 import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.myPaginate;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
-public class ShopMainFragment extends BaseFragment {
+public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    RecyclerView shopMainRecyclerView;
-    Toolbar pageToolbar;
+    private RecyclerView shopMainRecyclerView;
+    private Toolbar pageToolbar;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
-    Repository repository;
+    private Repository repository;
 
-    myPaginate paginate;
+    private myPaginate paginate;
 
-    LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager linearLayoutManager;
 
-    MainModel mainModel;
+    private MainModel mainModel;
 
     boolean isPaginate = false;
 
@@ -104,15 +106,19 @@ public class ShopMainFragment extends BaseFragment {
 
     private void getData() {
 
+        swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
+
         repository.getMainShop(data -> {
 
             if (data instanceof Result.Success) {
 
                 setData((MainModel) ((Result.Success) data).value, true);
+                swipeRefreshLayout.setRefreshing(false);
 
             } else {
 
                 Log.d("Test", (String) ((Result.Error) data).value);
+                swipeRefreshLayout.setRefreshing(false);
             }
 
 
@@ -125,15 +131,19 @@ public class ShopMainFragment extends BaseFragment {
 
         if (isPaginate){
 
+            swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
+
             repository.getNextPage(mainModel.getBlock().getNext_page_url(), data -> {
 
                 if (data instanceof Result.Success) {
 
                     setData((MainModel) ((Result.Success) data).value, false);
+                    swipeRefreshLayout.setRefreshing(false);
 
                 } else {
 
                     Log.d("Test", (String) ((Result.Error) data).value);
+                    swipeRefreshLayout.setRefreshing(false);
                 }
 
 
@@ -174,6 +184,10 @@ public class ShopMainFragment extends BaseFragment {
 
     private void initView(View v) {
 
+        //swipeRefreshLayout
+        swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
+        swipeRefreshLayout.setOnRefreshListener(this);
         //recyclerView
         shopMainRecyclerView = v.findViewById(R.id.recyclerView_main_shop);
         shopMainRecyclerView.setNestedScrollingEnabled(false);
@@ -204,5 +218,10 @@ public class ShopMainFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onRefresh() {
+        items.clear();
+        getData();
+    }
 }
 
