@@ -100,6 +100,8 @@ public class ProductDetailFragment extends BaseFragment {
 
     private List<Integer> attrList = new ArrayList<>();
     private List<Integer> attrExtraList = new ArrayList<>();
+    private List<Integer> selectableIdList = new ArrayList<>();
+    private ArrayList<ProductModel> selectableList = new ArrayList<>();
 
     private Repository repository;
 
@@ -329,13 +331,19 @@ public class ProductDetailFragment extends BaseFragment {
                 @Override
                 public void onItemCheck(ProductModel model, int position) {
 
-                    Toast.makeText(getContext(), model.getName() + " " + "check", Toast.LENGTH_LONG).show();
+                    selectableList.add(model);
+                    addToSelectableIdList(model.getId());
+                    getPrice();
+
                 }
 
                 @Override
                 public void onItemUncheck(ProductModel model, int position) {
 
-                    Toast.makeText(getContext(), model.getName() + " " + "unCheck", Toast.LENGTH_LONG).show();
+                    selectableList.remove(model);
+                    removeToSelectableIdList(model.getId());
+                    getPrice();
+
 
                 }
             });
@@ -530,7 +538,13 @@ public class ProductDetailFragment extends BaseFragment {
     private void showExtraAtrrDialog() {
 
         FragmentManager fm = getFragmentManager();
-        DialogFragment newFragment = new ProductExtraAttrDialogFragment(model.getId(), totalPrice, attrList, model.getAttributes().getExtra());
+        DialogFragment newFragment = new ProductExtraAttrDialogFragment(type, model.getId(),
+                totalPrice,
+                attrList,
+                model.getAttributes().getExtra(),
+                selectableIdList,
+                selectableList);
+
         newFragment.show(fm, "ProductExtraAttr");
 
     }
@@ -595,14 +609,32 @@ public class ProductDetailFragment extends BaseFragment {
         }
     }
 
+
+    private void addToSelectableIdList(int val){
+
+        if (!selectableIdList.contains(val)) {
+
+            selectableIdList.add(val);
+        }
+    }
+
+    private void removeToSelectableIdList(int val){
+
+        if (selectableIdList.contains(val)) {
+
+            selectableIdList = ShopUtils.removeElements(selectableIdList, val);
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     private void getPrice() {
 
         ArrayList<Integer> mainAttributeValues = new ArrayList<>(attrList);
         ArrayList<Integer> extraAttributeValues = new ArrayList<>(attrExtraList);
+        ArrayList<Integer> products = new ArrayList<>(selectableIdList);
         progPrice.setVisibility(View.VISIBLE);
 
-        repository.getPrice(String.valueOf(model.getId()), mainAttributeValues, extraAttributeValues, data -> {
+        repository.getPrice(type,String.valueOf(model.getId()), products, mainAttributeValues, extraAttributeValues, data -> {
             progPrice.setVisibility(View.GONE);
             if (data instanceof Result.Success) {
 
@@ -621,7 +653,10 @@ public class ProductDetailFragment extends BaseFragment {
 
                 }else {
 
-                    Toast.makeText(getContext(),temp.getError().getMessage(),Toast.LENGTH_LONG).show();
+
+                    Log.d("Error", temp.getError().getMessage());
+                    totalPrice = model.getPrice().getMfinal();
+                    txtPrice.setText(ShopUtils.formatPrice(model.getPrice().getMfinal()) + " تومان ");
                 }
 
 

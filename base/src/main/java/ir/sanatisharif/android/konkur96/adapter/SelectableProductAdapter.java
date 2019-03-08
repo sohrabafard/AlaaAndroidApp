@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -74,6 +75,10 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
                 FragmentManager fm = activity.getSupportFragmentManager();
                 ProductAttrDialogFragment alertDialog = new ProductAttrDialogFragment(model.getAttributes().getInformation());
                 alertDialog.show(fm, "ProductAttr");
+
+            }else {
+
+                Toast.makeText(context, "ویژگی وجود ندارد", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -84,6 +89,10 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
 
                 imgGallery.setImages(model.getSamplePhotos());
                 imgGallery.openFullView(0);
+
+            }else {
+
+                Toast.makeText(context, "تصویر نمونه وجود ندارد", Toast.LENGTH_LONG).show();
             }
 
 

@@ -13,6 +13,7 @@ import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
 import ir.sanatisharif.android.konkur96.api.ShopAPI;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.model.ProductType;
 
 public class RepositoryImpl implements Repository {
 
@@ -74,12 +75,23 @@ public class RepositoryImpl implements Repository {
 
     @SuppressLint("CheckResult")
     @Override
-    public void getPrice(String productId, ArrayList<Integer> mainAttributeValues, ArrayList<Integer> extraAttributeValues, ApiCallBack callBack) {
+    public void getPrice(ProductType type, String productId, ArrayList<Integer> products, ArrayList<Integer> mainAttributeValues, ArrayList<Integer> extraAttributeValues, ApiCallBack callBack) {
 
-        shopAPI.getPrice(productId, mainAttributeValues, extraAttributeValues)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(GETPriceModel -> callBack.onResponse(new Result.Success(GETPriceModel)),
-                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+        if (type == ProductType.CONFIGURABLE){
+
+            shopAPI.getPrice(productId, mainAttributeValues, extraAttributeValues)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(GETPriceModel -> callBack.onResponse(new Result.Success(GETPriceModel)),
+                            throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+
+        }else if (type == ProductType.SELECTABLE){
+
+            shopAPI.getPriceSelectable(productId, products, extraAttributeValues)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(GETPriceModel -> callBack.onResponse(new Result.Success(GETPriceModel)),
+                            throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+        }
     }
 }

@@ -37,38 +37,49 @@ import ir.sanatisharif.android.konkur96.adapter.ProductAttrAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.MainAttrType;
+import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 @SuppressLint("ValidFragment")
 public class ProductExtraAttrDialogFragment extends DialogFragment {
 
+    private ProductType type;
+
     private List<Integer> attrList;
     private List<Integer> attrExtraList = new ArrayList<>();
     private int id, totalPrice;
     private ArrayList<AttributeModel> extraAttrList;
+    private List<Integer> selectableIdList;
+    private ArrayList<ProductModel> selectableList;
 
     private LinearLayout bodyExtraAttr;
     private ProgressBar progPrice;
     private CardView btnAddToCard;
     private TextView txtPrice;
 
-
-
     private Repository repository;
 
 
     @SuppressLint("ValidFragment")
-    public ProductExtraAttrDialogFragment(int id, int totalPrice, List<Integer> attrList, ArrayList<AttributeModel> extraAttrList) {
+    public ProductExtraAttrDialogFragment(ProductType type, int id, int totalPrice,
+                                          List<Integer> attrList,
+                                          ArrayList<AttributeModel> extraAttrList,
+                                          List<Integer> selectableIdList,
+                                          ArrayList<ProductModel> selectableList) {
 
+        this.type = type;
         this.id = id;
         this.totalPrice = totalPrice;
         this.attrList = attrList;
         this.extraAttrList = extraAttrList;
+        this.selectableIdList = selectableIdList;
+        this.selectableList = selectableList;
 
 
     }
@@ -207,6 +218,8 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
         spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         spinner.setLayoutParams(params);
         spinner.setPadding(15, 5, 15, 5);
+        spinnerArray.add("انتخاب کنید");
+        spinnerMap.put("انتخاب کنید",-1);
         for (AttributeDataModel attrData : attr.getData()) {
 
             spinnerArray.add(attrData.getName());
@@ -283,11 +296,12 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
         ArrayList<Integer> mainAttributeValues = new ArrayList<>(attrList);
         ArrayList<Integer> extraAttributeValues = new ArrayList<>(attrExtraList);
+        ArrayList<Integer> products = new ArrayList<>(selectableIdList);
         progPrice.setVisibility(View.VISIBLE);
 
         repository = new RepositoryImpl(getActivity());
 
-        repository.getPrice(String.valueOf(id), mainAttributeValues, extraAttributeValues, data -> {
+        repository.getPrice(type,String.valueOf(id), products, mainAttributeValues, extraAttributeValues, data -> {
             progPrice.setVisibility(View.GONE);
             if (data instanceof Result.Success) {
 
@@ -296,7 +310,7 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
                 if (null == temp.getError()){
 
                     if (temp.getCost().getMfinal() > 0) {
-
+                        totalPrice = temp.getCost().getMfinal();
                         txtPrice.setText(ShopUtils.formatPrice(temp.getCost().getMfinal()) + " تومان ");
 
                     } else {
@@ -306,7 +320,9 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
                 }else {
 
-                    Toast.makeText(getContext(),temp.getError().getMessage(),Toast.LENGTH_LONG).show();
+                    Log.d("Error", temp.getError().getMessage());
+                    txtPrice.setText(ShopUtils.formatPrice(totalPrice) + " تومان ");
+
                 }
 
 
