@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
 public class ProductModel implements Parcelable {
 
@@ -280,5 +281,17 @@ public class ProductModel implements Parcelable {
 
     public void setChildren(ArrayList<ProductModel> children) {
         this.children = children;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return id == ((ProductModel) o).id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

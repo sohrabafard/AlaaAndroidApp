@@ -1,6 +1,7 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
 import android.content.Intent;
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
@@ -34,7 +36,7 @@ import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.myPaginate;
 
-public class MoreProductFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class MoreProductFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     Toolbar pageToolbar;
 
@@ -82,11 +84,9 @@ public class MoreProductFragment extends BaseFragment implements SwipeRefreshLay
 
         initURL();
         initView(view);
-        if (null != url){
+        if (null != url) {
             getData();
         }
-
-
 
 
     }
@@ -118,7 +118,7 @@ public class MoreProductFragment extends BaseFragment implements SwipeRefreshLay
         return super.onOptionsItemSelected(item);
     }
 
-    private void initURL(){
+    private void initURL() {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -174,7 +174,7 @@ public class MoreProductFragment extends BaseFragment implements SwipeRefreshLay
 
     private void getDataPaginat() {
 
-        if (isPaginate){
+        if (isPaginate) {
 
             swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
 
@@ -206,12 +206,12 @@ public class MoreProductFragment extends BaseFragment implements SwipeRefreshLay
 
 
         //---------------------- set paginate data ----------------------------------------------
-        if (null != resultModel && null != resultModel.getResult().getNext_page_url()){
+        if (null != resultModel && null != resultModel.getResult().getNext_page_url()) {
 
             isPaginate = true;
             paginate.setNoMoreItems(false);
 
-        }else {
+        } else {
 
             isPaginate = false;
             paginate.setNoMoreItems(true);
@@ -219,7 +219,16 @@ public class MoreProductFragment extends BaseFragment implements SwipeRefreshLay
 
 
         //---------------------- convert -------------------------------------------------------
-        items.addAll(data.getResult().getData());
+        for (ProductModel pro : data.getResult().getData()) {
+
+
+            if (!items.contains(pro)){
+                items.add(pro);
+
+            }
+        }
+
+        //items.addAll(data.getResult().getData());
 
 
         //---------------------- update adapter ------------------------------------------------
@@ -230,7 +239,7 @@ public class MoreProductFragment extends BaseFragment implements SwipeRefreshLay
     public void onDestroy() {
         super.onDestroy();
 
-        if (null !=  paginate){
+        if (null != paginate) {
 
             paginate.unbind();
         }
