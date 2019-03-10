@@ -343,8 +343,6 @@ public class ProductDetailFragment extends BaseFragment {
                     selectableList.remove(model);
                     removeToSelectableIdList(model.getId());
                     getPrice();
-
-
                 }
             });
 

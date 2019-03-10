@@ -1,6 +1,7 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -8,6 +9,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +30,7 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
 import ir.sanatisharif.android.konkur96.model.SelectableProduct;
 import ir.sanatisharif.android.konkur96.utils.GalleryWorker;
+import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 
 public class SelectableProductAdapter extends RecyclerView.Adapter<SelectableProductAdapter.MyViewHolder> {
@@ -68,35 +72,7 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
 
         holder.checkBox.setOnCheckedChangeListener(null);
 
-        holder.cardAttrProduct.setOnClickListener(v -> {
-            if (null != model.getAttributes() && null != model.getAttributes().getInformation()){
 
-                FragmentActivity activity = (FragmentActivity)(context);
-                FragmentManager fm = activity.getSupportFragmentManager();
-                ProductAttrDialogFragment alertDialog = new ProductAttrDialogFragment(model.getAttributes().getInformation());
-                alertDialog.show(fm, "ProductAttr");
-
-            }else {
-
-                Toast.makeText(context, "ویژگی وجود ندارد", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-        holder.cardSampleProduct.setOnClickListener(v -> {
-
-            if (null != model.getSamplePhotos()){
-
-                imgGallery.setImages(model.getSamplePhotos());
-                imgGallery.openFullView(0);
-
-            }else {
-
-                Toast.makeText(context, "تصویر نمونه وجود ندارد", Toast.LENGTH_LONG).show();
-            }
-
-
-        });
         holder.textView.setTypeface(AppConfig.fontIRSensLight);
 
 
@@ -104,11 +80,42 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
             holder.checkBox.setButtonTintList(ContextCompat.getColorStateList(context, R.color.checkboxtint));
         }
 
-        Glide.with(AppConfig.context)
-                .load(model.getPhoto())
-                .into(holder.imageView);
 
         holder.textView.setText(model.getName());
+        setFinalPrice(holder.txtFinalPrice, model);
+
+        if (null != model.getChildren()){
+
+            holder.recyclerView.setVisibility(View.VISIBLE);
+
+            ArrayList<SelectableProduct> items = ShopUtils.convertToSelectableProductModel(model.getChildren());
+
+            SelectableProductAdapter adapter = new SelectableProductAdapter(context, items, new SelectableProductAdapter.CheckListeners() {
+                @Override
+                public void onItemCheck(ProductModel model, int position) {
+
+                    checkListeners.onItemCheck(model, position);
+
+                }
+
+                @Override
+                public void onItemUncheck(ProductModel model, int position) {
+
+                    checkListeners.onItemUncheck(model, position);
+
+
+                }
+            });
+
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
+            holder.recyclerView.setLayoutManager(mLayoutManager);
+            holder.recyclerView.setItemAnimator(new DefaultItemAnimator());
+            holder.recyclerView.setAdapter(adapter);
+
+        }else {
+
+            holder.recyclerView.setVisibility(View.GONE);
+        }
 
         if(selectablemodel.isChecked()) {
 
@@ -135,23 +142,37 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
 
     }
 
+    @SuppressLint("SetTextI18n")
+    private void setFinalPrice(TextView textView , ProductModel model) {
+
+
+        if (model.getPrice().getMfinal() > 0) {
+
+            textView.setText(ShopUtils.formatPrice(model.getPrice().getMfinal()) + " تومان ");
+
+        } else {
+
+            textView.setText(ShopUtils.formatPrice(0) + " تومان ");
+        }
+    }
+
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         CheckBox checkBox;
-        ImageView imageView;
-        TextView textView;
-        CardView cardAttrProduct, cardSampleProduct;
+        TextView textView, txtFinalPrice;
+        RecyclerView recyclerView;
+
 
         MyViewHolder(View itemView) {
             super(itemView);
 
             checkBox = itemView.findViewById(R.id.checkBox);
-            imageView = itemView.findViewById(R.id.img_pro);
             textView = itemView.findViewById(R.id.txt_name);
-            cardAttrProduct = itemView.findViewById(R.id.card_attr_product);
-            cardSampleProduct = itemView.findViewById(R.id.card_sample_product);
+            txtFinalPrice = itemView.findViewById(R.id.txt_final_price);
+            recyclerView = itemView.findViewById(R.id.recycler_child);
+
 
         }
     }
