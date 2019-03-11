@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -65,13 +66,16 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
     private Repository repository;
 
+    private ProductModel model;
+
 
     @SuppressLint("ValidFragment")
     public ProductExtraAttrDialogFragment(ProductType type, int id, int totalPrice,
                                           List<Integer> attrList,
                                           ArrayList<AttributeModel> extraAttrList,
                                           List<Integer> selectableIdList,
-                                          ArrayList<ProductModel> selectableList) {
+                                          ArrayList<ProductModel> selectableList,
+                                          ProductModel model) {
 
         this.type = type;
         this.id = id;
@@ -80,6 +84,7 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
         this.extraAttrList = extraAttrList;
         this.selectableIdList = selectableIdList;
         this.selectableList = selectableList;
+        this.model = model;
 
 
     }
@@ -105,6 +110,8 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
         }
 
 
+        btnAddToCard.setOnClickListener(view -> btnAddClick());
+
         for (AttributeModel attr : extraAttrList){
 
             MainAttrType type = ShopUtils.getMainAttrType(attr);
@@ -128,6 +135,36 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
 
         return v;
+    }
+
+
+    private void btnAddClick(){
+
+
+        if (type == ProductType.CONFIGURABLE){
+
+            if (attrList.size() > 0){
+
+                showZarinPalDialog();
+
+            }else {
+
+                Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+            }
+        }else if (type == ProductType.SELECTABLE){
+
+            if (selectableIdList.size() > 0 ){
+
+                showZarinPalDialog();
+
+            }else {
+
+                Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+            }
+        }else if (type == ProductType.SIMPLE){
+
+            showZarinPalDialog();
+        }
     }
 
 
@@ -290,6 +327,17 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
             attrExtraList = ShopUtils.removeElements(attrExtraList, val);
         }
     }
+
+
+    private void showZarinPalDialog() {
+
+        FragmentManager fm = getFragmentManager();
+        DialogFragment newFragment = new ZarinPalDialogFragment(model, totalPrice);
+
+        newFragment.show(fm, "ZarinPalDialog");
+
+    }
+
 
     @SuppressLint("SetTextI18n")
     private void getPrice() {

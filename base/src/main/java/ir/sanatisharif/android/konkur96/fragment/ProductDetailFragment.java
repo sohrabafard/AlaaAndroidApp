@@ -59,6 +59,7 @@ import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
 import ir.sanatisharif.android.konkur96.dialog.ProductExtraAttrDialogFragment;
+import ir.sanatisharif.android.konkur96.dialog.ZarinPalDialogFragment;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
@@ -260,11 +261,59 @@ public class ProductDetailFragment extends BaseFragment {
         btnAddToCard.setOnClickListener(v -> {
             if ( null != model.getAttributes().getExtra()){
 
-                showExtraAtrrDialog();
+                if (type == ProductType.CONFIGURABLE){
+
+                    if (attrList.size() > 0){
+
+                        showExtraAtrrDialog();
+
+                    }else {
+
+                        Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                    }
+                }else if (type == ProductType.SELECTABLE){
+
+                    if (selectableIdList.size() > 0 ){
+
+                        showExtraAtrrDialog();
+
+                    }else {
+
+                        Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                    }
+                }else if (type == ProductType.SIMPLE){
+
+                    showExtraAtrrDialog();
+                }
+
+
 
             }else {
 
+                if (type == ProductType.CONFIGURABLE){
 
+                    if (attrList.size() > 0){
+
+                        showZarinPalDialog();
+
+                    }else {
+
+                        Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                    }
+                }else if (type == ProductType.SELECTABLE){
+
+                    if (selectableIdList.size() > 0 ){
+
+                        showZarinPalDialog();
+
+                    }else {
+
+                        Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                    }
+                }else if (type == ProductType.SIMPLE){
+
+                    showZarinPalDialog();
+                }
             }
         });
     }
@@ -545,11 +594,23 @@ public class ProductDetailFragment extends BaseFragment {
                 attrList,
                 model.getAttributes().getExtra(),
                 selectableIdList,
-                selectableList);
+                selectableList,
+                model);
 
         newFragment.show(fm, "ProductExtraAttr");
 
     }
+
+
+    private void showZarinPalDialog() {
+
+        FragmentManager fm = getFragmentManager();
+        DialogFragment newFragment = new ZarinPalDialogFragment(model, totalPrice);
+
+        newFragment.show(fm, "ZarinPalDialog");
+
+    }
+
 
     private void showSampleProduct() {
 

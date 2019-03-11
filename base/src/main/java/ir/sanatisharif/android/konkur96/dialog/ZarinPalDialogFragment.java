@@ -21,6 +21,7 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.ProductAttrAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 @SuppressLint("ValidFragment")
 public class ZarinPalDialogFragment extends DialogFragment {
@@ -33,11 +34,6 @@ public class ZarinPalDialogFragment extends DialogFragment {
 
     private ProductModel model;
     private int totalPrice;
-
-    private List<Integer> attrList;
-    private List<Integer> attrExtraList = new ArrayList<>();
-
-
 
 
     @SuppressLint("ValidFragment")
@@ -56,12 +52,32 @@ public class ZarinPalDialogFragment extends DialogFragment {
         txtTotalPrice = v.findViewById(R.id.txt_total_price);
         btnGoToZarinPal = v.findViewById(R.id.btn_goToZarinPal);
 
+        setPrice();
 
+        btnGoToZarinPal.setOnClickListener(view -> {
+
+
+        });
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
 
         return v;
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    private void setPrice() {
+
+
+        if (totalPrice> 0) {
+
+            txtTotalPrice.setText(ShopUtils.formatPrice(totalPrice) + " تومان ");
+
+        } else {
+
+            txtTotalPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
+        }
     }
 }
