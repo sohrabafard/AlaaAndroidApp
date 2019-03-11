@@ -332,9 +332,11 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
     private void showZarinPalDialog() {
 
         FragmentManager fm = getFragmentManager();
-        DialogFragment newFragment = new ZarinPalDialogFragment(model, totalPrice);
+        DialogFragment newFragment = new ZarinPalDialogFragment(type, model, totalPrice, selectableIdList, attrList, attrExtraList);
 
         newFragment.show(fm, "ZarinPalDialog");
+
+        this.dismiss();
 
     }
 
