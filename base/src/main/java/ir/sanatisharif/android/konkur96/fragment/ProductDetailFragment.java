@@ -261,6 +261,10 @@ public class ProductDetailFragment extends BaseFragment {
             if ( null != model.getAttributes().getExtra()){
 
                 showExtraAtrrDialog();
+
+            }else {
+
+
             }
         });
     }
