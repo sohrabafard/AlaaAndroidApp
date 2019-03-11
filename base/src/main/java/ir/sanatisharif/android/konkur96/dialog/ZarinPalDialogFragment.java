@@ -20,15 +20,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.adapter.ProductAttrAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.fragment.DashboardMainFrg;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
+
+import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
 @SuppressLint("ValidFragment")
 public class ZarinPalDialogFragment extends DialogFragment {
@@ -50,6 +54,7 @@ public class ZarinPalDialogFragment extends DialogFragment {
 
 
     private Repository repository;
+    private AccountInfo accountInfo;
 
 
     @SuppressLint("ValidFragment")
@@ -82,7 +87,7 @@ public class ZarinPalDialogFragment extends DialogFragment {
 
             if (finalPrice > 0){
 
-
+                 openZarinPal();
 
             }
 
@@ -155,6 +160,17 @@ public class ZarinPalDialogFragment extends DialogFragment {
 
         });
 
+
+    }
+
+    private void openZarinPal(){
+
+        accountInfo = new AccountInfo(getContext(), getActivity());
+
+        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+
+              Log.e("Test","zarin pal");
+        }
 
     }
 }
