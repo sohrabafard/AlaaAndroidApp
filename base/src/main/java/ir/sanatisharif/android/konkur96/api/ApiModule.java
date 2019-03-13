@@ -49,4 +49,10 @@ public class ApiModule {
         return builder.baseUrl(ShopAPI.BASE_URL).build().create(ShopAPI.class);
     }
 
+    @Provides
+    @Singleton
+    ZarinPalAPI provideApiZarinPal(Retrofit.Builder builder) {
+        return builder.baseUrl(ZarinPalAPI.BASE_URL).build().create(ZarinPalAPI.class);
+    }
+
 }

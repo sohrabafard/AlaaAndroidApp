@@ -44,4 +44,6 @@ public interface ShopAPI {
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @POST("api/v1/getPrice/{product_id}")
     Observable<GETPriceModel> getPriceSelectable(@Path("product_id") String productId, @Query("products[]") ArrayList<Integer> mainAttributeValues, @Query("extraAttributeValues[]") ArrayList<Integer> extraAttributeValues);
+
+
 }

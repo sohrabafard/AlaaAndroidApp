@@ -146,6 +146,18 @@
                     android:host="sanatisharif.ir"
                     android:pathPrefix="/shop" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="alla"
+                    android:host="sanatisharif.ir"
+                    android:pathPrefix="/zarinpal" />
+            </intent-filter>
         </activity>
         <activity
             android:name="ir.sanatisharif.android.konkur96.activity.OnBoardingActivity"

@@ -10,8 +10,11 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
+import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
+import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
 import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
 import ir.sanatisharif.android.konkur96.api.ShopAPI;
+import ir.sanatisharif.android.konkur96.api.ZarinPalAPI;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 
@@ -19,6 +22,9 @@ public class RepositoryImpl implements Repository {
 
     @Inject
     ShopAPI shopAPI;
+
+    @Inject
+    ZarinPalAPI zarinPalAPI;
 
     public RepositoryImpl(Activity activity) {
 
@@ -93,5 +99,31 @@ public class RepositoryImpl implements Repository {
                     .subscribe(GETPriceModel -> callBack.onResponse(new Result.Success(GETPriceModel)),
                             throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
         }
+    }
+
+
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void paymentRequest(PaymentRequest body, ApiCallBack callBack) {
+
+        zarinPalAPI.paymentRequest(body)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(ResultModel -> callBack.onResponse(new Result.Success(ResultModel)),
+                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void paymentVerification(PaymentVerificationRequest body, ApiCallBack callBack) {
+
+        zarinPalAPI.paymentVerification(body)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(ResultModel -> callBack.onResponse(new Result.Success(ResultModel)),
+                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+
     }
 }
