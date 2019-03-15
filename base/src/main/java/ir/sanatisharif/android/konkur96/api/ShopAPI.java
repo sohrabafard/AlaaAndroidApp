@@ -3,6 +3,7 @@ package ir.sanatisharif.android.konkur96.api;
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
+import ir.sanatisharif.android.konkur96.api.Models.AddToCard‌Model;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
@@ -49,9 +50,9 @@ public interface ShopAPI {
 
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @POST("api/v1/orderproduct")
-    Observable<MainModel> addToShopCard(@Header("Authorization") String token,
-                                        @Path("product_id") int productId,
-                                        @Query("attribute[]") ArrayList<Integer> attribute,
-                                        @Query("products[]") ArrayList<Integer> products,
-                                        @Query("extraAttribute[]") ArrayList<Integer> extraAttribute);
+    Observable<AddToCard‌Model> addToShopCard(@Header("Authorization") String token,
+                                              @Query("product_id") int productId,
+                                              @Query("attribute[]") ArrayList<Integer> attribute,
+                                              @Query("products[]") ArrayList<Integer> products,
+                                              @Query("extraAttribute[]") ArrayList<Integer> extraAttribute);
 }

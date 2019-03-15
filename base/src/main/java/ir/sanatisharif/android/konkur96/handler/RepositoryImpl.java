@@ -140,7 +140,7 @@ public class RepositoryImpl implements Repository {
         shopAPI.addToShopCard(token, productId, attribute, products, extraAttribute)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(ResultModel -> callBack.onResponse(new Result.Success(ResultModel)),
+                .subscribe(AddToCard‌Model -> callBack.onResponse(new Result.Success(AddToCard‌Model)),
                         throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
 
     }

@@ -30,6 +30,7 @@ import ir.sanatisharif.android.konkur96.BuildConfig;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.adapter.ProductAttrAdapter;
+import ir.sanatisharif.android.konkur96.api.Models.AddToCard‌Model;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
@@ -45,6 +46,7 @@ import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
+import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 @SuppressLint("ValidFragment")
 public class ZarinPalDialogFragment extends DialogFragment {
@@ -133,22 +135,38 @@ public class ZarinPalDialogFragment extends DialogFragment {
 
         if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
 
-//            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, "Alla");
 
-            repository.addToShopCard("", model.getId(), attribute, products, extraAttribute, data -> {
-                progPrice.setVisibility(View.GONE);
-                if (data instanceof Result.Success) {
+            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
+                @Override
+                public void onToken(String token) {
 
-                    GETPriceModel temp = (GETPriceModel) ((Result.Success) data).value;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            repository.addToShopCard(("Bearer " + token), model.getId(), attribute, products, extraAttribute, data -> {
+                                progPrice.setVisibility(View.GONE);
+                                if (data instanceof Result.Success) {
+
+                                    AddToCard‌Model temp = (AddToCard‌Model) ((Result.Success) data).value;
 
 
-                } else {
+                                } else {
 
-                    Log.d("Test", (String) ((Result.Error) data).value);
+                                    Log.d("Test", (String) ((Result.Error) data).value);
+                                }
+
+
+                            });
+
+                        }
+                    });
+
                 }
-
-
             });
+
+
+
         }
 
     }
