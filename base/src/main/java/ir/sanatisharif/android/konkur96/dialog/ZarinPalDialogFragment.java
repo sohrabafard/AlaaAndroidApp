@@ -1,5 +1,6 @@
 package ir.sanatisharif.android.konkur96.dialog;
 
+import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.annotations.Nullable;
 import ir.sanatisharif.android.konkur96.BuildConfig;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
@@ -49,9 +51,9 @@ public class ZarinPalDialogFragment extends DialogFragment {
 
     private int finalPrice;
 
-    private TextView txtTotalPrice;
-    private CardView btnGoToZarinPal;
+    private TextView txtTitle, txtDesc;
     private ProgressBar progPrice;
+    private CardView cardShowCard, cardClose;
 
 
     private ProductModel model;
@@ -65,6 +67,7 @@ public class ZarinPalDialogFragment extends DialogFragment {
 
     private Repository repository;
     private AccountInfo accountInfo;
+    private User user;
 
 
     @SuppressLint("ValidFragment")
@@ -86,23 +89,26 @@ public class ZarinPalDialogFragment extends DialogFragment {
 
         View v = inflater.inflate(R.layout.dialog_view_zarinpal, container, false);
 
-        txtTotalPrice = v.findViewById(R.id.txt_total_price);
-        btnGoToZarinPal = v.findViewById(R.id.btn_goToZarinPal);
+
         progPrice = v.findViewById(R.id.prog_price);
+        txtTitle = v.findViewById(R.id.txt_title);
+        txtDesc = v.findViewById(R.id.txt_desc);
 
-        setPrice();
-        getPrice();
+        cardShowCard = v.findViewById(R.id.btn_showCard);
+        cardClose = v.findViewById(R.id.btn_close);
 
-        btnGoToZarinPal.setOnClickListener(view -> {
 
-            if (finalPrice > 0){
 
-                 openZarinPal();
+        addToShopCard();
 
-            }
+
+
+        cardShowCard.setOnClickListener(view -> {
 
 
         });
+
+        cardClose.setOnClickListener(view -> this.dismiss());
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -112,74 +118,45 @@ public class ZarinPalDialogFragment extends DialogFragment {
     }
 
 
-    @SuppressLint("SetTextI18n")
-    private void setPrice() {
+    private void addToShopCard(){
 
-
-        if (totalPrice> 0) {
-
-            txtTotalPrice.setText(ShopUtils.formatPrice(totalPrice) + " تومان ");
-
-        } else {
-
-            txtTotalPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
-        }
-    }
-
-
-    @SuppressLint("SetTextI18n")
-    private void getPrice() {
-
-        ArrayList<Integer> mainAttributeValues = new ArrayList<>(attrList);
-        ArrayList<Integer> extraAttributeValues = new ArrayList<>(attrExtraList);
+        ArrayList<Integer> attribute = new ArrayList<>(attrList);
         ArrayList<Integer> products = new ArrayList<>(selectableIdList);
-        progPrice.setVisibility(View.VISIBLE);
+        ArrayList<Integer> extraAttribute = new ArrayList<>(attrExtraList);
 
         repository = new RepositoryImpl(getActivity());
-
-        repository.getPrice(type, String.valueOf(model.getId()), products, mainAttributeValues, extraAttributeValues, data -> {
-            progPrice.setVisibility(View.GONE);
-            if (data instanceof Result.Success) {
-
-                GETPriceModel temp = (GETPriceModel) ((Result.Success) data).value;
-
-                if (null == temp.getError()){
-
-                    if (temp.getCost().getMfinal() > 0) {
-                        finalPrice = temp.getCost().getMfinal();
-                        txtTotalPrice.setText(ShopUtils.formatPrice(temp.getCost().getMfinal()) + " تومان ");
-
-                    } else {
-
-                        txtTotalPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
-                    }
-
-                }else {
-
-                    Log.d("Error", temp.getError().getMessage());
-                    txtTotalPrice.setText(ShopUtils.formatPrice(totalPrice) + " تومان ");
-
-                }
-
-
-            } else {
-
-                Log.d("Test", (String) ((Result.Error) data).value);
-            }
-
-
-        });
-
-
-    }
-
-    private void openZarinPal(){
-
         accountInfo = new AccountInfo(getContext(), getActivity());
+        user = accountInfo.getInfo(ACCOUNT_TYPE);
+
+
+        progPrice.setVisibility(View.VISIBLE);
 
         if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
 
-            User user = accountInfo.getInfo(ACCOUNT_TYPE);
+//            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, "Alla");
+
+            repository.addToShopCard("", model.getId(), attribute, products, extraAttribute, data -> {
+                progPrice.setVisibility(View.GONE);
+                if (data instanceof Result.Success) {
+
+                    GETPriceModel temp = (GETPriceModel) ((Result.Success) data).value;
+
+
+                } else {
+
+                    Log.d("Test", (String) ((Result.Error) data).value);
+                }
+
+
+            });
+        }
+
+    }
+
+
+    private void openZarinPal(){
+
+        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
 
             String uMobile = "نامشخص";
 
@@ -224,8 +201,6 @@ public class ZarinPalDialogFragment extends DialogFragment {
         }
 
     }
-
-
     private void openWebView(String url){
 
         try {

@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -46,4 +47,11 @@ public interface ShopAPI {
     Observable<GETPriceModel> getPriceSelectable(@Path("product_id") String productId, @Query("products[]") ArrayList<Integer> mainAttributeValues, @Query("extraAttributeValues[]") ArrayList<Integer> extraAttributeValues);
 
 
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @POST("api/v1/orderproduct")
+    Observable<MainModel> addToShopCard(@Header("Authorization") String token,
+                                        @Path("product_id") int productId,
+                                        @Query("attribute[]") ArrayList<Integer> attribute,
+                                        @Query("products[]") ArrayList<Integer> products,
+                                        @Query("extraAttribute[]") ArrayList<Integer> extraAttribute);
 }

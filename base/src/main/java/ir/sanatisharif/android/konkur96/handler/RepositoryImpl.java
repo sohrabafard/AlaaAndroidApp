@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.Nullable;
 import io.reactivex.schedulers.Schedulers;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
@@ -120,6 +121,23 @@ public class RepositoryImpl implements Repository {
     public void paymentVerification(PaymentVerificationRequest body, ApiCallBack callBack) {
 
         zarinPalAPI.paymentVerification(body)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(ResultModel -> callBack.onResponse(new Result.Success(ResultModel)),
+                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+
+    }
+
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void addToShopCard(String token, int productId,
+                              ArrayList<Integer> attribute,
+                              ArrayList<Integer> products,
+                              ArrayList<Integer> extraAttribute,
+                              ApiCallBack callBack) {
+
+        shopAPI.addToShopCard(token, productId, attribute, products, extraAttribute)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(ResultModel -> callBack.onResponse(new Result.Success(ResultModel)),
