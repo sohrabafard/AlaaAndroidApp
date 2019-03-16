@@ -8,12 +8,9 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.Nullable;
 import io.reactivex.schedulers.Schedulers;
-import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
-import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
 import ir.sanatisharif.android.konkur96.api.ShopAPI;
 import ir.sanatisharif.android.konkur96.api.ZarinPalAPI;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -137,10 +134,10 @@ public class RepositoryImpl implements Repository {
                               ArrayList<Integer> extraAttribute,
                               ApiCallBack callBack) {
 
-        shopAPI.addToShopCard(token, productId, attribute, products, extraAttribute)
+        shopAPI.addToShopCard(("Bearer " + token), productId, attribute, products, extraAttribute)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(AddToCard‌Model -> callBack.onResponse(new Result.Success(AddToCard‌Model)),
+                .subscribe(AddToCardListModel -> callBack.onResponse(new Result.Success(AddToCardListModel)),
                         throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
 
     }

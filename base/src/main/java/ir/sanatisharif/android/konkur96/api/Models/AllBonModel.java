@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AllBon‌Model implements Parcelable {
+public class AllBonModel implements Parcelable {
 
     @SerializedName("id")
     private int id;
@@ -44,10 +44,10 @@ public class AllBon‌Model implements Parcelable {
     private String deleted_at;
 
     @SerializedName("pivot")
-    private Pivot‌Model pivot;
+    private PivotMode pivot;
 
 
-    protected AllBon‌Model(Parcel in) {
+    protected AllBonModel(Parcel in) {
         id = in.readInt();
         bon_id = in.readInt();
         user_id = in.readInt();
@@ -60,7 +60,7 @@ public class AllBon‌Model implements Parcelable {
         created_at = in.readString();
         updated_at = in.readString();
         deleted_at = in.readString();
-        pivot = in.readParcelable(Pivot‌Model.class.getClassLoader());
+        pivot = in.readParcelable(PivotMode.class.getClassLoader());
     }
 
     @Override
@@ -85,15 +85,15 @@ public class AllBon‌Model implements Parcelable {
         return 0;
     }
 
-    public static final Creator<AllBon‌Model> CREATOR = new Creator<AllBon‌Model>() {
+    public static final Creator<AllBonModel> CREATOR = new Creator<AllBonModel>() {
         @Override
-        public AllBon‌Model createFromParcel(Parcel in) {
-            return new AllBon‌Model(in);
+        public AllBonModel createFromParcel(Parcel in) {
+            return new AllBonModel(in);
         }
 
         @Override
-        public AllBon‌Model[] newArray(int size) {
-            return new AllBon‌Model[size];
+        public AllBonModel[] newArray(int size) {
+            return new AllBonModel[size];
         }
     };
 
@@ -193,11 +193,11 @@ public class AllBon‌Model implements Parcelable {
         this.deleted_at = deleted_at;
     }
 
-    public Pivot‌Model getPivot() {
+    public PivotMode getPivot() {
         return pivot;
     }
 
-    public void setPivot(Pivot‌Model pivot) {
+    public void setPivot(PivotMode pivot) {
         this.pivot = pivot;
     }
 }

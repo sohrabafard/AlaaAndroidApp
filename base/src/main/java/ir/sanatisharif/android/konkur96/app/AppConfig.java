@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.os.Handler;
+import android.support.multidex.MultiDex;
 import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.widget.ProgressBar;
@@ -103,4 +104,11 @@ public class AppConfig extends Application {
     public void changeProgressColor(ProgressBar loader) {
         loader.getIndeterminateDrawable().setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
     }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
 }

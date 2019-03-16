@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class DiscountDetail‌Model implements Parcelable {
+public class DiscountDetailModel implements Parcelable {
 
     @SerializedName("productDiscount")
     private int productDiscount;
@@ -17,7 +17,7 @@ public class DiscountDetail‌Model implements Parcelable {
     private int productDiscountAmount;
 
 
-    protected DiscountDetail‌Model(Parcel in) {
+    protected DiscountDetailModel(Parcel in) {
         productDiscount = in.readInt();
         bonDiscount = in.readInt();
         productDiscountAmount = in.readInt();
@@ -35,15 +35,15 @@ public class DiscountDetail‌Model implements Parcelable {
         return 0;
     }
 
-    public static final Creator<DiscountDetail‌Model> CREATOR = new Creator<DiscountDetail‌Model>() {
+    public static final Creator<DiscountDetailModel> CREATOR = new Creator<DiscountDetailModel>() {
         @Override
-        public DiscountDetail‌Model createFromParcel(Parcel in) {
-            return new DiscountDetail‌Model(in);
+        public DiscountDetailModel createFromParcel(Parcel in) {
+            return new DiscountDetailModel(in);
         }
 
         @Override
-        public DiscountDetail‌Model[] newArray(int size) {
-            return new DiscountDetail‌Model[size];
+        public DiscountDetailModel[] newArray(int size) {
+            return new DiscountDetailModel[size];
         }
     };
 

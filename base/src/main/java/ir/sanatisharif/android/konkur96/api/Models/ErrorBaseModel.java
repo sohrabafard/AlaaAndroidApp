@@ -5,23 +5,23 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ErrorBase‌Model implements Parcelable {
+public class ErrorBaseModel implements Parcelable {
 
     @SerializedName("error")
-    private String code;
+    private String error;
 
     @SerializedName("message")
     private String message;
 
 
-    protected ErrorBase‌Model(Parcel in) {
-        code = in.readString();
+    protected ErrorBaseModel(Parcel in) {
+        error = in.readString();
         message = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(code);
+        dest.writeString(error);
         dest.writeString(message);
     }
 
@@ -30,24 +30,24 @@ public class ErrorBase‌Model implements Parcelable {
         return 0;
     }
 
-    public static final Creator<ErrorBase‌Model> CREATOR = new Creator<ErrorBase‌Model>() {
+    public static final Creator<ErrorBaseModel> CREATOR = new Creator<ErrorBaseModel>() {
         @Override
-        public ErrorBase‌Model createFromParcel(Parcel in) {
-            return new ErrorBase‌Model(in);
+        public ErrorBaseModel createFromParcel(Parcel in) {
+            return new ErrorBaseModel(in);
         }
 
         @Override
-        public ErrorBase‌Model[] newArray(int size) {
-            return new ErrorBase‌Model[size];
+        public ErrorBaseModel[] newArray(int size) {
+            return new ErrorBaseModel[size];
         }
     };
 
-    public String getCode() {
-        return code;
+    public String getError() {
+        return error;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setError(String error) {
+        this.error = error;
     }
 
     public String getMessage() {
@@ -57,6 +57,4 @@ public class ErrorBase‌Model implements Parcelable {
     public void setMessage(String message) {
         this.message = message;
     }
-
-
 }

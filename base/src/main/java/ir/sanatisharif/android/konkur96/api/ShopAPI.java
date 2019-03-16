@@ -3,13 +3,11 @@ package ir.sanatisharif.android.konkur96.api;
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
-import ir.sanatisharif.android.konkur96.api.Models.AddToCard‌Model;
+import ir.sanatisharif.android.konkur96.api.Models.AddToCardListModel;
+import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
-import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -50,9 +48,9 @@ public interface ShopAPI {
 
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @POST("api/v1/orderproduct")
-    Observable<AddToCard‌Model> addToShopCard(@Header("Authorization") String token,
-                                              @Query("product_id") int productId,
-                                              @Query("attribute[]") ArrayList<Integer> attribute,
-                                              @Query("products[]") ArrayList<Integer> products,
-                                              @Query("extraAttribute[]") ArrayList<Integer> extraAttribute);
+    Observable<AddToCardListModel> addToShopCard(@Header("Authorization") String token,
+                                                 @Query("product_id") int productId,
+                                                 @Query("attribute[]") ArrayList<Integer> attribute,
+                                                 @Query("products[]") ArrayList<Integer> products,
+                                                 @Query("extraAttribute[]") ArrayList<Integer> extraAttribute);
 }

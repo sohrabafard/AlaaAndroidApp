@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Pivot‌Model implements Parcelable {
+public class PivotMode implements Parcelable {
 
     @SerializedName("orderproduct_id")
     private int orderproduct_id;
@@ -19,7 +19,7 @@ public class Pivot‌Model implements Parcelable {
     @SerializedName("discount")
     private int discount;
 
-    protected Pivot‌Model(Parcel in) {
+    protected PivotMode(Parcel in) {
         orderproduct_id = in.readInt();
         userbon_id = in.readInt();
         usageNumber = in.readInt();
@@ -39,15 +39,15 @@ public class Pivot‌Model implements Parcelable {
         return 0;
     }
 
-    public static final Creator<Pivot‌Model> CREATOR = new Creator<Pivot‌Model>() {
+    public static final Creator<PivotMode> CREATOR = new Creator<PivotMode>() {
         @Override
-        public Pivot‌Model createFromParcel(Parcel in) {
-            return new Pivot‌Model(in);
+        public PivotMode createFromParcel(Parcel in) {
+            return new PivotMode(in);
         }
 
         @Override
-        public Pivot‌Model[] newArray(int size) {
-            return new Pivot‌Model[size];
+        public PivotMode[] newArray(int size) {
+            return new PivotMode[size];
         }
     };
 

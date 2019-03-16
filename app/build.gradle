@@ -10,6 +10,7 @@ android {
         targetSdkVersion 27
         versionCode 31
         versionName "3.0.0"
+        multiDexEnabled true
 
 
     }
@@ -31,4 +32,5 @@ android {
 
 dependencies {
     implementation project(':base')
+    implementation 'com.android.support:multidex:1.0.3'
 }

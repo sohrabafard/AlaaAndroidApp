@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AllPrice‌Model extends PriceModel implements Parcelable {
+public class AllPriceModel extends PriceModel implements Parcelable {
 
     @SerializedName("discountDetail")
     private DiscountDetail‌Model discountDetail;
@@ -13,7 +13,7 @@ public class AllPrice‌Model extends PriceModel implements Parcelable {
     @SerializedName("extraCost")
     private int extraCost;
 
-    protected AllPrice‌Model(Parcel in) {
+    protected AllPriceModel(Parcel in) {
         super(in);
     }
 

@@ -1,6 +1,5 @@
 package ir.sanatisharif.android.konkur96.dialog;
 
-import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,9 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,25 +21,19 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.annotations.Nullable;
 import ir.sanatisharif.android.konkur96.BuildConfig;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
-import ir.sanatisharif.android.konkur96.adapter.ProductAttrAdapter;
-import ir.sanatisharif.android.konkur96.api.Models.AddToCard‌Model;
-import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
-import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
-import ir.sanatisharif.android.konkur96.api.Models.MainModel;
+import ir.sanatisharif.android.konkur96.api.Models.AddToCardListModel;
+import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentResponse;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.fragment.DashboardMainFrg;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.model.user.User;
-import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
@@ -144,11 +134,25 @@ public class ZarinPalDialogFragment extends DialogFragment {
                         @Override
                         public void run() {
 
-                            repository.addToShopCard(("Bearer " + token), model.getId(), attribute, products, extraAttribute, data -> {
+                            repository.addToShopCard(token, model.getId(), attribute, products, extraAttribute, data -> {
                                 progPrice.setVisibility(View.GONE);
                                 if (data instanceof Result.Success) {
 
-                                    AddToCard‌Model temp = (AddToCard‌Model) ((Result.Success) data).value;
+                                    AddToCardListModel temp = (AddToCardListModel) ((Result.Success) data).value;
+
+                                    if (null == temp.getError().getError() || temp.getError().getError().equals("false")){
+
+                                        txtTitle.setText("موفق");
+                                        txtDesc.setVisibility(View.VISIBLE);
+                                        txtDesc.setText("با موفقیت به سبد خرید اضافه شد.");
+                                    }else {
+
+                                        txtTitle.setText("ناموفق");
+                                        txtDesc.setVisibility(View.VISIBLE);
+                                        txtDesc.setText( temp.getError().getMessage());
+                                    }
+
+
 
 
                                 } else {
