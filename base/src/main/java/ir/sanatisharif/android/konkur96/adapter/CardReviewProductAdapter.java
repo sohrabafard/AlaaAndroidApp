@@ -72,63 +72,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<CardReviewPro
         }
 
 
-//        holder.textView.setText(model.getName());
-//        setFinalPrice(holder.txtFinalPrice, model);
 //
-//        if (null != model.getChildren()){
-//
-//            holder.recyclerView.setVisibility(View.VISIBLE);
-//
-//            ArrayList<SelectableProduct> items = ShopUtils.convertToSelectableProductModel(model.getChildren());
-//
-//            CardReviewProductAdapter adapter = new CardReviewProductAdapter(context, items, new CardReviewProductAdapter.CheckListeners() {
-//                @Override
-//                public void onItemCheck(ProductModel model, int position) {
-//
-//                    checkListeners.onItemCheck(model, position);
-//
-//                }
-//
-//                @Override
-//                public void onItemUncheck(ProductModel model, int position) {
-//
-//                    checkListeners.onItemUncheck(model, position);
-//
-//
-//                }
-//            });
-//
-//            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
-//            holder.recyclerView.setLayoutManager(mLayoutManager);
-//            holder.recyclerView.setItemAnimator(new DefaultItemAnimator());
-//            holder.recyclerView.setAdapter(adapter);
-//
-//        }else {
-//
-//            holder.recyclerView.setVisibility(View.GONE);
-//        }
-//
-//        if(selectablemodel.isChecked()) {
-//
-//            holder.checkBox.setChecked(true);
-//
-//        } else {
-//
-//            holder.checkBox.setChecked(false);
-//        }
-//
-//
-//
-//        holder.checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
-//            if (b) {
-//                selectablemodel.setChecked(true);
-//                checkListeners.onItemCheck(model, holder.getAdapterPosition());
-//            }
-//            else {
-//                selectablemodel.setChecked(false);
-//                checkListeners.onItemUncheck(model, holder.getAdapterPosition());
-//            }
-//        });
 
 
     }
