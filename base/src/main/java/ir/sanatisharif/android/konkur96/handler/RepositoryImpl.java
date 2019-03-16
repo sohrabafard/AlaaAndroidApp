@@ -141,4 +141,17 @@ public class RepositoryImpl implements Repository {
                         throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
 
     }
+
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void cardReview(String token, ApiCallBack callBack) {
+
+        shopAPI.cardReview(("Bearer " + token))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(CardReviewModel -> callBack.onResponse(new Result.Success(CardReviewModel)),
+                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+
+    }
 }

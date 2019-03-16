@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import io.reactivex.Observable;
 import ir.sanatisharif.android.konkur96.api.Models.AddToCardListModel;
 import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
+import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
@@ -53,4 +54,8 @@ public interface ShopAPI {
                                                  @Query("attribute[]") ArrayList<Integer> attribute,
                                                  @Query("products[]") ArrayList<Integer> products,
                                                  @Query("extraAttribute[]") ArrayList<Integer> extraAttribute);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @GET("api/v1/checkout/review")
+    Observable<CardReviewModel> cardReview(@Header("Authorization") String token);
 }

@@ -37,8 +37,28 @@ public class AddToCardModel extends ErrorBase implements Parcelable {
     private ProductModel grandProduct;
 
     protected AddToCardModel(Parcel in) {
-        super(in);
+        order_id = in.readInt();
+        id = in.readInt();
+        orderproducttype = in.readParcelable(OrderProductTypeModel.class.getClassLoader());
+        product = in.readParcelable(ProductModel.class.getClassLoader());
+        grandId = in.readString();
+        price = in.readParcelable(AllPriceModel.class.getClassLoader());
+        bons = in.createTypedArrayList(AllBonModel.CREATOR);
+        photo = in.readString();
+        grandProduct = in.readParcelable(ProductModel.class.getClassLoader());
     }
+
+    public static final Creator<AddToCardModel> CREATOR = new Creator<AddToCardModel>() {
+        @Override
+        public AddToCardModel createFromParcel(Parcel in) {
+            return new AddToCardModel(in);
+        }
+
+        @Override
+        public AddToCardModel[] newArray(int size) {
+            return new AddToCardModel[size];
+        }
+    };
 
     public int getOrder_id() {
         return order_id;
@@ -110,5 +130,23 @@ public class AddToCardModel extends ErrorBase implements Parcelable {
 
     public void setGrandProduct(ProductModel grandProduct) {
         this.grandProduct = grandProduct;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(order_id);
+        parcel.writeInt(id);
+        parcel.writeParcelable(orderproducttype, i);
+        parcel.writeParcelable(product, i);
+        parcel.writeString(grandId);
+        parcel.writeParcelable(price, i);
+        parcel.writeTypedList(bons);
+        parcel.writeString(photo);
+        parcel.writeParcelable(grandProduct, i);
     }
 }

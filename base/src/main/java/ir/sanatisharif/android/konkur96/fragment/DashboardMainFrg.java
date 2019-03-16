@@ -39,6 +39,7 @@ import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import ir.sanatisharif.android.konkur96.ui.view.CircleTransform;
 
+import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
 /**
@@ -53,7 +54,7 @@ public class DashboardMainFrg extends BaseFragment {
     private ImageView imgUser;
     private Toolbar mToolbar;
     private RecyclerView myRecyclerView;
-    private TextView txtNationalCode, txtMobile, txtFullName, txtField;
+    private TextView txtNationalCode, txtMobile, txtFullName, txtField, btnOpenCard;
 
     private MainItemAdapter adapter;
     private List<MainItem> items = new ArrayList<>();
@@ -120,6 +121,7 @@ public class DashboardMainFrg extends BaseFragment {
         txtField = view.findViewById(R.id.txtField);
         txtMobile = view.findViewById(R.id.txtMobile);
         txtNationalCode = view.findViewById(R.id.txtNationalCode);
+        btnOpenCard = view.findViewById(R.id.btn_open_card);
 
         //set adapter recyclerview
         myRecyclerView.setNestedScrollingEnabled(false);
@@ -152,6 +154,8 @@ public class DashboardMainFrg extends BaseFragment {
         }
 
         loadVideoOffline();
+
+        btnOpenCard.setOnClickListener(view -> addFrg(CardFragment.newInstance(),"CardFragment"));
     }
     //</editor-fold>
 

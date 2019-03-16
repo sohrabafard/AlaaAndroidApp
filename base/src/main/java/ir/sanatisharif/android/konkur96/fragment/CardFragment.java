@@ -21,8 +21,11 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MainShopItemAdapter;
+import ir.sanatisharif.android.konkur96.api.Models.AddToCardListModel;
+import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.handler.Repository;
@@ -30,8 +33,12 @@ import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.MainShopItem;
+import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.myPaginate;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
+
+import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
+import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -40,8 +47,15 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private Repository repository;
+    private AccountInfo accountInfo;
+    private User user;
 
-    //private ArrayList<MainShopItem> items = new ArrayList<>();
+    private CardReviewModel cardReviewModel;
+
+    private ArrayList<CardReviewModel> items = new ArrayList<>();
+    private LinearLayoutManager linearLayoutManager;
+
+    private RecyclerView productsRecyclerView;
 
     public static CardFragment newInstance() {
 
@@ -63,6 +77,8 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         super.onViewCreated(view, savedInstanceState);
 
         repository = new RepositoryImpl(getActivity());
+        accountInfo = new AccountInfo(getContext(), getActivity());
+        user = accountInfo.getInfo(ACCOUNT_TYPE);
 
         initView(view);
         getData();
@@ -97,53 +113,52 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private void getData() {
 
-        swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
+        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
 
-//        repository.getMainShop(data -> {
-//
-//            if (data instanceof Result.Success) {
-//
-//                setData((MainModel) ((Result.Success) data).value, true);
-//                swipeRefreshLayout.setRefreshing(false);
-//
-//            } else {
-//
-//                Log.d("Test", (String) ((Result.Error) data).value);
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//
-//
-//        });
+            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
+                @Override
+                public void onToken(String token) {
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
+
+                            repository.cardReview(token, data -> {
+
+                                if (data instanceof Result.Success) {
+
+                                    setData((CardReviewModel) ((Result.Success) data).value, true);
+                                    swipeRefreshLayout.setRefreshing(false);
+
+                                } else {
+
+                                    Log.d("Test", (String) ((Result.Error) data).value);
+                                    swipeRefreshLayout.setRefreshing(false);
+                                }
+
+
+                            });
+
+                        }
+                    });
+
+                }
+            });
+        }
 
 
     }
 
-//    private void setData(MainModel data, Boolean first) {
-//
-//        //---------------------- set mainModel data ---------------------------------------------
-//        mainModel = data;
-//
-//
-//        //---------------------- set paginate data ----------------------------------------------
-//        if (null != mainModel && null != mainModel.getBlock().getNext_page_url()){
-//
-//            isPaginate = true;
-//            paginate.setNoMoreItems(false);
-//
-//        }else {
-//
-//            isPaginate = false;
-//            paginate.setNoMoreItems(true);
-//        }
-//
-//
-//        //---------------------- convert -------------------------------------------------------
-//        items.addAll(ShopUtils.convertToMainShopModel(data, first));
-//
-//
-//        //---------------------- update adapter ------------------------------------------------
-//        adapter.notifyDataSetChanged();
-//    }
+    private void setData(CardReviewModel data, Boolean first) {
+
+        //---------------------- set cardReviewModel data ---------------------------------------------
+        cardReviewModel = data;
+
+
+
+    }
 
     private void initView(View v) {
 
@@ -151,19 +166,16 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
         swipeRefreshLayout.setOnRefreshListener(this);
-//        //recyclerView
-//        shopMainRecyclerView = v.findViewById(R.id.recyclerView_main_shop);
-//        shopMainRecyclerView.setNestedScrollingEnabled(false);
-//        shopMainRecyclerView.setHasFixedSize(true);
-//        linearLayoutManager =new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
-//        shopMainRecyclerView.setLayoutManager(linearLayoutManager);
+        //recyclerView
+        productsRecyclerView = v.findViewById(R.id.recyclerView_card_shop);
+        productsRecyclerView.setHasFixedSize(true);
+        linearLayoutManager =new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
+        productsRecyclerView.setLayoutManager(linearLayoutManager);
 //        adapter = new MainShopItemAdapter(AppConfig.context, items);
 //        adapter.setSize(AppConfig.width, AppConfig.height);
 //        shopMainRecyclerView.setAdapter(adapter);
 //        shopMainRecyclerView.setItemAnimator(new DefaultItemAnimator());
-//        paginate = myPaginate.with(shopMainRecyclerView)
-//                .setOnLoadMoreListener(() -> getDataPaginat())
-//                .build();
+
 
         setHasOptionsMenu(true);
         setToolbar(pageToolbar, "آلاء مجری توسعه عدالت آموزشی");
@@ -174,7 +186,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        //items.clear();
+        items.clear();
         getData();
     }
 }
