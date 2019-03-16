@@ -10,18 +10,23 @@ public class ErrorBaseModel implements Parcelable {
     @SerializedName("error")
     private String error;
 
+    @SerializedName("code")
+    private int code;
+
     @SerializedName("message")
     private String message;
 
 
     protected ErrorBaseModel(Parcel in) {
         error = in.readString();
+        code = in.readInt();
         message = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(error);
+        dest.writeInt(code);
         dest.writeString(message);
     }
 
@@ -48,6 +53,14 @@ public class ErrorBaseModel implements Parcelable {
 
     public void setError(String error) {
         this.error = error;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getMessage() {

@@ -140,7 +140,7 @@ public class ZarinPalDialogFragment extends DialogFragment {
 
                                     AddToCardListModel temp = (AddToCardListModel) ((Result.Success) data).value;
 
-                                    if (null == temp.getError().getError() || temp.getError().getError().equals("false")){
+                                    if (null == temp.getError()){
 
                                         txtTitle.setText("موفق");
                                         txtDesc.setVisibility(View.VISIBLE);
