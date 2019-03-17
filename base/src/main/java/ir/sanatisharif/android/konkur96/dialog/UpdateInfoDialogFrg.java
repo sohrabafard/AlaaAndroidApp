@@ -83,7 +83,7 @@ public class UpdateInfoDialogFrg extends BaseDialogFragment<UpdateInfoDialogFrg>
             @Override
             public void onClick(View view) {
 
-                MyPreferenceManager.getInatanse().setLastVersionCode(31);
+                MyPreferenceManager.getInatanse().setLastVersionCode(32);
                 dismiss();
             }
         });

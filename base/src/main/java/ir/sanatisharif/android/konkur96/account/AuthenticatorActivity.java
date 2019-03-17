@@ -120,11 +120,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             public void onSuccess(Object obj) {
 
                 UserInfo u = (UserInfo) obj;
-                Gson gson = new Gson();
-                Log.i(TAG, "onSuccess: " + gson.toJson(u));
-                //addAccount(u.getData().getUser(), u.getData().getAccessToken());
+              //  Gson gson = new Gson();
+                // Log.i(TAG, "onSuccess: " + gson.toJson(u));
+                addAccount(u.getData().getUser(), u.getData().getAccessToken());
                 dialog.dismiss();
-                //  startActivity(new Intent(AuthenticatorActivity.this, MainActivity.class));
+                startActivity(new Intent(AuthenticatorActivity.this, MainActivity.class));
                 finish();
             }
 

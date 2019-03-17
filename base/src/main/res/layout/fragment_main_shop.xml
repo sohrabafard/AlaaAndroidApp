@@ -7,6 +7,11 @@
 
     <include layout="@layout/app_bar" />
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_main_shop"
         android:layout_width="match_parent"
@@ -14,5 +19,7 @@
         tools:listitem="@layout/category_shop_item"
         android:background="@color/White"
         android:layout_gravity="center" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

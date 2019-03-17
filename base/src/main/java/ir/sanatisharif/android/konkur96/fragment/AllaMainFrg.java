@@ -36,9 +36,6 @@ import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.main_page.Datum;
 import ir.sanatisharif.android.konkur96.model.main_page.MainPagesInfo;
-import ir.sanatisharif.android.konkur96.model.main_page.Set;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
-import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
 
 /**
@@ -121,7 +118,7 @@ public class AllaMainFrg extends BaseFragment implements
         myRecyclerView.setNestedScrollingEnabled(false);
         myRecyclerView.setHasFixedSize(true);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
-        adapter = new MainItemAdapter(AppConfig.context, items, GlideApp.with(this));
+        adapter = new MainItemAdapter(AppConfig.context, items);
         adapter.setSize(AppConfig.width, AppConfig.height);
         myRecyclerView.setAdapter(adapter);
 

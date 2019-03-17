@@ -100,13 +100,10 @@ public final class myPaginate implements OnAdapterChangeListener, OnRepeatListen
     @Override
     public void onAdapterChange() {
 
-        recyclerView.post(new Runnable() {
-            @Override
-            public void run() {
-                final PaginateStatus status = PaginateStatus.getStatus(isLoadedAllItems, isError);
-                wrapperAdapter.stateChanged(status);
-                checkScroll();
-            }
+        recyclerView.post(() -> {
+            final PaginateStatus status = PaginateStatus.getStatus(isLoadedAllItems, isError);
+            wrapperAdapter.stateChanged(status);
+            checkScroll();
         });
     }
 

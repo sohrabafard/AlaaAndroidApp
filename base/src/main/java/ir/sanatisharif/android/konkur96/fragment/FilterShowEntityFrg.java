@@ -33,10 +33,10 @@ import ir.sanatisharif.android.konkur96.model.filter.Filter;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 import ir.sanatisharif.android.konkur96.model.filter.PamphletRoot;
+import ir.sanatisharif.android.konkur96.model.filter.SetFilterProduct;
+import ir.sanatisharif.android.konkur96.model.filter.SetFilterProductRoot;
 import ir.sanatisharif.android.konkur96.model.filter.SetFilterRoot;
 import ir.sanatisharif.android.konkur96.model.filter.VideoRoot;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
-import ir.sanatisharif.android.konkur96.ui.GlideRequests;
 import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
 
 /**
@@ -48,7 +48,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
     private EndlessRecyclerViewScrollListener endLess;
     private LinearLayoutManager manager;
     private RecyclerView myRecyclerView;
-private     NestedScrollView nestedScrollView;
+    private NestedScrollView nestedScrollView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private FilterAdapter adapter;
     private List<FilterBaseModel> mList = new ArrayList<>();
@@ -106,8 +106,7 @@ private     NestedScrollView nestedScrollView;
         myRecyclerView.setNestedScrollingEnabled(false);
         myRecyclerView.setHasFixedSize(false);
         myRecyclerView.setLayoutManager(manager);
-        GlideRequests glideRequests = GlideApp.with(this);
-        adapter = new FilterAdapter(AppConfig.context, mList, glideRequests);
+        adapter = new FilterAdapter(AppConfig.context, mList);
         myRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
@@ -117,7 +116,7 @@ private     NestedScrollView nestedScrollView;
 
                 View view = nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
                 int diff = (view.getBottom() - (nestedScrollView.getHeight() + nestedScrollView.getScrollY()));
-              //  Log.i("LOG", "scrollUp:12 dy > 0  "+ nestedScrollView.getScrollY()+" "+nestedScrollView.getHeight());
+                //  Log.i("LOG", "scrollUp:12 dy > 0  "+ nestedScrollView.getScrollY()+" "+nestedScrollView.getHeight());
                 if (diff == 0) {
                     if (pagination != null) {
                         if (pagination.getNextPageUrl() != null) {
@@ -172,6 +171,14 @@ private     NestedScrollView nestedScrollView;
         type = AppConstants.FILTER_SET;
         mList.clear();
         mList.addAll(setFilterRoot.getData());
+    }
+
+    public void setToProduct(SetFilterProductRoot product) {
+
+        pagination = (Pagination) product;
+        type = AppConstants.FILTER_PRODUCT;
+        mList.clear();
+        mList.addAll(product.getData());
     }
     //</editor-fold>
 

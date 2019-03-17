@@ -35,7 +35,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -62,8 +61,6 @@ import ir.sanatisharif.android.konkur96.model.filter.Pamphlet;
  */
 
 public class FilterTagsFrg extends BaseFragment implements
-        MaterialSearchView.OnQueryTextListener,
-        MaterialSearchView.SearchViewListener,
         View.OnClickListener,
         ICheckNetwork, ScrollOnRecycler {
 
@@ -83,7 +80,6 @@ public class FilterTagsFrg extends BaseFragment implements
     private TabLayout tabLayout;
     private FrameLayout frameViewPager;
     private FloatingActionButton fabFilter;
-    private MaterialSearchView searchView;
 
     private LinearLayout loaderParent;
     private ProgressBar loader;
@@ -143,14 +139,6 @@ public class FilterTagsFrg extends BaseFragment implements
         DetailsVideoFrg.pagination = null;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        inflater.inflate(R.menu.menu_filter_search, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        searchView.setMenuItem(item);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
 
     @Override
@@ -186,9 +174,6 @@ public class FilterTagsFrg extends BaseFragment implements
         loaderParent = view.findViewById(R.id.loaderParent);
         loader = view.findViewById(R.id.loader);
         AppConfig.getInstance().changeProgressColor(loader);
-        searchView = view.findViewById(R.id.search_view);
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnSearchViewListener(this);
         fabFilter.setOnClickListener(this);
 
         //view pager
@@ -215,27 +200,26 @@ public class FilterTagsFrg extends BaseFragment implements
         //reset
         for (TabControl t : tabControls) {
             t.setShow(false);
-            //Log.i("LOG", "setupViewPager:22 " + t.getId() +" "+t.getTitle()+ " " + t.isShow());
         }
         if (filter.getResult().getSet() != null) {
             tabControls[SET].setShow(true);
-            Log.i("LOG", "setupViewPager: " + SET + " " + tabControls[SET].isShow());
+          //  Log.i("LOG", "setupViewPager: " + SET + " " + tabControls[SET].isShow());
         }
         if (filter.getResult().getVideo() != null) {
             tabControls[VIDEO].setShow(true);
-            Log.i("LOG", "setupViewPager:getVideo  " + VIDEO + " " + tabControls[VIDEO].isShow());
+           // Log.i("LOG", "setupViewPager:getVideo  " + VIDEO + " " + tabControls[VIDEO].isShow());
         }
         if (filter.getResult().getPamphlet() != null) {
             tabControls[PAMPHLET].setShow(true);
-            Log.i("LOG", "setupViewPager:getPamphlet  " + PAMPHLET + " " + tabControls[PAMPHLET].isShow());
+           // Log.i("LOG", "setupViewPager:getPamphlet  " + PAMPHLET + " " + tabControls[PAMPHLET].isShow());
         }
         if (filter.getResult().getArticle() != null) {
             tabControls[ARTICLE].setShow(true);
-            Log.i("LOG", "setupViewPager:getArticle  " + ARTICLE + " " + tabControls[ARTICLE].isShow());
+           // Log.i("LOG", "setupViewPager:getArticle  " + ARTICLE + " " + tabControls[ARTICLE].isShow());
         }
         if (filter.getResult().getProduct() != null) {
             tabControls[PRODUCT].setShow(true);
-            Log.i("LOG", "setupViewPager:getProduct  " + PRODUCT + " " + tabControls[PRODUCT].isShow());
+           // Log.i("LOG", "setupViewPager:getProduct  " + PRODUCT + " " + tabControls[PRODUCT].isShow());
         }
 
         //new instantiate and adding to viewpager
@@ -245,16 +229,10 @@ public class FilterTagsFrg extends BaseFragment implements
                 FilterShowEntityFrg f = new FilterShowEntityFrg();//new object
                 f.setScrollOnRecycler(this);
                 filterShowEntityFrgArrayList.add(f);
-              //  Log.i("LOG", "setupViewPager: " + i + " " + tabControls[i].getTitle());
             }
         }
         myFilterAdapter.notifyDataSetChanged();
 
-//        for (int i = 0; i < NUMBER_TABS; i++) {
-//            if (tabControls[i].isShow()) {
-//                Log.i("LOG", "setupViewPager: " +i+" "+tabControls[i].getTitle());
-//            }
-//        }
 
         for (int i = 0; i < NUMBER_TABS; i++) {
             if (tabControls[i].isShow()) {
@@ -263,7 +241,6 @@ public class FilterTagsFrg extends BaseFragment implements
                 tab.getIcon().setAlpha(100);
                 if (selected_first_index == -1)
                     selected_first_index = i;
-                //Log.i("LOG", "setupViewPager:t " + i + " " + tabControls[i].getTitle());
             }
         }
         if (selected_first_index > -1) {
@@ -365,7 +342,7 @@ public class FilterTagsFrg extends BaseFragment implements
             filterShowEntityFrgArrayList.get(tabCount++).setToSetFilterCourses(filter.getResult().getSet());
         }
         if (filter.getResult().getProduct() != null) {
-            tabCount++;
+            filterShowEntityFrgArrayList.get(tabCount++).setToProduct(filter.getResult().getProduct());
         }
         if (filter.getResult().getVideo() != null) {
             filterShowEntityFrgArrayList.get(tabCount++).setVideoCourses(filter.getResult().getVideo());
@@ -484,27 +461,6 @@ public class FilterTagsFrg extends BaseFragment implements
             showNotInternetDialogFrg();
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        if (!TextUtils.isEmpty(query))
-            getDataBySearch(query);
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
-
-    @Override
-    public void onSearchViewShown() {
-        hideTab();
-    }
-
-    @Override
-    public void onSearchViewClosed() {
-        showTab();
-    }
 }
 
 

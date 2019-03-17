@@ -6,6 +6,7 @@
     <string name="search">جستجو</string>
     <string name="forum">فروم</string>
     <string name="profile">پروفایل</string>
+    <string name="my_product">محصولات من</string>
 
     <string name="firebaseApplicationId" translatable="false">1:93895183217:android:c0eff60db6b60372</string>
 
@@ -125,7 +126,6 @@
         <item>تجربی</item>
         <item>انسانی</item>
     </string-array>
-
 
     <string-array name="FilterTeacher">
         <item>همه دبیر</item>

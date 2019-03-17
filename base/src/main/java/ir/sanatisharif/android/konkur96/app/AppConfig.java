@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.os.Handler;
+import android.support.multidex.MultiDex;
 import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.widget.ProgressBar;
@@ -19,6 +20,7 @@ import ir.sanatisharif.android.konkur96.api.ApiModule;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
+import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 
@@ -44,16 +46,10 @@ public class AppConfig extends Application {
 
 
     @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        // MultiDex.install(this);
-    }
-
-    @Override
     public void onCreate() {
         super.onCreate();
 
-       // MultiDex.install(this);
+        // MultiDex.install(this);
         mInstance = this;
         context = getApplicationContext();
 
@@ -91,7 +87,6 @@ public class AppConfig extends Application {
             FileManager.createPDFDir();//create pdf dir
         }
 
-
         if (colorSwipeRefreshing == null)
             colorSwipeRefreshing = new int[]
                     {
@@ -121,4 +116,11 @@ public class AppConfig extends Application {
     public void changeProgressColor(ProgressBar loader) {
         loader.getIndeterminateDrawable().setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
     }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
 }

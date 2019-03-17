@@ -22,8 +22,10 @@ import android.view.ViewGroup;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
@@ -37,7 +39,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
 
 /**
  * Created by Mohamad on 10/25/2018.
@@ -236,10 +237,13 @@ public class Utils {
 
     public static void loadGlide(ImageView img, String url, int width, int height) {
 
-        GlideApp.with(AppConfig.context)
+        RequestOptions options =
+                new RequestOptions()
+                        .override(width, height)
+                        .fitCenter();
+        Glide.with(AppConfig.context)
                 .load(url)
-                .override(width, height)
-                .fitCenter()
+                .apply(options)
                 //.transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
                 .into(new SimpleTarget<Drawable>(460, 259) {
                     @Override

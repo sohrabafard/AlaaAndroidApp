@@ -83,12 +83,12 @@ public class SplashActivity extends ActivityBase {
                     if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
                         Log.i(TAG, "onCreate: " + ((User) accountInfo.getInfo(ACCOUNT_TYPE)).getFirstName());
 
-                        accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
-                            @Override
-                            public void onToken(String token) {
-                                Log.i(TAG, "onCreate: " + token);
-                            }
-                        });
+//                        accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
+//                            @Override
+//                            public void onToken(String token) {
+//                                Log.i(TAG, "onCreate: " + token);
+//                            }
+//                        });
                         startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     }
 

@@ -87,7 +87,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         initUI();
 
         //-----------add FirstFragment
-        addFrg(DashboardMainFrg.newInstance(), "alla");
+        addFrg(AllaMainFrg.newInstance(), "alla");
 
         //-------- handle deep link
         if (getIntent() != null)

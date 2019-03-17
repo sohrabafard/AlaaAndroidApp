@@ -40,8 +40,6 @@ import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.model.user.User;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
-import ir.sanatisharif.android.konkur96.ui.view.CircleTransform;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
@@ -148,14 +146,7 @@ public class DashboardMainFrg extends BaseFragment {
         ((TextView) itemVideo.findViewById(R.id.txtTitle)).setText("ویدیو");
         ((TextView) itemBag.findViewById(R.id.txtTitle)).setText("کیف پول");
         ((TextView) itemProfile.findViewById(R.id.txtTitle)).setText("پروفایل");
-////        myRecyclerView = view.findViewById(R.id.recyclerView);
-//        //set adapter recyclerview
-//        myRecyclerView.setNestedScrollingEnabled(false);
-//        myRecyclerView.setHasFixedSize(true);
-//        myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
-//        adapter = new MainItemAdapter(AppConfig.context, items,GlideApp.with(this));
-//        adapter.setSize(AppConfig.width, AppConfig.height);
-//        myRecyclerView.setAdapter(adapter);
+
 
     }
 

@@ -4,16 +4,15 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 27
     defaultConfig {
+
         minSdkVersion 16
         targetSdkVersion 26
-
         versionCode 32
         versionName "3.0.0"
+        multiDexEnabled true
+
     }
 
-    dexOptions {
-        // javaMaxHeapSize "4g"
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -23,18 +22,24 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
     }
 
     baseFeature true
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 dependencies {
     //api 'com.android.support:appcompat-v7:26.1.0'
     //api 'com.android.support.constraint:constraint-layout:1.1.3'
 
-    api fileTree(include: ['*.jar'], dir: 'libs')
+    api 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     //---------------------  android support lib -------------------
     //noinspection GradleCompatible
@@ -46,15 +51,8 @@ dependencies {
     api 'com.android.support:support-dynamic-animation:27.0.0'
     //------------- google lib ------------
     //noinspection GradleCompatible
-    // api 'com.google.firebase:firebase-core:16.0.7'
-    //api 'com.google.firebase:firebase-iid:17.1.0'
-    implementation 'com.google.firebase:firebase-core:16.0.4'
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
-    //  api 'com.google.firebase:firebase-core:16.0.8'
-    //  api 'com.google.firebase:firebase-messaging:17.4.0'
-    // api 'com.google.firebase:firebase-auth:16.2.0'
-
-    //api 'com.android.support:multidex:1.0.2'
+    api 'com.google.firebase:firebase-core:16.0.4'
+    api 'com.google.firebase:firebase-messaging:17.3.4'
 
     api 'com.google.android.exoplayer:exoplayer:2.8.2'
     api "android.arch.lifecycle:extensions:1.1.1"
@@ -72,10 +70,6 @@ dependencies {
     api 'org.greenrobot:eventbus:3.1.1'
 
     api 'de.hdodenhof:circleimageview:3.0.0'
-
-    //search view
-    api 'com.miguelcatalan:materialsearchview:1.4.0'
-
     //Image Gallery
     api 'com.github.chrisbanes:PhotoView:2.1.3'
     api 'com.duolingo.open:rtl-viewpager:1.0.3'
@@ -92,7 +86,9 @@ dependencies {
     //dagger 2 (for dependency injection)
     api 'com.google.dagger:dagger:2.15'
     api 'com.google.dagger:dagger-android-support:2.15'
-    api 'javax.annotation:jsr250-api:1.0'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.15'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
+    compileOnly 'javax.annotation:jsr250-api:1.0'
 
     // reactiveX
     api 'io.reactivex.rxjava2:rxandroid:2.0.2'
@@ -102,13 +98,16 @@ dependencies {
     //Gson (json parser)
     api 'com.google.code.gson:gson:2.8.5'
 
+    api 'com.android.support:multidex:1.0.2'
+
     //---------------------  glide lib -------------------
     dependencies {
-        api 'com.github.bumptech.glide:glide:4.3.1'
-        annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
+        implementation 'com.github.bumptech.glide:glide:4.4.0'
+        annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
         annotationProcessor 'com.google.dagger:dagger-android-processor:2.15'
         annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
     }
+
 
     application project(':app')
 }

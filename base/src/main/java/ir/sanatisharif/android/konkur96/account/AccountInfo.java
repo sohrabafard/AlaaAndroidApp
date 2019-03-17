@@ -52,7 +52,7 @@ public class AccountInfo {
                             public void run(AccountManagerFuture<Bundle> future) {
                                 try {
                                     Bundle bnd = future.getResult();
-                                  //  Log.i(TAG, "addNewAccount  : " + bnd);
+                                    //  Log.i(TAG, "addNewAccount  : " + bnd);
                                     toastShow(context.getResources().getString(R.string.register_success), MDToast.TYPE_SUCCESS);
 
                                 } catch (Exception e) {
@@ -128,6 +128,7 @@ public class AccountInfo {
     public boolean ExistAccount(String type) {
 
         Account availableAccounts[] = mAccountManager.getAccountsByType(type);
+        Log.i(TAG, "ExistAccount: " + availableAccounts.length);
         if (availableAccounts.length == 0) {
             addNewAccount(type, AUTHTOKEN_TYPE_FULL_ACCESS);
             return false;
