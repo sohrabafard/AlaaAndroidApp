@@ -29,12 +29,14 @@ import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentResponse;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.fragment.CardFragment;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.model.user.User;
 
+import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
@@ -97,7 +99,8 @@ public class ZarinPalDialogFragment extends DialogFragment {
 
         cardShowCard.setOnClickListener(view -> {
 
-
+            addFrg(CardFragment.newInstance(),"CardFragment");
+            this.dismiss();
         });
 
         cardClose.setOnClickListener(view -> this.dismiss());
