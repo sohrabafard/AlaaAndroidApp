@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
 import ir.sanatisharif.android.konkur96.api.ShopAPI;
@@ -151,6 +152,18 @@ public class RepositoryImpl implements Repository {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(CardReviewModel -> callBack.onResponse(new Result.Success(CardReviewModel)),
+                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void notifyTransaction(String token,String cost, String authority, String refId, ApiCallBack callBack) {
+
+        shopAPI.notifyTransaction(("Bearer " + token), cost, authority, refId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(ErrorBase -> callBack.onResponse(new Result.Success(ErrorBase)),
                         throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
 
     }

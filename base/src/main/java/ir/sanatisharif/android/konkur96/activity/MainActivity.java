@@ -29,6 +29,8 @@ import java.util.Stack;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
+import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
+import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentResponse;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
@@ -54,6 +56,7 @@ import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
+import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 //https://blog.iamsuleiman.com/bottom-navigation-bar-android-tutorial/
 public class MainActivity extends ActivityBase implements AHBottomNavigation.OnTabSelectedListener, ICheckNetwork {
@@ -383,9 +386,11 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 if (payment.getStatus() == 100) {
 
                     Toast.makeText(this, "پرداخت با موفقیت انجام شد. کد پیگیری شما: " + String.valueOf(payment.getRefID()), Toast.LENGTH_LONG).show();
+                    notifyTransaction(amount, authority, String.valueOf(payment.getRefID()));
                 } else {
 
                     Toast.makeText(this, "خطا : " + String.valueOf(payment.getStatus()), Toast.LENGTH_LONG).show();
+                    notifyTransaction(amount, authority, String.valueOf(payment.getRefID()));
                 }
 
             } else {
@@ -395,6 +400,35 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
 
         });
+
+
+    }
+
+
+    private void notifyTransaction(String cost, String authority, String refId){
+
+        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+
+            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
+                    this.runOnUiThread(() -> {
+
+                        repository.notifyTransaction(token, cost, authority, refId, data -> {
+
+                            if (data instanceof Result.Success) {
+
+                               ErrorBase temp = (ErrorBase) ((Result.Success) data).value;
+
+                            } else {
+
+                                Log.d("Test", (String) ((Result.Error) data).value);
+                            }
+
+
+                        });
+
+                    }));
+        }
+
     }
 
 

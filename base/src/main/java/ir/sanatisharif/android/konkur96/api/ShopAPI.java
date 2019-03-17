@@ -62,7 +62,9 @@ public interface ShopAPI {
 
 
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
-    @GET("api/v1/transaction")
+    @POST("api/v1/transaction")
     Observable<ErrorBase> notifyTransaction(@Header("Authorization") String token,
-                                            @Query("product_id") int productId);
+                                            @Query("cost") String cost,
+                                            @Query("authority") String authority,
+                                            @Query("refId") String refId);
 }
