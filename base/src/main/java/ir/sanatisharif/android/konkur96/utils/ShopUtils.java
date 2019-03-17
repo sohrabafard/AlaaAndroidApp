@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
+import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
+import ir.sanatisharif.android.konkur96.api.Models.ItemCardReviewMOdel;
 import ir.sanatisharif.android.konkur96.api.Models.MainDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
@@ -111,6 +114,42 @@ public class ShopUtils {
         }
 
         return  items;
+    }
+
+    public static ArrayList<AddToCardModel> convertToAddToCardModelList(CardReviewModel cardReviewModel){
+
+        ArrayList<AddToCardModel> items = new ArrayList<>();
+
+
+        for (int i = 0 ; i < cardReviewModel.getItems().size(); i++){
+
+            items.addAll(cardReviewModel.getItems().get(i).getOrderproducts());
+        }
+
+
+        return  items;
+    }
+
+    public static String getProductNames(CardReviewModel cardReviewModel){
+
+        ArrayList<AddToCardModel> items = new ArrayList<>();
+        String finalNames = "";
+
+
+        for (int i = 0 ; i < cardReviewModel.getItems().size(); i++){
+
+            items.addAll(cardReviewModel.getItems().get(i).getOrderproducts());
+        }
+
+        for (int i = 0 ; i < items.size(); i++){
+
+            AddToCardModel temp = items.get(i);
+
+            finalNames += temp.getProduct().getName() + " , ";
+        }
+
+
+        return finalNames;
     }
 
 

@@ -390,7 +390,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
             } else {
                 Log.d(TAG, (String) ((Result.Error) data).value);
-                Toast.makeText(this, "خطایی رخ داده لطفا دوباره امتحان کنید.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "تایید پرداخت با مشکل مواجه شد.در صورتی که محصول خریداری شده به لیست شما اضافه نشده است با پشتیبانی تماس بگیرید.", Toast.LENGTH_LONG).show();
             }
 
 

@@ -3,111 +3,145 @@ package ir.sanatisharif.android.konkur96.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.ItemCardReviewMOdel;
-import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.model.SelectableProduct;
-import ir.sanatisharif.android.konkur96.utils.GalleryWorker;
+import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 
-public class CardReviewProductAdapter extends RecyclerView.Adapter<CardReviewProductAdapter.MyViewHolder> {
+public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
     private DeleteListener deleteListener;
-    private ArrayList<ItemCardReviewMOdel> itemCardReviewMOdels;
+    private ArrayList<AddToCardModel> items;
 
 
-    public CardReviewProductAdapter(Context context, ArrayList<ItemCardReviewMOdel> itemCardReviewMOdels, DeleteListener deleteListener) {
+    public CardReviewProductAdapter(Context context, ArrayList<AddToCardModel> items, DeleteListener deleteListener) {
 
         this.deleteListener = deleteListener;
-        this.itemCardReviewMOdels = itemCardReviewMOdels;
+        this.items = items;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_selectable_product, parent, false);
-        return new MyViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        if (viewType == 1) {
+            return new NoGrandProductViewHolder(LayoutInflater.from(context).inflate(R.layout.item_card_reviw_nogrand, parent, false));
+        }else {
+
+            return new GrandProductViewHolder(LayoutInflater.from(context).inflate(R.layout.item_card_review_grand, parent, false));
+        }
     }
 
     @Override
     public int getItemCount() {
-        if (itemCardReviewMOdels != null)
-            return itemCardReviewMOdels.size();
+        if (items != null)
+            return items.size();
         else
             return 0;
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-
-
-
-        holder.checkBox.setOnCheckedChangeListener(null);
-
-
-        holder.textView.setTypeface(AppConfig.fontIRSensLight);
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.checkBox.setButtonTintList(ContextCompat.getColorStateList(context, R.color.checkboxtint));
-        }
-
-
-//
-
-
-    }
-
     @SuppressLint("SetTextI18n")
-    private void setFinalPrice(TextView textView , ProductModel model) {
+    @Override
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
+
+        // To Determine View Type
+        int viewType = getItemViewType(position);
+
+        if (viewType == 1) {
+
+            final AddToCardModel model = items.get(position);
+
+            final String title = model.getProduct().getName();
+            final int price = model.getProduct().getPrice().getMfinal();
+            final String image = model.getProduct().getPhoto();
+
+            final NoGrandProductViewHolder itemRowHolderNoGrand = (NoGrandProductViewHolder) holder;
+
+            itemRowHolderNoGrand.txtTitle.setText(title);
+            itemRowHolderNoGrand.txtPrice.setText(ShopUtils.formatPrice(price) + " تومان ");
+
+            Glide.with(context).load(image).into(itemRowHolderNoGrand.imageView);
 
 
-        if (model.getPrice().getMfinal() > 0) {
+        }else {
 
-            textView.setText(ShopUtils.formatPrice(model.getPrice().getMfinal()) + " تومان ");
+            final AddToCardModel model = items.get(position);
 
-        } else {
+            final String title = model.getGrandProduct().getName();
+            final String proTitle = model.getProduct().getName();
+            final int price = model.getProduct().getPrice().getMfinal();
+            final String image = model.getProduct().getPhoto();
 
-            textView.setText(ShopUtils.formatPrice(0) + " تومان ");
+            final GrandProductViewHolder itemRowHolderGrand = (GrandProductViewHolder) holder;
+
+            itemRowHolderGrand.txtTitle.setText(title);
+            itemRowHolderGrand.txtProTitle.setText(proTitle);
+            itemRowHolderGrand.txtPrice.setText(ShopUtils.formatPrice(price) + " تومان ");
+
+            Glide.with(context).load(image).into(itemRowHolderGrand.imageView);
+
+
         }
     }
 
+    @Override
+    public int getItemViewType(int position) {
+
+        if (items.get(position).getGrandProduct() == null) {
+
+            return 1;
+
+        }else {
+
+            return 2;
+        }
+
+    }
+
+    class GrandProductViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView imageView;
+        TextView txtTitle, txtPrice, txtProTitle;
 
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-        CheckBox checkBox;
-        TextView textView, txtFinalPrice;
-        RecyclerView recyclerView;
-
-
-        MyViewHolder(View itemView) {
+        GrandProductViewHolder(View itemView) {
             super(itemView);
 
-            checkBox = itemView.findViewById(R.id.checkBox);
-            textView = itemView.findViewById(R.id.txt_name);
-            txtFinalPrice = itemView.findViewById(R.id.txt_final_price);
-            recyclerView = itemView.findViewById(R.id.recycler_child);
+            imageView = itemView.findViewById(R.id.img);
+            txtTitle = itemView.findViewById(R.id.title);
+            txtProTitle = itemView.findViewById(R.id.pro_titel);
+            txtPrice = itemView.findViewById(R.id.price);
 
+
+        }
+    }
+
+    class NoGrandProductViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView imageView;
+        TextView txtTitle, txtPrice;
+
+
+        NoGrandProductViewHolder(View itemView) {
+            super(itemView);
+
+            imageView = itemView.findViewById(R.id.img);
+            txtTitle = itemView.findViewById(R.id.title);
+            txtPrice = itemView.findViewById(R.id.price);
 
         }
     }
