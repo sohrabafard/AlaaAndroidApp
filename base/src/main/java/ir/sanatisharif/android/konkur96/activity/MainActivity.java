@@ -32,7 +32,6 @@ import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.UpdateInfoDialogFrg;
 import ir.sanatisharif.android.konkur96.fragment.AllaMainFrg;
-import ir.sanatisharif.android.konkur96.fragment.CongressMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.DashboardMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
@@ -47,7 +46,6 @@ import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 //https://blog.iamsuleiman.com/bottom-navigation-bar-android-tutorial/
 public class MainActivity extends ActivityBase implements AHBottomNavigation.OnTabSelectedListener, ICheckNetwork {
@@ -89,7 +87,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         initUI();
 
         //-----------add FirstFragment
-        addFrg(AllaMainFrg.newInstance(), "alla");
+        addFrg(DashboardMainFrg.newInstance(), "alla");
 
         //-------- handle deep link
         if (getIntent() != null)
@@ -150,16 +148,14 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
         ArrayList<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
         AHBottomNavigationItem item1 = new AHBottomNavigationItem("", R.drawable.ic_home);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem("", R.drawable.ic_friend);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem("", R.drawable.ic_message);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem("", R.drawable.ic_message);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem("", R.drawable.ic_shopping_cart);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem("", R.drawable.ic_user);
-        AHBottomNavigationItem item5 = new AHBottomNavigationItem("", R.drawable.ic_shopping_cart);
 
         bottomNavigationItems.add(item1);
         bottomNavigationItems.add(item2);
         bottomNavigationItems.add(item3);
         bottomNavigationItems.add(item4);
-        bottomNavigationItems.add(item5);
 
         bottomNavigation.setAccentColor(getResources().getColor(R.color.colorPrimary));
         bottomNavigation.addItems(bottomNavigationItems);
@@ -180,14 +176,11 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         } else if (Intent.ACTION_VIEW.equals(action) && data != null) {
             Uri appLinkData = intent.getData();
             //  Log.i(TAG, "handleIntent1: " + appLinkData);
-             Log.i(TAG, "handleIntent: " + appLinkData.getPath());
 
             if (appLinkData.getPath().startsWith("/c")) {
                 if (data.contains("tags")) {
-                    Log.i(TAG, "handleIntent1: tags " + data);
                     addFrg(FilterTagsFrg.newInstance(data, null), "FilterTagsFrg");
                 } else {
-                    Log.i(TAG, "handleIntent1: c " + data);
                     addFrg(DetailsVideoFrg.newInstance(data), "DetailsVideoFrg");
                 }
             } else if (appLinkData.getPath().startsWith("/product")) {
@@ -204,7 +197,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
     private void retrieveToken() {
 
-        //Log.i(TAG, "retrieveToken: " + MyPreferenceManager.getInatanse().getFirebaseToken());
         if (MyPreferenceManager.getInatanse().getFirebaseToken().length() == 0) {
             FirebaseApp.initializeApp(this);
             FirebaseInstanceId.getInstance().getInstanceId()
@@ -232,27 +224,23 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
             case 1:
                 manageStack();
-                addFrg(CongressMainFrg.newInstance(), "CongressMainFrg");
+                addFrg(ForumMainFrg.newInstance(), "ForumMainFrg");
                 break;
 
             case 2:
                 manageStack();
-                addFrg(ForumMainFrg.newInstance(), "ForumMainFrg");
+                addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
                 break;
 
             case 3:
                 manageStack();
-
                 if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
                     // accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS);
                     addFrg(DashboardMainFrg.newInstance(), "DashboardMainFrg");
                 }
                 break;
 
-            case 4:
-                manageStack();
-                addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
-                break;
+
         }
 
     }
@@ -287,14 +275,12 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
             if (fragments.lastElement() instanceof AllaMainFrg) {
                 bottomNavigation.setCurrentItem(0, false);
-            } else if (fragments.lastElement() instanceof CongressMainFrg) {
-                bottomNavigation.setCurrentItem(1, false);
             } else if (fragments.lastElement() instanceof ForumMainFrg) {
+                bottomNavigation.setCurrentItem(1, false);
+            } else if (fragments.lastElement() instanceof ShopMainFragment) {
                 bottomNavigation.setCurrentItem(2, false);
             } else if (fragments.lastElement() instanceof DashboardMainFrg) {
                 bottomNavigation.setCurrentItem(3, false);
-            } else if (fragments.lastElement() instanceof ShopMainFragment) {
-                bottomNavigation.setCurrentItem(4, false);
             }
 
         } else {

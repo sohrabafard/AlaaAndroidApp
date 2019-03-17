@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/WhiteSmoke"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -20,18 +20,23 @@
         android:minHeight="@dimen/spacing_xlarge"
         android:orientation="horizontal" />
 
-    <Button
-        android:id="@+id/btn_next"
+    <com.balysv.materialripple.MaterialRippleLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="6dp"
-        android:background="@drawable/shape_button_white"
-        android:gravity="center"
-        android:text="@string/next"
-        android:textAllCaps="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/Black_2"
-        android:textStyle="bold" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_middle">
 
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/Monochromatic_1"
+            android:gravity="center"
+            android:text="Next"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+    </com.balysv.materialripple.MaterialRippleLayout>
 
 </LinearLayout>

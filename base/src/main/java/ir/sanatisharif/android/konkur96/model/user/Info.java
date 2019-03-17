@@ -18,7 +18,7 @@ public class Info implements Parcelable
     private Object grade;
     @SerializedName("gender")
     @Expose
-    private Object gender;
+    private Gender gender;
     @SerializedName("completion")
     @Expose
     private int completion;
@@ -45,7 +45,7 @@ public class Info implements Parcelable
     protected Info(Parcel in) {
         this.major = ((Major) in.readValue((Major.class.getClassLoader())));
         this.grade = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.gender = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.gender = ((Gender) in.readValue((Object.class.getClassLoader())));
         this.completion = ((int) in.readValue((int.class.getClassLoader())));
         this.wallet = ((Object) in.readValue((Object.class.getClassLoader())));
     }
@@ -74,20 +74,20 @@ public class Info implements Parcelable
         this.grade = grade;
     }
 
-    public Info withGrade(Object grade) {
+    public Info withGrade(Gender grade) {
         this.grade = grade;
         return this;
     }
 
-    public Object getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(Object gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
-    public Info withGender(Object gender) {
+    public Info withGender(Gender gender) {
         this.gender = gender;
         return this;
     }

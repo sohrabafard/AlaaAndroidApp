@@ -80,7 +80,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
             } else {
                 holder.root.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
             }
-            // holder.root.setBackgroundColor(mContext.getResources().getColor(R.color.shades_2));
         } else {
             holder.root.setBackgroundColor(mContext.getResources().getColor(R.color.White));
         }

@@ -4,9 +4,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -54,6 +58,7 @@ public class DashboardMainFrg extends BaseFragment {
     private Toolbar mToolbar;
     private RecyclerView myRecyclerView;
     private TextView txtNationalCode, txtMobile, txtFullName, txtField;
+    private View itemVideo, itemBag, itemAboutMe, itemProfile, itemBasket;
 
     private MainItemAdapter adapter;
     private List<MainItem> items = new ArrayList<>();
@@ -69,7 +74,7 @@ public class DashboardMainFrg extends BaseFragment {
 
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+        return inflater.inflate(R.layout.activity_profile_fab_menu, container, false);
     }
 
     @Override
@@ -112,34 +117,56 @@ public class DashboardMainFrg extends BaseFragment {
         setToolbar(mToolbar, "داشبورد");
 
         //init
-        linDashboardHeader = view.findViewById(R.id.linDashboardHeader);
-        linStudentInfo = view.findViewById(R.id.linStudentInfo);
+
+        final CollapsingToolbarLayout collapsing_toolbar = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
+        ((AppBarLayout) view.findViewById(R.id.app_bar_layout)).
+                addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                    @Override
+                    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                        int min_height = ViewCompat.getMinimumHeight(collapsing_toolbar) * 2;
+                        float scale = (float) (min_height + verticalOffset) / min_height;
+//                        image.setScaleX(scale >= 0 ? scale : 0);
+//                        image.setScaleY(scale >= 0 ? scale : 0);
+                        Log.i("LOG", "onOffsetChanged: " + scale + " " + verticalOffset);
+                    }
+                });
+
         imgUser = view.findViewById(R.id.imgUser);
-        myRecyclerView = view.findViewById(R.id.recyclerView);
         txtFullName = view.findViewById(R.id.txtFullName);
         txtField = view.findViewById(R.id.txtField);
         txtMobile = view.findViewById(R.id.txtMobile);
         txtNationalCode = view.findViewById(R.id.txtNationalCode);
 
-        //set adapter recyclerview
-        myRecyclerView.setNestedScrollingEnabled(false);
-        myRecyclerView.setHasFixedSize(true);
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
-        adapter = new MainItemAdapter(AppConfig.context, items,GlideApp.with(this));
-        adapter.setSize(AppConfig.width, AppConfig.height);
-        myRecyclerView.setAdapter(adapter);
+        itemBasket = view.findViewById(R.id.itemBasket);
+        itemAboutMe = view.findViewById(R.id.itemAboutMe);
+        itemVideo = view.findViewById(R.id.itemVideo);
+        itemBag = view.findViewById(R.id.itemBag);
+        itemProfile = view.findViewById(R.id.itemProfile);
 
-        //------ overlay linear student over header
+        ((TextView) itemBasket.findViewById(R.id.txtTitle)).setText("سبدخرید");
+        ((TextView) itemAboutMe.findViewById(R.id.txtTitle)).setText("درباره ما");
+        ((TextView) itemVideo.findViewById(R.id.txtTitle)).setText("ویدیو");
+        ((TextView) itemBag.findViewById(R.id.txtTitle)).setText("کیف پول");
+        ((TextView) itemProfile.findViewById(R.id.txtTitle)).setText("پروفایل");
+////        myRecyclerView = view.findViewById(R.id.recyclerView);
+//        //set adapter recyclerview
+//        myRecyclerView.setNestedScrollingEnabled(false);
+//        myRecyclerView.setHasFixedSize(true);
+//        myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
+//        adapter = new MainItemAdapter(AppConfig.context, items,GlideApp.with(this));
+//        adapter.setSize(AppConfig.width, AppConfig.height);
+//        myRecyclerView.setAdapter(adapter);
+
     }
 
     //<editor-fold desc="set data">
     private void setData() {
         if (user != null) {
-            GlideApp.with(AppConfig.context)
-                    .load("")
-                    .transform(new CircleTransform(getContext()))
-                    .placeholder(R.mipmap.ic_launcher)
-                    .into(imgUser);
+//            GlideApp.with(AppConfig.context)
+//                    .load("")
+//                    .transform(new CircleTransform(getContext()))
+//                    .placeholder(R.mipmap.ic_launcher)
+//                    .into(imgUser);
 
             if (user.getLastName() != null && user.getFirstName() != null)
                 txtFullName.setText(user.getFirstName() + " " + user.getLastName());
@@ -151,7 +178,7 @@ public class DashboardMainFrg extends BaseFragment {
                 txtNationalCode.setText(user.getNationalCode());
         }
 
-        loadVideoOffline();
+        //loadVideoOffline();
     }
     //</editor-fold>
 
@@ -178,56 +205,54 @@ public class DashboardMainFrg extends BaseFragment {
 //        adapter.notifyItemRemoved(videoDeleted.getPosition());
     }
 
-    private void loadVideoOffline() {
-
-        MainItem item;
-
-        // Only runs on API levels < 26.
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            // Only runs in an Installed App.
-            if (!InstantApps.isInstantApp(getContext())) {
-
-                if (FileManager.checkFileExist(FileManager.getMediaPath())) {
-
-                    //add header to recycler view
-                    item = new MainItem();
-                    item.setId(0);
-                    item.setTitle("دانلود شده ها");
-                    item.setUrl(AppConstants.MORE_VIDEO_OFFLINE);
-                    item.setType(AppConstants.HEADER_DATA);
-                    items.add(item);
-
-                    //get video offline
-                    FileManager.getInstance().clearFilesList();
-                    FileManager.getInstance().getFilesInDirs(new File(FileManager.getMediaPath()));
-                    ArrayList<File> files = FileManager.getInstance().getFilesArrayList();
-                    ArrayList<Video> videos = new ArrayList<>();
-
-                    if (files != null) {
-
-                        for (File f : files) {
-
-                            Video v = new Video();
-                            v.setName(f.getName());
-                            v.setPath(f.getPath());
-                            v.setSize(f.length() + "");
-                            videos.add(v);
-                        }
-                    }
-                    item = new MainItem();
-                    item.setId(0);
-                    item.setType(AppConstants.VIDEO_OFFLINE_ITEM);
-                    item.setVideos(videos);
-                    items.add(item);
-
-                }
-            }
-        }
-
-
-        adapter.notifyDataSetChanged();
-
-    }
+//    private void loadVideoOffline() {
+//
+//        MainItem item;
+//
+//        // Only runs on API levels < 26.
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+//            // Only runs in an Installed App.
+//            if (!InstantApps.isInstantApp(getContext())) {
+//
+//                if (FileManager.checkFileExist(FileManager.getMediaPath())) {
+//
+//                    //add header to recycler view
+//                    item = new MainItem();
+//                    item.setId(0);
+//                    item.setTitle("دانلود شده ها");
+//                    item.setUrl(AppConstants.MORE_VIDEO_OFFLINE);
+//                    item.setType(AppConstants.HEADER_DATA);
+//                    items.add(item);
+//
+//                    //get video offline
+//                    FileManager.getInstance().clearFilesList();
+//                    FileManager.getInstance().getFilesInDirs(new File(FileManager.getMediaPath()));
+//                    ArrayList<File> files = FileManager.getInstance().getFilesArrayList();
+//                    ArrayList<Video> videos = new ArrayList<>();
+//
+//                    if (files != null) {
+//
+//                        for (File f : files) {
+//
+//                            Video v = new Video();
+//                            v.setName(f.getName());
+//                            v.setPath(f.getPath());
+//                            v.setSize(f.length() + "");
+//                            videos.add(v);
+//                        }
+//                    }
+//                    item = new MainItem();
+//                    item.setId(0);
+//                    item.setType(AppConstants.VIDEO_OFFLINE_ITEM);
+//                    item.setVideos(videos);
+//                    items.add(item);
+//
+//                }
+//            }
+//        }
+//        adapter.notifyDataSetChanged();
+//
+//    }
 }
 
 

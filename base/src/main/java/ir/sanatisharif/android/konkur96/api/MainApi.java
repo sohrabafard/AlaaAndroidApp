@@ -46,7 +46,7 @@ public class MainApi {
         mainPage.enqueue(new Callback<MainPagesInfo>() {
             @Override
             public void onResponse(Call<MainPagesInfo> call, Response<MainPagesInfo> response) {
-
+                Log.i("LOG", "intercept: mainPages");
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
                 }
@@ -71,9 +71,10 @@ public class MainApi {
                 if (response.isSuccessful()) {
                     UserInfo u = response.body();
                     iServerCallbackObject.onSuccess(u);
+                    Log.i("LOG", "onResponse: ");
                 } else {
                     try {
-                        Log.i("LOG", "onResponse: " + response.errorBody().string());
+                        Log.i("LOG", "onResponse:errorBody  " + response.errorBody().string());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

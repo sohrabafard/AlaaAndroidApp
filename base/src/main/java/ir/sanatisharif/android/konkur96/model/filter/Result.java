@@ -89,7 +89,7 @@ public class Result implements Parcelable
         this.set = set;
     }
 
-    public Object getProduct() {
+    public Product getProduct() {
         return product;
     }
 

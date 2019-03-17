@@ -13,8 +13,7 @@
         android:gravity="center"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/onboard_page1" />
+        android:scaleType="fitXY" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,7 +33,6 @@
                 android:gravity="center"
                 android:paddingLeft="@dimen/ob_desc_padding"
                 android:paddingRight="@dimen/ob_desc_padding"
-                android:text="@string/ob_header1"
                 android:textAllCaps="true"
                 android:textColor="@color/ob_header"
                 android:textSize="@dimen/ob_header_text_size" />
@@ -47,7 +45,6 @@
                 android:gravity="center"
                 android:paddingLeft="@dimen/ob_desc_padding"
                 android:paddingRight="@dimen/ob_desc_padding"
-                android:text="@string/ob_desc1"
                 android:textColor="@color/ob_desc"
                 android:textSize="@dimen/ob_desc_text_size" />
 

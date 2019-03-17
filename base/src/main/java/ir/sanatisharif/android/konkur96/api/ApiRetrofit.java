@@ -10,6 +10,7 @@ import ir.sanatisharif.android.konkur96.model.user.UserInfo;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -61,5 +62,11 @@ public interface ApiRetrofit {
 
     @GET
     Call<Filter> getFilterTagsByUrl(@Url String url);
+
+    @POST("/api/v1/user/{user_id}/firebasetoken")
+    Call<Object> getFirebaseToken(
+            @Header("Authorization") String token,
+            @Path("user_id") int user_id,
+            @Query("token") String firebaseToken);
 
 }

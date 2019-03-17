@@ -237,8 +237,10 @@ public class AllaMainFrg extends BaseFragment implements
     public void onCheckNetwork(boolean flag) {
         if (!flag)//if false
             showNotInternetDialogFrg();
-        else
-            getData();
+        else {
+            if (items.size() == 0)
+                getData();
+        }
     }
 }
 

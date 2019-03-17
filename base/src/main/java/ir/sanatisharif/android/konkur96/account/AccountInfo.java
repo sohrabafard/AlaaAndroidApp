@@ -30,7 +30,6 @@ public class AccountInfo {
     private AccountManager mAccountManager;
     private Context context;
     private Activity activity;
-    private String token;
 
     public AccountInfo(Context context, Activity activity) {
         this.context = context;
@@ -38,13 +37,6 @@ public class AccountInfo {
         mAccountManager = AccountManager.get(context);
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 
     /**
      * Add new account to the account manager
@@ -60,12 +52,12 @@ public class AccountInfo {
                             public void run(AccountManagerFuture<Bundle> future) {
                                 try {
                                     Bundle bnd = future.getResult();
-                                   // Log.i(TAG, "addNewAccount  : " + bnd);
+                                  //  Log.i(TAG, "addNewAccount  : " + bnd);
                                     toastShow(context.getResources().getString(R.string.register_success), MDToast.TYPE_SUCCESS);
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                   // toastShow(context.getResources().getString(R.string.register_success), MDToast.TYPE_ERROR);
+                                    // toastShow(context.getResources().getString(R.string.register_success), MDToast.TYPE_ERROR);
                                 }
                             }
                         }, null);
@@ -76,7 +68,7 @@ public class AccountInfo {
      *
      * @param authTokenType
      */
-    public void getExistingAccountAuthToken(String accountType, String authTokenType) {
+    public void getExistingAccountAuthToken(String accountType, String authTokenType, AuthToken listener) {
 
         Account[] account = mAccountManager.getAccountsByType(accountType);
         final AccountManagerFuture<Bundle> future = mAccountManager.getAuthToken(account[0], authTokenType, null, activity, null, null);
@@ -88,9 +80,9 @@ public class AccountInfo {
                 try {
                     Bundle bnd = future.getResult();
                     final String authtoken = bnd.getString(AccountManager.KEY_AUTHTOKEN);
-                    token = authtoken;
-                    Log.i(TAG, "run: authtoken1 ");
-                    notify();
+
+                    if (listener != null)
+                        listener.onToken(authtoken);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -98,11 +90,6 @@ public class AccountInfo {
         });
         t.start();
 
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -146,5 +133,9 @@ public class AccountInfo {
             return false;
         }
         return true;
+    }
+
+    public interface AuthToken {
+        void onToken(String token);
     }
 }

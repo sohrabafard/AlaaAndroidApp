@@ -11,6 +11,9 @@ import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.widget.ProgressBar;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.ApiModule;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
@@ -39,12 +42,27 @@ public class AppConfig extends Application {
 
     public static int[] colorSwipeRefreshing;
 
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        // MultiDex.install(this);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
+       // MultiDex.install(this);
         mInstance = this;
         context = getApplicationContext();
+
+        //Firebase init by application id
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setApplicationId(getString(R.string.firebaseApplicationId))
+                .build();
+        FirebaseApp.initializeApp(getApplicationContext(), options);
+
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/IRANSansMobile(FaNum).ttf")
