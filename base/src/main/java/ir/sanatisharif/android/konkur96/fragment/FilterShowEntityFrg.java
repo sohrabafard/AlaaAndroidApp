@@ -31,8 +31,11 @@ import ir.sanatisharif.android.konkur96.model.filter.Filter;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 import ir.sanatisharif.android.konkur96.model.filter.PamphletRoot;
+import ir.sanatisharif.android.konkur96.model.filter.SetFilterProduct;
+import ir.sanatisharif.android.konkur96.model.filter.SetFilterProductRoot;
 import ir.sanatisharif.android.konkur96.model.filter.SetFilterRoot;
 import ir.sanatisharif.android.konkur96.model.filter.VideoRoot;
+import ir.sanatisharif.android.konkur96.model.main_page.Product;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import ir.sanatisharif.android.konkur96.ui.GlideRequests;
 import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
@@ -172,6 +175,14 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
         type = AppConstants.FILTER_SET;
         mList.clear();
         mList.addAll(setFilterRoot.getData());
+    }
+
+    public void setToProduct(SetFilterProductRoot product) {
+
+        pagination = (Pagination) product;
+        type = AppConstants.FILTER_PRODUCT;
+        mList.clear();
+        mList.addAll(product.getData());
     }
     //</editor-fold>
 

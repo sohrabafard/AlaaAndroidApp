@@ -27,7 +27,7 @@ public class Result implements Parcelable
     private SetFilterRoot set;
     @SerializedName("product")
     @Expose
-    private Product product;
+    private SetFilterProductRoot product;
 
     public final static Creator<Result> CREATOR = new Creator<Result>() {
 
@@ -51,7 +51,7 @@ public class Result implements Parcelable
         this.pamphlet = ((PamphletRoot) in.readValue((Object.class.getClassLoader())));
         this.article = ((ArticleRoot) in.readValue((Object.class.getClassLoader())));
         this.set = ((SetFilterRoot) in.readValue((Object.class.getClassLoader())));
-        this.product = ((Product) in.readValue((Object.class.getClassLoader())));
+        this.product = ((SetFilterProductRoot) in.readValue((Object.class.getClassLoader())));
     }
 
     public Result() {
@@ -89,11 +89,11 @@ public class Result implements Parcelable
         this.set = set;
     }
 
-    public Object getProduct() {
+    public SetFilterProductRoot getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(SetFilterProductRoot product) {
         this.product = product;
     }
 

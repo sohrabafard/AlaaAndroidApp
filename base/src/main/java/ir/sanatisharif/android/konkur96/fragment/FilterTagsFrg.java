@@ -304,7 +304,7 @@ public class FilterTagsFrg extends BaseFragment implements
             filterShowEntityFrgArrayList.get(tabCount++).setToSetFilterCourses(filter.getResult().getSet());
         }
         if (filter.getResult().getProduct() != null) {
-            tabCount++;
+            filterShowEntityFrgArrayList.get(tabCount++).setToProduct(filter.getResult().getProduct());
         }
         if (filter.getResult().getVideo() != null) {
             filterShowEntityFrgArrayList.get(tabCount++).setVideoCourses(filter.getResult().getVideo());

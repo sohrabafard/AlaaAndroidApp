@@ -6,6 +6,7 @@
     <string name="search">جستجو</string>
     <string name="forum">فروم</string>
     <string name="profile">پروفایل</string>
+    <string name="my_product">محصولات من</string>
 
     <!-- onboarding-->
     <string name="ob_header1">آموزش مجازی آلاء</string>

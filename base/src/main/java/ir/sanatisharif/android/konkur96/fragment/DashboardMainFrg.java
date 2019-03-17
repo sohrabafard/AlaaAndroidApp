@@ -54,7 +54,7 @@ public class DashboardMainFrg extends BaseFragment {
     private ImageView imgUser;
     private Toolbar mToolbar;
     private RecyclerView myRecyclerView;
-    private TextView txtNationalCode, txtMobile, txtFullName, txtField, btnOpenCard;
+    private TextView txtNationalCode, txtMobile, txtFullName, txtField, btnOpenCard, btnOpenMyproduct;
 
     private MainItemAdapter adapter;
     private List<MainItem> items = new ArrayList<>();
@@ -122,6 +122,7 @@ public class DashboardMainFrg extends BaseFragment {
         txtMobile = view.findViewById(R.id.txtMobile);
         txtNationalCode = view.findViewById(R.id.txtNationalCode);
         btnOpenCard = view.findViewById(R.id.btn_open_card);
+        btnOpenMyproduct = view.findViewById(R.id.btn_open_myproduct);
 
         //set adapter recyclerview
         myRecyclerView.setNestedScrollingEnabled(false);
@@ -156,6 +157,7 @@ public class DashboardMainFrg extends BaseFragment {
         loadVideoOffline();
 
         btnOpenCard.setOnClickListener(view -> addFrg(CardFragment.newInstance(),"CardFragment"));
+        btnOpenMyproduct.setOnClickListener(view -> addFrg(CardFragment.newInstance(),"CardFragment"));
     }
     //</editor-fold>
 
