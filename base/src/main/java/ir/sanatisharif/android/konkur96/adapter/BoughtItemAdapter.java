@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -21,7 +22,6 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.model.MainShopItem;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ViewSliderAdapter;
 
@@ -111,7 +111,7 @@ public class BoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final MainShopItemAdapter.SliderHolder itemRowHolder = (MainShopItemAdapter.SliderHolder) holder;
 
             ArrayList items = dataList.get(position).getItems();
-            itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items, GlideApp.with(mContext)));
+            itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items,null));
             itemRowHolder.view_pager.startAutoScroll();
 
             itemRowHolder.indicator = itemRowHolder.itemView.findViewById(R.id.indicator);

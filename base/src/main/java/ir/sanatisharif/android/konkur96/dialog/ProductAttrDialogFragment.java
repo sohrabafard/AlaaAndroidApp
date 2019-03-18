@@ -13,21 +13,29 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.ProductAttrAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.model.ProductType;
 
 @SuppressLint("ValidFragment")
 public class ProductAttrDialogFragment extends DialogFragment {
+
+
 
     private RecyclerView mRecyclerView;
     private ProductAttrAdapter adapter;
     private ArrayList<AttributeModel> attrList;
 
+
     @SuppressLint("ValidFragment")
     public ProductAttrDialogFragment(ArrayList<AttributeModel> attrList) {
+
         this.attrList = attrList;
+
     }
 
     @Override

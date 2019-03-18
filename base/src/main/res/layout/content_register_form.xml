@@ -132,6 +132,22 @@
             app:met_textColorHint="@color/Gray"
             app:met_underlineColor="@color/colorPrimary" />
 
+        <Spinner
+            android:id="@+id/spinnerGender"
+            style="@style/spinner_style"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:paddingRight="8dp" />
+
+        <Spinner
+            android:id="@+id/spinnerField"
+            style="@style/spinner_style"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:paddingRight="8dp" />
+
         <Button
             android:id="@+id/btnRegister"
             style="@style/Button"

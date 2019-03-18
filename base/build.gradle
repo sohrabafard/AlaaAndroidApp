@@ -6,9 +6,11 @@ android {
     defaultConfig {
 
         minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 31
+        targetSdkVersion 26
+        versionCode 32
         versionName "3.0.0"
+        multiDexEnabled true
+
     }
 
     compileOptions {
@@ -36,69 +38,72 @@ dependencies {
     //api 'com.android.support:appcompat-v7:26.1.0'
     //api 'com.android.support.constraint:constraint-layout:1.1.3'
 
+    api 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     //---------------------  android support lib -------------------
     //noinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:27.0.0'
-    implementation 'com.android.support:design:27.0.0'
-    implementation 'com.android.support:recyclerview-v7:27.0.0'
-    implementation 'com.android.support:cardview-v7:27.0.0'
-    implementation 'com.android.support:preference-v14:27.0.0'
-    implementation 'com.android.support:support-dynamic-animation:27.0.0'
+    api 'com.android.support:appcompat-v7:27.0.0'
+    api 'com.android.support:design:27.0.0'
+    api 'com.android.support:recyclerview-v7:27.0.0'
+    api 'com.android.support:cardview-v7:27.0.0'
+    api 'com.android.support:preference-v14:27.0.0'
+    api 'com.android.support:support-dynamic-animation:27.0.0'
     //------------- google lib ------------
     //noinspection GradleCompatible
-    implementation 'com.google.firebase:firebase-core:16.0.4'
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    api 'com.google.firebase:firebase-core:16.0.4'
+    api 'com.google.firebase:firebase-messaging:17.3.4'
 
-    implementation 'com.google.android.exoplayer:exoplayer:2.8.2'
-    implementation "android.arch.lifecycle:extensions:1.1.1"
-    implementation "android.arch.lifecycle:viewmodel:1.1.1"
+    api 'com.google.android.exoplayer:exoplayer:2.8.2'
+    api "android.arch.lifecycle:extensions:1.1.1"
+    api "android.arch.lifecycle:viewmodel:1.1.1"
     //--------------------- UI lib -------------------
-    implementation 'com.balysv:material-ripple:1.0.2'
-    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
-    implementation 'com.github.rubensousa:gravitysnaphelper:1.3'
-    implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
+    api 'com.balysv:material-ripple:1.0.2'
+    api 'com.rengwuxian.materialedittext:library:2.1.4'
+    api 'com.github.rubensousa:gravitysnaphelper:1.3'
+    api 'com.aurelhubert:ahbottomnavigation:2.1.0'
     //font
-    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
-    implementation 'me.gujun.android.taggroup:library:1.4@aar'
-    implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
-    implementation 'com.uncopt:android.justified:1.0'
-    implementation 'org.greenrobot:eventbus:3.1.1'
+    api 'uk.co.chrisjenx:calligraphy:2.3.0'
+    api 'me.gujun.android.taggroup:library:1.4@aar'
+    api 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
+    api 'com.uncopt:android.justified:1.0'
+    api 'org.greenrobot:eventbus:3.1.1'
 
-
+    api 'de.hdodenhof:circleimageview:3.0.0'
     //Image Gallery
-    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
-    implementation 'com.duolingo.open:rtl-viewpager:1.0.3'
+    api 'com.github.chrisbanes:PhotoView:2.1.3'
+    api 'com.duolingo.open:rtl-viewpager:1.0.3'
 
     //Page Indicator
-    implementation 'com.romandanylyk:pageindicatorview:1.0.0'
+    api 'com.romandanylyk:pageindicatorview:1.0.0'
 
     //retrofit
-    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
-    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    api 'com.squareup.okhttp3:okhttp:3.12.0'
+    api 'com.squareup.retrofit2:retrofit:2.1.0'
+    api 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    api 'com.squareup.retrofit2:converter-gson:2.1.0'
 
     //dagger 2 (for dependency injection)
-    implementation 'com.google.dagger:dagger:2.15'
-    implementation 'com.google.dagger:dagger-android-support:2.15'
+    api 'com.google.dagger:dagger:2.15'
+    api 'com.google.dagger:dagger-android-support:2.15'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.15'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
     compileOnly 'javax.annotation:jsr250-api:1.0'
 
     // reactiveX
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
-    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    api 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    api 'io.reactivex.rxjava2:rxjava:2.1.9'
+    api 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
 
     //Gson (json parser)
-    implementation 'com.google.code.gson:gson:2.8.5'
+    api 'com.google.code.gson:gson:2.8.5'
+
+    api 'com.android.support:multidex:1.0.2'
 
     //---------------------  glide lib -------------------
     dependencies {
-        implementation 'com.github.bumptech.glide:glide:4.3.1'
-        annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
+        implementation 'com.github.bumptech.glide:glide:4.4.0'
+        annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
         annotationProcessor 'com.google.dagger:dagger-android-processor:2.15'
         annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
     }

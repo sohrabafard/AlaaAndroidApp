@@ -38,7 +38,6 @@ import ir.sanatisharif.android.konkur96.listener.OnItemCheckedListener;
 import ir.sanatisharif.android.konkur96.listener.OnItemLongListener;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.Video;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
 import static android.net.Uri.EMPTY;
@@ -160,8 +159,7 @@ public class VideoDownloadedFrg extends BaseFragment {
         setToolbar(mToolbar, "نمایش ویدیوها");
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        adapter = new VideoDownloadedAdapter(AppConfig.context, videos,
-                AppConstants.VIDEO_SHOW_GRID, GlideApp.with(getContext()));
+        adapter = new VideoDownloadedAdapter(AppConfig.context, videos, AppConstants.VIDEO_SHOW_GRID);
         manager = new GridLayoutManager(AppConfig.context, 3);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);

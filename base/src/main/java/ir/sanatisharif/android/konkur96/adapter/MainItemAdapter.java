@@ -15,6 +15,7 @@ import android.webkit.URLUtil;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.RequestManager;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -34,8 +35,6 @@ import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.model.main_page.Banner;
 import ir.sanatisharif.android.konkur96.model.main_page.MainBanner;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
-import ir.sanatisharif.android.konkur96.ui.GlideRequest;
-import ir.sanatisharif.android.konkur96.ui.GlideRequests;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ViewSliderAdapter;
 import ir.sanatisharif.android.konkur96.utils.Utils;
@@ -48,15 +47,13 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private List<MainItem> dataList;
     private Context mContext;
-    private GlideRequests glideRequests;
     private OnItemClickListener mClickListener;
     int width = 0;
     //private SnapHelper snapHelper;
 
-    public MainItemAdapter(Context context, List<MainItem> dataList, GlideRequests glideRequests) {
+    public MainItemAdapter(Context context, List<MainItem> dataList) {
         this.dataList = dataList;
         this.mContext = context;
-        this.glideRequests = glideRequests;
         //snapHelper = new GravitySnapHelper(Gravity.START);
     }
 
@@ -124,7 +121,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             final List<Set> items = dataList.get(position).getSets();
 
-            CategoryItemAdapter itemListDataAdapter = new CategoryItemAdapter(mContext, items, glideRequests);
+            CategoryItemAdapter itemListDataAdapter = new CategoryItemAdapter(mContext, items);
 
             itemRowHolder.recyclerView.setHasFixedSize(false);
             LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
@@ -175,7 +172,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             final SliderHolder itemRowHolder = (SliderHolder) holder;
 
             List<MainBanner> items = dataList.get(position).getSliders();
-            itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items, glideRequests));
+            itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items, null));
             itemRowHolder.view_pager.startAutoScroll();
 
             itemRowHolder.indicator = (CirclePageIndicator) itemRowHolder.itemView.findViewById(R.id.indicator);
@@ -194,7 +191,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
 
                 VideoDownloadedAdapter itemListDataAdapter = new
-                        VideoDownloadedAdapter(mContext, items, AppConstants.VIDEO_SHOW_LINEAR, glideRequests);
+                        VideoDownloadedAdapter(mContext, items, AppConstants.VIDEO_SHOW_LINEAR);
 
                 itemRowHolder.recyclerView.setHasFixedSize(false);
                 LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);

@@ -29,9 +29,6 @@ import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
-import ir.sanatisharif.android.konkur96.model.main_page.Set;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
-import ir.sanatisharif.android.konkur96.ui.GlideRequests;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
@@ -106,7 +103,7 @@ public class ExtraItemFrg extends BaseFragment {
         myRecyclerView.setNestedScrollingEnabled(false);
         myRecyclerView.setHasFixedSize(true);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
-        adapter = new FilterAdapter(AppConfig.context, mList, GlideApp.with(this));
+        adapter = new FilterAdapter(AppConfig.context, mList);
         myRecyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new OnItemClickListener() {

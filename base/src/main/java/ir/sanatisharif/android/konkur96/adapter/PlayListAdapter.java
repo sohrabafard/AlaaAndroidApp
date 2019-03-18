@@ -13,8 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
@@ -26,22 +29,18 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.model.PlayList;
 import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
-import ir.sanatisharif.android.konkur96.ui.GlideRequest;
-import ir.sanatisharif.android.konkur96.ui.GlideRequests;
 
 public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoHolder> {
 
     private List<VideoCourse> itemsList;
     private Context mContext;
     private OnItemClickListener onItemClickListener;
-    private GlideRequest<Drawable> requestBuilder;
     private int width, height, pos = -1;
+    private RequestOptions requestOptions;
 
-    public PlayListAdapter(Context context, List<VideoCourse> itemsList, GlideRequests glideRequests) {
+    public PlayListAdapter(Context context, List<VideoCourse> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
-        requestBuilder = glideRequests.asDrawable().fitCenter();
         setSize();
         pos = -1;
     }
@@ -50,6 +49,13 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
         width = AppConfig.width / 2;
         height = (int) (width * 0.56f);
         width -= 40;
+
+        requestOptions = new RequestOptions()
+                .override(width, height)
+                .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
+                .dontTransform()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .fitCenter();
     }
 
     public void setItemSelect(int pos) {
@@ -75,12 +81,11 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
         holder.txtSession.setText("   جلسه " + item.getOrder());
 
         if (pos > -1 && position == pos) {
-            if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                holder.root.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list) );
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                holder.root.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
             } else {
                 holder.root.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
             }
-            // holder.root.setBackgroundColor(mContext.getResources().getColor(R.color.shades_2));
         } else {
             holder.root.setBackgroundColor(mContext.getResources().getColor(R.color.White));
         }
@@ -88,10 +93,9 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
         holder.imgPlayList.getLayoutParams().width = width;
         holder.imgPlayList.getLayoutParams().height = height;
 
-        requestBuilder
+        Glide.with(mContext)
                 .load(item.getThumbnail())
-                .override(width, height)
-                .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
+
                 .into(new SimpleTarget<Drawable>(460, 259) {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {

@@ -23,6 +23,12 @@ import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.Locale;
 
 import ir.sanatisharif.android.konkur96.R;
@@ -42,8 +48,8 @@ public class ShowArticleInfoFrg extends BaseFragment {
 
     private String TAG = "ShowContentInfoFrg";
     private TextView txtAuthor, txtTitle;
-    private JustifiedTextView txtDesc;
-    private WebView webView;
+    private JustifiedTextView txtContext, txtDesc;
+    // private WebView webView;
     private Toolbar toolbar;
     private TagGroup tagGroup;
     private static ArticleCourse course;
@@ -90,10 +96,12 @@ public class ShowArticleInfoFrg extends BaseFragment {
                         @Override
                         public void run() {
 
-                            if (course.getContext() != null)
-                                webView.loadData(course.getContext(), "text/html", "utf8");
-//                            if (course.getDescription() != null)
-//                                txtDesc.setText(Html.fromHtml(course.getDescription()));
+                            if (course.getContext() != null) {
+                                convertStringTo(course.getContext());
+                                txtContext.setText(Html.fromHtml(course.getContext()));
+                            }
+                            if (course.getDescription() != null)
+                                txtDesc.setText(Html.fromHtml(course.getDescription()));
                             if (course.getTags().getTags() != null)
                                 tagGroup.setTags(course.getTags().getTags());
                         }
@@ -105,13 +113,37 @@ public class ShowArticleInfoFrg extends BaseFragment {
         }
     }
 
+    private void convertStringTo(String input) {
+
+        InputStream inputStream = new ByteArrayInputStream(input.getBytes(Charset.forName("UTF-8")));
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+        String output = null;
+        try {
+            output = bufferedReader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        while (output != null) {
+            System.out.println(output);
+            try {
+                output = bufferedReader.readLine();
+                Log.i(TAG, "convertStringTo: " + output);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void initUI(View view) {
 
         setToolbar(toolbar, "نمایش محتوا");
         txtAuthor = view.findViewById(R.id.txtAuthor);
         txtTitle = view.findViewById(R.id.txtTitle);
         txtDesc = view.findViewById(R.id.txtDesc);
-        webView = view.findViewById(R.id.webView);
+        txtContext = view.findViewById(R.id.txtContext);
         tagGroup = view.findViewById(R.id.tag_group);
 
         for (View v : tagGroup.getTouchables()) {

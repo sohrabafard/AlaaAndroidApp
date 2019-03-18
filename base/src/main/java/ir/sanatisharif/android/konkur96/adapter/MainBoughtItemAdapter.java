@@ -22,8 +22,6 @@ import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.model.MainBoughtItem;
 import ir.sanatisharif.android.konkur96.model.MainShopItem;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
-import ir.sanatisharif.android.konkur96.ui.GlideRequests;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ViewSliderAdapter;
 
@@ -31,7 +29,6 @@ public class MainBoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private ArrayList<MainBoughtItem> dataList;
     private Context mContext;
-    private GlideRequests glideRequests;
   //  private SnapHelper snapHelper;
     private OnItemClickListener mClickListener;
 
@@ -41,7 +38,6 @@ public class MainBoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public MainBoughtItemAdapter(Context context, ArrayList<MainBoughtItem> dataList) {
         this.dataList = dataList;
         this.mContext = context;
-        this.glideRequests = GlideApp.with(mContext);
        // snapHelper = new GravitySnapHelper(Gravity.START);
     }
 
@@ -115,7 +111,7 @@ public class MainBoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             final MainBoughtItemAdapter.SliderHolder itemRowHolder = (MainBoughtItemAdapter.SliderHolder) holder;
 
             ArrayList items = dataList.get(position).getItems();
-            itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items,glideRequests));
+            itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items,null));
             itemRowHolder.view_pager.startAutoScroll();
 
             itemRowHolder.indicator = itemRowHolder.itemView.findViewById(R.id.indicator);

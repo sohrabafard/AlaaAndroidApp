@@ -19,7 +19,6 @@ import com.bumptech.glide.request.transition.Transition;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.Item;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
 
 /**
  * Created by Mohamad on 12/21/2018.
@@ -111,16 +110,16 @@ public class ExtraItemView extends LinearLayout {
 
     private void loadImageWithGlide(String imageUrl) {
 
-        GlideApp.with(AppConfig.context)
-                .load(item.getPhoto())
-                .override(width, height)
-                //.transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
-                .into(new SimpleTarget<Drawable>(460, 259) {
-                    @Override
-                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                        imgItem.setImageDrawable(resource);
-                    }
-                });
+//        GlideApp.with(AppConfig.context)
+//                .load(item.getPhoto())
+//                .override(width, height)
+//                //.transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
+//                .into(new SimpleTarget<Drawable>(460, 259) {
+//                    @Override
+//                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+//                        imgItem.setImageDrawable(resource);
+//                    }
+//                });
     }
 
     private void init(Context context) {

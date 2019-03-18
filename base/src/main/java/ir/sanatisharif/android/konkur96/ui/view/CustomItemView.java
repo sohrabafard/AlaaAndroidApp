@@ -14,8 +14,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
@@ -24,9 +27,6 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 
 import ir.sanatisharif.android.konkur96.model.Item;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
-import ir.sanatisharif.android.konkur96.ui.GlideRequest;
-import ir.sanatisharif.android.konkur96.ui.GlideRequests;
 
 
 /**
@@ -53,7 +53,6 @@ public class CustomItemView extends LinearLayout {
     private TextView txtAuthor;
     private TextView txtContentCount;
     private ImageView imgItem;
-    private GlideRequest<Drawable> requestBuilder;
     //---------------
     private OnClickItem onClickItem;
 
@@ -172,10 +171,14 @@ public class CustomItemView extends LinearLayout {
 
     private void loadImageWithGlide(String url) {
 
-        requestBuilder
-                .load(url)
+        RequestOptions requestOptions = new RequestOptions()
                 .override(width, height)
+                .dontTransform()
                 .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
+                .fitCenter();
+        Glide.with(getContext())
+                .load(url)
+                .apply(requestOptions)
                 .into(new SimpleTarget<Drawable>(460, 259) {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
@@ -204,10 +207,10 @@ public class CustomItemView extends LinearLayout {
         this.onClickItem = onClickItem;
     }
 
-    public void setGlide(GlideRequests glideRequests) {
-
-        requestBuilder = glideRequests.asDrawable().fitCenter();
-    }
+//    public void setGlide(GlideRequests glideRequests) {
+//
+//        requestBuilder = glideRequests.asDrawable().fitCenter();
+//    }
 
     public interface OnClickItem {
 
