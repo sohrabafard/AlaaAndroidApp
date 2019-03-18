@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.fragment.MyProductSet;
 import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
 import ir.sanatisharif.android.konkur96.ui.view.CustomShopItemView;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
@@ -53,7 +54,7 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.Cont
         }
         holder.customShopItemView.setImage(item.getPhoto());
 
-        holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ProductDetailFragment.newInstance(item),"ProductDetailFragment"));
+        holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(MyProductSet.newInstance(item.getSets()),"MyProductSet"));
 
 
     }

@@ -78,6 +78,9 @@ public class ProductModel implements Parcelable {
     @SerializedName("children")
     private ArrayList<ProductModel> children;
 
+    @SerializedName("sets")
+    private ArrayList<ProductSetModel> sets;
+
 
     protected ProductModel(Parcel in) {
         id = in.readInt();
@@ -98,6 +101,7 @@ public class ProductModel implements Parcelable {
         price = in.readParcelable(PriceModel.class.getClassLoader());
         bons = in.createTypedArrayList(BonModel.CREATOR);
         children = in.createTypedArrayList(ProductModel.CREATOR);
+        sets = in.createTypedArrayList(ProductSetModel.CREATOR);
     }
 
     @Override
@@ -120,6 +124,7 @@ public class ProductModel implements Parcelable {
         dest.writeParcelable(price, flags);
         dest.writeTypedList(bons);
         dest.writeTypedList(children);
+        dest.writeTypedList(sets);
     }
 
     @Override
@@ -281,6 +286,14 @@ public class ProductModel implements Parcelable {
 
     public void setChildren(ArrayList<ProductModel> children) {
         this.children = children;
+    }
+
+    public ArrayList<ProductSetModel> getSets() {
+        return sets;
+    }
+
+    public void setSets(ArrayList<ProductSetModel> sets) {
+        this.sets = sets;
     }
 
     @Override

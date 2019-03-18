@@ -70,6 +70,6 @@ public interface ShopAPI {
                                             @Query("refId") String refId);
 
     @Headers({"Content-Type: application/json", "Accept: application/json"})
-    @POST("api/v1/user/{user_id}/dashboard")
+    @GET("api/v1/user/{user_id}/dashboard")
     Observable<myProductsModel> getDashboard(@Header("Authorization") String token, @Path("user_id") String userId);
 }
