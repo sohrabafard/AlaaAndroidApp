@@ -29,6 +29,7 @@ import java.util.Stack;
 import ir.sanatisharif.android.konkur96.R;
 
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
+import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.UpdateInfoDialogFrg;
 import ir.sanatisharif.android.konkur96.fragment.AllaMainFrg;
@@ -39,13 +40,17 @@ import ir.sanatisharif.android.konkur96.fragment.ForumMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.ShopMainFragment;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
+import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
+import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
+import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_AUTH_TYPE;
+import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 //https://blog.iamsuleiman.com/bottom-navigation-bar-android-tutorial/
 public class MainActivity extends ActivityBase implements AHBottomNavigation.OnTabSelectedListener, ICheckNetwork {
@@ -93,22 +98,14 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         if (getIntent() != null)
             handleIntent(getIntent());
 
-        // retrieve firebase token
-        // retrieveToken();
-
-
         if (MyPreferenceManager.getInatanse().getLastVersionCode() < Utils.getVersionCode()) {
 
             UpdateInfoDialogFrg updateInfoDialogFrg = new UpdateInfoDialogFrg();
             updateInfoDialogFrg.show(getSupportFragmentManager(), "");
-
         }
 
-        // ATTENTION: This was auto-generated to handle app links.
-        Intent appLinkIntent = getIntent();
-        String appLinkAction = appLinkIntent.getAction();
-        Uri appLinkData = appLinkIntent.getData();
-
+        if (!MyPreferenceManager.getInatanse().isSendTokenToServer())
+            sendRegistrationToServer();
     }
 
     @Override
@@ -195,25 +192,42 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         }
     }
 
-    private void retrieveToken() {
+    private void sendRegistrationToServer() {
+        // TODO: Implement this method to send token to your app server.
 
-        if (MyPreferenceManager.getInatanse().getFirebaseToken().length() == 0) {
-            FirebaseApp.initializeApp(this);
-            FirebaseInstanceId.getInstance().getInstanceId()
-                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                            if (!task.isSuccessful()) {
-                                Log.i(TAG, "getInstanceId failed", task.getException());
-                                return;
-                            }
+        final String firebaseToken = "eyJ0eXAiA2OWE1ZGFiNGU4Y2U1ODk4YTI0ZDI3ZjQ0ODA1ZjQ1OTIxMGJZjQ4OGI4In0";// MyPreferenceManager.getInatanse().getFirebaseToken();
+        final User user = accountInfo.getInfo(ACCOUNT_TYPE);
 
-                            String token = task.getResult().getToken();
-                            MyPreferenceManager.getInatanse().setFirebaseToken(token);
-                        }
-                    });
-        }
+        accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
+            @Override
+            public void onToken(String token) {
+                MyPreferenceManager.getInatanse().setApiToken(token);
+                MyPreferenceManager.getInatanse().setAuthorize(true);
+
+                Log.i("LOG", "onResponse: " + token);
+                Log.i("LOG", "onResponse: " + firebaseToken);
+                Log.i("LOG", "onResponse: " + user.getId());
+
+
+                MainApi.getInstance().sendRegistrationToServer(user.getId(), firebaseToken, new IServerCallbackObject() {
+                    @Override
+                    public void onSuccess(Object obj) {
+                        Log.i("LOG", "onResponse: " + user.getId());
+                        MyPreferenceManager.getInatanse().setApiToken("");
+                        MyPreferenceManager.getInatanse().setAuthorize(false);
+                        MyPreferenceManager.getInatanse().setSendTokenToServer(true);
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+
+                    }
+                });
+            }
+        });
+
     }
+
 
     private void itemSelect(int tab_id) {
 

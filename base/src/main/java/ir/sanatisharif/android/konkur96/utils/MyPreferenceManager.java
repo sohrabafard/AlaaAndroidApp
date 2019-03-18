@@ -16,16 +16,14 @@ public class MyPreferenceManager {
     private static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor editor;
 
-    private final static String USERNAME = "userName";
-    private final static String USE_ID = "user_id";
-    private final static String EMAIL = "email";
     private final static String API_TOKEN = "api_token";
     private final static String FIREBASE_TOKEN = "firebase_token";
-    private final static String SEND_TOKEN_SERVER = "sendTokenOnServer";
+    private final static String SEND_TOKEN_TO_SERVER = "sendTokenToServer";
     private final static String ONBOARDING = "onboarding";
     private final static String TURN_OFF_NOTIFICATION = "turn_off_notification";
     private final static String UPDATE_SHOW_DIALOG = "";
     private final static String LAST_VERSION_CODE = "last_version_code";
+    private final static String AUTHORIZE = "authorization";
 
 
     private MyPreferenceManager() {
@@ -124,6 +122,25 @@ public class MyPreferenceManager {
         return getSharedString(FIREBASE_TOKEN, "");
     }
 
+    /**
+     * send firebase Token to server
+     *
+     * @param sended
+     */
+    public void setSendTokenToServer(boolean sended) {
+        setSharedBoolean(SEND_TOKEN_TO_SERVER, sended);
+    }
+
+    public boolean isSendTokenToServer() {
+        return getSharedBoolean(SEND_TOKEN_TO_SERVER, false);
+    }
+
+
+    /**
+     * Api Token
+     *
+     * @param token
+     */
     public void setApiToken(String token) {
         setSharedString(API_TOKEN, token);
     }
@@ -131,7 +148,18 @@ public class MyPreferenceManager {
     public String getApiToken() {
         return getSharedString(API_TOKEN, "");
     }
+    /**
+     *  check okhttp and set header
+     *
+     * @param authorize
+     */
+    public void setAuthorize(boolean authorize) {
+        setSharedBoolean(AUTHORIZE, authorize);
+    }
 
+    public boolean isAuthorize() {
+        return getSharedBoolean(AUTHORIZE, false);
+    }
 
     //send turn off
     public void setTurnOffNotification(Boolean value) {

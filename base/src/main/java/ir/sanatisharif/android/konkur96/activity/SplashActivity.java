@@ -126,12 +126,12 @@ public class SplashActivity extends ActivityBase {
     }
 
     private void retrieveToken() {
-
+        Log.i(TAG, "onCreate: 2 " );
         FirebaseInstanceId.getInstance().getInstanceId().
                 addOnSuccessListener(SplashActivity.this, new OnSuccessListener<InstanceIdResult>() {
                     @Override
                     public void onSuccess(InstanceIdResult instanceIdResult) {
-
+                        Log.i(TAG, "onCreate: " + instanceIdResult.getToken());
                         MyPreferenceManager.getInatanse().setFirebaseToken(instanceIdResult.getToken());
                     }
                 });
