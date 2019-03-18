@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:ignore="MissingDefaultResource">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
 
     <include layout="@layout/app_bar" />
 
@@ -13,18 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_main_shop"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-
-        <include layout="@layout/detail_myproduct" />
-
-
-
-
-    </android.support.v4.widget.NestedScrollView>
+        android:layout_height="match_parent"
+        tools:listitem="@layout/category_shop_item"
+        android:background="@color/White"
+        android:layout_gravity="center" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

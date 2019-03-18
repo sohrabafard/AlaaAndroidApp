@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:minWidth="100dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/btn_card">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabTitle"

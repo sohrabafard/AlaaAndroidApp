@@ -3,13 +3,14 @@ package ir.sanatisharif.android.konkur96.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -27,9 +28,13 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 import ir.sanatisharif.android.konkur96.R;
-
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.api.MainApi;
+import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
+import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
+import ir.sanatisharif.android.konkur96.api.Models.PaymentResponse;
+import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
+import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationResponse;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.UpdateInfoDialogFrg;
 import ir.sanatisharif.android.konkur96.fragment.AllaMainFrg;
@@ -39,6 +44,9 @@ import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
 import ir.sanatisharif.android.konkur96.fragment.ForumMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.ShopMainFragment;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
+import ir.sanatisharif.android.konkur96.handler.Repository;
+import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
+import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
@@ -49,7 +57,6 @@ import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_AUTH_TYPE;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 //https://blog.iamsuleiman.com/bottom-navigation-bar-android-tutorial/
@@ -63,6 +70,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     private static AHBottomNavigation bottomNavigation;
     private static Stack<Fragment> fragments;
     private static FragmentManager fm;
+    private Repository repository;
 
     //--- primitive define type-----
     private long back_pressed;
@@ -76,6 +84,8 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        repository = new RepositoryImpl(this);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -173,6 +183,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         } else if (Intent.ACTION_VIEW.equals(action) && data != null) {
             Uri appLinkData = intent.getData();
             //  Log.i(TAG, "handleIntent1: " + appLinkData);
+            // Log.i(TAG, "handleIntent: " + appLinkData.getPath());
 
             if (appLinkData.getPath().startsWith("/c")) {
                 if (data.contains("tags")) {
@@ -186,7 +197,23 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
                     addFrg(DashboardMainFrg.newInstance(), "DashboardMainFrg");
                 }
+            } else if (appLinkData.getPath().startsWith("/zarinpal")) {
+
+                if (data.contains("Status")) {
+
+                    String mStatus = appLinkData.getQueryParameter("Status");
+                    String amount = appLinkData.getQueryParameter("a");
+                    String authority = appLinkData.getQueryParameter("Authority");
+
+                    handlerZarinPalCallBack(amount, authority);
+                }
+
+            } else if (appLinkData.getPath().startsWith("/shop")) {
+
+                addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
+
             } else if (appLinkData.getPath().startsWith("/")) {
+
             }
 
         }
@@ -195,7 +222,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     private void sendRegistrationToServer() {
         // TODO: Implement this method to send token to your app server.
 
-        final String firebaseToken = "eyJ0eXAiA2OWE1ZGFiNGU4Y2U1ODk4YTI0ZDI3ZjQ0ODA1ZjQ1OTIxMGJZjQ4OGI4In0";// MyPreferenceManager.getInatanse().getFirebaseToken();
+        final String firebaseToken = MyPreferenceManager.getInatanse().getFirebaseToken();
         final User user = accountInfo.getInfo(ACCOUNT_TYPE);
 
         accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
@@ -203,11 +230,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             public void onToken(String token) {
                 MyPreferenceManager.getInatanse().setApiToken(token);
                 MyPreferenceManager.getInatanse().setAuthorize(true);
-
-                Log.i("LOG", "onResponse: " + token);
-                Log.i("LOG", "onResponse: " + firebaseToken);
-                Log.i("LOG", "onResponse: " + user.getId());
-
 
                 MainApi.getInstance().sendRegistrationToServer(user.getId(), firebaseToken, new IServerCallbackObject() {
                     @Override
@@ -226,8 +248,8 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             }
         });
 
-    }
 
+    }
 
     private void itemSelect(int tab_id) {
 
@@ -249,14 +271,10 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             case 3:
                 manageStack();
                 if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
-                    // accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS);
                     addFrg(DashboardMainFrg.newInstance(), "DashboardMainFrg");
                 }
                 break;
-
-
         }
-
     }
 
     public static void addFrg(Fragment frg, String tag) {
@@ -277,6 +295,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     }
 
     public void close() {
+
 
         if (fragments.size() > 1) {
 
@@ -341,4 +360,60 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     public void onCheckNetwork(boolean flag) {
 
     }
+
+    private void handlerZarinPalCallBack(String amount, String authority) {
+
+        PaymentVerificationRequest body = new PaymentVerificationRequest("55eb1362-08d4-42ee-8c74-4c5f5bef37d4",
+                Integer.parseInt(amount),
+                authority);
+
+        repository.paymentVerification(body, data -> {
+
+            if (data instanceof Result.Success) {
+
+                PaymentVerificationResponse payment = (PaymentVerificationResponse) ((Result.Success) data).value;
+
+                if (payment.getStatus() == 100) {
+
+                    Toast.makeText(this, "پرداخت با موفقیت انجام شد. کد پیگیری شما: " + String.valueOf(payment.getRefID()), Toast.LENGTH_LONG).show();
+                    notifyTransaction(amount, authority, String.valueOf(payment.getRefID()));
+                } else {
+
+                    Toast.makeText(this, "خطا : " + String.valueOf(payment.getStatus()), Toast.LENGTH_LONG).show();
+                    notifyTransaction(amount, authority, String.valueOf(payment.getRefID()));
+                }
+
+            } else {
+                Log.d(TAG, (String) ((Result.Error) data).value);
+                Toast.makeText(this, "تایید پرداخت با مشکل مواجه شد.در صورتی که محصول خریداری شده به لیست شما اضافه نشده است با پشتیبانی تماس بگیرید.", Toast.LENGTH_LONG).show();
+            }
+
+        });
+    }
+
+
+    private void notifyTransaction(String cost, String authority, String refId) {
+
+        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+
+            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
+                    this.runOnUiThread(() -> {
+
+                        repository.notifyTransaction(token, cost, authority, refId, data -> {
+
+                            if (data instanceof Result.Success) {
+
+                                ErrorBase temp = (ErrorBase) ((Result.Success) data).value;
+
+                            } else {
+
+                                Log.d("Test", (String) ((Result.Error) data).value);
+                            }
+
+                        });
+
+                    }));
+        }
+    }
 }
+

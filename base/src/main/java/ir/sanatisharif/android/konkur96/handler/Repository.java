@@ -13,10 +13,14 @@ public interface Repository {
     void getNextPage(String url, ApiCallBack callBack);
     void getNextPageProduct(String url, ApiCallBack callBack);
     void getMore(String url, ApiCallBack callBack);
+    void getMoreSet(String url, ApiCallBack callBack);
     void getPrice(ProductType type, String productId, ArrayList<Integer> products, ArrayList<Integer> mainAttributeValues, ArrayList<Integer> extraAttributeValues, ApiCallBack callBack);
     void paymentRequest(PaymentRequest body, ApiCallBack callBack);
     void paymentVerification(PaymentVerificationRequest body, ApiCallBack callBack);
     void addToShopCard(String token, int productId, @Nullable ArrayList<Integer> attribute, @Nullable ArrayList<Integer> products, @Nullable ArrayList<Integer> extraAttribute, ApiCallBack callBack);
     void cardReview(String token, ApiCallBack callBack);
-    public void notifyTransaction(String token,String cost, String authority, String refId, ApiCallBack callBack);
+    void notifyTransaction(String token, String cost, String authority, String refId, ApiCallBack callBack);
+    void getDashboard(String token, String userId, ApiCallBack callBack);
+    void delProductFromCard(String token, String orderproductId, ApiCallBack callBack);
+
 }

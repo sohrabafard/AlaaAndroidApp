@@ -12,6 +12,8 @@ import io.reactivex.schedulers.Schedulers;
 import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
+import ir.sanatisharif.android.konkur96.api.Models.ResultShowVideoModel;
+import ir.sanatisharif.android.konkur96.api.Models.myProductsModel;
 import ir.sanatisharif.android.konkur96.api.ShopAPI;
 import ir.sanatisharif.android.konkur96.api.ZarinPalAPI;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -74,6 +76,18 @@ public class RepositoryImpl implements Repository {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(ResultModel -> callBack.onResponse(new Result.Success(ResultModel)),
+                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void getMoreSet(String url, ApiCallBack callBack) {
+
+        shopAPI.getMoreSet(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(ResultBaseShowVideoModel -> callBack.onResponse(new Result.Success(ResultBaseShowVideoModel)),
                         throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
 
     }
@@ -161,6 +175,32 @@ public class RepositoryImpl implements Repository {
     public void notifyTransaction(String token,String cost, String authority, String refId, ApiCallBack callBack) {
 
         shopAPI.notifyTransaction(("Bearer " + token), cost, authority, refId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(ErrorBase -> callBack.onResponse(new Result.Success(ErrorBase)),
+                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+
+    }
+
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void getDashboard(String token, String userId, ApiCallBack callBack) {
+
+        shopAPI.getDashboard(("Bearer " + token), userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(myProductsModel -> callBack.onResponse(new Result.Success(myProductsModel)),
+                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+
+    }
+
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void delProductFromCard(String token, String orderproductId, ApiCallBack callBack) {
+
+        shopAPI.delProductFromCard(("Bearer " + token), orderproductId, "delete")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(ErrorBase -> callBack.onResponse(new Result.Success(ErrorBase)),

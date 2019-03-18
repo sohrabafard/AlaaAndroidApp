@@ -33,7 +33,7 @@
             android:fontFamily="@font/iransansbold"
             android:textSize="18sp"
             android:layout_marginRight="5dp"
-            android:text="25000 تومان"
+            android:id="@+id/txt_wallet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
