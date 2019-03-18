@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ import ir.sanatisharif.android.konkur96.adapter.MyProductAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.AddToCardListModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
+import ir.sanatisharif.android.konkur96.api.Models.WalletModel;
 import ir.sanatisharif.android.konkur96.api.Models.myProductsModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
@@ -97,9 +100,9 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
 
         initView(view);
 
-        //getData();
+        getData();
 
-        txtWallet.setText(String.valueOf(user.getInfo().getWallet()));
+
 
 
     }
@@ -208,6 +211,11 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
 
     private void setData(myProductsModel data) {
 
+        Gson gson = new Gson();
+        WalletModel walletModel = gson.fromJson(String.valueOf(user.getInfo().getWallet()).replace("[","").replace("]", ""), WalletModel.class);
+
+        txtWallet.setText(walletModel.getBlance() + " تومان ");
+
         //---------------------- set mainModel data ---------------------------------------------
         myProductsModel = data;
 
@@ -225,7 +233,7 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
     @Override
     public void onRefresh() {
         items.clear();
-        //getData();
+        getData();
     }
 
 
