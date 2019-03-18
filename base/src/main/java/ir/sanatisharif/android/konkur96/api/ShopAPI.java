@@ -9,7 +9,9 @@ import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
 import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
+import ir.sanatisharif.android.konkur96.api.Models.ResultBaseShowVideoModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
+import ir.sanatisharif.android.konkur96.api.Models.ResultShowVideoModel;
 import ir.sanatisharif.android.konkur96.api.Models.myProductsModel;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -39,6 +41,10 @@ public interface ShopAPI {
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @GET
     Observable<ResultModel> getMore(@Url String url);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @GET
+    Observable<ResultBaseShowVideoModel> getMoreSet(@Url String url);
 
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @POST("api/v1/getPrice/{product_id}")

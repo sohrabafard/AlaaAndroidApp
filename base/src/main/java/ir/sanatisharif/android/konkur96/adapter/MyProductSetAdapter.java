@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductSetModel;
+import ir.sanatisharif.android.konkur96.fragment.MoreProductSetFragment;
+import ir.sanatisharif.android.konkur96.fragment.MyProductSet;
 import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import ir.sanatisharif.android.konkur96.ui.view.CustomShopItemView;
@@ -56,12 +58,7 @@ public class MyProductSetAdapter extends RecyclerView.Adapter<MyProductSetAdapte
 
 
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        holder.cardView.setOnClickListener(view -> addFrg(MoreProductSetFragment.newInstance(item.getContentUrl()),"MoreProductSetFragment"));
 
 
     }

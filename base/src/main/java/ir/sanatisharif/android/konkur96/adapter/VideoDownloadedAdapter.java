@@ -38,7 +38,6 @@ import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.listener.OnItemLongListener;
 import ir.sanatisharif.android.konkur96.model.Video;
 
-
 /**
  * Created by Mohamad on 11/7/2016.
  */

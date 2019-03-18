@@ -13,6 +13,7 @@ public interface Repository {
     void getNextPage(String url, ApiCallBack callBack);
     void getNextPageProduct(String url, ApiCallBack callBack);
     void getMore(String url, ApiCallBack callBack);
+    void getMoreSet(String url, ApiCallBack callBack);
     void getPrice(ProductType type, String productId, ArrayList<Integer> products, ArrayList<Integer> mainAttributeValues, ArrayList<Integer> extraAttributeValues, ApiCallBack callBack);
     void paymentRequest(PaymentRequest body, ApiCallBack callBack);
     void paymentVerification(PaymentVerificationRequest body, ApiCallBack callBack);
