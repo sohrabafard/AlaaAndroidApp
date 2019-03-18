@@ -18,5 +18,7 @@ public interface Repository {
     void paymentVerification(PaymentVerificationRequest body, ApiCallBack callBack);
     void addToShopCard(String token, int productId, @Nullable ArrayList<Integer> attribute, @Nullable ArrayList<Integer> products, @Nullable ArrayList<Integer> extraAttribute, ApiCallBack callBack);
     void cardReview(String token, ApiCallBack callBack);
-    public void notifyTransaction(String token,String cost, String authority, String refId, ApiCallBack callBack);
+    void notifyTransaction(String token, String cost, String authority, String refId, ApiCallBack callBack);
+    void getDashboard(String token, String userId, ApiCallBack callBack);
+
 }

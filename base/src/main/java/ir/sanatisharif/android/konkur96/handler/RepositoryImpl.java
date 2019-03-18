@@ -12,6 +12,7 @@ import io.reactivex.schedulers.Schedulers;
 import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
+import ir.sanatisharif.android.konkur96.api.Models.myProductsModel;
 import ir.sanatisharif.android.konkur96.api.ShopAPI;
 import ir.sanatisharif.android.konkur96.api.ZarinPalAPI;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -164,6 +165,19 @@ public class RepositoryImpl implements Repository {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(ErrorBase -> callBack.onResponse(new Result.Success(ErrorBase)),
+                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+
+    }
+
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void getDashboard(String token, String userId, ApiCallBack callBack) {
+
+        shopAPI.getDashboard(("Bearer " + token), userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(myProductsModel -> callBack.onResponse(new Result.Success(myProductsModel)),
                         throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
 
     }
