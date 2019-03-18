@@ -124,6 +124,15 @@ public class MyPreferenceManager {
         return getSharedString(FIREBASE_TOKEN, "");
     }
 
+    public void setApiToken(String token) {
+        setSharedString(API_TOKEN, token);
+    }
+
+    public String getApiToken() {
+        return getSharedString(API_TOKEN, "");
+    }
+
+
     //send turn off
     public void setTurnOffNotification(Boolean value) {
         setSharedBoolean(TURN_OFF_NOTIFICATION, value);
