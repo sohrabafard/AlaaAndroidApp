@@ -78,4 +78,10 @@ public interface ShopAPI {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @GET("api/v1/user/{user_id}/dashboard")
     Observable<myProductsModel> getDashboard(@Header("Authorization") String token, @Path("user_id") String userId);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @POST("api/v1/orderproduct/{orderproduct_id}")
+    Observable<ErrorBase> delProductFromCard(@Header("Authorization") String token,
+                                            @Path("orderproduct_id") String orderproductId,
+                                            @Query("_method") String _method);
 }

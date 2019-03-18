@@ -7,13 +7,15 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
+
 public class PageVideoShowVideoModel implements Parcelable {
 
     @SerializedName("current_page")
     private int current_page;
 
     @SerializedName("data")
-    private ArrayList<VideoFilesModel> data;
+    private ArrayList<VideoCourse> data;
 
     @SerializedName("first_page_url")
     private String first_page_url;
@@ -48,7 +50,7 @@ public class PageVideoShowVideoModel implements Parcelable {
 
     protected PageVideoShowVideoModel(Parcel in) {
         current_page = in.readInt();
-        data = in.createTypedArrayList(VideoFilesModel.CREATOR);
+        //data = in.readArrayList(VideoCourse.CREATOR);
         first_page_url = in.readString();
         from = in.readInt();
         last_page = in.readInt();
@@ -59,27 +61,6 @@ public class PageVideoShowVideoModel implements Parcelable {
         prev_page_url = in.readString();
         to = in.readInt();
         total = in.readInt();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(current_page);
-        dest.writeTypedList(data);
-        dest.writeString(first_page_url);
-        dest.writeInt(from);
-        dest.writeInt(last_page);
-        dest.writeString(last_page_url);
-        dest.writeString(next_page_url);
-        dest.writeString(path);
-        dest.writeInt(per_page);
-        dest.writeString(prev_page_url);
-        dest.writeInt(to);
-        dest.writeInt(total);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     public static final Creator<PageVideoShowVideoModel> CREATOR = new Creator<PageVideoShowVideoModel>() {
@@ -102,11 +83,11 @@ public class PageVideoShowVideoModel implements Parcelable {
         this.current_page = current_page;
     }
 
-    public ArrayList<VideoFilesModel> getData() {
+    public ArrayList<VideoCourse> getData() {
         return data;
     }
 
-    public void setData(ArrayList<VideoFilesModel> data) {
+    public void setData(ArrayList<VideoCourse> data) {
         this.data = data;
     }
 
@@ -188,5 +169,26 @@ public class PageVideoShowVideoModel implements Parcelable {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(current_page);
+        parcel.writeTypedList(data);
+        parcel.writeString(first_page_url);
+        parcel.writeInt(from);
+        parcel.writeInt(last_page);
+        parcel.writeString(last_page_url);
+        parcel.writeString(next_page_url);
+        parcel.writeString(path);
+        parcel.writeInt(per_page);
+        parcel.writeString(prev_page_url);
+        parcel.writeInt(to);
+        parcel.writeInt(total);
     }
 }

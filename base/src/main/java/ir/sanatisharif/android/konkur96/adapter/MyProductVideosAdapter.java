@@ -12,23 +12,21 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
-import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
-import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
+import ir.sanatisharif.android.konkur96.api.Models.ProductSetModel;
+import ir.sanatisharif.android.konkur96.fragment.MoreProductSetFragment;
+import ir.sanatisharif.android.konkur96.model.Video;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
+public class MyProductVideosAdapter extends RecyclerView.Adapter<MyProductVideosAdapter.MyViewHolder> {
 
-public class MoreFilesProductAdapter extends RecyclerView.Adapter<MoreFilesProductAdapter.MyViewHolder> {
-
-    private List<? extends FilterBaseModel> itemsList;
+    private ArrayList<Video> itemsList;
     private Context mContext;
 
 
-    public MoreFilesProductAdapter(Context context, ArrayList<VideoCourse> itemsList) {
+    public MyProductVideosAdapter(Context context, ArrayList<Video> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -37,9 +35,9 @@ public class MoreFilesProductAdapter extends RecyclerView.Adapter<MoreFilesProdu
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int typeviewsingle) {
 
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_productset_more, parent, false);
+                .inflate(R.layout.item_productset, parent, false);
 
-        return new MoreFilesProductAdapter.MyViewHolder(itemView);
+        return new MyViewHolder(itemView);
     }
 
     @Override
@@ -47,14 +45,11 @@ public class MoreFilesProductAdapter extends RecyclerView.Adapter<MoreFilesProdu
 
 
 
-        VideoCourse item = (VideoCourse) itemsList.get(position);
+        Video item = itemsList.get(position);
 
         holder.title.setText(item.getName());
-        Glide.with(mContext).load(item.getThumbnail()).into(holder.imageView);
 
-
-
-        holder.cardView.setOnClickListener(view -> addFrg(DetailsVideoFrg.newInstance(itemsList, position), "DetailsVideoFrg"));
+       // holder.cardView.setOnClickListener(view -> addFrg(MoreProductSetFragment.newInstance(item.getContentUrl()),"MoreProductSetFragment"));
 
 
     }
@@ -67,14 +62,16 @@ public class MoreFilesProductAdapter extends RecyclerView.Adapter<MoreFilesProdu
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
-        public CardView cardView;
         public ImageView imageView;
+        public CardView cardView;
 
         public MyViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.txt_title);
+            imageView = view.findViewById(R.id.imgset);
             cardView = view.findViewById(R.id.card_body);
-            imageView = view.findViewById(R.id.img);
         }
     }
+
+
 }

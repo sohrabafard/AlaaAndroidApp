@@ -37,6 +37,7 @@ import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
 import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentResponse;
+import ir.sanatisharif.android.konkur96.api.Models.myProductsModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
@@ -68,6 +69,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private RecyclerView productsRecyclerView;
     private CardView btnShowFactor;
     private TextView txtPriceBase, txtPriceDiscount, txtPriceFinal;
+
 
     public static CardFragment newInstance() {
 
@@ -152,6 +154,8 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }
 
 
+
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -201,9 +205,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         productsRecyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
         productsRecyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new CardReviewProductAdapter(getContext(), items, () -> {
-
-        });
+        adapter = new CardReviewProductAdapter(getContext(), items, this::delete);
         productsRecyclerView.setAdapter(adapter);
         productsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -281,6 +283,39 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         } catch (NullPointerException e) {
             Log.e("Alla", e.getMessage(), e);
         }
+    }
+
+    private void delete(int id){
+
+        swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
+
+        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+
+
+            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
+
+                    getActivity().runOnUiThread(() ->
+
+                            repository.delProductFromCard(token, String.valueOf(id), data -> {
+
+                                if (data instanceof Result.Success) {
+
+                                    Toast.makeText(getContext(),"با موفقیت حدف شد.", Toast.LENGTH_LONG).show();
+                                    onRefresh();
+                                    swipeRefreshLayout.setRefreshing(false);
+                                } else {
+
+                                    Log.d("Test", (String) ((Result.Error) data).value);
+                                    swipeRefreshLayout.setRefreshing(false);
+                                }
+
+
+                            })));
+
+        }
+
+
+
     }
 }
 

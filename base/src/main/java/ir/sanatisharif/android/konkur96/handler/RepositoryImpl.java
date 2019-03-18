@@ -194,4 +194,17 @@ public class RepositoryImpl implements Repository {
                         throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
 
     }
+
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void delProductFromCard(String token, String orderproductId, ApiCallBack callBack) {
+
+        shopAPI.delProductFromCard(("Bearer " + token), orderproductId, "delete")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(ErrorBase -> callBack.onResponse(new Result.Success(ErrorBase)),
+                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+
+    }
 }

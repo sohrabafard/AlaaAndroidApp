@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -52,6 +53,7 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
 
     Toolbar pageToolbar;
     RecyclerView productMainRecyclerView;
+    TextView txtWallet;
     private GridLayoutManager gridLayoutManager;
 
     Repository repository;
@@ -95,7 +97,9 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
 
         initView(view);
 
-        getData();
+        //getData();
+
+        txtWallet.setText(String.valueOf(user.getInfo().getWallet()));
 
 
     }
@@ -130,6 +134,8 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
 
     private void initView(View v) {
 
+        txtWallet = v.findViewById(R.id.txt_wallet);
+
         //swipeRefreshLayout
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
@@ -155,46 +161,46 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
 
         swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
 
-//        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
-//
-//
-//            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
-//
-//                    getActivity().runOnUiThread(() ->
-//
-//                            repository.getDashboard(token, String.valueOf(user.getId()), data -> {
-//
-//                                if (data instanceof Result.Success) {
-//
-//                                    setData((myProductsModel) ((Result.Success) data).value);
-//                                    swipeRefreshLayout.setRefreshing(false);
-//                                } else {
-//
-//                                    Log.d("Test", (String) ((Result.Error) data).value);
-//                                    swipeRefreshLayout.setRefreshing(false);
-//                                }
-//
-//
-//                            })));
-//
-//        }
-
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjNhNDMzNmNjMzU1NGY0MzFmM2JiYTA2NTMwYjk4YmNmZTQ1MzZhMjY0OWVjZDQ1OWM3MzIxYTQyNDdhZjkwNzEyYmUyYjZlOThlZTQ2OWU1In0.eyJhdWQiOiIxIiwianRpIjoiM2E0MzM2Y2MzNTU0ZjQzMWYzYmJhMDY1MzBiOThiY2ZlNDUzNmEyNjQ5ZWNkNDU5YzczMjFhNDI0N2FmOTA3MTJiZTJiNmU5OGVlNDY5ZTUiLCJpYXQiOjE1NTI0NjY1NDgsIm5iZiI6MTU1MjQ2NjU0OCwiZXhwIjoxNTg0MDg4OTQ4LCJzdWIiOiIyMzcwMjAiLCJzY29wZXMiOltdfQ.gD3QsDN6C0MM66GuEJcdpQzWvrurdD6SyVr-L3HzOc5b76pTSg5n3hMw5Jdq4Jca-9muqkCf9EwAHMN1Qmnt4WXAHC6SmnJ_M4FOmXN5fD67Ink_5Z7CkthIJVlPcE3TJXlkDq5PbzC58bNppr19wMGea9EAkYy33q3Vb4-rV-GjMdIi_2vYkp8fTIpa2HacbCCueqlc_OHZRpewik69ANYn8YMSCy0XzXLzM6bnwxLsJVL8UCblu0Mm4SnlcMIK4O_80dWK7RCWlYFSP0gDnK_IYzbSosUYXVtSjAj3llW-1TT8QoueOZYVv-NexwtPCj2SO65-CenYmmSB40ATt1jrF043MhJmdr1fs_u5zMplWMD58cZeZRRg0QaioSuSyvdFtAqBZOlqGc_Gk_vdwpu-YqNbYgUSlQLndNNihVrGbGgEiSoYx1SIkGTW1PkGM-_l6eUFoIizOYUVyKXTSPNjzxDuFsSSXnf4LIXJY_4DO_-GtkN19W1tPRLcpXFY7HDQ8JwgkxnBDygQb814psmBNZM4aqCWfHP94dY9qZyv7iK0uGtyvl8ek93ntmMMjiQVTy7c1N4k73jgeU0RgipvUvslb7RBivCp_GmFACyjeoTrB7_DM_qZp09dVX-BSUCqiC7_uPf_n2ojL24hUs5XfswUwc8cQNaGOYnkilw";
-
-        repository.getDashboard(token, String.valueOf(user.getId()), data -> {
-
-            if (data instanceof Result.Success) {
-
-                setData((myProductsModel) ((Result.Success) data).value);
-                swipeRefreshLayout.setRefreshing(false);
-            } else {
-
-                Log.d("Test", (String) ((Result.Error) data).value);
-                swipeRefreshLayout.setRefreshing(false);
-            }
+        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
 
 
-        });
+            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
+
+                    getActivity().runOnUiThread(() ->
+
+                            repository.getDashboard(token, String.valueOf(user.getId()), data -> {
+
+                                if (data instanceof Result.Success) {
+
+                                    setData((myProductsModel) ((Result.Success) data).value);
+                                    swipeRefreshLayout.setRefreshing(false);
+                                } else {
+
+                                    Log.d("Test", (String) ((Result.Error) data).value);
+                                    swipeRefreshLayout.setRefreshing(false);
+                                }
+
+
+                            })));
+
+        }
+
+//        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjNhNDMzNmNjMzU1NGY0MzFmM2JiYTA2NTMwYjk4YmNmZTQ1MzZhMjY0OWVjZDQ1OWM3MzIxYTQyNDdhZjkwNzEyYmUyYjZlOThlZTQ2OWU1In0.eyJhdWQiOiIxIiwianRpIjoiM2E0MzM2Y2MzNTU0ZjQzMWYzYmJhMDY1MzBiOThiY2ZlNDUzNmEyNjQ5ZWNkNDU5YzczMjFhNDI0N2FmOTA3MTJiZTJiNmU5OGVlNDY5ZTUiLCJpYXQiOjE1NTI0NjY1NDgsIm5iZiI6MTU1MjQ2NjU0OCwiZXhwIjoxNTg0MDg4OTQ4LCJzdWIiOiIyMzcwMjAiLCJzY29wZXMiOltdfQ.gD3QsDN6C0MM66GuEJcdpQzWvrurdD6SyVr-L3HzOc5b76pTSg5n3hMw5Jdq4Jca-9muqkCf9EwAHMN1Qmnt4WXAHC6SmnJ_M4FOmXN5fD67Ink_5Z7CkthIJVlPcE3TJXlkDq5PbzC58bNppr19wMGea9EAkYy33q3Vb4-rV-GjMdIi_2vYkp8fTIpa2HacbCCueqlc_OHZRpewik69ANYn8YMSCy0XzXLzM6bnwxLsJVL8UCblu0Mm4SnlcMIK4O_80dWK7RCWlYFSP0gDnK_IYzbSosUYXVtSjAj3llW-1TT8QoueOZYVv-NexwtPCj2SO65-CenYmmSB40ATt1jrF043MhJmdr1fs_u5zMplWMD58cZeZRRg0QaioSuSyvdFtAqBZOlqGc_Gk_vdwpu-YqNbYgUSlQLndNNihVrGbGgEiSoYx1SIkGTW1PkGM-_l6eUFoIizOYUVyKXTSPNjzxDuFsSSXnf4LIXJY_4DO_-GtkN19W1tPRLcpXFY7HDQ8JwgkxnBDygQb814psmBNZM4aqCWfHP94dY9qZyv7iK0uGtyvl8ek93ntmMMjiQVTy7c1N4k73jgeU0RgipvUvslb7RBivCp_GmFACyjeoTrB7_DM_qZp09dVX-BSUCqiC7_uPf_n2ojL24hUs5XfswUwc8cQNaGOYnkilw";
+//
+//        repository.getDashboard(token, String.valueOf(user.getId()), data -> {
+//
+//            if (data instanceof Result.Success) {
+//
+//                setData((myProductsModel) ((Result.Success) data).value);
+//                swipeRefreshLayout.setRefreshing(false);
+//            } else {
+//
+//                Log.d("Test", (String) ((Result.Error) data).value);
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//
+//
+//        });
 
 
     }
@@ -204,6 +210,8 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
 
         //---------------------- set mainModel data ---------------------------------------------
         myProductsModel = data;
+
+        txtWallet.setText(String.valueOf(user.getInfo().getWallet()));
 
 
         items.addAll(data.getData().get(0).getProducts());
@@ -217,7 +225,7 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
     @Override
     public void onRefresh() {
         items.clear();
-        getData();
+        //getData();
     }
 
 

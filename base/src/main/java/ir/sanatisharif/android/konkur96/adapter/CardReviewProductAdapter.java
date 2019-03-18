@@ -65,6 +65,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
             final AddToCardModel model = items.get(position);
 
+
             final String title = model.getProduct().getName();
             final int price = model.getProduct().getPrice().getMfinal();
             final String image = model.getProduct().getPhoto();
@@ -73,6 +74,8 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
             itemRowHolderNoGrand.txtTitle.setText(title);
             itemRowHolderNoGrand.txtPrice.setText(ShopUtils.formatPrice(price) + " تومان ");
+
+            itemRowHolderNoGrand.btnDel.setOnClickListener(view -> deleteListener.onClickDelete(model.getOrder_id()));
 
             Glide.with(context).load(image).into(itemRowHolderNoGrand.imageView);
 
@@ -114,7 +117,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
     class GrandProductViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageView;
+        ImageView imageView, btnDel;
         TextView txtTitle, txtPrice, txtProTitle;
 
 
@@ -122,6 +125,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
             super(itemView);
 
             imageView = itemView.findViewById(R.id.img);
+            btnDel = itemView.findViewById(R.id.btn_del);
             txtTitle = itemView.findViewById(R.id.title);
             txtProTitle = itemView.findViewById(R.id.pro_titel);
             txtPrice = itemView.findViewById(R.id.price);
@@ -132,7 +136,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
     class NoGrandProductViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageView;
+        ImageView imageView, btnDel;
         TextView txtTitle, txtPrice;
 
 
@@ -140,6 +144,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
             super(itemView);
 
             imageView = itemView.findViewById(R.id.img);
+            btnDel = itemView.findViewById(R.id.btn_del);
             txtTitle = itemView.findViewById(R.id.title);
             txtPrice = itemView.findViewById(R.id.price);
 
@@ -148,7 +153,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public interface DeleteListener {
 
-        void onClickDelete();
+        void onClickDelete(int id);
 
     }
 
