@@ -5,29 +5,23 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
+import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
 import ir.sanatisharif.android.konkur96.model.SelectableProduct;
 import ir.sanatisharif.android.konkur96.utils.GalleryWorker;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
@@ -39,6 +33,7 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
     private CheckListeners checkListeners;
     private ArrayList<SelectableProduct> productList;
     private GalleryWorker imgGallery;
+    private SelectableProductAdapter adapter;
 
     public SelectableProductAdapter(Context context, ArrayList<SelectableProduct> productList, CheckListeners checkListeners) {
 
@@ -67,6 +62,11 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
+
+//        holder.bindView(productList.get(position).getModel());
+//        holder.bindChildes(productList.get(position));
+
+
         SelectableProduct selectablemodel = productList.get(holder.getAdapterPosition());
         ProductModel model = productList.get(holder.getAdapterPosition()).getModel();
 
@@ -74,6 +74,8 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
 
 
         holder.textView.setTypeface(AppConfig.fontIRSensLight);
+
+        //selectablemodel.setChecked(checkChilds(selectablemodel.getChilds()));
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -84,33 +86,79 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
         holder.textView.setText(model.getName());
         setFinalPrice(holder.txtFinalPrice, model);
 
+
+
         if (null != model.getChildren()){
+
+
 
             holder.recyclerView.setVisibility(View.VISIBLE);
 
-            ArrayList<SelectableProduct> items = ShopUtils.convertToSelectableProductModel(model.getChildren());
+            ArrayList<SelectableProduct> items;
+            if (null != selectablemodel.getChilds()){
 
-            SelectableProductAdapter adapter = new SelectableProductAdapter(context, items, new SelectableProductAdapter.CheckListeners() {
+                items = selectablemodel.getChilds();
+            }else {
+
+                items = ShopUtils.convertToSelectableProductModel(model.getChildren());
+            }
+
+
+
+            adapter = new SelectableProductAdapter(context, items, new SelectableProductAdapter.CheckListeners() {
                 @Override
-                public void onItemCheck(ProductModel model, int position) {
+                public void onItemCheck(ProductModel model, int position, boolean isFirst) {
 
-                    checkListeners.onItemCheck(model, position);
+                    if (checkChilds(selectablemodel.getChilds())){
+
+                        selectablemodel.setChecked(true);
+                        checkListeners.onItemCheck(selectablemodel.getModel(), position, true);
+                        notifyDataSetChanged();
+
+
+                    }
+
+                    checkListeners.onItemCheck(model, position, false);
+
+
+
+
 
                 }
 
                 @Override
                 public void onItemUncheck(ProductModel model, int position) {
 
+                    if (unCheckChilds(selectablemodel.getChilds())){
+
+                        selectablemodel.setChecked(false);
+                        checkListeners.onItemUncheck(selectablemodel.getModel(), position);
+                        notifyDataSetChanged();
+
+
+                    }
+
+
                     checkListeners.onItemUncheck(model, position);
+
+
+
+
 
 
                 }
             });
 
+
+
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
             holder.recyclerView.setLayoutManager(mLayoutManager);
             holder.recyclerView.setItemAnimator(new DefaultItemAnimator());
             holder.recyclerView.setAdapter(adapter);
+
+            selectablemodel.setParent(selectablemodel);
+            selectablemodel.setChilds(items);
+            adapter.notifyDataSetChanged();
 
         }else {
 
@@ -119,7 +167,9 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
 
         if(selectablemodel.isChecked()) {
 
+
             holder.checkBox.setChecked(true);
+
 
         } else {
 
@@ -131,16 +181,42 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
         holder.checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b) {
                 selectablemodel.setChecked(true);
-                checkListeners.onItemCheck(model, holder.getAdapterPosition());
+                if (selectablemodel.getChilds() != null && selectablemodel.getChilds().size() > 0){
+
+                    for(SelectableProduct childModel : selectablemodel.getChilds()){
+
+                        childModel.setChecked(true);
+                        checkListeners.onItemCheck(childModel.getModel(), holder.getAdapterPosition(), false);
+
+                    }
+                }
+
+
+                adapter.notifyDataSetChanged();
+                checkListeners.onItemCheck(model, holder.getAdapterPosition(), true);
             }
             else {
                 selectablemodel.setChecked(false);
+                for(SelectableProduct childModel : selectablemodel.getChilds()){
+
+                    childModel.setChecked(false);
+                    checkListeners.onItemUncheck(childModel.getModel(), holder.getAdapterPosition());
+
+                }
+
+
+                adapter.notifyDataSetChanged();
                 checkListeners.onItemUncheck(model, holder.getAdapterPosition());
+
+
+
             }
         });
 
 
     }
+
+
 
     @SuppressLint("SetTextI18n")
     private void setFinalPrice(TextView textView , ProductModel model) {
@@ -156,13 +232,49 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
         }
     }
 
+    private boolean checkChilds(ArrayList<SelectableProduct> list){
+
+        if (null != list) {
+
+            for (SelectableProduct model : list){
+                if (!model.isChecked()) {
+                    return false;
+                }
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+
+    private boolean unCheckChilds(ArrayList<SelectableProduct> list){
+
+        if (null != list) {
+
+            for (SelectableProduct model : list){
+                if (model.isChecked()) {
+                    return true;
+                }
+            }
+
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        CheckBox checkBox;
-        TextView textView, txtFinalPrice;
-        RecyclerView recyclerView;
+        private CheckBox checkBox;
+        private TextView textView, txtFinalPrice;
+        private RecyclerView recyclerView;
+        private SelectableProductAdapter adapter;
 
 
         MyViewHolder(View itemView) {
@@ -175,11 +287,68 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
 
 
         }
+
+        private void bindView(ProductModel model) {
+            textView.setTypeface(AppConfig.fontIRSensLight);
+            setFinalPrice(txtFinalPrice, model);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                checkBox.setButtonTintList(ContextCompat.getColorStateList(context, R.color.checkboxtint));
+            }
+
+            textView.setText(model.getName());
+
+            ArrayList<SelectableProduct> items = ShopUtils.convertToSelectableProductModel(model.getChildren());
+
+            adapter = new SelectableProductAdapter(context, items, new SelectableProductAdapter.CheckListeners() {
+                @Override
+                public void onItemCheck(ProductModel model, int position, boolean isFirst) {
+
+                    checkListeners.onItemCheck(model, position, false);
+
+                }
+
+                @Override
+                public void onItemUncheck(ProductModel model, int position) {
+
+                    checkListeners.onItemUncheck(model, position);
+
+
+                }
+            });
+
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(adapter);
+        }
+
+        public void bindChildes(SelectableProduct selectableProduct) {
+
+
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                    if (checked) {
+
+                        if (checkChilds(selectableProduct.getChilds())) {
+
+                        }
+
+                    } else {
+
+                    }
+                }
+            });
+
+
+
+        }
     }
 
     public interface CheckListeners {
 
-        void onItemCheck(ProductModel model, int position);
+        void onItemCheck(ProductModel model, int position, boolean isFirst);
         void onItemUncheck(ProductModel model, int position);
 
     }

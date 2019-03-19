@@ -398,8 +398,8 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         //select item
         playListAdapter.setItemSelect(positionPlaying);
         playListAdapter.notifyDataSetChanged();
-        SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(recyclerPlayList);
+      //  SnapHelper snapHelper = new PagerSnapHelper();
+     //   snapHelper.attachToRecyclerView(recyclerPlayList);
         AppConfig.HANDLER.postDelayed(new Runnable() {
             @Override
             public void run() {

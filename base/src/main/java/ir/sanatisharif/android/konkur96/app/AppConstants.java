@@ -79,10 +79,8 @@ public class AppConstants {
      * Auth token types
      */
     //public static final String AUTHTOKEN_TYPE_READ_ONLY = "Read only";
-    public static final String AUTHTOKEN_TYPE_READ_ONLY_LABEL = "Read only access to an Udinic account";
 
     public static final String AUTHTOKEN_TYPE_FULL_ACCESS = "Full access";
-    public static final String AUTHTOKEN_TYPE_FULL_ACCESS_LABEL = "Full access to an Udinic account";
 
     // public final static String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT";
 

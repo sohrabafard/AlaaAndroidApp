@@ -65,7 +65,6 @@ public interface ApiRetrofit {
 
     @POST("/api/v1/user/{user_id}/firebasetoken")
     Call<Object> getFirebaseToken(
-            @Header("Authorization") String token,
             @Path("user_id") int user_id,
             @Query("token") String firebaseToken);
 

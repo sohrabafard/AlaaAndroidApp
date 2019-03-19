@@ -9,6 +9,7 @@ import java.io.IOException;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
+import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -52,13 +53,14 @@ public class RetrofitClient {
         @Override
         public okhttp3.Response intercept(Chain chain) throws IOException {
 
-            Request request = chain.request().
-                    newBuilder()
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("Accept", "application/json")
-                    .addHeader("X-Requested-With", "XMLHttpRequest")
-                    .build();
-            okhttp3.Response response = chain.proceed(request);
+            Request original = chain.request();
+            Request.Builder builder = original.newBuilder();
+            builder.addHeader("Content-Type", "application/json");
+            builder.addHeader("Accept", "application/json");
+            builder.addHeader("X-Requested-With", "XMLHttpRequest");
+            if (MyPreferenceManager.getInatanse().isAuthorize())
+                builder.addHeader("Authorization", "Bearer " + MyPreferenceManager.getInatanse().getApiToken());
+            okhttp3.Response response = chain.proceed(builder.build());
 
             if (!handelStatusCode(response.code()))
                 return response;

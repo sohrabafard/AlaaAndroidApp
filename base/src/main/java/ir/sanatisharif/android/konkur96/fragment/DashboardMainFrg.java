@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +43,7 @@ import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.model.user.User;
 
+import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
 /**
@@ -74,6 +77,7 @@ public class DashboardMainFrg extends BaseFragment {
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_profile_fab_menu, container, false);
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -141,11 +145,24 @@ public class DashboardMainFrg extends BaseFragment {
         itemBag = view.findViewById(R.id.itemBag);
         itemProfile = view.findViewById(R.id.itemProfile);
 
+
+
+
         ((TextView) itemBasket.findViewById(R.id.txtTitle)).setText("سبدخرید");
         ((TextView) itemAboutMe.findViewById(R.id.txtTitle)).setText("درباره ما");
         ((TextView) itemVideo.findViewById(R.id.txtTitle)).setText("ویدیو");
         ((TextView) itemBag.findViewById(R.id.txtTitle)).setText("کیف پول");
         ((TextView) itemProfile.findViewById(R.id.txtTitle)).setText("پروفایل");
+
+        itemBasket.findViewById(R.id.txtTitle).setOnClickListener(view1 -> addFrg(CardFragment.newInstance(), "CardFragment"));
+        itemBasket.setOnClickListener(view1 -> addFrg(CardFragment.newInstance(), "CardFragment"));
+        itemBasket.findViewById(R.id.fabTitle).setOnClickListener(view1 -> addFrg(CardFragment.newInstance(), "CardFragment"));
+
+
+        itemProfile.findViewById(R.id.txtTitle).setOnClickListener(view1 -> addFrg(MyProduct.newInstance(), "MyProduct"));
+        itemProfile.setOnClickListener(view1 -> addFrg(MyProduct.newInstance(), "MyProduct"));
+        itemProfile.findViewById(R.id.fabTitle).setOnClickListener(view1 -> addFrg(MyProduct.newInstance(), "MyProduct"));
+
 
 
     }

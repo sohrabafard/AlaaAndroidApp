@@ -92,14 +92,12 @@ public class ZarinPalDialogFragment extends DialogFragment {
         cardClose = v.findViewById(R.id.btn_close);
 
 
-
         addToShopCard();
-
 
 
         cardShowCard.setOnClickListener(view -> {
 
-            addFrg(CardFragment.newInstance(),"CardFragment");
+            addFrg(CardFragment.newInstance(), "CardFragment");
             this.dismiss();
         });
 
@@ -113,7 +111,7 @@ public class ZarinPalDialogFragment extends DialogFragment {
     }
 
 
-    private void addToShopCard(){
+    private void addToShopCard() {
 
         ArrayList<Integer> attribute = new ArrayList<>(attrList);
         ArrayList<Integer> products = new ArrayList<>(selectableIdList);
@@ -129,13 +127,9 @@ public class ZarinPalDialogFragment extends DialogFragment {
         if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
 
 
-            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
-                @Override
-                public void onToken(String token) {
+            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                    getActivity().runOnUiThread(() ->
 
                             repository.addToShopCard(token, model.getId(), attribute, products, extraAttribute, data -> {
                                 progPrice.setVisibility(View.GONE);
@@ -143,19 +137,17 @@ public class ZarinPalDialogFragment extends DialogFragment {
 
                                     AddToCardListModel temp = (AddToCardListModel) ((Result.Success) data).value;
 
-                                    if (null == temp.getError()){
+                                    if (null == temp.getError()) {
 
                                         txtTitle.setText("موفق");
                                         txtDesc.setVisibility(View.VISIBLE);
                                         txtDesc.setText("با موفقیت به سبد خرید اضافه شد.");
-                                    }else {
+                                    } else {
 
                                         txtTitle.setText("ناموفق");
                                         txtDesc.setVisibility(View.VISIBLE);
-                                        txtDesc.setText( temp.getError().getMessage());
+                                        txtDesc.setText(temp.getError().getMessage());
                                     }
-
-
 
 
                                 } else {
@@ -164,13 +156,7 @@ public class ZarinPalDialogFragment extends DialogFragment {
                                 }
 
 
-                            });
-
-                        }
-                    });
-
-                }
-            });
+                            })));
 
         }
 

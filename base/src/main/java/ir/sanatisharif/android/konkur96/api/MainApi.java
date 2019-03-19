@@ -189,4 +189,26 @@ public class MainApi {
             }
         });
     }
+
+    public void sendRegistrationToServer(int user_id, String firebaseToken, IServerCallbackObject iServerCallbackObject) {
+
+        Call<Object> sendTokenCall = api.getFirebaseToken(user_id, firebaseToken);
+
+        sendTokenCall.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+                if (response.isSuccessful()) {
+                    iServerCallbackObject.onSuccess(response.body());
+                    Log.i("LOG", "onResponse: " + response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                iServerCallbackObject.onFailure(t.getMessage());
+                Log.i("LOG", "onResponse: " + t.getMessage());
+            }
+        });
+    }
 }
