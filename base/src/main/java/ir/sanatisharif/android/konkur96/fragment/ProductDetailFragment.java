@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -43,6 +44,7 @@ import com.uncopt.android.widget.text.justify.JustifiedTextView;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -382,11 +384,14 @@ public class ProductDetailFragment extends BaseFragment {
 
             SelectableProductAdapter adapter = new SelectableProductAdapter(getContext(), items, new SelectableProductAdapter.CheckListeners() {
                 @Override
-                public void onItemCheck(ProductModel model, int position) {
+                public void onItemCheck(ProductModel model, int position, boolean isFirst) {
 
                     selectableList.add(model);
-                    addToSelectableIdList(model.getId());
-                    getPrice();
+                    addToSelectableIdList(model.getId(), isFirst);
+                    final Handler handler = new Handler();
+                    handler.postDelayed(() -> getPrice(), 700);
+
+                    Log.d("Amin",String.valueOf(selectableIdList));
 
                 }
 
@@ -395,7 +400,9 @@ public class ProductDetailFragment extends BaseFragment {
 
                     selectableList.remove(model);
                     removeToSelectableIdList(model.getId());
-                    getPrice();
+                    final Handler handler = new Handler();
+                    handler.postDelayed(() -> getPrice(), 700);
+                    Log.d("Amin",String.valueOf(selectableIdList));
                 }
             });
 
@@ -675,11 +682,20 @@ public class ProductDetailFragment extends BaseFragment {
     }
 
 
-    private void addToSelectableIdList(int val){
+    private void addToSelectableIdList(int val, boolean isFirst){
 
         if (!selectableIdList.contains(val)) {
 
-            selectableIdList.add(val);
+            if (isFirst){
+
+                selectableIdList.add(0, val);
+
+            }else {
+
+                selectableIdList.add(val);
+            }
+
+
         }
     }
 
@@ -697,6 +713,7 @@ public class ProductDetailFragment extends BaseFragment {
         ArrayList<Integer> mainAttributeValues = new ArrayList<>(attrList);
         ArrayList<Integer> extraAttributeValues = new ArrayList<>(attrExtraList);
         ArrayList<Integer> products = new ArrayList<>(selectableIdList);
+        Collections.sort(products);
         progPrice.setVisibility(View.VISIBLE);
 
         repository.getPrice(type,String.valueOf(model.getId()), products, mainAttributeValues, extraAttributeValues, data -> {
