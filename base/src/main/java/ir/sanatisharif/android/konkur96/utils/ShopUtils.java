@@ -176,7 +176,7 @@ public class ShopUtils {
 
             ProductModel temp = list.get(i);
 
-            items.add(new SelectableProduct(temp, false));
+            items.add(new SelectableProduct(temp, false, null, null));
         }
 
 

@@ -3,6 +3,7 @@ package ir.sanatisharif.android.konkur96.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -68,12 +69,23 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
             final String title = model.getProduct().getName();
             final int price = model.getProduct().getPrice().getMfinal();
+            final int discount = model.getProduct().getPrice().getBase();
             final String image = model.getProduct().getPhoto();
 
             final NoGrandProductViewHolder itemRowHolderNoGrand = (NoGrandProductViewHolder) holder;
 
             itemRowHolderNoGrand.txtTitle.setText(title);
             itemRowHolderNoGrand.txtPrice.setText(ShopUtils.formatPrice(price) + " تومان ");
+
+            if (discount > 0){
+                itemRowHolderNoGrand.txtDiscount.setVisibility(View.VISIBLE);
+                itemRowHolderNoGrand.txtDiscount.setText(ShopUtils.formatPrice(discount) + " تومان ");
+
+            }else {
+
+                itemRowHolderNoGrand.txtDiscount.setVisibility(View.GONE);
+
+            }
 
             itemRowHolderNoGrand.btnDel.setOnClickListener(view -> deleteListener.onClickDelete(model.getOrder_id()));
 
@@ -118,7 +130,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
     class GrandProductViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView, btnDel;
-        TextView txtTitle, txtPrice, txtProTitle;
+        TextView txtTitle, txtPrice, txtProTitle, txtDiscount;
 
 
         GrandProductViewHolder(View itemView) {
@@ -129,6 +141,8 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
             txtTitle = itemView.findViewById(R.id.title);
             txtProTitle = itemView.findViewById(R.id.pro_titel);
             txtPrice = itemView.findViewById(R.id.price);
+            txtDiscount = itemView.findViewById(R.id.txt_discount);
+            txtDiscount.setPaintFlags(txtDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
 
         }
@@ -137,7 +151,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
     class NoGrandProductViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView, btnDel;
-        TextView txtTitle, txtPrice;
+        TextView txtTitle, txtPrice, txtDiscount;
 
 
         NoGrandProductViewHolder(View itemView) {
@@ -147,6 +161,8 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
             btnDel = itemView.findViewById(R.id.btn_del);
             txtTitle = itemView.findViewById(R.id.title);
             txtPrice = itemView.findViewById(R.id.price);
+            txtDiscount = itemView.findViewById(R.id.txt_discount);
+            txtDiscount.setPaintFlags(txtDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         }
     }
