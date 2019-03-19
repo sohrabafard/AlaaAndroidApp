@@ -64,16 +64,14 @@ public class SplashActivity extends ActivityBase {
                 public void run() {
 
                     if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                          startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     }
-
                     finish();
-
                 }
             }, 1500);
         }
 
-        // Log.i(TAG, "onCreate: " + MyPreferenceManager.getInatanse().getFirebaseToken());
+        Log.i(TAG, "onCreate: " + MyPreferenceManager.getInatanse().getFirebaseToken());
 
         if (MyPreferenceManager.getInatanse().getFirebaseToken().length() == 0) {
 
@@ -101,7 +99,7 @@ public class SplashActivity extends ActivityBase {
     }
 
     private void retrieveToken() {
-        Log.i(TAG, "onCreate: 2 " );
+        Log.i(TAG, "onCreate: 2 ");
         FirebaseInstanceId.getInstance().getInstanceId().
                 addOnSuccessListener(SplashActivity.this, new OnSuccessListener<InstanceIdResult>() {
                     @Override

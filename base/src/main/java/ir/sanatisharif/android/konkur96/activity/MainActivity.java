@@ -91,8 +91,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         }
 
-
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+       // mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         accountInfo = new AccountInfo(getApplicationContext(), this);
         containerHeight(this);
         fragments = new Stack<>();
@@ -102,9 +101,9 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         initUI();
 
         //-----------add FirstFragment
-        addFrg(AllaMainFrg.newInstance(), "alla");
-
-        //-------- handle deep link
+       addFrg(AllaMainFrg.newInstance(), "alla");
+//
+//        //-------- handle deep link
         if (getIntent() != null)
             handleIntent(getIntent());
 
@@ -205,7 +204,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                     String amount = appLinkData.getQueryParameter("a");
                     String authority = appLinkData.getQueryParameter("Authority");
 
-                    handlerZarinPalCallBack(amount, authority);
+                    //handlerZarinPalCallBack(amount, authority);
                 }
 
             } else if (appLinkData.getPath().startsWith("/shop")) {

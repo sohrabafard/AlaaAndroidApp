@@ -106,6 +106,9 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
 
     private void getData() {
 
+        items.clear();
+        adapter.notifyDataSetChanged();
+
         swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
 
         repository.getMainShop(data -> {

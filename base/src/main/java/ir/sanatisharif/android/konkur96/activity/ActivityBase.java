@@ -52,7 +52,6 @@ public class ActivityBase extends AppCompatActivity {
         AppConfig.width = dm.widthPixels;
         AppConfig.height = dm.heightPixels;
 
-
         return (int) (dm.heightPixels / 3);
     }
 
