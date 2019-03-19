@@ -69,6 +69,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
     private static AHBottomNavigation bottomNavigation;
     private static Stack<Fragment> fragments;
+
     private static FragmentManager fm;
     private Repository repository;
 
