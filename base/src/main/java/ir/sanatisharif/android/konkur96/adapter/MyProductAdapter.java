@@ -40,8 +40,6 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.Cont
     @Override
     public void onBindViewHolder(final ContentHolder holder, final int position) {
 
-
-
         ProductModel item = itemsList.get(position);
 
         holder.customShopItemView.setClickItem(position, item);

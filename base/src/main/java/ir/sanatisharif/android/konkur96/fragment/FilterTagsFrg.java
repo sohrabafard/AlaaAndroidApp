@@ -140,7 +140,6 @@ public class FilterTagsFrg extends BaseFragment implements
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -148,7 +147,6 @@ public class FilterTagsFrg extends BaseFragment implements
             Events.CloseFragment closeFragment = new Events.CloseFragment();
             closeFragment.setTagFragments("");
             EventBus.getDefault().post(closeFragment);
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -233,7 +231,6 @@ public class FilterTagsFrg extends BaseFragment implements
         }
         myFilterAdapter.notifyDataSetChanged();
 
-
         for (int i = 0; i < NUMBER_TABS; i++) {
             if (tabControls[i].isShow()) {
                 TabLayout.Tab tab = tabLayout.getTabAt(tabCount++);
@@ -274,6 +271,7 @@ public class FilterTagsFrg extends BaseFragment implements
 
     }
 
+    //<editor-fold desc="getDataBySearch">
     private void getDataBySearch(String query) {
 
         loaderParent.setVisibility(View.VISIBLE);
@@ -292,6 +290,7 @@ public class FilterTagsFrg extends BaseFragment implements
             }
         });
     }
+    //</editor-fold>
 
     private void getDataByUrl() {
 

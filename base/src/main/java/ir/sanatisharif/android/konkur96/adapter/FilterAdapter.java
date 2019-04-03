@@ -84,7 +84,6 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         else if (viewType == AppConstants.FILTER_PRODUCT)
             return new ProductHolder(LayoutInflater.from(mContext).inflate(R.layout.item_filter_product, parent, false));
 
-
         return null;
     }
 
@@ -348,7 +347,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public class ProductHolder extends RecyclerView.ViewHolder {
+    public class ProductHolder extends RecyclerView.ViewHolder  {
 
         private ImageView imageView;
         private CardView cardViewRoot;
@@ -366,6 +365,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             setTypeFace(txtn);
             setTypeFace(txtPrice);
             setTypeFace(txtDiscount);
+            //ripple(cardViewRoot, 0);
         }
 
         void setTypeFace(View view) {

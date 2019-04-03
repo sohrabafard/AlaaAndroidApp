@@ -34,6 +34,7 @@ import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
+import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
@@ -42,6 +43,7 @@ import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.model.user.User;
+import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
@@ -54,12 +56,12 @@ public class DashboardMainFrg extends BaseFragment {
 
     private User user;
     private AccountInfo accountInfo;
-    private LinearLayout linStudentInfo, linDashboardHeader, linStudentImage;
     private ImageView imgUser;
     private Toolbar mToolbar;
     private RecyclerView myRecyclerView;
     private TextView txtNationalCode, txtMobile, txtFullName, txtField;
-    private View itemVideo, itemBag, itemAboutMe, itemProfile, itemBasket;
+    private LinearLayout itemVideo, itemAboutMe, itemNewOrder, itemBasket;
+    private FloatingActionButton fabItemVideo, fabItemAboutMe, fabItemNewOrder, fabItemBasket;
 
     private MainItemAdapter adapter;
     private List<MainItem> items = new ArrayList<>();
@@ -87,15 +89,8 @@ public class DashboardMainFrg extends BaseFragment {
         user = accountInfo.getInfo(ACCOUNT_TYPE);
         initUi(view);
         setData();
-
     }
 
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_dashbard, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,6 +112,10 @@ public class DashboardMainFrg extends BaseFragment {
     private void initUi(View view) {
 
         setToolbar(mToolbar, "داشبورد");
+
+        getFragmentManager().beginTransaction()
+                .add(R.id.fl_container_profile, MyProduct.newInstance(), "your fragment here")
+                .commit();
 
         //init
 
@@ -142,39 +141,52 @@ public class DashboardMainFrg extends BaseFragment {
         itemBasket = view.findViewById(R.id.itemBasket);
         itemAboutMe = view.findViewById(R.id.itemAboutMe);
         itemVideo = view.findViewById(R.id.itemVideo);
-        itemBag = view.findViewById(R.id.itemBag);
-        itemProfile = view.findViewById(R.id.itemProfile);
+        itemNewOrder = view.findViewById(R.id.itemNewOrder);
 
-
-
+        fabItemBasket = itemBasket.findViewById(R.id.fabTitle);
+        fabItemAboutMe = itemAboutMe.findViewById(R.id.fabTitle);
+        fabItemVideo = itemVideo.findViewById(R.id.fabTitle);
+        fabItemNewOrder = itemNewOrder.findViewById(R.id.fabTitle);
 
         ((TextView) itemBasket.findViewById(R.id.txtTitle)).setText("سبدخرید");
         ((TextView) itemAboutMe.findViewById(R.id.txtTitle)).setText("درباره ما");
         ((TextView) itemVideo.findViewById(R.id.txtTitle)).setText("ویدیو");
-        ((TextView) itemBag.findViewById(R.id.txtTitle)).setText("کیف پول");
-        ((TextView) itemProfile.findViewById(R.id.txtTitle)).setText("پروفایل");
+        ((TextView) itemNewOrder.findViewById(R.id.txtTitle)).setText("لیست سفارش ها");
 
-        itemBasket.findViewById(R.id.txtTitle).setOnClickListener(view1 -> addFrg(CardFragment.newInstance(), "CardFragment"));
-        itemBasket.setOnClickListener(view1 -> addFrg(CardFragment.newInstance(), "CardFragment"));
-        itemBasket.findViewById(R.id.fabTitle).setOnClickListener(view1 -> addFrg(CardFragment.newInstance(), "CardFragment"));
+        fabItemBasket.setImageResource(R.drawable.ic_buy);//
+        fabItemAboutMe.setImageResource(R.drawable.ic_call);
+        fabItemVideo.setImageResource(R.drawable.ic_video_24dp);//
+        fabItemNewOrder.setImageResource(R.drawable.ic_gift);
 
-
-        itemProfile.findViewById(R.id.txtTitle).setOnClickListener(view1 -> addFrg(MyProduct.newInstance(), "MyProduct"));
-        itemProfile.setOnClickListener(view1 -> addFrg(MyProduct.newInstance(), "MyProduct"));
-        itemProfile.findViewById(R.id.fabTitle).setOnClickListener(view1 -> addFrg(MyProduct.newInstance(), "MyProduct"));
-
-
-
+        fabItemBasket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addFrg(CardFragment.newInstance(), "CardFragment");
+            }
+        });
+        fabItemAboutMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addFrg(AbouteMeFrg.newInstance(), "AbouteMeFrg");
+            }
+        });
+        fabItemVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addFrg(VideoDownloadedFrg.newInstance(), "VideoDownloadedFrg");
+            }
+        });
+        fabItemNewOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ActivityBase.toastShow(getString(R.string.newOrder), MDToast.TYPE_INFO);
+            }
+        });
     }
 
     //<editor-fold desc="set data">
     private void setData() {
         if (user != null) {
-//            GlideApp.with(AppConfig.context)
-//                    .load("")
-//                    .transform(new CircleTransform(getContext()))
-//                    .placeholder(R.mipmap.ic_launcher)
-//                    .into(imgUser);
 
             if (user.getLastName() != null && user.getFirstName() != null)
                 txtFullName.setText(user.getFirstName() + " " + user.getLastName());
@@ -185,82 +197,12 @@ public class DashboardMainFrg extends BaseFragment {
             if (user.getNationalCode() != null)
                 txtNationalCode.setText(user.getNationalCode());
         }
-
-        //loadVideoOffline();
     }
     //</editor-fold>
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Subscribe
-    public void getVideos(Events.VideoDeleted videoDeleted) {
-//
-//        List<Video> videos = items.get(0).getVideos();//item 0 is video list
-//        videos.remove(videoDeleted.getPosition());
-//        Log.i("LOG", "getVideos: "+videoDeleted.getPosition());
-//        items.get(0).setVideos(videos);
-//        adapter.notifyItemRemoved(videoDeleted.getPosition());
-    }
-
-//    private void loadVideoOffline() {
-//
-//        MainItem item;
-//
-//        // Only runs on API levels < 26.
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-//            // Only runs in an Installed App.
-//            if (!InstantApps.isInstantApp(getContext())) {
-//
-//                if (FileManager.checkFileExist(FileManager.getMediaPath())) {
-//
-//                    //add header to recycler view
-//                    item = new MainItem();
-//                    item.setId(0);
-//                    item.setTitle("دانلود شده ها");
-//                    item.setUrl(AppConstants.MORE_VIDEO_OFFLINE);
-//                    item.setType(AppConstants.HEADER_DATA);
-//                    items.add(item);
-//
-//                    //get video offline
-//                    FileManager.getInstance().clearFilesList();
-//                    FileManager.getInstance().getFilesInDirs(new File(FileManager.getMediaPath()));
-//                    ArrayList<File> files = FileManager.getInstance().getFilesArrayList();
-//                    ArrayList<Video> videos = new ArrayList<>();
-//
-//                    if (files != null) {
-//
-//                        for (File f : files) {
-//
-//                            Video v = new Video();
-//                            v.setName(f.getName());
-//                            v.setPath(f.getPath());
-//                            v.setSize(f.length() + "");
-//                            videos.add(v);
-//                        }
-//                    }
-//                    item = new MainItem();
-//                    item.setId(0);
-//                    item.setType(AppConstants.VIDEO_OFFLINE_ITEM);
-//                    item.setVideos(videos);
-//                    items.add(item);
-//
-//                }
-//            }
-//        }
-//        adapter.notifyDataSetChanged();
-//
-//    }
 }
+
+
+
+
 
 
