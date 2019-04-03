@@ -17,6 +17,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class ViewSliderAdapter extends PagerAdapter {
     }
 
     private void setSize() {
-         h = (int) (AppConfig.width * 0.39f);
+        h = (int) (AppConfig.width * 0.39f);
 
         requestOptions = new RequestOptions()
                 .override(AppConfig.width, h)
@@ -68,22 +69,30 @@ public class ViewSliderAdapter extends PagerAdapter {
         img.getLayoutParams().height = h;
 
 
-        Glide.with(mContext)
-                .load(imageList.get(position).getUrl())
-                .apply(requestOptions)
-                .into(new SimpleTarget<Drawable>() {//1280, 500
-                    @Override
-                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                        img.setImageDrawable(resource);
-                        Log.i("LOG", "onLoadFailed: ok " + imageList.get(position).getUrl());
-                    }
+//        Glide.with(mContext)
+//                .load(imageList.get(position).getUrl())
+//                .apply(requestOptions)
+//                .into(new SimpleTarget<Drawable>() {//1280, 500
+//                    @Override
+//                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+//                        img.setImageDrawable(resource);
+//                        Log.i("LOG", "onLoadFailed: ok " + imageList.get(position).getUrl());
+//                    }
+//
+//                    @Override
+//                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+//                        super.onLoadFailed(errorDrawable);
+//                        Log.i("LOG", "onLoadFailed: " + errorDrawable.toString());
+//                    }
+//                });
 
-                    @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        super.onLoadFailed(errorDrawable);
-                        Log.i("LOG", "onLoadFailed: " + errorDrawable.toString());
-                    }
-                });
+
+        Picasso.with(mContext)
+                .load(imageList.get(position).getUrl())
+                //  .fit()
+                .centerCrop()
+                .resize(1280, 500)
+                .into(img);
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override

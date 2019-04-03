@@ -45,7 +45,6 @@ import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
 
 public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
-    private EndlessRecyclerViewScrollListener endLess;
     private LinearLayoutManager manager;
     private RecyclerView myRecyclerView;
     private NestedScrollView nestedScrollView;
@@ -116,7 +115,6 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
                 View view = nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
                 int diff = (view.getBottom() - (nestedScrollView.getHeight() + nestedScrollView.getScrollY()));
-                //  Log.i("LOG", "scrollUp:12 dy > 0  "+ nestedScrollView.getScrollY()+" "+nestedScrollView.getHeight());
                 if (diff == 0) {
                     if (pagination != null) {
                         if (pagination.getNextPageUrl() != null) {
@@ -212,6 +210,9 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                 } else if (type == AppConstants.FILTER_SET) {
                     mList.addAll(filter.getResult().getSet().getData());
                     pagination = filter.getResult().getSet();
+                } else if (type == AppConstants.FILTER_PRODUCT) {
+                    mList.addAll(filter.getResult().getProduct().getData());
+                    pagination = filter.getResult().getProduct();
                 }
 
                 adapter.notifyItemMoved(size, mList.size() - 1);
@@ -270,8 +271,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
     @Override
     public void onCheckNetwork(boolean flag) {
         if (flag) {
-            if (endLess != null)
-                endLess.moreLoading();
+            ;
         } else
             show();
     }

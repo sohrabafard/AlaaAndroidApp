@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -41,36 +42,25 @@ import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
-import ir.sanatisharif.android.konkur96.model.BannerItem;
-import ir.sanatisharif.android.konkur96.model.BoughtItem;
-import ir.sanatisharif.android.konkur96.model.Events;
-import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
-import ir.sanatisharif.android.konkur96.model.MainBoughtItem;
-import ir.sanatisharif.android.konkur96.model.ViewSlider;
 import ir.sanatisharif.android.konkur96.model.user.User;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
-public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class MyProduct extends Fragment {
 
-    Toolbar pageToolbar;
-    RecyclerView productMainRecyclerView;
-    TextView txtWallet;
+    private RecyclerView productMainRecyclerView;
+    private TextView txtWallet;
     private GridLayoutManager gridLayoutManager;
 
-    Repository repository;
+    private Repository repository;
     private AccountInfo accountInfo;
     private User user;
-
-    private SwipeRefreshLayout swipeRefreshLayout;
-
 
     private MyProductAdapter adapter;
     private ArrayList<ProductModel> items = new ArrayList<>();
 
-    myProductsModel myProductsModel;
-
+    private myProductsModel myProductsModel;
 
     public static MyProduct newInstance() {
 
@@ -81,14 +71,11 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
         return fragment;
     }
 
-
-
+    @Nullable
     @Override
-    public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_myproduct, container, false);
     }
-
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -99,50 +86,13 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
         user = accountInfo.getInfo(ACCOUNT_TYPE);
 
         initView(view);
-
         getData();
 
-
-
-
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main_shop, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.actionSetting) {
-
-        }
-        if (id == android.R.id.home) {
-            Events.CloseFragment closeFragment = new Events.CloseFragment();
-            closeFragment.setTagFragments("");
-            EventBus.getDefault().post(closeFragment);
-
-        } else if (id == R.id.actionSetting) {
-            startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     private void initView(View v) {
 
         txtWallet = v.findViewById(R.id.txt_wallet);
-
-        //swipeRefreshLayout
-        swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
-        swipeRefreshLayout.setOnRefreshListener(this);
 
         //recyclerView
         productMainRecyclerView = v.findViewById(R.id.recyclerView_main_bought);
@@ -154,18 +104,14 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
         productMainRecyclerView.setAdapter(adapter);
         productMainRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        setHasOptionsMenu(true);
-        setToolbar(pageToolbar, "آلاء مجری توسعه عدالت آموزشی");
-
     }
 
 
     private void getData() {
 
-        swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
+        //  swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
 
         if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
-
 
             accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
 
@@ -176,11 +122,11 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
                                 if (data instanceof Result.Success) {
 
                                     setData((myProductsModel) ((Result.Success) data).value);
-                                    swipeRefreshLayout.setRefreshing(false);
+                                   // swipeRefreshLayout.setRefreshing(false);
                                 } else {
 
                                     Log.d("Test", (String) ((Result.Error) data).value);
-                                    swipeRefreshLayout.setRefreshing(false);
+                                   // swipeRefreshLayout.setRefreshing(false);
                                 }
 
 
@@ -205,14 +151,12 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
 //
 //        });
 
-
     }
-
 
     private void setData(myProductsModel data) {
 
         Gson gson = new Gson();
-        WalletModel walletModel = gson.fromJson(String.valueOf(user.getInfo().getWallet()).replace("[","").replace("]", ""), WalletModel.class);
+        WalletModel walletModel = gson.fromJson(String.valueOf(user.getInfo().getWallet()).replace("[", "").replace("]", ""), WalletModel.class);
 
         txtWallet.setText(walletModel.getBlance() + " تومان ");
 
@@ -221,22 +165,11 @@ public class MyProduct extends BaseFragment implements SwipeRefreshLayout.OnRefr
 
         txtWallet.setText(String.valueOf(user.getInfo().getWallet()));
 
-
         items.addAll(data.getData().get(0).getProducts());
-
 
         //---------------------- update adapter ------------------------------------------------
         adapter.notifyDataSetChanged();
     }
-
-
-    @Override
-    public void onRefresh() {
-        items.clear();
-        getData();
-    }
-
-
 
 }
 

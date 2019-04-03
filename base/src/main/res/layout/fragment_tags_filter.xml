@@ -68,6 +68,7 @@
         android:padding="4dp"
         android:src="@drawable/ic_filter"
         app:fabSize="normal"
+        app:backgroundTint="@color/shades_3"
         app:layout_anchorGravity="bottom|right|end" />
 
 

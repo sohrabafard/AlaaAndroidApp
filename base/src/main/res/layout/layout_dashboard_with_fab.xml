@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:minWidth="100dp"
-    android:orientation="vertical"
-    android:id="@+id/btn_card">
+    android:orientation="vertical">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabTitle"
@@ -17,15 +17,14 @@
         app:backgroundTint="@color/shades_1"
         app:elevation="1dp"
         app:fabSize="normal"
-        app:rippleColor="@color/colorPrimaryDark"
-        app:srcCompat="@drawable/ic_article" />
+        app:rippleColor="@color/colorPrimaryDark" />
 
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
-        android:text="Messages"
+        android:text=""
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
 </LinearLayout>

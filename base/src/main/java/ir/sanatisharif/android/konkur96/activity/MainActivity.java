@@ -69,6 +69,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
     private static AHBottomNavigation bottomNavigation;
     private static Stack<Fragment> fragments;
+
     private static FragmentManager fm;
     private Repository repository;
 
@@ -204,7 +205,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                     String amount = appLinkData.getQueryParameter("a");
                     String authority = appLinkData.getQueryParameter("Authority");
 
-                    //handlerZarinPalCallBack(amount, authority);
+                    handlerZarinPalCallBack(amount, authority);
                 }
 
             } else if (appLinkData.getPath().startsWith("/shop")) {
@@ -294,7 +295,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     }
 
     public void close() {
-
 
         if (fragments.size() > 1) {
 

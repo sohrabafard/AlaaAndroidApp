@@ -27,6 +27,7 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 
 import ir.sanatisharif.android.konkur96.model.Item;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
+import ir.sanatisharif.android.konkur96.ui.GlideApp;
 
 
 /**
@@ -171,14 +172,17 @@ public class CustomItemView extends LinearLayout {
 
     private void loadImageWithGlide(String url) {
 
-        RequestOptions requestOptions = new RequestOptions()
-                .override(width, height)
-                .dontTransform()
-                .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
-                .fitCenter();
-        Glide.with(getContext())
+//        RequestOptions requestOptions = new RequestOptions()
+//                .override(width, height)
+//                .dontTransform()
+//                .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
+//                .fitCenter();
+
+        GlideApp
+                .with(mContext)
                 .load(url)
-                .apply(requestOptions)
+                .override(width, height)
+                .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
                 .into(new SimpleTarget<Drawable>(460, 259) {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {

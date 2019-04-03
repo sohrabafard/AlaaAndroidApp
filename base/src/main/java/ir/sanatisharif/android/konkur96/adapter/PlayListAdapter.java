@@ -41,8 +41,8 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
     public PlayListAdapter(Context context, List<VideoCourse> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
-        setSize();
         pos = -1;
+        setSize();
     }
 
     private void setSize() {
@@ -64,7 +64,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
     }
 
     public void setOnClick(OnItemClickListener onItemClickListener) {
-
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -82,9 +81,9 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
 
         if (pos > -1 && position == pos) {
             if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                holder.root.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
+                holder.linearBottom.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
             } else {
-                holder.root.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
+                holder.linearBottom.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
             }
         } else {
             holder.root.setBackgroundColor(mContext.getResources().getColor(R.color.White));
@@ -95,7 +94,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
 
         Glide.with(mContext)
                 .load(item.getThumbnail())
-
+                .apply(requestOptions)
                 .into(new SimpleTarget<Drawable>(460, 259) {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
@@ -132,7 +131,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
 
     public class VideoHolder extends RecyclerView.ViewHolder {
 
-        private LinearLayout root;
+        private LinearLayout root,linearBottom;
         private ImageView imgPlayList;
         private TextView txtTitle, txtSession;
 
@@ -140,6 +139,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
             super(view);
 
             root = view.findViewById(R.id.root);
+            linearBottom = view.findViewById(R.id.linearBottom);
             imgPlayList = view.findViewById(R.id.imgPlayList);
             txtTitle = view.findViewById(R.id.txtTitle);
             txtSession = view.findViewById(R.id.txtSession);

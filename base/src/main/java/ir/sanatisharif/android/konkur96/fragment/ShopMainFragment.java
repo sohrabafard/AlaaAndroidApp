@@ -77,20 +77,12 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
         getData();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main_shop, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
 
-        if (id == R.id.actionSetting) {
-
-        }
         if (id == android.R.id.home) {
             Events.CloseFragment closeFragment = new Events.CloseFragment();
             closeFragment.setTagFragments("");
@@ -206,7 +198,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
                 .build();
 
         setHasOptionsMenu(true);
-        setToolbar(pageToolbar, "آلاء مجری توسعه عدالت آموزشی");
+        setToolbar(pageToolbar, "فروشگاه آلاء");
 
     }
 

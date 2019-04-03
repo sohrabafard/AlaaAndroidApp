@@ -6,6 +6,9 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.KeyguardManager;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LifecycleRegistry;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -101,6 +104,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
     private final static String TAG = "LOG";
 
+   // private LifecycleRegistry lifecycleRegistry;
     private static List<VideoCourse> videoCourses;
     private DataCourse course;
     private static int positionPlaying;
@@ -162,6 +166,12 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         return fragment;
     }
 
+//    @Override
+//    public LifecycleRegistry getLifecycle() {
+//        return lifecycleRegistry;
+//    }
+
+
     public static DetailsVideoFrg newInstance(String url) {
 
         Bundle args = new Bundle();
@@ -171,6 +181,13 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+       // lifecycleRegistry = new LifecycleRegistry(this);
+       // lifecycleRegistry.markState(Lifecycle.State.CREATED);
+
+    }
 
     @Override
     public void onStart() {
@@ -180,8 +197,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         filter.addAction("android.intent.action.PHONE_STATE");
         getActivity().registerReceiver(phoneStateReceiver, filter);
         initWakeLockScreen();
-    }
+       // lifecycleRegistry.markState(Lifecycle.State.STARTED);
 
+    }
 
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -295,11 +313,11 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         } else if (i == R.id.imgPlay) {
 
-           if (null != course){
+            if (null != course) {
 
-               if (!checkExistVideo(course.getFile().getVideo()))
-                   mUrl = course.getFile().getVideo().get(0).getUrl();
-           }
+                if (!checkExistVideo(course.getFile().getVideo()))
+                    mUrl = course.getFile().getVideo().get(0).getUrl();
+            }
             initExoPlayer(mUrl);
 
             relativePreview.setVisibility(View.GONE);
@@ -395,15 +413,20 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             }
         });
 
+        Log.i(TAG, "run: " + positionPlaying);
         //select item
         playListAdapter.setItemSelect(positionPlaying);
         playListAdapter.notifyDataSetChanged();
-      //  SnapHelper snapHelper = new PagerSnapHelper();
-     //   snapHelper.attachToRecyclerView(recyclerPlayList);
+
+        //  SnapHelper snapHelper = new PagerSnapHelper();
+        //   snapHelper.attachToRecyclerView(recyclerPlayList);
         AppConfig.HANDLER.postDelayed(new Runnable() {
             @Override
             public void run() {
-                recyclerPlayList.smoothScrollToPosition(positionPlaying);
+                try {
+                    recyclerPlayList.smoothScrollToPosition(positionPlaying);
+                } catch (Exception ex) {
+                }
             }
         }, 500);
 
@@ -777,7 +800,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
 
         km = (KeyguardManager) getContext().getSystemService(KEYGUARD_SERVICE);
-        if (null != km){
+        if (null != km) {
             kl = km.newKeyguardLock("alla");
         }
 

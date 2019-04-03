@@ -3,21 +3,17 @@ package ir.sanatisharif.android.konkur96.adapter;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.fragment.FilterShowEntityFrg;
-import ir.sanatisharif.android.konkur96.fragment.RegisterFrg;
 
 /**
  * Created by Mohamad on 3/2/2019.
