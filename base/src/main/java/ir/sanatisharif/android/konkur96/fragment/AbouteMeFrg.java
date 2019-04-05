@@ -15,10 +15,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.uncopt.android.widget.text.justify.JustifiedTextView;
+
 import org.greenrobot.eventbus.EventBus;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.model.Events;
 
 /**
@@ -29,6 +30,7 @@ public class AbouteMeFrg extends BaseFragment {
 
     private Toolbar mToolbar;
     private ImageView imgTelegram, imgInstagram;
+    private JustifiedTextView txtContentAboutMe;
 
     public static AbouteMeFrg newInstance() {
 
@@ -80,8 +82,11 @@ public class AbouteMeFrg extends BaseFragment {
 
         setToolbar(mToolbar, getString(R.string.txt_aboute_alla));
 
+        txtContentAboutMe = view.findViewById(R.id.txtContentAboutMe);
         imgInstagram = view.findViewById(R.id.imgInstagram);
         imgTelegram = view.findViewById(R.id.imgTelegram);
+
+        txtContentAboutMe.setText(getString(R.string.aboutMe));
 
         imgTelegram.setOnClickListener(new View.OnClickListener() {
             @Override
