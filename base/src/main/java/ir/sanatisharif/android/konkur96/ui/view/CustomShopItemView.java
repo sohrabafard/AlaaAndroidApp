@@ -13,8 +13,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
@@ -22,7 +25,6 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.ShopItem;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
 
 
 public class CustomShopItemView extends LinearLayout {
@@ -79,7 +81,7 @@ public class CustomShopItemView extends LinearLayout {
         this.item = item;
     }
 
-    public void setBackColor(int color){
+    public void setBackColor(int color) {
 
         cardViewRoot.setCardBackgroundColor(color);
     }
@@ -111,7 +113,7 @@ public class CustomShopItemView extends LinearLayout {
         txtDiscount.setText(discount + " تومان ");
     }
 
-    public void setVisibilityDiscount(int visibility){
+    public void setVisibilityDiscount(int visibility) {
         this.txtDiscount.setVisibility(visibility);
     }
 
@@ -161,10 +163,15 @@ public class CustomShopItemView extends LinearLayout {
 
     private void loadImageWithGlide(String url) {
 
-        GlideApp.with(AppConfig.context)
-                .load(url)
+        RequestOptions requestOptions = new RequestOptions()
                 .override(200, 250)
-                //.transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
+                .dontTransform()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .placeholder(R.mipmap.ic_launcher)
+                .fitCenter();
+        Glide.with(AppConfig.context)
+                .load(url)
+                .apply(requestOptions)
                 .into(new SimpleTarget<Drawable>(460, 259) {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {

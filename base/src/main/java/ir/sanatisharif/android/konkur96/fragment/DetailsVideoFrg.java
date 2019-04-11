@@ -3,23 +3,29 @@ package ir.sanatisharif.android.konkur96.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.KeyguardManager;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LifecycleRegistry;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.util.Log;
@@ -29,7 +35,6 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -64,6 +69,7 @@ import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
 import ir.sanatisharif.android.konkur96.adapter.PlayListAdapter;
 import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.DeleteFileDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.DownloadDialogFrg;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
@@ -73,9 +79,12 @@ import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.Video;
+import ir.sanatisharif.android.konkur96.model.filter.Filter;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
+import ir.sanatisharif.android.konkur96.model.filter.VideoRoot;
+import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 import me.gujun.android.taggroup.TagGroup;
 
@@ -95,6 +104,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
     private final static String TAG = "LOG";
 
+   // private LifecycleRegistry lifecycleRegistry;
     private static List<VideoCourse> videoCourses;
     private DataCourse course;
     private static int positionPlaying;
@@ -123,7 +133,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private ImageView imgArrow;
     private RecyclerView recyclerPlayList;
     private PlayListAdapter playListAdapter;
-
+    private LinearLayoutManager managerPlayList;
+    private EndlessRecyclerViewScrollListener endLess;
+    public static Pagination pagination;
     //player
     private PlaybackControlView controlView;
     private SimpleExoPlayer player;
@@ -149,10 +161,16 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         Bundle args = new Bundle();
         DetailsVideoFrg fragment = new DetailsVideoFrg();
         fragment.setArguments(args);
-        videoCourses = (List<VideoCourse>) v;
+        videoCourses = (List<VideoCourse>) v;//get video list
         positionPlaying = pos;
         return fragment;
     }
+
+//    @Override
+//    public LifecycleRegistry getLifecycle() {
+//        return lifecycleRegistry;
+//    }
+
 
     public static DetailsVideoFrg newInstance(String url) {
 
@@ -163,6 +181,13 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+       // lifecycleRegistry = new LifecycleRegistry(this);
+       // lifecycleRegistry.markState(Lifecycle.State.CREATED);
+
+    }
 
     @Override
     public void onStart() {
@@ -172,8 +197,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         filter.addAction("android.intent.action.PHONE_STATE");
         getActivity().registerReceiver(phoneStateReceiver, filter);
         initWakeLockScreen();
-    }
+       // lifecycleRegistry.markState(Lifecycle.State.STARTED);
 
+    }
 
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -189,6 +215,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         if (getArguments().getString("url") != null) {
             String url = getArguments().getString("url");
             String id = url.substring(url.lastIndexOf("/") + 1);
+            this.mUrl = url;
             getData(id);
         } else//get data from list
         {
@@ -213,6 +240,29 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             }
         });
     }
+
+    private void getDataByUrl(String url) {
+
+        MainApi.getInstance().getFilterTagsByUrl(url, new IServerCallbackObject() {
+            @Override
+            public void onSuccess(Object obj) {
+                Filter filter = (Filter) obj;
+
+                if (filter.getResult().getVideo() != null) {
+                    videoCourses.addAll(filter.getResult().getVideo().getData());
+                    pagination = filter.getResult().getVideo();
+                    Log.i(TAG, "onLoadMore: " + playListAdapter.getItemCount() + " " + videoCourses.size());
+                    playListAdapter.notifyItemMoved(playListAdapter.getItemCount(), videoCourses.size() - 1);
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Log.i(TAG, "onSuccess:error " + message);
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -263,8 +313,11 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         } else if (i == R.id.imgPlay) {
 
-            if (!checkExistVideo(course.getFile().getVideo()))
-                mUrl = course.getFile().getVideo().get(0).getUrl();
+            if (null != course) {
+
+                if (!checkExistVideo(course.getFile().getVideo()))
+                    mUrl = course.getFile().getVideo().get(0).getUrl();
+            }
             initExoPlayer(mUrl);
 
             relativePreview.setVisibility(View.GONE);
@@ -338,6 +391,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     private void setData() {
 
+        //load info
         Utils.loadGlide(imgPreview,
                 course.getThumbnail(),
                 mExoPlayerView.getLayoutParams().width, mExoPlayerView.getLayoutParams().height);
@@ -347,6 +401,8 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         txtDesc.setText(Html.fromHtml(course.getDescription()));
         tagGroup.setTags(course.getTags().getTags());
 
+        if (course.getFile() != null && course.getFile().getVideo().size() > 0)
+            checkExistVideo(course.getFile().getVideo());
 
         tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
             @Override
@@ -356,9 +412,24 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 addFrg(FilterTagsFrg.newInstance(null, tags), "FilterTagsFrg");
             }
         });
-        if (course.getFile() != null && course.getFile().getVideo().size() > 0)
-            checkExistVideo(course.getFile().getVideo());
+
+        Log.i(TAG, "run: " + positionPlaying);
+        //select item
+        playListAdapter.setItemSelect(positionPlaying);
         playListAdapter.notifyDataSetChanged();
+
+        //  SnapHelper snapHelper = new PagerSnapHelper();
+        //   snapHelper.attachToRecyclerView(recyclerPlayList);
+        AppConfig.HANDLER.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    recyclerPlayList.smoothScrollToPosition(positionPlaying);
+                } catch (Exception ex) {
+                }
+            }
+        }, 500);
+
     }
 
     private void initView(View view, Bundle savedInstanceState) {
@@ -405,14 +476,14 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         myRecyclerView.setNestedScrollingEnabled(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
         myRecyclerView.setLayoutManager(layoutManager);
-        adapter = new MainItemAdapter(AppConfig.context, items, GlideApp.with(this));
+        adapter = new MainItemAdapter(AppConfig.context, items);
         adapter.setSize(AppConfig.width, AppConfig.height);
         myRecyclerView.setAdapter(adapter);
 
         //--------------play list
-        playListAdapter = new PlayListAdapter(getContext(), videoCourses, GlideApp.with(getContext()));
-        recyclerPlayList.setLayoutManager(new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false));
+        playListAdapter = new PlayListAdapter(getContext(), videoCourses);
+        managerPlayList = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerPlayList.setLayoutManager(managerPlayList);
         recyclerPlayList.setAdapter(playListAdapter);
         playListAdapter.setOnClick(new OnItemClickListener() {
             @Override
@@ -426,8 +497,17 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 playListAdapter.setItemSelect(positionPlaying);
             }
         });
+        endLess = new EndlessRecyclerViewScrollListener(managerPlayList) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
 
-        // mediaVideoFrame.setVisibility(View.GONE);
+                if (pagination.getNextPageUrl() != null) {
+                    getDataByUrl(pagination.getNextPageUrl());
+                }
+            }
+        };
+        recyclerPlayList.addOnScrollListener(endLess);
+
         resizePlayer();
         setRipple();
 
@@ -711,6 +791,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     //</editor-fold>
 
     //<editor-fold desc="lock">
+    @SuppressLint("InvalidWakeLockTag")
     private void initWakeLockScreen() {
         pm = (PowerManager) getContext().getSystemService(POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
@@ -719,7 +800,10 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
 
         km = (KeyguardManager) getContext().getSystemService(KEYGUARD_SERVICE);
-        kl = km.newKeyguardLock("alla");
+        if (null != km) {
+            kl = km.newKeyguardLock("alla");
+        }
+
 
     }
 

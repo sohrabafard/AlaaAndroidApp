@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
 public class ProductModel implements Parcelable {
 
@@ -77,6 +78,9 @@ public class ProductModel implements Parcelable {
     @SerializedName("children")
     private ArrayList<ProductModel> children;
 
+    @SerializedName("sets")
+    private ArrayList<ProductSetModel> sets;
+
 
     protected ProductModel(Parcel in) {
         id = in.readInt();
@@ -97,6 +101,7 @@ public class ProductModel implements Parcelable {
         price = in.readParcelable(PriceModel.class.getClassLoader());
         bons = in.createTypedArrayList(BonModel.CREATOR);
         children = in.createTypedArrayList(ProductModel.CREATOR);
+        sets = in.createTypedArrayList(ProductSetModel.CREATOR);
     }
 
     @Override
@@ -119,6 +124,7 @@ public class ProductModel implements Parcelable {
         dest.writeParcelable(price, flags);
         dest.writeTypedList(bons);
         dest.writeTypedList(children);
+        dest.writeTypedList(sets);
     }
 
     @Override
@@ -280,5 +286,25 @@ public class ProductModel implements Parcelable {
 
     public void setChildren(ArrayList<ProductModel> children) {
         this.children = children;
+    }
+
+    public ArrayList<ProductSetModel> getSets() {
+        return sets;
+    }
+
+    public void setSets(ArrayList<ProductSetModel> sets) {
+        this.sets = sets;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return id == ((ProductModel) o).id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

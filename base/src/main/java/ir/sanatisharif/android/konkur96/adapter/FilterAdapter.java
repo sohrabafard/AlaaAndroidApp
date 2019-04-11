@@ -3,42 +3,44 @@ package ir.sanatisharif.android.konkur96.adapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
-import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
+import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
 import ir.sanatisharif.android.konkur96.fragment.ShowArticleInfoFrg;
 import ir.sanatisharif.android.konkur96.fragment.ShowContentInfoFrg;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.model.filter.ArticleCourse;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 import ir.sanatisharif.android.konkur96.model.filter.PamphletCourse;
 import ir.sanatisharif.android.konkur96.model.filter.SetFilterCourse;
+import ir.sanatisharif.android.konkur96.model.filter.SetFilterProduct;
 import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
-import ir.sanatisharif.android.konkur96.ui.GlideRequest;
-import ir.sanatisharif.android.konkur96.ui.GlideRequests;
-import ir.sanatisharif.android.konkur96.utils.MiladiToShamsi;
+import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
@@ -47,13 +49,12 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<? extends FilterBaseModel> mList;
     private Context mContext;
     private OnItemClickListener mClickListener;
-    private final GlideRequest<Drawable> requestBuilder;
     private int width, height;
+    RequestOptions requestOptions;
 
-    public FilterAdapter(Context context, List<? extends FilterBaseModel> list, GlideRequests glideRequests) {
+    public FilterAdapter(Context context, List<? extends FilterBaseModel> list) {
         this.mList = list;
         this.mContext = context;
-        requestBuilder = glideRequests.asDrawable().fitCenter();
         setSize();
     }
 
@@ -62,6 +63,10 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //w= 460 and h = 259
         width = AppConfig.width;
         height = (int) (AppConfig.width * 0.56);
+        requestOptions = new RequestOptions()
+                .override(width, height)
+                .dontTransform()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
 
     }
 
@@ -77,7 +82,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         else if (viewType == AppConstants.FILTER_SET)
             return new SetHolder(LayoutInflater.from(mContext).inflate(R.layout.adapter_set_filter, parent, false));
         else if (viewType == AppConstants.FILTER_PRODUCT)
-            return new ArticleHolder(LayoutInflater.from(mContext).inflate(R.layout.adapter_article_filter, parent, false));
+            return new ProductHolder(LayoutInflater.from(mContext).inflate(R.layout.item_filter_product, parent, false));
 
         return null;
     }
@@ -99,12 +104,10 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemHolder.imgItem.getLayoutParams().width = width;
             itemHolder.imgItem.getLayoutParams().height = height;
 
-            requestBuilder
+            Glide.with(mContext)
                     .load(item.getThumbnail())
-                    .override(width, height)
+                    .apply(requestOptions)
                     .thumbnail(0.1f)
-                    .dontTransform()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(new SimpleTarget<Drawable>(460, 259) {
                         @Override
                         public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
@@ -153,12 +156,10 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemHolder.imgItem.getLayoutParams().width = width;
             itemHolder.imgItem.getLayoutParams().height = height;
 
-            requestBuilder
+            Glide.with(mContext)
                     .load(item.getPhoto())
-                    .override(width, height)
-                    .dontTransform()
+                    .apply(requestOptions)
                     .thumbnail(0.1f)
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(new SimpleTarget<Drawable>(460, 259) {
                         @Override
                         public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
@@ -193,6 +194,42 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     addFrg(ShowArticleInfoFrg.newInstance(item), "DetailsVideoFrg");
                 }
             });
+        } else if (viewType == AppConstants.FILTER_PRODUCT) {
+
+            SetFilterProduct item = (SetFilterProduct) mList.get(position);
+            final ProductHolder itemHolder = (ProductHolder) holder;
+
+            Glide.with(mContext)
+                    .load(item.getPhoto())
+                    .apply(requestOptions)
+                    .thumbnail(0.1f)
+                    .into(new SimpleTarget<Drawable>(460, 259) {
+                        @Override
+                        public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                            itemHolder.imageView.setImageDrawable(resource);
+
+                        }
+
+                        @Override
+                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                            super.onLoadFailed(errorDrawable);
+
+                        }
+                    });
+
+            itemHolder.txtn.setText(item.getName());
+            itemHolder.txtPrice.setText(ShopUtils.formatPrice(item.getPrice().getMfinal()) + " تومان ");
+            if (item.getPrice().getDiscount() > 0) {
+                itemHolder.txtDiscount.setVisibility(View.VISIBLE);
+                itemHolder.txtDiscount.setText(ShopUtils.formatPrice(item.getPrice().getBase()) + " تومان ");
+
+            } else {
+
+                itemHolder.txtDiscount.setVisibility(View.GONE);
+            }
+
+            itemHolder.cardViewRoot.setOnClickListener(view -> addFrg(ProductDetailFragment.newInstance((ProductModel) item), "ProductDetailFragment"));
+
         }
     }
 
@@ -307,6 +344,33 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private ArticleHolder(View view) {
             super(view);
 
+        }
+    }
+
+    public class ProductHolder extends RecyclerView.ViewHolder  {
+
+        private ImageView imageView;
+        private CardView cardViewRoot;
+        private TextView txtn, txtPrice, txtDiscount;
+
+        public ProductHolder(View itemView) {
+            super(itemView);
+
+            imageView = itemView.findViewById(R.id.img);
+            txtn = itemView.findViewById(R.id.txt_titel);
+            txtPrice = itemView.findViewById(R.id.txt_price);
+            txtDiscount = itemView.findViewById(R.id.txt_discount);
+            cardViewRoot = itemView.findViewById(R.id.cardViewRoot);
+
+            setTypeFace(txtn);
+            setTypeFace(txtPrice);
+            setTypeFace(txtDiscount);
+            //ripple(cardViewRoot, 0);
+        }
+
+        void setTypeFace(View view) {
+            if (view instanceof TextView)
+                ((TextView) view).setTypeface(AppConfig.fontIRSensNumber);
         }
     }
 

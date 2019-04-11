@@ -9,19 +9,24 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.activity.MainActivity;
+import ir.sanatisharif.android.konkur96.adapter.FilterAdapterBySpinner;
 import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
+import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -34,7 +39,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_AUTH_TYPE;
  * Created by Mohamad on 2/9/2019.
  */
 
-public class AuthenticatorActivity extends AccountAuthenticatorActivity implements View.OnClickListener {
+public class AuthenticatorActivity extends AccountAuthenticatorActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private final String TAG = this.getClass().getSimpleName();
     private AccountManager mAccountManager;
@@ -46,6 +51,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
     private Button btnLogin, btnRegister;
     private MaterialEditText edtPhone, edtNathonalCode, edtPhoneReg, edtNationalCodeReg, edtLastName, edtFirstName, edtEmail;
     private TextView txtDoNotAccount, txtAccountExist;
+    private Spinner spinnerField, spinnerGender;
+    private int gender_id = 0, majer_id = 0;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -82,11 +89,26 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         edtLastName = registerView.findViewById(R.id.edtLastName);
         edtEmail = registerView.findViewById(R.id.edtEmail);
         txtAccountExist = registerView.findViewById(R.id.txtAccountExist);
+        spinnerField = registerView.findViewById(R.id.spinnerField);
+        spinnerGender = registerView.findViewById(R.id.spinnerGender);
+
+        spinnerField.setAdapter(
+                new FilterAdapterBySpinner(getApplicationContext(),
+                        R.layout.spinner_item,
+                        getResources().getStringArray(R.array.field)));
+
+        spinnerGender.setAdapter(
+                new FilterAdapterBySpinner(getApplicationContext(),
+                        android.R.layout.simple_spinner_item,
+                        getResources().getStringArray(R.array.gender)));
 
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         txtDoNotAccount.setOnClickListener(this);
         txtAccountExist.setOnClickListener(this);
+
+        spinnerGender.setOnItemSelectedListener(this);
+        spinnerField.setOnItemSelectedListener(this);
 
     }
 
@@ -99,14 +121,18 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             public void onSuccess(Object obj) {
 
                 UserInfo u = (UserInfo) obj;
+                Gson gson = new Gson();
+                Log.i(TAG, "onSuccess: " + gson.toJson(u));
                 addAccount(u.getData().getUser(), u.getData().getAccessToken());
                 dialog.dismiss();
+                startActivity(new Intent(AuthenticatorActivity.this, MainActivity.class));
                 finish();
             }
 
             @Override
             public void onFailure(String message) {
                 dialog.dismiss();
+                Log.i(TAG, "onSuccess: onFailure " + message);
             }
         });
 
@@ -137,6 +163,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         // (Not setting the auth token will cause another call to the server to authenticate the user)
         mAccountManager.addAccountExplicitly(account, user.getNationalCode(), userData);
         mAccountManager.setAuthToken(account, ARG_AUTH_TYPE, authToken);
+        MyPreferenceManager.getInatanse().setApiToken(authToken);
 
         Intent res = new Intent();
         res.putExtras(data);
@@ -149,8 +176,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         dialog = new AlertDialog.Builder(this)
                 .setView(R.layout.progress_dialog)
                 .create();
-        //  builder.setView(R.layout.progress_dialog);
-        // Dialog dialog = builder.create();
         dialog.setCancelable(true);
     }
 
@@ -232,6 +257,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
                 edtEmail.setError(getResources().getString(R.string.not_valid_email));
                 return;
             }
+            Log.i(TAG, "onClick: " + gender_id + " " + majer_id);
+            if (gender_id <= 0) {
+                toastShow("جنسیت انتخاب شود" + gender_id, MDToast.TYPE_ERROR);
+                return;
+            }
+            if (majer_id <= 0) {
+                toastShow("رشته انتخاب شود " + majer_id, MDToast.TYPE_ERROR);
+                return;
+            }
 
             User user = new User();
             user.setMobile(edtPhoneReg.getText().toString().trim().toLowerCase());
@@ -239,7 +273,25 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             user.setFirstName(edtFirstName.getText().toString().trim().toLowerCase());
             user.setLastName(edtLastName.getText().toString().trim().toLowerCase());
             user.setEmail(edtEmail.getText().toString().trim().toLowerCase());
+            user.setGender_id(gender_id);
+            user.setMajor_id(majer_id);
             getLoginInfo(user);
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+        int i = parent.getId();
+        if (i == R.id.spinnerGender) {//1= man,2=woman
+            gender_id = pos;
+        } else if (i == R.id.spinnerField) {//1=riuazi,2=tagrobi,3=ensani
+            majer_id = pos;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

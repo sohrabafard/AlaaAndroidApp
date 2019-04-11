@@ -12,9 +12,6 @@ import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
-import ir.sanatisharif.android.konkur96.ui.GlideRequest;
-import ir.sanatisharif.android.konkur96.ui.GlideRequests;
 import ir.sanatisharif.android.konkur96.ui.view.CustomItemView;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
@@ -24,19 +21,17 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
 
     private List<Set> itemsList;
     private Context mContext;
-    private GlideRequests glideRequests;
 
-    public CategoryItemAdapter(Context context, List<Set> itemsList, GlideRequests glideRequests) {
+    public CategoryItemAdapter(Context context, List<Set> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
-        this.glideRequests = glideRequests;
     }
 
     @Override
     public CategoryHolder onCreateViewHolder(ViewGroup parent, int typeviewsingle) {
 
         CustomItemView itemView = new CustomItemView(parent.getContext());
-        itemView.setGlide(glideRequests);
+        //itemView.setGlide(glideRequests);
         itemView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT

@@ -93,10 +93,20 @@
                 android:textColor="#4A4A4A"
                 android:textSize="14sp" />
 
-            <WebView
-                android:id="@+id/webView"
+            <com.uncopt.android.widget.text.justify.JustifiedTextView
+                android:id="@+id/txtContext"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_marginTop="-16dp"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:gravity="right"
+                android:paddingLeft="@dimen/tvJustufMargin"
+                android:paddingRight="@dimen/tvJustufMargin"
+                android:textColor="#4A4A4A"
+                android:textSize="14sp" />
+
 
             <me.gujun.android.taggroup.TagGroup
                 android:id="@+id/tag_group"

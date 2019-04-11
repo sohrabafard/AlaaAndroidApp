@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
@@ -36,10 +37,6 @@ import ir.sanatisharif.android.konkur96.listener.OnItemCheckedListener;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.listener.OnItemLongListener;
 import ir.sanatisharif.android.konkur96.model.Video;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
-import ir.sanatisharif.android.konkur96.ui.GlideRequest;
-import ir.sanatisharif.android.konkur96.ui.GlideRequests;
-
 
 /**
  * Created by Mohamad on 11/7/2016.
@@ -54,14 +51,13 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
     private OnItemLongListener onItemLongListener;
     private OnItemCheckedListener onItemCheckedListener;
     private Boolean isVisible = false;
-    private final GlideRequest<Drawable> requestBuilder;
-    int type = 0, height, width, size_grid = 0;
+    private int type = 0, height, width, size_grid = 0;
+    private RequestOptions requestOptions;
 
-    public VideoDownloadedAdapter(Context context, List<Video> list, int type, GlideRequests glideRequests) {
+    public VideoDownloadedAdapter(Context context, List<Video> list, int type) {
         this.list = list;
         this.mContext = context;
         this.type = type;
-        requestBuilder = glideRequests.asDrawable().fitCenter();
         setSize();
     }
 
@@ -71,6 +67,16 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
         height -= 48;
         width = (int) (height * 1.77f);
         size_grid = (AppConfig.width / 3);
+
+        requestOptions = new RequestOptions()
+                .override(width, height)
+                .dontTransform()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .placeholder(R.mipmap.ic_launcher)
+                .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+
+
     }
 
     public void updateList(Video video, int position) {
@@ -106,13 +112,10 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
             holder.imgFrame.getLayoutParams().height = height;
 
             if (FileManager.checkFileExist(item.getPath())) {
-                requestBuilder
+                Glide.with(mContext)
                         .load(Uri.fromFile(new File(item.getPath())))
-                        .override(width, height)
+                        .apply(requestOptions)
                         .thumbnail(0.1f)
-                        .dontTransform()
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
                         .into(new SimpleTarget<Drawable>(460, 259) {
                             @Override
                             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
@@ -128,13 +131,7 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
             if (FileManager.checkFileExist(item.getPath())) {
 
                 holder.checkBox.setVisibility(View.GONE);
-                if (!item.isChecked()) {
-                    Log.i(TAG, "onBindViewHolder: GONE " + item.isChecked());
 
-                } else if (item.isChecked()) {
-                    Log.i(TAG, "onBindViewHolder:VISIBLE  " + item.isChecked());
-                    holder.checkBox.setVisibility(View.VISIBLE);
-                }
 
                 if (AppConfig.width != 0) {
 
@@ -148,13 +145,11 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
                 }
 
                 //get frame local
-                requestBuilder
+                Glide.with(mContext)
                         .load(Uri.fromFile(new File(item.getPath())))
-                        .override(holder.imgFrame.getWidth(), holder.imgFrame.getWidth())
-                        .centerCrop()
+                        .apply(requestOptions)
+                       // .override(holder.imgFrame.getWidth(), holder.imgFrame.getWidth())
                         .thumbnail(0.1f)
-                        .dontTransform()
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                         .into(new SimpleTarget<Drawable>() {
                             @Override
                             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {

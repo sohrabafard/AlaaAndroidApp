@@ -10,9 +10,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
@@ -21,21 +24,32 @@ import java.util.ArrayList;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.MainBannerModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.model.BannerItem;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
 
 
 public class ShopBannerItemAdapter extends RecyclerView.Adapter<ShopBannerItemAdapter.BannerHolder> {
 
     private ArrayList<MainBannerModel> itemsList;
     private Context mContext;
-
+    private RequestOptions requestOptions;
+    private int h, w;
 
     public ShopBannerItemAdapter(Context context, ArrayList<MainBannerModel> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
+
+        setSize();
     }
 
+    private void setSize() {
+        h = AppConfig.itemHeight - 34;
+        w = (int) (AppConfig.width * 0.75f);
+
+        requestOptions = new RequestOptions()
+                .override(AppConfig.width, h)
+                .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
+                .override(w, h)
+                .fitCenter();
+    }
 
     @Override
     public BannerHolder onCreateViewHolder(ViewGroup parent, int typeviewsingle) {
@@ -49,18 +63,13 @@ public class ShopBannerItemAdapter extends RecyclerView.Adapter<ShopBannerItemAd
 
         holder.txtTitle.setText(item.getTitle());
 
-        int h = AppConfig.itemHeight - 34;
-        int w = (int) (AppConfig.width * 0.75f);
-
         holder.imgItem.getLayoutParams().width = w;
         holder.imgItem.getLayoutParams().height = h;
         holder.txtTitle.getLayoutParams().width = w;
 
-        GlideApp.with(AppConfig.context)
+        Glide.with(AppConfig.context)
                 .load(item.getUrl())
-                .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
-                .override(w, h)
-                .transition(DrawableTransitionOptions.withCrossFade())
+                .apply(requestOptions)
                 .into(new SimpleTarget<Drawable>(w, h) {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {

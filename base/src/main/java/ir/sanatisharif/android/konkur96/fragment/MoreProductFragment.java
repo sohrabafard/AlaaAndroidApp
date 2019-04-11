@@ -1,9 +1,11 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
 import android.content.Intent;
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
@@ -33,13 +36,14 @@ import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.myPaginate;
 
-public class MoreProductFragment extends BaseFragment{
+public class MoreProductFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     Toolbar pageToolbar;
 
     private RecyclerView recyclerMoreProduct;
     private RecyclerView.Adapter mAdapter;
     private GridLayoutManager gridLayoutManager;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     Repository repository;
@@ -80,11 +84,9 @@ public class MoreProductFragment extends BaseFragment{
 
         initURL();
         initView(view);
-        if (null != url){
+        if (null != url) {
             getData();
         }
-
-
 
 
     }
@@ -116,7 +118,7 @@ public class MoreProductFragment extends BaseFragment{
         return super.onOptionsItemSelected(item);
     }
 
-    private void initURL(){
+    private void initURL() {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -126,6 +128,10 @@ public class MoreProductFragment extends BaseFragment{
 
     private void initView(View view) {
 
+        //swipeRefreshLayout
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
+        swipeRefreshLayout.setOnRefreshListener(this);
         //recyclerView
         recyclerMoreProduct = view.findViewById(R.id.recycler_more_product);
         recyclerMoreProduct.setNestedScrollingEnabled(false);
@@ -145,15 +151,19 @@ public class MoreProductFragment extends BaseFragment{
 
     private void getData() {
 
+        swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
+
         repository.getMore(url, data -> {
 
             if (data instanceof Result.Success) {
 
                 setData((ResultModel) ((Result.Success) data).value);
+                swipeRefreshLayout.setRefreshing(false);
 
             } else {
 
                 Log.d("Test", (String) ((Result.Error) data).value);
+                swipeRefreshLayout.setRefreshing(false);
             }
 
 
@@ -164,17 +174,21 @@ public class MoreProductFragment extends BaseFragment{
 
     private void getDataPaginat() {
 
-        if (isPaginate){
+        if (isPaginate) {
+
+            swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
 
             repository.getNextPageProduct(resultModel.getResult().getNext_page_url(), data -> {
 
                 if (data instanceof Result.Success) {
 
                     setData((ResultModel) ((Result.Success) data).value);
+                    swipeRefreshLayout.setRefreshing(false);
 
                 } else {
 
                     Log.d("Test", (String) ((Result.Error) data).value);
+                    swipeRefreshLayout.setRefreshing(false);
                 }
 
 
@@ -192,12 +206,12 @@ public class MoreProductFragment extends BaseFragment{
 
 
         //---------------------- set paginate data ----------------------------------------------
-        if (null != resultModel && null != resultModel.getResult().getNext_page_url()){
+        if (null != resultModel && null != resultModel.getResult().getNext_page_url()) {
 
             isPaginate = true;
             paginate.setNoMoreItems(false);
 
-        }else {
+        } else {
 
             isPaginate = false;
             paginate.setNoMoreItems(true);
@@ -205,7 +219,16 @@ public class MoreProductFragment extends BaseFragment{
 
 
         //---------------------- convert -------------------------------------------------------
-        items.addAll(data.getResult().getData());
+        for (ProductModel pro : data.getResult().getData()) {
+
+
+            if (!items.contains(pro)){
+                items.add(pro);
+
+            }
+        }
+
+        //items.addAll(data.getResult().getData());
 
 
         //---------------------- update adapter ------------------------------------------------
@@ -216,9 +239,16 @@ public class MoreProductFragment extends BaseFragment{
     public void onDestroy() {
         super.onDestroy();
 
-        if (null !=  paginate){
+        if (null != paginate) {
 
             paginate.unbind();
         }
+    }
+
+
+    @Override
+    public void onRefresh() {
+        items.clear();
+        getData();
     }
 }

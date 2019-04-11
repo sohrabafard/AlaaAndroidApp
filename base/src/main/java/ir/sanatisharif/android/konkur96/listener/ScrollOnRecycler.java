@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
  */
 
 public interface ScrollOnRecycler {
-    void scrollUp(RecyclerView recyclerView, int itemCount);
+    void scrollUp();
 
-    void scrollDown(RecyclerView recyclerView, int itemCount);
+    void scrollDown();
 }

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -43,12 +44,15 @@ import com.uncopt.android.widget.text.justify.JustifiedTextView;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
+import ir.sanatisharif.android.konkur96.adapter.ProductAttrAdapter;
 import ir.sanatisharif.android.konkur96.adapter.ProductBonsAdapter;
+import ir.sanatisharif.android.konkur96.adapter.SelectableProductAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
@@ -56,6 +60,8 @@ import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
+import ir.sanatisharif.android.konkur96.dialog.ProductExtraAttrDialogFragment;
+import ir.sanatisharif.android.konkur96.dialog.ZarinPalDialogFragment;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
@@ -63,6 +69,7 @@ import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.model.MainAttrType;
 import ir.sanatisharif.android.konkur96.model.ProductType;
+import ir.sanatisharif.android.konkur96.model.SelectableProduct;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.utils.GalleryWorker;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
@@ -77,12 +84,15 @@ public class ProductDetailFragment extends BaseFragment {
     private FrameLayout intro;
 
     private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice, txtMainAttrCom;
+
+    private RecyclerView selectableRecyclerView;
+
     private JustifiedTextView txtShortDesc, txtDesc;
 
     private ProgressBar progPrice;
 
     private CardView cardDesc, cardBon, btnAddToCard;
-    private LinearLayout bodyMainAttr;
+    private LinearLayout bodyMainAttr, bodySelectable;
 
     private GalleryWorker imgGallery;
 
@@ -93,8 +103,12 @@ public class ProductDetailFragment extends BaseFragment {
 
     private List<Integer> attrList = new ArrayList<>();
     private List<Integer> attrExtraList = new ArrayList<>();
+    private List<Integer> selectableIdList = new ArrayList<>();
+    private ArrayList<ProductModel> selectableList = new ArrayList<>();
 
     private Repository repository;
+
+    private int totalPrice = 0;
 
     public static ProductDetailFragment newInstance(ProductModel item) {
 
@@ -198,6 +212,7 @@ public class ProductDetailFragment extends BaseFragment {
         txtAuthor = v.findViewById(R.id.txt_author);
         txtAtrr = v.findViewById(R.id.txt_atrr);
         txtComment = v.findViewById(R.id.txt_comment);
+        selectableRecyclerView = v.findViewById(R.id.recycler_selectable);
 
         txtPrice = v.findViewById(R.id.txt_price);
 
@@ -219,6 +234,7 @@ public class ProductDetailFragment extends BaseFragment {
         btnAddToCard = v.findViewById(R.id.btn_addToCard);
 
         bodyMainAttr = v.findViewById(R.id.body_main_attr);
+        bodySelectable = v.findViewById(R.id.body_selectable);
 
         bonsRecyclerView = v.findViewById(R.id.recycler_bons);
 
@@ -245,7 +261,62 @@ public class ProductDetailFragment extends BaseFragment {
         cardAttrProduct.setOnClickListener(v -> showAtrrDialog());
         cardSampleProduct.setOnClickListener(v -> showSampleProduct());
         btnAddToCard.setOnClickListener(v -> {
-            Log.e("", "");
+            if ( null != model.getAttributes().getExtra()){
+
+                if (type == ProductType.CONFIGURABLE){
+
+                    if (attrList.size() > 0){
+
+                        showExtraAtrrDialog();
+
+                    }else {
+
+                        Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                    }
+                }else if (type == ProductType.SELECTABLE){
+
+                    if (selectableIdList.size() > 0 ){
+
+                        showExtraAtrrDialog();
+
+                    }else {
+
+                        Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                    }
+                }else if (type == ProductType.SIMPLE){
+
+                    showExtraAtrrDialog();
+                }
+
+
+
+            }else {
+
+                if (type == ProductType.CONFIGURABLE){
+
+                    if (attrList.size() > 0){
+
+                        showZarinPalDialog();
+
+                    }else {
+
+                        Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                    }
+                }else if (type == ProductType.SELECTABLE){
+
+                    if (selectableIdList.size() > 0 ){
+
+                        showZarinPalDialog();
+
+                    }else {
+
+                        Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                    }
+                }else if (type == ProductType.SIMPLE){
+
+                    showZarinPalDialog();
+                }
+            }
         });
     }
 
@@ -295,10 +366,51 @@ public class ProductDetailFragment extends BaseFragment {
 
         }
 
+
+        setSelectable();
         setMainAttr();
 
 
 
+    }
+
+    private void setSelectable(){
+
+        if (type == ProductType.SELECTABLE){
+
+            bodySelectable.setVisibility(View.VISIBLE);
+
+            ArrayList<SelectableProduct> items = ShopUtils.convertToSelectableProductModel(model.getChildren());
+
+            SelectableProductAdapter adapter = new SelectableProductAdapter(getContext(), items, new SelectableProductAdapter.CheckListeners() {
+                @Override
+                public void onItemCheck(ProductModel model, int position, boolean isFirst) {
+
+                    selectableList.add(model);
+                    addToSelectableIdList(model.getId(), isFirst);
+                    final Handler handler = new Handler();
+                    handler.postDelayed(() -> getPrice(), 700);
+
+                    Log.d("Amin",String.valueOf(selectableIdList));
+
+                }
+
+                @Override
+                public void onItemUncheck(ProductModel model, int position) {
+
+                    selectableList.remove(model);
+                    removeToSelectableIdList(model.getId());
+                    final Handler handler = new Handler();
+                    handler.postDelayed(() -> getPrice(), 700);
+                    Log.d("Amin",String.valueOf(selectableIdList));
+                }
+            });
+
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            selectableRecyclerView.setLayoutManager(mLayoutManager);
+            selectableRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            selectableRecyclerView.setAdapter(adapter);
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -333,7 +445,7 @@ public class ProductDetailFragment extends BaseFragment {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+                100);
 
         TextView textView = new TextView(getContext());
         textView.setLayoutParams(params);
@@ -358,7 +470,12 @@ public class ProductDetailFragment extends BaseFragment {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+                100);
+
+        if (null != attr.getTitle() && !attr.getTitle().isEmpty()){
+
+            createTxtTitle(attr.getTitle());
+        }
 
 
         for (AttributeDataModel attrData : attr.getData()) {
@@ -395,7 +512,12 @@ public class ProductDetailFragment extends BaseFragment {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+                100);
+
+        if (null != attr.getTitle() && !attr.getTitle().isEmpty()){
+
+            createTxtTitle(attr.getTitle());
+        }
 
         List<String> spinnerArray = new ArrayList<>();
         @SuppressLint("UseSparseArrays")
@@ -404,6 +526,7 @@ public class ProductDetailFragment extends BaseFragment {
         Spinner spinner = new Spinner(getContext());
         spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         spinner.setLayoutParams(params);
+        spinner.setPadding(15, 5, 15, 5);
         for (AttributeDataModel attrData : attr.getData()) {
 
             spinnerArray.add(attrData.getName());
@@ -439,18 +562,70 @@ public class ProductDetailFragment extends BaseFragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
+    private void createTxtTitle(String title){
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        TextView textView = new TextView(getContext());
+        textView.setLayoutParams(params);
+        textView.setTextColor(Color.BLACK);
+        textView.setTextSize(15);
+        textView.setGravity(Gravity.RIGHT);
+        textView.setPadding(15, 5, 15, 5);
+        textView.setTypeface(AppConfig.fontIRSensLight);
+
+        textView.setText(title + " : ");
+
+        bodyMainAttr.addView(textView);
+    }
+
     private void showAtrrDialog() {
 
-        FragmentManager fm = getFragmentManager();
-        DialogFragment newFragment = new ProductAttrDialogFragment(model.getAttributes().getInformation());
-        newFragment.show(fm, "ProductAttr");
+       if (null != model.getAttributes().getInformation()){
+
+           FragmentManager fm = getFragmentManager();
+           DialogFragment newFragment = new ProductAttrDialogFragment(model.getAttributes().getInformation());
+           newFragment.show(fm, "ProductAttr");
+       }
 
     }
 
+    private void showExtraAtrrDialog() {
+
+        FragmentManager fm = getFragmentManager();
+        DialogFragment newFragment = new ProductExtraAttrDialogFragment(type, model.getId(),
+                totalPrice,
+                attrList,
+                model.getAttributes().getExtra(),
+                selectableIdList,
+                selectableList,
+                model);
+
+        newFragment.show(fm, "ProductExtraAttr");
+
+    }
+
+
+    private void showZarinPalDialog() {
+
+        FragmentManager fm = getFragmentManager();
+        DialogFragment newFragment = new ZarinPalDialogFragment(type, model, totalPrice, selectableIdList, attrList, attrExtraList);
+
+        newFragment.show(fm, "ZarinPalDialog");
+
+    }
+
+
     private void showSampleProduct() {
 
-        imgGallery.setImages(model.getSamplePhotos());
-        imgGallery.openFullView(0);
+        if(null != model.getSamplePhotos()){
+
+            imgGallery.setImages(model.getSamplePhotos());
+            imgGallery.openFullView(0);
+        }
 
     }
 
@@ -458,13 +633,15 @@ public class ProductDetailFragment extends BaseFragment {
 
         if (null != url){
 
-            Video video = ShopUtils.createVideoModelByURL(url);
-            if (video != null) {
-                VideoPlayFrg videoPlayFrg = VideoPlayFrg.newInstance(video.getPath());
-                getFragmentManager().beginTransaction()
-                        .add(R.id.intro_video, videoPlayFrg, "videoPlayFrg")
-                        .commit();
-            }
+//            Video video = ShopUtils.createVideoModelByURL(url);
+//            if (video != null) {
+//
+//            }
+
+            DetailsVideoFrg videoPlayFrg = DetailsVideoFrg.newInstance(url);
+            getFragmentManager().beginTransaction()
+                    .add(R.id.intro_video, videoPlayFrg, "videoPlayFrg")
+                    .commit();
 
         }else {
 
@@ -478,7 +655,7 @@ public class ProductDetailFragment extends BaseFragment {
 
 
         if (model.getPrice().getMfinal() > 0) {
-
+            totalPrice = model.getPrice().getMfinal();
             txtPrice.setText(ShopUtils.formatPrice(model.getPrice().getMfinal()) + " تومان ");
 
         } else {
@@ -504,14 +681,42 @@ public class ProductDetailFragment extends BaseFragment {
         }
     }
 
+
+    private void addToSelectableIdList(int val, boolean isFirst){
+
+        if (!selectableIdList.contains(val)) {
+
+            if (isFirst){
+
+                selectableIdList.add(0, val);
+
+            }else {
+
+                selectableIdList.add(val);
+            }
+
+
+        }
+    }
+
+    private void removeToSelectableIdList(int val){
+
+        if (selectableIdList.contains(val)) {
+
+            selectableIdList = ShopUtils.removeElements(selectableIdList, val);
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     private void getPrice() {
 
         ArrayList<Integer> mainAttributeValues = new ArrayList<>(attrList);
         ArrayList<Integer> extraAttributeValues = new ArrayList<>(attrExtraList);
+        ArrayList<Integer> products = new ArrayList<>(selectableIdList);
+        Collections.sort(products);
         progPrice.setVisibility(View.VISIBLE);
 
-        repository.getPrice(String.valueOf(model.getId()), mainAttributeValues, extraAttributeValues, data -> {
+        repository.getPrice(type,String.valueOf(model.getId()), products, mainAttributeValues, extraAttributeValues, data -> {
             progPrice.setVisibility(View.GONE);
             if (data instanceof Result.Success) {
 
@@ -520,7 +725,7 @@ public class ProductDetailFragment extends BaseFragment {
                 if (null == temp.getError()){
 
                     if (temp.getCost().getMfinal() > 0) {
-
+                        totalPrice = temp.getCost().getMfinal();
                         txtPrice.setText(ShopUtils.formatPrice(temp.getCost().getMfinal()) + " تومان ");
 
                     } else {
@@ -530,7 +735,10 @@ public class ProductDetailFragment extends BaseFragment {
 
                 }else {
 
-                    Toast.makeText(getContext(),temp.getError().getMessage(),Toast.LENGTH_LONG).show();
+
+                    Log.d("Error", temp.getError().getMessage());
+                    totalPrice = model.getPrice().getMfinal();
+                    txtPrice.setText(ShopUtils.formatPrice(model.getPrice().getMfinal()) + " تومان ");
                 }
 
 
