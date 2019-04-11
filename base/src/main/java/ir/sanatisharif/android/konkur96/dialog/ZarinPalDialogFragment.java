@@ -36,6 +36,7 @@ import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.model.user.User;
 
+import static ir.sanatisharif.android.konkur96.activity.ActivityBase.containerHeight;
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
@@ -142,6 +143,9 @@ public class ZarinPalDialogFragment extends DialogFragment {
                                         txtTitle.setText("موفق");
                                         txtDesc.setVisibility(View.VISIBLE);
                                         txtDesc.setText("با موفقیت به سبد خرید اضافه شد.");
+                                        Toast.makeText(getContext(), "با موفقیت به سبد خرید اضافه شد.",Toast.LENGTH_LONG).show();
+                                        addFrg(CardFragment.newInstance(), "CardFragment");
+                                        this.dismiss();
                                     } else {
 
                                         txtTitle.setText("ناموفق");

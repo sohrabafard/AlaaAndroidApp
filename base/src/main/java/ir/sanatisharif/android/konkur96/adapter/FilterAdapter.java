@@ -1,6 +1,8 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
@@ -87,6 +89,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return null;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
@@ -219,6 +222,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             itemHolder.txtn.setText(item.getName());
             itemHolder.txtPrice.setText(ShopUtils.formatPrice(item.getPrice().getMfinal()) + " تومان ");
+            itemHolder.txtDiscount.setPaintFlags(itemHolder.txtDiscount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
             if (item.getPrice().getDiscount() > 0) {
                 itemHolder.txtDiscount.setVisibility(View.VISIBLE);
                 itemHolder.txtDiscount.setText(ShopUtils.formatPrice(item.getPrice().getBase()) + " تومان ");

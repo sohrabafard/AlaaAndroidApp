@@ -3,6 +3,7 @@ package ir.sanatisharif.android.konkur96.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -83,7 +84,7 @@ public class ProductDetailFragment extends BaseFragment {
     private ImageView image;
     private FrameLayout intro;
 
-    private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice, txtMainAttrCom;
+    private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice, txtMainAttrCom, txtDiscount;
 
     private RecyclerView selectableRecyclerView;
 
@@ -215,6 +216,7 @@ public class ProductDetailFragment extends BaseFragment {
         selectableRecyclerView = v.findViewById(R.id.recycler_selectable);
 
         txtPrice = v.findViewById(R.id.txt_price);
+        txtDiscount = v.findViewById(R.id.txt_discount);
 
         txtShortDesc = v.findViewById(R.id.txt_short_desc);
         txtDesc = v.findViewById(R.id.txt_desc);
@@ -248,6 +250,9 @@ public class ProductDetailFragment extends BaseFragment {
         txtMainAttrCom.setTypeface(AppConfig.fontIRSensLight);
 
         txtPrice.setTypeface(AppConfig.fontIRSensLight);
+        txtDiscount.setTypeface(AppConfig.fontIRSensLight);
+
+        txtDiscount.setPaintFlags(txtDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         txtShortDesc.setTypeface(AppConfig.fontIRSensLight);
         txtDesc.setTypeface(AppConfig.fontIRSensLight);
@@ -661,6 +666,15 @@ public class ProductDetailFragment extends BaseFragment {
         } else {
 
             txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
+        }
+
+        if (model.getPrice().getDiscount() > 0){
+
+           txtDiscount.setText(ShopUtils.formatPrice(model.getPrice().getBase()) + " تومان ");
+
+        }else {
+
+            txtDiscount.setText("");
         }
     }
 
