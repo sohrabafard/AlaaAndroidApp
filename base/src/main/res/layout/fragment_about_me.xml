@@ -45,7 +45,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/search_into_alla"
+                        android:text="@string/alla_1"
                         android:textColor="@color/grey_90"
                         android:textSize="20sp" />
 
@@ -58,10 +58,10 @@
                         android:tint="@color/Monochromatic_3" />
 
                     <com.uncopt.android.widget.text.justify.JustifiedTextView
+                       android:id="@+id/txtContentAboutMe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_large"
-                        android:text="@string/abouteMe"
                         android:textColor="@color/grey_60"
                         android:textSize="15sp" />
 
