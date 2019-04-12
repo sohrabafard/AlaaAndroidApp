@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:layoutDirection="rtl"
     android:id="@+id/root"
+    android:layout_margin="5dp"
     android:background="@color/White"
     android:orientation="vertical">
 
@@ -15,7 +16,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp"
+            android:gravity="center_vertical"
+            android:layout_margin="5dp"
             android:orientation="horizontal">
 
             <TextView

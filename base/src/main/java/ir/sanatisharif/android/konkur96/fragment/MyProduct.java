@@ -158,12 +158,15 @@ public class MyProduct extends Fragment {
         Gson gson = new Gson();
         WalletModel walletModel = gson.fromJson(String.valueOf(user.getInfo().getWallet()).replace("[", "").replace("]", ""), WalletModel.class);
 
-        txtWallet.setText(walletModel.getBlance() + " تومان ");
+
 
         //---------------------- set mainModel data ---------------------------------------------
         myProductsModel = data;
 
-        txtWallet.setText(String.valueOf(user.getInfo().getWallet()));
+
+        String tempBlance = String.valueOf((int) Float.parseFloat(walletModel.getBlance()));
+
+        txtWallet.setText(tempBlance + " تومان ");
 
         items.addAll(data.getData().get(0).getProducts());
 

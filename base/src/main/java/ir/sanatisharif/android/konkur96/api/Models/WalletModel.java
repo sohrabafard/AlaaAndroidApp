@@ -76,6 +76,7 @@ public class WalletModel implements Parcelable {
     }
 
     public String getBlance() {
+
         return blance;
     }
 

@@ -158,14 +158,14 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             CategoryShopItemAdapter itemListDataAdapter = new CategoryShopItemAdapter(mContext, items);
 
-            itemRowHolder.recyclerView.setHasFixedSize(false);
+            //itemRowHolder.recyclerView.setHasFixedSize(false);
             LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
             lin.setReverseLayout(false);
             itemRowHolder.recyclerView.setLayoutManager(lin);
             itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
-            itemRowHolder.recyclerView.setHasFixedSize(true);
+            //itemRowHolder.recyclerView.setHasFixedSize(true);
             itemRowHolder.recyclerView.setAdapter(itemListDataAdapter);
-            snapHelper.attachToRecyclerView(itemRowHolder.recyclerView);
+            //snapHelper.attachToRecyclerView(itemRowHolder.recyclerView);
             itemListDataAdapter.notifyDataSetChanged();
 
         }
@@ -194,13 +194,12 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-    public void setSize(int w, int h) {
+   /* public void setSize(int w, int h) {
 
         AppConfig.itemHeight = (int) (w * 0.56f);
         width = w;
     }
-
-
+*/
 
 
     public class ItemHolder extends RecyclerView.ViewHolder {
