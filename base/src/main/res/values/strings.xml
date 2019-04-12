@@ -177,5 +177,26 @@
     <string name="socialNetwork">شبکه های اجتماعی</string>
     <string name="txt_aboute_alla">درباره آلاء</string>
 
+    <string name="update_info">
+         <![CDATA[
+         <div>
+
+         - پخش آنلاین
+         </div>
+          <div>
+        - امکان دانلود با دانلود منیجر خارجی
+         </div>
+          <div>
+          - امکان دریافت همایش ها
+         </div>
+          <div>
+        - اضافه شدن جزوات به برنامه
+         </div>
+         <div>
+         - بروز رسانی سریع تر فیلم‌ها
+         </div>
+         ]]>
+   </string>
+
 
 </resources>
