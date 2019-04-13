@@ -98,7 +98,12 @@ public class VideoDownloadedFrg extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.actionDelete) {
+        if (item.getItemId() == android.R.id.home) {
+            Events.CloseFragment closeFragment = new Events.CloseFragment();
+            closeFragment.setTagFragments("");
+            EventBus.getDefault().post(closeFragment);
+
+        } else if (item.getItemId() == R.id.actionDelete) {
 
             Events.VideoDeleted videoDeleted = new Events.VideoDeleted();
             int deleteCount = 0;

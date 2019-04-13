@@ -32,7 +32,7 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
 
     private Toolbar toolbar;
     private TextView txtTitle;
-    private LifecycleRegistry mLifecycleRegistry;
+   // private LifecycleRegistry mLifecycleRegistry;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanseState) {
@@ -42,10 +42,10 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
     public abstract View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
 
-    @Override
-    public LifecycleRegistry getLifecycle() {
-        return mLifecycleRegistry;
-    }
+//    @Override
+//    public LifecycleRegistry getLifecycle() {
+//        return mLifecycleRegistry;
+//    }
 
 //    @Override
 //    public void onStart() {
