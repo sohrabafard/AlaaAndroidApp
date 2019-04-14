@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.google.android.gms.common.wrappers.InstantApps;
 
 import java.util.ArrayList;
 
@@ -90,13 +91,15 @@ public class OnBoardingActivity extends ActivityBase {
                     viewPager.setCurrentItem(current);
                 } else {
                     //register
-                    accountInfo.ExistAccount(ACCOUNT_TYPE);
+                    if (!InstantApps.isInstantApp(getApplicationContext()))
+                        accountInfo.ExistAccount(ACCOUNT_TYPE);
+                    else {
+                        startActivity(new Intent(OnBoardingActivity.this, MainActivity.class));
+                    }
                     finish();
                 }
             }
         });
-
-
     }
 
     private void bottomProgressDots(int current_index) {

@@ -12,6 +12,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.common.wrappers.InstantApps;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
@@ -54,11 +55,12 @@ public class AppConfig extends Application {
         context = getApplicationContext();
 
         //Firebase init by application id
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setApplicationId(getString(R.string.firebaseApplicationId))
-                .build();
-        FirebaseApp.initializeApp(getApplicationContext(), options);
-
+        if(!InstantApps.isInstantApp(getApplicationContext())) {
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setApplicationId(getString(R.string.firebaseApplicationId))
+                    .build();
+            FirebaseApp.initializeApp(getApplicationContext(), options);
+        }
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/IRANSansMobile(FaNum).ttf")
