@@ -66,19 +66,19 @@
             android:screenOrientation="portrait">
 
             <!--<meta-data-->
-                <!--android:name="default-url"-->
-                <!--android:value="https://sanatisharif.ir/" />-->
+            <!--android:name="default-url"-->
+            <!--android:value="https://sanatisharif.ir/" />-->
 
             <!--<intent-filter android:autoVerify="true">-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
+            <!--<action android:name="android.intent.action.VIEW" />-->
 
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
+            <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--<category android:name="android.intent.category.BROWSABLE" />-->
 
-                <!--<data android:scheme="https" />-->
-                <!--<data android:scheme="http" />-->
-                <!--<data android:host="sanatisharif.ir" />-->
-                <!--<data android:pathPrefix="/" />-->
+            <!--<data android:scheme="https" />-->
+            <!--<data android:scheme="http" />-->
+            <!--<data android:host="sanatisharif.ir" />-->
+            <!--<data android:pathPrefix="/" />-->
 
             <!--</intent-filter>-->
 
@@ -222,6 +222,9 @@
             android:name="ir.sanatisharif.android.konkur96.activity.PlayerMusicTabsIcon"
             android:screenOrientation="portrait" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="46ad5fd65bf082d38b16ad6dba97be9809b6fbc7" />
 
     </application>
 

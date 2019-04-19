@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="500dp"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:layout_gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
@@ -23,7 +24,7 @@
             android:gravity="center"
             android:text="@string/login_desc"
             android:textColor="@color/DimGray"
-            android:textSize="13sp" />
+            android:textSize="@dimen/_12sdp" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtPhone"
@@ -40,6 +41,7 @@
             android:textColorHint="@color/Gray"
             android:textColorLink="@color/White"
             android:textDirection="ltr"
+            android:textSize="@dimen/_11sdp"
             app:met_errorColor="@color/Red"
             app:met_floatingLabel="normal"
             app:met_primaryColor="@color/colorPrimary"
@@ -62,6 +64,7 @@
             android:textColorHint="@color/Gray"
             android:textColorLink="@color/White"
             android:textDirection="rtl"
+            android:textSize="@dimen/_11sdp"
             app:met_errorColor="@color/Red"
             app:met_floatingLabel="normal"
             app:met_primaryColor="@color/colorPrimary"
@@ -75,18 +78,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_button"
-            android:text="@string/login" />
+            android:text="@string/login"
+            android:textSize="@dimen/_11sdp" />
 
         <TextView
             android:id="@+id/txtDoNotAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:padding="6dp"
             android:gravity="center"
+            android:padding="6dp"
             android:text="@string/doNot_account"
             android:textColor="@color/Black_1"
-            android:textSize="18sp" />
+            android:textSize="@dimen/_10sdp" />
 
     </LinearLayout>
 </LinearLayout>

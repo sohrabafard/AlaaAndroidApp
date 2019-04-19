@@ -4,6 +4,8 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -16,6 +18,8 @@ import android.util.Log;
 
 import com.google.android.gms.common.wrappers.InstantApps;
 import com.google.gson.Gson;
+
+import java.io.IOException;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.Authenticator;
@@ -135,6 +139,33 @@ public class AccountInfo {
 
     }
 
+    public void removeAccount(String accountType, RemoveAccount removeAccount) {
+
+        Account[] account = mAccountManager.getAccountsByType(accountType);
+        if (account == null || account.length == 0)
+            return;
+        mAccountManager.removeAccount(account[0], new AccountManagerCallback<Boolean>() {
+            @Override
+            public void run(AccountManagerFuture<Boolean> future) {
+
+                try {
+                    if (future.getResult()) {
+                        if (removeAccount != null) {
+                            //   Log.i("LOG", "future ");
+                            removeAccount.onRemove(future.isDone());
+                        }
+                    }
+                } catch (OperationCanceledException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (AuthenticatorException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, null);
+    }
+
     public boolean ExistAccount(String type) {
 
         if (InstantApps.isInstantApp(context)) {
@@ -158,16 +189,22 @@ public class AccountInfo {
                     .create().show();
 
             return false;
+        } else {
+            Account availableAccounts[] = mAccountManager.getAccountsByType(type);
+            Log.i(TAG, "ExistAccount: " + availableAccounts.length);
+            if (availableAccounts.length == 0) {
+                addNewAccount(type, AUTHTOKEN_TYPE_FULL_ACCESS);
+                return false;
+            }
+            return true;
         }
-        Account availableAccounts[] = mAccountManager.getAccountsByType(type);
-        if (availableAccounts.length == 0) {
-            addNewAccount(type, AUTHTOKEN_TYPE_FULL_ACCESS);
-            return false;
-        }
-        return true;
     }
 
     public interface AuthToken {
         void onToken(String token);
+    }
+
+    public interface RemoveAccount {
+        void onRemove(boolean done);
     }
 }

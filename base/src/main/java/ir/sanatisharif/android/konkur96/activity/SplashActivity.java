@@ -36,11 +36,11 @@ public class SplashActivity extends ActivityBase {
     private AlertDialog mAlertDialog;
     private boolean mInvalidate;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseApp.initializeApp(AppConfig.context);
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        FirebaseApp.initializeApp(AppConfig.context);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,53 +110,12 @@ public class SplashActivity extends ActivityBase {
             }).start();
         }
 
+        // ATTENTION: This was auto-generated to handle app links.
+        Intent appLinkIntent = getIntent();
+        String appLinkAction = appLinkIntent.getAction();
+        Uri appLinkData = appLinkIntent.getData();
     }
-    private void handleIntent(Intent intent) {
 
-//        String action = intent.getAction();  // android.intent.action.VIEW
-//        String data = intent.getDataString();// https://sanatisharif.ir/c/8087
-//
-//        if (action == null)
-//            return;
-//        if (action.equals("ir.sanatisharif.android.SETTING")) {
-//            startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
-//        } else if (Intent.ACTION_VIEW.equals(action) && data != null) {
-//            Uri appLinkData = intent.getData();
-//            //  Log.i(TAG, "handleIntent1: " + appLinkData);
-//            // Log.i(TAG, "handleIntent: " + appLinkData.getPath());
-//
-//            if (appLinkData.getPath().startsWith("/c")) {
-//                if (data.contains("tags")) {
-//                    addFrg(FilterTagsFrg.newInstance(data, null), "FilterTagsFrg");
-//                } else {
-//                    addFrg(DetailsVideoFrg.newInstance(data), "DetailsVideoFrg");
-//                }
-//            } else if (appLinkData.getPath().startsWith("/product")) {
-//
-//            } else if (appLinkData.getPath().startsWith("/login")) {
-//                if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
-//                    addFrg(DashboardMainFrg.newInstance(), "DashboardMainFrg");
-//                }
-//            } else if (appLinkData.getPath().startsWith("/zarinpal")) {
-//
-//                if (data.contains("Status")) {
-//
-//                    String mStatus = appLinkData.getQueryParameter("Status");
-//                    String amount = appLinkData.getQueryParameter("a");
-//                    String authority = appLinkData.getQueryParameter("Authority");
-//
-//                    handlerZarinPalCallBack(amount, authority);
-//                }
-//
-//            } else if (appLinkData.getPath().startsWith("/shop")) {
-//
-//                addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
-//
-//            } else if (appLinkData.getPath().startsWith("/")) {
-//
-//            }
-//        }
-    }
     private void loadAnimation() {
 
         SpringAnimation springAnim = new SpringAnimation(img1, SpringAnimation.TRANSLATION_Y, 0);
@@ -172,7 +131,7 @@ public class SplashActivity extends ActivityBase {
 
     private void retrieveToken() {
         Log.i(TAG, "onCreate: 2 ");
-        FirebaseApp.initializeApp(this);
+       // FirebaseApp.initializeApp(this);
         FirebaseInstanceId.getInstance().getInstanceId().
                 addOnSuccessListener(SplashActivity.this, new OnSuccessListener<InstanceIdResult>() {
                     @Override

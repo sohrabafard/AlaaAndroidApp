@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.wrappers.InstantApps;
 
@@ -38,6 +39,7 @@ import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
+import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.MainItem;
@@ -91,20 +93,54 @@ public class DashboardMainFrg extends BaseFragment {
         setData();
     }
 
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_dashbard, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
 
-        switch (id) {
-            case android.R.id.home:
+        if (id == android.R.id.home) {
+            Events.CloseFragment closeFragment = new Events.CloseFragment();
+            closeFragment.setTagFragments("");
+            EventBus.getDefault().post(closeFragment);
+        } else if (id == R.id.actionSettingLogout) {
 
-                Events.CloseFragment closeFragment = new Events.CloseFragment();
-                closeFragment.setTagFragments("");
-                EventBus.getDefault().post(closeFragment);
-                break;
+            MyAlertDialogFrg alert = new MyAlertDialogFrg();
+            alert.setTitle("خروج از حساب کاربری");
+            alert.setMessage("آیا مایلید از حساب کاربری آلاء خارج شوید؟");
+            alert.setListener(new MyAlertDialogFrg.MyAlertDialogListener() {
+                @Override
+                public void setOnPositive() {
+                    accountInfo.removeAccount(ACCOUNT_TYPE, new AccountInfo.RemoveAccount() {
+                        @Override
+                        public void onRemove(boolean done) {
+                            if (done) {
+                                ActivityBase.toastShow("با موفقیت خارج شدید", MDToast.TYPE_SUCCESS);
+                                Events.CloseFragment closeFragment = new Events.CloseFragment();
+                                closeFragment.setTagFragments("");
+                                EventBus.getDefault().post(closeFragment);
+                            } else {
+                                ActivityBase.toastShow("خطا در حذف اکانت", MDToast.TYPE_ERROR);
+                            }
+                        }
+                    });
+
+                    // Log.i("LOG", "setOnPositive: accountInfo");
+                }
+
+                @Override
+                public void setOnNegative() {
+
+                }
+            });
+            alert.show(getFragmentManager(), "alert");
+
         }
+
 
         return super.onOptionsItemSelected(item);
     }

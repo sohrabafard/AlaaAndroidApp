@@ -8,7 +8,7 @@
     <string name="profile">پروفایل</string>
     <string name="my_product">محصولات من</string>
 
-    <string name="firebaseApplicationId" translatable="false">1:93895183217:android:c0eff60db6b60372</string>
+    <string name="firebaseApplicationId" translatable="false">1:93895183217:android:87158b141dea0bed</string>
     <string name="aboutMe">
         آلاء پنجره ای است رو به دور نمای آموزش کشور که می کوشد با اساتید کار بلد و مخاطبان پر تعداد و متعهد خود آموزش همگانی را در چهار گوشه ی این سرزمین در دسترس فرزندان ایران قرار دهد.
 خدمات اصلی آموزش در آلاء کاملا رایگان بوده و درآمد خدمات جانبی آن صرف برپا نگه داشتن و دوام این مجموعه عام المنفعه می شود. محصولات ما پیش تر با نام های آلاء و تخته خاک در اختیار مخاطبان قرار می گرفت که برای سهولت در مدیریت و دسترسی کاربران اکنون انحصارا با نام آلاء منتشر می شود.
@@ -197,6 +197,35 @@
          </div>
          ]]>
    </string>
+    <string name="settingsTelegram">کانال تلگرام آلاء</string>
+    <string name="settingsSupportBuy">پشتیبانی بعد از خرید</string>
 
+    <string name="supportBuy">
+    <![CDATA[
+         <div>
+           روش ۱:
+         </div>
+
+         <div>
+         ارسال پیام به ادمین تلگرام آلاء، به آیدی
+         </div>
+
+          <div>
+             <a href="https://telegram.me/sanati_sharif">@sanati_sharif</a>
+          </div>
+
+          <div>
+  روش ۲:
+          </div>
+
+          <div>
+             تماس تلفنی ساعت ۱۵ الی ۱۸،
+            شنبه تا چهارشنبه با شماره
+            02166165191
+         </div>
+
+         ]]>
+ </string>
+    <string name="settingLogout">خروج از حساب کاربری</string>
 
 </resources>

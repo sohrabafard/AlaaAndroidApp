@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -16,6 +17,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -297,6 +299,17 @@ public class Utils {
                 return;
             }
         }
+    }
+    public static boolean isConnected() {
+        try {
+            android.net.ConnectivityManager e = (android.net.ConnectivityManager) AppConfig.context.getSystemService(
+                    AppConfig.context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetwork = e.getActiveNetworkInfo();
+            return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        } catch (Exception e) {
+            Log.w("LOG", e.toString());
+        }
 
+        return false;
     }
 }

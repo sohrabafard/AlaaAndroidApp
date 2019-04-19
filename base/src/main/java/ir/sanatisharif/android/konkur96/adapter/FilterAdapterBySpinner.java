@@ -65,7 +65,6 @@ public class FilterAdapterBySpinner extends ArrayAdapter<String> {
         label.setTextColor(context.getResources().getColor(R.color.Black_2));
         label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
         label.setTypeface(AppConfig.fontIRSensLight);
-        label.setBackgroundColor(R.color.tag_color);
         label.setPadding(10, 10, 10, 10);
         label.setText(values[position]);
 
