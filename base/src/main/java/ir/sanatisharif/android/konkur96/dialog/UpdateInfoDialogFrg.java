@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.preference.PreferenceManager;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +79,8 @@ public class UpdateInfoDialogFrg extends BaseDialogFragment<UpdateInfoDialogFrg>
 
         txtAccept = dialog.findViewById(R.id.txtAccept);
         txtContent = dialog.findViewById(R.id.txtContent);
+
+        txtContent.setText(Html.fromHtml(getString(R.string.update_info)));
 
         txtAccept.setOnClickListener(new View.OnClickListener() {
             @Override

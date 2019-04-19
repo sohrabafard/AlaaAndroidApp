@@ -170,6 +170,7 @@ public class DashboardMainFrg extends BaseFragment {
                 addFrg(AbouteMeFrg.newInstance(), "AbouteMeFrg");
             }
         });
+
         fabItemVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
