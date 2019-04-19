@@ -117,7 +117,6 @@ public class AbouteMeFrg extends BaseFragment {
                 }
             }
         });
-
     }
 
     public boolean isAppAvailable(Context context, String appName) {

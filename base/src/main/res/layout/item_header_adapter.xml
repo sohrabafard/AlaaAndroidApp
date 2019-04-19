@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
+            android:textSize="@dimen/_12sdp"
             android:gravity="right"
             android:text=""
             android:textColor="@color/colorPrimary" />
@@ -29,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
+            android:textSize="@dimen/_12sdp"
             android:drawableLeft="@drawable/ic_arrow_left"
             android:gravity="right"
             android:text="@string/more"

@@ -27,6 +27,7 @@
             android:layoutDirection="ltr"
             android:paddingRight="8dp"
             android:text=""
+            android:textSize="@dimen/_14sdp"
             android:textColorHint="@color/Gray"
             android:textColorLink="@color/White"
             android:textDirection="ltr"
@@ -43,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
+            android:textSize="@dimen/_14sdp"
             android:background="@color/White"
             android:gravity="right|bottom"
             android:hint="@string/personalCode"
@@ -69,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
+                android:textSize="@dimen/_14sdp"
                 android:layout_weight="0.5"
                 android:background="@color/White"
                 android:gravity="right|bottom"
@@ -91,6 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
+                android:textSize="@dimen/_14sdp"
                 android:layout_weight="0.5"
                 android:background="@color/White"
                 android:gravity="right|bottom"
@@ -117,6 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:background="@color/White"
+            android:textSize="@dimen/_14sdp"
             android:gravity="right|bottom"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
@@ -154,6 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_button"
+            android:textSize="@dimen/_11sdp"
             android:text="@string/register" />
 
         <TextView
@@ -165,7 +171,7 @@
             android:padding="6dp"
             android:text="@string/accountExist"
             android:textColor="@color/Black_1"
-            android:textSize="15sp" />
+            android:textSize="@dimen/_10sdp" />
 
 
     </LinearLayout>

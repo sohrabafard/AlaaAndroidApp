@@ -182,7 +182,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
     //<editor-fold desc="get Data from server">
     void getData(String nextUrl) {
-
+        Log.i("LOG", "onFailure: start");
         repeatLoad = true;
         swipeRefreshLayout.post(new Runnable() {
             @Override
@@ -198,6 +198,9 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                 Filter filter = (Filter) obj;
                 int size = mList.size();
                 if (type == AppConstants.FILTER_VIDEO) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    Log.i("LOG", "onFailure: onSuccess");
+
                     //reset pagination
                     mList.addAll(filter.getResult().getVideo().getData());
                     pagination = filter.getResult().getVideo();
@@ -216,13 +219,14 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                 }
 
                 adapter.notifyItemMoved(size, mList.size() - 1);
-                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(String message) {
                 // failLoadDialog();
+                Log.i("LOG", "onFailure: faailllll " + message);
                 swipeRefreshLayout.setRefreshing(false);
+
             }
         });
     }
@@ -271,9 +275,9 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
     @Override
     public void onCheckNetwork(boolean flag) {
         if (flag) {
-            ;
-        } else
+        } else {
             show();
+        }
     }
 }
 

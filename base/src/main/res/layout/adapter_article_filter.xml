@@ -38,7 +38,7 @@
                 android:layout_margin="4dp"
                 android:text="name"
                 android:textColor="@color/Black_2"
-                android:textSize="14sp" />
+                android:textSize="@dimen/_12sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                     android:text="@string/alla_1"
                     android:fontFamily="@font/iransansbold"
                     android:textColor="#606060"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/_11sdp" />
 
                 <TextView
                     android:id="@+id/txtAuthor"
@@ -64,7 +64,7 @@
                     android:gravity="left"
                     android:text="لالالا"
                     android:textColor="#606060"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/_11sdp" />
 
             </LinearLayout>
 

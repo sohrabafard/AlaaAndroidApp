@@ -51,6 +51,7 @@
                     android:layout_marginBottom="@dimen/spacing_xlarge"
                     android:layout_marginLeft="@dimen/spacing_mxlarge"
                     android:layout_marginRight="@dimen/spacing_mxlarge"
+                    android:textSize="@dimen/_13sdp"
                     android:layout_marginTop="@dimen/spacing_middle"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"

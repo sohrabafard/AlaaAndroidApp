@@ -98,6 +98,8 @@ public class MainApi {
 
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
+                } else {
+                    iServerCallbackObject.onFailure("");
                 }
             }
 
@@ -118,6 +120,8 @@ public class MainApi {
 
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
+                } else {
+                    iServerCallbackObject.onFailure("");
                 }
             }
 
@@ -139,6 +143,8 @@ public class MainApi {
 
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
+                } else {
+                    iServerCallbackObject.onFailure("");
                 }
             }
 
@@ -159,6 +165,8 @@ public class MainApi {
 
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
+                } else {
+                    iServerCallbackObject.onFailure("");
                 }
             }
 
@@ -180,6 +188,8 @@ public class MainApi {
 
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
+                } else {
+                    iServerCallbackObject.onFailure("");
                 }
             }
 
@@ -200,14 +210,15 @@ public class MainApi {
 
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
-                    Log.i("LOG", "onResponse: " + response.body().toString());
+                } else {
+                    iServerCallbackObject.onFailure("");
                 }
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 iServerCallbackObject.onFailure(t.getMessage());
-                Log.i("LOG", "onResponse: " + t.getMessage());
+
             }
         });
     }

@@ -12,18 +12,29 @@ import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.widget.ProgressBar;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.CrashlyticsInitProvider;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.android.gms.common.wrappers.InstantApps;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
+
+
+import io.fabric.sdk.android.Fabric;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.ApiModule;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
+
+//@ReportsCrashes(formKey = "", formUri = "http://edu-edu.ir/alla/report.php", customReportContent = {
+//        ReportField.APP_VERSION_CODE, ReportField.APP_VERSION_NAME,
+//        ReportField.ANDROID_VERSION, ReportField.PHONE_MODEL,
+//        ReportField.BRAND, ReportField.CUSTOM_DATA, ReportField.STACK_TRACE,
+//        ReportField.LOGCAT}, mode = ReportingInteractionMode.SILENT)
 
 public class AppConfig extends Application {
 
@@ -50,12 +61,15 @@ public class AppConfig extends Application {
     public void onCreate() {
         super.onCreate();
 
+        Fabric.with(this, new Crashlytics());
+        Crashlytics.setBool("InstantApp", InstantApps.isInstantApp(this));
+
         // MultiDex.install(this);
         mInstance = this;
         context = getApplicationContext();
 
         //Firebase init by application id
-        if(!InstantApps.isInstantApp(getApplicationContext())) {
+        if (!InstantApps.isInstantApp(getApplicationContext())) {
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setApplicationId(getString(R.string.firebaseApplicationId))
                     .build();

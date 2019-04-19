@@ -91,9 +91,11 @@ public class OnBoardingActivity extends ActivityBase {
                     viewPager.setCurrentItem(current);
                 } else {
                     //register
-                    if (!InstantApps.isInstantApp(getApplicationContext()))
-                        accountInfo.ExistAccount(ACCOUNT_TYPE);
-                    else {
+                    if (!InstantApps.isInstantApp(getApplicationContext())) {
+                        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+                            startActivity(new Intent(OnBoardingActivity.this, MainActivity.class));
+                        }
+                    } else {
                         startActivity(new Intent(OnBoardingActivity.this, MainActivity.class));
                     }
                     finish();

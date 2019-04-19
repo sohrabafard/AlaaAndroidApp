@@ -23,11 +23,12 @@
     <Button
         android:id="@+id/btn_next"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:background="@drawable/shape_button_white"
         android:gravity="center"
         android:text="@string/next"
+        android:textSize="@dimen/_15sdp"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="@color/Black_2"

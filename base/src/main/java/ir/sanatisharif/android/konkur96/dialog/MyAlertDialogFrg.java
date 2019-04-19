@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ public class MyAlertDialogFrg extends BaseDialogFragment<MyAlertDialogFrg> {
 
     private String title;
     private String message;
+    private boolean html = false;
 
     public static MyAlertDialogFrg newInstance() {
         MyAlertDialogFrg frag = new MyAlertDialogFrg();
@@ -35,6 +38,15 @@ public class MyAlertDialogFrg extends BaseDialogFragment<MyAlertDialogFrg> {
     }
 
     //<editor-fold desc="setter">
+
+    public boolean isHtml() {
+        return html;
+    }
+
+    public void setHtml(boolean html) {
+        this.html = html;
+    }
+
     public void setListener(MyAlertDialogListener listener) {
         this.listener = listener;
     }
@@ -82,14 +94,19 @@ public class MyAlertDialogFrg extends BaseDialogFragment<MyAlertDialogFrg> {
 
         txtDownload = dialog.findViewById(R.id.txtDownload);
         txtCancel = dialog.findViewById(R.id.txtCancel);
-        txtMessage = dialog.findViewById(R.id.txtMessage);
         txtTitle = dialog.findViewById(R.id.txtTitle);
+
+        txtMessage = dialog.findViewById(R.id.txtMessage);
 
         ripple(txtDownload, 4);
         ripple(txtCancel, 4);
 
         if (message != null) {
-            txtMessage.setText(message.trim());
+            if (html) {
+                txtMessage.setText(Html.fromHtml(message.trim()));
+                txtMessage.setMovementMethod (LinkMovementMethod.getInstance());
+            } else
+                txtMessage.setText(message.trim());
         }
         if (title != null) {
             txtTitle.setText(title.trim());

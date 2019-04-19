@@ -10,10 +10,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+
 import com.google.android.gms.common.wrappers.InstantApps;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -83,16 +85,19 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         return new MainActivity();
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         repository = new RepositoryImpl(this);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         }
+
 
         accountInfo = new AccountInfo(getApplicationContext(), this);
         containerHeight(this);
@@ -156,6 +161,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
 
+        // forceCrash(bottomNavigation);
         ArrayList<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
         AHBottomNavigationItem item1 = new AHBottomNavigationItem("", R.drawable.ic_home);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem("", R.drawable.ic_message);
@@ -354,10 +360,8 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
     @Subscribe
     public void getMessage(Events.CloseFragment closeFragment) {
-
         close();
     }
-
 
     @Override
     public void onCheckNetwork(boolean flag) {
