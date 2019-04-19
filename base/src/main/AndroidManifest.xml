@@ -41,16 +41,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-        </activity>
-
-        <activity
-            android:name="ir.sanatisharif.android.konkur96.activity.MainActivity"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait">
-
             <meta-data
                 android:name="default-url"
-                android:value="https://sanatisharif.ir/login" />
+                android:value="https://sanatisharif.ir/" />
 
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -61,9 +54,33 @@
                 <data android:scheme="https" />
                 <data android:scheme="http" />
                 <data android:host="sanatisharif.ir" />
-                <data android:pathPrefix="/login" />
+                <data android:pathPrefix="/" />
 
             </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="ir.sanatisharif.android.konkur96.activity.MainActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait">
+
+            <!--<meta-data-->
+                <!--android:name="default-url"-->
+                <!--android:value="https://sanatisharif.ir/" />-->
+
+            <!--<intent-filter android:autoVerify="true">-->
+                <!--<action android:name="android.intent.action.VIEW" />-->
+
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<category android:name="android.intent.category.BROWSABLE" />-->
+
+                <!--<data android:scheme="https" />-->
+                <!--<data android:scheme="http" />-->
+                <!--<data android:host="sanatisharif.ir" />-->
+                <!--<data android:pathPrefix="/" />-->
+
+            <!--</intent-filter>-->
 
 
             <intent-filter>

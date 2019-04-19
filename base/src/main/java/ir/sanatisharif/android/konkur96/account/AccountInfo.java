@@ -5,18 +5,27 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.google.android.gms.common.wrappers.InstantApps;
 import com.google.gson.Gson;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.Authenticator;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
+import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static ir.sanatisharif.android.konkur96.activity.ActivityBase.toastShow;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
@@ -52,7 +61,7 @@ public class AccountInfo {
                             public void run(AccountManagerFuture<Bundle> future) {
                                 try {
                                     Bundle bnd = future.getResult();
-                                  //  Log.i(TAG, "addNewAccount  : " + bnd);
+                                    //  Log.i(TAG, "addNewAccount  : " + bnd);
                                     toastShow(context.getResources().getString(R.string.register_success), MDToast.TYPE_SUCCESS);
 
                                 } catch (Exception e) {
@@ -125,6 +134,28 @@ public class AccountInfo {
 
     public boolean ExistAccount(String type) {
 
+        if (InstantApps.isInstantApp(context)) {
+            new AlertDialog.Builder(AppConfig.currentActivity)
+                    .setView(R.layout.alert_dialog)
+                    .setPositiveButton("بله", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent goToMarket = new Intent(Intent.ACTION_VIEW)
+                                    .setData(Uri.parse("https://play.google.com/store/apps/details?id=ir.sanatisharif.android.konkur96"));
+                            goToMarket.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(goToMarket);
+                        }
+                    })
+                    .setNegativeButton("خیر", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .create().show();
+
+            return false;
+        }
         Account availableAccounts[] = mAccountManager.getAccountsByType(type);
         if (availableAccounts.length == 0) {
             addNewAccount(type, AUTHTOKEN_TYPE_FULL_ACCESS);

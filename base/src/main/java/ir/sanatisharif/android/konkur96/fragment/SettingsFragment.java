@@ -51,15 +51,20 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         //add xml
         addPreferencesFromResource(R.xml.settings);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        try {
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-          Preference pref1 = findPreference("player_quality");
-          pref1.setSummary(sharedPreferences.getString(pref1.getKey(), "240"));
+            Preference pref1 = findPreference("player_quality");
+            pref1.setSummary(sharedPreferences.getString(pref1.getKey(), "240"));
 
-         // Preference pref2 = findPreference("storage");
-         // pref2.setSummary(sharedPreferences.getString(pref2.getKey(), "external"));
+            // Preference pref2 = findPreference("storage");
+            // pref2.setSummary(sharedPreferences.getString(pref2.getKey(), "external"));
 
-        onSharedPreferenceChanged(sharedPreferences, getString(R.string.setting_external_download));
+            onSharedPreferenceChanged(sharedPreferences, getString(R.string.setting_external_download));
+        } catch (Exception ex) {
+            Log.i(TAG, "onCreatePreferences: " + ex.getMessage());
+        }
+
     }
 
     @Override

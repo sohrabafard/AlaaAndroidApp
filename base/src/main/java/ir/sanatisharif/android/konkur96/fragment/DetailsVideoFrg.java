@@ -61,12 +61,14 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.gms.common.wrappers.InstantApps;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
 import ir.sanatisharif.android.konkur96.adapter.PlayListAdapter;
 import ir.sanatisharif.android.konkur96.api.MainApi;
@@ -281,7 +283,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 if (filter.getResult().getVideo() != null) {
                     videoCourses.addAll(filter.getResult().getVideo().getData());
                     pagination = filter.getResult().getVideo();
-                    Log.i(TAG, "onLoadMore: " + playListAdapter.getItemCount() + " " + videoCourses.size());
+                    // Log.i(TAG, "onLoadMore: " + playListAdapter.getItemCount() + " " + videoCourses.size());
                     playListAdapter.notifyItemMoved(playListAdapter.getItemCount(), videoCourses.size() - 1);
                 }
             }
@@ -345,7 +347,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
             if (null != course) {
 
-                if (!checkExistVideo(course.getFile().getVideo()))
+                if (!checkExistVideoToSD(course.getFile().getVideo()))
                     mUrl = course.getFile().getVideo().get(0).getUrl();
             }
             startPlayer(mUrl);
@@ -416,7 +418,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 player.seekTo(mResumeWindow, mResumePosition);
             }
 
-          //  player.prepare(mVideoSource, !haveResumePosition, false);
+            //  player.prepare(mVideoSource, !haveResumePosition, false);
             player.setPlayWhenReady(true);
         }
     }
@@ -476,7 +478,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         tagGroup.setTags(course.getTags().getTags());
 
         if (course.getFile() != null && course.getFile().getVideo().size() > 0)
-            checkExistVideo(course.getFile().getVideo());
+            checkExistVideoToSD(course.getFile().getVideo());
 
         tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
             @Override
@@ -562,7 +564,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             public void onItemClick(int position, Object item, View view, RecyclerView.ViewHolder vh) {
 
                 player.setPlayWhenReady(false);
-               // releasePlayer();
+                // releasePlayer();
                 loader.setVisibility(View.VISIBLE);
                 positionPlaying = position;
                 course = (DataCourse) item;
@@ -577,7 +579,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     mFullScreenDialog.show();
                 }
 
-                if (!checkExistVideo(course.getFile().getVideo()))
+                if (!checkExistVideoToSD(course.getFile().getVideo()))
                     mUrl = course.getFile().getVideo().get(0).getUrl();
 
                 AppConfig.HANDLER.postDelayed(new Runnable() {
@@ -617,6 +619,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         resizePlayer();
         setRipple();
+
 
         imgDownload.setOnClickListener(this);
         imgReady.setOnClickListener(this);
@@ -832,7 +835,19 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     }
 
-    private boolean checkExistVideo(List<Video> videos) {
+    /**
+     * if return true ie file is exist ito SD
+     * if return false file not exist
+     * @param videos
+     * @return
+     */
+    private boolean checkExistVideoToSD(List<Video> videos) {
+
+        if (InstantApps.isInstantApp(getContext())) {
+            imgDownload.setVisibility(View.GONE);
+            imgReady.setVisibility(View.GONE);
+            return false;
+        }
 
         for (int i = 0; i < videos.size(); i++) {
 

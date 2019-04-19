@@ -14,7 +14,9 @@ import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.google.android.gms.common.wrappers.InstantApps;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -92,7 +94,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         }
 
-       // mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         accountInfo = new AccountInfo(getApplicationContext(), this);
         containerHeight(this);
         fragments = new Stack<>();
@@ -102,8 +103,8 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         initUI();
 
         //-----------add FirstFragment
-       addFrg(AllaMainFrg.newInstance(), "alla");
-//
+        addFrg(AllaMainFrg.newInstance(), "alla");
+
 //        //-------- handle deep link
         if (getIntent() != null)
             handleIntent(getIntent());
@@ -114,8 +115,10 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             updateInfoDialogFrg.show(getSupportFragmentManager(), "");
         }
 
-        if (!MyPreferenceManager.getInatanse().isSendTokenToServer())
-            sendRegistrationToServer();
+        //  retrieveToken();
+        if (!InstantApps.isInstantApp(getApplicationContext()))
+            if (!MyPreferenceManager.getInatanse().isSendTokenToServer())
+                sendRegistrationToServer();
     }
 
     @Override
@@ -234,7 +237,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 MainApi.getInstance().sendRegistrationToServer(user.getId(), firebaseToken, new IServerCallbackObject() {
                     @Override
                     public void onSuccess(Object obj) {
-                        Log.i("LOG", "onResponse: " + user.getId());
+                        // Log.i("LOG", "onResponse: " + user.getId());
                         MyPreferenceManager.getInatanse().setApiToken("");
                         MyPreferenceManager.getInatanse().setAuthorize(false);
                         MyPreferenceManager.getInatanse().setSendTokenToServer(true);
@@ -276,6 +279,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 break;
         }
     }
+
 
     public static void addFrg(Fragment frg, String tag) {
 
