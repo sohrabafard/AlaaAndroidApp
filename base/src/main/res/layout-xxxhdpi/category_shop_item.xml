@@ -12,7 +12,7 @@
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/White"
     app:cardCornerRadius="0dp"
-    app:cardElevation="1dp"
+    app:cardElevation="2dp"
     >
 
     <LinearLayout
