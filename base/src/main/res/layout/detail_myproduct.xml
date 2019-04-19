@@ -53,7 +53,6 @@
         android:id="@+id/recyclerView_main_bought"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/category_bought_item"
         android:background="@color/White" />
 
 </LinearLayout>

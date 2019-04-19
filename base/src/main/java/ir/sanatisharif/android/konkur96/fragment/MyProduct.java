@@ -1,44 +1,29 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
-import ir.sanatisharif.android.konkur96.activity.SettingActivity;
-import ir.sanatisharif.android.konkur96.adapter.MainBoughtItemAdapter;
-import ir.sanatisharif.android.konkur96.adapter.MoreProductAdapter;
 import ir.sanatisharif.android.konkur96.adapter.MyProductAdapter;
-import ir.sanatisharif.android.konkur96.api.Models.AddToCardListModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
 import ir.sanatisharif.android.konkur96.api.Models.WalletModel;
 import ir.sanatisharif.android.konkur96.api.Models.myProductsModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
@@ -51,7 +36,7 @@ public class MyProduct extends Fragment {
 
     private RecyclerView productMainRecyclerView;
     private TextView txtWallet;
-    private GridLayoutManager gridLayoutManager;
+    private LinearLayoutManager linearLayoutManager;
 
     private Repository repository;
     private AccountInfo accountInfo;
@@ -98,8 +83,8 @@ public class MyProduct extends Fragment {
         productMainRecyclerView = v.findViewById(R.id.recyclerView_main_bought);
         productMainRecyclerView.setNestedScrollingEnabled(false);
         productMainRecyclerView.setHasFixedSize(true);
-        gridLayoutManager = new GridLayoutManager(AppConfig.context, 3);
-        productMainRecyclerView.setLayoutManager(gridLayoutManager);
+        linearLayoutManager = new LinearLayoutManager(AppConfig.context);
+        productMainRecyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MyProductAdapter(getContext(), items);
         productMainRecyclerView.setAdapter(adapter);
         productMainRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -175,5 +160,3 @@ public class MyProduct extends Fragment {
     }
 
 }
-
-

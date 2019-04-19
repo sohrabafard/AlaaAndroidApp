@@ -49,7 +49,7 @@ import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
-public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, CardReviewProductAdapter.DeleteListener {
 
     private int finalPrice;
 
@@ -222,7 +222,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         productsRecyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
         productsRecyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new CardReviewProductAdapter(getContext(), items, this::delete);
+        adapter = new CardReviewProductAdapter(getContext(), items, this);
         productsRecyclerView.setAdapter(adapter);
         productsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -319,6 +319,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
                                     Toast.makeText(getContext(),"با موفقیت حدف شد.", Toast.LENGTH_LONG).show();
                                     onRefresh();
+                                    productsRecyclerView.getAdapter().notifyDataSetChanged();
                                     swipeRefreshLayout.setRefreshing(false);
                                 } else {
 
@@ -332,6 +333,13 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }
 
 
+
+    }
+
+    @Override
+    public void onClickDelete(int id) {
+
+        delete(id);
 
     }
 }
