@@ -1,13 +1,21 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.api.Models.ProductSetModel;
 import ir.sanatisharif.android.konkur96.fragment.MyProductSet;
 import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
 import ir.sanatisharif.android.konkur96.ui.view.CustomShopItemView;
@@ -29,11 +37,8 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.Cont
     @Override
     public ContentHolder onCreateViewHolder(ViewGroup parent, int typeviewsingle) {
 
-        CustomShopItemView itemView = new CustomShopItemView(parent.getContext());
-        itemView.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        ));
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_productset, parent, false);
         return new ContentHolder(itemView);
     }
 
@@ -42,18 +47,11 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.Cont
 
         ProductModel item = itemsList.get(position);
 
-        holder.customShopItemView.setClickItem(position, item);
-        holder.customShopItemView.setTitle(item.getName());
-        holder.customShopItemView.setPrice(ShopUtils.formatPrice(item.getPrice().getMfinal()));
-        if (item.getPrice().getDiscount() > 0){
+        holder.title.setText(item.getName());
+        Glide.with(mContext).load(item.getPhoto()).into(holder.imageView);
 
-            holder.customShopItemView.setDiscount(ShopUtils.formatPrice(item.getPrice().getBase()));
 
-        }
-        holder.customShopItemView.setImage(item.getPhoto());
-
-        holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(MyProductSet.newInstance(item.getSets()),"MyProductSet"));
-
+        holder.cardView.setOnClickListener(view -> addFrg(MyProductSet.newInstance(item.getSets()),"MyProductSet"));
 
     }
 
@@ -65,16 +63,20 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.Cont
 
     public class ContentHolder extends RecyclerView.ViewHolder {
 
-        CustomShopItemView customShopItemView;
+        public TextView title;
+        public ImageView imageView;
+        public CardView cardView;
 
         public ContentHolder(View itemView) {
             super(itemView);
-            customShopItemView = (CustomShopItemView) itemView;
+            title = itemView.findViewById(R.id.txt_title);
+            imageView = itemView.findViewById(R.id.imgset);
+            cardView = itemView.findViewById(R.id.card_body);
         }
 
-        public CustomShopItemView getCustomCatItem() {
+       /* public CustomShopItemView getCustomCatItem() {
             return customShopItemView;
-        }
+        }*/
     }
 
 }

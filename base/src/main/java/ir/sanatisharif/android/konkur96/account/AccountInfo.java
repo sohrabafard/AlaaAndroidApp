@@ -73,20 +73,17 @@ public class AccountInfo {
         Account[] account = mAccountManager.getAccountsByType(accountType);
         final AccountManagerFuture<Bundle> future = mAccountManager.getAuthToken(account[0], authTokenType, null, activity, null, null);
 
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        Thread t = new Thread(() -> {
 
-                try {
-                    Bundle bnd = future.getResult();
-                    Log.i(TAG, "onCreate: " + bnd);
-                    final String authtoken = bnd.getString(AccountManager.KEY_AUTHTOKEN);
+            try {
+                Bundle bnd = future.getResult();
+                Log.i(TAG, "onCreate: " + bnd);
+                final String authtoken = bnd.getString(AccountManager.KEY_AUTHTOKEN);
 
-                    if (listener != null)
-                        listener.onToken(authtoken);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                if (listener != null)
+                    listener.onToken(authtoken);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
         t.start();

@@ -87,7 +87,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
             }
 
-            itemRowHolderNoGrand.btnDel.setOnClickListener(view -> deleteListener.onClickDelete(model.getOrder_id()));
+            itemRowHolderNoGrand.btnDel.setOnClickListener(view -> deleteListener.onClickDelete(model.getId()));
 
             Glide.with(context).load(image).into(itemRowHolderNoGrand.imageView);
 
@@ -99,6 +99,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
             final String title = model.getGrandProduct().getName();
             final String proTitle = model.getProduct().getName();
             final int price = model.getProduct().getPrice().getMfinal();
+            final int discount = model.getProduct().getPrice().getBase();
             final String image = model.getProduct().getPhoto();
 
             final GrandProductViewHolder itemRowHolderGrand = (GrandProductViewHolder) holder;
@@ -106,6 +107,18 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
             itemRowHolderGrand.txtTitle.setText(title);
             itemRowHolderGrand.txtProTitle.setText(proTitle);
             itemRowHolderGrand.txtPrice.setText(ShopUtils.formatPrice(price) + " تومان ");
+
+            if (discount > 0){
+                itemRowHolderGrand.txtDiscount.setVisibility(View.VISIBLE);
+                itemRowHolderGrand.txtDiscount.setText(ShopUtils.formatPrice(discount) + " تومان ");
+
+            }else {
+
+                itemRowHolderGrand.txtDiscount.setVisibility(View.GONE);
+
+            }
+
+            itemRowHolderGrand.btnDel.setOnClickListener(view -> deleteListener.onClickDelete(model.getId()));
 
             Glide.with(context).load(image).into(itemRowHolderGrand.imageView);
 
