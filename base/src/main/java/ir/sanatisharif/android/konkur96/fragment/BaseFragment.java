@@ -32,7 +32,7 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
 
     private Toolbar toolbar;
     private TextView txtTitle;
-    private LifecycleRegistry mLifecycleRegistry;
+   // private LifecycleRegistry mLifecycleRegistry;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanseState) {
@@ -42,39 +42,50 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
     public abstract View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
 
-    @Override
-    public LifecycleRegistry getLifecycle() {
-        return mLifecycleRegistry;
-    }
+//    @Override
+//    public LifecycleRegistry getLifecycle() {
+//        return mLifecycleRegistry;
+//    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
-    }
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        AppConfig.mInstance.setICheckNetwork(null);
-        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-    }
-
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mLifecycleRegistry = new LifecycleRegistry(this);
-        mLifecycleRegistry.markState(Lifecycle.State.CREATED);
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
+//    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+//
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+//        super.onDestroy();
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
+//        super.onPause();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
+//        super.onStop();
+//        AppConfig.mInstance.setICheckNetwork(null);
+//    }
+//
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//
+//        mLifecycleRegistry = new LifecycleRegistry(this);
+//        mLifecycleRegistry.markState(Lifecycle.State.CREATED);
+//    }
 
     public void setToolbar(Toolbar mToolbar, String txtTitle) {
 

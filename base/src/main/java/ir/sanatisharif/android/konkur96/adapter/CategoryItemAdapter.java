@@ -1,6 +1,7 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
     private List<Set> itemsList;
     private Context mContext;
 
-
     public CategoryItemAdapter(Context context, List<Set> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
@@ -31,6 +31,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
     public CategoryHolder onCreateViewHolder(ViewGroup parent, int typeviewsingle) {
 
         CustomItemView itemView = new CustomItemView(parent.getContext());
+        //itemView.setGlide(glideRequests);
         itemView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT

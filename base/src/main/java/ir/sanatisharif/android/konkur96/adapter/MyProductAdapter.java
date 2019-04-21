@@ -1,0 +1,82 @@
+package ir.sanatisharif.android.konkur96.adapter;
+
+import android.content.Context;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+
+import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.api.Models.ProductSetModel;
+import ir.sanatisharif.android.konkur96.fragment.MyProductSet;
+import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
+import ir.sanatisharif.android.konkur96.ui.view.CustomShopItemView;
+import ir.sanatisharif.android.konkur96.utils.ShopUtils;
+
+import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
+
+public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.ContentHolder> {
+
+    private ArrayList<ProductModel> itemsList;
+    private Context mContext;
+
+
+    public MyProductAdapter(Context context, ArrayList<ProductModel> itemsList) {
+        this.itemsList = itemsList;
+        this.mContext = context;
+    }
+
+    @Override
+    public ContentHolder onCreateViewHolder(ViewGroup parent, int typeviewsingle) {
+
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_productset, parent, false);
+        return new ContentHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(final ContentHolder holder, final int position) {
+
+        ProductModel item = itemsList.get(position);
+
+        holder.title.setText(item.getName());
+        Glide.with(mContext).load(item.getPhoto()).into(holder.imageView);
+
+
+        holder.cardView.setOnClickListener(view -> addFrg(MyProductSet.newInstance(item.getSets()),"MyProductSet"));
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return (null != itemsList ? itemsList.size() : 0);
+    }
+
+
+    public class ContentHolder extends RecyclerView.ViewHolder {
+
+        public TextView title;
+        public ImageView imageView;
+        public CardView cardView;
+
+        public ContentHolder(View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.txt_title);
+            imageView = itemView.findViewById(R.id.imgset);
+            cardView = itemView.findViewById(R.id.card_body);
+        }
+
+       /* public CustomShopItemView getCustomCatItem() {
+            return customShopItemView;
+        }*/
+    }
+
+}

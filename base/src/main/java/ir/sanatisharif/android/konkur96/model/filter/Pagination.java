@@ -49,7 +49,7 @@ public class Pagination implements Parcelable{
     @SerializedName("total")
     @Expose
     private Integer total;
-    public final static Parcelable.Creator<Pagination> CREATOR = new Parcelable.Creator<Pagination>() {
+    public final static Creator<Pagination> CREATOR = new Creator<Pagination>() {
 
 
         @SuppressWarnings({

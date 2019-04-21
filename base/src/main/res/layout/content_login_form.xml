@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
@@ -22,7 +23,7 @@
             android:gravity="center"
             android:text="@string/login_desc"
             android:textColor="@color/DimGray"
-            android:textSize="13sp" />
+            android:textSize="@dimen/_14sdp" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtPhone"
@@ -36,6 +37,7 @@
             android:layoutDirection="ltr"
             android:paddingRight="8dp"
             android:text=""
+            android:textSize="@dimen/_14sdp"
             android:textColorHint="@color/Gray"
             android:textColorLink="@color/White"
             android:textDirection="ltr"
@@ -55,6 +57,7 @@
             android:background="@color/White"
             android:gravity="right|bottom"
             android:hint="@string/personalCode"
+            android:textSize="@dimen/_14sdp"
             android:inputType="number"
             android:layoutDirection="rtl"
             android:paddingRight="8dp"
@@ -85,7 +88,7 @@
             android:gravity="center"
             android:text="@string/doNot_account"
             android:textColor="@color/Black_1"
-            android:textSize="15sp" />
+            android:textSize="@dimen/_13sdp" />
 
     </LinearLayout>
 </LinearLayout>

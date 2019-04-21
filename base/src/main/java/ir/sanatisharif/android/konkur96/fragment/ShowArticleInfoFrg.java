@@ -1,5 +1,7 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,6 +22,14 @@ import android.widget.TextView;
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.Locale;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
@@ -37,7 +48,8 @@ public class ShowArticleInfoFrg extends BaseFragment {
 
     private String TAG = "ShowContentInfoFrg";
     private TextView txtAuthor, txtTitle;
-    private JustifiedTextView txtDesc, txtContext;
+    private JustifiedTextView txtContext, txtDesc;
+    // private WebView webView;
     private Toolbar toolbar;
     private TagGroup tagGroup;
     private static ArticleCourse course;
@@ -62,6 +74,12 @@ public class ShowArticleInfoFrg extends BaseFragment {
 
         initUI(view);
         setData();
+
+        Configuration configuration = getResources().getConfiguration();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLayoutDirection(new Locale("fa"));
+        }
+        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
     }
 
     private void setData() {
@@ -70,15 +88,52 @@ public class ShowArticleInfoFrg extends BaseFragment {
             txtTitle.setText(course.getName());
             txtAuthor.setText(course.getAuthor().getFullName());
 
-            AppConfig.HANDLER.post(new Runnable() {
+            new Thread(new Runnable() {
                 @Override
                 public void run() {
 
-                    txtDesc.setText(Html.fromHtml(course.getDescription()));
-                    txtContext.setText(Html.fromHtml(course.getContext()));
-                    tagGroup.setTags(course.getTags().getTags());
+                    AppConfig.HANDLER.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if (course.getContext() != null) {
+                                convertStringTo(course.getContext());
+                                txtContext.setText(Html.fromHtml(course.getContext()));
+                            }
+                            if (course.getDescription() != null)
+                                txtDesc.setText(Html.fromHtml(course.getDescription()));
+                            if (course.getTags().getTags() != null)
+                                tagGroup.setTags(course.getTags().getTags());
+                        }
+                    });
                 }
-            });
+            }).start();
+
+
+        }
+    }
+
+    private void convertStringTo(String input) {
+
+        InputStream inputStream = new ByteArrayInputStream(input.getBytes(Charset.forName("UTF-8")));
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+        String output = null;
+        try {
+            output = bufferedReader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        while (output != null) {
+            System.out.println(output);
+            try {
+                output = bufferedReader.readLine();
+                Log.i(TAG, "convertStringTo: " + output);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -90,6 +145,12 @@ public class ShowArticleInfoFrg extends BaseFragment {
         txtDesc = view.findViewById(R.id.txtDesc);
         txtContext = view.findViewById(R.id.txtContext);
         tagGroup = view.findViewById(R.id.tag_group);
+
+        for (View v : tagGroup.getTouchables()) {
+            if (v instanceof TextView) {
+                ((TextView) v).setTypeface(AppConfig.fontIRSensNumber);
+            }
+        }
     }
 
     @Override

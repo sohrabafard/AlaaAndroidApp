@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.adapter.FilterAdapterBySpinner;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.DownloadUrl;
 

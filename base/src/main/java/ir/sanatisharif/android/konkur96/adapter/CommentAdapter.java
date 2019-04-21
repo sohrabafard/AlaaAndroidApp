@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.Comment;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import ir.sanatisharif.android.konkur96.ui.view.CircleTransform;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.VideoHolder> {
@@ -42,11 +41,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.VideoHol
         holder.txtContent.setText(item.getContent());
 
 
-        GlideApp.with(AppConfig.context)
-                .load("http://yakhmakgroup.ir/jokLike/v1/images/imageLogo/1765554797035373646.jpg")
-                .transform(new CircleTransform())
-                .override(72,72)
-                .into(holder.imgUser);
+//        GlideApp.with(AppConfig.context)
+//                .load("http://yakhmakgroup.ir/jokLike/v1/images/imageLogo/1765554797035373646.jpg")
+//                .transform(new CircleTransform(mContext))
+//                .override(72,72)
+//                .into(holder.imgUser);
     }
 
     @Override

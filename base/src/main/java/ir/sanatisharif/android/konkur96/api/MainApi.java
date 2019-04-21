@@ -46,7 +46,7 @@ public class MainApi {
         mainPage.enqueue(new Callback<MainPagesInfo>() {
             @Override
             public void onResponse(Call<MainPagesInfo> call, Response<MainPagesInfo> response) {
-
+                Log.i("LOG", "intercept: mainPages");
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
                 }
@@ -71,9 +71,10 @@ public class MainApi {
                 if (response.isSuccessful()) {
                     UserInfo u = response.body();
                     iServerCallbackObject.onSuccess(u);
+                    Log.i("LOG", "onResponse: ");
                 } else {
                     try {
-                        Log.i("LOG", "onResponse: " + response.errorBody().string());
+                        Log.i("LOG", "onResponse:errorBody  " + response.errorBody().string());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -97,6 +98,8 @@ public class MainApi {
 
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
+                } else {
+                    iServerCallbackObject.onFailure("");
                 }
             }
 
@@ -117,6 +120,8 @@ public class MainApi {
 
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
+                } else {
+                    iServerCallbackObject.onFailure("");
                 }
             }
 
@@ -138,6 +143,8 @@ public class MainApi {
 
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
+                } else {
+                    iServerCallbackObject.onFailure("");
                 }
             }
 
@@ -158,6 +165,8 @@ public class MainApi {
 
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
+                } else {
+                    iServerCallbackObject.onFailure("");
                 }
             }
 
@@ -179,12 +188,37 @@ public class MainApi {
 
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
+                } else {
+                    iServerCallbackObject.onFailure("");
                 }
             }
 
             @Override
             public void onFailure(Call<Filter> call, Throwable t) {
                 iServerCallbackObject.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void sendRegistrationToServer(int user_id, String firebaseToken, IServerCallbackObject iServerCallbackObject) {
+
+        Call<Object> sendTokenCall = api.getFirebaseToken(user_id, firebaseToken);
+
+        sendTokenCall.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+                if (response.isSuccessful()) {
+                    iServerCallbackObject.onSuccess(response.body());
+                } else {
+                    iServerCallbackObject.onFailure("");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                iServerCallbackObject.onFailure(t.getMessage());
+
             }
         });
     }

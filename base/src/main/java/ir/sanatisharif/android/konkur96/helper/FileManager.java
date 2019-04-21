@@ -53,6 +53,12 @@ public class FileManager {
         return getRootPath() + AppConstants.AUDIO + File.separator;
     }
 
+    public static String getPDFPath() {
+
+        // External sdcard location
+        return getRootPath() + AppConstants.PDF + File.separator;
+    }
+
 
     /**
      * method to create root  directory
@@ -107,15 +113,16 @@ public class FileManager {
         return false;
     }
 
-   /* public static List<File> getFileList() {
+    public static Boolean createPDFDir() {
 
-        File directory = new File(getVideoPath());
-        File[] f = directory.listFiles();
-        if (f.length == 0) {
-            return null;
+        String pathName = getPDFPath();
+        File storageDir = new File(pathName);
+        if (!storageDir.exists()) {
+            return storageDir.mkdirs();
         }
-        return Arrays.asList(f);
-    }*/
+        return false;
+    }
+
 
     public static boolean deleteFileAndCheck(String pathName) {
 
@@ -145,12 +152,14 @@ public class FileManager {
     public void getFilesInDirs(File dir) {
 
         File[] files = dir.listFiles();
-        for (File file : files) {
-            if (file.isFile()) {
-                filesArrayList.add(file);
-               // Log.i("LOG", "getFilesInDirs: " + file.getPath());
-            } else if (file.isDirectory()) {
-                getFilesInDirs(file.getAbsoluteFile());
+        if (files != null && files.length != 0) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    filesArrayList.add(file);
+                    // Log.i("LOG", "getFilesInDirs: " + file.getPath());
+                } else if (file.isDirectory()) {
+                    getFilesInDirs(file.getAbsoluteFile());
+                }
             }
         }
     }

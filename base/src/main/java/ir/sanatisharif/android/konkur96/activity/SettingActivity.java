@@ -18,7 +18,6 @@ public class SettingActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-
         initUI();
 
         getSupportFragmentManager().beginTransaction()

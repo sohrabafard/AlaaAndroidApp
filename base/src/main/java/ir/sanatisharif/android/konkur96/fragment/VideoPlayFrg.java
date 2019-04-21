@@ -2,10 +2,14 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.OnLifecycleEvent;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
@@ -65,6 +69,7 @@ public class VideoPlayFrg extends BaseFragment {
     private final String STATE_RESUME_WINDOW = "resumeWindow";
     private final String STATE_RESUME_POSITION = "resumePosition";
     private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
+    private Bundle savedInsPlayer;
 
     ProgressBar progressBar;
 
@@ -89,6 +94,26 @@ public class VideoPlayFrg extends BaseFragment {
     KeyguardManager km;
     KeyguardManager.KeyguardLock kl;
 
+    public class VideoPlayer implements LifecycleObserver {
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        public void play() {
+            //play logic
+            startPlayer();
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        public void pause() {
+            //pause logic
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+        public void stop() {
+            releasePlayer();
+            //stop logic
+        }
+    }
+
     public static VideoPlayFrg newInstance(String path) {
 
         Bundle args = new Bundle();
@@ -98,29 +123,34 @@ public class VideoPlayFrg extends BaseFragment {
         return fragment;
     }
 
+    VideoPlayer videoPlayer;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mLifecycleRegistry = new LifecycleRegistry(this);
-        mLifecycleRegistry.markState(Lifecycle.State.CREATED);
+        // mLifecycleRegistry = new LifecycleRegistry(this);
+        // mLifecycleRegistry.markState(Lifecycle.State.CREATED);
 
         initWakeLockScreen();
         // Fragment locked in landscape screen orientation
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        videoPlayer = new VideoPlayer();
+        getLifecycle().addObserver(videoPlayer);
     }
 
 
-    @Override
-    public LifecycleRegistry getLifecycle() {
-        return mLifecycleRegistry;
-    }
+//    @Override
+//    public LifecycleRegistry getLifecycle() {
+//        return mLifecycleRegistry;
+//    }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
+        // mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
     }
 
     @Override
@@ -132,6 +162,7 @@ public class VideoPlayFrg extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        savedInsPlayer = new Bundle();
         if (savedInstanceState != null) {
             mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
             mResumePosition = savedInstanceState.getLong(STATE_RESUME_POSITION);
@@ -145,7 +176,6 @@ public class VideoPlayFrg extends BaseFragment {
         outState.putInt(STATE_RESUME_WINDOW, mResumeWindow);
         outState.putLong(STATE_RESUME_POSITION, mResumePosition);
         outState.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);
-
         super.onSaveInstanceState(outState);
     }
 
@@ -159,7 +189,6 @@ public class VideoPlayFrg extends BaseFragment {
             }
         };
     }
-
 
     private void openFullscreenDialog() {
 
@@ -189,8 +218,6 @@ public class VideoPlayFrg extends BaseFragment {
         progressBar = getView().findViewById(R.id.progressBar);
 
         mFullScreenButton.setVisibility(View.GONE);
-        //  ripple(controlView.findViewById(R.id.exo_play), 24);
-        //  ripple(controlView.findViewById(R.id.exo_pause), 24);
 
         mFullScreenButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -283,18 +310,60 @@ public class VideoPlayFrg extends BaseFragment {
     @Override
     public void onStop() {
         super.onStop();
-        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-        releasePlayer();
+        // mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
+        // releasePlayer();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getLifecycle().removeObserver(videoPlayer);
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
+        mResumeWindow = savedInsPlayer.getInt(STATE_RESUME_WINDOW);
+        mResumePosition = savedInsPlayer.getLong(STATE_RESUME_POSITION);
+        mExoPlayerFullscreen = savedInsPlayer.getBoolean(STATE_PLAYER_FULLSCREEN);
+
+        if (player != null && mExoPlayerView.getPlayer() != null) {
+
+            boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
+
+            if (haveResumePosition) {
+                player.seekTo(mResumeWindow, mResumePosition);
+            }
+
+            player.addListener(new PlayerEventListener());
+            player.prepare(mVideoSource, !haveResumePosition, false);
+           // player.setPlayWhenReady(true);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (savedInsPlayer != null) {
+
+            if (mExoPlayerView != null && mExoPlayerView.getPlayer() != null) {
+                mResumeWindow = mExoPlayerView.getPlayer().getCurrentWindowIndex();
+                mResumePosition = Math.max(0, mExoPlayerView.getPlayer().getContentPosition());
+
+                mExoPlayerView.getPlayer().release();
+            }
+            savedInsPlayer.putInt(STATE_RESUME_WINDOW, mResumeWindow);
+            savedInsPlayer.putLong(STATE_RESUME_POSITION, mResumePosition);
+            savedInsPlayer.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);
+        }
+        // releasePlayer();
+    }
+
+    private void startPlayer() {
         if (mExoPlayerView == null) {
 
             mExoPlayerView = (SimpleExoPlayerView) getView().findViewById(R.id.exoplayer);
-
 
             mUrl = getArguments().getString("path");//"https://cdn.sanatisharif.ir/media/170/240p/170023fghg.mp4";
             initFullscreenDialog();
@@ -321,14 +390,6 @@ public class VideoPlayFrg extends BaseFragment {
             mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(AppConfig.currentActivity, R.drawable.ic_fullscreen_skrink));
             mFullScreenDialog.show();
         }
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        releasePlayer();
     }
 
     private void releasePlayer() {
@@ -422,6 +483,7 @@ public class VideoPlayFrg extends BaseFragment {
     };
 
     //<editor-fold desc="lock">
+    @SuppressLint("InvalidWakeLockTag")
     private void initWakeLockScreen() {
         pm = (PowerManager) getContext().getSystemService(POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
@@ -430,7 +492,10 @@ public class VideoPlayFrg extends BaseFragment {
 
 
         km = (KeyguardManager) getContext().getSystemService(KEYGUARD_SERVICE);
-        kl = km.newKeyguardLock("alla");
+        if (null != km) {
+
+            kl = km.newKeyguardLock("alla");
+        }
 
     }
 

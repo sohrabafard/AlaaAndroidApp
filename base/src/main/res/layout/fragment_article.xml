@@ -111,9 +111,12 @@
             <me.gujun.android.taggroup.TagGroup
                 android:id="@+id/tag_group"
                 style="@style/TagGroup"
-                app:atg_backgroundColor="@color/tag_color"
-                app:atg_borderColor="@color/tag_color"
-                app:atg_textColor="@color/White" />
+                android:layout_margin="4dp"
+                app:atg_backgroundColor="@color/Monochromatic_7"
+                app:atg_borderColor="@color/Monochromatic_3"
+                app:atg_checkedBackgroundColor="@color/White"
+                app:atg_textColor="@color/Black_2"
+                app:atg_textSize="14sp" />
 
         </LinearLayout>
 

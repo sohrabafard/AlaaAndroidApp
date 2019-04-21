@@ -62,10 +62,10 @@ public class FilterAdapterBySpinner extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         // I created a dynamic TextView here, but you can reference your own custom layout for each spinner item
         TextView label = new TextView(context);
-        label.setTextColor(context.getResources().getColor(R.color.Gray));
+        label.setTextColor(context.getResources().getColor(R.color.Black_2));
         label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
         label.setTypeface(AppConfig.fontIRSensLight);
-        label.setPadding(1, 1, 4, 1);
+        label.setPadding(10, 10, 10, 10);
         label.setText(values[position]);
 
         return label;
@@ -78,8 +78,8 @@ public class FilterAdapterBySpinner extends ArrayAdapter<String> {
         TextView label = new TextView(context);
         label.setText(values[position]);
         label.setTextColor(context.getResources().getColor(R.color.Red));
-        label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        label.setPadding(1, 1, 4, 1);
+        label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        label.setPadding(8, 8, 8, 8);
         label.setTypeface(AppConfig.fontIRSensLight);
 
         if (position == 0) {

@@ -4,12 +4,15 @@ package ir.sanatisharif.android.konkur96.model.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User implements Parcelable
-{
+public class User implements Parcelable {
 
+    @SerializedName("id")
+    @Expose
+    private Integer id;
     @SerializedName("firstName")
     @Expose
     private String firstName;
@@ -22,9 +25,6 @@ public class User implements Parcelable
     @SerializedName("mobile")
     @Expose
     private String mobile;
-    @SerializedName("password")
-    @Expose
-    private String password;
     @SerializedName("email_verified_at")
     @Expose
     private Object emailVerifiedAt;
@@ -40,9 +40,15 @@ public class User implements Parcelable
     @SerializedName("nationalCode")
     @Expose
     private String nationalCode;
+    @SerializedName("password")
+    @Expose
+    private String password;
     @SerializedName("lockProfile")
     @Expose
-    private int lockProfile;
+    private Integer lockProfile;
+    @SerializedName("photo")
+    @Expose
+    private String photo;
     @SerializedName("province")
     @Expose
     private Object province;
@@ -66,7 +72,7 @@ public class User implements Parcelable
     private String updatedAt;
     @SerializedName("email")
     @Expose
-    private Object email;
+    private String email;
     @SerializedName("bio")
     @Expose
     private Object bio;
@@ -88,14 +94,17 @@ public class User implements Parcelable
     @SerializedName("info")
     @Expose
     private Info info;
-    @SerializedName("gender")
+    @SerializedName("full_name")
     @Expose
-    private Object gender;
-    public final static Creator<User> CREATOR = new Creator<User>() {
+    private String fullName;
+    private int gender_id;
+    private int major_id;
+
+    public final static Parcelable.Creator<User> CREATOR = new Creator<User>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public User createFromParcel(Parcel in) {
             return new User(in);
@@ -105,10 +114,10 @@ public class User implements Parcelable
             return (new User[size]);
         }
 
-    }
-    ;
+    };
 
     protected User(Parcel in) {
+        this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.firstName = ((String) in.readValue((String.class.getClassLoader())));
         this.lastName = ((String) in.readValue((String.class.getClassLoader())));
         this.nameSlug = ((Object) in.readValue((Object.class.getClassLoader())));
@@ -119,7 +128,8 @@ public class User implements Parcelable
         this.whatsapp = ((Object) in.readValue((Object.class.getClassLoader())));
         this.skype = ((Object) in.readValue((Object.class.getClassLoader())));
         this.nationalCode = ((String) in.readValue((String.class.getClassLoader())));
-        this.lockProfile = ((int) in.readValue((int.class.getClassLoader())));
+        this.lockProfile = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.photo = ((String) in.readValue((String.class.getClassLoader())));
         this.province = ((Object) in.readValue((Object.class.getClassLoader())));
         this.city = ((Object) in.readValue((Object.class.getClassLoader())));
         this.address = ((Object) in.readValue((Object.class.getClassLoader())));
@@ -127,7 +137,7 @@ public class User implements Parcelable
         this.school = ((Object) in.readValue((Object.class.getClassLoader())));
         this.createdAt = ((String) in.readValue((String.class.getClassLoader())));
         this.updatedAt = ((String) in.readValue((String.class.getClassLoader())));
-        this.email = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.email = ((String) in.readValue((String.class.getClassLoader())));
         this.bio = ((Object) in.readValue((Object.class.getClassLoader())));
         this.introducedBy = ((Object) in.readValue((Object.class.getClassLoader())));
         this.bloodtypeId = ((Object) in.readValue((Object.class.getClassLoader())));
@@ -135,18 +145,22 @@ public class User implements Parcelable
         this.medicalCondition = ((Object) in.readValue((Object.class.getClassLoader())));
         this.diet = ((Object) in.readValue((Object.class.getClassLoader())));
         this.info = ((Info) in.readValue((Info.class.getClassLoader())));
-        this.gender = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.fullName = ((String) in.readValue((String.class.getClassLoader())));
+        this.major_id = ((int) in.readValue((String.class.getClassLoader())));
+        this.gender_id = ((int) in.readValue((String.class.getClassLoader())));
     }
 
     public User() {
     }
 
-    public String getPassword() {
-        return password;
+
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -157,22 +171,12 @@ public class User implements Parcelable
         this.firstName = firstName;
     }
 
-    public User withFirstName(String firstName) {
-        this.firstName = firstName;
-        return this;
-    }
-
     public String getLastName() {
         return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public User withLastName(String lastName) {
-        this.lastName = lastName;
-        return this;
     }
 
     public Object getNameSlug() {
@@ -183,11 +187,6 @@ public class User implements Parcelable
         this.nameSlug = nameSlug;
     }
 
-    public User withNameSlug(Object nameSlug) {
-        this.nameSlug = nameSlug;
-        return this;
-    }
-
     public String getMobile() {
         return mobile;
     }
@@ -196,9 +195,12 @@ public class User implements Parcelable
         this.mobile = mobile;
     }
 
-    public User withMobile(String mobile) {
-        this.mobile = mobile;
-        return this;
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Object getEmailVerifiedAt() {
@@ -209,22 +211,12 @@ public class User implements Parcelable
         this.emailVerifiedAt = emailVerifiedAt;
     }
 
-    public User withEmailVerifiedAt(Object emailVerifiedAt) {
-        this.emailVerifiedAt = emailVerifiedAt;
-        return this;
-    }
-
     public Object getMobileVerifiedAt() {
         return mobileVerifiedAt;
     }
 
     public void setMobileVerifiedAt(Object mobileVerifiedAt) {
         this.mobileVerifiedAt = mobileVerifiedAt;
-    }
-
-    public User withMobileVerifiedAt(Object mobileVerifiedAt) {
-        this.mobileVerifiedAt = mobileVerifiedAt;
-        return this;
     }
 
     public Object getWhatsapp() {
@@ -235,22 +227,12 @@ public class User implements Parcelable
         this.whatsapp = whatsapp;
     }
 
-    public User withWhatsapp(Object whatsapp) {
-        this.whatsapp = whatsapp;
-        return this;
-    }
-
     public Object getSkype() {
         return skype;
     }
 
     public void setSkype(Object skype) {
         this.skype = skype;
-    }
-
-    public User withSkype(Object skype) {
-        this.skype = skype;
-        return this;
     }
 
     public String getNationalCode() {
@@ -261,22 +243,20 @@ public class User implements Parcelable
         this.nationalCode = nationalCode;
     }
 
-    public User withNationalCode(String nationalCode) {
-        this.nationalCode = nationalCode;
-        return this;
-    }
-
-    public int getLockProfile() {
+    public Integer getLockProfile() {
         return lockProfile;
     }
 
-    public void setLockProfile(int lockProfile) {
+    public void setLockProfile(Integer lockProfile) {
         this.lockProfile = lockProfile;
     }
 
-    public User withLockProfile(int lockProfile) {
-        this.lockProfile = lockProfile;
-        return this;
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public Object getProvince() {
@@ -287,22 +267,12 @@ public class User implements Parcelable
         this.province = province;
     }
 
-    public User withProvince(Object province) {
-        this.province = province;
-        return this;
-    }
-
     public Object getCity() {
         return city;
     }
 
     public void setCity(Object city) {
         this.city = city;
-    }
-
-    public User withCity(Object city) {
-        this.city = city;
-        return this;
     }
 
     public Object getAddress() {
@@ -313,22 +283,12 @@ public class User implements Parcelable
         this.address = address;
     }
 
-    public User withAddress(Object address) {
-        this.address = address;
-        return this;
-    }
-
     public Object getPostalCode() {
         return postalCode;
     }
 
     public void setPostalCode(Object postalCode) {
         this.postalCode = postalCode;
-    }
-
-    public User withPostalCode(Object postalCode) {
-        this.postalCode = postalCode;
-        return this;
     }
 
     public Object getSchool() {
@@ -339,22 +299,12 @@ public class User implements Parcelable
         this.school = school;
     }
 
-    public User withSchool(Object school) {
-        this.school = school;
-        return this;
-    }
-
     public String getCreatedAt() {
         return createdAt;
     }
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public User withCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-        return this;
     }
 
     public String getUpdatedAt() {
@@ -365,22 +315,12 @@ public class User implements Parcelable
         this.updatedAt = updatedAt;
     }
 
-    public User withUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-        return this;
-    }
-
-    public Object getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(Object email) {
+    public void setEmail(String email) {
         this.email = email;
-    }
-
-    public User withEmail(Object email) {
-        this.email = email;
-        return this;
     }
 
     public Object getBio() {
@@ -391,22 +331,12 @@ public class User implements Parcelable
         this.bio = bio;
     }
 
-    public User withBio(Object bio) {
-        this.bio = bio;
-        return this;
-    }
-
     public Object getIntroducedBy() {
         return introducedBy;
     }
 
     public void setIntroducedBy(Object introducedBy) {
         this.introducedBy = introducedBy;
-    }
-
-    public User withIntroducedBy(Object introducedBy) {
-        this.introducedBy = introducedBy;
-        return this;
     }
 
     public Object getBloodtypeId() {
@@ -417,22 +347,12 @@ public class User implements Parcelable
         this.bloodtypeId = bloodtypeId;
     }
 
-    public User withBloodtypeId(Object bloodtypeId) {
-        this.bloodtypeId = bloodtypeId;
-        return this;
-    }
-
     public Object getAllergy() {
         return allergy;
     }
 
     public void setAllergy(Object allergy) {
         this.allergy = allergy;
-    }
-
-    public User withAllergy(Object allergy) {
-        this.allergy = allergy;
-        return this;
     }
 
     public Object getMedicalCondition() {
@@ -443,22 +363,12 @@ public class User implements Parcelable
         this.medicalCondition = medicalCondition;
     }
 
-    public User withMedicalCondition(Object medicalCondition) {
-        this.medicalCondition = medicalCondition;
-        return this;
-    }
-
     public Object getDiet() {
         return diet;
     }
 
     public void setDiet(Object diet) {
         this.diet = diet;
-    }
-
-    public User withDiet(Object diet) {
-        this.diet = diet;
-        return this;
     }
 
     public Info getInfo() {
@@ -469,28 +379,36 @@ public class User implements Parcelable
         this.info = info;
     }
 
-    public User withInfo(Info info) {
-        this.info = info;
-        return this;
+    public String getFullName() {
+        return fullName;
     }
 
-    public Object getGender() {
-        return gender;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public void setGender(Object gender) {
-        this.gender = gender;
+    public int getGender_id() {
+        return gender_id;
     }
 
-    public User withGender(Object gender) {
-        this.gender = gender;
-        return this;
+    public void setGender_id(int gender_id) {
+        this.gender_id = gender_id;
+    }
+
+    public int getMajor_id() {
+        return major_id;
+    }
+
+    public void setMajor_id(int major_id) {
+        this.major_id = major_id;
     }
 
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(id);
         dest.writeValue(firstName);
         dest.writeValue(lastName);
         dest.writeValue(nameSlug);
+        dest.writeValue(password);
         dest.writeValue(mobile);
         dest.writeValue(emailVerifiedAt);
         dest.writeValue(mobileVerifiedAt);
@@ -498,6 +416,7 @@ public class User implements Parcelable
         dest.writeValue(skype);
         dest.writeValue(nationalCode);
         dest.writeValue(lockProfile);
+        dest.writeValue(photo);
         dest.writeValue(province);
         dest.writeValue(city);
         dest.writeValue(address);
@@ -513,11 +432,14 @@ public class User implements Parcelable
         dest.writeValue(medicalCondition);
         dest.writeValue(diet);
         dest.writeValue(info);
-        dest.writeValue(gender);
+        dest.writeValue(fullName);
+        dest.writeValue(gender_id);
+        dest.writeValue(major_id);
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
+
 
 }

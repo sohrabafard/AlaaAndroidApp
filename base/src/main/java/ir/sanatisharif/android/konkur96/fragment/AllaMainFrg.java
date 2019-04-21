@@ -1,12 +1,14 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,6 +31,7 @@ import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
 import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
+import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
@@ -36,10 +39,6 @@ import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.main_page.Datum;
 import ir.sanatisharif.android.konkur96.model.main_page.MainPagesInfo;
-import ir.sanatisharif.android.konkur96.model.main_page.Set;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
-import ir.sanatisharif.android.konkur96.ui.view.MDToast;
-import ir.sanatisharif.android.konkur96.utils.AccountInfo;
 
 
 /**
@@ -105,7 +104,19 @@ public class AllaMainFrg extends BaseFragment implements
 
         } else if (id == R.id.actionSetting) {
             startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
+        }
+        else if (id == R.id.actionSettingSupportBuy) {
 
+            MyAlertDialogFrg alert=new MyAlertDialogFrg();
+            alert.setTitle(getString(R.string.settingsSupportBuy));
+            alert.setMessage(getString(R.string.supportBuy));
+            alert.setHtml(true);
+            alert.show(getFragmentManager(), "alert");
+        }
+        else if (id == R.id.actionSettingTelegram) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ"));
+            intent.setPackage("org.telegram.messenger");
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -122,7 +133,7 @@ public class AllaMainFrg extends BaseFragment implements
         myRecyclerView.setNestedScrollingEnabled(false);
         myRecyclerView.setHasFixedSize(true);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
-        adapter = new MainItemAdapter(AppConfig.context, items, GlideApp.with(this));
+        adapter = new MainItemAdapter(AppConfig.context, items);
         adapter.setSize(AppConfig.width, AppConfig.height);
         myRecyclerView.setAdapter(adapter);
 
@@ -220,14 +231,7 @@ public class AllaMainFrg extends BaseFragment implements
     }
 
     //</editor-fold>
-    @Override
-    public void onCheckNetwork(boolean flag) {
-        Log.i("LOG", "onCheckNetwork: "+flag);
-//        if (!flag)//if false
-//            showNotInternetDialogFrg();
-//        else
-//            getData();
-    }
+
 
     private void showNotInternetDialogFrg() {
 
@@ -238,6 +242,17 @@ public class AllaMainFrg extends BaseFragment implements
                     getData();
                 }
             }).show(getFragmentManager(), "");
+    }
+
+
+    @Override
+    public void onCheckNetwork(boolean flag) {
+        if (!flag)//if false
+            showNotInternetDialogFrg();
+        else {
+            if (items.size() == 0)
+                getData();
+        }
     }
 }
 

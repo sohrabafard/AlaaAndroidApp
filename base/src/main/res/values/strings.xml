@@ -6,16 +6,24 @@
     <string name="search">جستجو</string>
     <string name="forum">فروم</string>
     <string name="profile">پروفایل</string>
+    <string name="my_product">محصولات من</string>
+
+    <string name="firebaseApplicationId" translatable="false">1:93895183217:android:87158b141dea0bed</string>
+    <string name="aboutMe">
+        آلاء پنجره ای است رو به دور نمای آموزش کشور که می کوشد با اساتید کار بلد و مخاطبان پر تعداد و متعهد خود آموزش همگانی را در چهار گوشه ی این سرزمین در دسترس فرزندان ایران قرار دهد.
+خدمات اصلی آموزش در آلاء کاملا رایگان بوده و درآمد خدمات جانبی آن صرف برپا نگه داشتن و دوام این مجموعه عام المنفعه می شود. محصولات ما پیش تر با نام های آلاء و تخته خاک در اختیار مخاطبان قرار می گرفت که برای سهولت در مدیریت و دسترسی کاربران اکنون انحصارا با نام آلاء منتشر می شود.
+    </string>
 
     <!-- onboarding-->
-    <string name="ob_header1">آموزش مجازی آلاء</string>
-    <string name="ob_header2">مجری توسعه عدال آموزشی</string>
-    <string name="ob_header3">فیلم های آموزشی نطام قدیم و جدید</string>
+    <string-array name="onBoarding">
+        <item>پخش آنلاین و دانلود رایگان بهترین فیلم‌های آموزش دبیرستان و کنکور</item>
+        <item>خرید بهترین همایش‌های کنکوری با هزینه کم</item>
+        <item>پاسخگویی رایگان به سوالات درسی در انجمن آلاء</item>
+        <item>آموزش کامل رشته ریاضی، تجربی و انسانی
+دهم و یازدهم و دوازدهم
+به صورت رایگان</item>
+    </string-array>
 
-
-    <string name="ob_desc1">Wonep converts international calls to local calls without WiFi or data</string>
-    <string name="ob_desc2">If the person you’re calling also has Wonep the call will be entirely free</string>
-    <string name="ob_desc3">We have a very small charge for non-Wonep calls to mobiles or landlines</string>
 
     <string name="more">بیشتر</string>
     <string name="bag">کیف پول</string>
@@ -46,13 +54,13 @@
     <string name="login_to_account">ورود به حساب کاربری</string>
     <string name="player">پخش کننده</string>
     <string name="player_quality">player_quality</string>
-    <string name="storage">storage</string>
-    <string name="login_desc">برای ورود تنها شماره موبایل و کدملی خود را وارد نمایید.</string>
+    <string name="storage">انخاب حافظه</string>
+    <string name="login_desc">برای ورود نیازی به ثبت نام نیست تنها شماره موبایل و کدملی خود را وارد نمایید.</string>
     <string name="login">ورود</string>
     <string name="register">ثبت نام</string>
     <string name="twiceClick">برای خروج یکبار دیگر کلیک کنید</string>
     <string name="completeDownload">دانلود تکمیل شد!</string>
-    <string name="ok_fan">خب</string>
+    <string name="ok_fan">بزن بریم</string>
     <string name="mobile">شماره همراه</string>
     <string name="userName">نام کاربری</string>
     <string name="downloaded_List">فیلم های دانلود شده</string>
@@ -69,6 +77,20 @@
         <item>240p</item>
     </string-array>
 
+    <string-array name="storage_entries">
+        <item>حافظه داخلی</item>
+        <item>حافظه خارجی</item>
+    </string-array>
+
+    <string-array name="storage_value">
+        <item>internal</item>
+        <item>external</item>
+    </string-array>
+
+    <string name="asset_statements" translatable="false">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://sanatisharif.ir\",\n  }\n}]</string>
+    <string name="no_pagination_network_error">مشکلی بوجود آمده است.لطفا دوباره امتحان کنید.</string>
+    <string name="no_pagination_network_error_button">تکرار</string>
+
     <string-array name="filterTab">
         <item>دروس</item>
         <item>محصولات</item>
@@ -84,6 +106,8 @@
         <item>یازدهم</item>
         <item>دوازدهم</item>
         <item>نظام_قدیم</item>
+        <item>کنکوری</item>
+        <item>المپیاد</item>
 
     </string-array>
 
@@ -94,23 +118,23 @@
         <item>رشته_انسانی</item>
     </string-array>
 
+    <string-array name="gender">
+        <item>جنسیت</item>
+        <item>مرد</item>
+        <item>زن</item>
+    </string-array>
 
+    <string-array name="field">
+        <item>رشته تحصیلی</item>
+        <item>ریاضی</item>
+        <item>تجربی</item>
+        <item>انسانی</item>
+    </string-array>
 
     <string-array name="FilterTeacher">
         <item>همه دبیر</item>
     </string-array>
 
-    <string-array name="storage_entries">
-        <item>حافظه داخلی</item>
-        <item>حافظه خارجی</item>
-    </string-array>
-
-    <string-array name="storage_value">
-        <item>internal</item>
-        <item>external</item>
-    </string-array>
-
-    <string name="asset_statements" translatable="false">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://sanatisharif.ir\",\n  }\n}]</string>
     <string name="empty_phone">شماره مویابل خالی است</string>
     <string name="empty_personal_code">کدملی خالی است</string>
     <string name="not_valid_personal_code">فرمت کدملی درست نیست</string>
@@ -133,6 +157,75 @@
     <string name="txtSection">انتخاب مقطه تحصیلی</string>
     <string name="txtField">انتخاب رشته تحصیلی</string>
     <string name="nationalCode">کدملی</string>
+    <string name="titleDeleteFile">حذف فایل</string>
+    <string name="msg_delete_file">مایل به حذف فایل ها می باشید؟</string>
+    <string name="ok">بله</string>
+    <string name="not">خیر</string>
+    <string name="openPDf">نمایش</string>
+    <string name="next">بعدی</string>
+    <string name="go">بزن بریم</string>
+    <string name="default_notification_channel_id">FCM</string>
+    <string name="txtGender">جنسیت</string>
+    <string name="newOrder">در ورژن بعدی این امکان اضافه می شود.</string>
+    <string name="address_centeral">تهران ، خ آزادی ، خ حبیب اللهی
+خ شهید احمد قاسمی
+نبش کوچه گلستان ، 59 </string>
+    <string name="phoneNumber">شماره تماس</string>
+    <string name="phoneNumberValue">۰۲۱-۶۶۱۶۵۱۹۱ - فقط ساعت 14 الی 18 </string>
+    <string name="zipCode">کد پستی</string>
+    <string name="zipCodeValue">1459993639</string>
+    <string name="socialNetwork">شبکه های اجتماعی</string>
+    <string name="txt_aboute_alla">درباره آلاء</string>
 
+    <string name="update_info">
+         <![CDATA[
+         <div>
+
+         - پخش آنلاین
+         </div>
+          <div>
+        - امکان دانلود با دانلود منیجر خارجی
+         </div>
+          <div>
+          - امکان دریافت همایش ها
+         </div>
+          <div>
+        - اضافه شدن جزوات به برنامه
+         </div>
+         <div>
+         - بروز رسانی سریع تر فیلم‌ها
+         </div>
+         ]]>
+   </string>
+    <string name="settingsTelegram">کانال تلگرام آلاء</string>
+    <string name="settingsSupportBuy">پشتیبانی بعد از خرید</string>
+
+    <string name="supportBuy">
+    <![CDATA[
+         <div>
+           روش ۱:
+         </div>
+
+         <div>
+         ارسال پیام به ادمین تلگرام آلاء، به آیدی
+         </div>
+
+          <div>
+             <a href="https://telegram.me/sanati_sharif">@sanati_sharif</a>
+          </div>
+
+          <div>
+  روش ۲:
+          </div>
+
+          <div>
+             تماس تلفنی ساعت ۱۵ الی ۱۸،
+            شنبه تا چهارشنبه با شماره
+            02166165191
+         </div>
+
+         ]]>
+ </string>
+    <string name="settingLogout">خروج از حساب کاربری</string>
 
 </resources>

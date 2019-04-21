@@ -38,7 +38,6 @@ import ir.sanatisharif.android.konkur96.listener.OnItemCheckedListener;
 import ir.sanatisharif.android.konkur96.listener.OnItemLongListener;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.Video;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
 import static android.net.Uri.EMPTY;
@@ -99,7 +98,12 @@ public class VideoDownloadedFrg extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.actionDelete) {
+        if (item.getItemId() == android.R.id.home) {
+            Events.CloseFragment closeFragment = new Events.CloseFragment();
+            closeFragment.setTagFragments("");
+            EventBus.getDefault().post(closeFragment);
+
+        } else if (item.getItemId() == R.id.actionDelete) {
 
             Events.VideoDeleted videoDeleted = new Events.VideoDeleted();
             int deleteCount = 0;
@@ -128,7 +132,6 @@ public class VideoDownloadedFrg extends BaseFragment {
             resetCheckBox();
             adapter.notifyDataSetChanged();
 
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -145,7 +148,6 @@ public class VideoDownloadedFrg extends BaseFragment {
 
             //reset checkBox
             resetCheckBox();
-
             adapter.notifyDataSetChanged();
 
             return true;
@@ -162,7 +164,7 @@ public class VideoDownloadedFrg extends BaseFragment {
         setToolbar(mToolbar, "نمایش ویدیوها");
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        adapter = new VideoDownloadedAdapter(AppConfig.context, videos, AppConstants.VIDEO_SHOW_GRID, GlideApp.with(this));
+        adapter = new VideoDownloadedAdapter(AppConfig.context, videos, AppConstants.VIDEO_SHOW_GRID);
         manager = new GridLayoutManager(AppConfig.context, 3);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
@@ -196,6 +198,7 @@ public class VideoDownloadedFrg extends BaseFragment {
     private void resetCheckBox() {
         int index = 0;
         for (Video v : videos) {
+            index++;
             if (v.isChecked()) {
                 v.setChecked(false);
                 videos.set(index, v);

@@ -16,6 +16,18 @@ public class AppConstants {
     public static final int VIDEO_OFFLINE_ITEM = 4;
     public static final int HEADER_DATA = 5;
 
+    //Shop Adapter
+    public static final int SHOP_SLIDER_ITEM = 0;
+    public static final int INCREDIBLEOFFER_ITEM_SET = 1;
+    public static final int CATEGORY_SHOP_ITEM_SET = 2;
+    public static final int SHOP_BANNER_ITEM = 3;
+
+
+    //Bought Adapter
+    public static final int BOUGHT_SLIDER_ITEM = 0;
+    public static final int CATEGORY_BOUGHT_ITEM_SET = 1;
+    public static final int BOUGHT_BANNER_ITEM = 2;
+
     //more
     public static final String MORE_URL = "url";
     public static final String MORE_VIDEO_OFFLINE = "video_offline";
@@ -67,10 +79,8 @@ public class AppConstants {
      * Auth token types
      */
     //public static final String AUTHTOKEN_TYPE_READ_ONLY = "Read only";
-    public static final String AUTHTOKEN_TYPE_READ_ONLY_LABEL = "Read only access to an Udinic account";
 
     public static final String AUTHTOKEN_TYPE_FULL_ACCESS = "Full access";
-    public static final String AUTHTOKEN_TYPE_FULL_ACCESS_LABEL = "Full access to an Udinic account";
 
     // public final static String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT";
 

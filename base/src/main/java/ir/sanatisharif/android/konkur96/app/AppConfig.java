@@ -6,28 +6,37 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
-import android.os.Environment;
 import android.os.Handler;
-
+import android.support.multidex.MultiDex;
 import android.support.v7.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ProgressBar;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.CrashlyticsInitProvider;
+import com.crashlytics.android.core.CrashlyticsCore;
+import com.google.android.gms.common.wrappers.InstantApps;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 
-import java.io.File;
 
+
+import io.fabric.sdk.android.Fabric;
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.ApiModule;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
-import ir.sanatisharif.android.konkur96.utils.Utils;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 
-public class AppConfig extends Application {
+//@ReportsCrashes(formKey = "", formUri = "http://edu-edu.ir/alla/report.php", customReportContent = {
+//        ReportField.APP_VERSION_CODE, ReportField.APP_VERSION_NAME,
+//        ReportField.ANDROID_VERSION, ReportField.PHONE_MODEL,
+//        ReportField.BRAND, ReportField.CUSTOM_DATA, ReportField.STACK_TRACE,
+//        ReportField.LOGCAT}, mode = ReportingInteractionMode.SILENT)
 
-    //   private GoogleAnalytics sAnalytics;
+public class AppConfig extends Application {
 
     public static AppConfig mInstance;
     public static Context context;
@@ -35,9 +44,8 @@ public class AppConfig extends Application {
     public static Handler HANDLER = new Handler();
     public static LayoutInflater layoutinflater;
     static ConnectivityManager Manager = null;
-    public static int width = 140, height = 140, itemHeight = 140;
+    public static int width = 140, height = 140, itemHeight = 140, shopItemHeight = 100;
     public static boolean showNoInternetDialog = false;
-
     // Font
     public static Typeface fontIRSensLight;
     public static Typeface fontIRSensNumber;
@@ -45,16 +53,28 @@ public class AppConfig extends Application {
     //new
     public static final String TAG = AppConfig.class.getSimpleName();
     public static SharedPreferences sharedPreferencesSetting;
+
     public static int[] colorSwipeRefreshing;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        //  Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
+        Crashlytics.setBool("InstantApp", InstantApps.isInstantApp(this));
 
+        // MultiDex.install(this);
         mInstance = this;
         context = getApplicationContext();
+
+        //Firebase init by application id
+        if (!InstantApps.isInstantApp(getApplicationContext())) {
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setApplicationId(getString(R.string.firebaseApplicationId))
+                    .build();
+            FirebaseApp.initializeApp(getApplicationContext(), options);
+        }
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/IRANSansMobile(FaNum).ttf")
@@ -78,8 +98,9 @@ public class AppConfig extends Application {
         //check and create directories
         if (!FileManager.checkFileExist(FileManager.getRootPath())) {
 
-            FileManager.createRootDir();//create root
-            FileManager.createAudioDir();//create audio
+            FileManager.createRootDir();//create root dir
+            FileManager.createAudioDir();//create audio dir
+            FileManager.createPDFDir();//create pdf dir
         }
 
         if (colorSwipeRefreshing == null)
@@ -90,6 +111,14 @@ public class AppConfig extends Application {
                             getResources().getColor(R.color.Monochromatic_3),
                             getResources().getColor(R.color.Monochromatic_4),
                     };
+    }
+
+
+    private final AppComponent mAppComponent = DaggerAppComponent.builder().apiModule(new ApiModule()).build();
+
+
+    public AppComponent getAppComponent() {
+        return mAppComponent;
     }
 
     public static synchronized AppConfig getInstance() {
@@ -103,4 +132,11 @@ public class AppConfig extends Application {
     public void changeProgressColor(ProgressBar loader) {
         loader.getIndeterminateDrawable().setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
     }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
 }

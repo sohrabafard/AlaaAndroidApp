@@ -20,10 +20,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
-import ir.sanatisharif.android.konkur96.ui.GlideRequest;
-import ir.sanatisharif.android.konkur96.ui.GlideRequests;
 
 /**
  * Created by Mohamad on 11/14/2018.
@@ -55,10 +51,10 @@ public class URLImageGetter implements ImageGetter {
                 .into(target);*/
 
         final UrlDrawable urlDrawable = new UrlDrawable();
-        final GlideRequest load = GlideApp.with(mContext).asBitmap().load(url).apply(myOptions);
-        final Target target = new BitmapTarget(urlDrawable);
-        targets.add(target);
-        load.into(target);
+//        GlideRequest load = GlideApp.with(mContext).asBitmap().load(url).apply(myOptions);
+//        final Target target = new BitmapTarget(urlDrawable);
+//        targets.add(target);
+//        load.into(target);
         return urlDrawable;
     }
 

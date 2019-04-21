@@ -5,10 +5,11 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:layoutDirection="rtl"
+    android:padding="6dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="10dp"
     android:orientation="vertical"
-    app:cardBackgroundColor="@color/White"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="12dp">
+    app:cardBackgroundColor="@color/White">
 
 
     <LinearLayout
@@ -16,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="8dp"
+        android:layout_marginRight="@dimen/dialog_right_margin"
         android:gravity="center"
         android:orientation="vertical">
 

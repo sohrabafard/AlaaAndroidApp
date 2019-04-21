@@ -2,14 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/actionShare"
-        android:title="@string/shareProfile"
-        app:showAsAction="never" />
 
     <item
-        android:id="@+id/actionEdit"
-        android:title="@string/edit"
+        android:id="@+id/actionSettingLogout"
+        android:title="@string/settingLogout"
         app:showAsAction="never" />
 
 </menu>

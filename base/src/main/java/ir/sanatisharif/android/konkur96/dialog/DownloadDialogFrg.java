@@ -59,9 +59,9 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
     private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
     private static final int PERMISSION_ALL = 1;
-    View dialog;
-    SharedPreferences sharedPreferences;
-
+    private View dialog;
+    private SharedPreferences sharedPreferences;
+    private DownloadComplete downloadComplete;
 
     public static DownloadDialogFrg newInstance(List<Video> v, String t) {
         DownloadDialogFrg frag = new DownloadDialogFrg();
@@ -70,6 +70,14 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         return frag;
     }
 
+    public void setData(List<Video> v, String t) {
+        videos.addAll(v);
+        title = t;
+    }
+
+    public void setComplete(DownloadComplete downloadComplete) {
+        this.downloadComplete = downloadComplete;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,7 +108,6 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         txtDownload = dialog.findViewById(R.id.txtDownload);
         txtCancel = dialog.findViewById(R.id.txtCancel);
 
@@ -117,6 +124,16 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         radioExcellentQuality.setText(toString(videos.get(0).getCaption(), videos.get(0).getRes()));
         radioHighQuality.setText(toString(videos.get(1).getCaption(), videos.get(1).getRes()));
         radioMediumQuality.setText(toString(videos.get(2).getCaption(), videos.get(2).getRes()));
+
+        String pref = sharedPreferences.getString(getString(R.string.player_quality), "240");
+
+        if (pref.equals("HD_720")) {
+            radioExcellentQuality.setChecked(true);
+        } else if (pref.equals("hq")) {
+            radioHighQuality.setChecked(true);
+        } else if (pref.equals("240p")) {
+            radioMediumQuality.setChecked(true);
+        }
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -143,9 +160,9 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
                         createDir(videos.get(2).getUrl(), title);
                     }
+
+                    dismiss();
                 }
-
-
             }
         });
         txtCancel.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +199,6 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         return true;
     }
 
-
     private void createDir(String url, String title) {
 
         String mediaPath = FileManager.getPathFromAllaUrl(url);
@@ -202,6 +218,9 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                 @Override
                 public void complete() {
 
+                    if (downloadComplete != null) {
+                        downloadComplete.complete();
+                    }
                     Utils.addVideoToGallery(f, AppConfig.currentActivity);
                 }
             });
@@ -211,7 +230,6 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             Utils.loadUrl(url, getContext());
         }
     }
-
 
     public String toString(String caption, String title) {
 
