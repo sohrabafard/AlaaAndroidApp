@@ -4,7 +4,7 @@
     <!-- tabs -->
     <string name="alla">آلاء</string>
     <string name="search">جستجو</string>
-    <string name="forum">فروم</string>
+    <string name="forum">انجمن</string>
     <string name="profile">پروفایل</string>
     <string name="my_product">محصولات من</string>
 
@@ -227,5 +227,68 @@
          ]]>
  </string>
     <string name="settingLogout">خروج از حساب کاربری</string>
+    <string name="home">خانه</string>
+    <string name="product">محصولات</string>
+    <string name="myProfile">پروفایل من</string>
+    <string name="bazaar">بازار</string>
+    <string name="playStore">پلی استور</string>
+    <string name="apkDownload">فایل APk</string>
+    <string name="exit">خروج</string>
+
+
+
+
+
+
+    <string name="application_name">ExoPlayer</string>
+
+    <string name="unexpected_intent_action">Unexpected intent action: </string>
+
+    <string name="error_cleartext_not_permitted">Cleartext traffic not permitted</string>
+
+    <string name="error_generic">Playback failed</string>
+
+    <string name="error_unrecognized_abr_algorithm">Unrecognized ABR algorithm</string>
+
+    <string name="error_unrecognized_stereo_mode">Unrecognized stereo mode</string>
+
+    <string name="error_drm_not_supported">Protected content not supported on API levels below 18</string>
+
+    <string name="error_drm_unsupported_scheme">This device does not support the required DRM scheme</string>
+
+    <string name="error_drm_unknown">An unknown DRM error occurred</string>
+
+    <string name="error_no_decoder">This device does not provide a decoder for </string>
+
+    <string name="error_no_secure_decoder">This device does not provide a secure decoder for</string>
+
+    <string name="error_querying_decoders">Unable to query device decoders</string>
+
+    <string name="error_instantiating_decoder">Unable to instantiate decoder </string>
+
+    <string name="error_unsupported_video">Media includes video tracks, but none are playable by this device</string>
+
+    <string name="error_unsupported_audio">Media includes audio tracks, but none are playable by this device</string>
+
+    <string name="storage_permission_denied">Permission to access storage was denied</string>
+
+    <string name="sample_list_load_error">One or more sample lists failed to load</string>
+
+    <string name="ima_not_loaded">Playing sample without ads, as the IMA extension was not loaded</string>
+
+    <string name="download_start_error">Failed to start download</string>
+
+    <string name="download_playlist_unsupported">This demo app does not support downloading playlists</string>
+
+    <string name="download_drm_unsupported">This demo app does not support downloading protected content</string>
+
+    <string name="download_scheme_unsupported">This demo app only supports downloading http streams</string>
+
+    <string name="download_ads_unsupported">IMA does not support offline ads</string>
+
+    <string name="prefer_extension_decoders">Prefer extension decoders</string>
+
+    <string name="random_abr">Enable random ABR</string>
+
 
 </resources>

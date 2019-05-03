@@ -24,9 +24,12 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.gson.JsonObject;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -40,6 +43,7 @@ import ir.sanatisharif.android.konkur96.api.Models.PaymentResponse;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationResponse;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.dialog.ForceUpdateDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.UpdateInfoDialogFrg;
 import ir.sanatisharif.android.konkur96.fragment.AllaMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.DashboardMainFrg;
@@ -54,6 +58,7 @@ import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
+import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
@@ -91,14 +96,13 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         repository = new RepositoryImpl(this);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         }
 
-
+     //   getLastVersion();
         accountInfo = new AccountInfo(getApplicationContext(), this);
         containerHeight(this);
         fragments = new Stack<>();
@@ -107,6 +111,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         //---------initialize UI--------
         initUI();
 
+       // getLastVersion();
         //-----------add FirstFragment
         addFrg(AllaMainFrg.newInstance(), "alla");
 
@@ -120,7 +125,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             updateInfoDialogFrg.show(getSupportFragmentManager(), "");
         }
 
-        //  retrieveToken();
+          //retrieveToken();
         if (!InstantApps.isInstantApp(getApplicationContext()))
             if (!MyPreferenceManager.getInatanse().isSendTokenToServer())
                 sendRegistrationToServer();
@@ -163,10 +168,10 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
         // forceCrash(bottomNavigation);
         ArrayList<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem("", R.drawable.ic_home);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem("", R.drawable.ic_message);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem("", R.drawable.ic_shopping_cart);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem("", R.drawable.ic_user);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(getString(R.string.home), R.drawable.ic_home);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(getString(R.string.forum), R.drawable.ic_message);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(getString(R.string.product), R.drawable.ic_shopping_cart);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem(getString(R.string.myProfile), R.drawable.ic_user);
 
         bottomNavigationItems.add(item1);
         bottomNavigationItems.add(item2);
@@ -175,7 +180,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
         bottomNavigation.setAccentColor(getResources().getColor(R.color.colorPrimary));
         bottomNavigation.addItems(bottomNavigationItems);
-        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_HIDE);
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
 
         bottomNavigation.setOnTabSelectedListener(this);
     }
@@ -256,8 +261,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 });
             }
         });
-
-
     }
 
     private void itemSelect(int tab_id) {
@@ -366,6 +369,29 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     @Override
     public void onCheckNetwork(boolean flag) {
 
+    }
+
+    //http://79.127.123.246:8083/api/v1/lastVersion
+    private void getLastVersion() {//http://79.127.123.246:8083/api/v1/lastVersion"
+        MainApi.getInstance().getLastVersion("https://dev.alaatv.com:8082/api/v1/lastVersion", new IServerCallbackObject() {
+            @Override
+            public void onSuccess(Object obj) {
+
+                if (obj != null) {
+                    LastVersion lastVersion = (LastVersion) obj;
+                    if (lastVersion.getAndroid().getLastVersion() > Utils.getVersionCode()) {
+                        ForceUpdateDialogFrg forceUpdateDialogFrg = new ForceUpdateDialogFrg();
+                        forceUpdateDialogFrg.setLastVersion(lastVersion);
+                        forceUpdateDialogFrg.show(getSupportFragmentManager(), "forceUpdateDialogFrg");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Log.i(TAG, "onSuccess: " + message);
+            }
+        });
     }
 
     private void handlerZarinPalCallBack(String amount, String authority) {

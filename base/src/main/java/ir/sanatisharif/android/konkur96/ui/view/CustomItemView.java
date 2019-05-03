@@ -38,12 +38,14 @@ public class CustomItemView extends LinearLayout {
 
     //-------- define primary type
     private String title;
+    private String price;
     private String author;
     private int contentCount;
     private String imageUrl;
     private int width, height;
     private int position;
     private Set item;
+    private int layout;
 
     //-------  define views
     private View view;
@@ -52,13 +54,15 @@ public class CustomItemView extends LinearLayout {
     private LinearLayout layout_click;
     private TextView txtTitle;
     private TextView txtAuthor;
+    private TextView txtPrice;
     private TextView txtContentCount;
     private ImageView imgItem;
     //---------------
     private OnClickItem onClickItem;
 
-    public CustomItemView(Context context) {
+    public CustomItemView(Context context, int layout) {
         super(context);
+        setLayout(layout);
         init(context);
     }
 
@@ -92,6 +96,15 @@ public class CustomItemView extends LinearLayout {
         this.item = item;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+        txtPrice.setText(price +" تومان ");
+    }
+
     public String getTitle() {
         return txtTitle.getText().toString();
     }
@@ -107,7 +120,10 @@ public class CustomItemView extends LinearLayout {
 
     public void setAuthor(String author) {
         this.author = author;
-        txtAuthor.setText(author + " | ");
+        if (layout == R.layout.category_item)
+            txtAuthor.setText(author + " | ");
+        else
+            txtAuthor.setText(author + "");
     }
 
     public String getContentCount() {
@@ -128,11 +144,14 @@ public class CustomItemView extends LinearLayout {
         loadImageWithGlide(imageUrl);
     }
 
+    private void setLayout(int layout) {
+        this.layout = layout;
+    }
 
     private void init(Context context) {
 
         mContext = context;
-        view = inflate(context, R.layout.category_item, this);
+        view = inflate(context, layout, this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             view.setLayoutDirection(LAYOUT_DIRECTION_RTL);
@@ -141,20 +160,31 @@ public class CustomItemView extends LinearLayout {
         cardViewRoot = findViewById(R.id.cardViewRoot);
         layout_click = findViewById(R.id.layout_click);
         txtTitle = findViewById(R.id.txtTitle);
-        txtAuthor = findViewById(R.id.txtAuthor);
-        txtContentCount = findViewById(R.id.txtContentCount);
         imgItem = findViewById(R.id.imgItem);
 
+        if (layout == R.layout.category_item) {
+            txtAuthor = findViewById(R.id.txtAuthor);
+            txtContentCount = findViewById(R.id.txtContentCount);
+            txtAuthor.setTypeface(AppConfig.fontIRSensNumber);
+            txtContentCount.setTypeface(AppConfig.fontIRSensNumber);
+
+            txtAuthor.setText(author);
+            txtContentCount.setText(contentCount + "");
+
+        } else if (layout == R.layout.content_item) {
+            txtAuthor = findViewById(R.id.txtAuthor);
+            txtAuthor.setTypeface(AppConfig.fontIRSensNumber);
+            txtAuthor.setText(author);
+
+        } else if (layout == R.layout.product_main_item) {
+            txtPrice = findViewById(R.id.txtPrice);
+            txtPrice.setTypeface(AppConfig.fontIRSensNumber);
+            Log.i("LOG", "onBindViewHolder: "+price);
+
+        }
+
         txtTitle.setTypeface(AppConfig.fontIRSensNumber);
-        txtAuthor.setTypeface(AppConfig.fontIRSensNumber);
-        txtContentCount.setTypeface(AppConfig.fontIRSensNumber);
-
-        //set value
         txtTitle.setText(title);
-        txtAuthor.setText(author);
-        txtContentCount.setText(contentCount + "");
-
-        // setSize
         setImageSize();
 
         cardViewRoot.setOnClickListener(new OnClickListener() {
@@ -171,13 +201,6 @@ public class CustomItemView extends LinearLayout {
     }
 
     private void loadImageWithGlide(String url) {
-
-//        RequestOptions requestOptions = new RequestOptions()
-//                .override(width, height)
-//                .dontTransform()
-//                .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
-//                .fitCenter();
-
         GlideApp
                 .with(mContext)
                 .load(url)
@@ -194,10 +217,10 @@ public class CustomItemView extends LinearLayout {
     private void setImageSize() {
 
         txtTitle.measure(0, 0);
-        txtAuthor.measure(0, 0);
+       // txtAuthor.measure(0, 0);
 
         //w= 460 and h = 259
-        height = AppConfig.itemHeight - txtTitle.getMeasuredHeight() - txtAuthor.getMeasuredHeight();
+        height = AppConfig.itemHeight - txtTitle.getMeasuredHeight() - txtTitle.getMeasuredHeight();
 
         height -= 24;
         width = (int) (height * 1.77f);

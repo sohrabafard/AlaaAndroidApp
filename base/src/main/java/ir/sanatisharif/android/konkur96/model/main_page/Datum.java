@@ -4,11 +4,11 @@ package ir.sanatisharif.android.konkur96.model.main_page;
 import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import ir.sanatisharif.android.konkur96.model.Content;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 
 public class Datum implements Parcelable
 {
@@ -39,7 +39,7 @@ public class Datum implements Parcelable
     private List<Set> sets = null;
     @SerializedName("products")
     @Expose
-    private List<Product> products = null;
+    private List<ProductModel> products = null;
     @SerializedName("banners")
     @Expose
     private List<Banner> banners = null;
@@ -140,11 +140,11 @@ public class Datum implements Parcelable
         this.sets = sets;
     }
 
-    public List<Product> getProducts() {
+    public List<ProductModel> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<ProductModel> products) {
         this.products = products;
     }
 

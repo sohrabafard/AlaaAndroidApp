@@ -134,5 +134,4 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
                 .rippleHover(true)
                 .create();
     }
-
 }

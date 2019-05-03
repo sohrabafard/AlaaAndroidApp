@@ -141,7 +141,6 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemHolder.txtTitle.setText(item.getName());
             itemHolder.txtAuthor.setText(item.getAuthor().getFullName());
 
-
             itemHolder.layout_click.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

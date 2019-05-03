@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
+    android:minWidth="300dp"
     android:orientation="vertical"
     android:layout_gravity="center"
     app:cardBackgroundColor="@color/Monochromatic_1"

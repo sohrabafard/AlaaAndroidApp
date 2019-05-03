@@ -5,8 +5,10 @@ import java.util.List;
 import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
 import ir.sanatisharif.android.konkur96.model.main_page.MainPagesInfo;
+import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -67,5 +69,8 @@ public interface ApiRetrofit {
     Call<Object> getFirebaseToken(
             @Path("user_id") int user_id,
             @Query("token") String firebaseToken);
+
+    @GET
+    Call<LastVersion> getLastVersion(@Url String url);
 
 }

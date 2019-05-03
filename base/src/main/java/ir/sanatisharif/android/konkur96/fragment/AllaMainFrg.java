@@ -1,6 +1,7 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,8 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -39,6 +44,7 @@ import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.main_page.Datum;
 import ir.sanatisharif.android.konkur96.model.main_page.MainPagesInfo;
+import ir.sanatisharif.android.konkur96.utils.Utils;
 
 
 /**
@@ -104,16 +110,14 @@ public class AllaMainFrg extends BaseFragment implements
 
         } else if (id == R.id.actionSetting) {
             startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
-        }
-        else if (id == R.id.actionSettingSupportBuy) {
+        } else if (id == R.id.actionSettingSupportBuy) {
 
-            MyAlertDialogFrg alert=new MyAlertDialogFrg();
+            MyAlertDialogFrg alert = new MyAlertDialogFrg();
             alert.setTitle(getString(R.string.settingsSupportBuy));
             alert.setMessage(getString(R.string.supportBuy));
             alert.setHtml(true);
             alert.show(getFragmentManager(), "alert");
-        }
-        else if (id == R.id.actionSettingTelegram) {
+        } else if (id == R.id.actionSettingTelegram) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ"));
             intent.setPackage("org.telegram.messenger");
             startActivity(intent);
@@ -162,7 +166,6 @@ public class AllaMainFrg extends BaseFragment implements
         MainApi.getInstance().mainPages(new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
-                Log.i("LOG", "onFailure1: onSuccess");
                 mapData((MainPagesInfo) obj);
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -198,22 +201,28 @@ public class AllaMainFrg extends BaseFragment implements
             item.setType(AppConstants.HEADER_DATA);
             items.add(item);
 
-            if (block.getSets().size() > 0) {
+            if (block.getSets() != null && block.getSets().size() > 0) {
                 item = new MainItem();
                 item.setType(AppConstants.ITEM_SET);
                 item.setSets(block.getSets());
                 items.add(item);
             }
-            if (block.getContents().size() > 0) {
+            if (block.getContents() != null && block.getContents().size() > 0) {
                 item = new MainItem();
                 item.setType(AppConstants.ITEM_CONTENT);
                 item.setContents(block.getContents());
                 items.add(item);
             }
-            if (block.getBanners().size() > 0) {
+            if (block.getBanners() != null && block.getBanners().size() > 0) {
                 item = new MainItem();
                 item.setType(AppConstants.ITEM_BANNER);
                 item.setBanners(block.getBanners());
+                items.add(item);
+            }
+            if (block.getProducts() != null && block.getProducts().size() > 0) {
+                item = new MainItem();
+                item.setType(AppConstants.ITEM_PRODUCT);
+                item.setProducts(block.getProducts());
                 items.add(item);
             }
         }

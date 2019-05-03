@@ -3,14 +3,24 @@ package ir.sanatisharif.android.konkur96.account;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,6 +32,9 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.MainActivity;
 import ir.sanatisharif.android.konkur96.adapter.FilterAdapterBySpinner;
 import ir.sanatisharif.android.konkur96.api.MainApi;
+import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
+import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;
@@ -32,6 +45,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.accounts.AccountManager.KEY_ERROR_MESSAGE;
 import static ir.sanatisharif.android.konkur96.activity.ActivityBase.toastShow;
+import static ir.sanatisharif.android.konkur96.app.AppConfig.showNoInternetDialog;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_AUTH_TYPE;
 
@@ -39,8 +53,11 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_AUTH_TYPE;
  * Created by Mohamad on 2/9/2019.
  */
 
-public class AuthenticatorActivity extends AccountAuthenticatorActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class AuthenticatorActivity extends AccountAuthenticatorActivity implements
+        View.OnClickListener,
+        AdapterView.OnItemSelectedListener, ICheckNetwork {
 
+    private boolean login = true;//flag for check status login or register
     private final String TAG = this.getClass().getSimpleName();
     private AccountManager mAccountManager;
     private Utils.ValidNationalCode nationalCode = new Utils.ValidNationalCode();
@@ -65,9 +82,16 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         setContentView(R.layout.fragment_register);
 
         mAccountManager = AccountManager.get(getBaseContext());
+        AppConfig.currentActivity = this;
 
         initUI();
         setDialog();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppConfig.mInstance.setICheckNetwork(this);
     }
 
     private void initUI() {
@@ -197,85 +221,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             }
 
         } else if (view.getId() == R.id.btnLogin) {
-
-            if (edtPhone.getText().length() == 0) {
-                edtPhone.setError(getResources().getString(R.string.empty_phone));
-                return;
-            }
-            if (!Utils.validPhone(edtPhone.getText().toString())) {
-                edtPhone.setError(getResources().getString(R.string.not_valid_phone));
-                return;
-            }
-            if (edtNathonalCode.getText().length() == 0) {
-                edtNathonalCode.setError(getResources().getString(R.string.empty_personal_code));
-                return;
-            }
-            nationalCode.check(edtNathonalCode.getText().toString());
-            if (!nationalCode.isValid()) {
-                edtNathonalCode.setError(nationalCode.getMessage());
-                return;
-            }
-
-            User user = new User();
-            user.setMobile(edtPhone.getText().toString().trim().toLowerCase());
-            user.setPassword(edtNathonalCode.getText().toString().trim().toLowerCase());
-            getLoginInfo(user);
+            login = true;
+            login();
 
         } else if (view.getId() == R.id.btnRegister) {
+            login = false;
+            register();
 
-            if (edtPhoneReg.getText().length() == 0) {
-                edtPhoneReg.setError(getResources().getString(R.string.empty_phone));
-                return;
-            }
-            if (!Utils.validPhone(edtPhoneReg.getText().toString())) {
-                edtPhoneReg.setError(getResources().getString(R.string.not_valid_phone));
-                return;
-            }
-            if (edtNationalCodeReg.getText().length() == 0) {
-                edtNationalCodeReg.setError(getResources().getString(R.string.empty_personal_code));
-                return;
-            }
-
-            nationalCode.check(edtNationalCodeReg.getText().toString());
-            if (!nationalCode.isValid()) {
-                edtNationalCodeReg.setError(nationalCode.getMessage());
-                return;
-            }
-            if (edtFirstName.getText().length() == 0) {
-                edtFirstName.setError(getResources().getString(R.string.empty_first_name));
-                return;
-            }
-            if (edtLastName.getText().length() == 0) {
-                edtLastName.setError(getResources().getString(R.string.empty_last_name));
-                return;
-            }
-            if (edtEmail.getText().length() == 0) {
-                edtEmail.setError(getResources().getString(R.string.empty_email));
-                return;
-            }
-            if (!Utils.validEmail(edtEmail.getText().toString())) {
-                edtEmail.setError(getResources().getString(R.string.not_valid_email));
-                return;
-            }
-            Log.i(TAG, "onClick: " + gender_id + " " + majer_id);
-            if (gender_id <= 0) {
-                toastShow("جنسیت انتخاب شود" + gender_id, MDToast.TYPE_ERROR);
-                return;
-            }
-            if (majer_id <= 0) {
-                toastShow("رشته انتخاب شود " + majer_id, MDToast.TYPE_ERROR);
-                return;
-            }
-
-            User user = new User();
-            user.setMobile(edtPhoneReg.getText().toString().trim().toLowerCase());
-            user.setPassword(edtNationalCodeReg.getText().toString().trim().toLowerCase());
-            user.setFirstName(edtFirstName.getText().toString().trim().toLowerCase());
-            user.setLastName(edtLastName.getText().toString().trim().toLowerCase());
-            user.setEmail(edtEmail.getText().toString().trim().toLowerCase());
-            user.setGender_id(gender_id);
-            user.setMajor_id(majer_id);
-            getLoginInfo(user);
         }
     }
 
@@ -292,6 +244,143 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    @Override
+    public void onCheckNetwork(boolean flag) {
+        if (flag) {
+
+        } else {
+            if (!showNoInternetDialog)
+                showDialog();
+        }
+    }
+
+    private void login() {
+        if (edtPhone.getText().length() == 0) {
+            edtPhone.setError(getResources().getString(R.string.empty_phone));
+            return;
+        }
+        if (!Utils.validPhone(edtPhone.getText().toString())) {
+            edtPhone.setError(getResources().getString(R.string.not_valid_phone));
+            return;
+        }
+        if (edtNathonalCode.getText().length() == 0) {
+            edtNathonalCode.setError(getResources().getString(R.string.empty_personal_code));
+            return;
+        }
+        nationalCode.check(edtNathonalCode.getText().toString());
+        if (!nationalCode.isValid()) {
+            edtNathonalCode.setError(nationalCode.getMessage());
+            return;
+        }
+
+        //checked
+        if (!Utils.isConnected()) {
+            showDialog();
+            return;
+        }
+        User user = new User();
+        user.setMobile(edtPhone.getText().toString().trim().toLowerCase());
+        user.setPassword(edtNathonalCode.getText().toString().trim().toLowerCase());
+        getLoginInfo(user);
+    }
+
+    private void register() {
+        if (edtPhoneReg.getText().length() == 0) {
+            edtPhoneReg.setError(getResources().getString(R.string.empty_phone));
+            return;
+        }
+        if (!Utils.validPhone(edtPhoneReg.getText().toString())) {
+            edtPhoneReg.setError(getResources().getString(R.string.not_valid_phone));
+            return;
+        }
+        if (edtNationalCodeReg.getText().length() == 0) {
+            edtNationalCodeReg.setError(getResources().getString(R.string.empty_personal_code));
+            return;
+        }
+
+        nationalCode.check(edtNationalCodeReg.getText().toString());
+        if (!nationalCode.isValid()) {
+            edtNationalCodeReg.setError(nationalCode.getMessage());
+            return;
+        }
+        if (edtFirstName.getText().length() == 0) {
+            edtFirstName.setError(getResources().getString(R.string.empty_first_name));
+            return;
+        }
+        if (edtLastName.getText().length() == 0) {
+            edtLastName.setError(getResources().getString(R.string.empty_last_name));
+            return;
+        }
+        if (edtEmail.getText().length() == 0) {
+            edtEmail.setError(getResources().getString(R.string.empty_email));
+            return;
+        }
+        if (!Utils.validEmail(edtEmail.getText().toString())) {
+            edtEmail.setError(getResources().getString(R.string.not_valid_email));
+            return;
+        }
+       // Log.i(TAG, "onClick: " + gender_id + " " + majer_id);
+        if (gender_id <= 0) {
+            toastShow("جنسیت انتخاب شود" + gender_id, MDToast.TYPE_ERROR);
+            return;
+        }
+        if (majer_id <= 0) {
+            toastShow("رشته انتخاب شود " + majer_id, MDToast.TYPE_ERROR);
+            return;
+        }
+
+        //checked
+        if (!Utils.isConnected()) {
+            showDialog();
+            return;
+        }
+        User user = new User();
+        user.setMobile(edtPhoneReg.getText().toString().trim().toLowerCase());
+        user.setPassword(edtNationalCodeReg.getText().toString().trim().toLowerCase());
+        user.setFirstName(edtFirstName.getText().toString().trim().toLowerCase());
+        user.setLastName(edtLastName.getText().toString().trim().toLowerCase());
+        user.setEmail(edtEmail.getText().toString().trim().toLowerCase());
+        user.setGender_id(gender_id);
+        user.setMajor_id(majer_id);
+        getLoginInfo(user);
+    }
+
+    public void showDialog() {
+        final Dialog dialog = new Dialog(new ContextThemeWrapper(this,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_no_internet);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        showNoInternetDialog = true;
+        Button btnOK = dialog.findViewById(R.id.btnOK);
+        ImageView imgCLose = dialog.findViewById(R.id.imgCLose);
+
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (login)
+                    login();
+                else
+                    register();
+                dialog.dismiss();
+                showNoInternetDialog = false;
+            }
+        });
+        imgCLose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showNoInternetDialog = false;
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
 
     }
 }

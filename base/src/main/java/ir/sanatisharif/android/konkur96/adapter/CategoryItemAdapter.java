@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
@@ -30,8 +31,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
     @Override
     public CategoryHolder onCreateViewHolder(ViewGroup parent, int typeviewsingle) {
 
-        CustomItemView itemView = new CustomItemView(parent.getContext());
-        //itemView.setGlide(glideRequests);
+        CustomItemView itemView = new CustomItemView(parent.getContext(),R.layout.category_item);
         itemView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
@@ -54,7 +54,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
             public void OnClick(int position, Object item) {
 
                 String url = itemsList.get(position).getContentUrl();
-                addFrg(FilterTagsFrg.newInstance(url, null), "DetailsVideoFrg");
+                addFrg(FilterTagsFrg.newInstance(url, null), "FilterTagsFrg");
             }
         });
     }

@@ -227,8 +227,9 @@ public class DashboardMainFrg extends BaseFragment {
 
             if (user.getLastName() != null && user.getFirstName() != null)
                 txtFullName.setText(user.getFirstName() + " " + user.getLastName());
-            if (user.getInfo().getMajor().getName() != null)
-                txtField.setText(user.getInfo().getMajor().getName());
+            if (user.getInfo() != null && user.getInfo().getMajor() != null)
+                if (user.getInfo().getMajor().getName() != null)
+                    txtField.setText(user.getInfo().getMajor().getName());
             if (user.getMobile() != null)
                 txtMobile.setText(user.getMobile());
             if (user.getNationalCode() != null)

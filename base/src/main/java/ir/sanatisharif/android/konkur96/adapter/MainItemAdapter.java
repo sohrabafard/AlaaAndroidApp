@@ -1,13 +1,8 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +10,18 @@ import android.webkit.URLUtil;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.RequestManager;
-import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.viewpagerindicator.CirclePageIndicator;
 
-import java.util.ArrayList;
 import java.util.List;
 ;
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
-import ir.sanatisharif.android.konkur96.model.Content;
+import ir.sanatisharif.android.konkur96.model.main_page.Content;
 import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.model.main_page.Banner;
@@ -37,7 +29,6 @@ import ir.sanatisharif.android.konkur96.model.main_page.MainBanner;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ViewSliderAdapter;
-import ir.sanatisharif.android.konkur96.utils.Utils;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.MORE_VIDEO_OFFLINE;
@@ -69,6 +60,8 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         else if (viewType == AppConstants.ITEM_BANNER)
             return new ItemHolder(LayoutInflater.from(mContext).inflate(R.layout.item_set_adapter, parent, false));
         else if (viewType == AppConstants.ITEM_CONTENT)
+            return new ItemHolder(LayoutInflater.from(mContext).inflate(R.layout.item_set_adapter, parent, false));
+        else if (viewType == AppConstants.ITEM_PRODUCT)
             return new ItemHolder(LayoutInflater.from(mContext).inflate(R.layout.item_set_adapter, parent, false));
         else if (viewType == AppConstants.VIDEO_OFFLINE_ITEM)
             return new VideoOfflineItemHolder(LayoutInflater.from(mContext).inflate(R.layout.item_set_adapter, parent, false));
@@ -148,8 +141,24 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
             itemRowHolder.recyclerView.setHasFixedSize(true);
             itemRowHolder.recyclerView.setAdapter(itemListDataAdapter);
-            // snapHelper.attachToRecyclerView(itemRowHolder.recyclerView);
             itemListDataAdapter.notifyDataSetChanged();
+
+        } else if (viewType == AppConstants.ITEM_PRODUCT) {
+
+            final ItemHolder itemRowHolder = (ItemHolder) holder;
+
+            List<ProductModel> items = dataList.get(position).getProducts();
+
+            ProductMainItemAdapter productMainItemAdapter = new ProductMainItemAdapter(mContext, items);
+
+            itemRowHolder.recyclerView.setHasFixedSize(false);
+            LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+            lin.setReverseLayout(false);
+            itemRowHolder.recyclerView.setLayoutManager(lin);
+            itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
+            itemRowHolder.recyclerView.setHasFixedSize(true);
+            itemRowHolder.recyclerView.setAdapter(productMainItemAdapter);
+            productMainItemAdapter.notifyDataSetChanged();
 
         } else if (viewType == AppConstants.ITEM_BANNER) {
 
@@ -178,9 +187,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemRowHolder.indicator = (CirclePageIndicator) itemRowHolder.itemView.findViewById(R.id.indicator);
             itemRowHolder.indicator.setViewPager(itemRowHolder.view_pager);
 
-        }
-
-        if (viewType == AppConstants.VIDEO_OFFLINE_ITEM) {
+        } else if (viewType == AppConstants.VIDEO_OFFLINE_ITEM) {
 
             final List<Video> items = dataList.get(position).getVideos();
             final VideoOfflineItemHolder itemRowHolder = (VideoOfflineItemHolder) holder;
@@ -221,6 +228,8 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return AppConstants.HEADER_DATA;
         else if (dataList.get(position).getType() == AppConstants.ITEM_SET)
             return AppConstants.ITEM_SET;
+        else if (dataList.get(position).getType() == AppConstants.ITEM_PRODUCT)
+            return AppConstants.ITEM_PRODUCT;
         else if (dataList.get(position).getType() == AppConstants.ITEM_CONTENT)
             return AppConstants.ITEM_CONTENT;
         else if (dataList.get(position).getType() == AppConstants.ITEM_BANNER)

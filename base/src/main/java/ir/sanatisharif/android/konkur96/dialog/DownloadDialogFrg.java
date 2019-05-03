@@ -150,15 +150,15 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                 if (checkLocationPermission()) {
                     if (radioGroup.getCheckedRadioButtonId() == R.id.radioExcellentQuality) {
 
-                        createDir(videos.get(0).getUrl(), title);
+                        createDir(videos.get(0).getLink(), title);
 
                     } else if (radioGroup.getCheckedRadioButtonId() == R.id.radioHighQuality) {
 
-                        createDir(videos.get(1).getUrl(), title);
+                        createDir(videos.get(1).getLink(), title);
 
                     } else if (radioGroup.getCheckedRadioButtonId() == R.id.radioMediumQuality) {
 
-                        createDir(videos.get(2).getUrl(), title);
+                        createDir(videos.get(2).getLink(), title);
                     }
 
                     dismiss();

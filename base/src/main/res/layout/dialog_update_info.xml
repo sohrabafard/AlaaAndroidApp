@@ -26,8 +26,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
                 android:text="آخرین تغییرات"
-                android:textColor="#BFBFBF"
-                android:textSize="@dimen/dialog_header_text_size"
+                android:textColor="@color/Black_1"
+                android:textSize="@dimen/_15sdp"
                 android:textStyle="bold" />
 
         </LinearLayout>

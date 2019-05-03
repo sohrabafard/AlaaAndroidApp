@@ -15,6 +15,7 @@ public class AppConstants {
     public static final int ITEM_SLIDER = 3;
     public static final int VIDEO_OFFLINE_ITEM = 4;
     public static final int HEADER_DATA = 5;
+    public static final int ITEM_PRODUCT = 6;
 
     //Shop Adapter
     public static final int SHOP_SLIDER_ITEM = 0;

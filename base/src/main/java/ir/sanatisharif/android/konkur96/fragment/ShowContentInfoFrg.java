@@ -45,6 +45,7 @@ import ir.sanatisharif.android.konkur96.utils.URLImageGetter;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 import me.gujun.android.taggroup.TagGroup;
 
+import static ir.sanatisharif.android.konkur96.activity.ActivityBase.toastShow;
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 /**
@@ -100,9 +101,13 @@ public class ShowContentInfoFrg extends BaseFragment implements
     private void setData() {
 
         if (course != null) {
-            txtTitle.setText(course.getName());
-            txtAuthor.setText(course.getAuthor().getFullName());
-            tagGroup.setTags(course.getTags().getTags());
+            if (course.getName() != null)
+                txtTitle.setText(course.getName());
+            if (course.getAuthor().getFullName() != null)
+                txtAuthor.setText(course.getAuthor().getFullName());
+
+            Log.i(TAG, "setData: "+course.getDescription());
+            //    tagGroup.setTags(course.getTags().getTags());
 
             new Thread(new Runnable() {
                 @Override
@@ -112,8 +117,12 @@ public class ShowContentInfoFrg extends BaseFragment implements
                         @Override
                         public void run() {
                             if (course.getDescription() != null)
-                                webView.loadData(course.getDescription(), "text/html", "UTF-8");
-                            if (course.getTags().getTags() != null)
+                                try {
+                                    webView.loadData(course.getDescription(), "text/html", "UTF-8");
+                                } catch (Exception e) {
+                                    toastShow("خطا در پردازش توضیحات", MDToast.TYPE_ERROR);
+                                }
+                            if (course.getTags() != null && course.getTags().getTags() != null)
                                 tagGroup.setTags(course.getTags().getTags());
                         }
                     });
@@ -185,6 +194,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
                     if (checkLocationPermission()) {
                         if (course.getFile().getPamphlet().get(0).getLink() != null) {
                             String url = course.getFile().getPamphlet().get(0).getLink();
+                            Log.i(TAG, "setOnPositive: "+url);
                             String fileName = course.getFile().getPamphlet().get(0).getFileName();
                             String name = course.getName();
                             download(url, fileName, name);
