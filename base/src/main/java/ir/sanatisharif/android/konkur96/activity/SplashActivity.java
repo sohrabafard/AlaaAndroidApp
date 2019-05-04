@@ -36,12 +36,6 @@ public class SplashActivity extends ActivityBase {
     private AlertDialog mAlertDialog;
     private boolean mInvalidate;
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        FirebaseApp.initializeApp(AppConfig.context);
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +92,9 @@ public class SplashActivity extends ActivityBase {
                 }, 1500);
             }
         }
-        Log.i(TAG, "onCreate: " + MyPreferenceManager.getInatanse().getFirebaseToken());
+
+
+       // Log.i(TAG, "onCreate: " + MyPreferenceManager.getInatanse().getFirebaseToken());
 
         if (MyPreferenceManager.getInatanse().getFirebaseToken().length() == 0) {
 

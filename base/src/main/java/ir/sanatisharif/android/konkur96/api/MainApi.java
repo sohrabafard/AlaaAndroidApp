@@ -12,8 +12,10 @@ import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
 import ir.sanatisharif.android.konkur96.model.main_page.MainPagesInfo;
+import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,15 +48,16 @@ public class MainApi {
         mainPage.enqueue(new Callback<MainPagesInfo>() {
             @Override
             public void onResponse(Call<MainPagesInfo> call, Response<MainPagesInfo> response) {
-                Log.i("LOG", "intercept: mainPages");
                 if (response.isSuccessful()) {
+                    Log.i("LOG", "onResponse: "+response.body().toString());
                     iServerCallbackObject.onSuccess(response.body());
+                } else {
+                    iServerCallbackObject.onFailure("");
                 }
             }
 
             @Override
             public void onFailure(Call<MainPagesInfo> call, Throwable t) {
-                Log.i("LOG", "onFailure: fai");
                 iServerCallbackObject.onFailure(t.getMessage());
             }
         });
@@ -71,9 +74,9 @@ public class MainApi {
                 if (response.isSuccessful()) {
                     UserInfo u = response.body();
                     iServerCallbackObject.onSuccess(u);
-                    Log.i("LOG", "onResponse: ");
                 } else {
                     try {
+                        iServerCallbackObject.onFailure("");
                         Log.i("LOG", "onResponse:errorBody  " + response.errorBody().string());
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -218,7 +221,25 @@ public class MainApi {
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 iServerCallbackObject.onFailure(t.getMessage());
+            }
+        });
+    }
 
+    public void getLastVersion(String url, IServerCallbackObject iServerCallbackObject) {
+        Call<LastVersion> call = api.getLastVersion(url);
+        call.enqueue(new Callback<LastVersion>() {
+            @Override
+            public void onResponse(Call<LastVersion> call, Response<LastVersion> response) {
+                if (response.isSuccessful()) {
+                    iServerCallbackObject.onSuccess(response.body());
+                } else {
+                    iServerCallbackObject.onFailure("");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LastVersion> call, Throwable t) {
+                iServerCallbackObject.onFailure(t.getMessage());
             }
         });
     }

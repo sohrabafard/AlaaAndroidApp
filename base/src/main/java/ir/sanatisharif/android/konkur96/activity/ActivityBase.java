@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.animation.Animation;
 import android.widget.TextView;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -29,9 +30,9 @@ public class ActivityBase extends AppCompatActivity {
 
     public static void toastShow(final String message, int MDToastType) {
 
-        int toastDurationInMilliSeconds = 700;
+        int toastDurationInMilliSeconds = 900;
 
-        final MDToast mToastToShow = MDToast.makeText(AppConfig.context, message, MDToastType);
+        final MDToast mToastToShow = MDToast.makeText(AppConfig.context, message,0, MDToastType);
 
         AppConfig.HANDLER.postDelayed(new Runnable() {
             @Override

@@ -125,7 +125,7 @@ public class FilterTagsFrg extends BaseFragment implements
 
     private void setTabContent() {
         tabControls = new TabControl[]{
-                new TabControl(SET, "set", "دروس", R.drawable.ic_set, false),
+                new TabControl(SET, "set", "دروس", R.drawable.is_play_list, false),
                 new TabControl(PRODUCT, "product", "محصولات", R.drawable.ic_buy, false),
                 new TabControl(VIDEO, "video", "ویدیو", R.drawable.ic_video_24dp, false),
                 new TabControl(PAMPHLET, "pamphlet", "جزوه", R.drawable.ic_pamphlet, false),

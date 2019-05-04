@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
-import ir.sanatisharif.android.konkur96.model.Content;
+import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
+import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
+import ir.sanatisharif.android.konkur96.model.main_page.Content;
 import ir.sanatisharif.android.konkur96.ui.view.CustomItemView;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
@@ -29,7 +29,7 @@ public class ContentItemAdapter extends RecyclerView.Adapter<ContentItemAdapter.
     @Override
     public ContentHolder onCreateViewHolder(ViewGroup parent, int typeviewsingle) {
 
-        CustomItemView itemView = new CustomItemView(parent.getContext());
+        CustomItemView itemView = new CustomItemView(parent.getContext(),R.layout.content_item);
         itemView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
@@ -41,21 +41,16 @@ public class ContentItemAdapter extends RecyclerView.Adapter<ContentItemAdapter.
     public void onBindViewHolder(final ContentHolder holder, final int position) {
 
         Content item = itemsList.get(position);
-     //   holder.customItemView.setClickItem(position, item);
-        holder.customItemView.setTitle(item.getTitle());
+        holder.customItemView.setTitle(item.getName());
         holder.customItemView.setAuthor(item.getAuthor().getFullName());
-        holder.customItemView.setContentCount(16);
-        holder.customItemView.setImage(item.getPhoto());
+        holder.customItemView.setImage(item.getThumbnail());
 
         holder.getCustomCatItem().setOnClickItem(new CustomItemView.OnClickItem() {
             @Override
-            public void OnClick(int position, Object item) {
-
-                //addFrg(ExtraItemFrg.newInstance(AppConstants.CONTENT_ITEM_SET), "ExtraItemFrg");
+            public void OnClick(int position, Object item1) {
+                addFrg(DetailsVideoFrg.newInstance(item.getUrl()), "DetailsVideoFrg");
             }
         });
-
-
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.balysv.materialripple.MaterialRippleLayout;
 
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 
 
 /**
@@ -60,4 +61,5 @@ public abstract class BaseDialogFragment<T> extends DialogFragment {
                 .rippleHover(true)
                 .create();
     }
+
 }

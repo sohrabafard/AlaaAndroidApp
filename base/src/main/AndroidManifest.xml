@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -36,6 +37,7 @@
             android:name="ir.sanatisharif.android.konkur96.activity.SplashActivity"
             android:screenOrientation="portrait">
 
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -64,6 +66,7 @@
             android:name="ir.sanatisharif.android.konkur96.activity.MainActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait">
+
 
             <!--<meta-data-->
             <!--android:name="default-url"-->

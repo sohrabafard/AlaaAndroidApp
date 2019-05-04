@@ -13,15 +13,29 @@ import android.view.LayoutInflater;
 import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.CrashlyticsInitProvider;
 import com.crashlytics.android.core.CrashlyticsCore;
+import com.google.android.exoplayer2.offline.DownloadManager;
+import com.google.android.exoplayer2.offline.DownloaderConstructorHelper;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.upstream.FileDataSourceFactory;
+import com.google.android.exoplayer2.upstream.HttpDataSource;
+import com.google.android.exoplayer2.upstream.cache.Cache;
+import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
+import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory;
+import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor;
+import com.google.android.exoplayer2.upstream.cache.SimpleCache;
 import com.google.android.gms.common.wrappers.InstantApps;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 
+import java.io.File;
 
 import io.fabric.sdk.android.Fabric;
+import ir.sanatisharif.android.konkur96.BuildConfig;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.ApiModule;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
@@ -54,6 +68,7 @@ public class AppConfig extends Application {
     public static final String TAG = AppConfig.class.getSimpleName();
     public static SharedPreferences sharedPreferencesSetting;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     public static int[] colorSwipeRefreshing;
 
 
@@ -61,7 +76,10 @@ public class AppConfig extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Fabric.with(this, new Crashlytics());
+        CrashlyticsCore crashlyticsCore = new CrashlyticsCore.Builder()
+                .disabled(BuildConfig.DEBUG)
+                .build();
+        Fabric.with(this, new Crashlytics.Builder().core(crashlyticsCore).build());
         Crashlytics.setBool("InstantApp", InstantApps.isInstantApp(this));
 
         // MultiDex.install(this);
@@ -74,7 +92,9 @@ public class AppConfig extends Application {
                     .setApplicationId(getString(R.string.firebaseApplicationId))
                     .build();
             FirebaseApp.initializeApp(getApplicationContext(), options);
-        }
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        } else
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/IRANSansMobile(FaNum).ttf")
@@ -138,5 +158,4 @@ public class AppConfig extends Application {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
-
 }

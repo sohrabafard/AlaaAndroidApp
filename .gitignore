@@ -9,6 +9,6 @@
 .externalNativeBuild
 *.apk
 .idea
-*.gradle
+gradle*
 *.log
 /app/build

@@ -1,9 +1,10 @@
 package ir.sanatisharif.android.konkur96.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.model.main_page.Banner;
+import ir.sanatisharif.android.konkur96.model.main_page.Content;
 import ir.sanatisharif.android.konkur96.model.main_page.MainBanner;
 import ir.sanatisharif.android.konkur96.model.main_page.Product;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
@@ -24,7 +25,7 @@ public class MainItem {
     private List<Set> sets;
     private List<Content> contents;
     private List<Banner> banners;
-    private List<Product> products;
+    private List<ProductModel> products;
     private List<Video> videos;
 
     public String getTitle() {
@@ -107,11 +108,11 @@ public class MainItem {
         this.banners = banners;
     }
 
-    public List<Product> getProducts() {
+    public List<ProductModel> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<ProductModel> products) {
         this.products = products;
     }
 

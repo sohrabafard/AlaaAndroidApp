@@ -9,25 +9,20 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -53,7 +48,7 @@ import com.google.android.exoplayer2.util.Util;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.model.Video;
+import ir.sanatisharif.android.konkur96.utils.VideoPlayerComponent;
 
 import static android.content.Context.KEYGUARD_SERVICE;
 import static android.content.Context.POWER_SERVICE;
@@ -96,21 +91,62 @@ public class VideoPlayFrg extends BaseFragment {
 
     public class VideoPlayer implements LifecycleObserver {
 
-        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-        public void play() {
-            //play logic
-            startPlayer();
+//        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+//        public void play() {
+//            startPlayer();
+//            Log.i("LOG", "VideoPlayFrg: ON_RESUME");
+//        }
+//
+//        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+//        public void pause() {
+//            Log.i("LOG", "VideoPlayFrg: ON_PAUSE");
+//            pausePlayer();
+//        }
+//
+//        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+//        public void stop() {
+//            releasePlayer();
+//            Log.i("LOG", "VideoPlayFrg: ON_STOP");
+//            //stop logic
+//        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+        void onCreate() {
+            Log.i("LOG", "VideoPlayFrg: ON_CREATE");
+            clearResumePosition();
+           // mExoPlayerView.requestFocus();
         }
 
-        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-        public void pause() {
-            //pause logic
+        @OnLifecycleEvent(Lifecycle.Event.ON_START)
+        void onStart() {
+            if (Util.SDK_INT > 23) {
+                Log.i("LOG", "VideoPlayFrg: ON_START");
+                startPlayer();
+            }
         }
 
         @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-        public void stop() {
-            releasePlayer();
-            //stop logic
+        void onStop() {
+            if (Util.SDK_INT > 23) {
+                Log.i("LOG", "VideoPlayFrg: ON_STOP");
+                releasePlayer();
+            }
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        void onPause() {
+            if (Util.SDK_INT <= 23) {
+                Log.i("LOG", "VideoPlayFrg: ON_PAUSE");
+                releasePlayer();
+            }
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        void onResume() {
+            if ((Util.SDK_INT <= 23)) {
+                Log.i("LOG", "VideoPlayFrg: ON_RESUME");
+                initExoPlayer();
+            }
         }
     }
 
@@ -129,28 +165,14 @@ public class VideoPlayFrg extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // mLifecycleRegistry = new LifecycleRegistry(this);
-        // mLifecycleRegistry.markState(Lifecycle.State.CREATED);
-
         initWakeLockScreen();
         // Fragment locked in landscape screen orientation
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+      //  startPlayer();
+        // getLifecycle().addObserver(new VideoPlayerComponent(getContext(), mExoPlayerView, videoUrl));
         videoPlayer = new VideoPlayer();
         getLifecycle().addObserver(videoPlayer);
-    }
-
-
-//    @Override
-//    public LifecycleRegistry getLifecycle() {
-//        return mLifecycleRegistry;
-//    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
     }
 
     @Override
@@ -285,7 +307,6 @@ public class VideoPlayFrg extends BaseFragment {
         });
     }
 
-
     private void initExoPlayer() {
 
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
@@ -297,7 +318,7 @@ public class VideoPlayFrg extends BaseFragment {
         mExoPlayerView.setPlayer(player);
 
         boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
-
+        Log.i("LOG", "onPause: savedInsPlayer2 " + mResumePosition);
         if (haveResumePosition) {
             player.seekTo(mResumeWindow, mResumePosition);
         }
@@ -308,26 +329,18 @@ public class VideoPlayFrg extends BaseFragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        // mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-        // releasePlayer();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         getLifecycle().removeObserver(videoPlayer);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
+    private void resume() {
+        Log.i("LOG", "onPause: savedInsPlayer2 " + mResumePosition);
         mResumeWindow = savedInsPlayer.getInt(STATE_RESUME_WINDOW);
         mResumePosition = savedInsPlayer.getLong(STATE_RESUME_POSITION);
         mExoPlayerFullscreen = savedInsPlayer.getBoolean(STATE_PLAYER_FULLSCREEN);
 
+        Log.i("LOG", "onPause: savedInsPlayer3 " + mResumePosition);
         if (player != null && mExoPlayerView.getPlayer() != null) {
 
             boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
@@ -338,26 +351,24 @@ public class VideoPlayFrg extends BaseFragment {
 
             player.addListener(new PlayerEventListener());
             player.prepare(mVideoSource, !haveResumePosition, false);
-           // player.setPlayWhenReady(true);
+            player.setPlayWhenReady(true);
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
+    private void pausePlayer() {
         if (savedInsPlayer != null) {
 
             if (mExoPlayerView != null && mExoPlayerView.getPlayer() != null) {
                 mResumeWindow = mExoPlayerView.getPlayer().getCurrentWindowIndex();
                 mResumePosition = Math.max(0, mExoPlayerView.getPlayer().getContentPosition());
 
-                mExoPlayerView.getPlayer().release();
+                player.setPlayWhenReady(false);
             }
             savedInsPlayer.putInt(STATE_RESUME_WINDOW, mResumeWindow);
             savedInsPlayer.putLong(STATE_RESUME_POSITION, mResumePosition);
             savedInsPlayer.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);
+            Log.i("LOG", "onPause: savedInsPlayer1 " + mResumePosition);
         }
-        // releasePlayer();
     }
 
     private void startPlayer() {
@@ -365,24 +376,17 @@ public class VideoPlayFrg extends BaseFragment {
 
             mExoPlayerView = (SimpleExoPlayerView) getView().findViewById(R.id.exoplayer);
 
-            mUrl = getArguments().getString("path");//"https://cdn.sanatisharif.ir/media/170/240p/170023fghg.mp4";
+            mUrl = getArguments().getString("path");
             initFullscreenDialog();
             initFullscreenButton();
-
-           /* String streamUrl = "https://cdn.sanatisharif.ir/media/202/HD_720p/202054dfgf.mp4";
-            String userAgent = Util.getUserAgent(AppConfig.currentActivity, AppConfig.context.getApplicationInfo().packageName);
-            DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null, DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS, DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS, true);
-            DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(AppConfig.currentActivity, null, httpDataSourceFactory);
-            Uri daUri = Uri.parse(streamUrl);*/
 
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
                     Util.getUserAgent(context, "mediaPlayerSample"));
             mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(Uri.parse(mUrl));
-
         }
 
-        initExoPlayer();
+
 
         if (mExoPlayerFullscreen) {
             ((ViewGroup) mExoPlayerView.getParent()).removeView(mExoPlayerView);
@@ -405,6 +409,10 @@ public class VideoPlayFrg extends BaseFragment {
             mFullScreenDialog.dismiss();
     }
 
+    private void clearResumePosition() {
+        mResumeWindow = C.INDEX_UNSET;
+        mResumePosition = C.TIME_UNSET;
+    }
 
     private class PlayerEventListener extends Player.DefaultEventListener {
 
@@ -435,9 +443,9 @@ public class VideoPlayFrg extends BaseFragment {
                     break;
             }
         }
-
     }
 
+    //<editor-fold desc="animation">
     Animator.AnimatorListener animatorHide = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
@@ -481,6 +489,7 @@ public class VideoPlayFrg extends BaseFragment {
 
         }
     };
+    //</editor-fold>
 
     //<editor-fold desc="lock">
     @SuppressLint("InvalidWakeLockTag")

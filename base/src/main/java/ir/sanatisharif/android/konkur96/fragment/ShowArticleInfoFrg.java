@@ -85,8 +85,13 @@ public class ShowArticleInfoFrg extends BaseFragment {
     private void setData() {
 
         if (course != null) {
-            txtTitle.setText(course.getName());
-            txtAuthor.setText(course.getAuthor().getFullName());
+            if (course.getName() != null)
+                txtTitle.setText(course.getName());
+            if (course.getAuthor().getFullName() != null)
+                txtAuthor.setText(course.getAuthor().getFullName());
+
+          //  Log.i(TAG, "setData: "+txtContext);
+           // Log.i(TAG, "setData: "+txtDesc);
 
             new Thread(new Runnable() {
                 @Override
@@ -127,7 +132,7 @@ public class ShowArticleInfoFrg extends BaseFragment {
         }
 
         while (output != null) {
-            System.out.println(output);
+          //  System.out.println(output);
             try {
                 output = bufferedReader.readLine();
                 Log.i(TAG, "convertStringTo: " + output);

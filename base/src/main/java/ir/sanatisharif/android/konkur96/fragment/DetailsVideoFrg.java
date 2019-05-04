@@ -62,6 +62,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.gms.common.wrappers.InstantApps;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -187,7 +188,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
         public void stop() {
             Log.i(TAG, "play: 4");
-            //  releasePlayer();
+            releasePlayer();
             //stop logic
         }
     }
@@ -348,7 +349,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             if (null != course) {
 
                 if (!checkExistVideoToSD(course.getFile().getVideo()))
-                    mUrl = course.getFile().getVideo().get(0).getUrl();
+                    mUrl = course.getFile().getVideo().get(0).getLink();
             }
             startPlayer(mUrl);
 
@@ -472,6 +473,8 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 course.getThumbnail(),
                 mExoPlayerView.getLayoutParams().width, mExoPlayerView.getLayoutParams().height);
 
+        //Gson gson=new Gson();
+        //Log.i(TAG, "setData: "+gson.toJson(course));
         txtAuthor.setText(course.getAuthor().getFullName());
         txtTitle.setText(course.getName());
         txtDesc.setText(Html.fromHtml(course.getDescription()));
@@ -580,7 +583,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 }
 
                 if (!checkExistVideoToSD(course.getFile().getVideo()))
-                    mUrl = course.getFile().getVideo().get(0).getUrl();
+                    mUrl = course.getFile().getVideo().get(0).getLink();
 
                 AppConfig.HANDLER.postDelayed(new Runnable() {
                     @Override
@@ -619,7 +622,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         resizePlayer();
         setRipple();
-
 
         imgDownload.setOnClickListener(this);
         imgReady.setOnClickListener(this);
@@ -746,8 +748,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 loadControl);
 
         mExoPlayerView.setPlayer(player);
-
-
     }
 
     private void startPlayer(String mUrl) {
@@ -756,7 +756,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         if (haveResumePosition) {
             player.seekTo(mResumeWindow, mResumePosition);
         }
-
 
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
                 Util.getUserAgent(context, "mediaPlayerSample"));
@@ -838,6 +837,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     /**
      * if return true ie file is exist ito SD
      * if return false file not exist
+     *
      * @param videos
      * @return
      */
@@ -851,8 +851,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         for (int i = 0; i < videos.size(); i++) {
 
-            String url = videos.get(i).getUrl();
+            String url = videos.get(i).getLink();
 
+            Log.i(TAG, "checkExistVideoToSD: " + url);
             String mediaPath = FileManager.getPathFromAllaUrl(url);
             String fileName = FileManager.getFileNameFromUrl(url);
             File file = new File(FileManager.getRootPath() + mediaPath + "/" + fileName);
