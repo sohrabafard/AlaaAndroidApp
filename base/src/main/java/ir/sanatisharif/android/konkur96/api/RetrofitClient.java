@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import okhttp3.Cache;
@@ -46,7 +47,7 @@ public class RetrofitClient {
             retrofit = new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
-                    .baseUrl(BASE_URL)
+                    .baseUrl(AppConfig.BASE_URL)
                     .build();
         }
         return retrofit;

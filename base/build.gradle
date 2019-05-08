@@ -1,7 +1,6 @@
 apply plugin: 'com.android.feature'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
-//apply plugin: 'com.google.firebase.firebase-perf'
 
 buildscript {
     repositories {
@@ -42,11 +41,13 @@ android {
 
     buildTypes {
         debug {
-
+            debuggable true
+            resValue "string", "alla_url", "https://dev.alaatv.com:8082/"
         }
         release {
+            debuggable false
             minifyEnabled true
-
+            resValue "string", "alla_url", "https://dev.alaatv.com:8082/"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
 
         }
@@ -82,7 +83,7 @@ dependencies {
     //noinspection GradleCompatible
     api 'com.google.firebase:firebase-core:16.0.8'
     api 'com.google.firebase:firebase-messaging:17.6.0'
-    // api 'com.google.firebase:firebase-perf:16.2.5'
+    //api 'com.google.firebase:firebase-perf:16.2.5'
 
     api 'com.google.android.exoplayer:exoplayer:2.8.3'
 
@@ -146,14 +147,15 @@ dependencies {
         annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
     }
 
-    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+
+    api 'com.intuit.sdp:sdp-android:1.0.6'
+
     //fabric
     api('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
         transitive = true;
     }
 
-    api 'com.github.yongjhih.android-proguards:android-proguards-all:-SNAPSHOT'
-
+    //implementation 'com.github.yongjhih.android-proguards:android-proguards-all:-SNAPSHOT'
+   //api 'com.infstory:proguard-snippets:1.0.0'
     application project(':app')
-
 }

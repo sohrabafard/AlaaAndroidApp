@@ -10,8 +10,12 @@ import com.google.gson.annotations.SerializedName;
 
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.model.main_page.ApiUrl;
 import ir.sanatisharif.android.konkur96.model.main_page.Author;
 import ir.sanatisharif.android.konkur96.model.main_page.File;
+import ir.sanatisharif.android.konkur96.model.main_page.NextApiUrl;
+import ir.sanatisharif.android.konkur96.model.main_page.Pivot;
+import ir.sanatisharif.android.konkur96.model.main_page.PreviousApiUrl;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 import ir.sanatisharif.android.konkur96.model.main_page.Tags;
 
@@ -62,9 +66,25 @@ public class DataCourse implements Parcelable {
     @SerializedName("url")
     @Expose
     private String url;
+    private ApiUrl apiUrl;
+    @SerializedName("nextUrl")
+    @Expose
+    private String nextUrl;
+    @SerializedName("nextApiUrl")
+    @Expose
+    private NextApiUrl nextApiUrl;
+    @SerializedName("previousUrl")
+    @Expose
+    private String previousUrl;
+    @SerializedName("previousApiUrl")
+    @Expose
+    private PreviousApiUrl previousApiUrl;
     @SerializedName("author")
     @Expose
     private Author author;
+    @SerializedName("pivot")
+    @Expose
+    private Pivot pivot;
     @SerializedName("set")
     @Expose
     private Set set;
@@ -101,7 +121,14 @@ public class DataCourse implements Parcelable {
         this.updatedAt = ((String) in.readValue((String.class.getClassLoader())));
         this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.author = ((Author) in.readValue((Author.class.getClassLoader())));
+        this.apiUrl = ((ApiUrl) in.readValue((ApiUrl.class.getClassLoader())));
+        this.nextUrl = ((String) in.readValue((String.class.getClassLoader())));
+        this.nextApiUrl = ((NextApiUrl) in.readValue((NextApiUrl.class.getClassLoader())));
+        this.previousUrl = ((String) in.readValue((String.class.getClassLoader())));
+        this.previousApiUrl = ((PreviousApiUrl) in.readValue((PreviousApiUrl.class.getClassLoader())));
+        this.pivot = ((Pivot) in.readValue((Pivot.class.getClassLoader())));
         this.set = ((Set) in.readValue((Set.class.getClassLoader())));
+
     }
 
     public DataCourse() {
@@ -302,6 +329,55 @@ public class DataCourse implements Parcelable {
         return this;
     }
 
+    public Pivot getPivot() {
+        return pivot;
+    }
+
+    public void setPivot(Pivot pivot) {
+        this.pivot = pivot;
+    }
+
+    public ApiUrl getApiUrl() {
+        return apiUrl;
+    }
+
+    public void setApiUrl(ApiUrl apiUrl) {
+        this.apiUrl = apiUrl;
+    }
+
+    public String getNextUrl() {
+        return nextUrl;
+    }
+
+    public void setNextUrl(String nextUrl) {
+        this.nextUrl = nextUrl;
+    }
+
+    public NextApiUrl getNextApiUrl() {
+        return nextApiUrl;
+    }
+
+    public void setNextApiUrl(NextApiUrl nextApiUrl) {
+        this.nextApiUrl = nextApiUrl;
+    }
+
+    public String getPreviousUrl() {
+        return previousUrl;
+    }
+
+    public void setPreviousUrl(String previousUrl) {
+        this.previousUrl = previousUrl;
+    }
+
+    public PreviousApiUrl getPreviousApiUrl() {
+        return previousApiUrl;
+    }
+
+    public void setPreviousApiUrl(PreviousApiUrl previousApiUrl) {
+        this.previousApiUrl = previousApiUrl;
+    }
+
+
     public Author getAuthor() {
         return author;
     }
@@ -344,7 +420,13 @@ public class DataCourse implements Parcelable {
         dest.writeValue(createdAt);
         dest.writeValue(updatedAt);
         dest.writeValue(url);
+        dest.writeValue(apiUrl);
+        dest.writeValue(nextUrl);
+        dest.writeValue(nextApiUrl);
+        dest.writeValue(previousUrl);
+        dest.writeValue(previousApiUrl);
         dest.writeValue(author);
+        dest.writeValue(pivot);
         dest.writeValue(set);
     }
 

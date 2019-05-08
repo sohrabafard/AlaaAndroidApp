@@ -11,7 +11,10 @@ import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
 import ir.sanatisharif.android.konkur96.ui.view.CustomItemView;
+
+import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class ProductMainItemAdapter extends RecyclerView.Adapter<ProductMainItemAdapter.CategoryHolder> {
 
@@ -38,17 +41,15 @@ public class ProductMainItemAdapter extends RecyclerView.Adapter<ProductMainItem
     public void onBindViewHolder(final CategoryHolder holder, final int position) {
 
         final ProductModel item = itemsList.get(position);
-       // holder.customItemView.setClickItem(position, item);
+        holder.customItemView.setClickItem(position);
         holder.customItemView.setTitle(item.getName());
         holder.customItemView.setPrice(item.getPrice().getBase() + "");
         holder.customItemView.setImage(item.getPhoto());
 
         holder.getCustomCatItem().setOnClickItem(new CustomItemView.OnClickItem() {
             @Override
-            public void OnClick(int position, Object item) {
-                Toast.makeText(mContext,"product",Toast.LENGTH_LONG);
-                //  String url = itemsList.get(position).getContentUrl();
-                // addFrg(FilterTagsFrg.newInstance(url, null), "FilterTagsFrg");
+            public void OnClick(int position) {
+                 addFrg(ProductDetailFragment.newInstance(item), "ProductDetailFragment");
             }
         });
     }

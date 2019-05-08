@@ -49,8 +49,9 @@ public class MainApi {
             @Override
             public void onResponse(Call<MainPagesInfo> call, Response<MainPagesInfo> response) {
                 if (response.isSuccessful()) {
-                    Log.i("LOG", "onResponse: "+response.body().toString());
+                   // Log.i("LOG", "onResponse: "+ call.request().url().toString());
                     iServerCallbackObject.onSuccess(response.body());
+
                 } else {
                     iServerCallbackObject.onFailure("");
                 }
