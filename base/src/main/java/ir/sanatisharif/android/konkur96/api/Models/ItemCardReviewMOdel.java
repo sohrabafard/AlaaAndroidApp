@@ -8,11 +8,21 @@ import com.google.gson.annotations.SerializedName;
 public class ItemCardReviewMOdel extends AddToCardListModel implements Parcelable {
 
     @SerializedName("grand")
-    private GrandModel grand;
+    private String grand;
 
 
     protected ItemCardReviewMOdel(Parcel in) {
-        grand = in.readParcelable(GrandModel.class.getClassLoader());
+        grand = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(grand);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<ItemCardReviewMOdel> CREATOR = new Creator<ItemCardReviewMOdel>() {
@@ -27,21 +37,11 @@ public class ItemCardReviewMOdel extends AddToCardListModel implements Parcelabl
         }
     };
 
-    public GrandModel getGrand() {
+    public String getGrand() {
         return grand;
     }
 
-    public void setGrand(GrandModel grand) {
+    public void setGrand(String grand) {
         this.grand = grand;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeParcelable(grand, i);
     }
 }

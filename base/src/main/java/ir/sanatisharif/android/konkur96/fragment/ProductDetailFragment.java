@@ -396,8 +396,6 @@ public class ProductDetailFragment extends BaseFragment {
                     final Handler handler = new Handler();
                     handler.postDelayed(() -> getPrice(), 700);
 
-                    Log.d("Amin",String.valueOf(selectableIdList));
-
                 }
 
                 @Override

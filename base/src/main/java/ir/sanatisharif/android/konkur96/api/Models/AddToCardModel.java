@@ -34,7 +34,7 @@ public class AddToCardModel extends ErrorBase implements Parcelable {
     private String photo;
 
     @SerializedName("grandProduct")
-    private ProductModel grandProduct;
+    private String grandProduct;
 
     protected AddToCardModel(Parcel in) {
         order_id = in.readInt();
@@ -45,7 +45,25 @@ public class AddToCardModel extends ErrorBase implements Parcelable {
         price = in.readParcelable(AllPriceModel.class.getClassLoader());
         bons = in.createTypedArrayList(AllBonModel.CREATOR);
         photo = in.readString();
-        grandProduct = in.readParcelable(ProductModel.class.getClassLoader());
+        grandProduct = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(order_id);
+        dest.writeInt(id);
+        dest.writeParcelable(orderproducttype, flags);
+        dest.writeParcelable(product, flags);
+        dest.writeString(grandId);
+        dest.writeParcelable(price, flags);
+        dest.writeTypedList(bons);
+        dest.writeString(photo);
+        dest.writeString(grandProduct);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<AddToCardModel> CREATOR = new Creator<AddToCardModel>() {
@@ -124,29 +142,11 @@ public class AddToCardModel extends ErrorBase implements Parcelable {
         this.photo = photo;
     }
 
-    public ProductModel getGrandProduct() {
+    public String getGrandProduct() {
         return grandProduct;
     }
 
-    public void setGrandProduct(ProductModel grandProduct) {
+    public void setGrandProduct(String grandProduct) {
         this.grandProduct = grandProduct;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(order_id);
-        parcel.writeInt(id);
-        parcel.writeParcelable(orderproducttype, i);
-        parcel.writeParcelable(product, i);
-        parcel.writeString(grandId);
-        parcel.writeParcelable(price, i);
-        parcel.writeTypedList(bons);
-        parcel.writeString(photo);
-        parcel.writeParcelable(grandProduct, i);
     }
 }

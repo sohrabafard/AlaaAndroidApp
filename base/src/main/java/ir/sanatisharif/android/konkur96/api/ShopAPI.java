@@ -1,6 +1,7 @@
 package ir.sanatisharif.android.konkur96.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import io.reactivex.Observable;
 import ir.sanatisharif.android.konkur96.api.Models.AddToCardListModel;
@@ -62,6 +63,8 @@ public interface ShopAPI {
                                                  @Query("attribute[]") ArrayList<Integer> attribute,
                                                  @Query("products[]") ArrayList<Integer> products,
                                                  @Query("extraAttribute[]") ArrayList<Integer> extraAttribute);
+
+
 
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @GET("api/v1/checkout/review")

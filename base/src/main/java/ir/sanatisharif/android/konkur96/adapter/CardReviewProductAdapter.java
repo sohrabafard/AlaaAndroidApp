@@ -96,7 +96,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
             final AddToCardModel model = items.get(position);
 
-            final String title = model.getGrandProduct().getName();
+            //final String title = model.getGrandProduct().getName();
             final String proTitle = model.getProduct().getName();
             final int price = model.getProduct().getPrice().getMfinal();
             final int discount = model.getProduct().getPrice().getBase();
@@ -104,7 +104,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
             final GrandProductViewHolder itemRowHolderGrand = (GrandProductViewHolder) holder;
 
-            itemRowHolderGrand.txtTitle.setText(title);
+            //itemRowHolderGrand.txtTitle.setText(title);
             itemRowHolderGrand.txtProTitle.setText(proTitle);
             itemRowHolderGrand.txtPrice.setText(ShopUtils.formatPrice(price) + " تومان ");
 
