@@ -155,12 +155,8 @@ dependencies {
         transitive = true;
     }
 
-<<<<<<< HEAD
-    /*api 'com.github.yongjhih.android-proguards:android-proguards-all:-SNAPSHOT'*/
-
-=======
     //implementation 'com.github.yongjhih.android-proguards:android-proguards-all:-SNAPSHOT'
    //api 'com.infstory:proguard-snippets:1.0.0'
->>>>>>> ae2c3f2e7beae965899bcc6a654ceaaa84a5da75
+
     application project(':app')
 }

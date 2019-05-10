@@ -157,6 +157,8 @@ public class ZarinPalDialogFragment extends DialogFragment {
                                 } else {
 
                                     Log.d("Test", (String) ((Result.Error) data).value);
+                                    Toast.makeText(getContext(), "مشکلی بوجود آمده لطفا دوباره تکرار کنید.",Toast.LENGTH_LONG).show();
+                                    this.dismiss();
                                 }
 
 
