@@ -43,7 +43,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
     public void onBindViewHolder(final CategoryHolder holder, final int position) {
 
         final Set item = itemsList.get(position);
-        holder.customItemView.setClickItem(position, item);
+        holder.customItemView.setClickItem(position);
         holder.customItemView.setTitle(item.getShortName());
         holder.customItemView.setAuthor(item.getAuthor().getLastName());
         holder.customItemView.setContentCount(item.getContentsCount());
@@ -51,7 +51,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
 
         holder.getCustomCatItem().setOnClickItem(new CustomItemView.OnClickItem() {
             @Override
-            public void OnClick(int position, Object item) {
+            public void OnClick(int position) {
 
                 String url = itemsList.get(position).getContentUrl();
                 addFrg(FilterTagsFrg.newInstance(url, null), "FilterTagsFrg");

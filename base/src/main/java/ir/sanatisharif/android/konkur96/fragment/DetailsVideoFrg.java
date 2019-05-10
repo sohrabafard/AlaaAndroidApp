@@ -89,6 +89,8 @@ import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
 import ir.sanatisharif.android.konkur96.model.filter.VideoRoot;
+import ir.sanatisharif.android.konkur96.model.main_page.Content;
+import ir.sanatisharif.android.konkur96.model.user.Data;
 import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 import me.gujun.android.taggroup.TagGroup;
@@ -104,14 +106,20 @@ import static ir.sanatisharif.android.konkur96.app.AppConfig.context;
 
 public class DetailsVideoFrg extends BaseFragment implements View.OnClickListener {
 
+    private final static String TAG = "LOG";
     private final String STATE_RESUME_WINDOW = "resumeWindow";
     private final String STATE_RESUME_POSITION = "resumePosition";
     private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
-    private final static String TAG = "LOG";
+    private static final int LOAD_URL = 0;
+    private static final int LOAD_CONTENT = 1;
+    private static final int LOAD_LIST = 2;
+    private static int kind_of_Load = -1;
+
     private Bundle savedInsPlayer;
 
     private VideoPlayer videoPlayer;
     private static List<VideoCourse> videoCourses;
+    private static Content content;
     private DataCourse course;
     private static int positionPlaying;
     private boolean showPlayList = true;
@@ -128,7 +136,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private TextView txtAuthor;
     private TextView txtTitle;
     private TagGroup tagGroup;
-    private ProgressBar loader;
+    private ProgressBar loader, loaderPlayList;
 
     //preview
     private FrameLayout relativePreview;
@@ -193,7 +201,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         }
     }
 
-
+    // from list
     public static DetailsVideoFrg newInstance(List<? extends FilterBaseModel> v, int pos) {
 
         Bundle args = new Bundle();
@@ -201,16 +209,29 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         fragment.setArguments(args);
         videoCourses = (List<VideoCourse>) v;//get video list
         positionPlaying = pos;
+        kind_of_Load = LOAD_LIST;
         return fragment;
     }
 
+    // from content
+    public static DetailsVideoFrg newInstance(Content c) {
 
+        Bundle args = new Bundle();
+        DetailsVideoFrg fragment = new DetailsVideoFrg();
+        fragment.setArguments(args);
+        content = c;
+        kind_of_Load = LOAD_CONTENT;
+        return fragment;
+    }
+
+    // from url, i.e load info from deepLink
     public static DetailsVideoFrg newInstance(String url) {
 
         Bundle args = new Bundle();
         args.putString("url", url);
         DetailsVideoFrg fragment = new DetailsVideoFrg();
         fragment.setArguments(args);
+        kind_of_Load = LOAD_URL;
         return fragment;
     }
 
@@ -242,20 +263,38 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         super.onViewCreated(view, savedInstanceState);
 
         initView(view, savedInstanceState);
-        //get data from api and url
-        if (getArguments().getString("url") != null) {
+
+        if (kind_of_Load == LOAD_CONTENT) {
+            course = content;
+            setData();
+            getDataFromContentByUrl(content.getSet().getContentUrl());
+
+        } else if (kind_of_Load == LOAD_URL) { //get data from api and url
             String url = getArguments().getString("url");
             String id = url.substring(url.lastIndexOf("/") + 1);
             this.mUrl = url;
             getData(id);
-        } else//get data from list
-        {
+        } else if (kind_of_Load == LOAD_LIST) {
+            //get data from list
             course = videoCourses.get(positionPlaying);
             setData();
         }
 
         videoPlayer = new VideoPlayer();
         getLifecycle().addObserver(videoPlayer);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (videoCourses != null) {
+            videoCourses = null;
+            positionPlaying = 0;
+        }
+        if (playListAdapter != null) {
+            playListAdapter = null;
+        }
     }
 
     private void getData(String id) {
@@ -291,6 +330,40 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onFailure(String message) {
+                Log.i(TAG, "onSuccess:error " + message);
+            }
+        });
+    }
+
+    private void getDataFromContentByUrl(String url) {
+
+        loaderPlayList.setVisibility(View.VISIBLE);
+        MainApi.getInstance().getFilterTagsByUrl(url, new IServerCallbackObject() {
+            @Override
+            public void onSuccess(Object obj) {
+                Filter filter = (Filter) obj;
+
+                if (filter.getResult().getVideo() != null) {
+
+                    videoCourses = filter.getResult().getVideo().getData();
+                    pagination = filter.getResult().getVideo();
+
+                    initPlayList();
+                   // playListAdapter = new PlayListAdapter(getContext(), videoCourses);
+                   // recyclerPlayList.setAdapter(playListAdapter);
+
+                    if (videoCourses.size() > 1) {
+                        playListAdapter.notifyItemMoved(playListAdapter.getItemCount(), videoCourses.size() - 1);
+                    } else {
+                        playListAdapter.notifyDataSetChanged();
+                    }
+                    loaderPlayList.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                loaderPlayList.setVisibility(View.GONE);
                 Log.i(TAG, "onSuccess:error " + message);
             }
         });
@@ -473,12 +546,14 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 course.getThumbnail(),
                 mExoPlayerView.getLayoutParams().width, mExoPlayerView.getLayoutParams().height);
 
-        //Gson gson=new Gson();
-        //Log.i(TAG, "setData: "+gson.toJson(course));
-        txtAuthor.setText(course.getAuthor().getFullName());
-        txtTitle.setText(course.getName());
-        txtDesc.setText(Html.fromHtml(course.getDescription()));
-        tagGroup.setTags(course.getTags().getTags());
+        if (course.getAuthor() != null && course.getAuthor().getFullName() != null)
+            txtAuthor.setText(course.getAuthor().getFullName());
+        if (course.getName() != null)
+            txtTitle.setText(course.getName());
+        if (course.getDescription() != null)
+            txtDesc.setText(Html.fromHtml(course.getDescription()));
+        if (course.getTags() != null && course.getTags().getTags() != null)
+            tagGroup.setTags(course.getTags().getTags());
 
         if (course.getFile() != null && course.getFile().getVideo().size() > 0)
             checkExistVideoToSD(course.getFile().getVideo());
@@ -534,6 +609,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         txtAuthor = view.findViewById(R.id.txtAuthor);
         tagGroup = view.findViewById(R.id.tag_group);
         loader = view.findViewById(R.id.loader);
+        loaderPlayList = view.findViewById(R.id.loaderPlayList);
         AppConfig.getInstance().changeProgressColor(loader);
 
         //preview
@@ -558,6 +634,19 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         myRecyclerView.setAdapter(adapter);
 
         //--------------play list
+        initPlayList();
+
+        resizePlayer();
+        setRipple();
+
+        imgDownload.setOnClickListener(this);
+        imgReady.setOnClickListener(this);
+        imgArrow.setOnClickListener(this);
+        imgPlay.setOnClickListener(this);
+        imgShare.setOnClickListener(this);
+    }
+
+    private void initPlayList() {
         playListAdapter = new PlayListAdapter(getContext(), videoCourses);
         managerPlayList = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerPlayList.setLayoutManager(managerPlayList);
@@ -619,15 +708,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             }
         };
         recyclerPlayList.addOnScrollListener(endLess);
-
-        resizePlayer();
-        setRipple();
-
-        imgDownload.setOnClickListener(this);
-        imgReady.setOnClickListener(this);
-        imgArrow.setOnClickListener(this);
-        imgPlay.setOnClickListener(this);
-        imgShare.setOnClickListener(this);
     }
 
     //<editor-fold desc="Player">
@@ -853,7 +933,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
             String url = videos.get(i).getLink();
 
-            Log.i(TAG, "checkExistVideoToSD: " + url);
             String mediaPath = FileManager.getPathFromAllaUrl(url);
             String fileName = FileManager.getFileNameFromUrl(url);
             File file = new File(FileManager.getRootPath() + mediaPath + "/" + fileName);

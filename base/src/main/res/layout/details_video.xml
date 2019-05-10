@@ -71,9 +71,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:maxLines="2"
                 android:ellipsize="end"
                 android:gravity="center|right"
+                android:maxLines="2"
                 android:text=""
                 android:textColor="@color/Black_2"
                 android:textSize="@dimen/_15sdp" />
@@ -107,11 +107,26 @@
             android:src="@drawable/ic_arrow_up"
             android:tint="@color/Monochromatic_1" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerPlayList"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true" />
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerPlayList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true" />
+
+            <ProgressBar
+                android:id="@+id/loaderPlayList"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"

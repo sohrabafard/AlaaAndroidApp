@@ -121,9 +121,20 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        radioExcellentQuality.setText(toString(videos.get(0).getCaption(), videos.get(0).getRes()));
-        radioHighQuality.setText(toString(videos.get(1).getCaption(), videos.get(1).getRes()));
-        radioMediumQuality.setText(toString(videos.get(2).getCaption(), videos.get(2).getRes()));
+        if (videos.size() == 1) {
+            radioExcellentQuality.setText(toString(videos.get(0).getCaption(), videos.get(0).getRes()));
+            radioHighQuality.setVisibility(View.GONE);
+            radioMediumQuality.setVisibility(View.GONE);
+        } else if (videos.size() == 2) {
+            radioExcellentQuality.setText(toString(videos.get(0).getCaption(), videos.get(0).getRes()));
+            radioHighQuality.setText(toString(videos.get(1).getCaption(), videos.get(1).getRes()));
+            radioMediumQuality.setVisibility(View.GONE);
+        } else if (videos.size() == 3) {
+            radioExcellentQuality.setText(toString(videos.get(0).getCaption(), videos.get(0).getRes()));
+            radioHighQuality.setText(toString(videos.get(1).getCaption(), videos.get(1).getRes()));
+            radioMediumQuality.setText(toString(videos.get(2).getCaption(), videos.get(2).getRes()));
+        }
+
 
         String pref = sharedPreferences.getString(getString(R.string.player_quality), "240");
 

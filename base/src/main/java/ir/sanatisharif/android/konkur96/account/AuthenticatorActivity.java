@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -61,6 +62,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
     private final String TAG = this.getClass().getSimpleName();
     private AccountManager mAccountManager;
     private Utils.ValidNationalCode nationalCode = new Utils.ValidNationalCode();
+   FirebaseAnalytics mFirebaseAnalytics;
     //ui
     private AlertDialog dialog;
     private View loginView, registerView;
@@ -83,6 +85,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
         mAccountManager = AccountManager.get(getBaseContext());
         AppConfig.currentActivity = this;
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         initUI();
         setDialog();

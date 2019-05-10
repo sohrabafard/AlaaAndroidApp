@@ -23,6 +23,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 
 import ir.sanatisharif.android.konkur96.model.Item;
@@ -90,10 +91,8 @@ public class CustomItemView extends LinearLayout {
         init(context);
     }
 
-    public void setClickItem(int pos, Set item) {
-
+    public void setClickItem(int pos) {
         this.position = pos;
-        this.item = item;
     }
 
     public String getPrice() {
@@ -102,7 +101,7 @@ public class CustomItemView extends LinearLayout {
 
     public void setPrice(String price) {
         this.price = price;
-        txtPrice.setText(price +" تومان ");
+        txtPrice.setText(price + " تومان ");
     }
 
     public String getTitle() {
@@ -179,8 +178,7 @@ public class CustomItemView extends LinearLayout {
         } else if (layout == R.layout.product_main_item) {
             txtPrice = findViewById(R.id.txtPrice);
             txtPrice.setTypeface(AppConfig.fontIRSensNumber);
-            Log.i("LOG", "onBindViewHolder: "+price);
-
+            // Log.i("LOG", "onBindViewHolder: "+price);
         }
 
         txtTitle.setTypeface(AppConfig.fontIRSensNumber);
@@ -193,7 +191,7 @@ public class CustomItemView extends LinearLayout {
             public void onClick(View v) {
 
                 if (onClickItem != null) {
-                    onClickItem.OnClick(position, item);
+                    onClickItem.OnClick(position);
                 }
             }
         });
@@ -217,13 +215,16 @@ public class CustomItemView extends LinearLayout {
     private void setImageSize() {
 
         txtTitle.measure(0, 0);
-       // txtAuthor.measure(0, 0);
+        // txtAuthor.measure(0, 0);
 
         //w= 460 and h = 259
         height = AppConfig.itemHeight - txtTitle.getMeasuredHeight() - txtTitle.getMeasuredHeight();
 
         height -= 24;
-        width = (int) (height * 1.77f);
+        if (layout == R.layout.product_main_item)
+            width -= 24;
+        else
+            width = (int) (height * 1.77f);
 
         imgItem.getLayoutParams().width = width;
         imgItem.getLayoutParams().height = height;
@@ -241,7 +242,7 @@ public class CustomItemView extends LinearLayout {
 
     public interface OnClickItem {
 
-        void OnClick(int position, Object item);
+        void OnClick(int position);
     }
 
 }
