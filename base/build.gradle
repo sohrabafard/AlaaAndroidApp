@@ -152,7 +152,7 @@ dependencies {
         transitive = true;
     }
 
-    api 'com.github.yongjhih.android-proguards:android-proguards-all:-SNAPSHOT'
+    /*api 'com.github.yongjhih.android-proguards:android-proguards-all:-SNAPSHOT'*/
 
     application project(':app')
 
