@@ -312,9 +312,9 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         if (fragments.size() > 1) {
 
             FragmentTransaction transaction = fm.beginTransaction();
-            fragments.lastElement().onPause();
+           // fragments.lastElement().onPause();
             transaction.remove(fragments.pop());
-            fragments.lastElement().onResume();
+           // fragments.lastElement().onResume();
             transaction.show(fragments.lastElement());
             transaction.commit();
 

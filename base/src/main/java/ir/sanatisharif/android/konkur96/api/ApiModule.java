@@ -63,7 +63,7 @@ public class ApiModule {
     @Provides
     @Singleton
     ShopAPI provideApi(Retrofit.Builder builder) {
-        return builder.baseUrl(ShopAPI.BASE_URL).build().create(ShopAPI.class);
+        return builder.baseUrl(AppConfig.BASE_URL).build().create(ShopAPI.class);
     }
 
     @Provides

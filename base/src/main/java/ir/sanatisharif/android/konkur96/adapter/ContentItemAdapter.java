@@ -29,7 +29,7 @@ public class ContentItemAdapter extends RecyclerView.Adapter<ContentItemAdapter.
     @Override
     public ContentHolder onCreateViewHolder(ViewGroup parent, int typeviewsingle) {
 
-        CustomItemView itemView = new CustomItemView(parent.getContext(),R.layout.content_item);
+        CustomItemView itemView = new CustomItemView(parent.getContext(), R.layout.content_item);
         itemView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
@@ -47,8 +47,10 @@ public class ContentItemAdapter extends RecyclerView.Adapter<ContentItemAdapter.
 
         holder.getCustomCatItem().setOnClickItem(new CustomItemView.OnClickItem() {
             @Override
-            public void OnClick(int position, Object item1) {
-                addFrg(DetailsVideoFrg.newInstance(item.getUrl()), "DetailsVideoFrg");
+            public void OnClick(int position) {
+                if (item.getContenttypeId() == 8)
+                   // addFrg(DetailsVideoFrg.newInstance(item.getApiUrl().getV1()), "DetailsVideoFrg");
+                    addFrg(DetailsVideoFrg.newInstance(item), "DetailsVideoFrg");
             }
         });
     }

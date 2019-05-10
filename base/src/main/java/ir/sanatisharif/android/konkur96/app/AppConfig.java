@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ProgressBar;
 
@@ -70,31 +71,34 @@ public class AppConfig extends Application {
 
     private FirebaseAnalytics mFirebaseAnalytics;
     public static int[] colorSwipeRefreshing;
-
+    public static String BASE_URL = "https://dev.alaatv.com:8082/";
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        CrashlyticsCore crashlyticsCore = new CrashlyticsCore.Builder()
-                .disabled(BuildConfig.DEBUG)
-                .build();
-        Fabric.with(this, new Crashlytics.Builder().core(crashlyticsCore).build());
-        Crashlytics.setBool("InstantApp", InstantApps.isInstantApp(this));
+        // carshlytics
+//        CrashlyticsCore crashlyticsCore = new CrashlyticsCore.Builder()
+//                .disabled(BuildConfig.DEBUG)
+//                .build();
+//        Fabric.with(this, new Crashlytics.Builder().core(crashlyticsCore).build());
+
+         Fabric.with(this, new Crashlytics());
+         Crashlytics.setBool("InstantApp", InstantApps.isInstantApp(this));
 
         // MultiDex.install(this);
         mInstance = this;
         context = getApplicationContext();
+        BASE_URL = getString(R.string.alla_url);
 
         //Firebase init by application id
-        if (!InstantApps.isInstantApp(getApplicationContext())) {
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setApplicationId(getString(R.string.firebaseApplicationId))
-                    .build();
-            FirebaseApp.initializeApp(getApplicationContext(), options);
-            mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        } else
-            mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+//        if (!InstantApps.isInstantApp(getApplicationContext())) {
+//            FirebaseOptions options = new FirebaseOptions.Builder()
+//                    .setApplicationId(getString(R.string.firebaseApplicationId)) // Required for Analytics
+//                    .build();
+//            FirebaseApp.initializeApp(getApplicationContext(), options);
+//        }
+
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/IRANSansMobile(FaNum).ttf")

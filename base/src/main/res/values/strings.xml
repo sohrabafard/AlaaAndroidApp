@@ -8,7 +8,8 @@
     <string name="profile">پروفایل</string>
     <string name="my_product">محصولات من</string>
 
-    <string name="firebaseApplicationId" translatable="false">1:93895183217:android:87158b141dea0bed</string>
+
+    <string name="firebaseApplicationId" translatable="false">1:93895183217:android:c0eff60db6b60372</string>
     <string name="aboutMe">
         آلاء پنجره ای است رو به دور نمای آموزش کشور که می کوشد با اساتید کار بلد و مخاطبان پر تعداد و متعهد خود آموزش همگانی را در چهار گوشه ی این سرزمین در دسترس فرزندان ایران قرار دهد.
 خدمات اصلی آموزش در آلاء کاملا رایگان بوده و درآمد خدمات جانبی آن صرف برپا نگه داشتن و دوام این مجموعه عام المنفعه می شود. محصولات ما پیش تر با نام های آلاء و تخته خاک در اختیار مخاطبان قرار می گرفت که برای سهولت در مدیریت و دسترسی کاربران اکنون انحصارا با نام آلاء منتشر می شود.
@@ -106,7 +107,7 @@
         <item>یازدهم</item>
         <item>دوازدهم</item>
         <item>نظام_قدیم</item>
-        <item>کنکوری</item>
+        <item>کنکور</item>
         <item>المپیاد</item>
 
     </string-array>

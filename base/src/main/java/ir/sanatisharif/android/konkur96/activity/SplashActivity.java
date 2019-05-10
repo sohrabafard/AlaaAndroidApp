@@ -101,7 +101,7 @@ public class SplashActivity extends ActivityBase {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    retrieveToken();
+                   retrieveToken();
                 }
             }).start();
         }

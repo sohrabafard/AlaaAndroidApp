@@ -78,7 +78,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
         final VideoCourse item = itemsList.get(position);
         holder.txtTitle.setText(item.getName());
         holder.txtSession.setText("   جلسه " + item.getOrder());
-
+        Log.i("LOG", "onBindViewHolder: " + item.getName());
         if (pos > -1 && position == pos) {
             if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 holder.linearBottom.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
@@ -131,7 +131,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
 
     public class VideoHolder extends RecyclerView.ViewHolder {
 
-        private LinearLayout root,linearBottom;
+        private LinearLayout root, linearBottom;
         private ImageView imgPlayList;
         private TextView txtTitle, txtSession;
 
