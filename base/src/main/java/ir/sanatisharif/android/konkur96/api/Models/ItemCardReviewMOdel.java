@@ -8,16 +8,16 @@ import com.google.gson.annotations.SerializedName;
 public class ItemCardReviewMOdel extends AddToCardListModel implements Parcelable {
 
     @SerializedName("grand")
-    private String grand;
+    private ProductModel grand;
 
 
     protected ItemCardReviewMOdel(Parcel in) {
-        grand = in.readString();
+        grand = in.readParcelable(ProductModel.class.getClassLoader());
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(grand);
+        dest.writeParcelable(grand, flags);
     }
 
     @Override
@@ -37,11 +37,11 @@ public class ItemCardReviewMOdel extends AddToCardListModel implements Parcelabl
         }
     };
 
-    public String getGrand() {
+    public ProductModel getGrand() {
         return grand;
     }
 
-    public void setGrand(String grand) {
+    public void setGrand(ProductModel grand) {
         this.grand = grand;
     }
 }
