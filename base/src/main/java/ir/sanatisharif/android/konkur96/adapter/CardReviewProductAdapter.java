@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,8 @@ import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
+import ir.sanatisharif.android.konkur96.api.Models.ItemCardReviewMOdel;
+import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 
@@ -25,10 +29,15 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
     private Context context;
     private DeleteListener deleteListener;
-    private ArrayList<AddToCardModel> items;
+    private ArrayList<ItemCardReviewMOdel> items;
+
+    private RecyclerView childRecyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private CardChildAdapter adapter;
 
 
-    public CardReviewProductAdapter(Context context, ArrayList<AddToCardModel> items, DeleteListener deleteListener) {
+
+    public CardReviewProductAdapter(Context context, ArrayList<ItemCardReviewMOdel> items, DeleteListener deleteListener) {
 
         this.deleteListener = deleteListener;
         this.items = items;
@@ -64,13 +73,14 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
         if (viewType == 1) {
 
-            final AddToCardModel model = items.get(position);
+            final ItemCardReviewMOdel model = items.get(position);
+            final AddToCardModel product = model.getOrderproducts().get(0);
 
 
-            final String title = model.getProduct().getName();
-            final int price = model.getProduct().getPrice().getMfinal();
-            final int discount = model.getProduct().getPrice().getBase();
-            final String image = model.getProduct().getPhoto();
+            final String title = product.getProduct().getName();
+            final int price = product.getProduct().getPrice().getMfinal();
+            final int discount = product.getProduct().getPrice().getBase();
+            final String image = product.getProduct().getPhoto();
 
             final NoGrandProductViewHolder itemRowHolderNoGrand = (NoGrandProductViewHolder) holder;
 
@@ -87,41 +97,33 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
             }
 
-            itemRowHolderNoGrand.btnDel.setOnClickListener(view -> deleteListener.onClickDelete(model.getId()));
+            itemRowHolderNoGrand.btnDel.setOnClickListener(view -> deleteListener.onClickDelete(product.getId()));
 
             Glide.with(context).load(image).into(itemRowHolderNoGrand.imageView);
 
 
         }else {
 
-            final AddToCardModel model = items.get(position);
-
-            final String title = model.getGrandProduct().getName();
-            final String proTitle = model.getProduct().getName();
-            final int price = model.getProduct().getPrice().getMfinal();
-            final int discount = model.getProduct().getPrice().getBase();
-            final String image = model.getProduct().getPhoto();
+            final ItemCardReviewMOdel model = items.get(position);
 
             final GrandProductViewHolder itemRowHolderGrand = (GrandProductViewHolder) holder;
 
+            final String title = model.getGrand().getName();
+            final String image = model.getGrand().getPhoto();
+
             itemRowHolderGrand.txtTitle.setText(title);
-            itemRowHolderGrand.txtProTitle.setText(proTitle);
-            itemRowHolderGrand.txtPrice.setText(ShopUtils.formatPrice(price) + " تومان ");
-
-            if (discount > 0){
-                itemRowHolderGrand.txtDiscount.setVisibility(View.VISIBLE);
-                itemRowHolderGrand.txtDiscount.setText(ShopUtils.formatPrice(discount) + " تومان ");
-
-            }else {
-
-                itemRowHolderGrand.txtDiscount.setVisibility(View.GONE);
-
-            }
-
-            itemRowHolderGrand.btnDel.setOnClickListener(view -> deleteListener.onClickDelete(model.getId()));
-
             Glide.with(context).load(image).into(itemRowHolderGrand.imageView);
 
+
+
+            //recyclerView
+            itemRowHolderGrand.recyclerView.setHasFixedSize(true);
+            itemRowHolderGrand.recyclerView.setNestedScrollingEnabled(false);
+            linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+            itemRowHolderGrand.recyclerView.setLayoutManager(linearLayoutManager);
+            adapter = new CardChildAdapter(context, model.getOrderproducts(), id -> deleteListener.onClickDelete(id));
+            itemRowHolderGrand.recyclerView.setAdapter(adapter);
+            itemRowHolderGrand.recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         }
     }
@@ -129,7 +131,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public int getItemViewType(int position) {
 
-        if (items.get(position).getGrandProduct() == null) {
+        if (items.get(position).getGrand() == null) {
 
             return 1;
 
@@ -142,22 +144,17 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
     class GrandProductViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageView, btnDel;
-        TextView txtTitle, txtPrice, txtProTitle, txtDiscount;
+        RecyclerView recyclerView;
+        TextView txtTitle;
+        ImageView imageView;
 
 
         GrandProductViewHolder(View itemView) {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.img);
-            btnDel = itemView.findViewById(R.id.btn_del);
             txtTitle = itemView.findViewById(R.id.title);
-            txtProTitle = itemView.findViewById(R.id.pro_titel);
-            txtPrice = itemView.findViewById(R.id.price);
-            txtDiscount = itemView.findViewById(R.id.txt_discount);
-            txtDiscount.setPaintFlags(txtDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
-
+            recyclerView = itemView.findViewById(R.id.recyclerView_child);
+            imageView = itemView.findViewById(R.id.img);
         }
     }
 

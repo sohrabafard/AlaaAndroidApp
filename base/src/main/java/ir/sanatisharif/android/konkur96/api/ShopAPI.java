@@ -10,6 +10,7 @@ import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
 import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
+import ir.sanatisharif.android.konkur96.api.Models.PaymentUrlModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultBaseShowVideoModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultShowVideoModel;
@@ -87,4 +88,8 @@ public interface ShopAPI {
     Observable<ErrorBase> delProductFromCard(@Header("Authorization") String token,
                                             @Path("orderproduct_id") String orderproductId,
                                             @Query("_method") String _method);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @GET("api/v1/getPaymentRedirectEncryptedLink")
+    Observable<PaymentUrlModel> getPaymentUrl(@Header("Authorization") String token);
 }

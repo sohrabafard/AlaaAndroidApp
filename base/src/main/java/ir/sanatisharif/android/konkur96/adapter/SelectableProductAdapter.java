@@ -196,17 +196,26 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
                 checkListeners.onItemCheck(model, holder.getAdapterPosition(), true);
             }
             else {
+
                 selectablemodel.setChecked(false);
-                for(SelectableProduct childModel : selectablemodel.getChilds()){
+                for (int i = 0; i <= selectablemodel.getChilds().size(); i++){
+
+                    SelectableProduct childModel = selectablemodel.getChilds().get(i);
 
                     childModel.setChecked(false);
                     checkListeners.onItemUncheck(childModel.getModel(), holder.getAdapterPosition());
 
                 }
 
-
                 adapter.notifyDataSetChanged();
                 checkListeners.onItemUncheck(model, holder.getAdapterPosition());
+
+                /*for(SelectableProduct childModel : selectablemodel.getChilds()){
+
+                    childModel.setChecked(false);
+                    checkListeners.onItemUncheck(childModel.getModel(), holder.getAdapterPosition());
+
+                }*/
 
 
 
