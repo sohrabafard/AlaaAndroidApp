@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
@@ -78,7 +79,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
         final VideoCourse item = itemsList.get(position);
         holder.txtTitle.setText(item.getName());
         holder.txtSession.setText("   جلسه " + item.getOrder());
-        Log.i("LOG", "onBindViewHolder: " + item.getName());
         if (pos > -1 && position == pos) {
             if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 holder.linearBottom.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
@@ -99,6 +99,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                         holder.imgPlayList.setImageDrawable(resource);
+                        holder.loader.setVisibility(View.GONE);
                     }
                 });
 
@@ -134,6 +135,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
         private LinearLayout root, linearBottom;
         private ImageView imgPlayList;
         private TextView txtTitle, txtSession;
+        private ProgressBar loader;
 
         private VideoHolder(View view) {
             super(view);
@@ -143,10 +145,11 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
             imgPlayList = view.findViewById(R.id.imgPlayList);
             txtTitle = view.findViewById(R.id.txtTitle);
             txtSession = view.findViewById(R.id.txtSession);
+            loader = view.findViewById(R.id.loader);
+            loader.getIndeterminateDrawable().setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
 
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);
             txtSession.setTypeface(AppConfig.fontIRSensNumber);
-
             ripple(root, 0);
         }
 

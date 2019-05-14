@@ -138,11 +138,11 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
         String pref = sharedPreferences.getString(getString(R.string.player_quality), "240");
 
-        if (pref.equals("HD_720")) {
+        if (pref.contains("720")) {
             radioExcellentQuality.setChecked(true);
-        } else if (pref.equals("hq")) {
+        } else if (pref.contains("hq")) {
             radioHighQuality.setChecked(true);
-        } else if (pref.equals("240p")) {
+        } else if (pref.contains("240")) {
             radioMediumQuality.setChecked(true);
         }
 
@@ -243,7 +243,6 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     }
 
     public String toString(String caption, String title) {
-
         return String.format("%s - %s", caption, title);
     }
 }

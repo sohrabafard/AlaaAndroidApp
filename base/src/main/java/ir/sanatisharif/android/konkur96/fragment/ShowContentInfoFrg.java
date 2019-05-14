@@ -106,7 +106,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
             if (course.getAuthor().getFullName() != null)
                 txtAuthor.setText(course.getAuthor().getFullName());
 
-            Log.i(TAG, "setData: "+course.getDescription());
+            //  Log.i(TAG, "setData: "+course.getDescription());
             //    tagGroup.setTags(course.getTags().getTags());
 
             new Thread(new Runnable() {
@@ -129,17 +129,20 @@ public class ShowContentInfoFrg extends BaseFragment implements
                 }
             }).start();
 
-            String fileName = course.getFile().getPamphlet().get(0).getFileName();
-            if (fileName != null) {
-                if (FileManager.checkFileExist(FileManager.getPDFPath() + fileName)) {
-                    btnDownload.setVisibility(View.GONE);
-                    btnOpenPDF.setVisibility(View.VISIBLE);
-                } else {
-                    btnDownload.setVisibility(View.VISIBLE);
-                    btnOpenPDF.setVisibility(View.GONE);
+            if (course.getFile().getPamphlet().get(0).getLink() != null) {
+                String fileName = Utils.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
+                if (fileName != null) {
+                    if (FileManager.checkFileExist(FileManager.getPDFPath() + fileName)) {
+                        btnDownload.setVisibility(View.GONE);
+                        btnOpenPDF.setVisibility(View.VISIBLE);
+                    } else {
+                        btnDownload.setVisibility(View.VISIBLE);
+                        btnOpenPDF.setVisibility(View.GONE);
+                    }
                 }
+            } else {
+                ActivityBase.toastShow("لینک دانلود یافت مشد", MDToast.TYPE_ERROR);
             }
-
         }
     }
 
@@ -194,8 +197,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
                     if (checkLocationPermission()) {
                         if (course.getFile().getPamphlet().get(0).getLink() != null) {
                             String url = course.getFile().getPamphlet().get(0).getLink();
-                            Log.i(TAG, "setOnPositive: "+url);
-                            String fileName = course.getFile().getPamphlet().get(0).getFileName();
+                            String fileName = Utils.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
                             String name = course.getName();
                             download(url, fileName, name);
                         } else
@@ -228,7 +230,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
 
                 ActivityBase.toastShow(getResources().getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
                 btnDownload.setVisibility(View.GONE);
-                btnOpenPDF.setVisibility(View.GONE);
+                btnOpenPDF.setVisibility(View.VISIBLE);
             }
         });
 

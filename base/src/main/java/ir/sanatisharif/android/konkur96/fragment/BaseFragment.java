@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -32,8 +33,14 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
 
     private Toolbar toolbar;
     private TextView txtTitle;
-   // private LifecycleRegistry mLifecycleRegistry;
+    // private LifecycleRegistry mLifecycleRegistry;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanseState) {
         return createFragmentView(inflater, container, savedInstanseState);
@@ -41,8 +48,13 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
 
     public abstract View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
-//    @Override
+    }
+
+    //    @Override
 //    public LifecycleRegistry getLifecycle() {
 //        return mLifecycleRegistry;
 //    }

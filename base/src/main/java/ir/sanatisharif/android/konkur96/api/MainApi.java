@@ -4,13 +4,27 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.sql.DataSource;
+
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
+import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
+import ir.sanatisharif.android.konkur96.model.ContentCredit;
 import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
+import ir.sanatisharif.android.konkur96.model.main_page.Content;
 import ir.sanatisharif.android.konkur96.model.main_page.MainPagesInfo;
 import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
@@ -49,7 +63,7 @@ public class MainApi {
             @Override
             public void onResponse(Call<MainPagesInfo> call, Response<MainPagesInfo> response) {
                 if (response.isSuccessful()) {
-                   // Log.i("LOG", "onResponse: "+ call.request().url().toString());
+                    // Log.i("LOG", "onResponse: "+ call.request().url().toString());
                     iServerCallbackObject.onSuccess(response.body());
 
                 } else {
@@ -93,23 +107,32 @@ public class MainApi {
         });
     }
 
-    public void getDetailsCourse(String id, IServerCallbackObject iServerCallbackObject) {
+    public void getDetailsCourse(String url, IServerCallbackContentCredit iServerCallbackObject) {
 
-        Call<DataCourse> detailsCourseCall = api.getDetailsCourseByID(id);
+        Call<DataCourse> detailsCourseCall = api.getDetailsCourseByID(url);
         detailsCourseCall.enqueue(new Callback<DataCourse>() {
             @Override
             public void onResponse(Call<DataCourse> call, Response<DataCourse> response) {
 
                 if (response.isSuccessful()) {
                     iServerCallbackObject.onSuccess(response.body());
+                } else if (response.code() == 403) {
+                    try {
+                        ContentCredit c = gson.fromJson(response.errorBody().charStream(), ContentCredit.class);
+                        iServerCallbackObject.onSuccessCredit(c);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else {
-                    iServerCallbackObject.onFailure("");
+                    iServerCallbackObject.onFailure("error");
                 }
             }
 
             @Override
             public void onFailure(Call<DataCourse> call, Throwable t) {
                 iServerCallbackObject.onFailure(t.getMessage());
+               // Log.i("LOG", "onResponse:error " + t.getMessage());
             }
         });
     }

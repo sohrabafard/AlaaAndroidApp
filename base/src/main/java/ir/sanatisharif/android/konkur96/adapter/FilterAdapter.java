@@ -129,8 +129,9 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onClick(View view) {
 
-                    addFrg(DetailsVideoFrg.newInstance(mList, position), "DetailsVideoFrg");
-
+                    // addFrg(DetailsVideoFrg.newInstance(mList, position), "DetailsVideoFrg");
+                    if (item.getContenttypeId() == 8)
+                        addFrg(DetailsVideoFrg.newInstance(item.getUrl()), "DetailsVideoFrg");
                 }
             });
 
@@ -221,7 +222,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             itemHolder.txtn.setText(item.getName());
             itemHolder.txtPrice.setText(ShopUtils.formatPrice(item.getPrice().getMfinal()) + " تومان ");
-            itemHolder.txtDiscount.setPaintFlags(itemHolder.txtDiscount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            itemHolder.txtDiscount.setPaintFlags(itemHolder.txtDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             if (item.getPrice().getDiscount() > 0) {
                 itemHolder.txtDiscount.setVisibility(View.VISIBLE);
                 itemHolder.txtDiscount.setText(ShopUtils.formatPrice(item.getPrice().getBase()) + " تومان ");
@@ -350,7 +351,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public class ProductHolder extends RecyclerView.ViewHolder  {
+    public class ProductHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
         private CardView cardViewRoot;
