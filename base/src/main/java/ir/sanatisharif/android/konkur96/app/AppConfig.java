@@ -71,7 +71,7 @@ public class AppConfig extends Application {
 
     private FirebaseAnalytics mFirebaseAnalytics;
     public static int[] colorSwipeRefreshing;
-    public static String BASE_URL = "https://dev.alaatv.com:8082/";
+    public static String BASE_URL = "https://alaatv.com/";
 
     @Override
     public void onCreate() {
