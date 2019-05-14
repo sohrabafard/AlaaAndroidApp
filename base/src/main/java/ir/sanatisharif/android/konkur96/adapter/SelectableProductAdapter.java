@@ -218,7 +218,7 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
 
                                 for (int j = 0; j <= childModel.getChilds().size(); j++){
 
-                                    SelectableProduct childChildModel = childModel.getChilds().get(i);
+                                    SelectableProduct childChildModel = childModel.getChilds().get(j);
 
                                     childChildModel.setChecked(false);
                                     notifyDataSetChanged();
