@@ -22,5 +22,6 @@ public interface Repository {
     void notifyTransaction(String token, String cost, String authority, String refId, ApiCallBack callBack);
     void getDashboard(String token, String userId, ApiCallBack callBack);
     void delProductFromCard(String token, String orderproductId, ApiCallBack callBack);
+    void getPaymentUrl(String token, ApiCallBack callBack);
 
 }

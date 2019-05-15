@@ -1,6 +1,7 @@
 package ir.sanatisharif.android.konkur96.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import io.reactivex.Observable;
 import ir.sanatisharif.android.konkur96.api.Models.AddToCardListModel;
@@ -9,6 +10,7 @@ import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
 import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
+import ir.sanatisharif.android.konkur96.api.Models.PaymentUrlModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultBaseShowVideoModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
 import ir.sanatisharif.android.konkur96.api.Models.ResultShowVideoModel;
@@ -23,7 +25,7 @@ import retrofit2.http.Url;
 
 public interface ShopAPI {
 
-    String BASE_URL = "http://79.127.123.246:8080/";
+    //String BASE_URL = "http://79.127.123.246:8080/";
 
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @GET("shop")
@@ -63,6 +65,8 @@ public interface ShopAPI {
                                                  @Query("products[]") ArrayList<Integer> products,
                                                  @Query("extraAttribute[]") ArrayList<Integer> extraAttribute);
 
+
+
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @GET("api/v1/checkout/review")
     Observable<CardReviewModel> cardReview(@Header("Authorization") String token);
@@ -84,4 +88,8 @@ public interface ShopAPI {
     Observable<ErrorBase> delProductFromCard(@Header("Authorization") String token,
                                             @Path("orderproduct_id") String orderproductId,
                                             @Query("_method") String _method);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @GET("api/v1/getPaymentRedirectEncryptedLink")
+    Observable<PaymentUrlModel> getPaymentUrl(@Header("Authorization") String token);
 }

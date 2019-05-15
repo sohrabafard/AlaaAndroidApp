@@ -71,6 +71,7 @@
              android:tint="@color/Red"
              android:layout_gravity="top|left"
              android:layout_margin="5dp"
+             android:background="?android:attr/selectableItemBackground"
              android:id="@+id/btn_del"/>
 
 

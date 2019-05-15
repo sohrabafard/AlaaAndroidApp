@@ -121,9 +121,6 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
                     checkListeners.onItemCheck(model, position, false);
 
 
-
-
-
                 }
 
                 @Override
@@ -140,11 +137,6 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
 
 
                     checkListeners.onItemUncheck(model, position);
-
-
-
-
-
 
                 }
             });
@@ -186,7 +178,18 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
                     for(SelectableProduct childModel : selectablemodel.getChilds()){
 
                         childModel.setChecked(true);
+                        notifyDataSetChanged();
                         checkListeners.onItemCheck(childModel.getModel(), holder.getAdapterPosition(), false);
+
+                        if (childModel.getChilds() != null && childModel.getChilds().size() > 0){
+
+                            for(SelectableProduct childChildModel : childModel.getChilds()){
+
+                                childChildModel.setChecked(true);
+                                notifyDataSetChanged();
+                                checkListeners.onItemCheck(childChildModel.getModel(), holder.getAdapterPosition(), false);
+                            }
+                        }
 
                     }
                 }
@@ -196,17 +199,54 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
                 checkListeners.onItemCheck(model, holder.getAdapterPosition(), true);
             }
             else {
-                selectablemodel.setChecked(false);
-                for(SelectableProduct childModel : selectablemodel.getChilds()){
 
-                    childModel.setChecked(false);
-                    checkListeners.onItemUncheck(childModel.getModel(), holder.getAdapterPosition());
+                selectablemodel.setChecked(false);
+
+                if (null != selectablemodel.getChilds() && selectablemodel.getChilds().size() > 0){
+
+                    for (int i = 0; i <= selectablemodel.getChilds().size(); i++){
+
+                        try {
+
+                            SelectableProduct childModel = selectablemodel.getChilds().get(i);
+
+                            childModel.setChecked(false);
+                            notifyDataSetChanged();
+                            checkListeners.onItemUncheck(childModel.getModel(), holder.getAdapterPosition());
+
+                            if (null != childModel.getChilds() && childModel.getChilds().size() > 0){
+
+                                for (int j = 0; j <= childModel.getChilds().size(); j++){
+
+                                    SelectableProduct childChildModel = childModel.getChilds().get(j);
+
+                                    childChildModel.setChecked(false);
+                                    notifyDataSetChanged();
+                                    checkListeners.onItemUncheck(childChildModel.getModel(), holder.getAdapterPosition());
+                                }
+                            }
+
+                        }catch (Exception e){
+
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+
+                    adapter.notifyDataSetChanged();
+                    checkListeners.onItemUncheck(model, holder.getAdapterPosition());
 
                 }
 
 
-                adapter.notifyDataSetChanged();
-                checkListeners.onItemUncheck(model, holder.getAdapterPosition());
+                /*for(SelectableProduct childModel : selectablemodel.getChilds()){
+
+                    childModel.setChecked(false);
+                    checkListeners.onItemUncheck(childModel.getModel(), holder.getAdapterPosition());
+
+                }*/
 
 
 
@@ -239,6 +279,14 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
             for (SelectableProduct model : list){
                 if (!model.isChecked()) {
                     return false;
+                }else if (model.getChilds() != null){
+
+                    for (SelectableProduct childModel : model.getChilds()){
+
+                        if (!childModel.isChecked()) {
+                            return false;
+                        }
+                    }
                 }
             }
 
@@ -257,6 +305,14 @@ public class SelectableProductAdapter extends RecyclerView.Adapter<SelectablePro
             for (SelectableProduct model : list){
                 if (model.isChecked()) {
                     return true;
+                }else if (model.getChilds() != null){
+
+                    for (SelectableProduct childModel : model.getChilds()){
+
+                        if (childModel.isChecked()) {
+                            return true;
+                        }
+                    }
                 }
             }
 

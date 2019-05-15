@@ -396,8 +396,6 @@ public class ProductDetailFragment extends BaseFragment {
                     final Handler handler = new Handler();
                     handler.postDelayed(() -> getPrice(), 700);
 
-                    Log.d("Amin",String.valueOf(selectableIdList));
-
                 }
 
                 @Override
@@ -407,14 +405,16 @@ public class ProductDetailFragment extends BaseFragment {
                     removeToSelectableIdList(model.getId());
                     final Handler handler = new Handler();
                     handler.postDelayed(() -> getPrice(), 700);
-                    Log.d("Amin",String.valueOf(selectableIdList));
                 }
             });
+
 
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             selectableRecyclerView.setLayoutManager(mLayoutManager);
             selectableRecyclerView.setItemAnimator(new DefaultItemAnimator());
             selectableRecyclerView.setAdapter(adapter);
+
+
         }
     }
 

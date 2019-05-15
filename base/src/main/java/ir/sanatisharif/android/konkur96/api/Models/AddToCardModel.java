@@ -7,6 +7,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import ir.sanatisharif.android.konkur96.model.main_page.Product;
+
 public class AddToCardModel extends ErrorBase implements Parcelable {
 
     @SerializedName("order_id")
@@ -46,6 +48,24 @@ public class AddToCardModel extends ErrorBase implements Parcelable {
         bons = in.createTypedArrayList(AllBonModel.CREATOR);
         photo = in.readString();
         grandProduct = in.readParcelable(ProductModel.class.getClassLoader());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(order_id);
+        dest.writeInt(id);
+        dest.writeParcelable(orderproducttype, flags);
+        dest.writeParcelable(product, flags);
+        dest.writeString(grandId);
+        dest.writeParcelable(price, flags);
+        dest.writeTypedList(bons);
+        dest.writeString(photo);
+        dest.writeParcelable(grandProduct, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<AddToCardModel> CREATOR = new Creator<AddToCardModel>() {
@@ -130,23 +150,5 @@ public class AddToCardModel extends ErrorBase implements Parcelable {
 
     public void setGrandProduct(ProductModel grandProduct) {
         this.grandProduct = grandProduct;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(order_id);
-        parcel.writeInt(id);
-        parcel.writeParcelable(orderproducttype, i);
-        parcel.writeParcelable(product, i);
-        parcel.writeString(grandId);
-        parcel.writeParcelable(price, i);
-        parcel.writeTypedList(bons);
-        parcel.writeString(photo);
-        parcel.writeParcelable(grandProduct, i);
     }
 }

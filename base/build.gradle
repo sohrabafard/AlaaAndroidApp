@@ -158,5 +158,6 @@ dependencies {
 
     //implementation 'com.github.yongjhih.android-proguards:android-proguards-all:-SNAPSHOT'
    //api 'com.infstory:proguard-snippets:1.0.0'
+
     application project(':app')
 }

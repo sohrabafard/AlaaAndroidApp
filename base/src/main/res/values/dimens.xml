@@ -58,5 +58,7 @@
 
     <dimen name="activity_horizontal_margin">16dp</dimen>
 
+    <integer name="gallery_columns">3</integer>
+
 
 </resources>
