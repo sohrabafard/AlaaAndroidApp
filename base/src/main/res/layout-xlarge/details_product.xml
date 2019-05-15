@@ -131,7 +131,8 @@
             android:layout_height="50dp"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            app:cardElevation="3dp">
+            app:cardElevation="3dp"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -180,7 +181,7 @@
                 <com.uncopt.android.widget.text.justify.JustifiedTextView
                     android:id="@+id/txt_short_desc"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:focusable="true"
                     android:focusableInTouchMode="false"
@@ -189,6 +190,7 @@
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:textColor="#4A4A4A"
                     android:textSize="15sp"
+                    android:scrollbars = "vertical"
                     android:visibility="visible" />
 
 

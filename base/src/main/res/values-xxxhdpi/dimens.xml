@@ -1,4 +1,5 @@
 <resources>
 	<dimen name="fab_margin">72dp</dimen>
 	<dimen name="card_size_video">300dp</dimen>
+	<integer name="gallery_columns">2</integer>
 </resources>

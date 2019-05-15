@@ -136,7 +136,8 @@ public class MoreProductFragment extends BaseFragment implements SwipeRefreshLay
         recyclerMoreProduct = view.findViewById(R.id.recycler_more_product);
         recyclerMoreProduct.setNestedScrollingEnabled(false);
         recyclerMoreProduct.setHasFixedSize(true);
-        gridLayoutManager = new GridLayoutManager(AppConfig.context, 3);
+        final int columns = getResources().getInteger(R.integer.gallery_columns);
+        gridLayoutManager = new GridLayoutManager(AppConfig.context, columns);
         recyclerMoreProduct.setLayoutManager(gridLayoutManager);
         adapter = new MoreProductAdapter(AppConfig.context, items);
         recyclerMoreProduct.setAdapter(adapter);

@@ -172,15 +172,24 @@ public class ShopUtils {
 
         ArrayList<SelectableProduct> items = new ArrayList<>();
 
-        for (int i = 0 ; i < list.size(); i++){
+        if (list != null && list.size() > 0){
 
-            ProductModel temp = list.get(i);
+            for (int i = 0 ; i < list.size(); i++){
 
-            items.add(new SelectableProduct(temp, false, null, null));
+                ProductModel temp = list.get(i);
+
+                items.add(new SelectableProduct(temp, false, null, null));
+            }
+
+
+            return items;
+
+        }else {
+
+            return null;
         }
 
 
-        return items;
 
     }
 
