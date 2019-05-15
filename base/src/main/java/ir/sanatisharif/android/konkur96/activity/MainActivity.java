@@ -102,7 +102,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         }
 
-     //   getLastVersion();
+        //   getLastVersion();
         accountInfo = new AccountInfo(getApplicationContext(), this);
         containerHeight(this);
         fragments = new Stack<>();
@@ -111,11 +111,12 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         //---------initialize UI--------
         initUI();
 
-       // getLastVersion();
+        // getLastVersion();
         //-----------add FirstFragment
-        addFrg(AllaMainFrg.newInstance(), "alla");
 
-//        //-------- handle deep link
+        addFrg(AllaMainFrg.newInstance(), "alla");
+      //  addFrg(DetailsVideoFrg.newInstance("https://alaatv.com/c/9841"), "DetailsVideoFrg");
+       //-------- handle deep link
         if (getIntent() != null)
             handleIntent(getIntent());
 
@@ -125,7 +126,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             updateInfoDialogFrg.show(getSupportFragmentManager(), "");
         }
 
-          //retrieveToken();
+        //retrieveToken();
         if (!InstantApps.isInstantApp(getApplicationContext()))
             if (!MyPreferenceManager.getInatanse().isSendTokenToServer())
                 sendRegistrationToServer();
@@ -248,7 +249,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 MainApi.getInstance().sendRegistrationToServer(user.getId(), firebaseToken, new IServerCallbackObject() {
                     @Override
                     public void onSuccess(Object obj) {
-                        // Log.i("LOG", "onResponse: " + user.getId());
+
                         MyPreferenceManager.getInatanse().setApiToken("");
                         MyPreferenceManager.getInatanse().setAuthorize(false);
                         MyPreferenceManager.getInatanse().setSendTokenToServer(true);
@@ -312,9 +313,9 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         if (fragments.size() > 1) {
 
             FragmentTransaction transaction = fm.beginTransaction();
-           // fragments.lastElement().onPause();
+            // fragments.lastElement().onPause();
             transaction.remove(fragments.pop());
-           // fragments.lastElement().onResume();
+            // fragments.lastElement().onResume();
             transaction.show(fragments.lastElement());
             transaction.commit();
 

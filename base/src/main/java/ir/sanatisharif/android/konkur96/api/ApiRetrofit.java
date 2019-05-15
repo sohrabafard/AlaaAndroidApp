@@ -2,6 +2,9 @@ package ir.sanatisharif.android.konkur96.api;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import ir.sanatisharif.android.konkur96.model.ContentCredit;
 import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
 import ir.sanatisharif.android.konkur96.model.main_page.MainPagesInfo;
@@ -37,8 +40,10 @@ public interface ApiRetrofit {
     @GET(" ")
     Call<MainPagesInfo> getMainPage();
 
-    @GET("c/{id}")
-    Call<DataCourse> getDetailsCourseByID(@Path("id") String id);
+   // @GET("c/{id}")
+  //  Call<DataCourse> getDetailsCourseByID(@Path("id") String id);
+    @GET
+    Call<DataCourse> getDetailsCourseByID(@Url String url);
 
     @GET
     Call<DataCourse> getDetailsCourseByUrl(@Url String url);

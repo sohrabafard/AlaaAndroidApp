@@ -221,9 +221,9 @@ public class CustomItemView extends LinearLayout {
         height = AppConfig.itemHeight - txtTitle.getMeasuredHeight() - txtTitle.getMeasuredHeight();
 
         height -= 24;
-        if (layout == R.layout.product_main_item)
-            width -= 24;
-        else
+//        if (layout == R.layout.product_main_item)
+//            width -= 24;
+//        else
             width = (int) (height * 1.77f);
 
         imgItem.getLayoutParams().width = width;

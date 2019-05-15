@@ -42,12 +42,12 @@ android {
     buildTypes {
         debug {
             debuggable true
-            resValue "string", "alla_url", "https://dev.alaatv.com:8082/"
+            resValue "string", "alla_url", "https://alaatv.com"
         }
         release {
             debuggable false
             minifyEnabled true
-            resValue "string", "alla_url", "https://dev.alaatv.com:8082/"
+            resValue "string", "alla_url", "https://alaatv.com"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
 
         }
@@ -86,6 +86,7 @@ dependencies {
     //api 'com.google.firebase:firebase-perf:16.2.5'
 
     api 'com.google.android.exoplayer:exoplayer:2.8.3'
+
 
     // api "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     //compile "android.arch.lifecycle:extensions:1.0.0-alpha4"
