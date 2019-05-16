@@ -37,7 +37,6 @@
             android:name="ir.sanatisharif.android.konkur96.activity.SplashActivity"
             android:screenOrientation="portrait">
 
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -57,6 +56,23 @@
                 <data android:scheme="http" />
                 <data android:host="sanatisharif.ir/splash" />
                 <data android:pathPrefix="/" />
+
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="alaatv.com"
+                    android:pathPrefix="/"
+                    android:scheme="https" />
+                <data
+                    android:host="alaatv.com"
+                    android:pathPrefix="/"
+                    android:scheme="http" />
 
             </intent-filter>
 

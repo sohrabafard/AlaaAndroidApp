@@ -108,12 +108,12 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
             if (data instanceof Result.Success) {
 
                 setData((MainModel) ((Result.Success) data).value, true);
-                swipeRefreshLayout.setRefreshing(false);
+               swipeRefreshLayout.setRefreshing(false);
 
             } else {
 
                 Log.d("Test", (String) ((Result.Error) data).value);
-                swipeRefreshLayout.setRefreshing(false);
+               swipeRefreshLayout.setRefreshing(false);
             }
 
 
@@ -138,7 +138,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
                 } else {
 
                     Log.d("Test", (String) ((Result.Error) data).value);
-                    swipeRefreshLayout.setRefreshing(false);
+                   swipeRefreshLayout.setRefreshing(false);
                 }
 
 
@@ -179,7 +179,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
 
     private void initView(View v) {
 
-        //swipeRefreshLayout
+       // swipeRefreshLayout
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
         swipeRefreshLayout.setOnRefreshListener(this);

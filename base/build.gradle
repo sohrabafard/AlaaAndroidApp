@@ -28,11 +28,14 @@ android {
 
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 32
+        versionCode 40
         versionName "3.0.0"
         multiDexEnabled true
 
     }
+//    dexOptions {
+//        javaMaxHeapSize "Xg"
+//    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -155,8 +158,8 @@ dependencies {
     api('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
         transitive = true;
     }
-
-    //implementation 'com.github.yongjhih.android-proguards:android-proguards-all:-SNAPSHOT'
+   // api 'com.infstory:proguard-snippets:1.0.0'
+    api 'com.github.yongjhih.android-proguards:android-proguards-all:-SNAPSHOT'
    //api 'com.infstory:proguard-snippets:1.0.0'
 
     application project(':app')

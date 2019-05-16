@@ -62,7 +62,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
     private final String TAG = this.getClass().getSimpleName();
     private AccountManager mAccountManager;
     private Utils.ValidNationalCode nationalCode = new Utils.ValidNationalCode();
-   FirebaseAnalytics mFirebaseAnalytics;
+    FirebaseAnalytics mFirebaseAnalytics;
     //ui
     private AlertDialog dialog;
     private View loginView, registerView;
@@ -325,7 +325,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             edtEmail.setError(getResources().getString(R.string.not_valid_email));
             return;
         }
-       // Log.i(TAG, "onClick: " + gender_id + " " + majer_id);
+        // Log.i(TAG, "onClick: " + gender_id + " " + majer_id);
         if (gender_id <= 0) {
             toastShow("جنسیت انتخاب شود" + gender_id, MDToast.TYPE_ERROR);
             return;
