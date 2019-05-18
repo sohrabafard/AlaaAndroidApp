@@ -1,36 +1,23 @@
 package ir.sanatisharif.android.konkur96.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-
 import com.google.android.gms.common.wrappers.InstantApps;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.gson.JsonObject;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -39,8 +26,6 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
-import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
-import ir.sanatisharif.android.konkur96.api.Models.PaymentResponse;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationResponse;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -339,9 +324,14 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         boolean showHomeFrg = true;
 
         for (int i = 1; i < fragments.size(); i++) {
-            Fragment f = fragments.pop();
-            transaction.remove(f).commit();
-            showHomeFrg = false;
+            try {
+                Fragment f = fragments.pop();
+                transaction.remove(f).commit();
+                showHomeFrg = false;
+            }catch (Exception e){
+                Log.e(TAG,e.getMessage());
+            }
+
         }
         if (!showHomeFrg) {
             transaction.show(fragments.lastElement());
