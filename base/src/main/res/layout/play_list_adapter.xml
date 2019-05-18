@@ -14,7 +14,7 @@
     app:cardElevation="0dp">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
@@ -64,9 +64,9 @@
                     android:maxLines="1"
                     android:padding="4dp"
                     android:singleLine="true"
-                    android:text="sdsdsd"
+                    android:text="title"
                     android:textColor="@color/Black_2"
-                    android:textSize="@dimen/_10sdp" />
+                    android:textSize="@dimen/video_title_author" />
 
                 <TextView
                     android:id="@+id/txtSession"
@@ -74,9 +74,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="right|center"
                     android:padding="4dp"
-                    android:text="sdsdsd"
+                    android:text="sessopn"
                     android:textColor="@color/Monochromatic_1"
-                    android:textSize="@dimen/_10sdp"
+                    android:textSize="@dimen/video_session"
                     android:visibility="visible" />
             </LinearLayout>
         </LinearLayout>

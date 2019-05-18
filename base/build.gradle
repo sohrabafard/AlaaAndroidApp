@@ -49,7 +49,7 @@ android {
         }
         release {
             debuggable false
-            minifyEnabled true
+            minifyEnabled false
             resValue "string", "alla_url", "https://alaatv.com"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
 

@@ -1,5 +1,6 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,6 +36,7 @@ import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
+import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -120,9 +122,19 @@ public class DashboardMainFrg extends BaseFragment {
                         public void onRemove(boolean done) {
                             if (done) {
                                 ActivityBase.toastShow("با موفقیت خارج شدید", MDToast.TYPE_SUCCESS);
-                                Events.CloseFragment closeFragment = new Events.CloseFragment();
-                                closeFragment.setTagFragments("");
-                                EventBus.getDefault().post(closeFragment);
+                               // Events.CloseFragment closeFragment = new Events.CloseFragment();
+                               // closeFragment.setTagFragments("");
+                               // EventBus.getDefault().post(closeFragment);
+
+                                startActivity(new Intent(getActivity(), AuthenticatorActivity.class));
+                                AppConfig.HANDLER.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                    }
+                                },100);
+                                AppConfig.currentActivity.finish();
+
                             } else {
                                 ActivityBase.toastShow("خطا در حذف اکانت", MDToast.TYPE_ERROR);
                             }

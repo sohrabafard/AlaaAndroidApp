@@ -29,17 +29,23 @@ import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
 
+import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
+import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.DownloadDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
+import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
+import ir.sanatisharif.android.konkur96.model.ContentCredit;
+import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.filter.PamphletCourse;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.DownloadFile;
+import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.OpenFile;
 import ir.sanatisharif.android.konkur96.utils.URLImageGetter;
 import ir.sanatisharif.android.konkur96.utils.Utils;
@@ -47,6 +53,8 @@ import me.gujun.android.taggroup.TagGroup;
 
 import static ir.sanatisharif.android.konkur96.activity.ActivityBase.toastShow;
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
+import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
+import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 /**
  * Created by Mohamad on 11/14/2018.
@@ -161,7 +169,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
 
         for (View v : tagGroup.getTouchables()) {
             if (v instanceof TextView) {
-                ((TextView) v).setTypeface(AppConfig.fontIRSensNumber);
+                ((TextView) v).setTypeface(AppConfig.fontIRSensLight);
             }
         }
     }
@@ -224,18 +232,31 @@ public class ShowContentInfoFrg extends BaseFragment implements
 
     private void download(String url, String fileName, String name) {
 
-        DownloadFile.getInstance().init(getContext(), new DownloadComplete() {
-            @Override
-            public void complete() {
+        Log.i(TAG, "download: " + url);
 
-                ActivityBase.toastShow(getResources().getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
-                btnDownload.setVisibility(View.GONE);
-                btnOpenPDF.setVisibility(View.VISIBLE);
+        AccountInfo accountInfo = new AccountInfo(getContext(), getActivity());
+        accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
+            @Override
+            public void onToken(String token) {
+                // setAuth
+                MyPreferenceManager.getInatanse().setApiToken(token);
+                MyPreferenceManager.getInatanse().setAuthorize(true);
+              //  Log.i(TAG, "download: " +MyPreferenceManager.getInatanse().getApiToken());
+
+                DownloadFile.getInstance().init(getContext(), new DownloadComplete() {
+                    @Override
+                    public void complete() {
+
+                        ActivityBase.toastShow(getResources().getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
+                        btnDownload.setVisibility(View.GONE);
+                        btnOpenPDF.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                DownloadFile.getInstance().start(url,
+                        AppConstants.ROOT + "/" + AppConstants.PDF, fileName, name, "");
             }
         });
-
-        DownloadFile.getInstance().start(url,
-                AppConstants.ROOT + "/" + AppConstants.PDF, fileName, name, "");
     }
 
     @Override
