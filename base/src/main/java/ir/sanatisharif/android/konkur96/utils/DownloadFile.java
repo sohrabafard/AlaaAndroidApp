@@ -60,6 +60,7 @@ public class DownloadFile {
         //  req.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
         req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         // req.setAllowedOverRoaming(false);
+
         req.setTitle(title);
         req.setDescription(desc);
         req.setDestinationInExternalPublicDir(path, fileName);

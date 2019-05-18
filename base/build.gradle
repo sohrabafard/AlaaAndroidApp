@@ -3,26 +3,6 @@ apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services' // Google Play services Gradle plugin
 apply plugin: 'com.google.firebase.firebase-perf'
 
-buildscript {
-
-    repositories {
-        google() // Google's Maven repository
-        jcenter() //// Bintray's repository
-
-        mavenCentral()
-        maven { url 'https://maven.google.com' }
-        maven { url "https://jitpack.io" }
-        maven { url 'https://maven.fabric.io/public' }
-
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
-
-        classpath 'com.google.gms:google-services:4.2.0' // Google Services plugin
-        classpath 'io.fabric.tools:gradle:1.29.0'
-        classpath 'com.google.firebase:perf-plugin:1.2.1'  // Performance Monitoring plugin
-    }
-}
 android {
     compileOptions {
         sourceCompatibility 1.8
@@ -35,8 +15,8 @@ android {
         applicationId "ir.sanatisharif.android.konkur96"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 40
-        versionName "3.0.0"
+        versionCode 41
+        versionName "3.0.1"
         multiDexEnabled true
 
         resValue "string", "io.fabric.ApiKey", "46ad5fd65bf082d38b16ad6dba97be9809b6fbc7"
@@ -55,8 +35,8 @@ android {
         }
         release {
             debuggable false
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
 
             resValue "string", "io.fabric.ApiKey", "46ad5fd65bf082d38b16ad6dba97be9809b6fbc7"
             resValue "bool", "com.crashlytics.RequireBuildId", "false"
@@ -70,6 +50,9 @@ android {
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
+    }
+    dexOptions {
+        javaMaxHeapSize "Xg"
     }
 }
 
