@@ -51,6 +51,20 @@
             android:textSize="13sp"
             android:visibility="gone"/>
 
+        <TextView
+            android:id="@+id/txt_discount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="120dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center|right"
+            android:padding="2dp"
+            android:text=""
+            android:textColor="@color/IndianRed"
+            android:textSize="13sp"
+            android:visibility="visible"/>
+
     </android.support.v7.widget.CardView>
 
     <LinearLayout
@@ -220,38 +234,38 @@
 
                 </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/body_selectable"
-                android:visibility="gone"
-                android:layout_margin="10dp"
-                android:orientation="vertical">
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.4dp"
-                    android:layout_margin="4dp"
-                    android:background="#C1C1C1"
-                    android:foregroundGravity="center" />
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:textColor="@color/Black_1"
-                    android:textSize="17sp"
-                    android:id="@+id/txt_selectable_com"
-                    android:layout_marginRight="15dp"
-                    android:text="انتخاب کنید:"/>
+                    android:id="@+id/body_selectable"
+                    android:visibility="gone"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.4dp"
+                        android:layout_margin="4dp"
+                        android:background="#C1C1C1"
+                        android:foregroundGravity="center" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_selectable"
-                    android:scrollbars="vertical"
-                    android:layout_margin="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:textColor="@color/Black_1"
+                        android:textSize="17sp"
+                        android:id="@+id/txt_selectable_com"
+                        android:layout_marginRight="15dp"
+                        android:text="انتخاب کنید:"/>
 
-            </LinearLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_selectable"
+                        android:scrollbars="vertical"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
