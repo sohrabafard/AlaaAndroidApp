@@ -10,8 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -180,7 +178,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
         //recyclerView
         shopMainRecyclerView = v.findViewById(R.id.recyclerView_main_shop);
         shopMainRecyclerView.setNestedScrollingEnabled(false);
-        //shopMainRecyclerView.setHasFixedSize(true);
+        shopMainRecyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
         shopMainRecyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MainShopItemAdapter(AppConfig.context, items);
@@ -188,7 +186,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
         shopMainRecyclerView.setAdapter(adapter);
         shopMainRecyclerView.setItemAnimator(new DefaultItemAnimator());
         paginate = myPaginate.with(shopMainRecyclerView)
-                .setOnLoadMoreListener(() -> getDataPaginat())
+                .setOnLoadMoreListener(this::getDataPaginat)
                 .build();
 
         setHasOptionsMenu(true);

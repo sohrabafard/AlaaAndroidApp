@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/White"
+    android:layoutDirection="rtl"
     android:orientation="vertical">
 
 
@@ -11,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:gravity="start"
+        android:gravity="right"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorPrimary" />
 
