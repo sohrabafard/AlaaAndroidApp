@@ -17,18 +17,6 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-
-
-//
-//    Properties properties = new Properties()
-//    try {
-//        properties.load(file('crashlytics.properties').newDataInputStream())
-//        def fabricApiKey = properties.getProperty('apiKey')
-//        if (fabricApiKey == null) fabricApiKey = "46ad5fd65bf082d38b16ad6dba97be9809b6fbc7"
-//    } catch (Exception ex) {
-//        throw new GradleException("Missing crashlytics.properties, check the crashlytics.properties file.");
-//    }
-
 android {
     compileSdkVersion 27
 
@@ -37,18 +25,24 @@ android {
         applicationId "ir.sanatisharif.android.konkur96"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 32
+        versionCode 40
         versionName "3.0.0"
         multiDexEnabled true
 
-        //resValue "string", "io.fabric.ApiKey", "46ad5fd65bf082d38b16ad6dba97be9809b6fbc7"
         resValue "string", "io.fabric.ApiKey", "46ad5fd65bf082d38b16ad6dba97be9809b6fbc7"
         resValue "bool", "com.crashlytics.RequireBuildId", "false"
-
     }
 
     buildTypes {
+
+        debug {
+            debuggable true
+
+        }
+
        release {
+           resValue "string", "io.fabric.ApiKey", "46ad5fd65bf082d38b16ad6dba97be9809b6fbc7"
+           resValue "bool", "com.crashlytics.RequireBuildId", "false"
            minifyEnabled true
            shrinkResources true
            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
@@ -65,7 +59,7 @@ android {
 
 dependencies {
     implementation project(':base')
-    implementation 'com.android.support:multidex:1.0.3'
+    api 'com.android.support:multidex:1.0.3'
     api 'com.google.firebase:firebase-perf:16.2.5'
     api('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
         transitive = true;

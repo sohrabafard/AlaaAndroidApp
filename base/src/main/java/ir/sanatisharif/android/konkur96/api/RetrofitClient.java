@@ -66,9 +66,8 @@ public class RetrofitClient {
                 builder.addHeader("Authorization", "Bearer " + MyPreferenceManager.getInatanse().getApiToken());
             okhttp3.Response response = chain.proceed(builder.build());
 
-//            if (!handelStatusCode(response.code()))
-//                return response;
             handelStatusCode(response.code());
+          //  Log.i("LOG", "intercept: " + response.request().url() + " " + response.code());
 
             int maxAge = 10; // read from cache for 10 seconds even if there is internet connection
             return response.newBuilder()

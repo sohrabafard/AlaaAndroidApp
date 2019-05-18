@@ -44,15 +44,20 @@ import android.widget.TextView;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlaybackControlView;
 import com.google.android.exoplayer2.ui.PlayerControlView;
@@ -577,7 +582,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         } else if (i == R.id.imgPlay) {
 
             if (null != course) {
-                Log.i(TAG, "onClick: " + course.getFile().getVideo().get(0).getLink());
                 if (!checkExistVideoToSD(course.getFile().getVideo())) {
                     // not Exist
                     handleQualityLink();
@@ -979,7 +983,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(Uri.parse(mUrl));
 
-        player.addListener(new PlayerEventListener());
+        player.addListener(eventListener);
         player.prepare(mVideoSource, !haveResumePosition, false);
         player.setPlayWhenReady(true);
     }
@@ -1001,16 +1005,30 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         if (mExoPlayerView != null && mExoPlayerView.getPlayer() != null) {
             mResumeWindow = mExoPlayerView.getPlayer().getCurrentWindowIndex();
             mResumePosition = Math.max(0, mExoPlayerView.getPlayer().getContentPosition());
-            Log.i(TAG, "onStart:mResumePosition  " + mResumePosition);
             mExoPlayerView.getPlayer().release();
         }
 
         if (mFullScreenDialog != null)
             mFullScreenDialog.dismiss();
+
+
     }
 
+    Player.EventListener eventListener=new Player.EventListener() {
+        @Override
+        public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {
 
-    private class PlayerEventListener extends Player.DefaultEventListener {
+        }
+
+        @Override
+        public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+
+        }
+
+        @Override
+        public void onLoadingChanged(boolean isLoading) {
+            Log.i(TAG, "onLoadingChanged: isLoading");
+        }
 
         @Override
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
@@ -1038,7 +1056,59 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             }
         }
 
-    }
+        @Override
+        public void onRepeatModeChanged(int repeatMode) {
+
+        }
+
+        @Override
+        public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
+
+        }
+
+        @Override
+        public void onPlayerError(ExoPlaybackException error) {
+            switch (error.type) {
+                case ExoPlaybackException.TYPE_SOURCE:
+                    Log.e(TAG, "TYPE_SOURCE: " + error.getSourceException().getMessage());
+                    ActivityBase.toastShow("خطا در بارگذاری ویدیو",MDToast.TYPE_ERROR);
+                    player.stop();
+                    relativePreview.setVisibility(View.VISIBLE);
+                    mediaVideoFrame.setVisibility(View.GONE);
+                    break;
+
+                case ExoPlaybackException.TYPE_RENDERER:
+                    Log.e(TAG, "TYPE_RENDERER: " + error.getRendererException().getMessage());
+                    ActivityBase.toastShow("خطا در خواندن ویدیو",MDToast.TYPE_ERROR);
+                    player.stop();
+                    relativePreview.setVisibility(View.VISIBLE);
+                    mediaVideoFrame.setVisibility(View.GONE);
+                    break;
+
+                case ExoPlaybackException.TYPE_UNEXPECTED:
+                    Log.e(TAG, "TYPE_UNEXPECTED: " + error.getUnexpectedException().getMessage());
+                    player.stop();
+                    relativePreview.setVisibility(View.VISIBLE);
+                    mediaVideoFrame.setVisibility(View.GONE);
+                    break;
+            }
+        }
+
+        @Override
+        public void onPositionDiscontinuity(int reason) {
+
+        }
+
+        @Override
+        public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+
+        }
+
+        @Override
+        public void onSeekProcessed() {
+
+        }
+    };
 
     //</editor-fold>
 

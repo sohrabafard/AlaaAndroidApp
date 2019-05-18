@@ -44,6 +44,7 @@ public class SplashActivity extends ActivityBase {
         containerHeight(this);
         loadAnimation();
 
+
         if (InstantApps.isInstantApp(getApplicationContext())) {
             if (!MyPreferenceManager.getInatanse().getOnboarding()) {
                 MyPreferenceManager.getInatanse().setOnboarding(true);
