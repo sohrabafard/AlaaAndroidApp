@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="25dp"></TextView>
+        android:textSize="25dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,16 +26,14 @@
             android:id="@+id/name_l"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:padding="10dp"
-            android:text="Name"
-            android:textSize="15sp"></TextView>
+            android:text="@string/name"
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"></EditText>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,16 +45,14 @@
             android:id="@+id/user_l"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:padding="10dp"
-            android:text="User Id"
-            android:textSize="15sp"></TextView>
+            android:text="@string/user_id"
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/user"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"></EditText>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
@@ -68,10 +64,9 @@
             android:id="@+id/password_l"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:padding="10dp"
-            android:text="Password"
-            android:textSize="15sp"></TextView>
+            android:text="@string/password"
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/password"

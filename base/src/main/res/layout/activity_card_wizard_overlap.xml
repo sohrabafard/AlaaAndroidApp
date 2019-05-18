@@ -31,7 +31,7 @@
             android:layout_height="50dp"
             android:background="@color/Monochromatic_1"
             android:gravity="center"
-            android:text="Next"
+            android:text="@string/next"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@android:color/white"
