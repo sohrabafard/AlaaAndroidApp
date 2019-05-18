@@ -120,6 +120,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             ArrayList items = dataList.get(position).getItems();
             itemRowHolder.view_pager.setAdapter(new ViewSliderAdapterInShop(AppConfig.context, items));
+
             itemRowHolder.view_pager.startAutoScroll();
 
             itemRowHolder.indicator = itemRowHolder.itemView.findViewById(R.id.indicator);

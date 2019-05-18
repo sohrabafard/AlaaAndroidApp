@@ -143,7 +143,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="sanatisharif.ir"
+                    android:host="alaatv.com"
                     android:pathPrefix="/product"
                     android:scheme="http" />
             </intent-filter>
@@ -178,7 +178,20 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="sanatisharif.ir"
+                    android:host="alaatv.com"
+                    android:pathPrefix="/shop"
+                    android:scheme="http" />
+            </intent-filter>
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="alaatv.com"
                     android:pathPrefix="/shop"
                     android:scheme="https" />
             </intent-filter>
