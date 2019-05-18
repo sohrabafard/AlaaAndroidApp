@@ -208,6 +208,9 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 }
             } else if (appLinkData.getPath().startsWith("/product")) {
 
+                addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
+
+
             } else if (appLinkData.getPath().startsWith("/login")) {
                 if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
                     addFrg(DashboardMainFrg.newInstance(), "DashboardMainFrg");

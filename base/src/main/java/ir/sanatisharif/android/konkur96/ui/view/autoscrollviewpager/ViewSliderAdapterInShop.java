@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -44,36 +45,21 @@ public class ViewSliderAdapterInShop extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup collection, final int position) {
-        ViewGroup imageLayout = (ViewGroup) inflater.inflate(R.layout.view_slider, collection, false);
 
+        ViewGroup imageLayout = (ViewGroup) inflater.inflate(R.layout.view_slider, collection, false);
         img = imageLayout.findViewById(R.id.imageView);
+        img.getLayoutParams().width = AppConfig.width;
         img.getLayoutParams().height = h;
 
 
-        Picasso.with(mContext)
+        Glide.with(mContext)
                 .load(imageList.get(position).getUrl())
-                .centerCrop()
-                .resize(1280, 500)
+                .apply(new RequestOptions().override(1280, 720))
                 .into(img);
 
-
-//        GlideApp.with(AppConfig.context)
-//                .load(imageList.get(position).getUrl())
-//                .fitCenter()
-//                //.override(AppConfig.width, AppConfig.itemHeight)
-//                .into(new SimpleTarget<Drawable>(1280, 500) {
-//                    @Override
-//                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-//                        img.setImageDrawable(resource);
-//                    }
-//                });
         img.setOnClickListener(view -> {
             Utils.loadUrl(imageList.get(position).getLink(), AppConfig.context);
-//                if (imageList.get(position).getKindOfIntent() == AppConstants.LINK_TO_EXTERNAL) {
-//                    Utils.loadUrl(imageList.get(position).getIntentUrl(), AppConfig.context);
-//                } else if (imageList.get(position).getKindOfIntent() == AppConstants.LINK_TO_WEB_VIEW) {
-//                    // push to webView Fragment with URL address
-//                }
+
         });
         collection.addView(imageLayout);
         return imageLayout;
