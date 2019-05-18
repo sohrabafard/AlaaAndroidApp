@@ -62,9 +62,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.VideoHol
         private VideoHolder(View view) {
             super(view);
 
-            txtUserName = (TextView) view.findViewById(R.id.txtUserName);
-            txtContent = (TextView) view.findViewById(R.id.txtContent);
-            imgUser = (ImageView) view.findViewById(R.id.imgUser);
+            txtUserName = view.findViewById(R.id.txtUserName);
+            txtContent = view.findViewById(R.id.txtContent);
+            imgUser = view.findViewById(R.id.imgUser);
 
             txtUserName.setTypeface(AppConfig.fontIRSensNumber);
             txtContent.setTypeface(AppConfig.fontIRSensNumber);

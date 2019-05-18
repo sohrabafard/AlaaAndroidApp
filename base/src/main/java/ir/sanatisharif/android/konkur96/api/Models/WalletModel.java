@@ -7,15 +7,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class WalletModel implements Parcelable {
 
+    public static final Creator<WalletModel> CREATOR = new Creator<WalletModel>() {
+        @Override
+        public WalletModel createFromParcel(Parcel in) {
+            return new WalletModel(in);
+        }
+
+        @Override
+        public WalletModel[] newArray(int size) {
+            return new WalletModel[size];
+        }
+    };
     @SerializedName("id")
     private int orderproducts;
-
     @SerializedName("name")
     private String name;
-
     @SerializedName("hint")
     private String hint;
-
     @SerializedName("balance")
     private String blance;
 
@@ -38,18 +46,6 @@ public class WalletModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<WalletModel> CREATOR = new Creator<WalletModel>() {
-        @Override
-        public WalletModel createFromParcel(Parcel in) {
-            return new WalletModel(in);
-        }
-
-        @Override
-        public WalletModel[] newArray(int size) {
-            return new WalletModel[size];
-        }
-    };
 
     public int getOrderproducts() {
         return orderproducts;

@@ -80,7 +80,7 @@ public class ForceUpdateDialogFrg extends BaseDialogFragment<ForceUpdateDialogFr
 
         //check and force dialog
         if (lastVersion.getAndroid().getType() != null) {
-            if (lastVersion.getAndroid().getType().getCode()==1) {
+            if (lastVersion.getAndroid().getType().getCode() == 1) {
                 setCancelable(true);
             } else {
                 setCancelable(true);

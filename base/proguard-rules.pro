@@ -93,3 +93,9 @@
     public *;
 	}
 
+-keep class okio.** { *; }
+-keep class org.bouncycastle.** { *; }
+
+-dontwarn com.sothree.**
+-keep class com.sothree.**
+-keep interface com.sothree.**

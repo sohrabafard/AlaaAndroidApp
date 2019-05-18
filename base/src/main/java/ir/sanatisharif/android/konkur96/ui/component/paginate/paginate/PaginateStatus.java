@@ -1,6 +1,6 @@
 package ir.sanatisharif.android.konkur96.ui.component.paginate.paginate;
 
-enum  PaginateStatus {
+enum PaginateStatus {
 
     NO_MORE_ITEMS, LOADING, ERROR;
 

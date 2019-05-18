@@ -1,15 +1,29 @@
-
 package ir.sanatisharif.android.konkur96.model.user;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Info implements Parcelable
-{
+public class Info implements Parcelable {
 
+    public final static Creator<Info> CREATOR = new Creator<Info>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Info createFromParcel(Parcel in) {
+            return new Info(in);
+        }
+
+        public Info[] newArray(int size) {
+            return (new Info[size]);
+        }
+
+    };
     @SerializedName("major")
     @Expose
     private Major major;
@@ -25,29 +39,13 @@ public class Info implements Parcelable
     @SerializedName("wallet")
     @Expose
     private Object wallet;
-    public final static Creator<Info> CREATOR = new Creator<Info>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Info createFromParcel(Parcel in) {
-            return new Info(in);
-        }
-
-        public Info[] newArray(int size) {
-            return (new Info[size]);
-        }
-
-    }
-    ;
 
     protected Info(Parcel in) {
         this.major = ((Major) in.readValue((Major.class.getClassLoader())));
-        this.grade = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.grade = in.readValue((Object.class.getClassLoader()));
         this.gender = ((Gender) in.readValue((Object.class.getClassLoader())));
         this.completion = ((int) in.readValue((int.class.getClassLoader())));
-        this.wallet = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.wallet = in.readValue((Object.class.getClassLoader()));
     }
 
     public Info() {
@@ -127,7 +125,7 @@ public class Info implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

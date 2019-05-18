@@ -88,9 +88,9 @@ public class BannerItemAdapter extends RecyclerView.Adapter<BannerItemAdapter.Ba
         private BannerHolder(View view) {
             super(view);
 
-            layout_click = (LinearLayout) view.findViewById(R.id.layout_click);
-            txtTitle = (TextView) view.findViewById(R.id.txtTitle);
-            imgItem = (ImageView) view.findViewById(R.id.imgItem);
+            layout_click = view.findViewById(R.id.layout_click);
+            txtTitle = view.findViewById(R.id.txtTitle);
+            imgItem = view.findViewById(R.id.imgItem);
 
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);
         }

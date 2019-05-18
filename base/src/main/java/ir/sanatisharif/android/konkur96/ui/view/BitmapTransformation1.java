@@ -47,9 +47,12 @@ public abstract class BitmapTransformation1 implements Transformation<Bitmap> {
     protected abstract Bitmap transform(@NonNull Context context, @NonNull BitmapPool pool,
                                         @NonNull Bitmap toTransform, int outWidth, int outHeight);
 
-    @Override public abstract void updateDiskCacheKey(@NonNull MessageDigest messageDigest);
+    @Override
+    public abstract void updateDiskCacheKey(@NonNull MessageDigest messageDigest);
 
-    @Override public abstract boolean equals(Object o);
+    @Override
+    public abstract boolean equals(Object o);
 
-    @Override public abstract int hashCode();
+    @Override
+    public abstract int hashCode();
 }

@@ -10,17 +10,28 @@ import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 public class SelectableProduct implements Parcelable {
 
 
+    public static final Creator<SelectableProduct> CREATOR = new Creator<SelectableProduct>() {
+        @Override
+        public SelectableProduct createFromParcel(Parcel in) {
+            return new SelectableProduct(in);
+        }
+
+        @Override
+        public SelectableProduct[] newArray(int size) {
+            return new SelectableProduct[size];
+        }
+    };
     private ProductModel model;
     private boolean checked;
     private SelectableProduct parent;
     private ArrayList<SelectableProduct> childs;
 
-    public SelectableProduct(ProductModel model, boolean checked, SelectableProduct parent, ArrayList<SelectableProduct> childs){
+    public SelectableProduct(ProductModel model, boolean checked, SelectableProduct parent, ArrayList<SelectableProduct> childs) {
 
         this.model = model;
         this.checked = checked;
         this.parent = parent;
-        this.childs =childs;
+        this.childs = childs;
     }
 
     protected SelectableProduct(Parcel in) {
@@ -42,18 +53,6 @@ public class SelectableProduct implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<SelectableProduct> CREATOR = new Creator<SelectableProduct>() {
-        @Override
-        public SelectableProduct createFromParcel(Parcel in) {
-            return new SelectableProduct(in);
-        }
-
-        @Override
-        public SelectableProduct[] newArray(int size) {
-            return new SelectableProduct[size];
-        }
-    };
 
     public ProductModel getModel() {
         return model;

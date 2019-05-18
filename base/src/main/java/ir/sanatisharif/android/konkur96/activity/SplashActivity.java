@@ -95,14 +95,14 @@ public class SplashActivity extends ActivityBase {
         }
 
 
-       // Log.i(TAG, "onCreate: " + MyPreferenceManager.getInatanse().getFirebaseToken());
+        // Log.i(TAG, "onCreate: " + MyPreferenceManager.getInatanse().getFirebaseToken());
 
         if (MyPreferenceManager.getInatanse().getFirebaseToken().length() == 0) {
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                   retrieveToken();
+                    retrieveToken();
                 }
             }).start();
         }
@@ -118,7 +118,7 @@ public class SplashActivity extends ActivityBase {
         SpringAnimation springAnim = new SpringAnimation(img1, SpringAnimation.TRANSLATION_Y, 0);
 
         SpringForce springForce = new SpringForce();
-        springForce.setFinalPosition(-(AppConfig.height / 3));
+        springForce.setFinalPosition(-(AppConfig.height / (float) 3));
         springForce.setStiffness(SpringForce.STIFFNESS_LOW);
         springForce.setDampingRatio(SpringForce.DAMPING_RATIO_HIGH_BOUNCY);
         //springAnim.setStartVelocity(40);
@@ -128,7 +128,7 @@ public class SplashActivity extends ActivityBase {
 
     private void retrieveToken() {
         Log.i(TAG, "onCreate: 2 ");
-       // FirebaseApp.initializeApp(this);
+        // FirebaseApp.initializeApp(this);
         FirebaseInstanceId.getInstance().getInstanceId().
                 addOnSuccessListener(SplashActivity.this, new OnSuccessListener<InstanceIdResult>() {
                     @Override

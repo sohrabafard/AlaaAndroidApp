@@ -36,7 +36,6 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
     private CardChildAdapter adapter;
 
 
-
     public CardReviewProductAdapter(Context context, ArrayList<ItemCardReviewMOdel> items, DeleteListener deleteListener) {
 
         this.deleteListener = deleteListener;
@@ -50,7 +49,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
         if (viewType == 1) {
             return new NoGrandProductViewHolder(LayoutInflater.from(context).inflate(R.layout.item_card_reviw_nogrand, parent, false));
-        }else {
+        } else {
 
             return new GrandProductViewHolder(LayoutInflater.from(context).inflate(R.layout.item_card_review_grand, parent, false));
         }
@@ -87,11 +86,11 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
             itemRowHolderNoGrand.txtTitle.setText(title);
             itemRowHolderNoGrand.txtPrice.setText(ShopUtils.formatPrice(price) + " تومان ");
 
-            if (discount > 0){
+            if (discount > 0) {
                 itemRowHolderNoGrand.txtDiscount.setVisibility(View.VISIBLE);
                 itemRowHolderNoGrand.txtDiscount.setText(ShopUtils.formatPrice(discount) + " تومان ");
 
-            }else {
+            } else {
 
                 itemRowHolderNoGrand.txtDiscount.setVisibility(View.GONE);
 
@@ -102,7 +101,7 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
             Glide.with(context).load(image).into(itemRowHolderNoGrand.imageView);
 
 
-        }else {
+        } else {
 
             final ItemCardReviewMOdel model = items.get(position);
 
@@ -113,7 +112,6 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
             itemRowHolderGrand.txtTitle.setText(title);
             Glide.with(context).load(image).into(itemRowHolderGrand.imageView);
-
 
 
             //recyclerView
@@ -135,10 +133,16 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
             return 1;
 
-        }else {
+        } else {
 
             return 2;
         }
+
+    }
+
+    public interface DeleteListener {
+
+        void onClickDelete(int id);
 
     }
 
@@ -176,13 +180,6 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
         }
     }
-
-    public interface DeleteListener {
-
-        void onClickDelete(int id);
-
-    }
-
 
 
 }

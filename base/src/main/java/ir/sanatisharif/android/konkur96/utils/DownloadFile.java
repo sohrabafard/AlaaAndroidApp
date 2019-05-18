@@ -21,8 +21,8 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class DownloadFile {
 
-    private DownloadManager mDManager;
     private static DownloadFile dm;
+    private DownloadManager mDManager;
     private DownloadCompleteReceiver mReceiver;
     private DownloadManager.Request req = null;
     private long id = 0;

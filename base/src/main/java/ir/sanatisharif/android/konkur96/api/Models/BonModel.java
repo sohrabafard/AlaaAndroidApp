@@ -7,15 +7,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class BonModel implements Parcelable {
 
+    public static final Creator<BonModel> CREATOR = new Creator<BonModel>() {
+        @Override
+        public BonModel createFromParcel(Parcel in) {
+            return new BonModel(in);
+        }
+
+        @Override
+        public BonModel[] newArray(int size) {
+            return new BonModel[size];
+        }
+    };
     @SerializedName("id")
     private int id;
-
     @SerializedName("name")
     private String name;
-
     @SerializedName("displayName")
     private String displayName;
-
     @SerializedName("description")
     private String description;
 
@@ -38,18 +46,6 @@ public class BonModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<BonModel> CREATOR = new Creator<BonModel>() {
-        @Override
-        public BonModel createFromParcel(Parcel in) {
-            return new BonModel(in);
-        }
-
-        @Override
-        public BonModel[] newArray(int size) {
-            return new BonModel[size];
-        }
-    };
 
     public int getId() {
         return id;

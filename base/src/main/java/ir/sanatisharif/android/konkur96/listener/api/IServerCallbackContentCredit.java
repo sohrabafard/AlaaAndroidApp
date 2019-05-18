@@ -8,7 +8,9 @@ import ir.sanatisharif.android.konkur96.model.ContentCredit;
  */
 public interface IServerCallbackContentCredit {
 
-    public void onSuccess(Object obj);
-    public void onSuccessCredit(ContentCredit obj);
-    public void onFailure(String message);
+    void onSuccess(Object obj);
+
+    void onSuccessCredit(ContentCredit obj);
+
+    void onFailure(String message);
 }

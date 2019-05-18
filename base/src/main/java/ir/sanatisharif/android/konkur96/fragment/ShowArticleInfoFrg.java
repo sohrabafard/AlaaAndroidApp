@@ -46,13 +46,13 @@ import me.gujun.android.taggroup.TagGroup;
 
 public class ShowArticleInfoFrg extends BaseFragment {
 
+    private static ArticleCourse course;
     private String TAG = "ShowContentInfoFrg";
     private TextView txtAuthor, txtTitle;
     private JustifiedTextView txtContext, txtDesc;
     // private WebView webView;
     private Toolbar toolbar;
     private TagGroup tagGroup;
-    private static ArticleCourse course;
 
     public static ShowArticleInfoFrg newInstance(ArticleCourse c) {
 
@@ -90,8 +90,8 @@ public class ShowArticleInfoFrg extends BaseFragment {
             if (course.getAuthor().getFullName() != null)
                 txtAuthor.setText(course.getAuthor().getFullName());
 
-          //  Log.i(TAG, "setData: "+txtContext);
-           // Log.i(TAG, "setData: "+txtDesc);
+            //  Log.i(TAG, "setData: "+txtContext);
+            // Log.i(TAG, "setData: "+txtDesc);
 
             new Thread(new Runnable() {
                 @Override
@@ -132,7 +132,7 @@ public class ShowArticleInfoFrg extends BaseFragment {
         }
 
         while (output != null) {
-          //  System.out.println(output);
+            //  System.out.println(output);
             try {
                 output = bufferedReader.readLine();
                 Log.i(TAG, "convertStringTo: " + output);

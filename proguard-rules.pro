@@ -15,3 +15,7 @@
 -keep class com.crashlytics.** { *; }
 -dontwarn com.crashlytics.**
 #-printmapping mapping.txt
+
+-dontwarn com.sothree.**
+-keep class com.sothree.**
+-keep interface com.sothree.**

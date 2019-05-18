@@ -55,6 +55,9 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 public class ShowContentInfoFrg extends BaseFragment implements
         View.OnClickListener, TagGroup.OnTagClickListener {
 
+    private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
+    private static final int PERMISSION_ALL = 1;
+    private static PamphletCourse course;
     private String TAG = "ShowContentInfoFrg";
     private TextView txtAuthor, txtTitle;
     //  private JustifiedTextView txtDesc;
@@ -62,9 +65,6 @@ public class ShowContentInfoFrg extends BaseFragment implements
     private Button btnDownload, btnOpenPDF;
     private Toolbar toolbar;
     private TagGroup tagGroup;
-    private static PamphletCourse course;
-    private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
-    private static final int PERMISSION_ALL = 1;
 
     public static ShowContentInfoFrg newInstance(PamphletCourse c) {
 
@@ -73,6 +73,18 @@ public class ShowContentInfoFrg extends BaseFragment implements
         ShowContentInfoFrg fragment = new ShowContentInfoFrg();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    //---------------------------------------------------------------------------------------
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
@@ -256,18 +268,6 @@ public class ShowContentInfoFrg extends BaseFragment implements
             return true;
         }
         return false;
-    }
-
-    //---------------------------------------------------------------------------------------
-    public static boolean hasPermissions(Context context, String... permissions) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
 }

@@ -6,18 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Gender implements Parcelable
-{
+public class Gender implements Parcelable {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("description")
-    @Expose
-    private String description;
     public final static Parcelable.Creator<Gender> CREATOR = new Creator<Gender>() {
 
 
@@ -32,8 +22,16 @@ public class Gender implements Parcelable
             return (new Gender[size]);
         }
 
-    }
-            ;
+    };
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("description")
+    @Expose
+    private String description;
 
     protected Gender(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));

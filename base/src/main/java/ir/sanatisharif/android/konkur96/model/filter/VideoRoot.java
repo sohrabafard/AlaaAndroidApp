@@ -1,4 +1,3 @@
-
 package ir.sanatisharif.android.konkur96.model.filter;
 
 import java.util.List;
@@ -13,10 +12,6 @@ import ir.sanatisharif.android.konkur96.model.main_page.Datum;
 
 
 public class VideoRoot extends Pagination implements Parcelable {
-
-    @SerializedName("data")
-    @Expose
-    private List<VideoCourse> data = null;
 
     public final static Creator<VideoRoot> CREATOR = new Creator<VideoRoot>() {
 
@@ -33,9 +28,13 @@ public class VideoRoot extends Pagination implements Parcelable {
         }
 
     };
+    @SerializedName("data")
+    @Expose
+    private List<VideoCourse> data = null;
 
     public VideoRoot() {
     }
+
     protected VideoRoot(Parcel in) {
         in.readList(this.data, (Datum.class.getClassLoader()));
     }

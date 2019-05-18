@@ -8,8 +8,11 @@ import java.util.ArrayList;
  */
 public interface IServerCallbackMessage {
 
-    public void onStart();
-    public void onSuccess(String str);
-    public void onFinish();
-    public void onFailure(String message);
+    void onStart();
+
+    void onSuccess(String str);
+
+    void onFinish();
+
+    void onFailure(String message);
 }

@@ -112,19 +112,19 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
         btnAddToCard.setOnClickListener(view -> btnAddClick());
 
-        for (AttributeModel attr : extraAttrList){
+        for (AttributeModel attr : extraAttrList) {
 
             MainAttrType type = ShopUtils.getMainAttrType(attr);
 
-            if (type == MainAttrType.SIMPLE){
+            if (type == MainAttrType.SIMPLE) {
 
                 createSimpleAttr(attr);
 
-            }else if (type == MainAttrType.CHECKBOX){
+            } else if (type == MainAttrType.CHECKBOX) {
 
                 createCheckBoxAttr(attr);
 
-            }else if (type == MainAttrType.DROPDOWN){
+            } else if (type == MainAttrType.DROPDOWN) {
 
                 createDropDownAttr(attr);
             }
@@ -138,30 +138,30 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
     }
 
 
-    private void btnAddClick(){
+    private void btnAddClick() {
 
 
-        if (type == ProductType.CONFIGURABLE){
+        if (type == ProductType.CONFIGURABLE) {
 
-            if (attrList.size() > 0){
-
-                showZarinPalDialog();
-
-            }else {
-
-                Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
-            }
-        }else if (type == ProductType.SELECTABLE){
-
-            if (selectableIdList.size() > 0 ){
+            if (attrList.size() > 0) {
 
                 showZarinPalDialog();
 
-            }else {
+            } else {
 
-                Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
             }
-        }else if (type == ProductType.SIMPLE){
+        } else if (type == ProductType.SELECTABLE) {
+
+            if (selectableIdList.size() > 0) {
+
+                showZarinPalDialog();
+
+            } else {
+
+                Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+            }
+        } else if (type == ProductType.SIMPLE) {
 
             showZarinPalDialog();
         }
@@ -169,7 +169,7 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
 
     @SuppressLint("SetTextI18n")
-    private void createSimpleAttr(AttributeModel attr){
+    private void createSimpleAttr(AttributeModel attr) {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -194,13 +194,13 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
         bodyExtraAttr.addView(textView);
     }
 
-    private void createCheckBoxAttr(AttributeModel attr){
+    private void createCheckBoxAttr(AttributeModel attr) {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 100);
 
-        if (null != attr.getTitle() && !attr.getTitle().isEmpty()){
+        if (null != attr.getTitle() && !attr.getTitle().isEmpty()) {
 
             createTxtTitle(attr.getTitle());
         }
@@ -221,11 +221,11 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
                 checkBox.setButtonTintList(ContextCompat.getColorStateList(getContext(), R.color.checkboxtint));
             }
             checkBox.setOnCheckedChangeListener((compoundButton, check) -> {
-                if (check){
+                if (check) {
 
                     addToAttrList((int) compoundButton.getTag());
 
-                }else {
+                } else {
 
                     removeToAttrList((int) compoundButton.getTag());
                 }
@@ -236,13 +236,13 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
         }
     }
 
-    private void createDropDownAttr(AttributeModel attr){
+    private void createDropDownAttr(AttributeModel attr) {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 100);
 
-        if (null != attr.getTitle() && !attr.getTitle().isEmpty()){
+        if (null != attr.getTitle() && !attr.getTitle().isEmpty()) {
 
             createTxtTitle(attr.getTitle());
         }
@@ -256,11 +256,11 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
         spinner.setLayoutParams(params);
         spinner.setPadding(15, 5, 15, 5);
         spinnerArray.add("انتخاب کنید");
-        spinnerMap.put("انتخاب کنید",-1);
+        spinnerMap.put("انتخاب کنید", -1);
         for (AttributeDataModel attrData : attr.getData()) {
 
             spinnerArray.add(attrData.getName());
-            spinnerMap.put(attrData.getName(),attrData.getId());
+            spinnerMap.put(attrData.getName(), attrData.getId());
         }
         ArrayAdapter<String> attrAdapter = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item, spinnerArray);
@@ -293,7 +293,7 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
     }
 
     @SuppressLint("SetTextI18n")
-    private void createTxtTitle(String title){
+    private void createTxtTitle(String title) {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -312,7 +312,7 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
         bodyExtraAttr.addView(textView);
     }
 
-    private void addToAttrList(int val){
+    private void addToAttrList(int val) {
 
         if (!attrExtraList.contains(val)) {
 
@@ -320,7 +320,7 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
         }
     }
 
-    private void removeToAttrList(int val){
+    private void removeToAttrList(int val) {
 
         if (attrExtraList.contains(val)) {
 
@@ -351,13 +351,13 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
         repository = new RepositoryImpl(getActivity());
 
-        repository.getPrice(type,String.valueOf(id), products, mainAttributeValues, extraAttributeValues, data -> {
+        repository.getPrice(type, String.valueOf(id), products, mainAttributeValues, extraAttributeValues, data -> {
             progPrice.setVisibility(View.GONE);
             if (data instanceof Result.Success) {
 
                 GETPriceModel temp = (GETPriceModel) ((Result.Success) data).value;
 
-                if (null == temp.getError()){
+                if (null == temp.getError()) {
 
                     if (temp.getCost().getMfinal() > 0) {
                         totalPrice = temp.getCost().getMfinal();
@@ -368,7 +368,7 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
                         txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
                     }
 
-                }else {
+                } else {
 
                     Log.d("Error", temp.getError().getMessage());
                     txtPrice.setText(ShopUtils.formatPrice(totalPrice) + " تومان ");

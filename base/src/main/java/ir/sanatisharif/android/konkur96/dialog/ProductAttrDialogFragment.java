@@ -25,7 +25,6 @@ import ir.sanatisharif.android.konkur96.model.ProductType;
 public class ProductAttrDialogFragment extends DialogFragment {
 
 
-
     private RecyclerView mRecyclerView;
     private ProductAttrAdapter adapter;
     private ArrayList<AttributeModel> attrList;

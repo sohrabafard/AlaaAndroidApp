@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import ir.sanatisharif.android.konkur96.R;
 
 /**
@@ -42,8 +43,8 @@ public class CustomBanner extends LinearLayout {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.custom_banner, this, true);
 
-        txtTitle = (TextView) v.findViewById(R.id.txtTitle);
-        imgItem = (ImageView) v.findViewById(R.id.imgItem);
+        txtTitle = v.findViewById(R.id.txtTitle);
+        imgItem = v.findViewById(R.id.imgItem);
 
     }
 
@@ -57,7 +58,7 @@ public class CustomBanner extends LinearLayout {
 
     public void setImage(Bitmap b) {
 
-      imgItem.setImageBitmap(b);
+        imgItem.setImageBitmap(b);
     }
 
     public void setTitle(String title) {

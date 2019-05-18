@@ -9,12 +9,21 @@ import java.util.ArrayList;
 
 public class PriceModel implements Parcelable {
 
+    public static final Creator<PriceModel> CREATOR = new Creator<PriceModel>() {
+        @Override
+        public PriceModel createFromParcel(Parcel in) {
+            return new PriceModel(in);
+        }
+
+        @Override
+        public PriceModel[] newArray(int size) {
+            return new PriceModel[size];
+        }
+    };
     @SerializedName("base")
     private int base;
-
     @SerializedName("discount")
     private int discount;
-
     @SerializedName("final")
     private int mfinal;
 
@@ -35,18 +44,6 @@ public class PriceModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<PriceModel> CREATOR = new Creator<PriceModel>() {
-        @Override
-        public PriceModel createFromParcel(Parcel in) {
-            return new PriceModel(in);
-        }
-
-        @Override
-        public PriceModel[] newArray(int size) {
-            return new PriceModel[size];
-        }
-    };
 
     public int getBase() {
         return base;

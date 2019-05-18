@@ -48,24 +48,22 @@ public class IncredibleOfferItemAdapter extends RecyclerView.Adapter<IncredibleO
     public void onBindViewHolder(final ContentHolder holder, final int position) {
 
 
-
         ProductModel item = itemsList.get(position);
 
         holder.title.setText(item.getName());
-        holder.price.setText(ShopUtils.formatPrice(item.getPrice().getMfinal()) + " تومان " );
-        if (item.getPrice().getDiscount() > 0){
+        holder.price.setText(ShopUtils.formatPrice(item.getPrice().getMfinal()) + " تومان ");
+        if (item.getPrice().getDiscount() > 0) {
 
             holder.discount.setText(ShopUtils.formatPrice(item.getPrice().getBase()) + " تومان ");
 
-        }else {
+        } else {
 
             holder.discount.setText("");
         }
         Glide.with(mContext).load(item.getPhoto()).into(holder.image);
 
 
-
-        holder.cardViewRoot.setOnClickListener(view -> addFrg(ProductDetailFragment.newInstance(item),"ProductDetailFragment"));
+        holder.cardViewRoot.setOnClickListener(view -> addFrg(ProductDetailFragment.newInstance(item), "ProductDetailFragment"));
 
 
     }

@@ -35,6 +35,11 @@ public class CircleProgressBar extends View {
     private Paint backgroundPaint;
     private Paint foregroundPaint;
 
+    public CircleProgressBar(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context, attrs);
+    }
+
     public float getStrokeWidth() {
         return strokeWidth;
     }
@@ -86,11 +91,6 @@ public class CircleProgressBar extends View {
         requestLayout();
     }
 
-    public CircleProgressBar(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
-    }
-
     private void init(Context context, AttributeSet attrs) {
         rectF = new RectF();
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(
@@ -100,7 +100,7 @@ public class CircleProgressBar extends View {
         //Reading values from the XML layout
         try {
             strokeWidth = typedArray.getDimension(R.styleable.CircleProgressBar_progressBarThickness, strokeWidth);
-            progress = typedArray.getFloat(R.styleable.CircleProgressBar_progress, progress);
+            progress = typedArray.getFloat(R.styleable.CircleProgressBar_progressValue, progress);
             color = typedArray.getInt(R.styleable.CircleProgressBar_progressbarColor, color);
             min = typedArray.getInt(R.styleable.CircleProgressBar_min, min);
             max = typedArray.getInt(R.styleable.CircleProgressBar_max, max);

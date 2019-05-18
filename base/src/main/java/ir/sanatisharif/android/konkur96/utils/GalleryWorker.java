@@ -23,7 +23,6 @@ public class GalleryWorker {
     }
 
 
-
     public void openFullView(int position) {
 
         FullScreenModel fullScreenModel = new FullScreenModel(position, images);
@@ -36,7 +35,7 @@ public class GalleryWorker {
             showFullView.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(showFullView);
         } else {
-            Toast.makeText(context, "تصویری برای نمایش وجود ندارد" , Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "تصویری برای نمایش وجود ندارد", Toast.LENGTH_LONG).show();
         }
     }
 

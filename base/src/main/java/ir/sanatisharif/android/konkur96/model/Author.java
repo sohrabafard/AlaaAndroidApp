@@ -1,4 +1,3 @@
-
 package ir.sanatisharif.android.konkur96.model;
 
 import android.os.Parcel;
@@ -10,21 +9,6 @@ import com.google.gson.annotations.SerializedName;
 public class Author implements Parcelable {
 
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("firstName")
-    @Expose
-    private String firstName;
-    @SerializedName("lastName")
-    @Expose
-    private String lastName;
-    @SerializedName("photo")
-    @Expose
-    private String photo;
-    @SerializedName("full_name")
-    @Expose
-    private String fullName;
     public final static Parcelable.Creator<Author> CREATOR = new Creator<Author>() {
 
 
@@ -40,6 +24,21 @@ public class Author implements Parcelable {
         }
 
     };
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("firstName")
+    @Expose
+    private String firstName;
+    @SerializedName("lastName")
+    @Expose
+    private String lastName;
+    @SerializedName("photo")
+    @Expose
+    private String photo;
+    @SerializedName("full_name")
+    @Expose
+    private String fullName;
 
     protected Author(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));

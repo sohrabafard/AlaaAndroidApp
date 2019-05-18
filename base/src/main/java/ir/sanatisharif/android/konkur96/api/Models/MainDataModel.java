@@ -9,36 +9,39 @@ import java.util.ArrayList;
 
 public class MainDataModel implements Parcelable {
 
+    public static final Creator<MainDataModel> CREATOR = new Creator<MainDataModel>() {
+        @Override
+        public MainDataModel createFromParcel(Parcel in) {
+            return new MainDataModel(in);
+        }
+
+        @Override
+        public MainDataModel[] newArray(int size) {
+            return new MainDataModel[size];
+        }
+    };
     @SerializedName("id")
     private int id;
-
     @SerializedName("type")
     private int type;
-
     @SerializedName("title")
     private String title;
-
     @SerializedName("order")
     private int order;
-
     @SerializedName("offer")
     private boolean offer;
-
     @SerializedName("updated_at")
     private String updated_at;
-
-    @SerializedName("url")
-    private String url;
 
 //    @SerializedName("contents")
 //    private String contents;
 
 //    @SerializedName("sets")
 //    private String sets;
-
+    @SerializedName("url")
+    private String url;
     @SerializedName("products")
     private ArrayList<ProductModel> products;
-
     @SerializedName("banners")
     private ArrayList<MainBannerModel> banners;
 
@@ -71,18 +74,6 @@ public class MainDataModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<MainDataModel> CREATOR = new Creator<MainDataModel>() {
-        @Override
-        public MainDataModel createFromParcel(Parcel in) {
-            return new MainDataModel(in);
-        }
-
-        @Override
-        public MainDataModel[] newArray(int size) {
-            return new MainDataModel[size];
-        }
-    };
 
     public int getId() {
         return id;

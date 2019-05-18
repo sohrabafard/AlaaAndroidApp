@@ -14,8 +14,23 @@ import ir.sanatisharif.android.konkur96.model.main_page.Datum;
  * Created by Mohamad on 2/23/2019.
  */
 
-public class Pagination implements Parcelable{
+public class Pagination implements Parcelable {
 
+    public final static Creator<Pagination> CREATOR = new Creator<Pagination>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Pagination createFromParcel(Parcel in) {
+            return new Pagination(in);
+        }
+
+        public Pagination[] newArray(int size) {
+            return (new Pagination[size]);
+        }
+
+    };
     @SerializedName("current_page")
     @Expose
     private Integer currentPage;
@@ -49,21 +64,6 @@ public class Pagination implements Parcelable{
     @SerializedName("total")
     @Expose
     private Integer total;
-    public final static Creator<Pagination> CREATOR = new Creator<Pagination>() {
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Pagination createFromParcel(Parcel in) {
-            return new Pagination(in);
-        }
-
-        public Pagination[] newArray(int size) {
-            return (new Pagination[size]);
-        }
-
-    };
 
     protected Pagination(Parcel in) {
         this.currentPage = ((Integer) in.readValue((Integer.class.getClassLoader())));
@@ -74,7 +74,7 @@ public class Pagination implements Parcelable{
         this.nextPageUrl = ((String) in.readValue((String.class.getClassLoader())));
         this.path = ((String) in.readValue((String.class.getClassLoader())));
         this.perPage = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.prevPageUrl = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.prevPageUrl = in.readValue((Object.class.getClassLoader()));
         this.to = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.total = ((Integer) in.readValue((Integer.class.getClassLoader())));
     }

@@ -7,6 +7,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class ResultShowVideoModel implements Parcelable {
 
+    public static final Creator<ResultShowVideoModel> CREATOR = new Creator<ResultShowVideoModel>() {
+        @Override
+        public ResultShowVideoModel createFromParcel(Parcel in) {
+            return new ResultShowVideoModel(in);
+        }
+
+        @Override
+        public ResultShowVideoModel[] newArray(int size) {
+            return new ResultShowVideoModel[size];
+        }
+    };
     @SerializedName("video")
     private PageVideoShowVideoModel video;
 
@@ -23,18 +34,6 @@ public class ResultShowVideoModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<ResultShowVideoModel> CREATOR = new Creator<ResultShowVideoModel>() {
-        @Override
-        public ResultShowVideoModel createFromParcel(Parcel in) {
-            return new ResultShowVideoModel(in);
-        }
-
-        @Override
-        public ResultShowVideoModel[] newArray(int size) {
-            return new ResultShowVideoModel[size];
-        }
-    };
 
     public PageVideoShowVideoModel getVideo() {
         return video;

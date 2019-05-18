@@ -1,5 +1,6 @@
 package ir.sanatisharif.android.konkur96.api;
 
+import android.content.Context;
 import android.net.NetworkInfo;
 import android.util.Log;
 
@@ -27,6 +28,51 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiModule {
 
     private static final long cacheSize = 10 * 1024 * 1024; // 10 MB
+    static Interceptor onlineInterceptor = new Interceptor() {
+        @Override
+        public okhttp3.Response intercept(Chain chain) throws IOException {
+
+            Request original = chain.request();
+            Request.Builder builder = original.newBuilder();
+            okhttp3.Response response = chain.proceed(builder.build());
+
+//            if (!handelStatusCode(response.code()))
+//                return response;
+
+            int maxAge = 10; // read from cache for 10 seconds even if there is internet connection
+            return response.newBuilder()
+                    .header("Cache-Control", "public, max-age=" + maxAge)
+                    .removeHeader("Pragma")
+                    .build();
+        }
+    };
+    static Interceptor offlineInterceptor = new Interceptor() {
+        @Override
+        public okhttp3.Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            if (!isConnected()) {
+                int maxStale = 60 * 60 * 24 * 30; // Offline cache available for 30 days
+                request = request.newBuilder()
+                        .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
+                        .removeHeader("Pragma")
+                        .build();
+            }
+            return chain.proceed(request);
+        }
+    };
+
+    private static boolean isConnected() {
+        try {
+            android.net.ConnectivityManager e = (android.net.ConnectivityManager) AppConfig.context.getSystemService(
+                    Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetwork = e.getActiveNetworkInfo();
+            return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        } catch (Exception e) {
+            Log.w("LOG", e.toString());
+        }
+
+        return false;
+    }
 
     @Provides
     @Singleton
@@ -70,53 +116,5 @@ public class ApiModule {
     @Singleton
     ZarinPalAPI provideApiZarinPal(Retrofit.Builder builder) {
         return builder.baseUrl(ZarinPalAPI.BASE_URL).build().create(ZarinPalAPI.class);
-    }
-
-    static Interceptor onlineInterceptor = new Interceptor() {
-        @Override
-        public okhttp3.Response intercept(Chain chain) throws IOException {
-
-            Request original = chain.request();
-            Request.Builder builder = original.newBuilder();
-            okhttp3.Response response = chain.proceed(builder.build());
-
-//            if (!handelStatusCode(response.code()))
-//                return response;
-
-            int maxAge = 10; // read from cache for 10 seconds even if there is internet connection
-            return response.newBuilder()
-                    .header("Cache-Control", "public, max-age=" + maxAge)
-                    .removeHeader("Pragma")
-                    .build();
-        }
-    };
-
-    static Interceptor offlineInterceptor = new Interceptor() {
-        @Override
-        public okhttp3.Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            if (!isConnected()) {
-                int maxStale = 60 * 60 * 24 * 30; // Offline cache available for 30 days
-                request = request.newBuilder()
-                        .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                        .removeHeader("Pragma")
-                        .build();
-            }
-            return chain.proceed(request);
-        }
-    };
-
-
-    private static boolean isConnected() {
-        try {
-            android.net.ConnectivityManager e = (android.net.ConnectivityManager) AppConfig.context.getSystemService(
-                    AppConfig.context.CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetwork = e.getActiveNetworkInfo();
-            return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        } catch (Exception e) {
-            Log.w("LOG", e.toString());
-        }
-
-        return false;
     }
 }

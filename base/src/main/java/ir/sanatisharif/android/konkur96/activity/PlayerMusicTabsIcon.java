@@ -19,6 +19,7 @@ import android.view.WindowManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.fragment.AllaMainFrg;
@@ -30,8 +31,6 @@ public class PlayerMusicTabsIcon extends AppCompatActivity {
 
     public View parent_view;
 
-    private ViewPager view_pager;
-    private TabLayout tab_layout;
     private SectionsPagerAdapter viewPagerAdapter;
 
     @Override
@@ -45,17 +44,17 @@ public class PlayerMusicTabsIcon extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Songs");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Songs");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setSystemBarColor(this);
     }
 
     private void initComponent() {
-        view_pager = (ViewPager) findViewById(R.id.view_pager);
-        tab_layout = (TabLayout) findViewById(R.id.tab_layout);
+        ViewPager view_pager = findViewById(R.id.view_pager);
+        TabLayout tab_layout = findViewById(R.id.tab_layout);
 
         setupViewPager(view_pager);
         tab_layout.setupWithViewPager(view_pager);
@@ -89,6 +88,7 @@ public class PlayerMusicTabsIcon extends AppCompatActivity {
             }
         });
     }
+
     public void setSystemBarColor(Activity act) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = act.getWindow();
@@ -97,6 +97,7 @@ public class PlayerMusicTabsIcon extends AppCompatActivity {
             window.setStatusBarColor(act.getResources().getColor(R.color.colorPrimaryDark));
         }
     }
+
     private void setupViewPager(ViewPager viewPager) {
         viewPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(VideoDownloadedFrg.newInstance(), "Songs");
@@ -127,7 +128,7 @@ public class PlayerMusicTabsIcon extends AppCompatActivity {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public SectionsPagerAdapter(FragmentManager manager) {
+        SectionsPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
@@ -141,7 +142,7 @@ public class PlayerMusicTabsIcon extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }

@@ -9,11 +9,12 @@ public class SectionList_class {
     public SectionList_class() {
     }
 
-    public SectionList_class(String headerTitle , int  TYPE) {
+    public SectionList_class(String headerTitle, int TYPE) {
         this.headerTitle = headerTitle;
-        this.type=TYPE;
+        this.type = TYPE;
 
     }
+
     public int getType() {
         return type;
     }

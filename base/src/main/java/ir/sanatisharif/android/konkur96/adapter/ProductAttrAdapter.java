@@ -16,17 +16,6 @@ public class ProductAttrAdapter extends RecyclerView.Adapter<ProductAttrAdapter.
 
     private ArrayList<AttributeModel> attrList;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, data;
-
-        public MyViewHolder(View view) {
-            super(view);
-            title = view.findViewById(R.id.txt_titel);
-            data = view.findViewById(R.id.txt_data);
-        }
-    }
-
-
     public ProductAttrAdapter(ArrayList<AttributeModel> attrList) {
         this.attrList = attrList;
     }
@@ -49,7 +38,7 @@ public class ProductAttrAdapter extends RecyclerView.Adapter<ProductAttrAdapter.
 
         for (AttributeDataModel attrData : model.getData()) {
 
-           data += " " + attrData.getName() + " ";
+            data += " " + attrData.getName() + " ";
 
         }
 
@@ -59,5 +48,15 @@ public class ProductAttrAdapter extends RecyclerView.Adapter<ProductAttrAdapter.
     @Override
     public int getItemCount() {
         return attrList.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView title, data;
+
+        public MyViewHolder(View view) {
+            super(view);
+            title = view.findViewById(R.id.txt_titel);
+            data = view.findViewById(R.id.txt_data);
+        }
     }
 }

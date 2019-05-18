@@ -40,8 +40,8 @@ public interface ApiRetrofit {
     @GET(" ")
     Call<MainPagesInfo> getMainPage();
 
-   // @GET("c/{id}")
-  //  Call<DataCourse> getDetailsCourseByID(@Path("id") String id);
+    // @GET("c/{id}")
+    //  Call<DataCourse> getDetailsCourseByID(@Path("id") String id);
     @GET
     Call<DataCourse> getDetailsCourseByID(@Url String url);
 

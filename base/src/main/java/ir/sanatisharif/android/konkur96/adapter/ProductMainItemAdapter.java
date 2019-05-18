@@ -49,7 +49,7 @@ public class ProductMainItemAdapter extends RecyclerView.Adapter<ProductMainItem
         holder.getCustomCatItem().setOnClickItem(new CustomItemView.OnClickItem() {
             @Override
             public void OnClick(int position) {
-                 addFrg(ProductDetailFragment.newInstance(item), "ProductDetailFragment");
+                addFrg(ProductDetailFragment.newInstance(item), "ProductDetailFragment");
             }
         });
     }

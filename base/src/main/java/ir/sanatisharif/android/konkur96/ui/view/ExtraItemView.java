@@ -74,6 +74,7 @@ public class ExtraItemView extends LinearLayout {
 
         init(context);
     }
+
     public void setClickItem(int pos, Item item) {
 
         this.position = pos;
@@ -132,13 +133,13 @@ public class ExtraItemView extends LinearLayout {
         }
 
         cardViewRoot = findViewById(R.id.cardViewRoot);
-        layout_click = (LinearLayout) findViewById(R.id.layout_click);
-        txtTitle = (TextView) findViewById(R.id.txtTitle);
-        txtView = (TextView) findViewById(R.id.txtView);
-        txtAuthor = (TextView) findViewById(R.id.txtAuthor);
-        imgItem = (ImageView) findViewById(R.id.imgItem);
-        imgMenu = (ImageView) view.findViewById(R.id.imgMenu);
-        imgPlay = (ImageView) view.findViewById(R.id.imgPlay);
+        layout_click = findViewById(R.id.layout_click);
+        txtTitle = findViewById(R.id.txtTitle);
+        txtView = findViewById(R.id.txtView);
+        txtAuthor = findViewById(R.id.txtAuthor);
+        imgItem = findViewById(R.id.imgItem);
+        imgMenu = view.findViewById(R.id.imgMenu);
+        imgPlay = view.findViewById(R.id.imgPlay);
 
         txtTitle.setTypeface(AppConfig.fontIRSensNumber);
         txtAuthor.setTypeface(AppConfig.fontIRSensNumber);

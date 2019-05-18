@@ -50,15 +50,13 @@ public class MyProductSetAdapter extends RecyclerView.Adapter<MyProductSetAdapte
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
 
-
         ProductSetModel item = itemsList.get(position);
 
         holder.title.setText(item.getShortName());
         Glide.with(mContext).load(item.getPhoto()).into(holder.imageView);
 
 
-
-        holder.cardView.setOnClickListener(view -> addFrg(MoreProductSetFragment.newInstance(item.getContentUrl()),"MoreProductSetFragment"));
+        holder.cardView.setOnClickListener(view -> addFrg(MoreProductSetFragment.newInstance(item.getContentUrl()), "MoreProductSetFragment"));
 
 
     }

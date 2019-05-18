@@ -7,7 +7,7 @@ public class MainShopItem {
     private int type;
     private String title;
     private String url;
-    private  boolean more;
+    private boolean more;
     private ArrayList<?> items;
 
     public int getId() {

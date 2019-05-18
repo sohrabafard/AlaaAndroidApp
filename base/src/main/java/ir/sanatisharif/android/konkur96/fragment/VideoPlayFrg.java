@@ -64,13 +64,59 @@ public class VideoPlayFrg extends BaseFragment {
     private final String STATE_RESUME_WINDOW = "resumeWindow";
     private final String STATE_RESUME_POSITION = "resumePosition";
     private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
-    private Bundle savedInsPlayer;
-
     ProgressBar progressBar;
-
     LifecycleRegistry mLifecycleRegistry;
-
     PlaybackControlView controlView;
+    //lock
+    PowerManager pm;
+    PowerManager.WakeLock wl;
+    KeyguardManager km;
+    KeyguardManager.KeyguardLock kl;
+    VideoPlayer videoPlayer;
+    //<editor-fold desc="animation">
+    Animator.AnimatorListener animatorHide = new Animator.AnimatorListener() {
+        @Override
+        public void onAnimationStart(Animator animator) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animator) {
+            controlView.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animator) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animator) {
+
+        }
+    };
+    Animator.AnimatorListener animatorShow = new Animator.AnimatorListener() {
+        @Override
+        public void onAnimationStart(Animator animator) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animator) {
+            controlView.findViewById(R.id.progressBar).setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animator) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animator) {
+
+        }
+    };
+    private Bundle savedInsPlayer;
     private SimpleExoPlayer player;
     private SimpleExoPlayerView mExoPlayerView;
     private MediaSource mVideoSource;
@@ -83,73 +129,6 @@ public class VideoPlayFrg extends BaseFragment {
     private long mResumePosition;
     private String mUrl;
 
-    //lock
-    PowerManager pm;
-    PowerManager.WakeLock wl;
-    KeyguardManager km;
-    KeyguardManager.KeyguardLock kl;
-
-    public class VideoPlayer implements LifecycleObserver {
-
-//        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-//        public void play() {
-//            startPlayer();
-//            Log.i("LOG", "VideoPlayFrg: ON_RESUME");
-//        }
-//
-//        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-//        public void pause() {
-//            Log.i("LOG", "VideoPlayFrg: ON_PAUSE");
-//            pausePlayer();
-//        }
-//
-//        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-//        public void stop() {
-//            releasePlayer();
-//            Log.i("LOG", "VideoPlayFrg: ON_STOP");
-//            //stop logic
-//        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-        void onCreate() {
-            Log.i("LOG", "VideoPlayFrg: ON_CREATE");
-            clearResumePosition();
-           // mExoPlayerView.requestFocus();
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        void onStart() {
-            if (Util.SDK_INT > 23) {
-                Log.i("LOG", "VideoPlayFrg: ON_START");
-                startPlayer();
-            }
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-        void onStop() {
-            if (Util.SDK_INT > 23) {
-                Log.i("LOG", "VideoPlayFrg: ON_STOP");
-                releasePlayer();
-            }
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-        void onPause() {
-            if (Util.SDK_INT <= 23) {
-                Log.i("LOG", "VideoPlayFrg: ON_PAUSE");
-                releasePlayer();
-            }
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-        void onResume() {
-            if ((Util.SDK_INT <= 23)) {
-                Log.i("LOG", "VideoPlayFrg: ON_RESUME");
-                initExoPlayer();
-            }
-        }
-    }
-
     public static VideoPlayFrg newInstance(String path) {
 
         Bundle args = new Bundle();
@@ -159,8 +138,6 @@ public class VideoPlayFrg extends BaseFragment {
         return fragment;
     }
 
-    VideoPlayer videoPlayer;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,7 +146,7 @@ public class VideoPlayFrg extends BaseFragment {
         // Fragment locked in landscape screen orientation
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-      //  startPlayer();
+        //  startPlayer();
         // getLifecycle().addObserver(new VideoPlayerComponent(getContext(), mExoPlayerView, videoUrl));
         videoPlayer = new VideoPlayer();
         getLifecycle().addObserver(videoPlayer);
@@ -221,7 +198,6 @@ public class VideoPlayFrg extends BaseFragment {
         mFullScreenDialog.show();
     }
 
-
     private void closeFullscreenDialog() {
 
         ((ViewGroup) mExoPlayerView.getParent()).removeView(mExoPlayerView);
@@ -230,7 +206,6 @@ public class VideoPlayFrg extends BaseFragment {
         mFullScreenDialog.dismiss();
         mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(AppConfig.currentActivity, R.drawable.ic_fullscreen_expand));
     }
-
 
     private void initFullscreenButton() {
 
@@ -374,7 +349,7 @@ public class VideoPlayFrg extends BaseFragment {
     private void startPlayer() {
         if (mExoPlayerView == null) {
 
-            mExoPlayerView = (SimpleExoPlayerView) getView().findViewById(R.id.exoplayer);
+            mExoPlayerView = getView().findViewById(R.id.exoplayer);
 
             mUrl = getArguments().getString("path");
             initFullscreenDialog();
@@ -385,7 +360,6 @@ public class VideoPlayFrg extends BaseFragment {
             mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(Uri.parse(mUrl));
         }
-
 
 
         if (mExoPlayerFullscreen) {
@@ -412,6 +386,96 @@ public class VideoPlayFrg extends BaseFragment {
     private void clearResumePosition() {
         mResumeWindow = C.INDEX_UNSET;
         mResumePosition = C.TIME_UNSET;
+    }
+
+    //<editor-fold desc="lock">
+    @SuppressLint("InvalidWakeLockTag")
+    private void initWakeLockScreen() {
+        pm = (PowerManager) getContext().getSystemService(POWER_SERVICE);
+        wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+                | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                | PowerManager.ON_AFTER_RELEASE, "alla");
+
+
+        km = (KeyguardManager) getContext().getSystemService(KEYGUARD_SERVICE);
+        if (null != km) {
+
+            kl = km.newKeyguardLock("alla");
+        }
+
+    }
+
+    private void enableWakeLockScreen() {
+        wl.acquire();
+        kl.reenableKeyguard();
+    }
+    //</editor-fold>
+
+    private void disableWakeLockScreen() {
+        if (wl.isHeld())
+            wl.release();
+        kl.disableKeyguard();
+    }
+
+    public class VideoPlayer implements LifecycleObserver {
+
+//        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+//        public void play() {
+//            startPlayer();
+//            Log.i("LOG", "VideoPlayFrg: ON_RESUME");
+//        }
+//
+//        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+//        public void pause() {
+//            Log.i("LOG", "VideoPlayFrg: ON_PAUSE");
+//            pausePlayer();
+//        }
+//
+//        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+//        public void stop() {
+//            releasePlayer();
+//            Log.i("LOG", "VideoPlayFrg: ON_STOP");
+//            //stop logic
+//        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+        void onCreate() {
+            Log.i("LOG", "VideoPlayFrg: ON_CREATE");
+            clearResumePosition();
+            // mExoPlayerView.requestFocus();
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_START)
+        void onStart() {
+            if (Util.SDK_INT > 23) {
+                Log.i("LOG", "VideoPlayFrg: ON_START");
+                startPlayer();
+            }
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+        void onStop() {
+            if (Util.SDK_INT > 23) {
+                Log.i("LOG", "VideoPlayFrg: ON_STOP");
+                releasePlayer();
+            }
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        void onPause() {
+            if (Util.SDK_INT <= 23) {
+                Log.i("LOG", "VideoPlayFrg: ON_PAUSE");
+                releasePlayer();
+            }
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        void onResume() {
+            if ((Util.SDK_INT <= 23)) {
+                Log.i("LOG", "VideoPlayFrg: ON_RESUME");
+                initExoPlayer();
+            }
+        }
     }
 
     private class PlayerEventListener extends Player.DefaultEventListener {
@@ -443,80 +507,6 @@ public class VideoPlayFrg extends BaseFragment {
                     break;
             }
         }
-    }
-
-    //<editor-fold desc="animation">
-    Animator.AnimatorListener animatorHide = new Animator.AnimatorListener() {
-        @Override
-        public void onAnimationStart(Animator animator) {
-
-        }
-
-        @Override
-        public void onAnimationEnd(Animator animator) {
-            controlView.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        public void onAnimationCancel(Animator animator) {
-
-        }
-
-        @Override
-        public void onAnimationRepeat(Animator animator) {
-
-        }
-    };
-
-    Animator.AnimatorListener animatorShow = new Animator.AnimatorListener() {
-        @Override
-        public void onAnimationStart(Animator animator) {
-
-        }
-
-        @Override
-        public void onAnimationEnd(Animator animator) {
-            controlView.findViewById(R.id.progressBar).setVisibility(View.GONE);
-        }
-
-        @Override
-        public void onAnimationCancel(Animator animator) {
-
-        }
-
-        @Override
-        public void onAnimationRepeat(Animator animator) {
-
-        }
-    };
-    //</editor-fold>
-
-    //<editor-fold desc="lock">
-    @SuppressLint("InvalidWakeLockTag")
-    private void initWakeLockScreen() {
-        pm = (PowerManager) getContext().getSystemService(POWER_SERVICE);
-        wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
-                | PowerManager.ACQUIRE_CAUSES_WAKEUP
-                | PowerManager.ON_AFTER_RELEASE, "alla");
-
-
-        km = (KeyguardManager) getContext().getSystemService(KEYGUARD_SERVICE);
-        if (null != km) {
-
-            kl = km.newKeyguardLock("alla");
-        }
-
-    }
-
-    private void enableWakeLockScreen() {
-        wl.acquire();
-        kl.reenableKeyguard();
-    }
-
-    private void disableWakeLockScreen() {
-        if (wl.isHeld())
-            wl.release();
-        kl.disableKeyguard();
     }
     //</editor-fold>
 }

@@ -1,29 +1,19 @@
-
 package ir.sanatisharif.android.konkur96.model.main_page.lastVersion;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Url implements Parcelable
-{
+public class Url implements Parcelable {
 
-    @SerializedName("play_store")
-    @Expose
-    private String playStore;
-    @SerializedName("bazaar")
-    @Expose
-    private String bazaar;
-    @SerializedName("direct")
-    @Expose
-    private String direct;
     public final static Creator<Url> CREATOR = new Creator<Url>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public Url createFromParcel(Parcel in) {
             return new Url(in);
@@ -33,8 +23,16 @@ public class Url implements Parcelable
             return (new Url[size]);
         }
 
-    }
-    ;
+    };
+    @SerializedName("play_store")
+    @Expose
+    private String playStore;
+    @SerializedName("bazaar")
+    @Expose
+    private String bazaar;
+    @SerializedName("direct")
+    @Expose
+    private String direct;
 
     protected Url(Parcel in) {
         this.playStore = ((String) in.readValue((String.class.getClassLoader())));
@@ -76,7 +74,7 @@ public class Url implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

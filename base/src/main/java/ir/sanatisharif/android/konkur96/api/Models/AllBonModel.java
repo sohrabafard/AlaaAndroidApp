@@ -7,45 +7,43 @@ import com.google.gson.annotations.SerializedName;
 
 public class AllBonModel implements Parcelable {
 
+    public static final Creator<AllBonModel> CREATOR = new Creator<AllBonModel>() {
+        @Override
+        public AllBonModel createFromParcel(Parcel in) {
+            return new AllBonModel(in);
+        }
+
+        @Override
+        public AllBonModel[] newArray(int size) {
+            return new AllBonModel[size];
+        }
+    };
     @SerializedName("id")
     private int id;
-
     @SerializedName("bon_id")
     private int bon_id;
-
     @SerializedName("user_id")
     private int user_id;
-
     @SerializedName("totalNumber")
     private int totalNumber;
-
     @SerializedName("usedNumber")
     private int usedNumber;
-
     @SerializedName("userbonstatus_id")
     private int userbonstatus_id;
-
     @SerializedName("validSince")
     private int validSince;
-
     @SerializedName("validUntil")
     private int validUntil;
-
     @SerializedName("orderproduct_id")
     private int orderproduct_id;
-
     @SerializedName("created_at")
     private String created_at;
-
     @SerializedName("updated_at")
     private String updated_at;
-
     @SerializedName("deleted_at")
     private String deleted_at;
-
     @SerializedName("pivot")
     private PivotMode pivot;
-
 
     protected AllBonModel(Parcel in) {
         id = in.readInt();
@@ -84,18 +82,6 @@ public class AllBonModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<AllBonModel> CREATOR = new Creator<AllBonModel>() {
-        @Override
-        public AllBonModel createFromParcel(Parcel in) {
-            return new AllBonModel(in);
-        }
-
-        @Override
-        public AllBonModel[] newArray(int size) {
-            return new AllBonModel[size];
-        }
-    };
 
     public int getId() {
         return id;

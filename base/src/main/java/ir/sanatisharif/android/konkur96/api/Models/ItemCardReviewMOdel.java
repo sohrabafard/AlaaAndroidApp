@@ -7,9 +7,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class ItemCardReviewMOdel extends AddToCardListModel implements Parcelable {
 
+    public static final Creator<ItemCardReviewMOdel> CREATOR = new Creator<ItemCardReviewMOdel>() {
+        @Override
+        public ItemCardReviewMOdel createFromParcel(Parcel in) {
+            return new ItemCardReviewMOdel(in);
+        }
+
+        @Override
+        public ItemCardReviewMOdel[] newArray(int size) {
+            return new ItemCardReviewMOdel[size];
+        }
+    };
     @SerializedName("grand")
     private ProductModel grand;
-
 
     protected ItemCardReviewMOdel(Parcel in) {
         grand = in.readParcelable(ProductModel.class.getClassLoader());
@@ -24,18 +34,6 @@ public class ItemCardReviewMOdel extends AddToCardListModel implements Parcelabl
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<ItemCardReviewMOdel> CREATOR = new Creator<ItemCardReviewMOdel>() {
-        @Override
-        public ItemCardReviewMOdel createFromParcel(Parcel in) {
-            return new ItemCardReviewMOdel(in);
-        }
-
-        @Override
-        public ItemCardReviewMOdel[] newArray(int size) {
-            return new ItemCardReviewMOdel[size];
-        }
-    };
 
     public ProductModel getGrand() {
         return grand;

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -42,9 +43,31 @@ public class OnBoardingActivity extends ActivityBase {
     private AccountInfo accountInfo;
     private ViewPager viewPager;
     private Button btnNext;
-    private MyViewPagerAdapter myViewPagerAdapter;
-    private String desc[];
-    private int image[];
+    private String[] desc;
+    //  viewpager change listener
+    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
+
+        @Override
+        public void onPageSelected(final int position) {
+            bottomProgressDots(position);
+            if (viewPager.getCurrentItem() == desc.length - 1) {
+                btnNext.setText(getString(R.string.go));
+            } else {
+                btnNext.setText(getString(R.string.next));
+            }
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+
+        }
+    };
+    private int[] image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +94,11 @@ public class OnBoardingActivity extends ActivityBase {
     private void initUI() {
 
         //init ui
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        btnNext = (Button) findViewById(R.id.btn_next);
+        viewPager = findViewById(R.id.view_pager);
+        btnNext = findViewById(R.id.btn_next);
         ripple(btnNext, 8);
         // init pager
-        myViewPagerAdapter = new MyViewPagerAdapter();
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
@@ -105,7 +128,7 @@ public class OnBoardingActivity extends ActivityBase {
     }
 
     private void bottomProgressDots(int current_index) {
-        LinearLayout dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
+        LinearLayout dotsLayout = findViewById(R.id.layoutDots);
         ImageView[] dots = new ImageView[MAX_STEP];
 
         dotsLayout.removeAllViews();
@@ -136,41 +159,18 @@ public class OnBoardingActivity extends ActivityBase {
                 .create();
     }
 
-    //  viewpager change listener
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
-        @Override
-        public void onPageSelected(final int position) {
-            bottomProgressDots(position);
-            if (viewPager.getCurrentItem() == desc.length - 1) {
-                btnNext.setText(getString(R.string.go));
-            } else {
-                btnNext.setText(getString(R.string.next));
-            }
-        }
-
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
-
-        }
-    };
-
     /**
      * View pager adapter
      */
     public class MyViewPagerAdapter extends PagerAdapter {
         private LayoutInflater layoutInflater;
 
-        public MyViewPagerAdapter() {
+        MyViewPagerAdapter() {
         }
 
+        @NonNull
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
             layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             View view = layoutInflater.inflate(R.layout.item_card_wizard, container, false);

@@ -15,10 +15,10 @@ import ir.sanatisharif.android.konkur96.R;
 
 public class CustomDownloadDialogFragmentCompat extends PreferenceDialogFragmentCompat {
 
-    private RadioGroup radioGroup;
-    private String value;
     String[] playerValue;
     String[] playerEntry;
+    private RadioGroup radioGroup;
+    private String value;
 
     public static CustomDownloadDialogFragmentCompat newInstance(String key, String value) {
         final CustomDownloadDialogFragmentCompat
@@ -43,7 +43,7 @@ public class CustomDownloadDialogFragmentCompat extends PreferenceDialogFragment
     }
 
     private void init(View view, String value) {
-        radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
+        radioGroup = view.findViewById(R.id.radioGroup);
 
         ((RadioButton) radioGroup.getChildAt(0)).setText(playerEntry[0] + " - " + playerValue[0]);
         ((RadioButton) radioGroup.getChildAt(1)).setText(playerEntry[1] + " - " + playerValue[1]);

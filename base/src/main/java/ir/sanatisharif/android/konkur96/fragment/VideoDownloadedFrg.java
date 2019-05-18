@@ -50,12 +50,11 @@ public class VideoDownloadedFrg extends BaseFragment {
 
     RecyclerView recyclerView;
     Toolbar mToolbar;
-
+    boolean visibleMenu = false;
     private Menu menu;
     private VideoDownloadedAdapter adapter;
     private GridLayoutManager manager;
     private ArrayList<Video> videos = new ArrayList<>();
-    boolean visibleMenu = false;
 
     public static VideoDownloadedFrg newInstance() {
 

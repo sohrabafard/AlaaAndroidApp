@@ -27,8 +27,8 @@ import ir.sanatisharif.android.konkur96.R;
 
 public class URLImageGetter implements ImageGetter {
 
-    ArrayList<Target> targets;
     final TextView mTextView;
+    ArrayList<Target> targets;
     Context mContext;
 
     public URLImageGetter(Context ctx, TextView tv) {
@@ -60,8 +60,8 @@ public class URLImageGetter implements ImageGetter {
 
     private class BitmapTarget extends SimpleTarget<Bitmap> {
 
-        Drawable drawable;
         private final UrlDrawable urlDrawable;
+        Drawable drawable;
 
         public BitmapTarget(UrlDrawable urlDrawable) {
             this.urlDrawable = urlDrawable;

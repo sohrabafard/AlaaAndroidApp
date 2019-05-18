@@ -29,27 +29,27 @@ import ir.sanatisharif.android.konkur96.model.Video;
 
 public class ShopUtils {
 
-    public static String formatPrice(long number){
+    public static String formatPrice(long number) {
 
         DecimalFormat formatter = new DecimalFormat("#,###,###");
         return formatter.format(number);
     }
 
-    public static String formatPrice(int number){
+    public static String formatPrice(int number) {
 
         DecimalFormat formatter = new DecimalFormat("#,###,###");
         return formatter.format(number);
     }
 
 
-    public static ArrayList<MainShopItem> convertToMainShopModel(MainModel apiModel, boolean first){
+    public static ArrayList<MainShopItem> convertToMainShopModel(MainModel apiModel, boolean first) {
 
         ArrayList<MainShopItem> items = new ArrayList<>();
         ArrayList<MainDataModel> blockData = apiModel.getBlock().getData();
         MainShopItem item;
 
 
-        if (apiModel.getMainBanner() != null && first){
+        if (apiModel.getMainBanner() != null && first) {
 
             //---------------------- slider ----------------------------------------------------
             item = new MainShopItem();
@@ -59,41 +59,41 @@ public class ShopUtils {
             items.add(item);
         }
 
-        for (int i = 0 ; i < blockData.size(); i++){
+        for (int i = 0; i < blockData.size(); i++) {
 
             MainDataModel temp = blockData.get(i);
 
-            if (temp.getProducts() != null && temp.getProducts().size() > 0){
+            if (temp.getProducts() != null && temp.getProducts().size() > 0) {
                 //---------------------- block products ----------------------------------------------------
-                if (temp.isOffer()){
+                if (temp.isOffer()) {
                     item = new MainShopItem();
                     item.setId(i);
                     item.setType(AppConstants.INCREDIBLEOFFER_ITEM_SET);
                     item.setTitle(temp.getTitle());
                     item.setItems(temp.getProducts());
-                    if (temp.getUrl() != null){
+                    if (temp.getUrl() != null) {
 
                         item.setMore(true);
                         item.setUrl(temp.getUrl());
 
-                    }else {
+                    } else {
 
                         item.setMore(false);
                     }
                     items.add(item);
-                }else {
+                } else {
 
                     item = new MainShopItem();
                     item.setId(i);
                     item.setType(AppConstants.CATEGORY_SHOP_ITEM_SET);
                     item.setTitle(temp.getTitle());
                     item.setItems(temp.getProducts());
-                    if (temp.getUrl() != null){
+                    if (temp.getUrl() != null) {
 
                         item.setMore(true);
                         item.setUrl(temp.getUrl());
 
-                    }else {
+                    } else {
 
                         item.setMore(false);
                     }
@@ -102,7 +102,7 @@ public class ShopUtils {
 
             }
 
-            if (temp.getBanners() != null && temp.getBanners().size() > 0){
+            if (temp.getBanners() != null && temp.getBanners().size() > 0) {
                 //---------------------- block banners ----------------------------------------------------
                 item = new MainShopItem();
                 item.setId(i);
@@ -113,35 +113,35 @@ public class ShopUtils {
             }
         }
 
-        return  items;
+        return items;
     }
 
-    public static ArrayList<AddToCardModel> convertToAddToCardModelList(CardReviewModel cardReviewModel){
+    public static ArrayList<AddToCardModel> convertToAddToCardModelList(CardReviewModel cardReviewModel) {
 
         ArrayList<AddToCardModel> items = new ArrayList<>();
 
 
-        for (int i = 0 ; i < cardReviewModel.getItems().size(); i++){
+        for (int i = 0; i < cardReviewModel.getItems().size(); i++) {
 
             items.addAll(cardReviewModel.getItems().get(i).getOrderproducts());
         }
 
 
-        return  items;
+        return items;
     }
 
-    public static String getProductNames(CardReviewModel cardReviewModel){
+    public static String getProductNames(CardReviewModel cardReviewModel) {
 
         ArrayList<AddToCardModel> items = new ArrayList<>();
         String finalNames = "";
 
 
-        for (int i = 0 ; i < cardReviewModel.getItems().size(); i++){
+        for (int i = 0; i < cardReviewModel.getItems().size(); i++) {
 
             items.addAll(cardReviewModel.getItems().get(i).getOrderproducts());
         }
 
-        for (int i = 0 ; i < items.size(); i++){
+        for (int i = 0; i < items.size(); i++) {
 
             AddToCardModel temp = items.get(i);
 
@@ -153,11 +153,11 @@ public class ShopUtils {
     }
 
 
-    public static ArrayList<ProductSliderModel> convertToProductSliderModel(ArrayList<ProductPhotoModel> photos){
+    public static ArrayList<ProductSliderModel> convertToProductSliderModel(ArrayList<ProductPhotoModel> photos) {
 
         ArrayList<ProductSliderModel> items = new ArrayList<>();
 
-        for (int i = 0 ; i < photos.size(); i++){
+        for (int i = 0; i < photos.size(); i++) {
 
             ProductPhotoModel temp = photos.get(i);
 
@@ -168,13 +168,13 @@ public class ShopUtils {
         return items;
     }
 
-    public static ArrayList<SelectableProduct> convertToSelectableProductModel(ArrayList<ProductModel> list){
+    public static ArrayList<SelectableProduct> convertToSelectableProductModel(ArrayList<ProductModel> list) {
 
         ArrayList<SelectableProduct> items = new ArrayList<>();
 
-        if (list != null && list.size() > 0){
+        if (list != null && list.size() > 0) {
 
-            for (int i = 0 ; i < list.size(); i++){
+            for (int i = 0; i < list.size(); i++) {
 
                 ProductModel temp = list.get(i);
 
@@ -184,25 +184,24 @@ public class ShopUtils {
 
             return items;
 
-        }else {
+        } else {
 
             return null;
         }
 
 
-
     }
 
-    public static Spanned setHTMLText(String text){
+    public static Spanned setHTMLText(String text) {
 
-        if (null != text){
+        if (null != text) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 return Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT);
             } else {
                 return Html.fromHtml(text);
             }
-        }else {
+        } else {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 return Html.fromHtml(" ", Html.FROM_HTML_MODE_COMPACT);
@@ -214,7 +213,7 @@ public class ShopUtils {
 
     }
 
-    public static Video createVideoModelByURL(String url){
+    public static Video createVideoModelByURL(String url) {
 
 
         ArrayList<DownloadUrl> downloadUrls = new ArrayList<>();
@@ -224,15 +223,15 @@ public class ShopUtils {
         downloadUrls.add(downloadUrl);
 
         Video item = new Video();
-       // item.setDownloadUrls(downloadUrls);
+        // item.setDownloadUrls(downloadUrls);
 
 
         return item;
     }
 
-    public static ProductType getType(TypeModel typeModel){
+    public static ProductType getType(TypeModel typeModel) {
 
-        if (typeModel != null){
+        if (typeModel != null) {
 
             switch (typeModel.getType().trim()) {
                 case "simple":
@@ -252,7 +251,7 @@ public class ShopUtils {
                     return null;
             }
 
-        }else {
+        } else {
 
             return null;
         }
@@ -260,9 +259,9 @@ public class ShopUtils {
     }
 
 
-    public static MainAttrType getMainAttrType(AttributeModel attributeModel){
+    public static MainAttrType getMainAttrType(AttributeModel attributeModel) {
 
-        if (attributeModel != null){
+        if (attributeModel != null) {
 
             switch (attributeModel.getControl().trim()) {
                 case "simple":
@@ -282,7 +281,7 @@ public class ShopUtils {
                     return null;
             }
 
-        }else {
+        } else {
 
             return null;
         }
@@ -292,8 +291,8 @@ public class ShopUtils {
     public static List<Integer> removeElements(List<Integer> input, int deleteMe) {
         List<Integer> result = new LinkedList<>();
 
-        for(int item : input)
-            if(deleteMe != item)
+        for (int item : input)
+            if (deleteMe != item)
                 result.add(item);
 
         return result;

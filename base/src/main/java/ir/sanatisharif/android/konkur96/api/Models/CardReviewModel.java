@@ -9,12 +9,21 @@ import java.util.ArrayList;
 
 public class CardReviewModel implements Parcelable {
 
+    public static final Creator<CardReviewModel> CREATOR = new Creator<CardReviewModel>() {
+        @Override
+        public CardReviewModel createFromParcel(Parcel in) {
+            return new CardReviewModel(in);
+        }
+
+        @Override
+        public CardReviewModel[] newArray(int size) {
+            return new CardReviewModel[size];
+        }
+    };
     @SerializedName("items")
     private ArrayList<ItemCardReviewMOdel> items;
-
     @SerializedName("orderproductCount")
     private int orderproductCount;
-
     @SerializedName("price")
     private PriceModel price;
 
@@ -35,18 +44,6 @@ public class CardReviewModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<CardReviewModel> CREATOR = new Creator<CardReviewModel>() {
-        @Override
-        public CardReviewModel createFromParcel(Parcel in) {
-            return new CardReviewModel(in);
-        }
-
-        @Override
-        public CardReviewModel[] newArray(int size) {
-            return new CardReviewModel[size];
-        }
-    };
 
     public ArrayList<ItemCardReviewMOdel> getItems() {
         return items;

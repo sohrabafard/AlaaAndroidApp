@@ -1,27 +1,20 @@
-
 package ir.sanatisharif.android.konkur96.model.main_page;
 
 import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MainPagesInfo implements Parcelable
-{
+public class MainPagesInfo implements Parcelable {
 
-    @SerializedName("mainBanner")
-    @Expose
-    private List<MainBanner> mainBanner = null;
-    @SerializedName("block")
-    @Expose
-    private Block block;
     public final static Creator<MainPagesInfo> CREATOR = new Creator<MainPagesInfo>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public MainPagesInfo createFromParcel(Parcel in) {
             return new MainPagesInfo(in);
@@ -31,8 +24,13 @@ public class MainPagesInfo implements Parcelable
             return (new MainPagesInfo[size]);
         }
 
-    }
-    ;
+    };
+    @SerializedName("mainBanner")
+    @Expose
+    private List<MainBanner> mainBanner = null;
+    @SerializedName("block")
+    @Expose
+    private Block block;
 
     protected MainPagesInfo(Parcel in) {
         in.readList(this.mainBanner, (MainBanner.class.getClassLoader()));
@@ -64,7 +62,7 @@ public class MainPagesInfo implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

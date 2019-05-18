@@ -9,42 +9,41 @@ import java.util.ArrayList;
 
 public class BlockModel implements Parcelable {
 
+    public static final Creator<BlockModel> CREATOR = new Creator<BlockModel>() {
+        @Override
+        public BlockModel createFromParcel(Parcel in) {
+            return new BlockModel(in);
+        }
+
+        @Override
+        public BlockModel[] newArray(int size) {
+            return new BlockModel[size];
+        }
+    };
     @SerializedName("current_page")
     private int current_page;
-
     @SerializedName("data")
     private ArrayList<MainDataModel> data;
-
     @SerializedName("first_page_url")
     private String first_page_url;
-
     @SerializedName("from")
     private int from;
-
     @SerializedName("last_page")
     private int last_page;
-
     @SerializedName("last_page_url")
     private String last_page_url;
-
     @SerializedName("next_page_url")
     private String next_page_url;
-
     @SerializedName("path")
     private String path;
-
     @SerializedName("per_page")
     private int per_page;
-
     @SerializedName("prev_page_url")
     private String prev_page_url;
-
     @SerializedName("to")
     private int to;
-
     @SerializedName("total")
     private int total;
-
 
     protected BlockModel(Parcel in) {
         current_page = in.readInt();
@@ -81,18 +80,6 @@ public class BlockModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<BlockModel> CREATOR = new Creator<BlockModel>() {
-        @Override
-        public BlockModel createFromParcel(Parcel in) {
-            return new BlockModel(in);
-        }
-
-        @Override
-        public BlockModel[] newArray(int size) {
-            return new BlockModel[size];
-        }
-    };
 
     public int getCurrent_page() {
         return current_page;

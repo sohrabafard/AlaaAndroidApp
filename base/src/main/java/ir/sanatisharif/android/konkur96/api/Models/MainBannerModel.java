@@ -7,24 +7,29 @@ import com.google.gson.annotations.SerializedName;
 
 public class MainBannerModel implements Parcelable {
 
+    public static final Creator<MainBannerModel> CREATOR = new Creator<MainBannerModel>() {
+        @Override
+        public MainBannerModel createFromParcel(Parcel in) {
+            return new MainBannerModel(in);
+        }
+
+        @Override
+        public MainBannerModel[] newArray(int size) {
+            return new MainBannerModel[size];
+        }
+    };
     @SerializedName("id")
     private int id;
-
     @SerializedName("title")
     private String title;
-
     @SerializedName("shortDescription")
     private String shortDescription;
-
     @SerializedName("link")
     private String link;
-
     @SerializedName("order")
     private int order;
-
     @SerializedName("updated_at")
     private String updated_at;
-
     @SerializedName("url")
     private String url;
 
@@ -37,18 +42,6 @@ public class MainBannerModel implements Parcelable {
         updated_at = in.readString();
         url = in.readString();
     }
-
-    public static final Creator<MainBannerModel> CREATOR = new Creator<MainBannerModel>() {
-        @Override
-        public MainBannerModel createFromParcel(Parcel in) {
-            return new MainBannerModel(in);
-        }
-
-        @Override
-        public MainBannerModel[] newArray(int size) {
-            return new MainBannerModel[size];
-        }
-    };
 
     public int getId() {
         return id;

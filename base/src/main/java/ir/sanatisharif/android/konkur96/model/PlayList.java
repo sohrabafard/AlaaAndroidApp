@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class PlayList extends Item {
 
-    private ArrayList<DownloadUrl> downloadUrls= new ArrayList<>();
+    private ArrayList<DownloadUrl> downloadUrls = new ArrayList<>();
 
     public ArrayList<DownloadUrl> getDownloadUrls() {
         return downloadUrls;

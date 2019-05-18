@@ -1,24 +1,19 @@
-
 package ir.sanatisharif.android.konkur96.model.main_page.lastVersion;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class LastVersion implements Parcelable
-{
-
-    @SerializedName("android")
-    @Expose
-    private Android android;
+public class LastVersion implements Parcelable {
 
     public final static Creator<LastVersion> CREATOR = new Creator<LastVersion>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public LastVersion createFromParcel(Parcel in) {
             return new LastVersion(in);
@@ -28,8 +23,10 @@ public class LastVersion implements Parcelable
             return (new LastVersion[size]);
         }
 
-    }
-    ;
+    };
+    @SerializedName("android")
+    @Expose
+    private Android android;
 
     protected LastVersion(Parcel in) {
         this.android = ((Android) in.readValue((Android.class.getClassLoader())));
@@ -49,7 +46,7 @@ public class LastVersion implements Parcelable
 
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
     @Override

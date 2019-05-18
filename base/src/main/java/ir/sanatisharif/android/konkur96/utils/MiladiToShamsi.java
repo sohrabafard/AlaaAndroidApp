@@ -7,41 +7,23 @@ import android.util.Log;
 
 public class MiladiToShamsi {
 
+    public static String time;
+    public static String Date;
+    static int shamsiDay, shamsiMonth, shamsiYear;
+    static int dayCount, farvardinDayDiff, deyDayDiff;
+    static int[] sumDayMiladiMonth = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273,
+            304, 334};
+    static int[] sumDayMiladiMonthLeap = {0, 31, 60, 91, 121, 152, 182, 213, 244,
+            274, 305, 335};
     private static int iYear;
     private static int iMonth;
     private static int iDay;
-    public static String time;
-    public static String Date;
-
-    static int shamsiDay, shamsiMonth, shamsiYear;
-
-    static int dayCount, farvardinDayDiff, deyDayDiff;
-
-    public int getiYear() {
-        return iYear;
-    }
-
-    public int getiMonth() {
-        return iMonth;
-    }
-
-    public int getiDay() {
-        return iDay;
-    }
-
-    static int sumDayMiladiMonth[] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273,
-            304, 334};
-
-    static int sumDayMiladiMonthLeap[] = {0, 31, 60, 91, 121, 152, 182, 213, 244,
-            274, 305, 335};
 
     public MiladiToShamsi() {
 
     }
 
-    public static void MiladiToShamsi(int iMiladiMonth, int iMiladiDay, int iMiladiYear)
-
-    {
+    public static void MiladiToShamsi(int iMiladiMonth, int iMiladiDay, int iMiladiYear) {
 
 
         farvardinDayDiff = 79;
@@ -125,36 +107,8 @@ public class MiladiToShamsi {
 
     static Boolean MiladiIsLeap(int miladiYear) {
 
-        if (((miladiYear % 100) != 0 && (miladiYear % 4) == 0)
-                || ((miladiYear % 100) == 0 && (miladiYear % 400) == 0))
-
-            return true;
-        else
-            return false;
-
-    }
-
-    public void dateTime() {
-        String time = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                .format(new Date());
-
-        MiladiToShamsi(Integer.parseInt(time.substring(4, 6)),// month
-                Integer.parseInt(time.substring(6, 8)),// day
-                Integer.parseInt(time.substring(0, 4)));// year
-
-        if (iMonth < 10 && iDay < 10)
-            Date = iYear + "-0" + iMonth + "-0" + iDay;
-        else if (iMonth < 10)
-            Date = iYear + "-0" + iMonth + "-" + iDay;
-        else if (iDay < 10)
-            Date = iYear + "-" + iMonth + "-0" + iDay;
-        else
-            Date = iYear + "-" + iMonth + "-" + iDay;
-
-        MiladiToShamsi.time =
-                time.substring(9, 11) + ":"
-                        + time.substring(11, 13) + ":"
-                        + time.substring(13, 15);
+        return ((miladiYear % 100) != 0 && (miladiYear % 4) == 0)
+                || ((miladiYear % 100) == 0 && (miladiYear % 400) == 0);
 
     }
 
@@ -299,8 +253,44 @@ public class MiladiToShamsi {
 
         }
 
-       // time = date.substring(11, 13) + ":" + date.substring(14, 16);
+        // time = date.substring(11, 13) + ":" + date.substring(14, 16);
         Date = day + " " + temp + " " + year + " ";
+
+    }
+
+    public int getiYear() {
+        return iYear;
+    }
+
+    public int getiMonth() {
+        return iMonth;
+    }
+
+    public int getiDay() {
+        return iDay;
+    }
+
+    public void dateTime() {
+        String time = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                .format(new Date());
+
+        MiladiToShamsi(Integer.parseInt(time.substring(4, 6)),// month
+                Integer.parseInt(time.substring(6, 8)),// day
+                Integer.parseInt(time.substring(0, 4)));// year
+
+        if (iMonth < 10 && iDay < 10)
+            Date = iYear + "-0" + iMonth + "-0" + iDay;
+        else if (iMonth < 10)
+            Date = iYear + "-0" + iMonth + "-" + iDay;
+        else if (iDay < 10)
+            Date = iYear + "-" + iMonth + "-0" + iDay;
+        else
+            Date = iYear + "-" + iMonth + "-" + iDay;
+
+        MiladiToShamsi.time =
+                time.substring(9, 11) + ":"
+                        + time.substring(11, 13) + ":"
+                        + time.substring(13, 15);
 
     }
 

@@ -1,6 +1,7 @@
 package ir.sanatisharif.android.konkur96.api;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
@@ -27,12 +28,48 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static Retrofit retrofit;
-    private static OkHttpClient.Builder httpClient;
     private static final String BASE_URL = "https://dev.alaatv.com:8082/";
     //  private static final String BASE_URL = "http://79.127.123.246:8083/";
     private static final long cacheSize = 10 * 1024 * 1024; // 10 MB
+    static Interceptor onlineInterceptor = new Interceptor() {
+        @Override
+        public okhttp3.Response intercept(Chain chain) throws IOException {
 
+            Request original = chain.request();
+            Request.Builder builder = original.newBuilder();
+            builder.addHeader("Content-Type", "application/json");
+            builder.addHeader("Accept", "application/json");
+            builder.addHeader("X-Requested-With", "XMLHttpRequest");
+            if (MyPreferenceManager.getInatanse().isAuthorize())
+                builder.addHeader("Authorization", "Bearer " + MyPreferenceManager.getInatanse().getApiToken());
+            okhttp3.Response response = chain.proceed(builder.build());
+
+            handelStatusCode(response.code());
+            //  Log.i("LOG", "intercept: " + response.request().url() + " " + response.code());
+
+            int maxAge = 10; // read from cache for 10 seconds even if there is internet connection
+            return response.newBuilder()
+                    .header("Cache-Control", "public, max-age=" + maxAge)
+                    .removeHeader("Pragma")
+                    .build();
+        }
+    };
+    private static Retrofit retrofit;
+    private static OkHttpClient.Builder httpClient;
+    private static Interceptor offlineInterceptor = new Interceptor() {
+        @Override
+        public okhttp3.Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            if (!isConnected()) {
+                int maxStale = 60 * 60 * 24 * 30; // Offline cache available for 30 days
+                request = request.newBuilder()
+                        .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
+                        .removeHeader("Pragma")
+                        .build();
+            }
+            return chain.proceed(request);
+        }
+    };
 
     public static Retrofit getInstance() {
 
@@ -52,30 +89,6 @@ public class RetrofitClient {
         }
         return retrofit;
     }
-
-    static Interceptor onlineInterceptor = new Interceptor() {
-        @Override
-        public okhttp3.Response intercept(Chain chain) throws IOException {
-
-            Request original = chain.request();
-            Request.Builder builder = original.newBuilder();
-            builder.addHeader("Content-Type", "application/json");
-            builder.addHeader("Accept", "application/json");
-            builder.addHeader("X-Requested-With", "XMLHttpRequest");
-            if (MyPreferenceManager.getInatanse().isAuthorize())
-                builder.addHeader("Authorization", "Bearer " + MyPreferenceManager.getInatanse().getApiToken());
-            okhttp3.Response response = chain.proceed(builder.build());
-
-            handelStatusCode(response.code());
-          //  Log.i("LOG", "intercept: " + response.request().url() + " " + response.code());
-
-            int maxAge = 10; // read from cache for 10 seconds even if there is internet connection
-            return response.newBuilder()
-                    .header("Cache-Control", "public, max-age=" + maxAge)
-                    .removeHeader("Pragma")
-                    .build();
-        }
-    };
 
     ///http://developer.android.com/
     private static boolean handelStatusCode(int code) {
@@ -119,21 +132,6 @@ public class RetrofitClient {
         return valid;
     }
 
-    private static Interceptor offlineInterceptor = new Interceptor() {
-        @Override
-        public okhttp3.Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            if (!isConnected()) {
-                int maxStale = 60 * 60 * 24 * 30; // Offline cache available for 30 days
-                request = request.newBuilder()
-                        .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                        .removeHeader("Pragma")
-                        .build();
-            }
-            return chain.proceed(request);
-        }
-    };
-
     private static void handleToast(String msg) {
         AppConfig.HANDLER.post(new Runnable() {
             @Override
@@ -147,7 +145,7 @@ public class RetrofitClient {
     private static boolean isConnected() {
         try {
             android.net.ConnectivityManager e = (android.net.ConnectivityManager) AppConfig.context.getSystemService(
-                    AppConfig.context.CONNECTIVITY_SERVICE);
+                    Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = e.getActiveNetworkInfo();
             return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
         } catch (Exception e) {

@@ -94,12 +94,12 @@ public class ExtraItemFrg extends BaseFragment {
     private void initView(View v) {
 
         setHasOptionsMenu(true);
-        mToolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        mToolbar = v.findViewById(R.id.toolbar);
         setToolbar(mToolbar, "");
 
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
-        myRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
+        myRecyclerView = v.findViewById(R.id.recyclerView);
         myRecyclerView.setNestedScrollingEnabled(false);
         myRecyclerView.setHasFixedSize(true);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));

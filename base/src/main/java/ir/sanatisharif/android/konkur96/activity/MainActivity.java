@@ -1,5 +1,6 @@
 package ir.sanatisharif.android.konkur96.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -71,15 +72,13 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_F
 //https://blog.iamsuleiman.com/bottom-navigation-bar-android-tutorial/
 public class MainActivity extends ActivityBase implements AHBottomNavigation.OnTabSelectedListener, ICheckNetwork {
 
-    private FirebaseAnalytics mFirebaseAnalytics;
     private static final String TAG = "MainActivity";
+    private static Stack<Fragment> fragments;
+    private static FragmentManager fm;
+    private FirebaseAnalytics mFirebaseAnalytics;
     private NetworkChangedReceiver networkChangedReceiver;
     private AccountInfo accountInfo;
-
-    private static AHBottomNavigation bottomNavigation;
-    private static Stack<Fragment> fragments;
-
-    private static FragmentManager fm;
+    private AHBottomNavigation bottomNavigation;
     private Repository repository;
 
     //--- primitive define type-----
@@ -90,6 +89,22 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         return new MainActivity();
     }
 
+    public static void addFrg(Fragment frg, String tag) {
+
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(R.id.fl_container, frg, tag);
+        // transaction.setCustomAnimations(R.anim.left_enter, R.anim.right_out);
+
+        if (fragments.size() == 0) {
+            fragments.push(frg);
+
+        } else {
+            fragments.lastElement().onPause();
+            transaction.hide(fragments.lastElement());
+            fragments.push(frg);
+        }
+        transaction.commit();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +130,8 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         //-----------add FirstFragment
 
         addFrg(AllaMainFrg.newInstance(), "alla");
-      //  addFrg(DetailsVideoFrg.newInstance("https://alaatv.com/c/9841"), "DetailsVideoFrg");
-       //-------- handle deep link
+        //  addFrg(DetailsVideoFrg.newInstance("https://alaatv.com/c/9841"), "DetailsVideoFrg");
+        //-------- handle deep link
         if (getIntent() != null)
             handleIntent(getIntent());
 
@@ -290,24 +305,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         }
     }
 
-
-    public static void addFrg(Fragment frg, String tag) {
-
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.add(R.id.fl_container, frg, tag);
-        // transaction.setCustomAnimations(R.anim.left_enter, R.anim.right_out);
-
-        if (fragments.size() == 0) {
-            fragments.push(frg);
-
-        } else {
-            fragments.lastElement().onPause();
-            transaction.hide(fragments.lastElement());
-            fragments.push(frg);
-        }
-        transaction.commit();
-    }
-
     public void close() {
 
         if (fragments.size() > 1) {
@@ -409,11 +406,11 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
                 if (payment.getStatus() == 100) {
 
-                    Toast.makeText(this, "پرداخت با موفقیت انجام شد. کد پیگیری شما: " + String.valueOf(payment.getRefID()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "پرداخت با موفقیت انجام شد. کد پیگیری شما: " + payment.getRefID(), Toast.LENGTH_LONG).show();
                     notifyTransaction(amount, authority, String.valueOf(payment.getRefID()));
                 } else {
 
-                    Toast.makeText(this, "خطا : " + String.valueOf(payment.getStatus()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "خطا : " + payment.getStatus(), Toast.LENGTH_LONG).show();
                     notifyTransaction(amount, authority, String.valueOf(payment.getRefID()));
                 }
 

@@ -24,11 +24,11 @@ import ir.sanatisharif.android.konkur96.utils.Utils;
 
 public class ViewSliderAdapterInShop extends PagerAdapter {
 
+    int h;
     private Context mContext;
     private ImageView img;
     private List<MainBannerModel> imageList;
     private LayoutInflater inflater;
-    int h;
 
     public ViewSliderAdapterInShop(Context context, List<MainBannerModel> list) {
         mContext = context;
@@ -50,7 +50,7 @@ public class ViewSliderAdapterInShop extends PagerAdapter {
         img.getLayoutParams().height = h;
 
 
-        Picasso.with(mContext)
+        Picasso.get()
                 .load(imageList.get(position).getUrl())
                 .centerCrop()
                 .resize(1280, 500)
@@ -65,7 +65,7 @@ public class ViewSliderAdapterInShop extends PagerAdapter {
 //                    @Override
 //                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
 //                        img.setImageDrawable(resource);
-//                    }
+//                    }0919
 //                });
         img.setOnClickListener(view -> {
             Utils.loadUrl(imageList.get(position).getLink(), AppConfig.context);

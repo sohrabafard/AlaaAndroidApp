@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import ir.sanatisharif.android.konkur96.R;
 
 
-
-
 public interface LoadingItem extends BaseLinearLayoutManagerItem {
 
 

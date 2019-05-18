@@ -1,27 +1,21 @@
-
 package ir.sanatisharif.android.konkur96.model;
 
 import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Tags_ implements Parcelable
-{
+public class Tags_ implements Parcelable {
 
-    @SerializedName("bucket")
-    @Expose
-    private String bucket;
-    @SerializedName("tags")
-    @Expose
-    private List<String> tags = null;
     public final static Creator<Tags_> CREATOR = new Creator<Tags_>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public Tags_ createFromParcel(Parcel in) {
             return new Tags_(in);
@@ -31,8 +25,13 @@ public class Tags_ implements Parcelable
             return (new Tags_[size]);
         }
 
-    }
-    ;
+    };
+    @SerializedName("bucket")
+    @Expose
+    private String bucket;
+    @SerializedName("tags")
+    @Expose
+    private List<String> tags = null;
 
     protected Tags_(Parcel in) {
         this.bucket = ((String) in.readValue((String.class.getClassLoader())));
@@ -74,7 +73,7 @@ public class Tags_ implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

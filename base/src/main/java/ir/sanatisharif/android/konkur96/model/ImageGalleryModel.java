@@ -5,16 +5,6 @@ import android.os.Parcelable;
 
 public class ImageGalleryModel implements Parcelable {
 
-    private String imagePath;
-    private String imageTitle;
-    private String imageDesc;
-
-    public ImageGalleryModel(Parcel in) {
-        imagePath = in.readString();
-        imageTitle = in.readString();
-        imageDesc = in.readString();
-    }
-
     public static final Creator<ImageGalleryModel> CREATOR = new Creator<ImageGalleryModel>() {
         @Override
         public ImageGalleryModel createFromParcel(Parcel in) {
@@ -26,6 +16,15 @@ public class ImageGalleryModel implements Parcelable {
             return new ImageGalleryModel[size];
         }
     };
+    private String imagePath;
+    private String imageTitle;
+    private String imageDesc;
+
+    public ImageGalleryModel(Parcel in) {
+        imagePath = in.readString();
+        imageTitle = in.readString();
+        imageDesc = in.readString();
+    }
 
     public ImageGalleryModel() {
 
@@ -54,7 +53,6 @@ public class ImageGalleryModel implements Parcelable {
     public void setImageDesc(String imageDesc) {
         this.imageDesc = imageDesc;
     }
-
 
 
     @Override

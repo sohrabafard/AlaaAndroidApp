@@ -12,75 +12,67 @@ import java.util.Objects;
 
 public class ProductModel implements Parcelable {
 
+    public static final Creator<ProductModel> CREATOR = new Creator<ProductModel>() {
+        @Override
+        public ProductModel createFromParcel(Parcel in) {
+            return new ProductModel(in);
+        }
+
+        @Override
+        public ProductModel[] newArray(int size) {
+            return new ProductModel[size];
+        }
+    };
     @SerializedName("id")
     private int id;
-
     @SerializedName("redirectUrl")
     private String redirectUrl;
-
     @SerializedName("name")
     private String name;
-
     @SerializedName("isFree")
     private int isFree;
-
     @SerializedName("amount")
     private long amount;
-
     @SerializedName("shortDescription")
     private String shortDescription;
-
     @SerializedName("longDescription")
     private String longDescription;
-
     @SerializedName("tags")
     private TagModel tags;
-
     @SerializedName("introVideo")
     private String introVideo;
 
+//    @SerializedName("page_view")
+//    private String page_view;
     @SerializedName("order")
     private int order;
 
-//    @SerializedName("page_view")
-//    private String page_view;
-
-    @SerializedName("updated_at")
-    private String updated_at;
-
 //    @SerializedName("gift")
 //    private String gift;
-
+    @SerializedName("updated_at")
+    private String updated_at;
     @SerializedName("type")
     private TypeModel type;
-
     @SerializedName("photo")
     private String photo;
-
-    @SerializedName("attributes")
-    @Expose
-    private AttributesModel attributes;
 
 //    @SerializedName("samplePhotos")
 //    @Expose
 //    private Map<String, ProductPhotoModel> samplePhotos;
-
+    @SerializedName("attributes")
+    @Expose
+    private AttributesModel attributes;
     @SerializedName("samplePhotos")
     @Expose
     private ArrayList<ProductPhotoModel> samplePhotos;
-
     @SerializedName("price")
     private PriceModel price;
-
     @SerializedName("bons")
     private ArrayList<BonModel> bons;
-
     @SerializedName("children")
     private ArrayList<ProductModel> children;
-
     @SerializedName("sets")
     private ArrayList<ProductSetModel> sets;
-
 
     protected ProductModel(Parcel in) {
         id = in.readInt();
@@ -131,18 +123,6 @@ public class ProductModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<ProductModel> CREATOR = new Creator<ProductModel>() {
-        @Override
-        public ProductModel createFromParcel(Parcel in) {
-            return new ProductModel(in);
-        }
-
-        @Override
-        public ProductModel[] newArray(int size) {
-            return new ProductModel[size];
-        }
-    };
 
     public int getId() {
         return id;

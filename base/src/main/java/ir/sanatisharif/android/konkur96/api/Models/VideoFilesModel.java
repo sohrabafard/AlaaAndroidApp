@@ -7,18 +7,25 @@ import com.google.gson.annotations.SerializedName;
 
 public class VideoFilesModel implements Parcelable {
 
+    public static final Creator<VideoFilesModel> CREATOR = new Creator<VideoFilesModel>() {
+        @Override
+        public VideoFilesModel createFromParcel(Parcel in) {
+            return new VideoFilesModel(in);
+        }
+
+        @Override
+        public VideoFilesModel[] newArray(int size) {
+            return new VideoFilesModel[size];
+        }
+    };
     @SerializedName("id")
     private int id;
-
     @SerializedName("name")
     private String name;
-
     @SerializedName("description")
     private String description;
-
     @SerializedName("file")
     private VideoFilesListModel file;
-
     @SerializedName("thumbnail")
     private String thumbnail;
 
@@ -43,18 +50,6 @@ public class VideoFilesModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<VideoFilesModel> CREATOR = new Creator<VideoFilesModel>() {
-        @Override
-        public VideoFilesModel createFromParcel(Parcel in) {
-            return new VideoFilesModel(in);
-        }
-
-        @Override
-        public VideoFilesModel[] newArray(int size) {
-            return new VideoFilesModel[size];
-        }
-    };
 
     public int getId() {
         return id;

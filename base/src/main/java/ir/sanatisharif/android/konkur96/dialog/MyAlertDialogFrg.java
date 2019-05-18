@@ -104,7 +104,7 @@ public class MyAlertDialogFrg extends BaseDialogFragment<MyAlertDialogFrg> {
         if (message != null) {
             if (html) {
                 txtMessage.setText(Html.fromHtml(message.trim()));
-                txtMessage.setMovementMethod (LinkMovementMethod.getInstance());
+                txtMessage.setMovementMethod(LinkMovementMethod.getInstance());
             } else
                 txtMessage.setText(message.trim());
         }

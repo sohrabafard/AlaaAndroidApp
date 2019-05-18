@@ -6,7 +6,7 @@ package ir.sanatisharif.android.konkur96.model;
 
 public class Test {
 
-    private  String user_id;
+    private String user_id;
     private String content;
     private String media_name;
 

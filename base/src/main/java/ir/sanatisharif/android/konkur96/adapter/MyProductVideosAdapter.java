@@ -44,12 +44,11 @@ public class MyProductVideosAdapter extends RecyclerView.Adapter<MyProductVideos
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
 
-
         Video item = itemsList.get(position);
 
         holder.title.setText(item.getName());
 
-       // holder.cardView.setOnClickListener(view -> addFrg(MoreProductSetFragment.newInstance(item.getContentUrl()),"MoreProductSetFragment"));
+        // holder.cardView.setOnClickListener(view -> addFrg(MoreProductSetFragment.newInstance(item.getContentUrl()),"MoreProductSetFragment"));
 
 
     }

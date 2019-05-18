@@ -45,20 +45,18 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
     //------init UI
     private static final String TAG = "LOG";
+    private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
+    private static final int PERMISSION_ALL = 1;
     private static ArrayList<Video> videos = new ArrayList<>();
     private static String title;
-
     private TextView txtDownload;
     private TextView txtCancel;
     private RadioGroup radioGroup;
     private RadioButton radioExcellentQuality;
-    private RadioButton radioHighQuality;
-    private RadioButton radioMediumQuality;
 
     //------
-
-    private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
-    private static final int PERMISSION_ALL = 1;
+    private RadioButton radioHighQuality;
+    private RadioButton radioMediumQuality;
     private View dialog;
     private SharedPreferences sharedPreferences;
     private DownloadComplete downloadComplete;
@@ -68,6 +66,18 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         videos.addAll(v);
         title = t;
         return frag;
+    }
+
+    //---------------------------------------------------------------------------------------
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public void setData(List<Video> v, String t) {
@@ -103,6 +113,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
         return dialog;
     }
+    // ----- get Permission
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -184,7 +195,6 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             }
         });
     }
-    // ----- get Permission
 
     private boolean checkLocationPermission() {
 
@@ -196,18 +206,6 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             return true;
         }
         return false;
-    }
-
-    //---------------------------------------------------------------------------------------
-    public static boolean hasPermissions(Context context, String... permissions) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     private void createDir(String url, String title) {

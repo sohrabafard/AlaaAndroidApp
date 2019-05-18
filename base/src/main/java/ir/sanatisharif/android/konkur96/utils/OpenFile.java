@@ -1,4 +1,3 @@
-
 package ir.sanatisharif.android.konkur96.utils;
 
 import android.content.Intent;
@@ -15,7 +14,7 @@ public class OpenFile {
             return null;
         /* 取得扩展名 */
         String end = file.getName()
-                .substring(file.getName().lastIndexOf(".") + 1, file.getName().length())
+                .substring(file.getName().lastIndexOf(".") + 1)
                 .toLowerCase();
         /* 依扩展名的类型决定MimeType */
         if (end.equals("m4a") || end.equals("mp3") || end.equals("mid") || end.equals("xmf")
@@ -63,7 +62,7 @@ public class OpenFile {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse("file://" + param),
-         "application/vnd.android.package-archive");
+                "application/vnd.android.package-archive");
         return intent;
     }
 

@@ -43,14 +43,14 @@ public class FilterCoursesDialogFrg extends BaseDialogFragment<FilterCoursesDial
     private Spinner spinnerSection;
     private Spinner spinnerField;
 
-    public FilterCoursesDialogFrg setFilterSelectedCallback(FilterSelectedCallback callback) {
-        this.callback = callback;
-        return this;
-    }
-
     public static FilterCoursesDialogFrg newInstance(ArrayList<DownloadUrl> Urls) {
         FilterCoursesDialogFrg frag = new FilterCoursesDialogFrg();
         return frag;
+    }
+
+    public FilterCoursesDialogFrg setFilterSelectedCallback(FilterSelectedCallback callback) {
+        this.callback = callback;
+        return this;
     }
 
     @Override
@@ -80,8 +80,8 @@ public class FilterCoursesDialogFrg extends BaseDialogFragment<FilterCoursesDial
         super.onViewCreated(view, savedInstanceState);
 
         btnOk = dialog.findViewById(R.id.btnOK);
-        spinnerField = (Spinner) dialog.findViewById(R.id.spinnerField);
-        spinnerSection = (Spinner) dialog.findViewById(R.id.spinnerSection);
+        spinnerField = dialog.findViewById(R.id.spinnerField);
+        spinnerSection = dialog.findViewById(R.id.spinnerSection);
 
 
         spinnerField.setOnItemSelectedListener(this);

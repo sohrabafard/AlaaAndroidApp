@@ -7,12 +7,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class PaymentVerificationResponse implements Parcelable {
 
+    public static final Creator<PaymentVerificationResponse> CREATOR = new Creator<PaymentVerificationResponse>() {
+        @Override
+        public PaymentVerificationResponse createFromParcel(Parcel in) {
+            return new PaymentVerificationResponse(in);
+        }
+
+        @Override
+        public PaymentVerificationResponse[] newArray(int size) {
+            return new PaymentVerificationResponse[size];
+        }
+    };
     @SerializedName("Status")
     private int Status;
-
     @SerializedName("RefID")
     private int RefID;
-
 
     protected PaymentVerificationResponse(Parcel in) {
         Status = in.readInt();
@@ -29,18 +38,6 @@ public class PaymentVerificationResponse implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<PaymentVerificationResponse> CREATOR = new Creator<PaymentVerificationResponse>() {
-        @Override
-        public PaymentVerificationResponse createFromParcel(Parcel in) {
-            return new PaymentVerificationResponse(in);
-        }
-
-        @Override
-        public PaymentVerificationResponse[] newArray(int size) {
-            return new PaymentVerificationResponse[size];
-        }
-    };
 
     public int getStatus() {
         return Status;

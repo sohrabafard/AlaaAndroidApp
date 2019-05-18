@@ -49,7 +49,7 @@ public class ContentItemAdapter extends RecyclerView.Adapter<ContentItemAdapter.
             @Override
             public void OnClick(int position) {
                 if (item.getContenttypeId() == 8)
-                   // addFrg(DetailsVideoFrg.newInstance(item.getApiUrl().getV1()), "DetailsVideoFrg");
+                    // addFrg(DetailsVideoFrg.newInstance(item.getApiUrl().getV1()), "DetailsVideoFrg");
                     addFrg(DetailsVideoFrg.newInstance(item), "DetailsVideoFrg");
             }
         });

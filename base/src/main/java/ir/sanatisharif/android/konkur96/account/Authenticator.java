@@ -6,15 +6,15 @@ package ir.sanatisharif.android.konkur96.account;
 
 public interface Authenticator {
 
-    public void  addNewAccount();
+    void addNewAccount();
+
     /**
      * Synchronously retrieves an auth token.
-     *
      */
-    public String getAuthToken() ;
+    String getAuthToken();
 
     /**
      * Invalidates the provided auth token.
      */
-    public void invalidateAuthToken(String authToken);
+    void invalidateAuthToken(String authToken);
 }

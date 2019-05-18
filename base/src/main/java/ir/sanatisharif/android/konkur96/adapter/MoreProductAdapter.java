@@ -40,20 +40,19 @@ public class MoreProductAdapter extends RecyclerView.Adapter<MoreProductAdapter.
     public void onBindViewHolder(final ContentHolder holder, final int position) {
 
 
-
         ProductModel item = itemsList.get(position);
 
         holder.customShopItemView.setClickItem(position, item);
         holder.customShopItemView.setTitle(item.getName());
         holder.customShopItemView.setPrice(ShopUtils.formatPrice(item.getPrice().getMfinal()));
-        if (item.getPrice().getDiscount() > 0){
+        if (item.getPrice().getDiscount() > 0) {
 
             holder.customShopItemView.setDiscount(ShopUtils.formatPrice(item.getPrice().getBase()));
 
         }
         holder.customShopItemView.setImage(item.getPhoto());
 
-        holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ProductDetailFragment.newInstance(item),"ProductDetailFragment"));
+        holder.getCustomCatItem().setOnClickItem((position1, item1) -> addFrg(ProductDetailFragment.newInstance(item), "ProductDetailFragment"));
 
 
     }

@@ -33,13 +33,13 @@ import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Util;
 
 import ir.sanatisharif.android.konkur96.R;
-public class VideoPlayerActivity extends AppCompatActivity implements View.OnClickListener{
+
+public class VideoPlayerActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String KEY_PLAY_WHEN_READY = "play_when_ready";
     private static final String KEY_WINDOW = "window";
     private static final String KEY_POSITION = "position";
 
-    private SimpleExoPlayerView playerView;
     private SimpleExoPlayer player;
 
     private Timeline.Window window;
@@ -50,7 +50,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
     private BandwidthMeter bandwidthMeter;
 
     private ProgressBar progressBar;
-   // private ImageView ivHideControllerButton;
+    // private ImageView ivHideControllerButton;
     private ImageView ivSettings;
     private boolean playWhenReady;
     private int currentWindow;
@@ -77,7 +77,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
                 Util.getUserAgent(this, "mediaPlayerSample"),
                 (TransferListener<? super DataSource>) bandwidthMeter);
         window = new Timeline.Window();
-       // ivHideControllerButton = findViewById(R.id.exo_controller);
+        // ivHideControllerButton = findViewById(R.id.exo_controller);
         ivSettings = findViewById(R.id.settings);
         progressBar = findViewById(R.id.progress_bar);
 
@@ -85,8 +85,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
 
     private void initializePlayer() {
 
-         playerView = (SimpleExoPlayerView) findViewById(R.id.player_view);
-       // playerView = findViewById(R.id.player_view);
+        SimpleExoPlayerView playerView = findViewById(R.id.player_view);
+        // playerView = findViewById(R.id.player_view);
         playerView.requestFocus();
 
         TrackSelection.Factory videoTrackSelectionFactory =
@@ -223,7 +223,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private class PlayerEventListener extends Player.DefaultEventListener{
+    private class PlayerEventListener extends Player.DefaultEventListener {
 
         @Override
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {

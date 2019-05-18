@@ -20,9 +20,8 @@ import ir.sanatisharif.android.konkur96.app.AppConstants;
 
 public class FileManager {
 
-    private ArrayList<File> filesArrayList = new ArrayList<>();
-
     private static FileManager fileManager;
+    private ArrayList<File> filesArrayList = new ArrayList<>();
 
     public static FileManager getInstance() {
         if (fileManager == null)
@@ -98,9 +97,7 @@ public class FileManager {
     public static boolean checkFileExist(String path) {
 
         File file = new File(path);
-        if (file.exists())
-            return true;
-        return false;
+        return file.exists();
     }
 
     public static Boolean createAudioDir() {

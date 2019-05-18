@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.List;
-;
+
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -36,10 +36,10 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.MORE_VIDEO_OFFLI
 
 public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    int width = 0;
     private List<MainItem> dataList;
     private Context mContext;
     private OnItemClickListener mClickListener;
-    int width = 0;
     //private SnapHelper snapHelper;
 
     public MainItemAdapter(Context context, List<MainItem> dataList) {
@@ -184,7 +184,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items, null));
             itemRowHolder.view_pager.startAutoScroll();
 
-            itemRowHolder.indicator = (CirclePageIndicator) itemRowHolder.itemView.findViewById(R.id.indicator);
+            itemRowHolder.indicator = itemRowHolder.itemView.findViewById(R.id.indicator);
             itemRowHolder.indicator.setViewPager(itemRowHolder.view_pager);
 
         } else if (viewType == AppConstants.VIDEO_OFFLINE_ITEM) {
@@ -270,7 +270,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private SliderHolder(View view) {
             super(view);
 
-            view_pager = (AutoScrollViewPager) view.findViewById(R.id.view_pager);
+            view_pager = view.findViewById(R.id.view_pager);
 
             view_pager.startAutoScroll(5000);
             view_pager.setBorderAnimation(true);

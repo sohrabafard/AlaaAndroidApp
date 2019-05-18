@@ -53,25 +53,28 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class AppConfig extends Application {
 
+    //new
+    public static final String TAG = AppConfig.class.getSimpleName();
     public static AppConfig mInstance;
     public static Context context;
     public static Activity currentActivity;
     public static Handler HANDLER = new Handler();
     public static LayoutInflater layoutinflater;
-    static ConnectivityManager Manager = null;
     public static int width = 140, height = 140, itemHeight = 140, shopItemHeight = 100;
     public static boolean showNoInternetDialog = false;
     // Font
     public static Typeface fontIRSensLight;
     public static Typeface fontIRSensNumber;
-
-    //new
-    public static final String TAG = AppConfig.class.getSimpleName();
     public static SharedPreferences sharedPreferencesSetting;
-
-    private FirebaseAnalytics mFirebaseAnalytics;
     public static int[] colorSwipeRefreshing;
     public static String BASE_URL = "https://alaatv.com/";
+    static ConnectivityManager Manager = null;
+    private final AppComponent mAppComponent = DaggerAppComponent.builder().apiModule(new ApiModule()).build();
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+    public static synchronized AppConfig getInstance() {
+        return mInstance;
+    }
 
     @Override
     public void onCreate() {
@@ -86,7 +89,6 @@ public class AppConfig extends Application {
         Fabric.with(this, new Crashlytics());
         Crashlytics.setBool("InstantApp", InstantApps.isInstantApp(this));
 
-        // MultiDex.install(this);
         mInstance = this;
         context = getApplicationContext();
         BASE_URL = getString(R.string.alla_url);
@@ -137,16 +139,8 @@ public class AppConfig extends Application {
                     };
     }
 
-
-    private final AppComponent mAppComponent = DaggerAppComponent.builder().apiModule(new ApiModule()).build();
-
-
     public AppComponent getAppComponent() {
         return mAppComponent;
-    }
-
-    public static synchronized AppConfig getInstance() {
-        return mInstance;
     }
 
     public void setICheckNetwork(ICheckNetwork iCheckNetwork) {

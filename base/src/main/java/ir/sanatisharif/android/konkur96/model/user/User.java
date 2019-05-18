@@ -1,4 +1,3 @@
-
 package ir.sanatisharif.android.konkur96.model.user;
 
 import android.os.Parcel;
@@ -10,6 +9,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class User implements Parcelable {
 
+    public final static Parcelable.Creator<User> CREATOR = new Creator<User>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        public User[] newArray(int size) {
+            return (new User[size]);
+        }
+
+    };
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -100,50 +114,34 @@ public class User implements Parcelable {
     private int gender_id;
     private int major_id;
 
-    public final static Parcelable.Creator<User> CREATOR = new Creator<User>() {
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        public User[] newArray(int size) {
-            return (new User[size]);
-        }
-
-    };
-
     protected User(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.firstName = ((String) in.readValue((String.class.getClassLoader())));
         this.lastName = ((String) in.readValue((String.class.getClassLoader())));
-        this.nameSlug = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.nameSlug = in.readValue((Object.class.getClassLoader()));
         this.mobile = ((String) in.readValue((String.class.getClassLoader())));
         this.password = ((String) in.readValue((String.class.getClassLoader())));
-        this.emailVerifiedAt = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.mobileVerifiedAt = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.whatsapp = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.skype = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.emailVerifiedAt = in.readValue((Object.class.getClassLoader()));
+        this.mobileVerifiedAt = in.readValue((Object.class.getClassLoader()));
+        this.whatsapp = in.readValue((Object.class.getClassLoader()));
+        this.skype = in.readValue((Object.class.getClassLoader()));
         this.nationalCode = ((String) in.readValue((String.class.getClassLoader())));
         this.lockProfile = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.photo = ((String) in.readValue((String.class.getClassLoader())));
-        this.province = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.city = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.address = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.postalCode = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.school = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.province = in.readValue((Object.class.getClassLoader()));
+        this.city = in.readValue((Object.class.getClassLoader()));
+        this.address = in.readValue((Object.class.getClassLoader()));
+        this.postalCode = in.readValue((Object.class.getClassLoader()));
+        this.school = in.readValue((Object.class.getClassLoader()));
         this.createdAt = ((String) in.readValue((String.class.getClassLoader())));
         this.updatedAt = ((String) in.readValue((String.class.getClassLoader())));
         this.email = ((String) in.readValue((String.class.getClassLoader())));
-        this.bio = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.introducedBy = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.bloodtypeId = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.allergy = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.medicalCondition = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.diet = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.bio = in.readValue((Object.class.getClassLoader()));
+        this.introducedBy = in.readValue((Object.class.getClassLoader()));
+        this.bloodtypeId = in.readValue((Object.class.getClassLoader()));
+        this.allergy = in.readValue((Object.class.getClassLoader()));
+        this.medicalCondition = in.readValue((Object.class.getClassLoader()));
+        this.diet = in.readValue((Object.class.getClassLoader()));
         this.info = ((Info) in.readValue((Info.class.getClassLoader())));
         this.fullName = ((String) in.readValue((String.class.getClassLoader())));
         this.major_id = ((int) in.readValue((String.class.getClassLoader())));
@@ -152,7 +150,6 @@ public class User implements Parcelable {
 
     public User() {
     }
-
 
 
     public Integer getId() {

@@ -1,4 +1,3 @@
-
 package ir.sanatisharif.android.konkur96.model;
 
 import android.os.Parcel;
@@ -10,6 +9,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class Video implements Parcelable {
 
+    public final static Creator<Video> CREATOR = new Creator<Video>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Video createFromParcel(Parcel in) {
+            return new Video(in);
+        }
+
+        public Video[] newArray(int size) {
+            return (new Video[size]);
+        }
+
+    };
     @SerializedName("uuid")
     @Expose
     private String uuid;
@@ -40,33 +54,16 @@ public class Video implements Parcelable {
     @SerializedName("link")
     @Expose
     private String link;
-
     private String path;
     private boolean checked;
     private String name;
-
-    public final static Creator<Video> CREATOR = new Creator<Video>() {
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Video createFromParcel(Parcel in) {
-            return new Video(in);
-        }
-
-        public Video[] newArray(int size) {
-            return (new Video[size]);
-        }
-
-    };
 
     protected Video(Parcel in) {
         this.uuid = ((String) in.readValue((String.class.getClassLoader())));
         this.disk = ((String) in.readValue((String.class.getClassLoader())));
         this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.fileName = ((String) in.readValue((String.class.getClassLoader())));
-        this.size = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.size = in.readValue((Object.class.getClassLoader()));
         this.caption = ((String) in.readValue((String.class.getClassLoader())));
         this.res = ((String) in.readValue((String.class.getClassLoader())));
         this.type = ((String) in.readValue((String.class.getClassLoader())));

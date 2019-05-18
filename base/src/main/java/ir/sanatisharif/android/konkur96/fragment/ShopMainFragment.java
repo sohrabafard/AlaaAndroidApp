@@ -35,20 +35,14 @@ import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    boolean isPaginate = false;
     private RecyclerView shopMainRecyclerView;
     private Toolbar pageToolbar;
     private SwipeRefreshLayout swipeRefreshLayout;
-
     private Repository repository;
-
     private myPaginate paginate;
-
     private LinearLayoutManager linearLayoutManager;
-
     private MainModel mainModel;
-
-    boolean isPaginate = false;
-
     private MainShopItemAdapter adapter;
     private ArrayList<MainShopItem> items = new ArrayList<>();
 
@@ -108,12 +102,12 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
             if (data instanceof Result.Success) {
 
                 setData((MainModel) ((Result.Success) data).value, true);
-               swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setRefreshing(false);
 
             } else {
 
                 Log.d("Test", (String) ((Result.Error) data).value);
-               swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setRefreshing(false);
             }
 
 
@@ -124,7 +118,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
 
     private void getDataPaginat() {
 
-        if (isPaginate){
+        if (isPaginate) {
 
             swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
 
@@ -138,7 +132,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
                 } else {
 
                     Log.d("Test", (String) ((Result.Error) data).value);
-                   swipeRefreshLayout.setRefreshing(false);
+                    swipeRefreshLayout.setRefreshing(false);
                 }
 
 
@@ -157,12 +151,12 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
 
 
         //---------------------- set paginate data ----------------------------------------------
-        if (null != mainModel && null != mainModel.getBlock().getNext_page_url()){
+        if (null != mainModel && null != mainModel.getBlock().getNext_page_url()) {
 
             isPaginate = true;
             paginate.setNoMoreItems(false);
 
-        }else {
+        } else {
 
             isPaginate = false;
             paginate.setNoMoreItems(true);
@@ -179,7 +173,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
 
     private void initView(View v) {
 
-       // swipeRefreshLayout
+        // swipeRefreshLayout
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -187,7 +181,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
         shopMainRecyclerView = v.findViewById(R.id.recyclerView_main_shop);
         shopMainRecyclerView.setNestedScrollingEnabled(false);
         //shopMainRecyclerView.setHasFixedSize(true);
-        linearLayoutManager =new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
         shopMainRecyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MainShopItemAdapter(AppConfig.context, items);
         //adapter.setSize(AppConfig.width, AppConfig.height);
@@ -206,7 +200,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
     public void onDestroy() {
         super.onDestroy();
 
-        if (null !=  paginate){
+        if (null != paginate) {
 
             paginate.unbind();
         }

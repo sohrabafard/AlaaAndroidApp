@@ -49,12 +49,10 @@ public class MyProductVideos extends BaseFragment {
     }
 
 
-
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_myproduct_set, container, false);
     }
-
 
 
     @Override
@@ -125,9 +123,6 @@ public class MyProductVideos extends BaseFragment {
             items = bundle.getParcelableArrayList("list");
         }
     }
-
-
-
 
 
 }

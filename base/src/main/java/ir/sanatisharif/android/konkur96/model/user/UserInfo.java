@@ -1,15 +1,29 @@
-
 package ir.sanatisharif.android.konkur96.model.user;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserInfo implements Parcelable
-{
+public class UserInfo implements Parcelable {
 
+    public final static Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public UserInfo createFromParcel(Parcel in) {
+            return new UserInfo(in);
+        }
+
+        public UserInfo[] newArray(int size) {
+            return (new UserInfo[size]);
+        }
+
+    };
     @SerializedName("status")
     @Expose
     private int status;
@@ -22,22 +36,6 @@ public class UserInfo implements Parcelable
     @SerializedName("data")
     @Expose
     private Data data;
-    public final static Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public UserInfo createFromParcel(Parcel in) {
-            return new UserInfo(in);
-        }
-
-        public UserInfo[] newArray(int size) {
-            return (new UserInfo[size]);
-        }
-
-    }
-    ;
 
     protected UserInfo(Parcel in) {
         this.status = ((int) in.readValue((int.class.getClassLoader())));
@@ -109,7 +107,7 @@ public class UserInfo implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

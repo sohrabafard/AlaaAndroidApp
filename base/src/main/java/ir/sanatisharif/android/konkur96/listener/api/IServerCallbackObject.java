@@ -6,6 +6,7 @@ package ir.sanatisharif.android.konkur96.listener.api;
  */
 public interface IServerCallbackObject {
 
-    public void onSuccess(Object obj);
-    public void onFailure(String message);
+    void onSuccess(Object obj);
+
+    void onFailure(String message);
 }

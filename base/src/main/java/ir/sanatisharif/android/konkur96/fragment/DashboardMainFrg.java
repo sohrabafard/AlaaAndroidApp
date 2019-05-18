@@ -155,7 +155,7 @@ public class DashboardMainFrg extends BaseFragment {
 
         //init
 
-        final CollapsingToolbarLayout collapsing_toolbar = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
+        final CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
         ((AppBarLayout) view.findViewById(R.id.app_bar_layout)).
                 addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                     @Override

@@ -23,25 +23,6 @@ public class ActivityBase extends AppCompatActivity {
 
     FirebaseAnalytics mFirebaseAnalytics;
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        AppConfig.currentActivity = this;
-
-    }
-
     public static void toastShow(final String message, int MDToastType) {
 
         int toastDurationInMilliSeconds = 900;
@@ -67,7 +48,26 @@ public class ActivityBase extends AppCompatActivity {
         AppConfig.width = dm.widthPixels;
         AppConfig.height = dm.heightPixels;
 
-        return (int) (dm.heightPixels / 3);
+        return (dm.heightPixels / 3);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppConfig.currentActivity = this;
+
     }
 
 }

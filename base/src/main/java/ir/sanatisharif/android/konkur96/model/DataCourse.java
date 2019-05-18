@@ -1,4 +1,3 @@
-
 package ir.sanatisharif.android.konkur96.model;
 
 import android.os.Parcel;
@@ -21,6 +20,21 @@ import ir.sanatisharif.android.konkur96.model.main_page.Tags;
 
 public class DataCourse implements Parcelable {
 
+    public final static Creator<DataCourse> CREATOR = new Creator<DataCourse>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public DataCourse createFromParcel(Parcel in) {
+            return new DataCourse(in);
+        }
+
+        public DataCourse[] newArray(int size) {
+            return (new DataCourse[size]);
+        }
+
+    };
     @SerializedName("id")
     @Expose
     private int id;
@@ -88,21 +102,6 @@ public class DataCourse implements Parcelable {
     @SerializedName("set")
     @Expose
     private Set set;
-    public final static Creator<DataCourse> CREATOR = new Creator<DataCourse>() {
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public DataCourse createFromParcel(Parcel in) {
-            return new DataCourse(in);
-        }
-
-        public DataCourse[] newArray(int size) {
-            return (new DataCourse[size]);
-        }
-
-    };
 
     protected DataCourse(Parcel in) {
         this.id = ((int) in.readValue((int.class.getClassLoader())));
@@ -116,7 +115,7 @@ public class DataCourse implements Parcelable {
         this.thumbnail = ((String) in.readValue((String.class.getClassLoader())));
         this.isFree = ((int) in.readValue((int.class.getClassLoader())));
         this.order = ((int) in.readValue((int.class.getClassLoader())));
-        this.pageView = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.pageView = in.readValue((Object.class.getClassLoader()));
         this.createdAt = ((String) in.readValue((String.class.getClassLoader())));
         this.updatedAt = ((String) in.readValue((String.class.getClassLoader())));
         this.url = ((String) in.readValue((String.class.getClassLoader())));

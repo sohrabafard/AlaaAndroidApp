@@ -24,13 +24,6 @@ public class NetworkChangedReceiver extends BroadcastReceiver {
     private static final String TAG = "NetworkChangeReceiver";
     public static ICheckNetwork iCheckNetwork;
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-
-        if (iCheckNetwork != null)
-            iCheckNetwork.onCheckNetwork(isNetworkAvailable(context));
-    }
-
     private static boolean isNetworkAvailable(Context context) {
 
         boolean isConnect = false;
@@ -42,5 +35,12 @@ public class NetworkChangedReceiver extends BroadcastReceiver {
         }
 
         return isConnect;
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+
+        if (iCheckNetwork != null)
+            iCheckNetwork.onCheckNetwork(isNetworkAvailable(context));
     }
 }

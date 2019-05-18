@@ -82,7 +82,7 @@ public class ForumMainFrg extends BaseFragment {
 
     private void initView() {
 
-        mToolbar = (Toolbar) getView().findViewById(R.id.toolbar);
+        mToolbar = getView().findViewById(R.id.toolbar);
         setToolbar(mToolbar, "انجمن آلاء");
         webView = getView().findViewById(R.id.webView);
         swipeRefreshLayout = getView().findViewById(R.id.swipeRefreshLayout);

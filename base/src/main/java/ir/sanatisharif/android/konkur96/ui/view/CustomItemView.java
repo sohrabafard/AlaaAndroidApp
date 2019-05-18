@@ -224,7 +224,7 @@ public class CustomItemView extends LinearLayout {
 //        if (layout == R.layout.product_main_item)
 //            width -= 24;
 //        else
-            width = (int) (height * 1.77f);
+        width = (int) (height * 1.77f);
 
         imgItem.getLayoutParams().width = width;
         imgItem.getLayoutParams().height = height;

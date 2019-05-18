@@ -23,7 +23,6 @@ public final class myPaginateBuilder {
     }
 
 
-
     /**
      * This method setup OnLoadMoreListener object, which will called when you need load data
      *

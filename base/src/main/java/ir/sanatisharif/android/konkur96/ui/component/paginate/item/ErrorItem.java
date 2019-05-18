@@ -14,10 +14,6 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.callback.OnRepeatL
 public interface ErrorItem {
 
 
-    RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType);
-
-    void onBindViewHolder(RecyclerView.ViewHolder holder, int position, OnRepeatListener onRepeatListener);
-
     ErrorItem DEFAULT = new ErrorItem() {
 
         @Override
@@ -31,7 +27,7 @@ public interface ErrorItem {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, final OnRepeatListener onRepeatListener) {
 
-            Button btnRepeat = (Button) holder.itemView.findViewById(R.id.btnRepeat);
+            Button btnRepeat = holder.itemView.findViewById(R.id.btnRepeat);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 btnRepeat.setBackgroundResource(R.drawable.no_pagination_button_ripple);
@@ -48,6 +44,10 @@ public interface ErrorItem {
 
 
     };
+
+    RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType);
+
+    void onBindViewHolder(RecyclerView.ViewHolder holder, int position, OnRepeatListener onRepeatListener);
 
 
 }
