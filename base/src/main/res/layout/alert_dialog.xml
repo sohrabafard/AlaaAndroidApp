@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:gravity="right"
-        android:text="پیشنهاد نصب نسخه آلاء"
+        android:gravity="end"
+        android:text="@string/offerInstallAlaa"
         android:textColor="@color/Black_1"
         android:textSize="20sp" />
 
@@ -18,6 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:gravity="right"
-        android:text="برای استفاده بعضی امکانات باید ثبت نام کنید و باید از نسخه نصبی آلاء استفاده کنید." />
+        android:gravity="end"
+        android:text="@string/shouldInstall" />
 </LinearLayout>

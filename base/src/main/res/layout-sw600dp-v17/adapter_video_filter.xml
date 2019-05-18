@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="top"
+    android:layoutDirection="rtl"
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/White">
 
@@ -16,6 +17,7 @@
             android:id="@+id/layout_click"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
             android:orientation="vertical">
 
             <FrameLayout
@@ -72,9 +74,9 @@
                         android:layout_margin="2dp"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="sssss"
+                        android:text="dddd"
                         android:textColor="@color/Black"
-                        android:textSize="@dimen/_16sdp" />
+                        android:textSize="@dimen/_15sdp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -88,7 +90,7 @@
                             android:layout_margin="2dp"
                             android:text=""
                             android:textColor="#606060"
-                            android:textSize="@dimen/_13sdp" />
+                            android:textSize="@dimen/_11sdp" />
 
                         <TextView
                             android:id="@+id/txtSession"
@@ -98,7 +100,7 @@
                             android:gravity="start|center"
                             android:text=""
                             android:textColor="@color/Monochromatic_1"
-                            android:textSize="@dimen/_13sdp" />
+                            android:textSize="@dimen/_10sdp" />
 
                     </LinearLayout>
 
@@ -110,7 +112,7 @@
                         android:fontFamily="@font/iransansbold"
                         android:text="@string/alla_1"
                         android:textColor="#606060"
-                        android:textSize="@dimen/_14sdp" />
+                        android:textSize="@dimen/_11sdp" />
                 </LinearLayout>
 
 

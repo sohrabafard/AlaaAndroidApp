@@ -5,6 +5,7 @@
     android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary"
     android:gravity="end"
+    android:layoutDirection="ltr"
     android:theme="@style/customToolbar">
 
     <TextView
