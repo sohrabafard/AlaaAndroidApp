@@ -8,31 +8,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.Spannable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.dialog.DownloadDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
@@ -41,13 +34,11 @@ import ir.sanatisharif.android.konkur96.model.filter.PamphletCourse;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.DownloadFile;
 import ir.sanatisharif.android.konkur96.utils.OpenFile;
-import ir.sanatisharif.android.konkur96.utils.URLImageGetter;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 import me.gujun.android.taggroup.TagGroup;
 
 import static ir.sanatisharif.android.konkur96.activity.ActivityBase.toastShow;
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
-
 /**
  * Created by Mohamad on 11/14/2018.
  */
@@ -183,13 +174,10 @@ public class ShowContentInfoFrg extends BaseFragment implements
 
         int id = item.getItemId();
 
-        switch (id) {
-            case android.R.id.home:
-
-                Events.CloseFragment closeFragment = new Events.CloseFragment();
-                closeFragment.setTagFragments("");
-                EventBus.getDefault().post(closeFragment);
-                break;
+        if (id == android.R.id.home) {
+            Events.CloseFragment closeFragment = new Events.CloseFragment();
+            closeFragment.setTagFragments("");
+            EventBus.getDefault().post(closeFragment);
         }
 
         return super.onOptionsItemSelected(item);
@@ -205,16 +193,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
             alert.setListener(new MyAlertDialogFrg.MyAlertDialogListener() {
                 @Override
                 public void setOnPositive() {
-
-                    if (checkLocationPermission()) {
-                        if (course.getFile().getPamphlet().get(0).getLink() != null) {
-                            String url = course.getFile().getPamphlet().get(0).getLink();
-                            String fileName = Utils.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
-                            String name = course.getName();
-                            download(url, fileName, name);
-                        } else
-                            ActivityBase.toastShow("لینک دانلود معتبر نیست!", MDToast.TYPE_ERROR);
-                    }
+                    startFileDownload();
                 }
 
                 @Override
@@ -222,7 +201,10 @@ public class ShowContentInfoFrg extends BaseFragment implements
 
                 }
             });
-            alert.show(getFragmentManager(), "alert");
+            FragmentManager fragmentManager = getFragmentManager();
+            if (fragmentManager != null) {
+                alert.show(fragmentManager, "alert");
+            }
 
         } else if (view.getId() == R.id.btnOpenPDF) {
 
@@ -232,6 +214,18 @@ public class ShowContentInfoFrg extends BaseFragment implements
             }
         }
 
+    }
+
+    private void startFileDownload() {
+        if (checkLocationPermission()) {
+            if (course.getFile().getPamphlet().get(0).getLink() != null) {
+                String url = course.getFile().getPamphlet().get(0).getLink();
+                String fileName = Utils.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
+                String name = course.getName();
+                download(url, fileName, name);
+            } else
+                ActivityBase.toastShow("لینک دانلود معتبر نیست!", MDToast.TYPE_ERROR);
+        }
     }
 
     private void download(String url, String fileName, String name) {
@@ -261,13 +255,11 @@ public class ShowContentInfoFrg extends BaseFragment implements
     private boolean checkLocationPermission() {
 
         boolean has = hasPermissions(getContext(), PERMISSIONS);
-
         if (!has) {
             ActivityCompat.requestPermissions(AppConfig.currentActivity, PERMISSIONS, PERMISSION_ALL);
-        } else {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
 }
