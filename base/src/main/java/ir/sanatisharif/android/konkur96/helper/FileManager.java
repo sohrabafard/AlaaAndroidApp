@@ -1,7 +1,7 @@
 package ir.sanatisharif.android.konkur96.helper;
 
+import android.net.Uri;
 import android.os.Environment;
-import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -127,12 +127,8 @@ public class FileManager {
     }
 
     public static String getPathFromAllaUrl(@NotNull String url) {
-
-        Log.e("FileManager", url);
-        int start = url.indexOf("sanatisharif.ir/");
-        int end = url.lastIndexOf("/");
-
-        return url.substring(start + 16, end + 1);
+        Uri uri = Uri.parse(url);
+        return uri.getPath();
     }
 
     public ArrayList<File> getFilesArrayList() {
