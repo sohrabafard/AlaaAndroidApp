@@ -15,7 +15,7 @@ android {
         applicationId "ir.sanatisharif.android.konkur96"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 40
+        versionCode 41
         versionName "3.0.2"
         multiDexEnabled true
 
@@ -31,6 +31,8 @@ android {
     buildTypes {
         debug {
             debuggable true
+            minifyEnabled false
+            shrinkResources false
             resValue "string", "alla_url", "https://alaatv.com"
         }
         release {
@@ -80,7 +82,7 @@ dependencies {
     api 'com.google.android.exoplayer:exoplayer:2.8.3'
 
     api('com.crashlytics.sdk.android:crashlytics:2.10.0@aar') {
-        transitive = true;
+        transitive = true
     }
 
     //--------------------- UI lib -------------------

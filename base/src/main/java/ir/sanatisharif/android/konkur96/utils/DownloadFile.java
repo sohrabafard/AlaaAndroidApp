@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.util.Log;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
@@ -45,6 +46,24 @@ public class DownloadFile {
         this.d = d;
     }
 
+    public void start(String url, String path, String fileName, String title, String desc, String apiToken) {
+        Uri uri = Uri.parse(url);
+        req = new DownloadManager.Request(uri);
+        req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        // req.setAllowedOverRoaming(false);
+
+        req.setTitle(title);
+        req.setDescription(desc);
+
+        if (apiToken != null) {
+            req.addRequestHeader("Authorization", "Bearer " + apiToken);
+            Log.e("url", url);
+        }
+
+        req.setDestinationInExternalPublicDir(path, fileName);
+        id = mDManager.enqueue(req);
+    }
+
     /**
      * @param url
      * @param path
@@ -54,16 +73,7 @@ public class DownloadFile {
      */
     public void start(String url, String path, String fileName, String title, String desc) {
 
-        Uri uri = Uri.parse(url);
-        req = new DownloadManager.Request(uri);
-        req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        // req.setAllowedOverRoaming(false);
-
-        req.setTitle(title);
-        req.setDescription(desc);
-        req.addRequestHeader("Authorization", "Bearer " + MyPreferenceManager.getInatanse().getApiToken());
-        req.setDestinationInExternalPublicDir(path, fileName);
-        id = mDManager.enqueue(req);
+        start(url, path, fileName, title, desc, null);
     }
 
     public void stop() {

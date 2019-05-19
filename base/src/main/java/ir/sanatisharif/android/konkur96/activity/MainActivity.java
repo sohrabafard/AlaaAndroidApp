@@ -322,12 +322,13 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
     private void manageStack() {
 
-        FragmentTransaction transaction = fm.beginTransaction();
+
 
         boolean showHomeFrg = true;
 
         for (int i = 1; i < fragments.size(); i++) {
             try {
+                FragmentTransaction transaction = fm.beginTransaction();
                 Fragment f = fragments.pop();
                 transaction.remove(f).commit();
                 showHomeFrg = false;
@@ -338,8 +339,9 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
         }
         try {
+            FragmentTransaction transaction = fm.beginTransaction();
             if (!showHomeFrg) {
-                transaction.show(fragments.lastElement());
+                transaction.show(fragments.lastElement()).commit();
             }
         } catch (Exception e) {
             Log.e(TAG, "manageStack-show: error");

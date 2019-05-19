@@ -28,7 +28,6 @@ public class MyPreferenceManager {
     private MyPreferenceManager() {
         sharedPreferences = AppConfig.context.getApplicationContext().getSharedPreferences(PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        editor.apply();
     }
 
     public static MyPreferenceManager getInatanse() {

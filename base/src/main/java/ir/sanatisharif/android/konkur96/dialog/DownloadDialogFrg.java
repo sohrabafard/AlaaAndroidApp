@@ -25,6 +25,7 @@ import android.widget.TextView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
@@ -33,6 +34,7 @@ import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
 import ir.sanatisharif.android.konkur96.model.Video;
+import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.DownloadFile;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
@@ -47,7 +49,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_F
 public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
     //------init UI
-    private static final String TAG = "LOG";
+    private static final String TAG = "DownloadDialogFrg";
     private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
     private static final int PERMISSION_ALL = 1;
     private static ArrayList<Video> videos = new ArrayList<>();
@@ -251,9 +253,13 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                     Utils.addVideoToGallery(f, AppConfig.currentActivity);
                 }
             });
+            Log.e(TAG, "startDL-here");
 
-            DownloadFile.getInstance().start(url, AppConstants.ROOT + "/" + mediaPath, fileName, title, "");
-
+            AuthToken.getInstant().get(Objects.requireNonNull(getContext()), Objects.requireNonNull(getActivity()), token -> {
+                Log.e(TAG, token);
+                if (token != null)
+                    DownloadFile.getInstance().start(url, AppConstants.ROOT + "/" + mediaPath, fileName, title, getResources().getString(R.string.alaa), token);
+            });
         } else {
             Utils.loadUrl(url, getContext());
         }

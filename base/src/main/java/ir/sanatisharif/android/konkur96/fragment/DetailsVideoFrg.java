@@ -73,6 +73,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
@@ -100,6 +101,7 @@ import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
 import ir.sanatisharif.android.konkur96.model.main_page.Content;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
+import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
@@ -109,8 +111,6 @@ import static android.content.Context.KEYGUARD_SERVICE;
 import static android.content.Context.POWER_SERVICE;
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConfig.context;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -118,7 +118,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_F
 
 public class DetailsVideoFrg extends BaseFragment implements View.OnClickListener {
 
-    private final static String TAG = "LOG";
+    private final static String TAG = "DetailsVideoFrg";
     private static final int LOAD_URL = 0;
     private static final int LOAD_CONTENT = 1;
     private static final int LOAD_LIST = 2;
@@ -473,8 +473,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             setData();
         }
 
-        // videoPlayer = new VideoPlayer();
-        //  getLifecycle().addObserver(videoPlayer);
+//         videoPlayer = new VideoPlayer();
+//          getLifecycle().addObserver(videoPlayer);
+        Log.e(TAG, "478");
     }
 
     @Override
@@ -492,13 +493,18 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     private void getData(String url) {
 
-        if (InstantApps.isInstantApp(getContext())) {
+        Context context = getContext();
+        if (context != null && InstantApps.isInstantApp(context)) {
             MainApi.getInstance().getDetailsCourse(url, new IServerCallbackContentCredit() {
                 @Override
                 public void onSuccess(Object obj) {
-                    course = (DataCourse) obj;
-                    setData();
-                    getPlayListFromContentByUrl(course.getSet().getContentUrl());
+                    if (obj != null) {
+                        course = (DataCourse) obj;
+                        setData();
+                        getPlayListFromContentByUrl(course.getSet().getContentUrl());
+                    } else {
+                        Log.i(TAG, "getData-onSuccess: \n\r" + url + "object is null");
+                    }
 
                 }
 
@@ -508,9 +514,12 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                         course = obj.getContent();
                         setData();
                         showSnackBar(obj.getMessage());
+                        Log.e(TAG, "517");
                         setProduct(obj.getProduct());
                         getPlayListFromContentByUrl(course.getSet().getContentUrl());
 
+                    } else {
+                        Log.i(TAG, "getData-if-onSuccessCredit: \n\r" + url + "object is null");
                     }
                 }
 
@@ -519,19 +528,13 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     Log.i(TAG, "onSuccess:error " + message);
                 }
             });
-        } else {
+        } else if (context != null) {
 
-            accountInfo = new AccountInfo(getContext(), getActivity());
-            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
-                @Override
-                public void onToken(String token) {
-                    // setAuth
-                    MyPreferenceManager.getInatanse().setApiToken(token);
-                    MyPreferenceManager.getInatanse().setAuthorize(true);
-                    // call api
-                    MainApi.getInstance().getDetailsCourse(url, new IServerCallbackContentCredit() {
-                        @Override
-                        public void onSuccess(Object obj) {
+            AuthToken.getInstant().get(Objects.requireNonNull(getContext()), Objects.requireNonNull(getActivity()), token -> {
+                MainApi.getInstance().getDetailsCourse(url, new IServerCallbackContentCredit() {
+                    @Override
+                    public void onSuccess(Object obj) {
+                        if (obj != null) {
                             course = (DataCourse) obj;
                             setData();
                             getPlayListFromContentByUrl(course.getSet().getContentUrl());
@@ -539,36 +542,39 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                             // reset
                             MyPreferenceManager.getInatanse().setApiToken("");
                             MyPreferenceManager.getInatanse().setAuthorize(false);
+                        } else {
+                            Log.i(TAG, "getData-else-onSuccess: \n\r" + url + "object is null");
                         }
+                    }
 
-                        @Override
-                        public void onSuccessCredit(ContentCredit obj) {
-                            if (obj != null) {
-                                course = obj.getContent();
-                                setData();
-                                showSnackBar(obj.getMessage());
-                                setProduct(obj.getProduct());
-                                getPlayListFromContentByUrl(course.getSet().getContentUrl());
-
-                                // reset
-                                MyPreferenceManager.getInatanse().setApiToken("");
-                                MyPreferenceManager.getInatanse().setAuthorize(false);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(String message) {
-                            Log.i(TAG, "onSuccess:error " + message);
+                    @Override
+                    public void onSuccessCredit(ContentCredit obj) {
+                        if (obj != null) {
+                            course = obj.getContent();
+                            setData();
+                            showSnackBar(obj.getMessage());
+                            setProduct(obj.getProduct());
+                            getPlayListFromContentByUrl(course.getSet().getContentUrl());
 
                             // reset
                             MyPreferenceManager.getInatanse().setApiToken("");
                             MyPreferenceManager.getInatanse().setAuthorize(false);
+                        } else {
+                            Log.i(TAG, "getData-else-onSuccessCredit: \n\r" + url + "object is null");
                         }
-                    });
-                }
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        Log.i(TAG, "onSuccess:error " + message);
+
+                        // reset
+                        MyPreferenceManager.getInatanse().setApiToken("");
+                        MyPreferenceManager.getInatanse().setAuthorize(false);
+                    }
+                });
             });
         }
-
     }
 
     private void setProduct(List<ProductModel> productModels) {
@@ -842,6 +848,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 try {
                     recyclerPlayList.smoothScrollToPosition(positionPlaying);
                 } catch (Exception ex) {
+                    Log.e(TAG, ex.getMessage());
                 }
             }
         }, 500);
@@ -1249,18 +1256,23 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     //</editor-fold>
 
     private void showSnackBar(String message) {
-        Snackbar snack = Snackbar.make(root, message, Snackbar.LENGTH_LONG);
-        View view = snack.getView();
-        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        } else {
-            tv.setGravity(Gravity.CENTER_HORIZONTAL);
+        try {
+
+            Snackbar snack = Snackbar.make(root, message, Snackbar.LENGTH_LONG);
+            View view = snack.getView();
+            TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            } else {
+                tv.setGravity(Gravity.CENTER_HORIZONTAL);
+            }
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+            params.gravity = Gravity.BOTTOM;
+            view.setLayoutParams(params);
+            snack.show();
+        } catch (Exception ex) {
+            Log.e(TAG, "start-showSnackBar" + ex.getMessage());
         }
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
-        params.gravity = Gravity.BOTTOM;
-        view.setLayoutParams(params);
-        snack.show();
     }
 
     public class VideoPlayer implements LifecycleObserver {
