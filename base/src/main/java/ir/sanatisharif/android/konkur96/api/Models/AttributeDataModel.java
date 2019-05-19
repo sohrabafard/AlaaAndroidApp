@@ -7,9 +7,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class AttributeDataModel implements Parcelable {
 
+    public static final Creator<AttributeDataModel> CREATOR = new Creator<AttributeDataModel>() {
+        @Override
+        public AttributeDataModel createFromParcel(Parcel in) {
+            return new AttributeDataModel(in);
+        }
+
+        @Override
+        public AttributeDataModel[] newArray(int size) {
+            return new AttributeDataModel[size];
+        }
+    };
     @SerializedName("name")
     private String name;
-
     @SerializedName("id")
     private int id;
 
@@ -28,18 +38,6 @@ public class AttributeDataModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<AttributeDataModel> CREATOR = new Creator<AttributeDataModel>() {
-        @Override
-        public AttributeDataModel createFromParcel(Parcel in) {
-            return new AttributeDataModel(in);
-        }
-
-        @Override
-        public AttributeDataModel[] newArray(int size) {
-            return new AttributeDataModel[size];
-        }
-    };
 
     public String getName() {
         return name;

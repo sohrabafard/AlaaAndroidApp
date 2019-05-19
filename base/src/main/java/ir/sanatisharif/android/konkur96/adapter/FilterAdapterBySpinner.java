@@ -34,10 +34,7 @@ public class FilterAdapterBySpinner extends ArrayAdapter<String> {
     @Override
     public boolean isEnabled(int position) {
 
-        if (position == 0) {
-            return false;
-        } else
-            return true;
+        return position != 0;
     }
 
     @Override

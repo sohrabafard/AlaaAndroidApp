@@ -148,7 +148,7 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
                 Glide.with(mContext)
                         .load(Uri.fromFile(new File(item.getPath())))
                         .apply(requestOptions)
-                       // .override(holder.imgFrame.getWidth(), holder.imgFrame.getWidth())
+                        // .override(holder.imgFrame.getWidth(), holder.imgFrame.getWidth())
                         .thumbnail(0.1f)
                         .into(new SimpleTarget<Drawable>() {
                             @Override

@@ -59,8 +59,8 @@ public class MDToast extends Toast {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.custom_toast_container, null);
 
-        ImageView icon = (ImageView) view.findViewById(R.id.icon);
-        TextView text = (TextView) view.findViewById(R.id.text);
+        ImageView icon = view.findViewById(R.id.icon);
+        TextView text = view.findViewById(R.id.text);
         text.setTypeface(AppConfig.fontIRSensNumber);
 
         switch (type) {
@@ -68,13 +68,15 @@ public class MDToast extends Toast {
                 icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_check_circle_white_24dp));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     view.setBackground(ContextCompat.getDrawable(context, R.drawable.custom_toast_success_background));
-                } else view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorSuccess));
+                } else
+                    view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorSuccess));
                 break;
             case TYPE_WARNING:
                 icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_warning_white_24dp));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     view.setBackground(ContextCompat.getDrawable(context, R.drawable.custom_toast_warn_background));
-                } else view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWarning));
+                } else
+                    view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWarning));
                 break;
             case TYPE_ERROR:
                 icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_error_white_24dp));
@@ -109,7 +111,7 @@ public class MDToast extends Toast {
         if (mView == null) {
             throw new RuntimeException("This Toast was not created with Toast.makeText()");
         }
-        TextView tv = (TextView) mView.findViewById(R.id.text);
+        TextView tv = mView.findViewById(R.id.text);
         if (tv == null) {
             throw new RuntimeException("This Toast was not created with Toast.makeText()");
         }
@@ -118,7 +120,8 @@ public class MDToast extends Toast {
 
     /**
      * Set the icon resource id to display in the MD toast.
-     * @param iconId    the resource id.
+     *
+     * @param iconId the resource id.
      */
     public void setIcon(@DrawableRes int iconId) {
         setIcon(ContextCompat.getDrawable(mContext, iconId));
@@ -126,13 +129,14 @@ public class MDToast extends Toast {
 
     /**
      * Set the icon to display in the MD toast.
-     * @param icon  the drawable to set as icon.
+     *
+     * @param icon the drawable to set as icon.
      */
     public void setIcon(Drawable icon) {
         if (mView == null) {
             throw new RuntimeException("This Toast was not created with Toast.makeText()");
         }
-        ImageView iv = (ImageView) mView.findViewById(R.id.icon);
+        ImageView iv = mView.findViewById(R.id.icon);
         if (iv == null) {
             throw new RuntimeException("This Toast was not created with Toast.makeText()");
         }
@@ -140,17 +144,18 @@ public class MDToast extends Toast {
     }
 
     /**
-     * Set the type of the MDToast.
-     * @param type  the type to set.
-     */
-    public void setType(int type) {
-        mType = type;
-    }
-
-    /**
-     * @return  the type of MDToast which is actual used.
+     * @return the type of MDToast which is actual used.
      */
     public int getType() {
         return mType;
+    }
+
+    /**
+     * Set the type of the MDToast.
+     *
+     * @param type the type to set.
+     */
+    public void setType(int type) {
+        mType = type;
     }
 }

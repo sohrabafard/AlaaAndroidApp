@@ -1,15 +1,29 @@
-
 package ir.sanatisharif.android.konkur96.model.user;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Data implements Parcelable
-{
+public class Data implements Parcelable {
 
+    public final static Creator<Data> CREATOR = new Creator<Data>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Data createFromParcel(Parcel in) {
+            return new Data(in);
+        }
+
+        public Data[] newArray(int size) {
+            return (new Data[size]);
+        }
+
+    };
     @SerializedName("user")
     @Expose
     private User user;
@@ -22,22 +36,6 @@ public class Data implements Parcelable
     @SerializedName("token_expires_at")
     @Expose
     private String tokenExpiresAt;
-    public final static Creator<Data> CREATOR = new Creator<Data>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Data createFromParcel(Parcel in) {
-            return new Data(in);
-        }
-
-        public Data[] newArray(int size) {
-            return (new Data[size]);
-        }
-
-    }
-    ;
 
     protected Data(Parcel in) {
         this.user = ((User) in.readValue((User.class.getClassLoader())));
@@ -109,7 +107,7 @@ public class Data implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

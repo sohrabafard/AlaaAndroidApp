@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary"
-    android:gravity="right"
-    android:layoutDirection="ltr"
+    android:gravity="end"
     android:theme="@style/customToolbar">
 
     <TextView
@@ -13,10 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="4dp"
+        android:layout_marginLeft="4dp"
         android:ellipsize="end"
-        android:gravity="right"
+        android:gravity="end"
         android:maxLines="1"
         android:paddingRight="4dp"
+        android:paddingLeft="4dp"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/White" />

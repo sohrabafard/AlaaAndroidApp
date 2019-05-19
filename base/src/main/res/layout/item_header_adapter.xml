@@ -19,9 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:textSize="@dimen/header_title"
             android:gravity="right|center"
             android:text="header title"
+            android:textSize="@dimen/header_title"
             android:textColor="@color/colorPrimary" />
 
 
@@ -30,9 +30,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="@dimen/more_title"
-            android:drawableLeft="@drawable/ic_arrow_left"
             android:gravity="right|center"
+            android:drawableLeft="@drawable/ic_arrow_left"
+            android:textSize="@dimen/more_title"
             android:text="@string/more"
             android:textColor="@color/colorPrimary" />
 

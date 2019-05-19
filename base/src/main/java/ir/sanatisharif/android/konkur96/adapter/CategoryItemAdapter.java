@@ -31,7 +31,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
     @Override
     public CategoryHolder onCreateViewHolder(ViewGroup parent, int typeviewsingle) {
 
-        CustomItemView itemView = new CustomItemView(parent.getContext(),R.layout.category_item);
+        CustomItemView itemView = new CustomItemView(parent.getContext(), R.layout.category_item);
         itemView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT

@@ -7,15 +7,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class PivotMode implements Parcelable {
 
+    public static final Creator<PivotMode> CREATOR = new Creator<PivotMode>() {
+        @Override
+        public PivotMode createFromParcel(Parcel in) {
+            return new PivotMode(in);
+        }
+
+        @Override
+        public PivotMode[] newArray(int size) {
+            return new PivotMode[size];
+        }
+    };
     @SerializedName("orderproduct_id")
     private int orderproduct_id;
-
     @SerializedName("userbon_id")
     private int userbon_id;
-
     @SerializedName("usageNumber")
     private int usageNumber;
-
     @SerializedName("discount")
     private int discount;
 
@@ -38,18 +46,6 @@ public class PivotMode implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<PivotMode> CREATOR = new Creator<PivotMode>() {
-        @Override
-        public PivotMode createFromParcel(Parcel in) {
-            return new PivotMode(in);
-        }
-
-        @Override
-        public PivotMode[] newArray(int size) {
-            return new PivotMode[size];
-        }
-    };
 
     public int getOrderproduct_id() {
         return orderproduct_id;

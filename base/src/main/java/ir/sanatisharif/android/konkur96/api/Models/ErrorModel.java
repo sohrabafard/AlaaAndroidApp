@@ -7,12 +7,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class ErrorModel implements Parcelable {
 
+    public static final Creator<ErrorModel> CREATOR = new Creator<ErrorModel>() {
+        @Override
+        public ErrorModel createFromParcel(Parcel in) {
+            return new ErrorModel(in);
+        }
+
+        @Override
+        public ErrorModel[] newArray(int size) {
+            return new ErrorModel[size];
+        }
+    };
     @SerializedName("code")
     private String code;
-
     @SerializedName("message")
     private String message;
-
 
     protected ErrorModel(Parcel in) {
         code = in.readString();
@@ -29,18 +38,6 @@ public class ErrorModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<ErrorModel> CREATOR = new Creator<ErrorModel>() {
-        @Override
-        public ErrorModel createFromParcel(Parcel in) {
-            return new ErrorModel(in);
-        }
-
-        @Override
-        public ErrorModel[] newArray(int size) {
-            return new ErrorModel[size];
-        }
-    };
 
     public String getCode() {
         return code;

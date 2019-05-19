@@ -22,13 +22,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
-import ir.sanatisharif.android.konkur96.model.PlayList;
 import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
 
 public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoHolder> {

@@ -2,6 +2,7 @@ package ir.sanatisharif.android.konkur96.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
@@ -30,23 +31,16 @@ import ir.sanatisharif.android.konkur96.model.ImageGalleryModel;
 
 public class GalleryFullView extends AppCompatActivity implements PositionFounder {
 
+    TextView title, description;
     private RtlViewPager pagerFullScreen;
     private RecyclerView recyclerIndicator;
     private FullScreenModel fullScreenModel;
-
-    private FullScreenAdapter fullScreenImageAdapter;
-    private IndicatorAdapter indicatorAdapter;
     private LinearLayoutManager layoutManager;
-
     private ImageView imgRightArrow;
     private ImageView imgLeftArrow;
     private ImageView imgTopArrow;
-
     private BottomSheetBehavior bottemSheetBehavior;
-
     private int position = 0;
-    TextView title, description;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,12 +56,12 @@ public class GalleryFullView extends AppCompatActivity implements PositionFounde
         imgLeftArrow = findViewById(R.id.img_left);
 
         View bottomSheet = findViewById(R.id.bottem_sheet);
-        bottemSheetBehavior = bottemSheetBehavior.from(bottomSheet);
-        bottemSheetBehavior.setState(bottemSheetBehavior.STATE_EXPANDED);
+        bottemSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        bottemSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         getItem();
 
         recyclerIndicator = findViewById(R.id.recycler_indicator);
-        fullScreenImageAdapter = new FullScreenAdapter(this, getAllImage(), selectedPosition());
+        FullScreenAdapter fullScreenImageAdapter = new FullScreenAdapter(this, getAllImage(), selectedPosition());
         pagerFullScreen.setAdapter(fullScreenImageAdapter);
 
 
@@ -78,7 +72,7 @@ public class GalleryFullView extends AppCompatActivity implements PositionFounde
             }
         };
         recyclerIndicator.setLayoutManager(layoutManager);
-        indicatorAdapter = new IndicatorAdapter(this, getAllImage(), selectedPosition(), this);
+        IndicatorAdapter indicatorAdapter = new IndicatorAdapter(this, getAllImage(), selectedPosition(), this);
         recyclerIndicator.setAdapter(indicatorAdapter);
         setCurrentIndicator();
         initPosition(selectedPosition());
@@ -114,7 +108,7 @@ public class GalleryFullView extends AppCompatActivity implements PositionFounde
 
         pagerFullScreen.setPageTransformer(false, new ViewPager.PageTransformer() {
             @Override
-            public void transformPage(View page, float position) {
+            public void transformPage(@NonNull View page, float position) {
                 final float normalizedposition = Math.abs(Math.abs(position) - 1);
                 page.setScaleX(normalizedposition / 2 + 0.5f);
                 page.setScaleY(normalizedposition / 2 + 0.5f);
@@ -157,6 +151,7 @@ public class GalleryFullView extends AppCompatActivity implements PositionFounde
         if (getIntent().hasExtra("TAG_MODEL")) {
             Intent getData = this.getIntent();
             Bundle bundle = getData.getExtras();
+            assert bundle != null;
             fullScreenModel = bundle.getParcelable("TAG_MODEL");
 
         }

@@ -38,14 +38,14 @@ public class NotInternetDialogFrg extends BaseDialogFragment<NotInternetDialogFr
     private ImageView imgCLose;
     private NoInternetCallback callback;
 
-    public NotInternetDialogFrg setNoInternetCallback(NoInternetCallback callback) {
-        this.callback = callback;
-        return this;
-    }
-
     public static NotInternetDialogFrg newInstance(ArrayList<DownloadUrl> Urls) {
         NotInternetDialogFrg frag = new NotInternetDialogFrg();
         return frag;
+    }
+
+    public NotInternetDialogFrg setNoInternetCallback(NoInternetCallback callback) {
+        this.callback = callback;
+        return this;
     }
 
     @Override
@@ -78,8 +78,8 @@ public class NotInternetDialogFrg extends BaseDialogFragment<NotInternetDialogFr
         btnOk = dialog.findViewById(R.id.btnOK);
         imgCLose = dialog.findViewById(R.id.imgCLose);
 
-        ripple(btnOk,8);
-        ripple(imgCLose,8);
+        ripple(btnOk, 8);
+        ripple(imgCLose, 8);
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

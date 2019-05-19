@@ -1,33 +1,22 @@
 package ir.sanatisharif.android.konkur96.dialog;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.preference.PreferenceManager;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-
 import ir.sanatisharif.android.konkur96.model.DownloadUrl;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
@@ -39,14 +28,11 @@ import ir.sanatisharif.android.konkur96.utils.Utils;
 public class UpdateInfoDialogFrg extends BaseDialogFragment<UpdateInfoDialogFrg> {
 
     //------init UI
-    private static final String TAG = "LOG";
+    private static final String TAG = "UpdateInfoDialogFrg";
     private View dialog;
-    private TextView txtAccept;
-    private TextView txtContent;
 
     public static UpdateInfoDialogFrg newInstance(ArrayList<DownloadUrl> Urls) {
-        UpdateInfoDialogFrg frag = new UpdateInfoDialogFrg();
-        return frag;
+        return new UpdateInfoDialogFrg();
     }
 
 
@@ -54,7 +40,12 @@ public class UpdateInfoDialogFrg extends BaseDialogFragment<UpdateInfoDialogFrg>
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog_Alert);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog_Alert);
+        }
+        else {
+            setStyle(DialogFragment.STYLE_NORMAL, 0);
+        }
     }
 
     @Override
@@ -78,8 +69,8 @@ public class UpdateInfoDialogFrg extends BaseDialogFragment<UpdateInfoDialogFrg>
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        txtAccept = dialog.findViewById(R.id.txtAccept);
-        txtContent = dialog.findViewById(R.id.txtContent);
+        TextView txtAccept = dialog.findViewById(R.id.txtAccept);
+        TextView txtContent = dialog.findViewById(R.id.txtContent);
 
         txtContent.setText(Html.fromHtml(getString(R.string.update_info)));
 

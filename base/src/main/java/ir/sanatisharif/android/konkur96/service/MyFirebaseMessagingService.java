@@ -103,7 +103,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     // [END on_new_token]
 
 
-
     /**
      * Handle time allotted to BroadcastReceivers.
      */
@@ -113,7 +112,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     /**
      * Persist token to third-party servers.
-     *
+     * <p>
      * Modify this method to associate the user's FCM InstanceID token with any server-side account
      * maintained by your application.
      *

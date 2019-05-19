@@ -1,17 +1,13 @@
 package ir.sanatisharif.android.konkur96.helper;
 
-import android.content.SharedPreferences;
 import android.os.Environment;
-import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 
 /**
@@ -20,9 +16,8 @@ import ir.sanatisharif.android.konkur96.app.AppConstants;
 
 public class FileManager {
 
-    private ArrayList<File> filesArrayList = new ArrayList<>();
-
     private static FileManager fileManager;
+    private ArrayList<File> filesArrayList = new ArrayList<>();
 
     public static FileManager getInstance() {
         if (fileManager == null)
@@ -98,9 +93,7 @@ public class FileManager {
     public static boolean checkFileExist(String path) {
 
         File file = new File(path);
-        if (file.exists())
-            return true;
-        return false;
+        return file.exists();
     }
 
     public static Boolean createAudioDir() {
@@ -133,8 +126,9 @@ public class FileManager {
         return false;
     }
 
-    public static String getPathFromAllaUrl(String url) {
+    public static String getPathFromAllaUrl(@NotNull String url) {
 
+        Log.e("FileManager", url);
         int start = url.indexOf("sanatisharif.ir/");
         int end = url.lastIndexOf("/");
 

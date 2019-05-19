@@ -9,34 +9,14 @@ import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.support.v7.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
-import com.google.android.exoplayer2.offline.DownloadManager;
-import com.google.android.exoplayer2.offline.DownloaderConstructorHelper;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.android.exoplayer2.upstream.FileDataSourceFactory;
-import com.google.android.exoplayer2.upstream.HttpDataSource;
-import com.google.android.exoplayer2.upstream.cache.Cache;
-import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
-import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory;
-import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor;
-import com.google.android.exoplayer2.upstream.cache.SimpleCache;
 import com.google.android.gms.common.wrappers.InstantApps;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-
-import java.io.File;
-
 import io.fabric.sdk.android.Fabric;
-import ir.sanatisharif.android.konkur96.BuildConfig;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.ApiModule;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
@@ -53,25 +33,28 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class AppConfig extends Application {
 
+    //new
+    public static final String TAG = AppConfig.class.getSimpleName();
     public static AppConfig mInstance;
     public static Context context;
     public static Activity currentActivity;
     public static Handler HANDLER = new Handler();
     public static LayoutInflater layoutinflater;
-    static ConnectivityManager Manager = null;
     public static int width = 140, height = 140, itemHeight = 140, shopItemHeight = 100;
     public static boolean showNoInternetDialog = false;
     // Font
     public static Typeface fontIRSensLight;
     public static Typeface fontIRSensNumber;
-
-    //new
-    public static final String TAG = AppConfig.class.getSimpleName();
     public static SharedPreferences sharedPreferencesSetting;
-
-    private FirebaseAnalytics mFirebaseAnalytics;
     public static int[] colorSwipeRefreshing;
     public static String BASE_URL = "https://alaatv.com/";
+    static ConnectivityManager Manager = null;
+    private final AppComponent mAppComponent = DaggerAppComponent.builder().apiModule(new ApiModule()).build();
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+    public static synchronized AppConfig getInstance() {
+        return mInstance;
+    }
 
     @Override
     public void onCreate() {
@@ -86,7 +69,6 @@ public class AppConfig extends Application {
         Fabric.with(this, new Crashlytics());
         Crashlytics.setBool("InstantApp", InstantApps.isInstantApp(this));
 
-        // MultiDex.install(this);
         mInstance = this;
         context = getApplicationContext();
         BASE_URL = getString(R.string.alla_url);
@@ -137,16 +119,8 @@ public class AppConfig extends Application {
                     };
     }
 
-
-    private final AppComponent mAppComponent = DaggerAppComponent.builder().apiModule(new ApiModule()).build();
-
-
     public AppComponent getAppComponent() {
         return mAppComponent;
-    }
-
-    public static synchronized AppConfig getInstance() {
-        return mInstance;
     }
 
     public void setICheckNetwork(ICheckNetwork iCheckNetwork) {

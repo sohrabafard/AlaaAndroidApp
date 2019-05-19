@@ -75,18 +75,17 @@ public class SpanningLinearLayoutManager extends LinearLayoutManager {
             }
         }
 
-        if (result < desiredSize){
+        if (result < desiredSize) {
             Log.e("ChartView", "The view is too small, the content might get cut");
         }
         return result;
     }
 
-    private RecyclerView.LayoutParams spanLayoutSize(RecyclerView.LayoutParams layoutParams){
-        if(getOrientation() == HORIZONTAL){
-            layoutParams.width = (int) Math.round(getHorizontalSpace() / 3);
-        }
-        else if(getOrientation() == VERTICAL){
-            layoutParams.height = (int) Math.round(getVerticalSpace() /  3);
+    private RecyclerView.LayoutParams spanLayoutSize(RecyclerView.LayoutParams layoutParams) {
+        if (getOrientation() == HORIZONTAL) {
+            layoutParams.width = Math.round(getHorizontalSpace() / 3);
+        } else if (getOrientation() == VERTICAL) {
+            layoutParams.height = Math.round(getVerticalSpace() / 3);
         }
         return layoutParams;
     }
@@ -95,6 +94,7 @@ public class SpanningLinearLayoutManager extends LinearLayoutManager {
     public boolean canScrollVertically() {
         return true;
     }
+
     @Override
     public boolean canScrollHorizontally() {
         return true;

@@ -2,15 +2,16 @@ package ir.sanatisharif.android.konkur96.handler;
 
 import java.util.function.Supplier;
 
-public abstract class Result<V,E> {
-
-    abstract V success(Supplier<V> other);
-    abstract E error(Supplier<E> other);
+public abstract class Result<V, E> {
 
     private Result() {
     }
 
-    public final static class Success<V,E> extends  Result<V,E> {
+    abstract V success(Supplier<V> other);
+
+    abstract E error(Supplier<E> other);
+
+    public final static class Success<V, E> extends Result<V, E> {
 
         public final V value;
 
@@ -28,7 +29,8 @@ public abstract class Result<V,E> {
             return null;
         }
     }
-    public final static class Error<V,E> extends Result<V,E> {
+
+    public final static class Error<V, E> extends Result<V, E> {
 
         public final E value;
 

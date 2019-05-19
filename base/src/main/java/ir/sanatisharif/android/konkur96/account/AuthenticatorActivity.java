@@ -29,6 +29,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.util.Objects;
+
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.MainActivity;
 import ir.sanatisharif.android.konkur96.adapter.FilterAdapterBySpinner;
@@ -58,11 +60,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         View.OnClickListener,
         AdapterView.OnItemSelectedListener, ICheckNetwork {
 
-    private boolean login = true;//flag for check status login or register
     private final String TAG = this.getClass().getSimpleName();
+    FirebaseAnalytics mFirebaseAnalytics;
+    private boolean login = true;//flag for check status login or register
     private AccountManager mAccountManager;
     private Utils.ValidNationalCode nationalCode = new Utils.ValidNationalCode();
-    FirebaseAnalytics mFirebaseAnalytics;
     //ui
     private AlertDialog dialog;
     private View loginView, registerView;
@@ -252,11 +254,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
     @Override
     public void onCheckNetwork(boolean flag) {
-        if (flag) {
-
-        } else {
-            if (!showNoInternetDialog)
-                showDialog();
+        if (!flag && !showNoInternetDialog) {
+            showDialog();
         }
     }
 
@@ -291,7 +290,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
     }
 
     private void register() {
-        if (edtPhoneReg.getText().length() == 0) {
+        if (Objects.requireNonNull(edtPhoneReg.getText()).length() == 0) {
             edtPhoneReg.setError(getResources().getString(R.string.empty_phone));
             return;
         }
@@ -299,7 +298,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             edtPhoneReg.setError(getResources().getString(R.string.not_valid_phone));
             return;
         }
-        if (edtNationalCodeReg.getText().length() == 0) {
+        if (Objects.requireNonNull(edtNationalCodeReg.getText()).length() == 0) {
             edtNationalCodeReg.setError(getResources().getString(R.string.empty_personal_code));
             return;
         }
@@ -309,15 +308,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             edtNationalCodeReg.setError(nationalCode.getMessage());
             return;
         }
-        if (edtFirstName.getText().length() == 0) {
+        if (Objects.requireNonNull(edtFirstName.getText()).length() == 0) {
             edtFirstName.setError(getResources().getString(R.string.empty_first_name));
             return;
         }
-        if (edtLastName.getText().length() == 0) {
+        if (Objects.requireNonNull(edtLastName.getText()).length() == 0) {
             edtLastName.setError(getResources().getString(R.string.empty_last_name));
             return;
         }
-        if (edtEmail.getText().length() == 0) {
+        if (Objects.requireNonNull(edtEmail.getText()).length() == 0) {
             edtEmail.setError(getResources().getString(R.string.empty_email));
             return;
         }
@@ -357,7 +356,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_no_internet);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         showNoInternetDialog = true;
         Button btnOK = dialog.findViewById(R.id.btnOK);

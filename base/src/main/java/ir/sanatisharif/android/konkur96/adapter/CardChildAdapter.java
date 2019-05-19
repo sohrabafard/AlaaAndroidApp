@@ -53,11 +53,11 @@ public class CardChildAdapter extends RecyclerView.Adapter<CardChildAdapter.vHol
         final vHolder itemRowHolderGrand = holder;
 
 
-        if (position == 0){
+        if (position == 0) {
 
             itemRowHolderGrand.imgArr.setVisibility(View.VISIBLE);
 
-        }else {
+        } else {
 
             itemRowHolderGrand.imgArr.setVisibility(View.GONE);
         }
@@ -66,18 +66,17 @@ public class CardChildAdapter extends RecyclerView.Adapter<CardChildAdapter.vHol
         itemRowHolderGrand.txtProTitle.setText(proTitle);
         itemRowHolderGrand.txtPrice.setText(ShopUtils.formatPrice(price) + " تومان ");
 
-        if (discount > 0){
+        if (discount > 0) {
             itemRowHolderGrand.txtDiscount.setVisibility(View.VISIBLE);
             itemRowHolderGrand.txtDiscount.setText(ShopUtils.formatPrice(discount) + " تومان ");
 
-        }else {
+        } else {
 
             itemRowHolderGrand.txtDiscount.setVisibility(View.GONE);
 
         }
 
         itemRowHolderGrand.btnDel.setOnClickListener(view -> deleteListener.onClickDeleteChild(model.getId()));
-
 
 
     }
@@ -87,6 +86,12 @@ public class CardChildAdapter extends RecyclerView.Adapter<CardChildAdapter.vHol
         return (null != itemsList ? itemsList.size() : 0);
     }
 
+
+    public interface DeleteListener {
+
+        void onClickDeleteChild(int id);
+
+    }
 
     public class vHolder extends RecyclerView.ViewHolder {
 
@@ -104,11 +109,5 @@ public class CardChildAdapter extends RecyclerView.Adapter<CardChildAdapter.vHol
             txtDiscount = itemView.findViewById(R.id.txt_discount);
             txtDiscount.setPaintFlags(txtDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
-    }
-
-    public interface DeleteListener {
-
-        void onClickDeleteChild(int id);
-
     }
 }

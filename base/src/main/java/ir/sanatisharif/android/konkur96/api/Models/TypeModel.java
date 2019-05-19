@@ -7,21 +7,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class TypeModel implements Parcelable {
 
-    @SerializedName("id")
-    private int id;
-
-    @SerializedName("type")
-    private String type;
-
-    @SerializedName("hint")
-    private String hint;
-
-    protected TypeModel(Parcel in) {
-        id = in.readInt();
-        type = in.readString();
-        hint = in.readString();
-    }
-
     public static final Creator<TypeModel> CREATOR = new Creator<TypeModel>() {
         @Override
         public TypeModel createFromParcel(Parcel in) {
@@ -33,6 +18,18 @@ public class TypeModel implements Parcelable {
             return new TypeModel[size];
         }
     };
+    @SerializedName("id")
+    private int id;
+    @SerializedName("type")
+    private String type;
+    @SerializedName("hint")
+    private String hint;
+
+    protected TypeModel(Parcel in) {
+        id = in.readInt();
+        type = in.readString();
+        hint = in.readString();
+    }
 
     public int getId() {
         return id;
@@ -70,7 +67,6 @@ public class TypeModel implements Parcelable {
         dest.writeString(type);
         dest.writeString(hint);
     }
-
 
 
 }

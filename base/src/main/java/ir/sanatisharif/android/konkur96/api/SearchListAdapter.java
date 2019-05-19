@@ -18,7 +18,8 @@ import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
  * Created by Mohamad on 2/27/2019.
  */
 
-public class SearchListAdapter{} /*extends PagedListAdapter<VideoCourse,SearchListAdapter.VideoHolder> {
+public class SearchListAdapter {
+} /*extends PagedListAdapter<VideoCourse,SearchListAdapter.VideoHolder> {
 
 
     public SearchListAdapter() {

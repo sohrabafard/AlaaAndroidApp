@@ -60,12 +60,10 @@ public class MyProductSet extends BaseFragment {
     }
 
 
-
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_myproduct_set, container, false);
     }
-
 
 
     @Override
@@ -136,9 +134,6 @@ public class MyProductSet extends BaseFragment {
             items = bundle.getParcelableArrayList("list");
         }
     }
-
-
-
 
 
 }

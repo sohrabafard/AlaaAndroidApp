@@ -255,6 +255,19 @@ public class Utils {
                 });
     }
 
+    public static boolean isConnected() {
+        try {
+            android.net.ConnectivityManager e = (android.net.ConnectivityManager) AppConfig.context.getSystemService(
+                    Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetwork = e.getActiveNetworkInfo();
+            return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        } catch (Exception e) {
+            Log.w("LOG", e.toString());
+        }
+
+        return false;
+    }
+
     public static class ValidNationalCode {
 
         private boolean valid;
@@ -299,17 +312,5 @@ public class Utils {
                 return;
             }
         }
-    }
-    public static boolean isConnected() {
-        try {
-            android.net.ConnectivityManager e = (android.net.ConnectivityManager) AppConfig.context.getSystemService(
-                    AppConfig.context.CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetwork = e.getActiveNetworkInfo();
-            return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        } catch (Exception e) {
-            Log.w("LOG", e.toString());
-        }
-
-        return false;
     }
 }

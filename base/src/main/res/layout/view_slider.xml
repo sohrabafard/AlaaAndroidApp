@@ -10,8 +10,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
-        android:contentDescription="@string/login"
         android:scaleType="fitXY"
+        android:contentDescription="@string/login"
         android:src="@color/WhiteSmoke" />
 
 </LinearLayout>

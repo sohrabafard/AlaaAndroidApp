@@ -1,4 +1,3 @@
-
 package ir.sanatisharif.android.konkur96.model.main_page;
 
 import java.util.List;
@@ -15,15 +14,6 @@ import ir.sanatisharif.android.konkur96.model.filter.Pamphlet;
 
 public class File implements Parcelable {
 
-    @SerializedName("video")
-    @Expose
-    private List<Video> video = null;
-
-    @SerializedName("pamphlet")
-    @Expose
-    private List<Video> pamphlet = null;
-
-
     public final static Creator<File> CREATOR = new Creator<File>() {
 
         @SuppressWarnings({
@@ -38,6 +28,12 @@ public class File implements Parcelable {
         }
 
     };
+    @SerializedName("video")
+    @Expose
+    private List<Video> video = null;
+    @SerializedName("pamphlet")
+    @Expose
+    private List<Video> pamphlet = null;
 
     protected File(Parcel in) {
         in.readList(this.video, (Video.class.getClassLoader()));

@@ -1,7 +1,7 @@
-
 package ir.sanatisharif.android.konkur96.model.main_page;
 
 import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,9 +10,23 @@ import com.google.gson.annotations.SerializedName;
 
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 
-public class Datum implements Parcelable
-{
+public class Datum implements Parcelable {
 
+    public final static Creator<Datum> CREATOR = new Creator<Datum>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Datum createFromParcel(Parcel in) {
+            return new Datum(in);
+        }
+
+        public Datum[] newArray(int size) {
+            return (new Datum[size]);
+        }
+
+    };
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -43,28 +57,12 @@ public class Datum implements Parcelable
     @SerializedName("banners")
     @Expose
     private List<Banner> banners = null;
-    public final static Creator<Datum> CREATOR = new Creator<Datum>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Datum createFromParcel(Parcel in) {
-            return new Datum(in);
-        }
-
-        public Datum[] newArray(int size) {
-            return (new Datum[size]);
-        }
-
-    }
-    ;
 
     protected Datum(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.title = ((String) in.readValue((String.class.getClassLoader())));
         this.order = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.updatedAt = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.updatedAt = in.readValue((Object.class.getClassLoader()));
         this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.offer = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         in.readList(this.contents, (Object.class.getClassLoader()));
@@ -170,7 +168,7 @@ public class Datum implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

@@ -46,12 +46,10 @@ public class MoreFilesProductAdapter extends RecyclerView.Adapter<MoreFilesProdu
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
 
-
         VideoCourse item = (VideoCourse) itemsList.get(position);
 
         holder.title.setText(item.getName());
         Glide.with(mContext).load(item.getThumbnail()).into(holder.imageView);
-
 
 
         holder.cardView.setOnClickListener(view -> addFrg(DetailsVideoFrg.newInstance(itemsList, position), "DetailsVideoFrg"));

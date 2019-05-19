@@ -37,6 +37,7 @@ public abstract class BaseDialogFragment<T> extends DialogFragment {
         super.onDetach();
         mActivityInstance = null;
     }
+
     public void overrideFonts(Context context, final View v) {
         try {
             if (v instanceof ViewGroup) {
@@ -52,6 +53,7 @@ public abstract class BaseDialogFragment<T> extends DialogFragment {
         } catch (Exception e) {
         }
     }
+
     void ripple(View view, int radius) {
         MaterialRippleLayout.on(view)
                 .rippleOverlay(true)

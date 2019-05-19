@@ -1,16 +1,30 @@
-
 package ir.sanatisharif.android.konkur96.model.main_page;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Set implements Parcelable
-{
+public class Set implements Parcelable {
 
+    public final static Creator<Set> CREATOR = new Creator<Set>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Set createFromParcel(Parcel in) {
+            return new Set(in);
+        }
+
+        public Set[] newArray(int size) {
+            return (new Set[size]);
+        }
+
+    };
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -52,27 +66,10 @@ public class Set implements Parcelable
     private String contentUrl;
     private int type;
 
-    public final static Creator<Set> CREATOR = new Creator<Set>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Set createFromParcel(Parcel in) {
-            return new Set(in);
-        }
-
-        public Set[] newArray(int size) {
-            return (new Set[size]);
-        }
-
-    }
-    ;
-
     protected Set(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
-        this.description = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.description = in.readValue((Object.class.getClassLoader()));
         this.photo = ((String) in.readValue((String.class.getClassLoader())));
         this.tags = ((Tags) in.readValue((Tags.class.getClassLoader())));
         this.createdAt = ((String) in.readValue((String.class.getClassLoader())));
@@ -217,7 +214,7 @@ public class Set implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

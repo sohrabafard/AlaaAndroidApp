@@ -9,9 +9,19 @@ import java.util.ArrayList;
 
 public class ResultModel implements Parcelable {
 
+    public static final Creator<ResultModel> CREATOR = new Creator<ResultModel>() {
+        @Override
+        public ResultModel createFromParcel(Parcel in) {
+            return new ResultModel(in);
+        }
+
+        @Override
+        public ResultModel[] newArray(int size) {
+            return new ResultModel[size];
+        }
+    };
     @SerializedName("result")
     private ProductDataModel result;
-
     @SerializedName("tags")
     private ArrayList<String> tags;
 
@@ -30,18 +40,6 @@ public class ResultModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<ResultModel> CREATOR = new Creator<ResultModel>() {
-        @Override
-        public ResultModel createFromParcel(Parcel in) {
-            return new ResultModel(in);
-        }
-
-        @Override
-        public ResultModel[] newArray(int size) {
-            return new ResultModel[size];
-        }
-    };
 
     public ProductDataModel getResult() {
         return result;

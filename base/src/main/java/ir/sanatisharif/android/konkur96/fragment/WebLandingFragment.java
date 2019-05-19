@@ -18,7 +18,16 @@ import ir.sanatisharif.android.konkur96.R;
 public class WebLandingFragment extends BaseFragment {
 
     private WebView webView;
-    private String recivedURL= "https://sanatisharif.ir";
+    private String recivedURL = "https://sanatisharif.ir";
+
+    public static WebLandingFragment newInstance(String url) {
+
+        Bundle args = new Bundle();
+        args.putString("URL_KEY", url);
+        WebLandingFragment fragment = new WebLandingFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,18 +61,6 @@ public class WebLandingFragment extends BaseFragment {
         webView.loadUrl(url);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-    }
-
-
-
-
-    public static WebLandingFragment newInstance(String url) {
-
-        Bundle args = new Bundle();
-        args.putString("URL_KEY", url);
-        WebLandingFragment fragment = new WebLandingFragment();
-        fragment.setArguments(args);
-        return fragment;
     }
 
 

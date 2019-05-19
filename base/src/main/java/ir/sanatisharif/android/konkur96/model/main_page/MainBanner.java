@@ -1,15 +1,29 @@
-
 package ir.sanatisharif.android.konkur96.model.main_page;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MainBanner implements Parcelable
-{
+public class MainBanner implements Parcelable {
 
+    public final static Creator<MainBanner> CREATOR = new Creator<MainBanner>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public MainBanner createFromParcel(Parcel in) {
+            return new MainBanner(in);
+        }
+
+        public MainBanner[] newArray(int size) {
+            return (new MainBanner[size]);
+        }
+
+    };
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -31,22 +45,6 @@ public class MainBanner implements Parcelable
     @SerializedName("url")
     @Expose
     private String url;
-    public final static Creator<MainBanner> CREATOR = new Creator<MainBanner>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public MainBanner createFromParcel(Parcel in) {
-            return new MainBanner(in);
-        }
-
-        public MainBanner[] newArray(int size) {
-            return (new MainBanner[size]);
-        }
-
-    }
-    ;
 
     protected MainBanner(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
@@ -128,7 +126,7 @@ public class MainBanner implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

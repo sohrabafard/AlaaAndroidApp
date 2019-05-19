@@ -1,24 +1,21 @@
-
 package ir.sanatisharif.android.konkur96.model;
 
 import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class File implements Parcelable
-{
+public class File implements Parcelable {
 
-    @SerializedName("video")
-    @Expose
-    private List<Video> video = null;
     public final static Creator<File> CREATOR = new Creator<File>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public File createFromParcel(Parcel in) {
             return new File(in);
@@ -28,8 +25,10 @@ public class File implements Parcelable
             return (new File[size]);
         }
 
-    }
-    ;
+    };
+    @SerializedName("video")
+    @Expose
+    private List<Video> video = null;
 
     protected File(Parcel in) {
         in.readList(this.video, (Video.class.getClassLoader()));
@@ -56,7 +55,7 @@ public class File implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

@@ -142,7 +142,7 @@ public class AccountInfo {
 
     public boolean ExistAccount(String type) {
 
-        Account availableAccounts[] = mAccountManager.getAccountsByType(type);
+        Account[] availableAccounts = mAccountManager.getAccountsByType(type);
 
         if (availableAccounts.length == 0) {
             addNewAccount(type, AUTHTOKEN_TYPE_FULL_ACCESS);

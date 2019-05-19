@@ -52,13 +52,13 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        if (viewType == AppConstants.SHOP_SLIDER_ITEM){
+        if (viewType == AppConstants.SHOP_SLIDER_ITEM) {
             return new SliderHolder(LayoutInflater.from(mContext).inflate(R.layout.slider_item_set_adapter, parent, false));
-        }else if (viewType == AppConstants.INCREDIBLEOFFER_ITEM_SET){
+        } else if (viewType == AppConstants.INCREDIBLEOFFER_ITEM_SET) {
             return new IncredibleOffersItemHolder(LayoutInflater.from(mContext).inflate(R.layout.category_item_set_adapter, parent, false));
-        }else if (viewType == AppConstants.CATEGORY_SHOP_ITEM_SET){
+        } else if (viewType == AppConstants.CATEGORY_SHOP_ITEM_SET) {
             return new CategoryShopItemHolder(LayoutInflater.from(mContext).inflate(R.layout.category_item_set_adapter, parent, false));
-        }else if (viewType == AppConstants.SHOP_BANNER_ITEM){
+        } else if (viewType == AppConstants.SHOP_BANNER_ITEM) {
             return new BannerItemHolder(LayoutInflater.from(mContext).inflate(R.layout.banner_item_set_adapter, parent, false));
         }
 
@@ -95,7 +95,6 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             itemListDataAdapter.notifyDataSetChanged();
 
 
-
         } else if (viewType == AppConstants.SHOP_BANNER_ITEM) {
 
             final BannerItemHolder itemRowHolder = (BannerItemHolder) holder;
@@ -120,6 +119,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             ArrayList items = dataList.get(position).getItems();
             itemRowHolder.view_pager.setAdapter(new ViewSliderAdapterInShop(AppConfig.context, items));
+
             itemRowHolder.view_pager.startAutoScroll();
 
             itemRowHolder.indicator = itemRowHolder.itemView.findViewById(R.id.indicator);
@@ -134,7 +134,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             final CategoryShopItemHolder itemRowHolder = (CategoryShopItemHolder) holder;
 
-            if (model.isMore()){
+            if (model.isMore()) {
 
                 itemRowHolder.txtMore.setVisibility(View.VISIBLE);
 
@@ -148,7 +148,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 });
 
-            }else {
+            } else {
 
                 itemRowHolder.txtMore.setVisibility(View.GONE);
 

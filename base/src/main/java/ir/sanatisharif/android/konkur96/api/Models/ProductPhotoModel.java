@@ -7,12 +7,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class ProductPhotoModel implements Parcelable {
 
+    public static final Creator<ProductPhotoModel> CREATOR = new Creator<ProductPhotoModel>() {
+        @Override
+        public ProductPhotoModel createFromParcel(Parcel in) {
+            return new ProductPhotoModel(in);
+        }
+
+        @Override
+        public ProductPhotoModel[] newArray(int size) {
+            return new ProductPhotoModel[size];
+        }
+    };
     @SerializedName("title")
     private String title;
-
     @SerializedName("description")
     private String description;
-
     @SerializedName("url")
     private String url;
 
@@ -33,18 +42,6 @@ public class ProductPhotoModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<ProductPhotoModel> CREATOR = new Creator<ProductPhotoModel>() {
-        @Override
-        public ProductPhotoModel createFromParcel(Parcel in) {
-            return new ProductPhotoModel(in);
-        }
-
-        @Override
-        public ProductPhotoModel[] newArray(int size) {
-            return new ProductPhotoModel[size];
-        }
-    };
 
     public String getTitle() {
         return title;

@@ -2,6 +2,7 @@ package ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
@@ -34,7 +35,6 @@ import ir.sanatisharif.android.konkur96.utils.Utils;
 
 public class ViewSliderAdapter extends PagerAdapter {
 
-    private Context mContext;
     private ImageView img;
     private List<MainBanner> imageList;
     private LayoutInflater inflater;
@@ -42,7 +42,6 @@ public class ViewSliderAdapter extends PagerAdapter {
     private int h;
 
     public ViewSliderAdapter(Context context, List<MainBanner> list, RequestManager glideRequests) {
-        mContext = context;
         imageList = list;
         inflater = LayoutInflater.from(context);
 
@@ -60,11 +59,12 @@ public class ViewSliderAdapter extends PagerAdapter {
                 .fitCenter();
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(ViewGroup collection, final int position) {
+    public Object instantiateItem(@NonNull ViewGroup collection, final int position) {
 
         ViewGroup imageLayout = (ViewGroup) inflater.inflate(R.layout.view_slider, collection, false);
-        img = (ImageView) imageLayout.findViewById(R.id.imageView);
+        img = imageLayout.findViewById(R.id.imageView);
         img.getLayoutParams().width = AppConfig.width;
         img.getLayoutParams().height = h;
 
@@ -87,19 +87,14 @@ public class ViewSliderAdapter extends PagerAdapter {
 //                });
 
 
-        Picasso.with(mContext)
+        Picasso.get()
                 .load(imageList.get(position).getUrl())
                 //  .fit()
                 .centerCrop()
                 .resize(1280, 500)
                 .into(img);
 
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Utils.loadUrl(imageList.get(position).getLink(), AppConfig.context);
-            }
-        });
+        img.setOnClickListener(view -> Utils.loadUrl(imageList.get(position).getLink(), AppConfig.context));
         collection.addView(imageLayout);
         return imageLayout;
     }

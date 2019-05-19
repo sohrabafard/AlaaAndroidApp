@@ -39,23 +39,15 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.myPaginat
 public class MoreProductFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     Toolbar pageToolbar;
-
+    Repository repository;
+    ResultModel resultModel;
+    boolean isPaginate = false;
+    myPaginate paginate;
     private RecyclerView recyclerMoreProduct;
     private RecyclerView.Adapter mAdapter;
     private GridLayoutManager gridLayoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
-
-
-    Repository repository;
-
-    ResultModel resultModel;
-
-    boolean isPaginate = false;
-
     private String url;
-
-    myPaginate paginate;
-
     private MoreProductAdapter adapter;
 
     private ArrayList<ProductModel> items = new ArrayList<>();
@@ -223,7 +215,7 @@ public class MoreProductFragment extends BaseFragment implements SwipeRefreshLay
         for (ProductModel pro : data.getResult().getData()) {
 
 
-            if (!items.contains(pro)){
+            if (!items.contains(pro)) {
                 items.add(pro);
 
             }

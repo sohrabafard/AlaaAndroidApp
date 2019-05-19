@@ -1,26 +1,19 @@
-
 package ir.sanatisharif.android.konkur96.model.main_page.lastVersion;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Type implements Parcelable
-{
+public class Type implements Parcelable {
 
-    @SerializedName("code")
-    @Expose
-    private Integer code;
-    @SerializedName("hint")
-    @Expose
-    private String hint;
     public final static Creator<Type> CREATOR = new Creator<Type>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public Type createFromParcel(Parcel in) {
             return new Type(in);
@@ -30,8 +23,13 @@ public class Type implements Parcelable
             return (new Type[size]);
         }
 
-    }
-    ;
+    };
+    @SerializedName("code")
+    @Expose
+    private Integer code;
+    @SerializedName("hint")
+    @Expose
+    private String hint;
 
     protected Type(Parcel in) {
         this.code = ((Integer) in.readValue((Integer.class.getClassLoader())));
@@ -63,7 +61,7 @@ public class Type implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

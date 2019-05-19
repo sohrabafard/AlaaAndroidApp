@@ -20,8 +20,8 @@ import ir.sanatisharif.android.konkur96.model.OnBoardItem;
 
 public class OnBoard_Adapter extends PagerAdapter {
 
+    ArrayList<OnBoardItem> onBoardItems = new ArrayList<>();
     private Context mContext;
-    ArrayList<OnBoardItem> onBoardItems=new ArrayList<>();
 
 
     public OnBoard_Adapter(Context mContext, ArrayList<OnBoardItem> items) {
@@ -43,15 +43,15 @@ public class OnBoard_Adapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.onboard_item, container, false);
 
-        OnBoardItem item=onBoardItems.get(position);
+        OnBoardItem item = onBoardItems.get(position);
 
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.iv_onboard);
+        ImageView imageView = itemView.findViewById(R.id.iv_onboard);
         imageView.setImageResource(item.getImageID());
 
-        TextView tv_title=(TextView)itemView.findViewById(R.id.tv_header);
+        TextView tv_title = itemView.findViewById(R.id.tv_header);
         tv_title.setText(item.getTitle());
 
-        TextView tv_content=(TextView)itemView.findViewById(R.id.tv_desc);
+        TextView tv_content = itemView.findViewById(R.id.tv_desc);
         tv_content.setText(item.getDescription());
 
         container.addView(itemView);

@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.support.annotation.NonNull;
+
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 
 import java.security.MessageDigest;
@@ -20,20 +21,10 @@ public class RoundedCornersTransformation extends BitmapTransformation1 {
 
     private static final int VERSION = 1;
     private static final String ID = "jp.wasabeef.glide.transformations.RoundedCornersTransformation." + VERSION;
-
-    public enum CornerType {
-        ALL,
-        TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT,
-        TOP, BOTTOM, LEFT, RIGHT,
-        OTHER_TOP_LEFT, OTHER_TOP_RIGHT, OTHER_BOTTOM_LEFT, OTHER_BOTTOM_RIGHT,
-        DIAGONAL_FROM_TOP_LEFT, DIAGONAL_FROM_TOP_RIGHT
-    }
-
     private int radius;
     private int diameter;
     private int margin;
     private CornerType cornerType;
-
     public RoundedCornersTransformation(int radius, int margin) {
         this(radius, margin, CornerType.ALL);
     }
@@ -45,8 +36,9 @@ public class RoundedCornersTransformation extends BitmapTransformation1 {
         this.cornerType = cornerType;
     }
 
-    @Override protected Bitmap transform(@NonNull Context context, @NonNull BitmapPool pool,
-                                         @NonNull Bitmap toTransform, int outWidth, int outHeight) {
+    @Override
+    protected Bitmap transform(@NonNull Context context, @NonNull BitmapPool pool,
+                               @NonNull Bitmap toTransform, int outWidth, int outHeight) {
         int width = toTransform.getWidth();
         int height = toTransform.getHeight();
 
@@ -225,12 +217,14 @@ public class RoundedCornersTransformation extends BitmapTransformation1 {
         canvas.drawRect(new RectF(margin + radius, margin + radius, right, bottom), paint);
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "RoundedTransformation(radius=" + radius + ", margin=" + margin + ", diameter="
                 + diameter + ", cornerType=" + cornerType.name() + ")";
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         return o instanceof RoundedCornersTransformation &&
                 ((RoundedCornersTransformation) o).radius == radius &&
                 ((RoundedCornersTransformation) o).diameter == diameter &&
@@ -238,8 +232,17 @@ public class RoundedCornersTransformation extends BitmapTransformation1 {
                 ((RoundedCornersTransformation) o).cornerType == cornerType;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return ID.hashCode() + radius * 10000 + diameter * 1000 + margin * 100 + cornerType.ordinal() * 10;
+    }
+
+    public enum CornerType {
+        ALL,
+        TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT,
+        TOP, BOTTOM, LEFT, RIGHT,
+        OTHER_TOP_LEFT, OTHER_TOP_RIGHT, OTHER_BOTTOM_LEFT, OTHER_BOTTOM_RIGHT,
+        DIAGONAL_FROM_TOP_LEFT, DIAGONAL_FROM_TOP_RIGHT
     }
 
 

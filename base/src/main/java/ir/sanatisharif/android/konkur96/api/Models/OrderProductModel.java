@@ -10,38 +10,40 @@ import java.util.ArrayList;
 
 public class OrderProductModel implements Parcelable {
 
+    public static final Creator<OrderProductModel> CREATOR = new Creator<OrderProductModel>() {
+        @Override
+        public OrderProductModel createFromParcel(Parcel in) {
+            return new OrderProductModel(in);
+        }
+
+        @Override
+        public OrderProductModel[] newArray(int size) {
+            return new OrderProductModel[size];
+        }
+    };
     @SerializedName("id")
     private int id;
-
     @SerializedName("order_id")
     private int orderId;
-
     @SerializedName("quantity")
     private int quantity;
-
     @SerializedName("product")
     private ProductModel product;
-
     @SerializedName("grandId")
     @Expose
     private int grandId;
-
     @SerializedName("price")
     @Expose
     private PriceModel price;
-
     @SerializedName("bons")
     @Expose
     private BonModel bons;
-
     @SerializedName("attributevalues")
     @Expose
     private ArrayList<AttributesModel> attributeValues;
-
     @SerializedName("photo")
     @Expose
     private String photo;
-
 
     protected OrderProductModel(Parcel in) {
         id = in.readInt();
@@ -72,18 +74,6 @@ public class OrderProductModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<OrderProductModel> CREATOR = new Creator<OrderProductModel>() {
-        @Override
-        public OrderProductModel createFromParcel(Parcel in) {
-            return new OrderProductModel(in);
-        }
-
-        @Override
-        public OrderProductModel[] newArray(int size) {
-            return new OrderProductModel[size];
-        }
-    };
 
     public int getId() {
         return id;

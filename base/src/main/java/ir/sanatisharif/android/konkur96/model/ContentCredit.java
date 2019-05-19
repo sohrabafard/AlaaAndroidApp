@@ -14,15 +14,6 @@ import ir.sanatisharif.android.konkur96.model.main_page.Content;
 public class ContentCredit implements Parcelable {
 
 
-    @SerializedName("message")
-    @Expose
-    private String message;
-    @SerializedName("content")
-    @Expose
-    private Content content;
-    @SerializedName("product")
-    @Expose
-    private List<ProductModel> product = null;
     public final static Parcelable.Creator<ContentCredit> CREATOR = new Creator<ContentCredit>() {
 
 
@@ -38,6 +29,15 @@ public class ContentCredit implements Parcelable {
         }
 
     };
+    @SerializedName("message")
+    @Expose
+    private String message;
+    @SerializedName("content")
+    @Expose
+    private Content content;
+    @SerializedName("product")
+    @Expose
+    private List<ProductModel> product = null;
 
     protected ContentCredit(Parcel in) {
         this.message = ((String) in.readValue((String.class.getClassLoader())));

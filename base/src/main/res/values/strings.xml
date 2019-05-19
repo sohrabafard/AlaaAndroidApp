@@ -163,7 +163,6 @@
     <string name="ok">بله</string>
     <string name="not">خیر</string>
     <string name="openPDf">نمایش</string>
-    <string name="next">بعدی</string>
     <string name="go">بزن بریم</string>
     <string name="default_notification_channel_id">FCM</string>
     <string name="txtGender">جنسیت</string>
@@ -236,11 +235,6 @@
     <string name="apkDownload">فایل APk</string>
     <string name="exit">خروج</string>
 
-
-
-
-
-
     <string name="application_name">ExoPlayer</string>
 
     <string name="unexpected_intent_action">Unexpected intent action: </string>
@@ -290,6 +284,12 @@
     <string name="prefer_extension_decoders">Prefer extension decoders</string>
 
     <string name="random_abr">Enable random ABR</string>
-
-
+    <string name="name">اسم</string>
+    <string name="user_id">User Id</string>
+    <string name="password">Password</string>
+    <string name="create_account">Create Account</string>
+    <string name="alaa">آلاء</string>
+    <string name="offerInstallAlaa">پیشنهاد نصب نسخه آلاء</string>
+    <string name="shouldInstall">برای استفاده بعضی امکانات باید ثبت نام کنید و باید از نسخه نصبی آلاء استفاده کنید.</string>
+    <string name="next">بعدی</string>
 </resources>

@@ -258,7 +258,6 @@ public class ProductDetailFragment extends BaseFragment {
         txtDesc.setTypeface(AppConfig.fontIRSensLight);
 
 
-
     }
 
     private void initAction() {
@@ -266,58 +265,57 @@ public class ProductDetailFragment extends BaseFragment {
         cardAttrProduct.setOnClickListener(v -> showAtrrDialog());
         cardSampleProduct.setOnClickListener(v -> showSampleProduct());
         btnAddToCard.setOnClickListener(v -> {
-            if ( null != model.getAttributes().getExtra()){
+            if (null != model.getAttributes().getExtra()) {
 
-                if (type == ProductType.CONFIGURABLE){
+                if (type == ProductType.CONFIGURABLE) {
 
-                    if (attrList.size() > 0){
-
-                        showExtraAtrrDialog();
-
-                    }else {
-
-                        Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
-                    }
-                }else if (type == ProductType.SELECTABLE){
-
-                    if (selectableIdList.size() > 0 ){
+                    if (attrList.size() > 0) {
 
                         showExtraAtrrDialog();
 
-                    }else {
+                    } else {
 
-                        Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
                     }
-                }else if (type == ProductType.SIMPLE){
+                } else if (type == ProductType.SELECTABLE) {
+
+                    if (selectableIdList.size() > 0) {
+
+                        showExtraAtrrDialog();
+
+                    } else {
+
+                        Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                    }
+                } else if (type == ProductType.SIMPLE) {
 
                     showExtraAtrrDialog();
                 }
 
 
+            } else {
 
-            }else {
+                if (type == ProductType.CONFIGURABLE) {
 
-                if (type == ProductType.CONFIGURABLE){
-
-                    if (attrList.size() > 0){
-
-                        showZarinPalDialog();
-
-                    }else {
-
-                        Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
-                    }
-                }else if (type == ProductType.SELECTABLE){
-
-                    if (selectableIdList.size() > 0 ){
+                    if (attrList.size() > 0) {
 
                         showZarinPalDialog();
 
-                    }else {
+                    } else {
 
-                        Toast.makeText(getContext(),"لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
                     }
-                }else if (type == ProductType.SIMPLE){
+                } else if (type == ProductType.SELECTABLE) {
+
+                    if (selectableIdList.size() > 0) {
+
+                        showZarinPalDialog();
+
+                    } else {
+
+                        Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                    }
+                } else if (type == ProductType.SIMPLE) {
 
                     showZarinPalDialog();
                 }
@@ -341,22 +339,21 @@ public class ProductDetailFragment extends BaseFragment {
 
         txtShortDesc.setText(ShopUtils.setHTMLText(model.getShortDescription()));
 
-        if (null != model.getLongDescription()){
+        if (null != model.getLongDescription()) {
 
             txtDesc.setText(ShopUtils.setHTMLText(model.getLongDescription()));
 
-        }else {
+        } else {
 
             cardDesc.setVisibility(View.GONE);
         }
-
 
 
         Glide.with(AppConfig.context)
                 .load(model.getPhoto())
                 .into(image);
 
-        if (null != model.getBons() && model.getBons().size() > 0){
+        if (null != model.getBons() && model.getBons().size() > 0) {
 
             //setadapter
             ProductBonsAdapter adapter = new ProductBonsAdapter(model.getBons());
@@ -365,7 +362,7 @@ public class ProductDetailFragment extends BaseFragment {
             bonsRecyclerView.setItemAnimator(new DefaultItemAnimator());
             bonsRecyclerView.setAdapter(adapter);
 
-        }else {
+        } else {
 
             cardBon.setVisibility(View.GONE);
 
@@ -376,12 +373,11 @@ public class ProductDetailFragment extends BaseFragment {
         setMainAttr();
 
 
-
     }
 
-    private void setSelectable(){
+    private void setSelectable() {
 
-        if (type == ProductType.SELECTABLE){
+        if (type == ProductType.SELECTABLE) {
 
             bodySelectable.setVisibility(View.VISIBLE);
 
@@ -419,25 +415,25 @@ public class ProductDetailFragment extends BaseFragment {
     }
 
     @SuppressLint("SetTextI18n")
-    private void setMainAttr(){
+    private void setMainAttr() {
 
         if (type == ProductType.CONFIGURABLE) {
 
             bodyMainAttr.setVisibility(View.VISIBLE);
 
-            for (AttributeModel attr : model.getAttributes().getMain()){
+            for (AttributeModel attr : model.getAttributes().getMain()) {
 
                 MainAttrType type = ShopUtils.getMainAttrType(attr);
 
-                if (type == MainAttrType.SIMPLE){
+                if (type == MainAttrType.SIMPLE) {
 
                     createSimpleAttr(attr);
 
-                }else if (type == MainAttrType.CHECKBOX){
+                } else if (type == MainAttrType.CHECKBOX) {
 
                     createCheckBoxAttr(attr);
 
-                }else if (type == MainAttrType.DROPDOWN){
+                } else if (type == MainAttrType.DROPDOWN) {
 
                     createDropDownAttr(attr);
                 }
@@ -446,7 +442,7 @@ public class ProductDetailFragment extends BaseFragment {
     }
 
     @SuppressLint("SetTextI18n")
-    private void createSimpleAttr(AttributeModel attr){
+    private void createSimpleAttr(AttributeModel attr) {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -471,13 +467,13 @@ public class ProductDetailFragment extends BaseFragment {
         bodyMainAttr.addView(textView);
     }
 
-    private void createCheckBoxAttr(AttributeModel attr){
+    private void createCheckBoxAttr(AttributeModel attr) {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 100);
 
-        if (null != attr.getTitle() && !attr.getTitle().isEmpty()){
+        if (null != attr.getTitle() && !attr.getTitle().isEmpty()) {
 
             createTxtTitle(attr.getTitle());
         }
@@ -498,11 +494,11 @@ public class ProductDetailFragment extends BaseFragment {
                 checkBox.setButtonTintList(ContextCompat.getColorStateList(getContext(), R.color.checkboxtint));
             }
             checkBox.setOnCheckedChangeListener((compoundButton, check) -> {
-                if (check){
+                if (check) {
 
-                     addToAttrList((int) compoundButton.getTag());
+                    addToAttrList((int) compoundButton.getTag());
 
-                }else {
+                } else {
 
                     removeToAttrList((int) compoundButton.getTag());
                 }
@@ -513,13 +509,13 @@ public class ProductDetailFragment extends BaseFragment {
         }
     }
 
-    private void createDropDownAttr(AttributeModel attr){
+    private void createDropDownAttr(AttributeModel attr) {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 100);
 
-        if (null != attr.getTitle() && !attr.getTitle().isEmpty()){
+        if (null != attr.getTitle() && !attr.getTitle().isEmpty()) {
 
             createTxtTitle(attr.getTitle());
         }
@@ -535,7 +531,7 @@ public class ProductDetailFragment extends BaseFragment {
         for (AttributeDataModel attrData : attr.getData()) {
 
             spinnerArray.add(attrData.getName());
-            spinnerMap.put(attrData.getName(),attrData.getId());
+            spinnerMap.put(attrData.getName(), attrData.getId());
         }
         ArrayAdapter<String> attrAdapter = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_spinner_item, spinnerArray);
@@ -568,7 +564,7 @@ public class ProductDetailFragment extends BaseFragment {
     }
 
     @SuppressLint("SetTextI18n")
-    private void createTxtTitle(String title){
+    private void createTxtTitle(String title) {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -589,12 +585,12 @@ public class ProductDetailFragment extends BaseFragment {
 
     private void showAtrrDialog() {
 
-       if (null != model.getAttributes().getInformation()){
+        if (null != model.getAttributes().getInformation()) {
 
-           FragmentManager fm = getFragmentManager();
-           DialogFragment newFragment = new ProductAttrDialogFragment(model.getAttributes().getInformation());
-           newFragment.show(fm, "ProductAttr");
-       }
+            FragmentManager fm = getFragmentManager();
+            DialogFragment newFragment = new ProductAttrDialogFragment(model.getAttributes().getInformation());
+            newFragment.show(fm, "ProductAttr");
+        }
 
     }
 
@@ -626,7 +622,7 @@ public class ProductDetailFragment extends BaseFragment {
 
     private void showSampleProduct() {
 
-        if(null != model.getSamplePhotos()){
+        if (null != model.getSamplePhotos()) {
 
             imgGallery.setImages(model.getSamplePhotos());
             imgGallery.openFullView(0);
@@ -636,7 +632,7 @@ public class ProductDetailFragment extends BaseFragment {
 
     private void setIntroVideo(String url) {
 
-        if (null != url){
+        if (null != url) {
 
 //            Video video = ShopUtils.createVideoModelByURL(url);
 //            if (video != null) {
@@ -648,7 +644,7 @@ public class ProductDetailFragment extends BaseFragment {
                     .add(R.id.intro_video, videoPlayFrg, "videoPlayFrg")
                     .commit();
 
-        }else {
+        } else {
 
             intro.setVisibility(View.GONE);
         }
@@ -668,18 +664,18 @@ public class ProductDetailFragment extends BaseFragment {
             txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
         }
 
-        if (model.getPrice().getDiscount() > 0){
+        if (model.getPrice().getDiscount() > 0) {
 
-           txtDiscount.setText(ShopUtils.formatPrice(model.getPrice().getBase()) + " تومان ");
+            txtDiscount.setText(ShopUtils.formatPrice(model.getPrice().getBase()) + " تومان ");
 
-        }else {
+        } else {
 
             txtDiscount.setText("");
         }
     }
 
 
-    private void addToAttrList(int val){
+    private void addToAttrList(int val) {
 
         if (!attrList.contains(val)) {
 
@@ -687,7 +683,7 @@ public class ProductDetailFragment extends BaseFragment {
         }
     }
 
-    private void removeToAttrList(int val){
+    private void removeToAttrList(int val) {
 
         if (attrList.contains(val)) {
 
@@ -696,15 +692,15 @@ public class ProductDetailFragment extends BaseFragment {
     }
 
 
-    private void addToSelectableIdList(int val, boolean isFirst){
+    private void addToSelectableIdList(int val, boolean isFirst) {
 
         if (!selectableIdList.contains(val)) {
 
-            if (isFirst){
+            if (isFirst) {
 
                 selectableIdList.add(0, val);
 
-            }else {
+            } else {
 
                 selectableIdList.add(val);
             }
@@ -713,7 +709,7 @@ public class ProductDetailFragment extends BaseFragment {
         }
     }
 
-    private void removeToSelectableIdList(int val){
+    private void removeToSelectableIdList(int val) {
 
         if (selectableIdList.contains(val)) {
 
@@ -730,13 +726,13 @@ public class ProductDetailFragment extends BaseFragment {
         Collections.sort(products);
         progPrice.setVisibility(View.VISIBLE);
 
-        repository.getPrice(type,String.valueOf(model.getId()), products, mainAttributeValues, extraAttributeValues, data -> {
+        repository.getPrice(type, String.valueOf(model.getId()), products, mainAttributeValues, extraAttributeValues, data -> {
             progPrice.setVisibility(View.GONE);
             if (data instanceof Result.Success) {
 
                 GETPriceModel temp = (GETPriceModel) ((Result.Success) data).value;
 
-                if (null == temp.getError()){
+                if (null == temp.getError()) {
 
                     if (temp.getCost().getMfinal() > 0) {
                         totalPrice = temp.getCost().getMfinal();
@@ -747,7 +743,7 @@ public class ProductDetailFragment extends BaseFragment {
                         txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
                     }
 
-                }else {
+                } else {
 
 
                     Log.d("Error", temp.getError().getMessage());

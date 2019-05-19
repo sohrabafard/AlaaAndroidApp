@@ -8,21 +8,27 @@ import com.google.gson.annotations.SerializedName;
 
 public class GrandModel implements Parcelable {
 
+    public static final Creator<GrandModel> CREATOR = new Creator<GrandModel>() {
+        @Override
+        public GrandModel createFromParcel(Parcel in) {
+            return new GrandModel(in);
+        }
+
+        @Override
+        public GrandModel[] newArray(int size) {
+            return new GrandModel[size];
+        }
+    };
     @SerializedName("id")
     private int id;
-
     @SerializedName("name")
     private String name;
-
     @SerializedName("url")
     private String url;
-
     @SerializedName("apiUrl")
     private ApiUrlModel apiUrl;
-
     @SerializedName("photo")
     private String photo;
-
     @SerializedName("attributes")
     @Expose
     private AttributesModel attributes;
@@ -50,16 +56,4 @@ public class GrandModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<GrandModel> CREATOR = new Creator<GrandModel>() {
-        @Override
-        public GrandModel createFromParcel(Parcel in) {
-            return new GrandModel(in);
-        }
-
-        @Override
-        public GrandModel[] newArray(int size) {
-            return new GrandModel[size];
-        }
-    };
 }

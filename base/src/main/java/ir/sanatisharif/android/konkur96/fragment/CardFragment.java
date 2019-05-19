@@ -172,7 +172,6 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 //        });
 
 
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -191,7 +190,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         //---------------------- convert -------------------------------------------------------
         /*items.addAll(ShopUtils.convertToAddToCardModelList(data));*/
-           items.addAll(data.getItems());
+        items.addAll(data.getItems());
 
         //---------------------- update adapter ------------------------------------------------
         adapter.notifyDataSetChanged();
@@ -221,7 +220,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                             if (data instanceof Result.Success) {
 
                                 String url = ((PaymentUrlModel) ((Result.Success) data).value).getUrl();
-                                if (null != url){
+                                if (null != url) {
 
                                     openWebView(url);
                                 }
@@ -256,7 +255,6 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 //
 //
 //        });
-
 
 
     }
@@ -297,25 +295,24 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
 
-
-    private void openZarinPal(){
+    private void openZarinPal() {
 
         if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
 
             String uMobile = "نامشخص";
 
-            if (user.getMobile() != null){
+            if (user.getMobile() != null) {
 
                 uMobile = user.getMobile();
             }
 
-            String desc = "اپ آلاء" + " - " + "نسخه" + String.valueOf(BuildConfig.VERSION_CODE) +
+            String desc = "اپ آلاء" + " - " + "نسخه" + BuildConfig.VERSION_CODE +
 
                     " - " + uMobile + " - " + "محصولات: " + ShopUtils.getProductNames(cardReviewModel);
 
             PaymentRequest body = new PaymentRequest("55eb1362-08d4-42ee-8c74-4c5f5bef37d4",
                     finalPrice,
-                    "alla://sanatisharif.ir/zarinpal/?a=" + String.valueOf(finalPrice),
+                    "alla://sanatisharif.ir/zarinpal/?a=" + finalPrice,
                     desc);
 
             repository.paymentRequest(body, data -> {
@@ -324,20 +321,20 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
                     PaymentResponse payment = (PaymentResponse) ((Result.Success) data).value;
 
-                    if (payment.getStatus() == 100){
+                    if (payment.getStatus() == 100) {
 
                         String url = "https://www.zarinpal.com/pg/StartPay/" + payment.getAuthority() + "/MobileGate";
 
                         openWebView(url);
 
-                    }else {
+                    } else {
 
-                        Toast.makeText(getContext(), "خطا : " + String.valueOf(payment.getStatus()) , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "خطا : " + payment.getStatus(), Toast.LENGTH_LONG).show();
                     }
 
                 } else {
 
-                    Toast.makeText(getContext(), "خطایی رخ داده لطفا دوباره امتحان کنید." , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "خطایی رخ داده لطفا دوباره امتحان کنید.", Toast.LENGTH_LONG).show();
                 }
 
 
@@ -345,7 +342,8 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }
 
     }
-    private void openWebView(String url){
+
+    private void openWebView(String url) {
 
         try {
             Uri uri = Uri.parse(url);
@@ -359,7 +357,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }
     }
 
-    private void delete(int id){
+    private void delete(int id) {
 
         swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
 
@@ -374,7 +372,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
                                 if (data instanceof Result.Success) {
 
-                                    Toast.makeText(getContext(),"با موفقیت حدف شد.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "با موفقیت حدف شد.", Toast.LENGTH_LONG).show();
                                     onRefresh();
                                     productsRecyclerView.getAdapter().notifyDataSetChanged();
                                     swipeRefreshLayout.setRefreshing(false);
@@ -388,7 +386,6 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                             })));
 
         }
-
 
 
     }

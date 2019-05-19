@@ -25,17 +25,16 @@ import android.widget.TextView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
-import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
-import ir.sanatisharif.android.konkur96.model.DownloadUrl;
 import ir.sanatisharif.android.konkur96.model.Video;
-import ir.sanatisharif.android.konkur96.ui.view.MDToast;
+import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.DownloadFile;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
@@ -50,21 +49,19 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_F
 public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
     //------init UI
-    private static final String TAG = "LOG";
+    private static final String TAG = "DownloadDialogFrg";
+    private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
+    private static final int PERMISSION_ALL = 1;
     private static ArrayList<Video> videos = new ArrayList<>();
     private static String title;
-
     private TextView txtDownload;
     private TextView txtCancel;
     private RadioGroup radioGroup;
     private RadioButton radioExcellentQuality;
-    private RadioButton radioHighQuality;
-    private RadioButton radioMediumQuality;
 
     //------
-
-    private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
-    private static final int PERMISSION_ALL = 1;
+    private RadioButton radioHighQuality;
+    private RadioButton radioMediumQuality;
     private View dialog;
     private SharedPreferences sharedPreferences;
     private DownloadComplete downloadComplete;
@@ -74,6 +71,18 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         videos.addAll(v);
         title = t;
         return frag;
+    }
+
+    //---------------------------------------------------------------------------------------
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public void setData(List<Video> v, String t) {
@@ -109,6 +118,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
         return dialog;
     }
+    // ----- get Permission
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -205,7 +215,6 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             }
         });
     }
-    // ----- get Permission
 
     private boolean checkLocationPermission() {
 
@@ -217,18 +226,6 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             return true;
         }
         return false;
-    }
-
-    //---------------------------------------------------------------------------------------
-    public static boolean hasPermissions(Context context, String... permissions) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     private void createDir(String url, String title) {
@@ -256,9 +253,13 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                     Utils.addVideoToGallery(f, AppConfig.currentActivity);
                 }
             });
+            Log.e(TAG, "startDL-here");
 
-            DownloadFile.getInstance().start(url, AppConstants.ROOT + "/" + mediaPath, fileName, title, "");
-
+            AuthToken.getInstant().get(Objects.requireNonNull(getContext()), Objects.requireNonNull(getActivity()), token -> {
+                Log.e(TAG, token);
+                if (token != null)
+                    DownloadFile.getInstance().start(url, AppConstants.ROOT + "/" + mediaPath, fileName, title, getResources().getString(R.string.alaa), token);
+            });
         } else {
             Utils.loadUrl(url, getContext());
         }

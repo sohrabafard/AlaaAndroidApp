@@ -59,7 +59,7 @@ public class MyFilterPagerAdapter extends FragmentStatePagerAdapter {
     public int getItemPosition(Object object) {
 
         if (mFrgArrayList.contains(object)) {
-            return mFrgArrayList.indexOf((FilterShowEntityFrg) object);
+            return mFrgArrayList.indexOf(object);
         } else {
             return POSITION_NONE;
         }
@@ -68,9 +68,9 @@ public class MyFilterPagerAdapter extends FragmentStatePagerAdapter {
     public View getTabView(int position, String title) {
 
         View v = LayoutInflater.from(context).inflate(R.layout.custom_tab, null);
-        TextView tv = (TextView) v.findViewById(R.id.txtTab);
+        TextView tv = v.findViewById(R.id.txtTab);
         tv.setText(title);
-        ImageView img = (ImageView) v.findViewById(R.id.imgTab);
+        ImageView img = v.findViewById(R.id.imgTab);
         // img.setImageResource(imageResId[position]);
         return v;
     }

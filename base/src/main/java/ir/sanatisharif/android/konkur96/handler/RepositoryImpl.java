@@ -97,7 +97,7 @@ public class RepositoryImpl implements Repository {
     @Override
     public void getPrice(ProductType type, String productId, ArrayList<Integer> products, ArrayList<Integer> mainAttributeValues, ArrayList<Integer> extraAttributeValues, ApiCallBack callBack) {
 
-        if (type == ProductType.CONFIGURABLE){
+        if (type == ProductType.CONFIGURABLE) {
 
             shopAPI.getPrice(productId, mainAttributeValues, extraAttributeValues)
                     .subscribeOn(Schedulers.io())
@@ -105,7 +105,7 @@ public class RepositoryImpl implements Repository {
                     .subscribe(GETPriceModel -> callBack.onResponse(new Result.Success(GETPriceModel)),
                             throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
 
-        }else if (type == ProductType.SELECTABLE){
+        } else if (type == ProductType.SELECTABLE) {
 
             shopAPI.getPriceSelectable(productId, products, extraAttributeValues)
                     .subscribeOn(Schedulers.io())
@@ -114,7 +114,6 @@ public class RepositoryImpl implements Repository {
                             throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
         }
     }
-
 
 
     @SuppressLint("CheckResult")
@@ -173,7 +172,7 @@ public class RepositoryImpl implements Repository {
 
     @SuppressLint("CheckResult")
     @Override
-    public void notifyTransaction(String token,String cost, String authority, String refId, ApiCallBack callBack) {
+    public void notifyTransaction(String token, String cost, String authority, String refId, ApiCallBack callBack) {
 
         shopAPI.notifyTransaction(("Bearer " + token), cost, authority, refId)
                 .subscribeOn(Schedulers.io())

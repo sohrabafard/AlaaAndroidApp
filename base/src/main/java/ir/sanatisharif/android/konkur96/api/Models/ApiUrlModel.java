@@ -7,6 +7,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class ApiUrlModel implements Parcelable {
 
+    public static final Creator<ApiUrlModel> CREATOR = new Creator<ApiUrlModel>() {
+        @Override
+        public ApiUrlModel createFromParcel(Parcel in) {
+            return new ApiUrlModel(in);
+        }
+
+        @Override
+        public ApiUrlModel[] newArray(int size) {
+            return new ApiUrlModel[size];
+        }
+    };
     @SerializedName("v1")
     private String v1;
 
@@ -23,18 +34,6 @@ public class ApiUrlModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<ApiUrlModel> CREATOR = new Creator<ApiUrlModel>() {
-        @Override
-        public ApiUrlModel createFromParcel(Parcel in) {
-            return new ApiUrlModel(in);
-        }
-
-        @Override
-        public ApiUrlModel[] newArray(int size) {
-            return new ApiUrlModel[size];
-        }
-    };
 
     public String getV1() {
         return v1;

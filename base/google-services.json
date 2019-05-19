@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "93895183217-mamo0f1gcrgg58ec1bhm4ft0tp0upp8j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ir.sanatisharif.android.konkur96",
+            "certificate_hash": "d049e714ebedfd0a903254404a7595c0e46cd3be"
+          }
+        },
+        {
           "client_id": "93895183217-3uvr94mf8cgsitrohjc0ldrdfc9lih0d.apps.googleusercontent.com",
           "client_type": 3
         }

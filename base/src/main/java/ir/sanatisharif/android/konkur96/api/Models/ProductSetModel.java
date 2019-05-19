@@ -7,18 +7,25 @@ import com.google.gson.annotations.SerializedName;
 
 public class ProductSetModel implements Parcelable {
 
+    public static final Creator<ProductSetModel> CREATOR = new Creator<ProductSetModel>() {
+        @Override
+        public ProductSetModel createFromParcel(Parcel in) {
+            return new ProductSetModel(in);
+        }
+
+        @Override
+        public ProductSetModel[] newArray(int size) {
+            return new ProductSetModel[size];
+        }
+    };
     @SerializedName("id")
     private int id;
-
     @SerializedName("name")
     private String name;
-
     @SerializedName("photo")
     private String photo;
-
     @SerializedName("shortName")
     private String shortName;
-
     @SerializedName("contentUrl")
     private String contentUrl;
 
@@ -43,18 +50,6 @@ public class ProductSetModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<ProductSetModel> CREATOR = new Creator<ProductSetModel>() {
-        @Override
-        public ProductSetModel createFromParcel(Parcel in) {
-            return new ProductSetModel(in);
-        }
-
-        @Override
-        public ProductSetModel[] newArray(int size) {
-            return new ProductSetModel[size];
-        }
-    };
 
     public int getId() {
         return id;

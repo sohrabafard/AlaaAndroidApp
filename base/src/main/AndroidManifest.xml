@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="ir.sanatisharif.android.konkur96">
-
+    <dist:module dist:instant="true" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -143,7 +144,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="sanatisharif.ir"
+                    android:host="alaatv.com"
                     android:pathPrefix="/product"
                     android:scheme="http" />
             </intent-filter>
@@ -178,7 +179,20 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="sanatisharif.ir"
+                    android:host="alaatv.com"
+                    android:pathPrefix="/shop"
+                    android:scheme="http" />
+            </intent-filter>
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="alaatv.com"
                     android:pathPrefix="/shop"
                     android:scheme="https" />
             </intent-filter>

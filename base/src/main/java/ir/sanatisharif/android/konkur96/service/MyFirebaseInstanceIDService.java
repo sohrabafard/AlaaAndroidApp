@@ -20,11 +20,11 @@ public class MyFirebaseInstanceIDService extends FirebaseMessagingService {
     public void onNewToken(String refreshedToken) {
         super.onNewToken(refreshedToken);
 
-      //  When you need to retrieve the current token, call
+        //  When you need to retrieve the current token, call
         // FirebaseInstanceId.getInstance().getInstanceId().getResult().getToken();
         //Displaying token on logcat
         Log.d(TAG, "Refreshed token: " + refreshedToken);
-        Log.d(TAG, "Refreshed token: " +  FirebaseInstanceId.getInstance().getInstanceId().getResult().getToken());
+        Log.d(TAG, "Refreshed token: " + FirebaseInstanceId.getInstance().getInstanceId().getResult().getToken());
 
         storeToken(refreshedToken);
 

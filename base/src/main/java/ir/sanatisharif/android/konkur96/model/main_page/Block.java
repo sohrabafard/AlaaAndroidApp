@@ -1,16 +1,31 @@
-
 package ir.sanatisharif.android.konkur96.model.main_page;
 
 import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Block implements Parcelable
-{
+public class Block implements Parcelable {
 
+    public final static Creator<Block> CREATOR = new Creator<Block>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Block createFromParcel(Parcel in) {
+            return new Block(in);
+        }
+
+        public Block[] newArray(int size) {
+            return (new Block[size]);
+        }
+
+    };
     @SerializedName("current_page")
     @Expose
     private Integer currentPage;
@@ -47,34 +62,18 @@ public class Block implements Parcelable
     @SerializedName("total")
     @Expose
     private Integer total;
-    public final static Creator<Block> CREATOR = new Creator<Block>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Block createFromParcel(Parcel in) {
-            return new Block(in);
-        }
-
-        public Block[] newArray(int size) {
-            return (new Block[size]);
-        }
-
-    }
-    ;
 
     protected Block(Parcel in) {
         this.currentPage = ((Integer) in.readValue((Integer.class.getClassLoader())));
         in.readList(this.data, (Datum.class.getClassLoader()));
-        this.firstPageUrl = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.firstPageUrl = in.readValue((Object.class.getClassLoader()));
         this.from = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.lastPage = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.lastPageUrl = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.nextPageUrl = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.lastPageUrl = in.readValue((Object.class.getClassLoader()));
+        this.nextPageUrl = in.readValue((Object.class.getClassLoader()));
         this.path = ((String) in.readValue((String.class.getClassLoader())));
         this.perPage = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.prevPageUrl = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.prevPageUrl = in.readValue((Object.class.getClassLoader()));
         this.to = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.total = ((Integer) in.readValue((Integer.class.getClassLoader())));
     }
@@ -194,7 +193,7 @@ public class Block implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

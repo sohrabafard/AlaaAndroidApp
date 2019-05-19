@@ -12,10 +12,6 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 public class MyPreferenceManager {
 
     private static final String PREFERENCE_FILE_NAME = "Prefs";
-    private static MyPreferenceManager preferenceManager = null;
-    private static SharedPreferences sharedPreferences;
-    public static SharedPreferences.Editor editor;
-
     private final static String API_TOKEN = "api_token";
     private final static String FIREBASE_TOKEN = "firebase_token";
     private final static String SEND_TOKEN_TO_SERVER = "sendTokenToServer";
@@ -24,6 +20,9 @@ public class MyPreferenceManager {
     private final static String UPDATE_SHOW_DIALOG = "";
     private final static String LAST_VERSION_CODE = "last_version_code";
     private final static String AUTHORIZE = "authorization";
+    public static SharedPreferences.Editor editor;
+    private static MyPreferenceManager preferenceManager = null;
+    private static SharedPreferences sharedPreferences;
 
 
     private MyPreferenceManager() {
@@ -106,20 +105,24 @@ public class MyPreferenceManager {
 
     //-------------------------------------------------------
 
+    public boolean getOnboarding() {
+        return getSharedBoolean(ONBOARDING, false);
+    }
+
     public void setOnboarding(boolean onboarding) {
         setSharedBoolean(ONBOARDING, onboarding);
     }
 
-    public boolean getOnboarding() {
-        return getSharedBoolean(ONBOARDING, false);
+    public String getFirebaseToken() {
+        return getSharedString(FIREBASE_TOKEN, "");
     }
 
     public void setFirebaseToken(String firebaseToken) {
         setSharedString(FIREBASE_TOKEN, firebaseToken);
     }
 
-    public String getFirebaseToken() {
-        return getSharedString(FIREBASE_TOKEN, "");
+    public boolean isSendTokenToServer() {
+        return getSharedBoolean(SEND_TOKEN_TO_SERVER, false);
     }
 
     /**
@@ -131,10 +134,9 @@ public class MyPreferenceManager {
         setSharedBoolean(SEND_TOKEN_TO_SERVER, sended);
     }
 
-    public boolean isSendTokenToServer() {
-        return getSharedBoolean(SEND_TOKEN_TO_SERVER, false);
+    public String getApiToken() {
+        return getSharedString(API_TOKEN, "");
     }
-
 
     /**
      * Api Token
@@ -145,11 +147,12 @@ public class MyPreferenceManager {
         setSharedString(API_TOKEN, token);
     }
 
-    public String getApiToken() {
-        return getSharedString(API_TOKEN, "");
+    public boolean isAuthorize() {
+        return getSharedBoolean(AUTHORIZE, false);
     }
+
     /**
-     *  check okhttp and set header
+     * check okhttp and set header
      *
      * @param authorize
      */
@@ -157,8 +160,8 @@ public class MyPreferenceManager {
         setSharedBoolean(AUTHORIZE, authorize);
     }
 
-    public boolean isAuthorize() {
-        return getSharedBoolean(AUTHORIZE, false);
+    public Boolean getTurnOffNotification() {
+        return getSharedBoolean(TURN_OFF_NOTIFICATION, false);
     }
 
     //send turn off
@@ -166,15 +169,11 @@ public class MyPreferenceManager {
         setSharedBoolean(TURN_OFF_NOTIFICATION, value);
     }
 
-    public Boolean getTurnOffNotification() {
-        return getSharedBoolean(TURN_OFF_NOTIFICATION, false);
+    public int getLastVersionCode() {
+        return getSharedInt(LAST_VERSION_CODE, 41);
     }
 
     public void setLastVersionCode(int value) {
         setSharedInt(LAST_VERSION_CODE, value);
-    }
-
-    public int getLastVersionCode() {
-        return getSharedInt(LAST_VERSION_CODE, 39);
     }
 }

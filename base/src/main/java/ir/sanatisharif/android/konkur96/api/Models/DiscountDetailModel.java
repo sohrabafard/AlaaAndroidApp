@@ -7,15 +7,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class DiscountDetailModel implements Parcelable {
 
+    public static final Creator<DiscountDetailModel> CREATOR = new Creator<DiscountDetailModel>() {
+        @Override
+        public DiscountDetailModel createFromParcel(Parcel in) {
+            return new DiscountDetailModel(in);
+        }
+
+        @Override
+        public DiscountDetailModel[] newArray(int size) {
+            return new DiscountDetailModel[size];
+        }
+    };
     @SerializedName("productDiscount")
     private int productDiscount;
-
     @SerializedName("bonDiscount")
     private int bonDiscount;
-
     @SerializedName("productDiscountAmount")
     private int productDiscountAmount;
-
 
     protected DiscountDetailModel(Parcel in) {
         productDiscount = in.readInt();
@@ -34,18 +42,6 @@ public class DiscountDetailModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<DiscountDetailModel> CREATOR = new Creator<DiscountDetailModel>() {
-        @Override
-        public DiscountDetailModel createFromParcel(Parcel in) {
-            return new DiscountDetailModel(in);
-        }
-
-        @Override
-        public DiscountDetailModel[] newArray(int size) {
-            return new DiscountDetailModel[size];
-        }
-    };
 
     public int getProductDiscount() {
         return productDiscount;

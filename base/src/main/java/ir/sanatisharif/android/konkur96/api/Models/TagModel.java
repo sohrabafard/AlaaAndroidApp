@@ -9,17 +9,6 @@ import java.util.ArrayList;
 
 public class TagModel implements Parcelable {
 
-    @SerializedName("bucket")
-    private String bucket;
-
-    @SerializedName("tags")
-    private ArrayList<String> tags;
-
-    protected TagModel(Parcel in) {
-        bucket = in.readString();
-        tags = in.createStringArrayList();
-    }
-
     public static final Creator<TagModel> CREATOR = new Creator<TagModel>() {
         @Override
         public TagModel createFromParcel(Parcel in) {
@@ -31,6 +20,15 @@ public class TagModel implements Parcelable {
             return new TagModel[size];
         }
     };
+    @SerializedName("bucket")
+    private String bucket;
+    @SerializedName("tags")
+    private ArrayList<String> tags;
+
+    protected TagModel(Parcel in) {
+        bucket = in.readString();
+        tags = in.createStringArrayList();
+    }
 
     public String getBucket() {
         return bucket;

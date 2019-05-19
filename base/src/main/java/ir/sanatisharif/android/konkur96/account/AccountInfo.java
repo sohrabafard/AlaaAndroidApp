@@ -165,29 +165,8 @@ public class AccountInfo {
 
     public boolean ExistAccount(String type) {
 
-        if (InstantApps.isInstantApp(context)) {
-            new AlertDialog.Builder(AppConfig.currentActivity)
-                    .setView(R.layout.alert_dialog)
-                    .setPositiveButton("بله", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent goToMarket = new Intent(Intent.ACTION_VIEW)
-                                    .setData(Uri.parse("https://play.google.com/store/apps/details?id=ir.sanatisharif.android.konkur96"));
-                            goToMarket.setFlags(FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(goToMarket);
-                        }
-                    })
-                    .setNegativeButton("خیر", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                        }
-                    })
-                    .create().show();
-
-            return false;
-        } else {
-            Account availableAccounts[] = mAccountManager.getAccountsByType(type);
+        if (!InstantApps.isInstantApp(context)) {
+            Account[] availableAccounts = mAccountManager.getAccountsByType(type);
             Log.i(TAG, "ExistAccount: " + availableAccounts.length);
             if (availableAccounts.length == 0) {
                 addNewAccount(type, AUTHTOKEN_TYPE_FULL_ACCESS);
@@ -195,6 +174,26 @@ public class AccountInfo {
             }
             return true;
         }
+        new AlertDialog.Builder(AppConfig.currentActivity)
+                .setView(R.layout.alert_dialog)
+                .setPositiveButton("بله", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent goToMarket = new Intent(Intent.ACTION_VIEW)
+                                .setData(Uri.parse("https://play.google.com/store/apps/details?id=ir.sanatisharif.android.konkur96"));
+                        goToMarket.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(goToMarket);
+                    }
+                })
+                .setNegativeButton("خیر", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .create().show();
+
+        return false;
     }
 
     public interface AuthToken {

@@ -10,6 +10,7 @@ import com.google.gson.annotations.SerializedName;
 public class Users {
 
 
+    private final static long serialVersionUID = 3774137690317975166L;
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -43,7 +44,6 @@ public class Users {
     @SerializedName("userName")
     @Expose
     private String userName;
-    private final static long serialVersionUID = 3774137690317975166L;
 
     public Integer getId() {
         return id;

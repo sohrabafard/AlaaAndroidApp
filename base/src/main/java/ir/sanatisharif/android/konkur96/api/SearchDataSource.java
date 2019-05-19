@@ -12,7 +12,8 @@ import ir.sanatisharif.android.konkur96.model.filter.VideoRoot;
  * Created by Mohamad on 2/27/2019.
  */
 
-public class SearchDataSource {} /*extends PageKeyedDataSource<Integer, VideoCourse> {
+public class SearchDataSource {
+} /*extends PageKeyedDataSource<Integer, VideoCourse> {
 
     // private final MutableLiveData<RequestFailure> requestFailureLiveData;
 

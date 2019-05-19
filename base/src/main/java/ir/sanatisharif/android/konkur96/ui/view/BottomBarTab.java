@@ -10,6 +10,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
 import ir.sanatisharif.android.konkur96.R;
 
 
@@ -61,14 +62,14 @@ public class BottomBarTab extends FrameLayout {
         }
     }
 
+    public int getTabPosition() {
+        return mTabPosition;
+    }
+
     public void setTabPosition(int position) {
         mTabPosition = position;
         if (position == 0) {
             setSelected(true);
         }
-    }
-
-    public int getTabPosition() {
-        return mTabPosition;
     }
 }

@@ -100,7 +100,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
         manager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
-        myRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
+        myRecyclerView = v.findViewById(R.id.recyclerView);
         nestedScrollView = v.findViewById(R.id.nestedScrollView);
         myRecyclerView.setNestedScrollingEnabled(false);
         myRecyclerView.setHasFixedSize(false);
@@ -140,7 +140,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
     //<editor-fold desc="set data">
     public void setVideoCourses(VideoRoot videoRoot) {
 
-        pagination = (Pagination) videoRoot;
+        pagination = videoRoot;
         DetailsVideoFrg.pagination = pagination;
         type = AppConstants.FILTER_VIDEO;
         mList.clear();
@@ -149,7 +149,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
     public void setPamphletCourses(PamphletRoot pamphletRoot) {
 
-        pagination = (Pagination) pamphletRoot;
+        pagination = pamphletRoot;
         type = AppConstants.FILTER_PAMPHLET;
         mList.clear();
         mList.addAll(pamphletRoot.getData());
@@ -157,7 +157,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
     public void setArticleCourses(ArticleRoot articleRoot) {
 
-        pagination = (Pagination) articleRoot;
+        pagination = articleRoot;
         type = AppConstants.FILTER_ARTICLE;
         mList.clear();
         mList.addAll(articleRoot.getData());
@@ -165,7 +165,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
     public void setToSetFilterCourses(SetFilterRoot setFilterRoot) {
 
-        pagination = (Pagination) setFilterRoot;
+        pagination = setFilterRoot;
         type = AppConstants.FILTER_SET;
         mList.clear();
         mList.addAll(setFilterRoot.getData());
@@ -173,7 +173,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
     public void setToProduct(SetFilterProductRoot product) {
 
-        pagination = (Pagination) product;
+        pagination = product;
         type = AppConstants.FILTER_PRODUCT;
         mList.clear();
         mList.addAll(product.getData());

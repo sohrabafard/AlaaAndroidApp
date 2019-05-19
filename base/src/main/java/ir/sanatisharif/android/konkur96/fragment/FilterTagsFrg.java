@@ -161,7 +161,7 @@ public class FilterTagsFrg extends BaseFragment implements
         mToolbar = view.findViewById(R.id.toolbar);
         frameViewPager = view.findViewById(R.id.frameViewPager);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-        ((AppCompatActivity) getActivity()).setTitle("");
+        getActivity().setTitle("");
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
@@ -201,23 +201,23 @@ public class FilterTagsFrg extends BaseFragment implements
         }
         if (filter.getResult().getSet() != null) {
             tabControls[SET].setShow(true);
-          //  Log.i("LOG", "setupViewPager: " + SET + " " + tabControls[SET].isShow());
+            //  Log.i("LOG", "setupViewPager: " + SET + " " + tabControls[SET].isShow());
         }
         if (filter.getResult().getVideo() != null) {
             tabControls[VIDEO].setShow(true);
-           // Log.i("LOG", "setupViewPager:getVideo  " + VIDEO + " " + tabControls[VIDEO].isShow());
+            // Log.i("LOG", "setupViewPager:getVideo  " + VIDEO + " " + tabControls[VIDEO].isShow());
         }
         if (filter.getResult().getPamphlet() != null) {
             tabControls[PAMPHLET].setShow(true);
-           // Log.i("LOG", "setupViewPager:getPamphlet  " + PAMPHLET + " " + tabControls[PAMPHLET].isShow());
+            // Log.i("LOG", "setupViewPager:getPamphlet  " + PAMPHLET + " " + tabControls[PAMPHLET].isShow());
         }
         if (filter.getResult().getArticle() != null) {
             tabControls[ARTICLE].setShow(true);
-           // Log.i("LOG", "setupViewPager:getArticle  " + ARTICLE + " " + tabControls[ARTICLE].isShow());
+            // Log.i("LOG", "setupViewPager:getArticle  " + ARTICLE + " " + tabControls[ARTICLE].isShow());
         }
         if (filter.getResult().getProduct() != null) {
             tabControls[PRODUCT].setShow(true);
-           // Log.i("LOG", "setupViewPager:getProduct  " + PRODUCT + " " + tabControls[PRODUCT].isShow());
+            // Log.i("LOG", "setupViewPager:getProduct  " + PRODUCT + " " + tabControls[PRODUCT].isShow());
         }
 
         //new instantiate and adding to viewpager

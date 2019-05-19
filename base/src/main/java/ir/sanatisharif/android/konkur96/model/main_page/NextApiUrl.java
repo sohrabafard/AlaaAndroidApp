@@ -1,23 +1,19 @@
-
 package ir.sanatisharif.android.konkur96.model.main_page;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class NextApiUrl implements Parcelable
-{
+public class NextApiUrl implements Parcelable {
 
-    @SerializedName("v1")
-    @Expose
-    private String v1;
     public final static Creator<NextApiUrl> CREATOR = new Creator<NextApiUrl>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public NextApiUrl createFromParcel(Parcel in) {
             return new NextApiUrl(in);
@@ -27,8 +23,10 @@ public class NextApiUrl implements Parcelable
             return (new NextApiUrl[size]);
         }
 
-    }
-    ;
+    };
+    @SerializedName("v1")
+    @Expose
+    private String v1;
 
     protected NextApiUrl(Parcel in) {
         this.v1 = ((String) in.readValue((String.class.getClassLoader())));
@@ -50,7 +48,7 @@ public class NextApiUrl implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

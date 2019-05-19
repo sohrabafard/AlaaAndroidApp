@@ -11,30 +11,33 @@ import ir.sanatisharif.android.konkur96.model.main_page.Product;
 
 public class AddToCardModel extends ErrorBase implements Parcelable {
 
+    public static final Creator<AddToCardModel> CREATOR = new Creator<AddToCardModel>() {
+        @Override
+        public AddToCardModel createFromParcel(Parcel in) {
+            return new AddToCardModel(in);
+        }
+
+        @Override
+        public AddToCardModel[] newArray(int size) {
+            return new AddToCardModel[size];
+        }
+    };
     @SerializedName("order_id")
     private int order_id;
-
     @SerializedName("id")
     private int id;
-
     @SerializedName("orderproducttype")
     private OrderProductTypeModel orderproducttype;
-
     @SerializedName("product")
     private ProductModel product;
-
     @SerializedName("grandId")
     private String grandId;
-
     @SerializedName("price")
     private AllPriceModel price;
-
     @SerializedName("bons")
     private ArrayList<AllBonModel> bons;
-
     @SerializedName("photo")
     private String photo;
-
     @SerializedName("grandProduct")
     private ProductModel grandProduct;
 
@@ -67,18 +70,6 @@ public class AddToCardModel extends ErrorBase implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<AddToCardModel> CREATOR = new Creator<AddToCardModel>() {
-        @Override
-        public AddToCardModel createFromParcel(Parcel in) {
-            return new AddToCardModel(in);
-        }
-
-        @Override
-        public AddToCardModel[] newArray(int size) {
-            return new AddToCardModel[size];
-        }
-    };
 
     public int getOrder_id() {
         return order_id;

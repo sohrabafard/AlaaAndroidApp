@@ -102,7 +102,7 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
     public void setToolbar(Toolbar mToolbar, String txtTitle) {
 
         setHasOptionsMenu(true);
-        mToolbar = (Toolbar) getView().findViewById(R.id.toolbar);
+        mToolbar = getView().findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();

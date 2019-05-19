@@ -16,14 +16,6 @@ public class TabControl {
 
     }
 
-    public int getIcon() {
-        return icon;
-    }
-
-    public void setIcon(int icon) {
-        this.icon = icon;
-    }
-
     public TabControl(int id, String name, String title, boolean show) {
         this.id = id;
         this.name = name;
@@ -37,6 +29,14 @@ public class TabControl {
         this.title = title;
         this.icon = icon;
         this.show = show;
+    }
+
+    public int getIcon() {
+        return icon;
+    }
+
+    public void setIcon(int icon) {
+        this.icon = icon;
     }
 
     public int getId() {

@@ -7,5 +7,6 @@ import android.view.ViewGroup;
 public interface BaseLinearLayoutManagerItem {
 
     RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType);
+
     void onBindViewHolder(RecyclerView.ViewHolder holder, int position);
 }

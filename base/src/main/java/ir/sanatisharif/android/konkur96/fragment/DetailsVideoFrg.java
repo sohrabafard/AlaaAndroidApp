@@ -73,6 +73,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
@@ -99,8 +100,8 @@ import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
 import ir.sanatisharif.android.konkur96.model.main_page.Content;
-import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
+import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
@@ -110,8 +111,6 @@ import static android.content.Context.KEYGUARD_SERVICE;
 import static android.content.Context.POWER_SERVICE;
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConfig.context;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -119,26 +118,29 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_F
 
 public class DetailsVideoFrg extends BaseFragment implements View.OnClickListener {
 
-    private final static String TAG = "LOG";
-    private final String STATE_RESUME_WINDOW = "resumeWindow";
-    private final String STATE_RESUME_POSITION = "resumePosition";
-    private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
+    private final static String TAG = "DetailsVideoFrg";
     private static final int LOAD_URL = 0;
     private static final int LOAD_CONTENT = 1;
     private static final int LOAD_LIST = 2;
+    public static Pagination pagination;
     private static int kind_of_Load = -1;
-
-
-    private SharedPreferences sharedPreferences;
-    private String quality = "";
-
-    private Bundle savedInsPlayer;
-
-    private VideoPlayer videoPlayer;
     private static List<VideoCourse> videoCourses;
     private static Content content;
-    private DataCourse course;
     private static int positionPlaying;
+    private final String STATE_RESUME_WINDOW = "resumeWindow";
+    private final String STATE_RESUME_POSITION = "resumePosition";
+    private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
+    RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(context) {
+        @Override
+        protected int getVerticalSnapPreference() {
+            return LinearSmoothScroller.SNAP_TO_START;
+        }
+    };
+    private SharedPreferences sharedPreferences;
+    private String quality = "";
+    private Bundle savedInsPlayer;
+    private VideoPlayer videoPlayer;
+    private DataCourse course;
     private boolean showPlayList = true;
     private int mResumeWindow;
     private long mResumePosition;
@@ -155,22 +157,177 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private TagGroup tagGroup;
     private ProgressBar loader, loaderPlayList;
     private LinearLayout root;
-
     //preview
     private FrameLayout relativePreview;
     private ImageView imgPreview;
     private ImageView imgPlay;
-
     //play list
     private ImageView imgArrow;
     private RecyclerView recyclerPlayList;
     private PlayListAdapter playListAdapter;
     private LinearLayoutManager managerPlayList;
     private EndlessRecyclerViewScrollListener endLess;
-    public static Pagination pagination;
     //player
     private PlaybackControlView controlView;
+    //<editor-fold desc="animate">
+    Animator.AnimatorListener animatorHide = new Animator.AnimatorListener() {
+        @Override
+        public void onAnimationStart(Animator animator) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animator) {
+            controlView.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animator) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animator) {
+
+        }
+    };
+    Animator.AnimatorListener animatorShow = new Animator.AnimatorListener() {
+        @Override
+        public void onAnimationStart(Animator animator) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animator) {
+            controlView.findViewById(R.id.progressBar).setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animator) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animator) {
+
+        }
+    };
     private SimpleExoPlayer player;
+    Player.EventListener eventListener = new Player.EventListener() {
+        @Override
+        public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {
+
+        }
+
+        @Override
+        public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+
+        }
+
+        @Override
+        public void onLoadingChanged(boolean isLoading) {
+            Log.i(TAG, "onLoadingChanged: isLoading");
+        }
+
+        @Override
+        public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+
+            switch (playbackState) {
+                case Player.STATE_IDLE:       // The player does not have any media to play yet.
+                    controlView.findViewById(R.id.progressBar);
+                    break;
+                case Player.STATE_BUFFERING:  // The player is buffering (loading the content)
+
+                    controlView.findViewById(R.id.exo_play).animate().alpha(0F).setDuration(400).setListener(animatorHide);
+                    controlView.findViewById(R.id.exo_pause).animate().alpha(0F).setDuration(400).setListener(animatorHide);
+
+
+                    break;
+                case Player.STATE_READY:      // The player is able to immediately play
+                    progressBarExoplaying.setVisibility(View.GONE);
+                    controlView.findViewById(R.id.exo_play).animate().alpha(1).setDuration(400).setListener(animatorShow);
+                    controlView.findViewById(R.id.exo_pause).animate().alpha(1).setDuration(400).setListener(animatorShow);
+                    break;
+                case Player.STATE_ENDED:      // The player has finished playing the media
+                    progressBarExoplaying.setVisibility(View.GONE);
+
+                    break;
+            }
+        }
+
+        @Override
+        public void onRepeatModeChanged(int repeatMode) {
+
+        }
+
+        @Override
+        public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
+
+        }
+
+        @Override
+        public void onPlayerError(ExoPlaybackException error) {
+            switch (error.type) {
+                case ExoPlaybackException.TYPE_SOURCE:
+                    Log.e(TAG, "TYPE_SOURCE: " + error.getSourceException().getMessage());
+                    ActivityBase.toastShow("خطا در بارگذاری ویدیو", MDToast.TYPE_ERROR);
+                    player.stop();
+                    relativePreview.setVisibility(View.VISIBLE);
+                    mediaVideoFrame.setVisibility(View.GONE);
+                    break;
+
+                case ExoPlaybackException.TYPE_RENDERER:
+                    Log.e(TAG, "TYPE_RENDERER: " + error.getRendererException().getMessage());
+                    ActivityBase.toastShow("خطا در خواندن ویدیو", MDToast.TYPE_ERROR);
+                    player.stop();
+                    relativePreview.setVisibility(View.VISIBLE);
+                    mediaVideoFrame.setVisibility(View.GONE);
+                    break;
+
+                case ExoPlaybackException.TYPE_UNEXPECTED:
+                    Log.e(TAG, "TYPE_UNEXPECTED: " + error.getUnexpectedException().getMessage());
+                    player.stop();
+                    relativePreview.setVisibility(View.VISIBLE);
+                    mediaVideoFrame.setVisibility(View.GONE);
+                    break;
+            }
+        }
+
+        @Override
+        public void onPositionDiscontinuity(int reason) {
+
+        }
+
+        @Override
+        public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+
+        }
+
+        @Override
+        public void onSeekProcessed() {
+
+        }
+    };
+    //<editor-fold desc="phoneStateReceiver">
+    BroadcastReceiver phoneStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                String state = extras.getString(TelephonyManager.EXTRA_STATE);
+                if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
+                    player.setPlayWhenReady(false);
+
+                } else if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+                    //pause here
+                    player.setPlayWhenReady(false);
+                } else if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+                    //play here
+                    player.setPlayWhenReady(false);
+                }
+            }
+        }
+    };
     private SimpleExoPlayerView mExoPlayerView;
     private MediaSource mVideoSource;
     private FrameLayout mFullScreenButton;
@@ -178,49 +335,15 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private TextView txtQuality;
     private Dialog mFullScreenDialog;
     private boolean mExoPlayerFullscreen = false;
-
     //comment
     private MainItemAdapter adapter;
     private ArrayList<MainItem> items = new ArrayList<>();
-
     //lock
     private PowerManager pm;
     private PowerManager.WakeLock wl;
     private KeyguardManager km;
     private KeyguardManager.KeyguardLock kl;
-
     private AccountInfo accountInfo;
-
-    public class VideoPlayer implements LifecycleObserver {
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        public void start() {
-            //play logic
-            Log.i(TAG, "play:1 ");
-            initExoPlayer();
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-        public void play() {
-            //play logic
-            Log.i(TAG, "play:2 ");
-            resume();
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-        public void pause() {
-            Log.i(TAG, "play:3");
-            if (Util.SDK_INT <= 23)
-                pausePlayer();
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-        public void stop() {
-            Log.i(TAG, "play: 4");
-            if (Util.SDK_INT > 23)
-                releasePlayer();
-        }
-    }
 
     // from list
     public static DetailsVideoFrg newInstance(List<? extends FilterBaseModel> v, int pos) {
@@ -350,8 +473,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             setData();
         }
 
-        // videoPlayer = new VideoPlayer();
-        //  getLifecycle().addObserver(videoPlayer);
+//         videoPlayer = new VideoPlayer();
+//          getLifecycle().addObserver(videoPlayer);
+        Log.e(TAG, "478");
     }
 
     @Override
@@ -369,13 +493,18 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     private void getData(String url) {
 
-        if (InstantApps.isInstantApp(getContext())) {
+        Context context = getContext();
+        if (context != null && InstantApps.isInstantApp(context)) {
             MainApi.getInstance().getDetailsCourse(url, new IServerCallbackContentCredit() {
                 @Override
                 public void onSuccess(Object obj) {
-                    course = (DataCourse) obj;
-                    setData();
-                    getPlayListFromContentByUrl(course.getSet().getContentUrl());
+                    if (obj != null) {
+                        course = (DataCourse) obj;
+                        setData();
+                        getPlayListFromContentByUrl(course.getSet().getContentUrl());
+                    } else {
+                        Log.i(TAG, "getData-onSuccess: \n\r" + url + "object is null");
+                    }
 
                 }
 
@@ -385,9 +514,12 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                         course = obj.getContent();
                         setData();
                         showSnackBar(obj.getMessage());
+                        Log.e(TAG, "517");
                         setProduct(obj.getProduct());
                         getPlayListFromContentByUrl(course.getSet().getContentUrl());
 
+                    } else {
+                        Log.i(TAG, "getData-if-onSuccessCredit: \n\r" + url + "object is null");
                     }
                 }
 
@@ -396,19 +528,13 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     Log.i(TAG, "onSuccess:error " + message);
                 }
             });
-        } else {
+        } else if (context != null) {
 
-            accountInfo = new AccountInfo(getContext(), getActivity());
-            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
-                @Override
-                public void onToken(String token) {
-                    // setAuth
-                    MyPreferenceManager.getInatanse().setApiToken(token);
-                    MyPreferenceManager.getInatanse().setAuthorize(true);
-                    // call api
-                    MainApi.getInstance().getDetailsCourse(url, new IServerCallbackContentCredit() {
-                        @Override
-                        public void onSuccess(Object obj) {
+            AuthToken.getInstant().get(Objects.requireNonNull(getContext()), Objects.requireNonNull(getActivity()), token -> {
+                MainApi.getInstance().getDetailsCourse(url, new IServerCallbackContentCredit() {
+                    @Override
+                    public void onSuccess(Object obj) {
+                        if (obj != null) {
                             course = (DataCourse) obj;
                             setData();
                             getPlayListFromContentByUrl(course.getSet().getContentUrl());
@@ -416,36 +542,39 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                             // reset
                             MyPreferenceManager.getInatanse().setApiToken("");
                             MyPreferenceManager.getInatanse().setAuthorize(false);
+                        } else {
+                            Log.i(TAG, "getData-else-onSuccess: \n\r" + url + "object is null");
                         }
+                    }
 
-                        @Override
-                        public void onSuccessCredit(ContentCredit obj) {
-                            if (obj != null) {
-                                course = obj.getContent();
-                                setData();
-                                showSnackBar(obj.getMessage());
-                                setProduct(obj.getProduct());
-                                getPlayListFromContentByUrl(course.getSet().getContentUrl());
-
-                                // reset
-                                MyPreferenceManager.getInatanse().setApiToken("");
-                                MyPreferenceManager.getInatanse().setAuthorize(false);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(String message) {
-                            Log.i(TAG, "onSuccess:error " + message);
+                    @Override
+                    public void onSuccessCredit(ContentCredit obj) {
+                        if (obj != null) {
+                            course = obj.getContent();
+                            setData();
+                            showSnackBar(obj.getMessage());
+                            setProduct(obj.getProduct());
+                            getPlayListFromContentByUrl(course.getSet().getContentUrl());
 
                             // reset
                             MyPreferenceManager.getInatanse().setApiToken("");
                             MyPreferenceManager.getInatanse().setAuthorize(false);
+                        } else {
+                            Log.i(TAG, "getData-else-onSuccessCredit: \n\r" + url + "object is null");
                         }
-                    });
-                }
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        Log.i(TAG, "onSuccess:error " + message);
+
+                        // reset
+                        MyPreferenceManager.getInatanse().setApiToken("");
+                        MyPreferenceManager.getInatanse().setAuthorize(false);
+                    }
+                });
             });
         }
-
     }
 
     private void setProduct(List<ProductModel> productModels) {
@@ -529,7 +658,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         });
     }
 
-
     @Override
     public void onClick(View view) {
 
@@ -612,7 +740,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         }
     }
 
-
     private void resume() {
         if (mExoPlayerFullscreen) {
             ((ViewGroup) mExoPlayerView.getParent()).removeView(mExoPlayerView);
@@ -665,6 +792,8 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         super.onSaveInstanceState(outState);
     }
+
+    //<editor-fold desc="Player">
 
     private void animationRotate(View view, float of, float to, int duration) {
 
@@ -719,6 +848,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 try {
                     recyclerPlayList.smoothScrollToPosition(positionPlaying);
                 } catch (Exception ex) {
+                    Log.e(TAG, ex.getMessage());
                 }
             }
         }, 500);
@@ -734,7 +864,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         }
         if (mExoPlayerView == null) {
 
-            mExoPlayerView = (SimpleExoPlayerView) getView().findViewById(R.id.exoplayer);
+            mExoPlayerView = getView().findViewById(R.id.exoplayer);
 
             initFullscreenDialog();
             initFullscreenButton();
@@ -765,7 +895,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         imgArrow = view.findViewById(R.id.imgArrow);
         recyclerPlayList = view.findViewById(R.id.recyclerPlayList);
 
-        progressBarExoplaying = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBarExoplaying = view.findViewById(R.id.progressBar);
         AppConfig.getInstance().changeProgressColor(progressBarExoplaying);
 
         //--------------play list
@@ -847,8 +977,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         };
         recyclerPlayList.addOnScrollListener(endLess);
     }
-
-    //<editor-fold desc="Player">
 
     private void resizePlayer() {
 
@@ -986,6 +1114,8 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         player.setPlayWhenReady(true);
     }
 
+    //</editor-fold>
+
     private void landscape_To_portrait() {
 
         if (getActivity().getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
@@ -1011,104 +1141,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
 
     }
-
-    Player.EventListener eventListener=new Player.EventListener() {
-        @Override
-        public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {
-
-        }
-
-        @Override
-        public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-
-        }
-
-        @Override
-        public void onLoadingChanged(boolean isLoading) {
-            Log.i(TAG, "onLoadingChanged: isLoading");
-        }
-
-        @Override
-        public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-
-            switch (playbackState) {
-                case Player.STATE_IDLE:       // The player does not have any media to play yet.
-                    controlView.findViewById(R.id.progressBar);
-                    break;
-                case Player.STATE_BUFFERING:  // The player is buffering (loading the content)
-
-                    controlView.findViewById(R.id.exo_play).animate().alpha(0F).setDuration(400).setListener(animatorHide);
-                    controlView.findViewById(R.id.exo_pause).animate().alpha(0F).setDuration(400).setListener(animatorHide);
-
-
-                    break;
-                case Player.STATE_READY:      // The player is able to immediately play
-                    progressBarExoplaying.setVisibility(View.GONE);
-                    controlView.findViewById(R.id.exo_play).animate().alpha(1).setDuration(400).setListener(animatorShow);
-                    controlView.findViewById(R.id.exo_pause).animate().alpha(1).setDuration(400).setListener(animatorShow);
-                    break;
-                case Player.STATE_ENDED:      // The player has finished playing the media
-                    progressBarExoplaying.setVisibility(View.GONE);
-
-                    break;
-            }
-        }
-
-        @Override
-        public void onRepeatModeChanged(int repeatMode) {
-
-        }
-
-        @Override
-        public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
-
-        }
-
-        @Override
-        public void onPlayerError(ExoPlaybackException error) {
-            switch (error.type) {
-                case ExoPlaybackException.TYPE_SOURCE:
-                    Log.e(TAG, "TYPE_SOURCE: " + error.getSourceException().getMessage());
-                    ActivityBase.toastShow("خطا در بارگذاری ویدیو",MDToast.TYPE_ERROR);
-                    player.stop();
-                    relativePreview.setVisibility(View.VISIBLE);
-                    mediaVideoFrame.setVisibility(View.GONE);
-                    break;
-
-                case ExoPlaybackException.TYPE_RENDERER:
-                    Log.e(TAG, "TYPE_RENDERER: " + error.getRendererException().getMessage());
-                    ActivityBase.toastShow("خطا در خواندن ویدیو",MDToast.TYPE_ERROR);
-                    player.stop();
-                    relativePreview.setVisibility(View.VISIBLE);
-                    mediaVideoFrame.setVisibility(View.GONE);
-                    break;
-
-                case ExoPlaybackException.TYPE_UNEXPECTED:
-                    Log.e(TAG, "TYPE_UNEXPECTED: " + error.getUnexpectedException().getMessage());
-                    player.stop();
-                    relativePreview.setVisibility(View.VISIBLE);
-                    mediaVideoFrame.setVisibility(View.GONE);
-                    break;
-            }
-        }
-
-        @Override
-        public void onPositionDiscontinuity(int reason) {
-
-        }
-
-        @Override
-        public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-
-        }
-
-        @Override
-        public void onSeekProcessed() {
-
-        }
-    };
-
-    //</editor-fold>
 
     private void setRipple() {
 
@@ -1189,56 +1221,11 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         }, 5000);
         // txtQuality.animate().alpha(0).setDuration(3000).start();
     }
+    //</editor-fold>
 
     public String toString(String caption, String title) {
         return String.format("%s - %s", caption, title);
     }
-
-    //<editor-fold desc="animate">
-    Animator.AnimatorListener animatorHide = new Animator.AnimatorListener() {
-        @Override
-        public void onAnimationStart(Animator animator) {
-
-        }
-
-        @Override
-        public void onAnimationEnd(Animator animator) {
-            controlView.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        public void onAnimationCancel(Animator animator) {
-
-        }
-
-        @Override
-        public void onAnimationRepeat(Animator animator) {
-
-        }
-    };
-
-    Animator.AnimatorListener animatorShow = new Animator.AnimatorListener() {
-        @Override
-        public void onAnimationStart(Animator animator) {
-
-        }
-
-        @Override
-        public void onAnimationEnd(Animator animator) {
-            controlView.findViewById(R.id.progressBar).setVisibility(View.GONE);
-        }
-
-        @Override
-        public void onAnimationCancel(Animator animator) {
-
-        }
-
-        @Override
-        public void onAnimationRepeat(Animator animator) {
-
-        }
-    };
-    //</editor-fold>
 
     //<editor-fold desc="lock">
     @SuppressLint("InvalidWakeLockTag")
@@ -1259,6 +1246,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         wl.acquire();
         kl.reenableKeyguard();
     }
+    //</editor-fold>
 
     private void disableWakeLockScreen() {
         if (wl.isHeld())
@@ -1267,47 +1255,54 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     }
     //</editor-fold>
 
-    //<editor-fold desc="phoneStateReceiver">
-    BroadcastReceiver phoneStateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle extras = intent.getExtras();
-            if (extras != null) {
-                String state = extras.getString(TelephonyManager.EXTRA_STATE);
-                if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-                    player.setPlayWhenReady(false);
-
-                } else if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
-                    //pause here
-                    player.setPlayWhenReady(false);
-                } else if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
-                    //play here
-                    player.setPlayWhenReady(false);
-                }
-            }
-        }
-    };
-    //</editor-fold>
-
-    RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(context) {
-        @Override
-        protected int getVerticalSnapPreference() {
-            return LinearSmoothScroller.SNAP_TO_START;
-        }
-    };
-
     private void showSnackBar(String message) {
-        Snackbar snack = Snackbar.make(root, message, Snackbar.LENGTH_LONG);
-        View view = snack.getView();
-        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        } else {
-            tv.setGravity(Gravity.CENTER_HORIZONTAL);
+        try {
+
+            Snackbar snack = Snackbar.make(root, message, Snackbar.LENGTH_LONG);
+            View view = snack.getView();
+            TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            } else {
+                tv.setGravity(Gravity.CENTER_HORIZONTAL);
+            }
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+            params.gravity = Gravity.BOTTOM;
+            view.setLayoutParams(params);
+            snack.show();
+        } catch (Exception ex) {
+            Log.e(TAG, "start-showSnackBar" + ex.getMessage());
         }
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
-        params.gravity = Gravity.BOTTOM;
-        view.setLayoutParams(params);
-        snack.show();
+    }
+
+    public class VideoPlayer implements LifecycleObserver {
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_START)
+        public void start() {
+            //play logic
+            Log.i(TAG, "play:1 ");
+            initExoPlayer();
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        public void play() {
+            //play logic
+            Log.i(TAG, "play:2 ");
+            resume();
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        public void pause() {
+            Log.i(TAG, "play:3");
+            if (Util.SDK_INT <= 23)
+                pausePlayer();
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+        public void stop() {
+            Log.i(TAG, "play: 4");
+            if (Util.SDK_INT > 23)
+                releasePlayer();
+        }
     }
 }

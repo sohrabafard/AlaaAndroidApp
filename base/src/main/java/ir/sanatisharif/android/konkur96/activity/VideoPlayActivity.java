@@ -20,7 +20,7 @@ public class VideoPlayActivity extends ActivityBase {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        String path =  getIntent().getExtras().getString("path");
+        String path = getIntent().getExtras().getString("path");
         if (path != null) {
             VideoPlayFrg videoPlayFrg = VideoPlayFrg.newInstance(path);
             getSupportFragmentManager().beginTransaction()

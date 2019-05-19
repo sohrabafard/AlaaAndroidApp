@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.util.Log;
 
-
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
@@ -22,8 +21,8 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class DownloadFile {
 
-    private DownloadManager mDManager;
     private static DownloadFile dm;
+    private DownloadManager mDManager;
     private DownloadCompleteReceiver mReceiver;
     private DownloadManager.Request req = null;
     private long id = 0;
@@ -47,6 +46,24 @@ public class DownloadFile {
         this.d = d;
     }
 
+    public void start(String url, String path, String fileName, String title, String desc, String apiToken) {
+        Uri uri = Uri.parse(url);
+        req = new DownloadManager.Request(uri);
+        req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        // req.setAllowedOverRoaming(false);
+
+        req.setTitle(title);
+        req.setDescription(desc);
+
+        if (apiToken != null) {
+            req.addRequestHeader("Authorization", "Bearer " + apiToken);
+            Log.e("url", url);
+        }
+
+        req.setDestinationInExternalPublicDir(path, fileName);
+        id = mDManager.enqueue(req);
+    }
+
     /**
      * @param url
      * @param path
@@ -56,14 +73,7 @@ public class DownloadFile {
      */
     public void start(String url, String path, String fileName, String title, String desc) {
 
-        Uri uri = Uri.parse(url);
-        req = new DownloadManager.Request(uri);
-        req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        req.setTitle(title);
-        req.setDescription(desc);
-        req.addRequestHeader("Authorization", "Bearer " + MyPreferenceManager.getInatanse().getApiToken());
-        req.setDestinationInExternalPublicDir(path, fileName);
-        id = mDManager.enqueue(req);
+        start(url, path, fileName, title, desc, null);
     }
 
     public void stop() {
@@ -80,9 +90,7 @@ public class DownloadFile {
         public void onReceive(Context context, Intent intent) {
 
             if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
-
                 ActivityBase.toastShow(context.getResources().getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
-
                 if (d != null) {
                     d.complete();
                 }

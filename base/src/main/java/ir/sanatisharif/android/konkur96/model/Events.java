@@ -38,7 +38,7 @@ public class Events {
     public static class VideoDeleted {
 
 
-        private  int position;
+        private int position;
 
         public int getPosition() {
             return position;

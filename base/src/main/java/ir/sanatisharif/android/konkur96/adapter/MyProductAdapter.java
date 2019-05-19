@@ -51,7 +51,7 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.Cont
         Glide.with(mContext).load(item.getPhoto()).into(holder.imageView);
 
 
-        holder.cardView.setOnClickListener(view -> addFrg(MyProductSet.newInstance(item.getSets()),"MyProductSet"));
+        holder.cardView.setOnClickListener(view -> addFrg(MyProductSet.newInstance(item.getSets()), "MyProductSet"));
 
     }
 

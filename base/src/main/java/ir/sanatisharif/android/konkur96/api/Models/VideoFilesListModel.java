@@ -11,6 +11,17 @@ import ir.sanatisharif.android.konkur96.model.Video;
 
 public class VideoFilesListModel implements Parcelable {
 
+    public static final Creator<VideoFilesListModel> CREATOR = new Creator<VideoFilesListModel>() {
+        @Override
+        public VideoFilesListModel createFromParcel(Parcel in) {
+            return new VideoFilesListModel(in);
+        }
+
+        @Override
+        public VideoFilesListModel[] newArray(int size) {
+            return new VideoFilesListModel[size];
+        }
+    };
     @SerializedName("video")
     private ArrayList<Video> video;
 
@@ -27,18 +38,6 @@ public class VideoFilesListModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<VideoFilesListModel> CREATOR = new Creator<VideoFilesListModel>() {
-        @Override
-        public VideoFilesListModel createFromParcel(Parcel in) {
-            return new VideoFilesListModel(in);
-        }
-
-        @Override
-        public VideoFilesListModel[] newArray(int size) {
-            return new VideoFilesListModel[size];
-        }
-    };
 
     public ArrayList<Video> getVideo() {
         return video;

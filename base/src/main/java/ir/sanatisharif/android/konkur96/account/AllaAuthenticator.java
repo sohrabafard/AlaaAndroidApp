@@ -75,7 +75,7 @@ public class AllaAuthenticator extends AbstractAccountAuthenticator {
 
         authToken = am.peekAuthToken(account, authTokenType);
 
-       // Log.d("udinic", TAG + "> peekAuthToken returned - " + authToken);
+        // Log.d("udinic", TAG + "> peekAuthToken returned - " + authToken);
 
         // Lets give another try to authenticate the user
         if (TextUtils.isEmpty(authToken)) {

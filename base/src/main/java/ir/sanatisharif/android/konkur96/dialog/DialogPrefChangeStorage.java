@@ -80,7 +80,7 @@ public class DialogPrefChangeStorage extends DialogPreference {
     @Override
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
         // If the value can be restored, do it. If not, use the default value.
-      //  Log.i("LOG", "onDialogClosed: " + (String) defaultValue + " " + restorePersistedValue);
+        //  Log.i("LOG", "onDialogClosed: " + (String) defaultValue + " " + restorePersistedValue);
         setValue(restorePersistedValue ? getPersistedString(mValue) : (String) defaultValue);
     }
 }

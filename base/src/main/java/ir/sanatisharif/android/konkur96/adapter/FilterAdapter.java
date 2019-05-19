@@ -48,11 +48,11 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    RequestOptions requestOptions;
     private List<? extends FilterBaseModel> mList;
     private Context mContext;
     private OnItemClickListener mClickListener;
     private int width, height;
-    RequestOptions requestOptions;
 
     public FilterAdapter(Context context, List<? extends FilterBaseModel> list) {
         this.mList = list;
@@ -232,7 +232,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 itemHolder.txtDiscount.setVisibility(View.GONE);
             }
 
-            itemHolder.cardViewRoot.setOnClickListener(view -> addFrg(ProductDetailFragment.newInstance((ProductModel) item), "ProductDetailFragment"));
+            itemHolder.cardViewRoot.setOnClickListener(view -> addFrg(ProductDetailFragment.newInstance(item), "ProductDetailFragment"));
 
         }
     }
@@ -263,6 +263,10 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     //<editor-fold desc="Class holder">
+
+    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
 
     public class BaseHolder extends RecyclerView.ViewHolder {
 
@@ -308,7 +312,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private VideoHolder(View view) {
             super(view);
 
-            imgItem = (ImageView) view.findViewById(R.id.imgItem);
+            imgItem = view.findViewById(R.id.imgItem);
             loader = view.findViewById(R.id.loader);
             loader.getIndeterminateDrawable().setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
 
@@ -336,7 +340,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private SetHolder(View view) {
             super(view);
 
-            imgItem = (ImageView) view.findViewById(R.id.imgItem);
+            imgItem = view.findViewById(R.id.imgItem);
             loader = view.findViewById(R.id.loader);
             loader.getIndeterminateDrawable().setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
         }
@@ -350,6 +354,9 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         }
     }
+
+
+    //</editor-fold>
 
     public class ProductHolder extends RecyclerView.ViewHolder {
 
@@ -376,13 +383,6 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (view instanceof TextView)
                 ((TextView) view).setTypeface(AppConfig.fontIRSensNumber);
         }
-    }
-
-
-    //</editor-fold>
-
-    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
     }
 
 }

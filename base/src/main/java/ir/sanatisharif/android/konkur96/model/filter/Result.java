@@ -1,4 +1,3 @@
-
 package ir.sanatisharif.android.konkur96.model.filter;
 
 import android.os.Parcel;
@@ -10,9 +9,23 @@ import com.google.gson.annotations.SerializedName;
 import ir.sanatisharif.android.konkur96.model.main_page.Product;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 
-public class Result implements Parcelable
-{
+public class Result implements Parcelable {
 
+    public final static Creator<Result> CREATOR = new Creator<Result>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Result createFromParcel(Parcel in) {
+            return new Result(in);
+        }
+
+        public Result[] newArray(int size) {
+            return (new Result[size]);
+        }
+
+    };
     @SerializedName("video")
     @Expose
     private VideoRoot media;
@@ -28,23 +41,6 @@ public class Result implements Parcelable
     @SerializedName("product")
     @Expose
     private SetFilterProductRoot product;
-
-    public final static Creator<Result> CREATOR = new Creator<Result>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Result createFromParcel(Parcel in) {
-            return new Result(in);
-        }
-
-        public Result[] newArray(int size) {
-            return (new Result[size]);
-        }
-
-    }
-    ;
 
     protected Result(Parcel in) {
         this.media = ((VideoRoot) in.readValue((VideoRoot.class.getClassLoader())));
@@ -106,7 +102,7 @@ public class Result implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

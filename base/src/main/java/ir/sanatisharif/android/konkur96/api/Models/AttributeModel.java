@@ -9,15 +9,23 @@ import java.util.ArrayList;
 
 public class AttributeModel implements Parcelable {
 
+    public static final Creator<AttributeModel> CREATOR = new Creator<AttributeModel>() {
+        @Override
+        public AttributeModel createFromParcel(Parcel in) {
+            return new AttributeModel(in);
+        }
+
+        @Override
+        public AttributeModel[] newArray(int size) {
+            return new AttributeModel[size];
+        }
+    };
     @SerializedName("type")
     private String type;
-
     @SerializedName("title")
     private String title;
-
     @SerializedName("control")
     private String control;
-
     @SerializedName("data")
     private ArrayList<AttributeDataModel> data;
 
@@ -40,18 +48,6 @@ public class AttributeModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<AttributeModel> CREATOR = new Creator<AttributeModel>() {
-        @Override
-        public AttributeModel createFromParcel(Parcel in) {
-            return new AttributeModel(in);
-        }
-
-        @Override
-        public AttributeModel[] newArray(int size) {
-            return new AttributeModel[size];
-        }
-    };
 
     public String getType() {
         return type;

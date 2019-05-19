@@ -66,7 +66,6 @@ public interface ShopAPI {
                                                  @Query("extraAttribute[]") ArrayList<Integer> extraAttribute);
 
 
-
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @GET("api/v1/checkout/review")
     Observable<CardReviewModel> cardReview(@Header("Authorization") String token);
@@ -86,8 +85,8 @@ public interface ShopAPI {
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @POST("api/v1/orderproduct/{orderproduct_id}")
     Observable<ErrorBase> delProductFromCard(@Header("Authorization") String token,
-                                            @Path("orderproduct_id") String orderproductId,
-                                            @Query("_method") String _method);
+                                             @Path("orderproduct_id") String orderproductId,
+                                             @Query("_method") String _method);
 
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @GET("api/v1/getPaymentRedirectEncryptedLink")

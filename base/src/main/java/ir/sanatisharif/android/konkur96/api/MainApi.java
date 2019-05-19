@@ -132,7 +132,7 @@ public class MainApi {
             @Override
             public void onFailure(Call<DataCourse> call, Throwable t) {
                 iServerCallbackObject.onFailure(t.getMessage());
-               // Log.i("LOG", "onResponse:error " + t.getMessage());
+                // Log.i("LOG", "onResponse:error " + t.getMessage());
             }
         });
     }

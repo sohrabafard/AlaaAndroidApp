@@ -1,29 +1,19 @@
-
 package ir.sanatisharif.android.konkur96.model.user;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Major implements Parcelable
-{
+public class Major implements Parcelable {
 
-    @SerializedName("id")
-    @Expose
-    private int id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("description")
-    @Expose
-    private String description;
     public final static Creator<Major> CREATOR = new Creator<Major>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public Major createFromParcel(Parcel in) {
             return new Major(in);
@@ -33,8 +23,16 @@ public class Major implements Parcelable
             return (new Major[size]);
         }
 
-    }
-    ;
+    };
+    @SerializedName("id")
+    @Expose
+    private int id;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("description")
+    @Expose
+    private String description;
 
     protected Major(Parcel in) {
         this.id = ((int) in.readValue((int.class.getClassLoader())));
@@ -91,7 +89,7 @@ public class Major implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

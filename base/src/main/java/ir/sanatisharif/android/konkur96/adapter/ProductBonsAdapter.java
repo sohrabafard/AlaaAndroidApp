@@ -17,17 +17,6 @@ public class ProductBonsAdapter extends RecyclerView.Adapter<ProductBonsAdapter.
 
     private ArrayList<BonModel> attrList;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, data;
-
-        public MyViewHolder(View view) {
-            super(view);
-            title = view.findViewById(R.id.txt_titel);
-            data = view.findViewById(R.id.txt_data);
-        }
-    }
-
-
     public ProductBonsAdapter(ArrayList<BonModel> attrList) {
         this.attrList = attrList;
     }
@@ -51,5 +40,15 @@ public class ProductBonsAdapter extends RecyclerView.Adapter<ProductBonsAdapter.
     @Override
     public int getItemCount() {
         return attrList.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView title, data;
+
+        public MyViewHolder(View view) {
+            super(view);
+            title = view.findViewById(R.id.txt_titel);
+            data = view.findViewById(R.id.txt_data);
+        }
     }
 }

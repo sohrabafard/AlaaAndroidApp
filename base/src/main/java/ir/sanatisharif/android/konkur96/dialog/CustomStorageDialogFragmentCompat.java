@@ -15,10 +15,10 @@ import ir.sanatisharif.android.konkur96.R;
 
 public class CustomStorageDialogFragmentCompat extends PreferenceDialogFragmentCompat {
 
-    private RadioGroup radioGroup;
-    private String value;
     String[] storageValue;
     String[] storageEntry;
+    private RadioGroup radioGroup;
+    private String value;
 
     public static CustomStorageDialogFragmentCompat newInstance(String key, String value) {
         final CustomStorageDialogFragmentCompat
@@ -44,7 +44,7 @@ public class CustomStorageDialogFragmentCompat extends PreferenceDialogFragmentC
 
     private void init(View view, String value) {
 
-        radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
+        radioGroup = view.findViewById(R.id.radioGroup);
 
         ((RadioButton) radioGroup.getChildAt(0)).setText(storageEntry[0]);
         ((RadioButton) radioGroup.getChildAt(1)).setText(storageEntry[1]);

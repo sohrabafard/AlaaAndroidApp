@@ -18,18 +18,6 @@ import ir.sanatisharif.android.konkur96.model.filter.SetFilterProduct;
 
 public class Product extends Pagination implements Parcelable {
 
-    @SerializedName("data")
-    @Expose
-    private List<ProductModel> data = null;
-
-    public List<ProductModel> getData() {
-        return data;
-    }
-
-    public void setData(List<ProductModel> data) {
-        this.data= data;
-    }
-
     public final static Creator<Product> CREATOR = new Creator<Product>() {
 
         @SuppressWarnings({
@@ -44,9 +32,20 @@ public class Product extends Pagination implements Parcelable {
         }
 
     };
+    @SerializedName("data")
+    @Expose
+    private List<ProductModel> data = null;
 
     protected Product(Parcel in) {
         in.readList(this.data, (Datum.class.getClassLoader()));
+    }
+
+    public List<ProductModel> getData() {
+        return data;
+    }
+
+    public void setData(List<ProductModel> data) {
+        this.data = data;
     }
 
     public void writeToParcel(Parcel dest, int flags) {

@@ -143,7 +143,7 @@ public class ZarinPalDialogFragment extends DialogFragment {
                                         txtTitle.setText("موفق");
                                         txtDesc.setVisibility(View.VISIBLE);
                                         txtDesc.setText("با موفقیت به سبد خرید اضافه شد.");
-                                        Toast.makeText(getContext(), "با موفقیت به سبد خرید اضافه شد.",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), "با موفقیت به سبد خرید اضافه شد.", Toast.LENGTH_LONG).show();
                                         addFrg(CardFragment.newInstance(), "CardFragment");
                                         this.dismiss();
                                     } else {
@@ -157,7 +157,7 @@ public class ZarinPalDialogFragment extends DialogFragment {
                                 } else {
 
                                     Log.d("Test", (String) ((Result.Error) data).value);
-                                    Toast.makeText(getContext(), "مشکلی بوجود آمده لطفا دوباره تکرار کنید.",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "مشکلی بوجود آمده لطفا دوباره تکرار کنید.", Toast.LENGTH_LONG).show();
                                     this.dismiss();
                                 }
 

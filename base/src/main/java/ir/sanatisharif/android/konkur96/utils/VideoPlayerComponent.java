@@ -57,10 +57,24 @@ public class VideoPlayerComponent implements LifecycleObserver {
         this.videoUrl = videoUrl;
     }
 
+    private static boolean isBehindLiveWindow(ExoPlaybackException e) {
+        if (e.type != ExoPlaybackException.TYPE_SOURCE) {
+            return false;
+        }
+        Throwable cause = e.getSourceException();
+        while (cause != null) {
+            if (cause instanceof BehindLiveWindowException) {
+                return true;
+            }
+            cause = cause.getCause();
+        }
+        return false;
+    }
+
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     void onCreate() {
         clearResumePosition();
-       // simpleExoPlayerView.requestFocus();
+        // simpleExoPlayerView.requestFocus();
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -93,13 +107,6 @@ public class VideoPlayerComponent implements LifecycleObserver {
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    void onResume() {
-        if ((Util.SDK_INT <= 23)) {
-            initExoPlayer();
-        }
-    }
-
 
 //    private void initializePlayer() {
 //        if (player == null) {
@@ -125,6 +132,13 @@ public class VideoPlayerComponent implements LifecycleObserver {
 //        }
 //    }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    void onResume() {
+        if ((Util.SDK_INT <= 23)) {
+            initExoPlayer();
+        }
+    }
+
     private void updateResumePosition() {
         resumeWindow = player.getCurrentWindowIndex();
         resumePosition = player.isCurrentWindowSeekable() ? Math.max(0, player.getCurrentPosition())
@@ -136,24 +150,8 @@ public class VideoPlayerComponent implements LifecycleObserver {
         resumePosition = C.TIME_UNSET;
     }
 
-
     private void showToast(String message) {
         Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_LONG).show();
-    }
-
-
-    private static boolean isBehindLiveWindow(ExoPlaybackException e) {
-        if (e.type != ExoPlaybackException.TYPE_SOURCE) {
-            return false;
-        }
-        Throwable cause = e.getSourceException();
-        while (cause != null) {
-            if (cause instanceof BehindLiveWindowException) {
-                return true;
-            }
-            cause = cause.getCause();
-        }
-        return false;
     }
 
     private void initExoPlayer() {

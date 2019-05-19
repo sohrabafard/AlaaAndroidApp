@@ -23,12 +23,12 @@ public class DownloadNotification {
     public static final int PAUSE = 0;
     public static final int RESUME = 1;
     public static final int START = 2;
+    public static int actionStatus = 0;
     private static DownloadNotification downloadNotification;
     private Context mContext;
     private Notification mNotification;
     private NotificationManager mNotificationManager;
     private int mId;
-    public static int actionStatus = 0;
 
     public static synchronized DownloadNotification getInstance() {
 

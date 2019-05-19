@@ -44,13 +44,13 @@ public class BoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        if (viewType == AppConstants.SHOP_SLIDER_ITEM){
+        if (viewType == AppConstants.SHOP_SLIDER_ITEM) {
             return new BoughtItemAdapter.SliderHolder(LayoutInflater.from(mContext).inflate(R.layout.slider_item_set_adapter, parent, false));
-        }else if (viewType == AppConstants.INCREDIBLEOFFER_ITEM_SET){
+        } else if (viewType == AppConstants.INCREDIBLEOFFER_ITEM_SET) {
             return new BoughtItemAdapter.IncredibleOffersItemHolder(LayoutInflater.from(mContext).inflate(R.layout.category_item_set_adapter, parent, false));
-        }else if (viewType == AppConstants.CATEGORY_SHOP_ITEM_SET){
+        } else if (viewType == AppConstants.CATEGORY_SHOP_ITEM_SET) {
             return new BoughtItemAdapter.CategoryShopItemHolder(LayoutInflater.from(mContext).inflate(R.layout.category_item_set_adapter, parent, false));
-        }else if (viewType == AppConstants.SHOP_BANNER_ITEM){
+        } else if (viewType == AppConstants.SHOP_BANNER_ITEM) {
             return new BoughtItemAdapter.BannerItemHolder(LayoutInflater.from(mContext).inflate(R.layout.banner_item_set_adapter, parent, false));
         }
 
@@ -87,7 +87,6 @@ public class BoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             itemListDataAdapter.notifyDataSetChanged();
 
 
-
         } else if (viewType == AppConstants.SHOP_BANNER_ITEM) {
 
             final BoughtItemAdapter.BannerItemHolder itemRowHolder = (BoughtItemAdapter.BannerItemHolder) holder;
@@ -111,7 +110,7 @@ public class BoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final MainShopItemAdapter.SliderHolder itemRowHolder = (MainShopItemAdapter.SliderHolder) holder;
 
             ArrayList items = dataList.get(position).getItems();
-            itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items,null));
+            itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items, null));
             itemRowHolder.view_pager.startAutoScroll();
 
             itemRowHolder.indicator = itemRowHolder.itemView.findViewById(R.id.indicator);
@@ -184,8 +183,6 @@ public class BoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
 
-
-
     public class ItemHolder extends RecyclerView.ViewHolder {
 
         protected LinearLayout root;
@@ -226,7 +223,6 @@ public class BoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             recyclerView.getLayoutParams().height = AppConfig.itemHeight;
         }
     }
-
 
 
     public class BannerItemHolder extends RecyclerView.ViewHolder {

@@ -30,10 +30,9 @@ import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 
 public class DeleteFileDialogFrg extends BaseDialogFragment<DeleteFileDialogFrg> {
 
+    private static final String TAG = "LOG";
     //------init UI
     private View dialog;
-    private static final String TAG = "LOG";
-
     private TextView txtOk;
     private TextView txtCancel;
     private List<Video> videos;

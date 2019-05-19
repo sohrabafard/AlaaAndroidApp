@@ -1,15 +1,29 @@
-
 package ir.sanatisharif.android.konkur96.model.main_page;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Pivot implements Parcelable
-{
+public class Pivot implements Parcelable {
 
+    public final static Creator<Pivot> CREATOR = new Creator<Pivot>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Pivot createFromParcel(Parcel in) {
+            return new Pivot(in);
+        }
+
+        public Pivot[] newArray(int size) {
+            return (new Pivot[size]);
+        }
+
+    };
     @SerializedName("block_id")
     @Expose
     private Integer blockId;
@@ -25,22 +39,6 @@ public class Pivot implements Parcelable
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
-    public final static Creator<Pivot> CREATOR = new Creator<Pivot>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Pivot createFromParcel(Parcel in) {
-            return new Pivot(in);
-        }
-
-        public Pivot[] newArray(int size) {
-            return (new Pivot[size]);
-        }
-
-    }
-    ;
 
     protected Pivot(Parcel in) {
         this.blockId = ((Integer) in.readValue((Integer.class.getClassLoader())));
@@ -102,7 +100,7 @@ public class Pivot implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

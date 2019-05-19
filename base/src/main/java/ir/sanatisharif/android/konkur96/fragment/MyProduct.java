@@ -107,11 +107,11 @@ public class MyProduct extends Fragment {
                                 if (data instanceof Result.Success) {
 
                                     setData((myProductsModel) ((Result.Success) data).value);
-                                   // swipeRefreshLayout.setRefreshing(false);
+                                    // swipeRefreshLayout.setRefreshing(false);
                                 } else {
 
                                     Log.d("Test", (String) ((Result.Error) data).value);
-                                   // swipeRefreshLayout.setRefreshing(false);
+                                    // swipeRefreshLayout.setRefreshing(false);
                                 }
 
 
@@ -142,7 +142,6 @@ public class MyProduct extends Fragment {
 
         Gson gson = new Gson();
         WalletModel walletModel = gson.fromJson(String.valueOf(user.getInfo().getWallet()).replace("[", "").replace("]", ""), WalletModel.class);
-
 
 
         //---------------------- set mainModel data ---------------------------------------------

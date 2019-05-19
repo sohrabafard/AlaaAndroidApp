@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ErrorBase  {
+public class ErrorBase {
 
     @SerializedName("error")
     private ErrorBaseModel error;
