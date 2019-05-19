@@ -32,7 +32,7 @@
                     android:gravity="center|right"
                     android:text=""
                     android:textColor="@color/Black_2"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/content_show_author"
                     android:textStyle="bold" />
 
 
@@ -76,7 +76,7 @@
                 android:maxLines="2"
                 android:text=""
                 android:textColor="@color/Black_2"
-                android:textSize="@dimen/_15sdp" />
+                android:textSize="@dimen/content_show_title" />
         </LinearLayout>
 
         <ProgressBar
@@ -135,9 +135,7 @@
             android:foregroundGravity="center"
             android:visibility="visible" />
 
-
     </LinearLayout>
-
 
     <com.uncopt.android.widget.text.justify.JustifiedTextView
         android:id="@+id/txtDesc"
@@ -149,7 +147,7 @@
         android:gravity="right"
         android:padding="4dp"
         android:textColor="#4A4A4A"
-        android:textSize="@dimen/_14sdp" />
+        android:textSize="@dimen/content_show_desc" />
 
 
     <View
@@ -179,7 +177,7 @@
         app:atg_borderColor="@color/Monochromatic_3"
         app:atg_checkedBackgroundColor="@color/White"
         app:atg_textColor="@color/Black_2"
-        app:atg_textSize="@dimen/_12sdp" />
+        app:atg_textSize="@dimen/content_show_tag" />
 
     <View
         android:layout_width="match_parent"

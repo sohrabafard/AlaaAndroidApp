@@ -60,5 +60,19 @@
 
     <integer name="gallery_columns">3</integer>
 
+    <dimen name="item_width">200dp</dimen>
+    <dimen name="video_text_size">12sp</dimen>
+    <dimen name="video_rows_font_size">12sp</dimen>
+    <dimen name="video_title_author">12sp</dimen>
+    <dimen name="video_session">11sp</dimen>
+    <dimen name="video_title">13sp</dimen>
+    <dimen name="header_title">12sp</dimen>
+    <dimen name="more_title">11sp</dimen>
+    <dimen name="content_count">10sp</dimen>
+    <dimen name="content_show_title">13sp</dimen>
+    <dimen name="content_show_author">12sp</dimen>
+    <dimen name="content_show_desc">12sp</dimen>
+    <dimen name="content_show_tag">12sp</dimen>
+    <dimen name="button">14sp</dimen>
 
 </resources>

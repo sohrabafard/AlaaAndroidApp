@@ -1,15 +1,13 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,28 +20,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.common.wrappers.InstantApps;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
+import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
-import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.MainItem;
-import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
@@ -120,9 +111,19 @@ public class DashboardMainFrg extends BaseFragment {
                         public void onRemove(boolean done) {
                             if (done) {
                                 ActivityBase.toastShow("با موفقیت خارج شدید", MDToast.TYPE_SUCCESS);
-                                Events.CloseFragment closeFragment = new Events.CloseFragment();
-                                closeFragment.setTagFragments("");
-                                EventBus.getDefault().post(closeFragment);
+                                // Events.CloseFragment closeFragment = new Events.CloseFragment();
+                                // closeFragment.setTagFragments("");
+                                // EventBus.getDefault().post(closeFragment);
+
+                                startActivity(new Intent(getActivity(), AuthenticatorActivity.class));
+                                AppConfig.HANDLER.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                    }
+                                }, 100);
+                                AppConfig.currentActivity.finish();
+
                             } else {
                                 ActivityBase.toastShow("خطا در حذف اکانت", MDToast.TYPE_ERROR);
                             }

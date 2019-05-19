@@ -6,17 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.Html;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
@@ -32,12 +27,9 @@ import java.nio.charset.Charset;
 import java.util.Locale;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.filter.ArticleCourse;
-import ir.sanatisharif.android.konkur96.model.filter.PamphletCourse;
-import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import me.gujun.android.taggroup.TagGroup;
 
 /**
@@ -89,9 +81,6 @@ public class ShowArticleInfoFrg extends BaseFragment {
                 txtTitle.setText(course.getName());
             if (course.getAuthor().getFullName() != null)
                 txtAuthor.setText(course.getAuthor().getFullName());
-
-            //  Log.i(TAG, "setData: "+txtContext);
-            // Log.i(TAG, "setData: "+txtDesc);
 
             new Thread(new Runnable() {
                 @Override

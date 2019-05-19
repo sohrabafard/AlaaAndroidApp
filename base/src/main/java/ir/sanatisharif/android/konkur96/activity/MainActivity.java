@@ -111,7 +111,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         //---------initialize UI--------
         initUI();
 
-        // getLastVersion();
+        getLastVersion();
         //-----------add FirstFragment
 
         addFrg(AllaMainFrg.newInstance(), "alla");
@@ -332,13 +332,20 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 transaction.remove(f).commit();
                 showHomeFrg = false;
             }catch (Exception e){
+                Log.e(TAG, "manageStack: error");
                 Log.e(TAG,e.getMessage());
             }
 
         }
-        if (!showHomeFrg) {
-            transaction.show(fragments.lastElement());
+        try {
+            if (!showHomeFrg) {
+                transaction.show(fragments.lastElement());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "manageStack-show: error");
+            Log.e(TAG, e.getMessage());
         }
+
     }
 
     private void twiceClick() {
@@ -362,9 +369,8 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
     }
 
-    //http://79.127.123.246:8083/api/v1/lastVersion
-    private void getLastVersion() {//http://79.127.123.246:8083/api/v1/lastVersion"
-        MainApi.getInstance().getLastVersion("https://dev.alaatv.com:8082/api/v1/lastVersion", new IServerCallbackObject() {
+    private void getLastVersion() {
+        MainApi.getInstance().getLastVersion("https://alaatv.com/api/v1/lastVersion", new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
 

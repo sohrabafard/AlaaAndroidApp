@@ -99,7 +99,6 @@ import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
 import ir.sanatisharif.android.konkur96.model.main_page.Content;
-import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
@@ -425,7 +424,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         super.onStop();
         getActivity().unregisterReceiver(phoneStateReceiver);
         if (Util.SDK_INT > 23) {
-            // releasePlayer();
             player.setPlayWhenReady(false);
             Log.i(TAG, "onStart:onStop ");
         }
@@ -436,7 +434,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         super.onPause();
 
         if (Util.SDK_INT <= 23 && player != null) {
-            //releasePlayer();
             player.setPlayWhenReady(false);
             Log.i(TAG, "onStart:onPause ");
         }

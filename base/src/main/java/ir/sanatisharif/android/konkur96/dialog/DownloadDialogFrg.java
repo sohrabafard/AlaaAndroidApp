@@ -27,15 +27,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.activity.ActivityBase;
+import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
-import ir.sanatisharif.android.konkur96.model.DownloadUrl;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.utils.DownloadFile;
+import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
+
+import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
+import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 /**
  * Created by Mohamad on 7/7/2017.
@@ -169,6 +172,21 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             @Override
             public void onClick(View view) {
 
+                for (Video v : videos)
+                    Log.i(TAG, "download1: " + v.getLink());
+
+                AccountInfo accountInfo = new AccountInfo(getContext(), getActivity());
+                accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
+                    @Override
+                    public void onToken(String token) {
+                        // setAuth
+                        MyPreferenceManager.getInatanse().setApiToken(token);
+                        MyPreferenceManager.getInatanse().setAuthorize(true);
+                        Log.i(TAG, "download1: " + MyPreferenceManager.getInatanse().getApiToken());
+                    }
+                });
+
+
                 if (checkLocationPermission()) {
                     if (radioGroup.getCheckedRadioButtonId() == R.id.radioExcellentQuality) {
 
@@ -235,6 +253,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             });
 
             DownloadFile.getInstance().start(url, AppConstants.ROOT + "/" + mediaPath, fileName, title, "");
+
         } else {
             Utils.loadUrl(url, getContext());
         }

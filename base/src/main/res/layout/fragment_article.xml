@@ -43,7 +43,7 @@
                 android:gravity="center|right"
                 android:text=""
                 android:textColor="#070707"
-                android:textSize="14sp" />
+                android:textSize="@dimen/content_show_title" />
 
             <TextView
                 android:id="@+id/txtAuthor"
@@ -53,7 +53,7 @@
                 android:gravity="center|right"
                 android:text=""
                 android:textColor="#070707"
-                android:textSize="13sp" />
+                android:textSize="@dimen/content_show_title" />
 
         </LinearLayout>
     </LinearLayout>
@@ -78,7 +78,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <com.uncopt.android.widget.text.justify.JustifiedTextView
                 android:id="@+id/txtDesc"
                 android:layout_width="match_parent"
@@ -91,7 +90,7 @@
                 android:paddingLeft="@dimen/tvJustufMargin"
                 android:paddingRight="@dimen/tvJustufMargin"
                 android:textColor="#4A4A4A"
-                android:textSize="14sp" />
+                android:textSize="@dimen/content_show_desc" />
 
             <com.uncopt.android.widget.text.justify.JustifiedTextView
                 android:id="@+id/txtContext"
@@ -105,7 +104,7 @@
                 android:paddingLeft="@dimen/tvJustufMargin"
                 android:paddingRight="@dimen/tvJustufMargin"
                 android:textColor="#4A4A4A"
-                android:textSize="14sp" />
+                android:textSize="@dimen/content_show_desc" />
 
 
             <me.gujun.android.taggroup.TagGroup
@@ -116,7 +115,7 @@
                 app:atg_borderColor="@color/Monochromatic_3"
                 app:atg_checkedBackgroundColor="@color/White"
                 app:atg_textColor="@color/Black_2"
-                app:atg_textSize="14sp" />
+                app:atg_textSize="@dimen/content_show_tag" />
 
         </LinearLayout>
 

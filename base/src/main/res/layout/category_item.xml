@@ -49,7 +49,7 @@
                 android:maxLines="1"
                 android:text="wewe"
                 android:textColor="#3A3A3A"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/video_title" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
                         android:padding="5dp"
                         android:text="author"
                         android:textColor="#6D6D6D"
-                        android:textSize="@dimen/_11sdp" />
+                        android:textSize="@dimen/video_title_author" />
 
                     <ImageView
                         android:layout_width="16dp"
@@ -98,7 +98,7 @@
                         android:padding="5dp"
                         android:text="6"
                         android:textColor="#6D6D6D"
-                        android:textSize="@dimen/_11sdp" />
+                        android:textSize="@dimen/content_count" />
                 </LinearLayout>
 
             </LinearLayout>

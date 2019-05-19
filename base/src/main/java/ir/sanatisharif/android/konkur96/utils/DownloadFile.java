@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 
-
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
@@ -57,12 +56,12 @@ public class DownloadFile {
 
         Uri uri = Uri.parse(url);
         req = new DownloadManager.Request(uri);
-        //  req.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
         req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         // req.setAllowedOverRoaming(false);
 
         req.setTitle(title);
         req.setDescription(desc);
+        req.addRequestHeader("Authorization", "Bearer " + MyPreferenceManager.getInatanse().getApiToken());
         req.setDestinationInExternalPublicDir(path, fileName);
         id = mDManager.enqueue(req);
     }
