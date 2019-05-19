@@ -81,9 +81,7 @@ public class DownloadFile {
         public void onReceive(Context context, Intent intent) {
 
             if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
-
                 ActivityBase.toastShow(context.getResources().getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
-
                 if (d != null) {
                     d.complete();
                 }
