@@ -77,8 +77,15 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
     public void onBindViewHolder(final VideoHolder holder, final int position) {
 
         final VideoCourse item = itemsList.get(position);
-        holder.txtTitle.setText(item.getName());
-        holder.txtSession.setText("   جلسه " + item.getOrder());
+
+        try {
+            holder.txtTitle.setText(item.getName());
+            holder.txtSession.setText("   جلسه " + item.getOrder());
+        } catch (Exception e) {
+            Log.i("LOG", "error dont load content");
+        }
+
+
         if (pos > -1 && position == pos) {
             if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 holder.linearBottom.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));

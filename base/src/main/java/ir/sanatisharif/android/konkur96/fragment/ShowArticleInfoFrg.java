@@ -90,9 +90,6 @@ public class ShowArticleInfoFrg extends BaseFragment {
             if (course.getAuthor().getFullName() != null)
                 txtAuthor.setText(course.getAuthor().getFullName());
 
-          //  Log.i(TAG, "setData: "+txtContext);
-           // Log.i(TAG, "setData: "+txtDesc);
-
             new Thread(new Runnable() {
                 @Override
                 public void run() {

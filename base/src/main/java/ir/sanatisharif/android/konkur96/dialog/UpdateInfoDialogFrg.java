@@ -30,6 +30,7 @@ import ir.sanatisharif.android.konkur96.R;
 
 import ir.sanatisharif.android.konkur96.model.DownloadUrl;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
+import ir.sanatisharif.android.konkur96.utils.Utils;
 
 /**
  * Created by Mohamad on 7/7/2017.
@@ -86,7 +87,7 @@ public class UpdateInfoDialogFrg extends BaseDialogFragment<UpdateInfoDialogFrg>
             @Override
             public void onClick(View view) {
 
-                MyPreferenceManager.getInatanse().setLastVersionCode(32);
+                MyPreferenceManager.getInatanse().setLastVersionCode(Utils.getVersionCode());
                 dismiss();
             }
         });

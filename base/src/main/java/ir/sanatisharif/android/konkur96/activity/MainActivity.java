@@ -111,12 +111,12 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         //---------initialize UI--------
         initUI();
 
-        // getLastVersion();
+         getLastVersion();
         //-----------add FirstFragment
 
         addFrg(AllaMainFrg.newInstance(), "alla");
-      //  addFrg(DetailsVideoFrg.newInstance("https://alaatv.com/c/9841"), "DetailsVideoFrg");
-       //-------- handle deep link
+        //  addFrg(DetailsVideoFrg.newInstance("https://alaatv.com/c/9841"), "DetailsVideoFrg");
+        //-------- handle deep link
         if (getIntent() != null)
             handleIntent(getIntent());
 
@@ -344,13 +344,17 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
         boolean showHomeFrg = true;
 
-        for (int i = 1; i < fragments.size(); i++) {
-            Fragment f = fragments.pop();
-            transaction.remove(f).commit();
-            showHomeFrg = false;
-        }
-        if (!showHomeFrg) {
-            transaction.show(fragments.lastElement());
+        try {
+            for (int i = 1; i < fragments.size(); i++) {
+                Fragment f = fragments.pop();
+                transaction.remove(f).commit();
+                showHomeFrg = false;
+            }
+            if (!showHomeFrg) {
+                transaction.show(fragments.lastElement());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "manageStack: error");
         }
     }
 
@@ -375,9 +379,8 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
     }
 
-    //http://79.127.123.246:8083/api/v1/lastVersion
-    private void getLastVersion() {//http://79.127.123.246:8083/api/v1/lastVersion"
-        MainApi.getInstance().getLastVersion("https://dev.alaatv.com:8082/api/v1/lastVersion", new IServerCallbackObject() {
+    private void getLastVersion() {
+        MainApi.getInstance().getLastVersion("https://alaatv.com/api/v1/lastVersion", new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
 

@@ -301,7 +301,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         super.onStop();
         getActivity().unregisterReceiver(phoneStateReceiver);
         if (Util.SDK_INT > 23) {
-            // releasePlayer();
             player.setPlayWhenReady(false);
             Log.i(TAG, "onStart:onStop ");
         }
@@ -312,7 +311,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         super.onPause();
 
         if (Util.SDK_INT <= 23 && player != null) {
-            //releasePlayer();
             player.setPlayWhenReady(false);
             Log.i(TAG, "onStart:onPause ");
         }

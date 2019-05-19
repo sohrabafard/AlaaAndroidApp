@@ -37,7 +37,7 @@
         <item name="colorControlNormal">@color/colorPrimary</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="colorControlHighlight">@color/WhiteSmoke</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">@dimen/button</item>
     </style>
 
     <style name="BottomTabLayout" parent="Widget.Design.TabLayout">
