@@ -120,7 +120,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    EncryptedDownloadApi downloadApi(Retrofit.Builder builder) {
-        return builder.baseUrl(AppConfig.BASE_URL).build().create(EncryptedDownloadApi.class);
+    HeadRequestInterface alaaHeadRequest(Retrofit.Builder builder) {
+        return builder.baseUrl(AppConfig.BASE_URL).build().create(HeadRequestInterface.class);
     }
 }

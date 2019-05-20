@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
@@ -36,11 +35,7 @@ import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.DownloadFile;
-import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
-
-import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 /**
  * Created by Mohamad on 7/7/2017.
@@ -52,8 +47,9 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     private static final String TAG = "Alaa\\DownloadDialogFrg";
     private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
     private static final int PERMISSION_ALL = 1;
-    private static ArrayList<Video> videos = new ArrayList<>();
-    private static String title;
+    private ArrayList<Video> videos = new ArrayList<>();
+    private String title;
+    private boolean isFree;
     private TextView txtDownload;
     private TextView txtCancel;
     private RadioGroup radioGroup;
@@ -65,13 +61,6 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     private View dialog;
     private SharedPreferences sharedPreferences;
     private DownloadComplete downloadComplete;
-
-    public static DownloadDialogFrg newInstance(List<Video> v, String t) {
-        DownloadDialogFrg frag = new DownloadDialogFrg();
-        videos.addAll(v);
-        title = t;
-        return frag;
-    }
 
     //---------------------------------------------------------------------------------------
     public static boolean hasPermissions(Context context, String... permissions) {
@@ -85,9 +74,10 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         return true;
     }
 
-    public DownloadDialogFrg setData(List<Video> v, String t) {
+    public DownloadDialogFrg setData(List<Video> v, String t, boolean free) {
         videos.addAll(v);
         title = t;
+        isFree = free;
         return this;
     }
 
@@ -168,6 +158,10 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             radioMediumQuality.setChecked(true);
         }
 
+        setOnClickListenerForDialogViews();
+    }
+
+    private void setOnClickListenerForDialogViews() {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -179,47 +173,35 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         txtDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                for (Video v : videos)
-                    Log.i(TAG, "download1: " + v.getLink());
-
-                AccountInfo accountInfo = new AccountInfo(getContext(), getActivity());
-                accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
-                    @Override
-                    public void onToken(String token) {
-                        // setAuth
-                        MyPreferenceManager.getInatanse().setApiToken(token);
-                        MyPreferenceManager.getInatanse().setAuthorize(true);
-                        Log.i(TAG, "download1: " + MyPreferenceManager.getInatanse().getApiToken());
-                    }
-                });
-
-
                 if (checkLocationPermission()) {
-                    if (radioGroup.getCheckedRadioButtonId() == R.id.radioExcellentQuality) {
-
-                        createDir(videos.get(0).getLink(), title);
-
-                    } else if (radioGroup.getCheckedRadioButtonId() == R.id.radioHighQuality) {
-
-                        createDir(videos.get(1).getLink(), title);
-
-                    } else if (radioGroup.getCheckedRadioButtonId() == R.id.radioMediumQuality) {
-
-                        createDir(videos.get(2).getLink(), title);
+                    String link = getLinkString();
+                    if (link != null) {
+                        createDir(followRedirectedLink(link), title);
                     }
-
                     dismiss();
                 }
             }
-        });
-        txtCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            private String getLinkString() {
+                String link = null;
+                switch (radioGroup.getCheckedRadioButtonId()) {
+                    case R.id.radioExcellentQuality:
+                        link = videos.get(0).getLink();
+                        break;
+                    case R.id.radioHighQuality:
+                        link = videos.get(1).getLink();
+                        break;
+                    case R.id.radioMediumQuality:
+                        link = videos.get(2).getLink();
+                        break;
+                }
+                return link;
+            }
 
-                dismiss();
+            private String followRedirectedLink(String url) {
+                return url;
             }
         });
+        txtCancel.setOnClickListener(view1 -> dismiss());
     }
 
     private boolean checkLocationPermission() {

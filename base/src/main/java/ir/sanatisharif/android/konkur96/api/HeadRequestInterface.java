@@ -7,8 +7,8 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Url;
 
-public interface EncryptedDownloadApi {
+public interface HeadRequestInterface {
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @HEAD
-    Observable<Response> getDownloadLink(@Url String url, @Header("Authorization") String token);
+    Observable<Response> getLocation(@Url String url, @Header("Authorization") String token);
 }
