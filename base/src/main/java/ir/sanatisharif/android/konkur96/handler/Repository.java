@@ -7,7 +7,7 @@ import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 
-public interface Repository {
+public interface Repository extends ApiRepoInterface {
 
     void getMainShop(ApiCallBack callBack);
 
