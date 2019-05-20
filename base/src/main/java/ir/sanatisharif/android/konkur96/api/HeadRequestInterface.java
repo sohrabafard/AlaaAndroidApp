@@ -8,7 +8,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Url;
 
 public interface HeadRequestInterface {
-    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @HEAD
     Observable<Response> getLocation(@Url String url, @Header("Authorization") String token);
 }

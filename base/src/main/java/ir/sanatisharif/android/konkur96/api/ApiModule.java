@@ -30,7 +30,6 @@ public class ApiModule {
     static Interceptor onlineInterceptor = new Interceptor() {
         @Override
         public okhttp3.Response intercept(Chain chain) throws IOException {
-
             Request original = chain.request();
             Request.Builder builder = original.newBuilder();
             okhttp3.Response response = chain.proceed(builder.build());
@@ -76,7 +75,6 @@ public class ApiModule {
     @Provides
     @Singleton
     OkHttpClient provideClient() {
-
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
         builder.addInterceptor(offlineInterceptor);
@@ -94,7 +92,6 @@ public class ApiModule {
     @Provides
     @Singleton
     Retrofit.Builder provideRetrofit(OkHttpClient okHttpClient) {
-
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -121,6 +118,9 @@ public class ApiModule {
     @Provides
     @Singleton
     HeadRequestInterface alaaHeadRequest(Retrofit.Builder builder) {
-        return builder.baseUrl(AppConfig.BASE_URL).build().create(HeadRequestInterface.class);
+        Log.e("Alaa\\ApiModule", builder.toString());
+        return builder.baseUrl(AppConfig.BASE_URL)
+                .build()
+                .create(HeadRequestInterface.class);
     }
 }

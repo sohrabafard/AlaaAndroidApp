@@ -30,6 +30,8 @@ import java.util.Objects;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
+import ir.sanatisharif.android.konkur96.handler.EncryptedDownloadRepository;
+import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
 import ir.sanatisharif.android.konkur96.model.Video;
@@ -176,7 +178,8 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                 if (checkLocationPermission()) {
                     String link = getLinkString();
                     if (link != null) {
-                        createDir(followRedirectedLink(link), title);
+                        followRedirectedLink(link);
+//                        createDir(followRedirectedLink(link), title);
                     }
                     dismiss();
                 }
@@ -197,8 +200,18 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                 return link;
             }
 
-            private String followRedirectedLink(String url) {
-                return url;
+            private void followRedirectedLink(String url) {
+                EncryptedDownloadRepository repository = new EncryptedDownloadRepository(Objects.requireNonNull(getActivity()));
+                AuthToken.getInstant().get(Objects.requireNonNull(getContext()), Objects.requireNonNull(getActivity()), token -> {
+                    Log.i(TAG, "followRedirectedLink, has_token: " + (token != null));
+                    repository.getDirectLink(url, token, data -> {
+                        if (data instanceof Result.Success) {
+                            Log.e(TAG, (String) ((Result.Success) data).value);
+                        } else {
+                            Log.e(TAG, (String) ((Result.Error) data).value);
+                        }
+                    });
+                });
             }
         });
         txtCancel.setOnClickListener(view1 -> dismiss());
