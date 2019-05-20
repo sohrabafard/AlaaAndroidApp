@@ -693,15 +693,17 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
             if (course.getFile().getVideo() != null) {
                 DownloadDialogFrg dialog = new DownloadDialogFrg();
-                dialog.setData(course.getFile().getVideo(), course.getName());
-                dialog.setComplete(new DownloadComplete() {
-                    @Override
-                    public void complete() {
-                        imgDownload.setVisibility(View.GONE);
-                        imgReady.setVisibility(View.VISIBLE);
-                    }
-                });
-                dialog.show(getFragmentManager(), "dialog");
+                dialog.setData(course.getFile().getVideo(), course.getName())
+                        .setComplete(new DownloadComplete() {
+                            @Override
+                            public void complete() {
+                                imgDownload.setVisibility(View.GONE);
+                                imgReady.setVisibility(View.VISIBLE);
+                            }
+                        })
+                        .show(getFragmentManager(), "dialog");
+
+
             }
 
 

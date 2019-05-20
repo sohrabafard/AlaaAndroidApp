@@ -49,7 +49,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_F
 public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
     //------init UI
-    private static final String TAG = "DownloadDialogFrg";
+    private static final String TAG = "Alaa\\DownloadDialogFrg";
     private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
     private static final int PERMISSION_ALL = 1;
     private static ArrayList<Video> videos = new ArrayList<>();
@@ -85,20 +85,26 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         return true;
     }
 
-    public void setData(List<Video> v, String t) {
+    public DownloadDialogFrg setData(List<Video> v, String t) {
         videos.addAll(v);
         title = t;
+        return this;
     }
 
-    public void setComplete(DownloadComplete downloadComplete) {
+    public DownloadDialogFrg setComplete(DownloadComplete downloadComplete) {
         this.downloadComplete = downloadComplete;
+        return this;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog_Alert);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog_Alert);
+        } else {
+            setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_DeviceDefault);
+        }
     }
 
     @Override
@@ -234,15 +240,18 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         File file = new File(FileManager.getRootPath() + mediaPath);
         String fileName = FileManager.getFileNameFromUrl(url);
         if (!file.exists()) {
-            if (file.mkdirs())
+            if (file.mkdirs()) {
                 startDL(url, title, mediaPath, fileName, file);
-        } else
+            }
+        } else {
             startDL(url, title, mediaPath, fileName, file);
+        }
     }
 
     private void startDL(String url, String title, String mediaPath, String fileName, final File f) {
 
         if (sharedPreferences.getBoolean(getString(R.string.setting_external_download), true)) {
+            Log.i(TAG, "startDL-internal");
             DownloadFile.getInstance().init(getContext(), new DownloadComplete() {
                 @Override
                 public void complete() {
@@ -253,14 +262,17 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                     Utils.addVideoToGallery(f, AppConfig.currentActivity);
                 }
             });
-            Log.e(TAG, "startDL-here");
 
             AuthToken.getInstant().get(Objects.requireNonNull(getContext()), Objects.requireNonNull(getActivity()), token -> {
-                Log.e(TAG, token);
-                if (token != null)
+                Log.i(TAG, "startDL\\AuthToken.getInstant().get, has_token: " + (token != null));
+                if (token != null) {
                     DownloadFile.getInstance().start(url, AppConstants.ROOT + "/" + mediaPath, fileName, title, getResources().getString(R.string.alaa), token);
+                } else {
+                    DownloadFile.getInstance().start(url, AppConstants.ROOT + "/" + mediaPath, fileName, title, getResources().getString(R.string.alaa));
+                }
             });
         } else {
+            Log.i(TAG, "startDL-external");
             Utils.loadUrl(url, getContext());
         }
     }

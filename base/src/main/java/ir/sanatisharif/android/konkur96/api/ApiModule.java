@@ -16,7 +16,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -116,5 +115,12 @@ public class ApiModule {
     @Singleton
     ZarinPalAPI provideApiZarinPal(Retrofit.Builder builder) {
         return builder.baseUrl(ZarinPalAPI.BASE_URL).build().create(ZarinPalAPI.class);
+    }
+
+
+    @Provides
+    @Singleton
+    EncryptedDownloadApi downloadApi(Retrofit.Builder builder) {
+        return builder.baseUrl(AppConfig.BASE_URL).build().create(EncryptedDownloadApi.class);
     }
 }
