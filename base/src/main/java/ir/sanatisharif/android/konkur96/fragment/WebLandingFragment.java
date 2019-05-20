@@ -18,7 +18,7 @@ import ir.sanatisharif.android.konkur96.R;
 public class WebLandingFragment extends BaseFragment {
 
     private WebView webView;
-    private String recivedURL = "https://sanatisharif.ir";
+    private String recivedURL = "https://alaatv.com";
 
     public static WebLandingFragment newInstance(String url) {
 

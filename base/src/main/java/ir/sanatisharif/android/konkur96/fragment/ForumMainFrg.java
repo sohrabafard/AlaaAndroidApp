@@ -1,18 +1,12 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +17,9 @@ import android.webkit.WebViewClient;
 import org.greenrobot.eventbus.EventBus;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.activity.ActivityBase;
-import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.MyWaitingDialog;
 import ir.sanatisharif.android.konkur96.model.Events;
-import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -75,7 +66,7 @@ public class ForumMainFrg extends BaseFragment {
         initView();
         setting();
 
-        webView.loadUrl("https://forum.sanatisharif.ir/");
+        webView.loadUrl("https://forum.alaatv.com/");
         webView.setWebViewClient(new MyBrowser());
 
     }
@@ -90,7 +81,7 @@ public class ForumMainFrg extends BaseFragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                webView.loadUrl("https://forum.sanatisharif.ir/");
+                webView.loadUrl("https://forum.alaatv.com/");
             }
         });
     }
