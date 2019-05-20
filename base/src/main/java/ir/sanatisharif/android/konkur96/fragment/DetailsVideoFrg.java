@@ -509,7 +509,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                         course = obj.getContent();
                         setData();
                         showSnackBar(obj.getMessage());
-                        Log.e(TAG, "512");
                         setProduct(obj.getProduct());
                         getPlayListFromContentByUrl(course.getSet().getContentUrl());
 

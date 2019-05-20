@@ -30,12 +30,10 @@ import java.util.Objects;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.handler.EncryptedDownloadRepository;
-import ir.sanatisharif.android.konkur96.handler.Result;
+import ir.sanatisharif.android.konkur96.handler.EncryptedDownloadInterface;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
 import ir.sanatisharif.android.konkur96.model.Video;
-import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.DownloadFile;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
@@ -57,6 +55,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     private RadioGroup radioGroup;
     private RadioButton radioExcellentQuality;
 
+    private Context mContext;
     //------
     private RadioButton radioHighQuality;
     private RadioButton radioMediumQuality;
@@ -91,7 +90,8 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mContext = getContext().getApplicationContext();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(mContext));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog_Alert);
         } else {
@@ -107,7 +107,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -132,8 +132,6 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
         ripple(txtDownload, 4);
         ripple(txtCancel, 4);
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         if (videos.size() == 1) {
             radioExcellentQuality.setText(toString(videos.get(0).getCaption(), videos.get(0).getRes()));
@@ -164,26 +162,52 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     }
 
     private void setOnClickListenerForDialogViews() {
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        radioGroup.setOnCheckedChangeListener((radioGroup, i) -> txtDownload.setEnabled(true));
 
-                txtDownload.setEnabled(true);
-            }
-        });
+        txtDownload.setOnClickListener(getTxtDownloadListener());
+        txtCancel.setOnClickListener(view1 -> dismiss());
+    }
 
-        txtDownload.setOnClickListener(new View.OnClickListener() {
+    @NonNull
+    private View.OnClickListener getTxtDownloadListener() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (checkLocationPermission()) {
-                    String link = getLinkString();
-                    if (link != null) {
-                        followRedirectedLink(link);
-//                        createDir(followRedirectedLink(link), title);
-                    }
+                    downloadPreProcess();
                     dismiss();
                 }
             }
+
+            private void downloadPreProcess() {
+                String link = getLinkString();
+                if (link != null) {
+                    if (isFree || link.contains("cdn"))
+                        createDir(link, title);
+                    else {
+                        Utils.followRedirectedLink(mContext, getActivity(), link, new EncryptedDownloadInterface.Callback() {
+                            @Override
+                            public void fetch(String newUrl) {
+                                try {
+                                    if (newUrl != null) {
+                                        createDir(newUrl, title);
+                                    } else {
+                                        createDir(link, title);
+                                    }
+                                } catch (Exception e) {
+                                    Log.e(TAG, e.getMessage());
+                                }
+                            }
+
+                            @Override
+                            public void error(String message) {
+                                Log.e(TAG, "link: " + link + "\n\n" + "followRedirectedLink-error:\n\r" + message);
+                            }
+                        });
+                    }
+                }
+            }
+
             private String getLinkString() {
                 String link = null;
                 switch (radioGroup.getCheckedRadioButtonId()) {
@@ -200,26 +224,13 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                 return link;
             }
 
-            private void followRedirectedLink(String url) {
-                EncryptedDownloadRepository repository = new EncryptedDownloadRepository(Objects.requireNonNull(getActivity()));
-                AuthToken.getInstant().get(Objects.requireNonNull(getContext()), Objects.requireNonNull(getActivity()), token -> {
-                    Log.i(TAG, "followRedirectedLink, has_token: " + (token != null));
-                    repository.getDirectLink(url, token, data -> {
-                        if (data instanceof Result.Success) {
-                            Log.e(TAG, (String) ((Result.Success) data).value);
-                        } else {
-                            Log.e(TAG, (String) ((Result.Error) data).value);
-                        }
-                    });
-                });
-            }
-        });
-        txtCancel.setOnClickListener(view1 -> dismiss());
+
+        };
     }
 
     private boolean checkLocationPermission() {
 
-        boolean has = hasPermissions(getContext(), PERMISSIONS);
+        boolean has = hasPermissions(mContext, PERMISSIONS);
 
         if (!has) {
             ActivityCompat.requestPermissions(AppConfig.currentActivity, PERMISSIONS, PERMISSION_ALL);
@@ -234,41 +245,29 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         String mediaPath = FileManager.getPathFromAllaUrl(url);
         File file = new File(FileManager.getRootPath() + mediaPath);
         String fileName = FileManager.getFileNameFromUrl(url);
-        if (!file.exists()) {
-            if (file.mkdirs()) {
-                startDL(url, title, mediaPath, fileName, file);
-            }
-        } else {
+
+        if (file.exists()) {
+            startDL(url, title, mediaPath, fileName, file);
+        } else if (file.mkdirs()) {
             startDL(url, title, mediaPath, fileName, file);
         }
     }
 
     private void startDL(String url, String title, String mediaPath, String fileName, final File f) {
 
-        if (sharedPreferences.getBoolean(getString(R.string.setting_external_download), true)) {
+        if (sharedPreferences.getBoolean(mContext.getString(R.string.setting_external_download), true)) {
             Log.i(TAG, "startDL-internal");
-            DownloadFile.getInstance().init(getContext(), new DownloadComplete() {
-                @Override
-                public void complete() {
+            DownloadFile.getInstance().init(mContext, () -> {
 
-                    if (downloadComplete != null) {
-                        downloadComplete.complete();
-                    }
-                    Utils.addVideoToGallery(f, AppConfig.currentActivity);
+                if (downloadComplete != null) {
+                    downloadComplete.complete();
                 }
+                Utils.addVideoToGallery(f, mContext);
             });
-
-            AuthToken.getInstant().get(Objects.requireNonNull(getContext()), Objects.requireNonNull(getActivity()), token -> {
-                Log.i(TAG, "startDL\\AuthToken.getInstant().get, has_token: " + (token != null));
-                if (token != null) {
-                    DownloadFile.getInstance().start(url, AppConstants.ROOT + "/" + mediaPath, fileName, title, getResources().getString(R.string.alaa), token);
-                } else {
-                    DownloadFile.getInstance().start(url, AppConstants.ROOT + "/" + mediaPath, fileName, title, getResources().getString(R.string.alaa));
-                }
-            });
+            DownloadFile.getInstance().start(url, AppConstants.ROOT + "/" + mediaPath, fileName, title, mContext.getResources().getString(R.string.alaa));
         } else {
             Log.i(TAG, "startDL-external");
-            Utils.loadUrl(url, getContext());
+            Utils.loadUrl(url, mContext);
         }
     }
 
