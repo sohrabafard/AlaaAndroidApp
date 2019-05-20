@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -16,7 +15,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -28,37 +26,30 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiModule {
 
     private static final long cacheSize = 10 * 1024 * 1024; // 10 MB
-    static Interceptor onlineInterceptor = new Interceptor() {
-        @Override
-        public okhttp3.Response intercept(Chain chain) throws IOException {
-
-            Request original = chain.request();
-            Request.Builder builder = original.newBuilder();
-            okhttp3.Response response = chain.proceed(builder.build());
+    private static Interceptor onlineInterceptor = chain -> {
+        Request original = chain.request();
+        Request.Builder builder = original.newBuilder();
+        okhttp3.Response response = chain.proceed(builder.build());
 
 //            if (!handelStatusCode(response.code()))
 //                return response;
 
-            int maxAge = 10; // read from cache for 10 seconds even if there is internet connection
-            return response.newBuilder()
-                    .header("Cache-Control", "public, max-age=" + maxAge)
+        int maxAge = 10; // read from cache for 10 seconds even if there is internet connection
+        return response.newBuilder()
+                .header("Cache-Control", "public, max-age=" + maxAge)
+                .removeHeader("Pragma")
+                .build();
+    };
+    private static Interceptor offlineInterceptor = chain -> {
+        Request request = chain.request();
+        if (!isConnected()) {
+            int maxStale = 60 * 60 * 24 * 30; // Offline cache available for 30 days
+            request = request.newBuilder()
+                    .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
                     .removeHeader("Pragma")
                     .build();
         }
-    };
-    static Interceptor offlineInterceptor = new Interceptor() {
-        @Override
-        public okhttp3.Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            if (!isConnected()) {
-                int maxStale = 60 * 60 * 24 * 30; // Offline cache available for 30 days
-                request = request.newBuilder()
-                        .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                        .removeHeader("Pragma")
-                        .build();
-            }
-            return chain.proceed(request);
-        }
+        return chain.proceed(request);
     };
 
     private static boolean isConnected() {
@@ -77,7 +68,6 @@ public class ApiModule {
     @Provides
     @Singleton
     OkHttpClient provideClient() {
-
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
         builder.addInterceptor(offlineInterceptor);
@@ -95,7 +85,6 @@ public class ApiModule {
     @Provides
     @Singleton
     Retrofit.Builder provideRetrofit(OkHttpClient okHttpClient) {
-
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -116,5 +105,30 @@ public class ApiModule {
     @Singleton
     ZarinPalAPI provideApiZarinPal(Retrofit.Builder builder) {
         return builder.baseUrl(ZarinPalAPI.BASE_URL).build().create(ZarinPalAPI.class);
+    }
+
+
+    @Provides
+    @Singleton
+    HeadRequestInterface provideHeadRequest(Retrofit.Builder builder) {
+        Log.e("Alaa\\ApiModule", builder.toString());
+
+        OkHttpClient okHttpClient = new OkHttpClient()
+                .newBuilder()
+                .addInterceptor(offlineInterceptor)
+                .cache(new Cache(AppConfig.context.getCacheDir(), cacheSize))
+                .addNetworkInterceptor(onlineInterceptor)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .followRedirects(false)
+                .followSslRedirects(false)
+                .build();
+
+        return builder
+                .client(okHttpClient)
+                .baseUrl(AppConfig.BASE_URL)
+                .build()
+                .create(HeadRequestInterface.class);
     }
 }

@@ -11,26 +11,19 @@ import android.widget.ImageView;
 
 import com.google.android.gms.common.wrappers.InstantApps;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.fragment.DashboardMainFrg;
-import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
-import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
-import ir.sanatisharif.android.konkur96.fragment.ShopMainFragment;
-import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 public class SplashActivity extends ActivityBase {
 
-    private String TAG = this.getClass().getSimpleName();
+    private String TAG = "Alaa\\SplashActivity";
     private AccountInfo accountInfo;
     private ImageView img1;
     private AlertDialog mAlertDialog;

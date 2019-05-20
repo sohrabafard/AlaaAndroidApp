@@ -14,7 +14,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -25,8 +24,6 @@ import android.webkit.URLUtil;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -41,6 +38,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.handler.EncryptedDownloadInterface;
+import ir.sanatisharif.android.konkur96.handler.EncryptedDownloadRepository;
 
 /**
  * Created by Mohamad on 10/25/2018.
@@ -48,6 +47,8 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 
 public class Utils {
 
+
+    private static final String TAG = "Alaa\\Utils";
 
     private Utils() {
         // no instance
@@ -209,12 +210,12 @@ public class Utils {
         }
     }
 
-    public static Uri addVideoToGallery(File videoFile, Activity activity) {
+    public static Uri addVideoToGallery(File videoFile, Context context) {
         ContentValues values = new ContentValues(3);
         values.put(MediaStore.Video.Media.TITLE, videoFile.getName());
         values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
         values.put(MediaStore.Video.Media.DATA, videoFile.getAbsolutePath());
-        return activity.getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
+        return context.getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
     }
 
     /**
@@ -312,5 +313,13 @@ public class Utils {
                 return;
             }
         }
+    }
+
+    public static void followRedirectedLink(Context context, Activity activity, String url, EncryptedDownloadInterface.Callback callback) {
+        EncryptedDownloadRepository repository = new EncryptedDownloadRepository(activity);
+        AuthToken.getInstant().get(context, activity, token -> {
+            Log.i(TAG, "followRedirectedLink, has_token: " + (token != null));
+            repository.getDirectLink(url, token, callback);
+        });
     }
 }

@@ -103,7 +103,6 @@ import ir.sanatisharif.android.konkur96.model.main_page.Content;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
-import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 import me.gujun.android.taggroup.TagGroup;
 
@@ -118,7 +117,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConfig.context;
 
 public class DetailsVideoFrg extends BaseFragment implements View.OnClickListener {
 
-    private final static String TAG = "DetailsVideoFrg";
+    private final static String TAG = "Alaa\\DetailsVideoFrg";
     private static final int LOAD_URL = 0;
     private static final int LOAD_CONTENT = 1;
     private static final int LOAD_LIST = 2;
@@ -472,10 +471,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             course = videoCourses.get(positionPlaying);
             setData();
         }
-
-//         videoPlayer = new VideoPlayer();
-//          getLifecycle().addObserver(videoPlayer);
-        Log.e(TAG, "478");
     }
 
     @Override
@@ -514,7 +509,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                         course = obj.getContent();
                         setData();
                         showSnackBar(obj.getMessage());
-                        Log.e(TAG, "517");
                         setProduct(obj.getProduct());
                         getPlayListFromContentByUrl(course.getSet().getContentUrl());
 
@@ -538,10 +532,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                             course = (DataCourse) obj;
                             setData();
                             getPlayListFromContentByUrl(course.getSet().getContentUrl());
-
-                            // reset
-                            MyPreferenceManager.getInatanse().setApiToken("");
-                            MyPreferenceManager.getInatanse().setAuthorize(false);
                         } else {
                             Log.i(TAG, "getData-else-onSuccess: \n\r" + url + "object is null");
                         }
@@ -555,10 +545,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                             showSnackBar(obj.getMessage());
                             setProduct(obj.getProduct());
                             getPlayListFromContentByUrl(course.getSet().getContentUrl());
-
-                            // reset
-                            MyPreferenceManager.getInatanse().setApiToken("");
-                            MyPreferenceManager.getInatanse().setAuthorize(false);
                         } else {
                             Log.i(TAG, "getData-else-onSuccessCredit: \n\r" + url + "object is null");
                         }
@@ -567,10 +553,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     @Override
                     public void onFailure(String message) {
                         Log.i(TAG, "onSuccess:error " + message);
-
-                        // reset
-                        MyPreferenceManager.getInatanse().setApiToken("");
-                        MyPreferenceManager.getInatanse().setAuthorize(false);
                     }
                 });
             });
@@ -693,15 +675,17 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
             if (course.getFile().getVideo() != null) {
                 DownloadDialogFrg dialog = new DownloadDialogFrg();
-                dialog.setData(course.getFile().getVideo(), course.getName());
-                dialog.setComplete(new DownloadComplete() {
-                    @Override
-                    public void complete() {
-                        imgDownload.setVisibility(View.GONE);
-                        imgReady.setVisibility(View.VISIBLE);
-                    }
-                });
-                dialog.show(getFragmentManager(), "dialog");
+                dialog.setData(course.getFile().getVideo(), course.getName(), (course.getIsFree() > 0))
+                        .setComplete(new DownloadComplete() {
+                            @Override
+                            public void complete() {
+                                imgDownload.setVisibility(View.GONE);
+                                imgReady.setVisibility(View.VISIBLE);
+                            }
+                        })
+                        .show(getFragmentManager(), "dialog");
+
+
             }
 
 

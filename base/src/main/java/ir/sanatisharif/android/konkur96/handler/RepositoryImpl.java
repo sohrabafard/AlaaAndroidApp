@@ -9,12 +9,8 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
-import ir.sanatisharif.android.konkur96.api.Models.PaymentUrlModel;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
-import ir.sanatisharif.android.konkur96.api.Models.ResultShowVideoModel;
-import ir.sanatisharif.android.konkur96.api.Models.myProductsModel;
 import ir.sanatisharif.android.konkur96.api.ShopAPI;
 import ir.sanatisharif.android.konkur96.api.ZarinPalAPI;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
