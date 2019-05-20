@@ -117,7 +117,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    HeadRequestInterface alaaHeadRequest(Retrofit.Builder builder) {
+    HeadRequestInterface provideHeadRequest(Retrofit.Builder builder) {
         Log.e("Alaa\\ApiModule", builder.toString());
         return builder.baseUrl(AppConfig.BASE_URL)
                 .build()
