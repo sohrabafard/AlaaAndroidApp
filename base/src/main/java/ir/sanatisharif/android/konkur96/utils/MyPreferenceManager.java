@@ -170,7 +170,7 @@ public class MyPreferenceManager {
     }
 
     public int getLastVersionCode() {
-        return getSharedInt(LAST_VERSION_CODE, 41);
+        return getSharedInt(LAST_VERSION_CODE, 44);
     }
 
     public void setLastVersionCode(int value) {
