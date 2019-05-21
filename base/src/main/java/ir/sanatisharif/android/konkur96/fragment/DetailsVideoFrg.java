@@ -943,18 +943,34 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     AppConfig.HANDLER.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-
                             mResumePosition = 0;
-                            mVideoSource = provideVideoSource(mUrl);
-
                             boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
-
                             if (haveResumePosition) {
                                 player.seekTo(mResumeWindow, mResumePosition);
                             }
+                            final String userAgent = Util.getUserAgent(context, "ExoPlayer");
                             player.seekTo(0);
-                            player.prepare(mVideoSource, !haveResumePosition, false);
                             player.setPlayWhenReady(true);
+
+                            if (mUrl.contains("cdn")) {
+                                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, userAgent);
+
+                                mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                                        .createMediaSource(Uri.parse(mUrl));
+                                player.prepare(mVideoSource, !haveResumePosition, false);
+                            } else {
+                                AuthToken.getInstant().get(context, getActivity(), token -> {
+                                    Log.i(TAG, "startPlayer, has_token: " + (token != null));
+
+                                    DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
+                                    httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
+                                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
+
+                                    mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                                            .createMediaSource(Uri.parse(mUrl));
+                                    player.prepare(mVideoSource, !haveResumePosition, false);
+                                });
+                            }
 
                         }
                     }, 200);
@@ -1099,23 +1115,15 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         if (haveResumePosition) {
             player.seekTo(mResumeWindow, mResumePosition);
         }
-
-
-        mVideoSource = provideVideoSource(mUrl);
-
-
         player.addListener(eventListener);
-        player.prepare(mVideoSource, !haveResumePosition, false);
         player.setPlayWhenReady(true);
-    }
-
-    private MediaSource provideVideoSource(String mUrl) {
         final String userAgent = Util.getUserAgent(context, "ExoPlayer");
         if (mUrl.contains("cdn")) {
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, userAgent);
 
             mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(Uri.parse(mUrl));
+            player.prepare(mVideoSource, !haveResumePosition, false);
         } else {
             AuthToken.getInstant().get(context, getActivity(), token -> {
                 Log.i(TAG, "startPlayer, has_token: " + (token != null));
@@ -1126,9 +1134,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
                 mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                         .createMediaSource(Uri.parse(mUrl));
+                player.prepare(mVideoSource, !haveResumePosition, false);
             });
         }
-        return mVideoSource;
     }
 
     //</editor-fold>

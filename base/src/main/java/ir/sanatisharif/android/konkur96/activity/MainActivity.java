@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.android.gms.common.wrappers.InstantApps;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,7 +45,6 @@ import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
-import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
@@ -61,8 +59,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     private static final String TAG = "MainActivity";
     private static Stack<Fragment> fragments;
     private static FragmentManager fm;
-    private FirebaseAnalytics mFirebaseAnalytics;
-    private NetworkChangedReceiver networkChangedReceiver;
     private AccountInfo accountInfo;
     private AHBottomNavigation bottomNavigation;
     private Repository repository;
@@ -117,7 +113,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         getLastVersion();
         //-----------add FirstFragment
 
-        addFrg(AllaMainFrg.newInstance(), "alla");
+        addFrg(AllaMainFrg.newInstance(), "MainFrg");
         //  addFrg(DetailsVideoFrg.newInstance("https://alaatv.com/c/9841"), "DetailsVideoFrg");
         //-------- handle deep link
         if (getIntent() != null)
@@ -233,8 +229,8 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
                 addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
 
-            } else if (appLinkData.getPath().startsWith("/")) {
-
+            } else if (appLinkData.getPath().equals("/")) {
+                addFrg(AllaMainFrg.newInstance(), "MainFrg");
             }
 
         }
@@ -269,7 +265,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         switch (tab_id) {
             case 0:
                 manageStack();
-                addFrg(ForumMainFrg.newInstance(), "MainFrg");
+                addFrg(AllaMainFrg.newInstance(), "MainFrg");
                 break;
 
             case 1:

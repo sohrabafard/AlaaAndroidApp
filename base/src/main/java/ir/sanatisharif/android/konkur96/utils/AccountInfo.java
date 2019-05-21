@@ -12,8 +12,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.account.Authenticator;
-import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
@@ -26,7 +24,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_F
 
 public class AccountInfo {
 
-    public String TAG = "Alla";
+    public String TAG = "Alaa\\AccountInfo";
     private AccountManager mAccountManager;
     private Context context;
     private Activity activity;

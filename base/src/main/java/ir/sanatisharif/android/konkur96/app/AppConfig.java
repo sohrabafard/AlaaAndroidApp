@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.wrappers.InstantApps;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import io.fabric.sdk.android.Fabric;
 import ir.sanatisharif.android.konkur96.R;
@@ -50,7 +49,6 @@ public class AppConfig extends Application {
     public static String BASE_URL = "https://alaatv.com/";
     static ConnectivityManager Manager = null;
     private final AppComponent mAppComponent = DaggerAppComponent.builder().apiModule(new ApiModule()).build();
-    private FirebaseAnalytics mFirebaseAnalytics;
 
     public static synchronized AppConfig getInstance() {
         return mInstance;
@@ -72,14 +70,6 @@ public class AppConfig extends Application {
         mInstance = this;
         context = getApplicationContext();
         BASE_URL = getString(R.string.alla_url);
-
-        //Firebase init by application id
-//        if (!InstantApps.isInstantApp(getApplicationContext())) {
-//            FirebaseOptions options = new FirebaseOptions.Builder()
-//                    .setApplicationId(getString(R.string.firebaseApplicationId)) // Required for Analytics
-//                    .build();
-//            FirebaseApp.initializeApp(getApplicationContext(), options);
-//        }
 
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()

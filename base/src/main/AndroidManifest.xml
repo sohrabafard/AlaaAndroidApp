@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="ir.sanatisharif.android.konkur96">
+
     <dist:module dist:instant="true" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -53,13 +55,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="https" />
-                <data android:scheme="http" />
-                <data android:host="alaatv.com/splash" />
-                <data android:pathPrefix="/" />
-
+                <data
+                    android:pathPrefix="/splash"
+                    android:host="alaatv.com"
+                    android:scheme="https" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -68,15 +68,8 @@
 
                 <data
                     android:host="alaatv.com"
-                    android:pathPrefix="/"
                     android:scheme="https" />
-                <data
-                    android:host="alaatv.com"
-                    android:pathPrefix="/"
-                    android:scheme="http" />
-
             </intent-filter>
-
         </activity>
 
         <activity
@@ -84,25 +77,6 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait">
 
-
-            <!--<meta-data-->
-            <!--android:name="default-url"-->
-            <!--android:value="https://sanatisharif.ir/" />-->
-
-            <!--<intent-filter android:autoVerify="true">-->
-            <!--<action android:name="android.intent.action.VIEW" />-->
-
-            <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--<category android:name="android.intent.category.BROWSABLE" />-->
-
-            <!--<data android:scheme="https" />-->
-            <!--<data android:scheme="http" />-->
-            <!--<data android:host="sanatisharif.ir" />-->
-            <!--<data android:pathPrefix="/" />-->
-
-            <!--</intent-filter>-->
-
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -121,32 +95,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="sanatisharif.ir"
-                    android:pathPrefix="/c"
-                    android:scheme="http" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="sanatisharif.ir"
-                    android:pathPrefix="/product"
-                    android:scheme="https" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
                     android:host="alaatv.com"
                     android:pathPrefix="/product"
-                    android:scheme="http" />
+                    android:scheme="https" />
             </intent-filter>
 
             <intent-filter>
@@ -160,30 +111,6 @@
                     android:pathPrefix="/login"
                     android:scheme="https" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="alaatv.com"
-                    android:pathPrefix="/login"
-                    android:scheme="http" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="alaatv.com"
-                    android:pathPrefix="/shop"
-                    android:scheme="http" />
-            </intent-filter>
-
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
