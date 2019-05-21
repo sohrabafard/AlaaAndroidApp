@@ -18,13 +18,14 @@ import android.view.ViewTreeObserver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.FilterAdapter;
-import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
+import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.ScrollOnRecycler;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
@@ -33,11 +34,9 @@ import ir.sanatisharif.android.konkur96.model.filter.Filter;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 import ir.sanatisharif.android.konkur96.model.filter.PamphletRoot;
-import ir.sanatisharif.android.konkur96.model.filter.SetFilterProduct;
 import ir.sanatisharif.android.konkur96.model.filter.SetFilterProductRoot;
 import ir.sanatisharif.android.konkur96.model.filter.SetFilterRoot;
 import ir.sanatisharif.android.konkur96.model.filter.VideoRoot;
-import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -55,6 +54,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
     private int type = -1;
     private boolean repeatLoad = true;
     private ScrollOnRecycler scrollOnRecycler;
+    private MainRepository repository;
 
     public static FilterShowEntityFrg newInstance() {
 
@@ -72,13 +72,16 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (repository == null)
+            repository = new MainRepository(Objects.requireNonNull(getActivity()));
         return inflater.inflate(R.layout.fragment_filter_video, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        if (repository == null)
+            repository = new MainRepository(Objects.requireNonNull(getActivity()));
         initView(view);
     }
 
@@ -191,7 +194,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
             }
         });
 
-        MainApi.getInstance().getFilterTagsByUrl(nextUrl, new IServerCallbackObject() {
+        repository.getFilterTagsByUrl(nextUrl, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
 

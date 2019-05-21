@@ -3,17 +3,12 @@ package ir.sanatisharif.android.konkur96.account;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.View;
@@ -34,9 +29,8 @@ import java.util.Objects;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.MainActivity;
 import ir.sanatisharif.android.konkur96.adapter.FilterAdapterBySpinner;
-import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
+import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.user.User;
@@ -74,6 +68,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
     private TextView txtDoNotAccount, txtAccountExist;
     private Spinner spinnerField, spinnerGender;
     private int gender_id = 0, majer_id = 0;
+    private MainRepository repository;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -88,7 +83,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         mAccountManager = AccountManager.get(getBaseContext());
         AppConfig.currentActivity = this;
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
+        repository = new MainRepository(this);
         initUI();
         setDialog();
     }
@@ -97,6 +92,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
     protected void onResume() {
         super.onResume();
         AppConfig.mInstance.setICheckNetwork(this);
+        if (repository == null)
+            repository = new MainRepository(this);
     }
 
     private void initUI() {
@@ -144,14 +141,12 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
     private void getLoginInfo(User user) {
 
         dialog.show();
-        MainApi.getInstance().userInfo(user, new IServerCallbackObject() {
+        repository.userInfo(user, new IServerCallbackObject() {
 
             @Override
             public void onSuccess(Object obj) {
 
                 UserInfo u = (UserInfo) obj;
-                Gson gson = new Gson();
-                //Log.i(TAG, "onSuccess: " + gson.toJson(u));
                 addAccount(u.getData().getUser(), u.getData().getAccessToken());
                 dialog.dismiss();
                 startActivity(new Intent(AuthenticatorActivity.this, MainActivity.class));

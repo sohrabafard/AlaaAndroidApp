@@ -24,7 +24,6 @@ import java.util.Stack;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
-import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationResponse;
@@ -38,6 +37,7 @@ import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
 import ir.sanatisharif.android.konkur96.fragment.ForumMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.ShopMainFragment;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
+import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
@@ -48,6 +48,7 @@ import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
+import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
@@ -65,6 +66,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     private AccountInfo accountInfo;
     private AHBottomNavigation bottomNavigation;
     private Repository repository;
+    private MainRepository mainRepository;
 
     //--- primitive define type-----
     private long back_pressed;
@@ -97,6 +99,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         setContentView(R.layout.activity_main);
 
         repository = new RepositoryImpl(this);
+        mainRepository = new MainRepository(this);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -243,27 +246,21 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         final String firebaseToken = MyPreferenceManager.getInatanse().getFirebaseToken();
         final User user = accountInfo.getInfo(ACCOUNT_TYPE);
 
-        accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
-            @Override
-            public void onToken(String token) {
-                MyPreferenceManager.getInatanse().setApiToken(token);
-                MyPreferenceManager.getInatanse().setAuthorize(true);
+        AuthToken.getInstant().get(this, this, token -> {
+            mainRepository.sendRegistrationToServer(user.getId(), firebaseToken, token, new IServerCallbackObject() {
+                @Override
+                public void onSuccess(Object obj) {
 
-                MainApi.getInstance().sendRegistrationToServer(user.getId(), firebaseToken, new IServerCallbackObject() {
-                    @Override
-                    public void onSuccess(Object obj) {
+                    MyPreferenceManager.getInatanse().setApiToken("");
+                    MyPreferenceManager.getInatanse().setAuthorize(false);
+                    MyPreferenceManager.getInatanse().setSendTokenToServer(true);
+                }
 
-                        MyPreferenceManager.getInatanse().setApiToken("");
-                        MyPreferenceManager.getInatanse().setAuthorize(false);
-                        MyPreferenceManager.getInatanse().setSendTokenToServer(true);
-                    }
+                @Override
+                public void onFailure(String message) {
 
-                    @Override
-                    public void onFailure(String message) {
-
-                    }
-                });
-            }
+                }
+            });
         });
     }
 
@@ -372,10 +369,9 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     }
 
     private void getLastVersion() {
-        MainApi.getInstance().getLastVersion("https://alaatv.com/api/v1/lastVersion", new IServerCallbackObject() {
+        mainRepository.getLastVersion(new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
-
                 if (obj != null) {
                     LastVersion lastVersion = (LastVersion) obj;
                     if (lastVersion.getAndroid().getLastVersion() > Utils.getVersionCode()) {

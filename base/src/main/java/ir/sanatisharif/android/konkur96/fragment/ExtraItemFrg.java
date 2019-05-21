@@ -16,15 +16,15 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.adapter.FilterAdapter;
-import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
-import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
@@ -45,6 +45,7 @@ public class ExtraItemFrg extends BaseFragment {
     private List<FilterBaseModel> mList = new ArrayList<>();
     private List<String> params;
 
+    private MainRepository repository;
     public static ExtraItemFrg newInstance(String url) {
 
         Bundle args = new Bundle();
@@ -62,7 +63,7 @@ public class ExtraItemFrg extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        repository = new MainRepository(Objects.requireNonNull(getActivity()));
         initView(view);
 
         params = Utils.getParamsFromUrl(getArguments().getString("url"));
@@ -123,7 +124,7 @@ public class ExtraItemFrg extends BaseFragment {
             }
         });
 
-        MainApi.getInstance().getContentOnlyCall(params.get(0), new IServerCallbackObject() {
+        repository.getContentOnlyCall(params.get(0), new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
 

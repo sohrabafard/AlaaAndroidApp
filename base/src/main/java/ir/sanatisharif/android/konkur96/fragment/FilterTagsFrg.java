@@ -2,59 +2,44 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.animation.Animator;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
 import org.greenrobot.eventbus.EventBus;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.MyFilterPagerAdapter;
-import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.FilterCoursesDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
+import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.ScrollOnRecycler;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.TabControl;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
-import ir.sanatisharif.android.konkur96.model.filter.Pamphlet;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -85,6 +70,7 @@ public class FilterTagsFrg extends BaseFragment implements
     private ProgressBar loader;
     private ViewPager viewPager;
     private List<String> params;
+    private MainRepository repository;
 
     public static FilterTagsFrg newInstance(String url, ArrayList<String> tags) {
 
@@ -111,6 +97,7 @@ public class FilterTagsFrg extends BaseFragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        repository = new MainRepository(Objects.requireNonNull(getActivity()));
         setTabContent();
         initView(view);
 
@@ -276,7 +263,7 @@ public class FilterTagsFrg extends BaseFragment implements
 
         loaderParent.setVisibility(View.VISIBLE);
 
-        MainApi.getInstance().getFilterBySearchCall(query, new IServerCallbackObject() {
+        repository.getFilterBySearchCall(query, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
 
@@ -296,7 +283,7 @@ public class FilterTagsFrg extends BaseFragment implements
 
         loaderParent.setVisibility(View.VISIBLE);
 
-        MainApi.getInstance().getFilterTagsByUrl(getArguments().getString("url"), new IServerCallbackObject() {
+        repository.getFilterTagsByUrl(getArguments().getString("url"), new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
 
@@ -315,7 +302,7 @@ public class FilterTagsFrg extends BaseFragment implements
 
         loaderParent.setVisibility(View.VISIBLE);
 
-        MainApi.getInstance().getFilterTagsByList(params, new IServerCallbackObject() {
+        repository.getFilterTagsByList(params, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
 

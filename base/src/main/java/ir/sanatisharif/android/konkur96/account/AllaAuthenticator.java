@@ -9,22 +9,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.google.gson.Gson;
-
-import java.util.function.Predicate;
-
-import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
-import ir.sanatisharif.android.konkur96.model.user.User;
-import ir.sanatisharif.android.konkur96.model.user.UserInfo;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
-import static android.content.Context.ACCOUNT_SERVICE;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_ACCOUNT_NAME;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_ACCOUNT_TYPE;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_AUTH_TYPE;

@@ -80,12 +80,12 @@ import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
 import ir.sanatisharif.android.konkur96.adapter.PlayListAdapter;
-import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.DeleteFileDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.DownloadDialogFrg;
+import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
@@ -168,6 +168,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private EndlessRecyclerViewScrollListener endLess;
     //player
     private PlaybackControlView controlView;
+
+    private MainRepository repository;
+
     //<editor-fold desc="animate">
     Animator.AnimatorListener animatorHide = new Animator.AnimatorListener() {
         @Override
@@ -447,12 +450,17 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (repository == null)
+            repository = new MainRepository(getActivity());
         return inflater.inflate(R.layout.fragment_detail, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (repository == null)
+            repository = new MainRepository(getActivity());
 
         initView(view, savedInstanceState);
 
@@ -490,7 +498,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         Context context = getContext();
         if (context != null && InstantApps.isInstantApp(context)) {
-            MainApi.getInstance().getDetailsCourse(url, new IServerCallbackContentCredit() {
+            repository.getDetailsCourse(url, null, new IServerCallbackContentCredit() {
                 @Override
                 public void onSuccess(Object obj) {
                     if (obj != null) {
@@ -525,7 +533,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         } else if (context != null) {
 
             AuthToken.getInstant().get(Objects.requireNonNull(getContext()), Objects.requireNonNull(getActivity()), token -> {
-                MainApi.getInstance().getDetailsCourse(url, new IServerCallbackContentCredit() {
+                repository.getDetailsCourse(url, token, new IServerCallbackContentCredit() {
                     @Override
                     public void onSuccess(Object obj) {
                         if (obj != null) {
@@ -585,7 +593,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private void getDataByUrl(String url) {
 
         loaderPlayList.setVisibility(View.VISIBLE);
-        MainApi.getInstance().getFilterTagsByUrl(url, new IServerCallbackObject() {
+        repository.getFilterTagsByUrl(url, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
                 Filter filter = (Filter) obj;
@@ -609,7 +617,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private void getPlayListFromContentByUrl(String url) {
 
         loaderPlayList.setVisibility(View.VISIBLE);
-        MainApi.getInstance().getFilterTagsByUrl(url, new IServerCallbackObject() {
+        repository.getFilterTagsByUrl(url, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
                 Filter filter = (Filter) obj;
@@ -706,9 +714,16 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         } else if (i == R.id.imgReady) {
 
             if (course.getFile().getVideo() != null) {
-                DeleteFileDialogFrg deleteFileDialogFrg = new DeleteFileDialogFrg();
-                deleteFileDialogFrg.setVideos(course.getFile().getVideo());
-                deleteFileDialogFrg.show(getFragmentManager(), "deleteFileDialogFrg");
+                (new DeleteFileDialogFrg())
+                        .setVideos(course.getFile().getVideo())
+                        .setCallback(new DeleteFileDialogFrg.Callback() {
+                            @Override
+                            public void fileDeleted() {
+                                imgReady.setVisibility(View.GONE);
+                                imgDownload.setVisibility(View.VISIBLE);
+                            }
+                        })
+                        .show(getFragmentManager(), "deleteFileDialogFrg");
             }
         } else if (i == R.id.imgShare) {
 

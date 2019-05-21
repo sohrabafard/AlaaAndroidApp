@@ -1,15 +1,14 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,33 +17,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
-
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
-
-import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
-import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
+import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.main_page.Datum;
 import ir.sanatisharif.android.konkur96.model.main_page.MainPagesInfo;
-import ir.sanatisharif.android.konkur96.utils.Utils;
 
 
 /**
@@ -61,6 +52,7 @@ public class AllaMainFrg extends BaseFragment implements
 
     private MainItemAdapter adapter;
     private ArrayList<MainItem> items = new ArrayList<>();
+    private MainRepository repository;
 
     public static AllaMainFrg newInstance() {
 
@@ -82,8 +74,9 @@ public class AllaMainFrg extends BaseFragment implements
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        repository = new MainRepository(Objects.requireNonNull(getActivity()));
 
         initView(view);
         getData();
@@ -163,7 +156,7 @@ public class AllaMainFrg extends BaseFragment implements
             }
         });
 
-        MainApi.getInstance().mainPages(new IServerCallbackObject() {
+        repository.mainPages(new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
                 mapData((MainPagesInfo) obj);

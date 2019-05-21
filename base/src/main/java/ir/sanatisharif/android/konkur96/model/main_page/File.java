@@ -1,16 +1,14 @@
 package ir.sanatisharif.android.konkur96.model.main_page;
 
-import java.util.List;
-
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 import ir.sanatisharif.android.konkur96.model.Video;
-import ir.sanatisharif.android.konkur96.model.filter.Pamphlet;
 
 public class File implements Parcelable {
 
@@ -60,7 +58,6 @@ public class File implements Parcelable {
     }
 
     public File withVideo(List<Video> video) {
-        this.video = video;
         this.video = video;
         return this;
     }

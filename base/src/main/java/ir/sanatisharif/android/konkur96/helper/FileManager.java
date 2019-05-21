@@ -16,6 +16,7 @@ import ir.sanatisharif.android.konkur96.app.AppConstants;
 
 public class FileManager {
 
+    private static final String TAG = "Alaa\\FileManager";
     private static FileManager fileManager;
     private ArrayList<File> filesArrayList = new ArrayList<>();
 
@@ -79,9 +80,11 @@ public class FileManager {
      */
     public static String getFileNameFromUrl(String url) {
 
-        int index = url.lastIndexOf("/");
-
-        return url.substring(index + 1);
+        if (url != null) {
+            int index = url.lastIndexOf("/");
+            return url.substring(index + 1);
+        } else
+            return null;
     }
 
     /**
@@ -127,8 +130,12 @@ public class FileManager {
     }
 
     public static String getPathFromAllaUrl(@NotNull String url) {
-        Uri uri = Uri.parse(url);
-        return uri.getPath();
+        try {
+            Uri uri = Uri.parse(url);
+            return uri.getPath();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     public ArrayList<File> getFilesArrayList() {

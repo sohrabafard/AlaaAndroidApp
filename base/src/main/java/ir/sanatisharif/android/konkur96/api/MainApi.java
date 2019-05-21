@@ -1,270 +1,86 @@
 package ir.sanatisharif.android.konkur96.api;
 
-import android.util.Log;
-
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import javax.sql.DataSource;
-
-import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
-import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
-import ir.sanatisharif.android.konkur96.model.ContentCredit;
+import io.reactivex.Observable;
 import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
-import ir.sanatisharif.android.konkur96.model.main_page.Content;
 import ir.sanatisharif.android.konkur96.model.main_page.MainPagesInfo;
 import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
- * Created by Mohamad on 2/11/2019.
+ * Created by Mohamad on 12/26/2018.
  */
 
-public class MainApi {
+public interface MainApi {
 
-    private static ApiRetrofit api;
-    private static MainApi mainApi;
-    private static Gson gson = new Gson();
+  /*
+   EX: www.app.net/api/searchtypes/862189/filters?Type=6&SearchText=School
 
-    private MainApi() {
-        api = RetrofitClient.getInstance().create(ApiRetrofit.class);
-    }
-
-    //singleton api service
-    public static MainApi getInstance() {
-        if (mainApi == null)
-            mainApi = new MainApi();
-        return mainApi;
-    }
-
-    public void mainPages(IServerCallbackObject iServerCallbackObject) {
-
-        Call<MainPagesInfo> mainPage = api.getMainPage();
-
-        mainPage.enqueue(new Callback<MainPagesInfo>() {
-            @Override
-            public void onResponse(Call<MainPagesInfo> call, Response<MainPagesInfo> response) {
-                if (response.isSuccessful()) {
-                    // Log.i("LOG", "onResponse: "+ call.request().url().toString());
-                    iServerCallbackObject.onSuccess(response.body());
-
-                } else {
-                    iServerCallbackObject.onFailure("");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MainPagesInfo> call, Throwable t) {
-                iServerCallbackObject.onFailure(t.getMessage());
-            }
-        });
-    }
-
-    public void userInfo(User user, IServerCallbackObject iServerCallbackObject) {
-
-        Call<UserInfo> userInfo = api.getLoginUserInfo(user);
-
-        userInfo.enqueue(new Callback<UserInfo>() {
-            @Override
-            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
-
-                if (response.isSuccessful()) {
-                    UserInfo u = response.body();
-                    iServerCallbackObject.onSuccess(u);
-                } else {
-                    try {
-                        iServerCallbackObject.onFailure("");
-                        Log.i("LOG", "onResponse:errorBody  " + response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserInfo> call, Throwable t) {
-                iServerCallbackObject.onFailure(t.getMessage());
-
-            }
-        });
-    }
-
-    public void getDetailsCourse(String url, IServerCallbackContentCredit iServerCallbackObject) {
-
-        Call<DataCourse> detailsCourseCall = api.getDetailsCourseByID(url);
-        detailsCourseCall.enqueue(new Callback<DataCourse>() {
-            @Override
-            public void onResponse(Call<DataCourse> call, Response<DataCourse> response) {
-
-                if (response.isSuccessful()) {
-                    iServerCallbackObject.onSuccess(response.body());
-                } else if (response.code() == 403) {
-                    try {
-                        ContentCredit c = gson.fromJson(response.errorBody().charStream(), ContentCredit.class);
-                        iServerCallbackObject.onSuccessCredit(c);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    iServerCallbackObject.onFailure("error");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<DataCourse> call, Throwable t) {
-                iServerCallbackObject.onFailure(t.getMessage());
-                // Log.i("LOG", "onResponse:error " + t.getMessage());
-            }
-        });
-    }
-
-    public void getFilterBySearchCall(String search, IServerCallbackObject iServerCallbackObject) {
-
-        Call<Filter> filterCall = api.getFilterBySearch(search);
-
-        filterCall.enqueue(new Callback<Filter>() {
-            @Override
-            public void onResponse(Call<Filter> call, Response<Filter> response) {
-
-                if (response.isSuccessful()) {
-                    iServerCallbackObject.onSuccess(response.body());
-                } else {
-                    iServerCallbackObject.onFailure("");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Filter> call, Throwable t) {
-                iServerCallbackObject.onFailure(t.getMessage());
-            }
-        });
-    }
+   @GET("/api/searchtypes/{Id}/filters")
+    Call<FilterResponse> getFilterList(
+        @Path("Id") long customerId,
+        @Query("Type") String responseType,
+        @Query("SearchText") String searchText);*/
 
 
-    public void getContentOnlyCall(String id, IServerCallbackObject iServerCallbackObject) {
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @GET(" ")
+    Observable<MainPagesInfo> getMainPage();
 
-        Call<Filter> filterCall = api.getContentOnly(id, 1);
+    // @GET("c/{id}")
+    //  Call<DataCourse> getDetailsCourseByURL(@Path("id") String id);
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @GET
+    Observable<DataCourse> getDetailsCourseByURL(@Url String url, @Header("Authorization") String token);
 
-        filterCall.enqueue(new Callback<Filter>() {
-            @Override
-            public void onResponse(Call<Filter> call, Response<Filter> response) {
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @POST("api/login")
+    Observable<UserInfo> getLoginUserInfo(@Body User user);
 
-                if (response.isSuccessful()) {
-                    iServerCallbackObject.onSuccess(response.body());
-                } else {
-                    iServerCallbackObject.onFailure("");
-                }
-            }
+    /**
+     * contentOnly
+     * c?set=191&contentOnly=1
+     */
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @GET("c")
+    Observable<Filter> getContentOnly(
+            @Query("set") String id,
+            @Query("contentOnly") int contentOnly);
 
-            @Override
-            public void onFailure(Call<Filter> call, Throwable t) {
-                iServerCallbackObject.onFailure(t.getMessage());
-            }
-        });
-    }
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @GET("c")
+    Observable<Filter> getFilterBySearch(
+            @Query("search") String search);
 
-    public void getFilterTagsByUrl(String url, IServerCallbackObject iServerCallbackObject) {
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @GET("c")
+    Observable<Filter> getFilterTags(@Query("tags[]") List<String> tags);
 
-        Call<Filter> filterCall = api.getFilterTagsByUrl(url);
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @GET
+    Observable<Filter> getFilterTagsByUrl(@Url String url);
 
-        Callback<Filter> requestCallback = new Callback<Filter>() {
-            @Override
-            public void onResponse(Call<Filter> call, Response<Filter> response) {
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @POST("/api/v1/user/{user_id}/firebasetoken")
+    Observable<Object> getFirebaseToken(
+            @Path("user_id") int user_id,
+            @Query("token") String firebaseToken,
+            @Header("Authorization") String token);
 
-                if (response.isSuccessful()) {
-                    iServerCallbackObject.onSuccess(response.body());
-                } else {
-                    iServerCallbackObject.onFailure("");
-                }
-            }
 
-            @Override
-            public void onFailure(Call<Filter> call, Throwable t) {
-                iServerCallbackObject.onFailure(t.getMessage());
-            }
-        };
-        filterCall.enqueue(requestCallback);
-    }
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
+    @GET("api/v1/lastVersion")
+    Observable<LastVersion> getLastVersion();
 
-    public void getFilterTagsByList(List<String> params, IServerCallbackObject iServerCallbackObject) {
-
-        Call<Filter> objectCall = api.getFilterTags(params);
-
-        objectCall.enqueue(new Callback<Filter>() {
-            @Override
-            public void onResponse(Call<Filter> call, Response<Filter> response) {
-
-                if (response.isSuccessful()) {
-                    iServerCallbackObject.onSuccess(response.body());
-                } else {
-                    iServerCallbackObject.onFailure("");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Filter> call, Throwable t) {
-                iServerCallbackObject.onFailure(t.getMessage());
-            }
-        });
-    }
-
-    public void sendRegistrationToServer(int user_id, String firebaseToken, IServerCallbackObject iServerCallbackObject) {
-
-        Call<Object> sendTokenCall = api.getFirebaseToken(user_id, firebaseToken);
-
-        sendTokenCall.enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-
-                if (response.isSuccessful()) {
-                    iServerCallbackObject.onSuccess(response.body());
-                } else {
-                    iServerCallbackObject.onFailure("");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                iServerCallbackObject.onFailure(t.getMessage());
-            }
-        });
-    }
-
-    public void getLastVersion(String url, IServerCallbackObject iServerCallbackObject) {
-        Call<LastVersion> call = api.getLastVersion(url);
-        call.enqueue(new Callback<LastVersion>() {
-            @Override
-            public void onResponse(Call<LastVersion> call, Response<LastVersion> response) {
-                if (response.isSuccessful()) {
-                    iServerCallbackObject.onSuccess(response.body());
-                } else {
-                    iServerCallbackObject.onFailure("");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LastVersion> call, Throwable t) {
-                iServerCallbackObject.onFailure(t.getMessage());
-            }
-        });
-    }
 }
