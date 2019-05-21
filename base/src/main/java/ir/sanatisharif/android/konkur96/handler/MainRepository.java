@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.util.Log;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,6 +17,7 @@ import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
+import ir.sanatisharif.android.konkur96.model.ContentCredit;
 import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
 import ir.sanatisharif.android.konkur96.model.main_page.MainPagesInfo;
@@ -74,21 +77,29 @@ public class MainRepository implements MainRepositoryInterface {
     @SuppressLint("CheckResult")
     @Override
     public void getDetailsCourse(String url, String token, IServerCallbackContentCredit iServerCallbackObject) {
-        mainApi.getDetailsCourseByURL(url, token)
+        mainApi.getDetailsCourseByURL(url, ("Bearer " + token))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<DataCourse>() {
                     @Override
                     public void accept(DataCourse response) throws Exception {
-
                         iServerCallbackObject.onSuccess(response);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-
+                        Log.e(TAG, "accept-throwable: " + throwable.getClass());
                         Log.e(TAG, throwable.getMessage());
-                        iServerCallbackObject.onFailure(throwable.getMessage());
+
+                        if (throwable instanceof com.jakewharton.retrofit2.adapter.rxjava2.HttpException) {
+                            if (((HttpException) throwable).code() == 403) {
+
+                                iServerCallbackObject.onSuccessCredit((ContentCredit) ((HttpException) throwable).response().body());
+                            }
+                        } else {
+                            Log.e(TAG, "Info:\n" + "url: " + url + "\n\r" + "token:\n\r" + token);
+                            iServerCallbackObject.onFailure(throwable.getMessage());
+                        }
                     }
                 });
     }

@@ -22,18 +22,17 @@ import android.widget.TextView;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
+import ir.sanatisharif.android.konkur96.handler.EncryptedDownloadInterface;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.filter.PamphletCourse;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
-import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.DownloadFile;
 import ir.sanatisharif.android.konkur96.utils.OpenFile;
 import ir.sanatisharif.android.konkur96.utils.Utils;
@@ -235,20 +234,34 @@ public class ShowContentInfoFrg extends BaseFragment implements
 
         Log.i(TAG, "download: " + url);
 
-        AuthToken.getInstant().get(Objects.requireNonNull(getContext()), Objects.requireNonNull(getActivity()), token -> {
-            Log.e(TAG, token);
-            if (token != null) {
-                DownloadFile.getInstance().init(getContext(), () -> {
 
-                    ActivityBase.toastShow(getResources().getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
-                    btnDownload.setVisibility(View.GONE);
-                    btnOpenPDF.setVisibility(View.VISIBLE);
-                });
+        if (url.contains("cdn")) {
+            startDownload(url, fileName, name);
+        } else {
+            Utils.followRedirectedLink(getContext(), getActivity(), url, new EncryptedDownloadInterface.Callback() {
+                @Override
+                public void fetch(String newUrl) {
+                    startDownload(newUrl, fileName, name);
+                }
 
-                DownloadFile.getInstance().start(url,
-                        AppConstants.ROOT + "/" + AppConstants.PDF, fileName, name, getResources().getString(R.string.alaa));
-            }
+                @Override
+                public void error(String message) {
+                    Log.e(TAG, "link: " + url + "\n\n" + "followRedirectedLink-error:\n\r" + message);
+                }
+            });
+        }
+
+    }
+
+    private void startDownload(String url, String fileName, String name) {
+        DownloadFile.getInstance().init(getContext(), () -> {
+
+            ActivityBase.toastShow(getResources().getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
+            btnDownload.setVisibility(View.GONE);
+            btnOpenPDF.setVisibility(View.VISIBLE);
         });
+        DownloadFile.getInstance().start(url,
+                AppConstants.ROOT + "/" + AppConstants.PDF, fileName, name, getResources().getString(R.string.alaa));
     }
 
     @Override
