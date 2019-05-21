@@ -66,6 +66,7 @@ import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.gms.common.wrappers.InstantApps;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -759,7 +760,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 player.seekTo(mResumeWindow, mResumePosition);
             }
             Log.i(TAG, "resume: " + mResumePosition);
-            //  player.prepare(mVideoSource, !haveResumePosition, false);
             player.setPlayWhenReady(true);
         }
     }
@@ -945,10 +945,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                         public void run() {
 
                             mResumePosition = 0;
-                            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
-                                    Util.getUserAgent(context, "mediaPlayerSample"));
-                            mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                                    .createMediaSource(Uri.parse(mUrl));
+                            mVideoSource = provideVideoSource(mUrl);
 
                             boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
 
@@ -1103,14 +1100,35 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             player.seekTo(mResumeWindow, mResumePosition);
         }
 
-        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
-                Util.getUserAgent(context, "mediaPlayerSample"));
-        mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(Uri.parse(mUrl));
+
+        mVideoSource = provideVideoSource(mUrl);
+
 
         player.addListener(eventListener);
         player.prepare(mVideoSource, !haveResumePosition, false);
         player.setPlayWhenReady(true);
+    }
+
+    private MediaSource provideVideoSource(String mUrl) {
+        final String userAgent = Util.getUserAgent(context, "ExoPlayer");
+        if (mUrl.contains("cdn")) {
+            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, userAgent);
+
+            mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                    .createMediaSource(Uri.parse(mUrl));
+        } else {
+            AuthToken.getInstant().get(context, getActivity(), token -> {
+                Log.i(TAG, "startPlayer, has_token: " + (token != null));
+
+                DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
+                httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
+                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
+
+                mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                        .createMediaSource(Uri.parse(mUrl));
+            });
+        }
+        return mVideoSource;
     }
 
     //</editor-fold>
