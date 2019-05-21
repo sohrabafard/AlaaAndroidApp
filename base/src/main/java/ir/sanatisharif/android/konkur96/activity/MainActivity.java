@@ -269,6 +269,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         switch (tab_id) {
             case 0:
                 manageStack();
+                addFrg(ForumMainFrg.newInstance(), "MainFrg");
                 break;
 
             case 1:
