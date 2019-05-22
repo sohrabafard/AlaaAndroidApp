@@ -27,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class ApiModule {
 
-    private static final long cacheSize = 10 * 1024 * 1024; // 10 MB
+    private static final long cacheSize = 100 * 1024 * 1024; // 10 MB
     private static Interceptor onlineInterceptor = chain -> {
         Request original = chain.request();
         Request.Builder builder = original.newBuilder();
