@@ -1,13 +1,19 @@
 package ir.sanatisharif.android.konkur96.utils;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 
 import java.io.File;
 
+import ir.sanatisharif.android.konkur96.BuildConfig;
+
 public class OpenFile {
 
-    public static Intent openFile(String filePath) {
+    public static Intent openFile(final Activity activity, String filePath) {
 
         File file = new File(filePath);
         if (!file.exists())
@@ -35,7 +41,7 @@ public class OpenFile {
         } else if (end.equals("doc")) {
             return getWordFileIntent(filePath);
         } else if (end.equals("pdf")) {
-            return getPdfFileIntent(filePath);
+            return getPdfFileIntent(activity, filePath);
         } else if (end.equals("chm")) {
             return getChmFileIntent(filePath);
         } else if (end.equals("txt")) {
@@ -160,12 +166,20 @@ public class OpenFile {
         return intent;
     }
 
-    public static Intent getPdfFileIntent(String param) {
+    public static Intent getPdfFileIntent(final Activity activity, String param) {
+        Log.i("OpenFile", param);
 
-        Intent intent = new Intent("android.intent.action.VIEW");
+        File file = new File(param);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory("android.intent.category.DEFAULT");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Uri uri = Uri.fromFile(new File(param));
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            uri = FileProvider.getUriForFile(activity.getApplicationContext(), BuildConfig.APPLICATION_ID + ".fileProvider", file);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            uri = Uri.fromFile(file);
+        }
         intent.setDataAndType(uri, "application/pdf");
         return intent;
     }

@@ -157,15 +157,11 @@ public class ApiModule {
             Log.i("LOG", "handelStatusCode: " + 413);
             handleToast("درخواست خیلی طولانی");
             valid = false;
-        } else if (code == 500) {
+        } else if (code >= 500) {
             Log.i("LOG", "handelStatusCode: " + 500);
             handleToast("خطای داخلی سرور");
             valid = false;
-        } else if (code >= 300 && code != 302 && code < 510) {
-            Log.i("LOG", "handelStatusCode:510  " + code);
-            handleToast("خطا");
-            valid = false;
-        }
+        } 
         return valid;
     }
 

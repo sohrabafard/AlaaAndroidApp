@@ -200,12 +200,12 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             // Log.i(TAG, "handleIntent: " + appLinkData.getPath());
             assert appLinkData != null;
             String path = appLinkData.getPath();
+
             if (path.startsWith("/c/") && path.length() > 3) {
 
                 addFrg(DetailsVideoFrg.newInstance(data), "DetailsVideoFrg");
 
-            } else if (path.startsWith("/c")) {
-
+            } else if (path.equals("/c") || (path.startsWith("/c") && data.contains("tags"))) {
                 addFrg(FilterTagsFrg.newInstance(data, null), "FilterTagsFrg");
             } else if (path.startsWith("/product")) {
 

@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -12,9 +11,6 @@ public class Video implements Parcelable {
     public final static Creator<Video> CREATOR = new Creator<Video>() {
 
 
-        @SuppressWarnings({
-                "unchecked"
-        })
         public Video createFromParcel(Parcel in) {
             return new Video(in);
         }
@@ -111,23 +107,6 @@ public class Video implements Parcelable {
         this.url = url;
     }
 
-    public Video withUrl(String url) {
-        this.url = url;
-        return this;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public Video withFileName(String fileName) {
-        this.fileName = fileName;
-        return this;
-    }
 
     public Object getSize() {
         return size;
@@ -137,23 +116,11 @@ public class Video implements Parcelable {
         this.size = size;
     }
 
-    public Video withSize(Object size) {
-        this.size = size;
-        return this;
-    }
 
     public String getCaption() {
         return caption;
     }
 
-    public void setCaption(String caption) {
-        this.caption = caption;
-    }
-
-    public Video withCaption(String caption) {
-        this.caption = caption;
-        return this;
-    }
 
     public String getRes() {
         return res;
@@ -161,11 +128,6 @@ public class Video implements Parcelable {
 
     public void setRes(String res) {
         this.res = res;
-    }
-
-    public Video withRes(String res) {
-        this.res = res;
-        return this;
     }
 
     public String getType() {
@@ -176,23 +138,6 @@ public class Video implements Parcelable {
         this.type = type;
     }
 
-    public Video withType(String type) {
-        this.type = type;
-        return this;
-    }
-
-    public String getExt() {
-        return ext;
-    }
-
-    public void setExt(String ext) {
-        this.ext = ext;
-    }
-
-    public Video withExt(String ext) {
-        this.ext = ext;
-        return this;
-    }
 
     public String getLink() {
         return link;
@@ -200,11 +145,6 @@ public class Video implements Parcelable {
 
     public void setLink(String link) {
         this.link = link;
-    }
-
-    public Video withLink(String link) {
-        this.link = link;
-        return this;
     }
 
     public String getPath() {
