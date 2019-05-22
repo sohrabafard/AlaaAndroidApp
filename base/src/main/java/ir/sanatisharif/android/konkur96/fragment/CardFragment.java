@@ -30,11 +30,9 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.CardReviewProductAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
-import ir.sanatisharif.android.konkur96.api.Models.ItemCardReviewMOdel;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentUrlModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.handler.Repository;
@@ -52,11 +50,6 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private Repository repository;
-    private AccountInfo accountInfo;
-
-    private CardReviewModel cardReviewModel;
-
-    private ArrayList<ItemCardReviewMOdel> items = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
     private CardReviewProductAdapter adapter;
 
@@ -122,10 +115,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private void getData() {
 
-        int itemSize = items.size();
-        items.clear();
-        productsRecyclerView.getAdapter().notifyItemRangeRemoved(0, itemSize);
-        productsRecyclerView.getAdapter().notifyDataSetChanged();
+        adapter.setItems(new ArrayList<>());
 
         AuthToken.getInstant().get(mContext, mActivity, token -> {
 
@@ -155,17 +145,9 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         txtPriceDiscount.setText("سود شما از خرید: " + ShopUtils.formatPrice(data.getPrice().getDiscount()) + " تومان ");
         txtPriceFinal.setText("مبلغ قابل‌پرداخت: " + ShopUtils.formatPrice(data.getPrice().getMfinal()) + " تومان ");
 
-        //---------------------- set cardReviewModel data ---------------------------------------------
-        cardReviewModel = data;
-
         //---------------------- convert -------------------------------------------------------
-        /*items.addAll(ShopUtils.convertToAddToCardModelList(data));*/
-        int size = items.size();
-        ArrayList<ItemCardReviewMOdel> newItems = data.getItems();
-        this.items.addAll(newItems);
 
-        //---------------------- update adapter ------------------------------------------------
-        adapter.notifyItemRangeInserted(size, newItems.size());
+        adapter.setItems(data.getItems());
 
         btnShowFactor.setOnClickListener(view -> {
 
@@ -218,7 +200,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         productsRecyclerView.setHasFixedSize(false);
         linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         productsRecyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new CardReviewProductAdapter(getContext(), items, this::delete);
+        adapter = new CardReviewProductAdapter(getContext(), this::delete);
         productsRecyclerView.setAdapter(adapter);
         productsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
