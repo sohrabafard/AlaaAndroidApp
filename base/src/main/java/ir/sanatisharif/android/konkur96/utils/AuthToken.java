@@ -30,7 +30,12 @@ public class AuthToken {
         final String[] t = new String[1];
         accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token -> {
             t[0] = token;
-            callback.run(token);
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    callback.run(token);
+                }
+            });
         });
         return t[0];
     }

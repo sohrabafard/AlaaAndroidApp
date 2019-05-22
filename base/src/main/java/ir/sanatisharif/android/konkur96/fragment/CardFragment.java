@@ -1,6 +1,8 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -27,26 +29,20 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-import ir.sanatisharif.android.konkur96.BuildConfig;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.CardReviewProductAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
 import ir.sanatisharif.android.konkur96.api.Models.ItemCardReviewMOdel;
-import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
-import ir.sanatisharif.android.konkur96.api.Models.PaymentResponse;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentUrlModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.Events;
-import ir.sanatisharif.android.konkur96.model.user.User;
+import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
-
-import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, CardReviewProductAdapter.DeleteListener {
 
@@ -57,7 +53,6 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private Repository repository;
     private AccountInfo accountInfo;
-    private User user;
 
     private CardReviewModel cardReviewModel;
 
@@ -69,6 +64,8 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private CardView btnShowFactor;
     private TextView txtPriceBase, txtPriceDiscount, txtPriceFinal;
 
+    private Context mContext;
+    private Activity mActivity;
 
     public static CardFragment newInstance() {
 
@@ -88,10 +85,9 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        repository = new RepositoryImpl(getActivity());
-        accountInfo = new AccountInfo(getContext(), getActivity());
-        user = accountInfo.getInfo(ACCOUNT_TYPE);
+        mActivity = getActivity();
+        repository = new RepositoryImpl(mActivity);
+        mContext = getContext();
 
         initView(view);
         getData();
@@ -126,51 +122,26 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private void getData() {
 
-        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+        int itemSize = items.size();
+        items.clear();
+        productsRecyclerView.getAdapter().notifyItemRangeRemoved(0, itemSize);
+        productsRecyclerView.getAdapter().notifyDataSetChanged();
 
-            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
-                    getActivity().runOnUiThread(() -> {
+        AuthToken.getInstant().get(mContext, mActivity, token -> {
 
-                        swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
+            if (token == null)
+                return;
+            repository.cardReview(token, data -> {
 
-                        repository.cardReview(token, data -> {
+                if (data instanceof Result.Success) {
+                    setData((CardReviewModel) ((Result.Success) data).value);
+                    swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(false));
+                } else {
+                    Log.d("Test", (String) ((Result.Error) data).value);
+                }
 
-                            if (data instanceof Result.Success) {
-
-                                setData((CardReviewModel) ((Result.Success) data).value);
-                                swipeRefreshLayout.setRefreshing(false);
-
-                            } else {
-
-                                Log.d("Test", (String) ((Result.Error) data).value);
-                                swipeRefreshLayout.setRefreshing(false);
-                            }
-
-
-                        });
-
-                    }));
-        }
-
-//        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjNhNDMzNmNjMzU1NGY0MzFmM2JiYTA2NTMwYjk4YmNmZTQ1MzZhMjY0OWVjZDQ1OWM3MzIxYTQyNDdhZjkwNzEyYmUyYjZlOThlZTQ2OWU1In0.eyJhdWQiOiIxIiwianRpIjoiM2E0MzM2Y2MzNTU0ZjQzMWYzYmJhMDY1MzBiOThiY2ZlNDUzNmEyNjQ5ZWNkNDU5YzczMjFhNDI0N2FmOTA3MTJiZTJiNmU5OGVlNDY5ZTUiLCJpYXQiOjE1NTI0NjY1NDgsIm5iZiI6MTU1MjQ2NjU0OCwiZXhwIjoxNTg0MDg4OTQ4LCJzdWIiOiIyMzcwMjAiLCJzY29wZXMiOltdfQ.gD3QsDN6C0MM66GuEJcdpQzWvrurdD6SyVr-L3HzOc5b76pTSg5n3hMw5Jdq4Jca-9muqkCf9EwAHMN1Qmnt4WXAHC6SmnJ_M4FOmXN5fD67Ink_5Z7CkthIJVlPcE3TJXlkDq5PbzC58bNppr19wMGea9EAkYy33q3Vb4-rV-GjMdIi_2vYkp8fTIpa2HacbCCueqlc_OHZRpewik69ANYn8YMSCy0XzXLzM6bnwxLsJVL8UCblu0Mm4SnlcMIK4O_80dWK7RCWlYFSP0gDnK_IYzbSosUYXVtSjAj3llW-1TT8QoueOZYVv-NexwtPCj2SO65-CenYmmSB40ATt1jrF043MhJmdr1fs_u5zMplWMD58cZeZRRg0QaioSuSyvdFtAqBZOlqGc_Gk_vdwpu-YqNbYgUSlQLndNNihVrGbGgEiSoYx1SIkGTW1PkGM-_l6eUFoIizOYUVyKXTSPNjzxDuFsSSXnf4LIXJY_4DO_-GtkN19W1tPRLcpXFY7HDQ8JwgkxnBDygQb814psmBNZM4aqCWfHP94dY9qZyv7iK0uGtyvl8ek93ntmMMjiQVTy7c1N4k73jgeU0RgipvUvslb7RBivCp_GmFACyjeoTrB7_DM_qZp09dVX-BSUCqiC7_uPf_n2ojL24hUs5XfswUwc8cQNaGOYnkilw";
-//
-//        repository.cardReview(token, data -> {
-//
-//            if (data instanceof Result.Success) {
-//
-//                setData((CardReviewModel) ((Result.Success) data).value);
-//                swipeRefreshLayout.setRefreshing(false);
-//
-//            } else {
-//
-//                Log.d("Test", (String) ((Result.Error) data).value);
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//
-//
-//        });
-
-
+            });
+        });
     }
 
     @SuppressLint("SetTextI18n")
@@ -189,10 +160,12 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         //---------------------- convert -------------------------------------------------------
         /*items.addAll(ShopUtils.convertToAddToCardModelList(data));*/
-        items.addAll(data.getItems());
+        int size = items.size();
+        ArrayList<ItemCardReviewMOdel> newItems = data.getItems();
+        this.items.addAll(newItems);
 
         //---------------------- update adapter ------------------------------------------------
-        adapter.notifyDataSetChanged();
+        adapter.notifyItemRangeInserted(size, newItems.size());
 
         btnShowFactor.setOnClickListener(view -> {
 
@@ -206,56 +179,25 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     private void getUrl() {
+        AuthToken.getInstant().get(mContext, mActivity, token -> {
+            if (token == null)
+                return;
+            repository.getPaymentUrl(token, data -> {
 
-        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+                if (data instanceof Result.Success) {
 
-            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
-                    getActivity().runOnUiThread(() -> {
+                    String url = ((PaymentUrlModel) ((Result.Success) data).value).getUrl();
+                    if (null != url) {
+                        openWebView(url);
+                    }
+                } else {
 
-                        swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
-
-                        repository.getPaymentUrl(token, data -> {
-
-                            if (data instanceof Result.Success) {
-
-                                String url = ((PaymentUrlModel) ((Result.Success) data).value).getUrl();
-                                if (null != url) {
-
-                                    openWebView(url);
-                                }
-                                swipeRefreshLayout.setRefreshing(false);
-
-                            } else {
-
-                                Log.d("Test", (String) ((Result.Error) data).value);
-                                swipeRefreshLayout.setRefreshing(false);
-                            }
+                    Log.d("Test", (String) ((Result.Error) data).value);
+                }
 
 
-                        });
-
-                    }));
-        }
-
-//        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjNhNDMzNmNjMzU1NGY0MzFmM2JiYTA2NTMwYjk4YmNmZTQ1MzZhMjY0OWVjZDQ1OWM3MzIxYTQyNDdhZjkwNzEyYmUyYjZlOThlZTQ2OWU1In0.eyJhdWQiOiIxIiwianRpIjoiM2E0MzM2Y2MzNTU0ZjQzMWYzYmJhMDY1MzBiOThiY2ZlNDUzNmEyNjQ5ZWNkNDU5YzczMjFhNDI0N2FmOTA3MTJiZTJiNmU5OGVlNDY5ZTUiLCJpYXQiOjE1NTI0NjY1NDgsIm5iZiI6MTU1MjQ2NjU0OCwiZXhwIjoxNTg0MDg4OTQ4LCJzdWIiOiIyMzcwMjAiLCJzY29wZXMiOltdfQ.gD3QsDN6C0MM66GuEJcdpQzWvrurdD6SyVr-L3HzOc5b76pTSg5n3hMw5Jdq4Jca-9muqkCf9EwAHMN1Qmnt4WXAHC6SmnJ_M4FOmXN5fD67Ink_5Z7CkthIJVlPcE3TJXlkDq5PbzC58bNppr19wMGea9EAkYy33q3Vb4-rV-GjMdIi_2vYkp8fTIpa2HacbCCueqlc_OHZRpewik69ANYn8YMSCy0XzXLzM6bnwxLsJVL8UCblu0Mm4SnlcMIK4O_80dWK7RCWlYFSP0gDnK_IYzbSosUYXVtSjAj3llW-1TT8QoueOZYVv-NexwtPCj2SO65-CenYmmSB40ATt1jrF043MhJmdr1fs_u5zMplWMD58cZeZRRg0QaioSuSyvdFtAqBZOlqGc_Gk_vdwpu-YqNbYgUSlQLndNNihVrGbGgEiSoYx1SIkGTW1PkGM-_l6eUFoIizOYUVyKXTSPNjzxDuFsSSXnf4LIXJY_4DO_-GtkN19W1tPRLcpXFY7HDQ8JwgkxnBDygQb814psmBNZM4aqCWfHP94dY9qZyv7iK0uGtyvl8ek93ntmMMjiQVTy7c1N4k73jgeU0RgipvUvslb7RBivCp_GmFACyjeoTrB7_DM_qZp09dVX-BSUCqiC7_uPf_n2ojL24hUs5XfswUwc8cQNaGOYnkilw";
-//
-//        repository.cardReview(token, data -> {
-//
-//            if (data instanceof Result.Success) {
-//
-//                setData((CardReviewModel) ((Result.Success) data).value);
-//                swipeRefreshLayout.setRefreshing(false);
-//
-//            } else {
-//
-//                Log.d("Test", (String) ((Result.Error) data).value);
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//
-//
-//        });
-
-
+            });
+        });
     }
 
     private void initView(View v) {
@@ -276,70 +218,20 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         productsRecyclerView.setHasFixedSize(false);
         linearLayoutManager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
         productsRecyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new CardReviewProductAdapter(getContext(), items, this);
+        adapter = new CardReviewProductAdapter(getContext(), items, this::delete);
         productsRecyclerView.setAdapter(adapter);
         productsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
         setHasOptionsMenu(true);
-        setToolbar(pageToolbar, "آلاء مجری توسعه عدالت آموزشی");
+        setToolbar(pageToolbar, "سبد خرید");
 
     }
 
 
     @Override
     public void onRefresh() {
-        items.clear();
         getData();
-    }
-
-
-    private void openZarinPal() {
-
-        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
-
-            String uMobile = "نامشخص";
-
-            if (user.getMobile() != null) {
-
-                uMobile = user.getMobile();
-            }
-
-            String desc = "اپ آلاء" + " - " + "نسخه" + BuildConfig.VERSION_CODE +
-
-                    " - " + uMobile + " - " + "محصولات: " + ShopUtils.getProductNames(cardReviewModel);
-
-            PaymentRequest body = new PaymentRequest("55eb1362-08d4-42ee-8c74-4c5f5bef37d4",
-                    finalPrice,
-                    "alla://sanatisharif.ir/zarinpal/?a=" + finalPrice,
-                    desc);
-
-            repository.paymentRequest(body, data -> {
-
-                if (data instanceof Result.Success) {
-
-                    PaymentResponse payment = (PaymentResponse) ((Result.Success) data).value;
-
-                    if (payment.getStatus() == 100) {
-
-                        String url = "https://www.zarinpal.com/pg/StartPay/" + payment.getAuthority() + "/MobileGate";
-
-                        openWebView(url);
-
-                    } else {
-
-                        Toast.makeText(getContext(), "خطا : " + payment.getStatus(), Toast.LENGTH_LONG).show();
-                    }
-
-                } else {
-
-                    Toast.makeText(getContext(), "خطایی رخ داده لطفا دوباره امتحان کنید.", Toast.LENGTH_LONG).show();
-                }
-
-
-            });
-        }
-
     }
 
     private void openWebView(String url) {
@@ -357,36 +249,19 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     private void delete(int id) {
+        AuthToken.getInstant().get(mContext, mActivity, token -> {
+            if (token == null)
+                return;
+            repository.delProductFromCard(token, String.valueOf(id), data -> {
 
-        swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
-
-        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
-
-
-            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
-
-                    getActivity().runOnUiThread(() ->
-
-                            repository.delProductFromCard(token, String.valueOf(id), data -> {
-
-                                if (data instanceof Result.Success) {
-
-                                    Toast.makeText(getContext(), "با موفقیت حدف شد.", Toast.LENGTH_LONG).show();
-                                    onRefresh();
-                                    productsRecyclerView.getAdapter().notifyDataSetChanged();
-                                    swipeRefreshLayout.setRefreshing(false);
-                                } else {
-
-                                    Log.d("Test", (String) ((Result.Error) data).value);
-                                    swipeRefreshLayout.setRefreshing(false);
-                                }
-
-
-                            })));
-
-        }
-
-
+                if (data instanceof Result.Success) {
+                    Toast.makeText(getContext(), "با موفقیت حدف شد.", Toast.LENGTH_LONG).show();
+                    getData();
+                } else {
+                    Log.d("Test", (String) ((Result.Error) data).value);
+                }
+            });
+        });
     }
 
     @Override
