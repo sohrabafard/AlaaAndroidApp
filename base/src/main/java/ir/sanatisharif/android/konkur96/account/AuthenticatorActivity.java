@@ -33,6 +33,7 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
+import ir.sanatisharif.android.konkur96.model.user.Data;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
@@ -147,7 +148,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             public void onSuccess(Object obj) {
 
                 UserInfo u = (UserInfo) obj;
-                addAccount(u.getData().getUser(), u.getData().getAccessToken());
+                Data data = u.getData();
+                User user1 = data.getUser();
+                addAccount(user1, data.getAccessToken());
+                mFirebaseAnalytics.setUserId("" + user1.getId());
                 dialog.dismiss();
                 startActivity(new Intent(AuthenticatorActivity.this, MainActivity.class));
                 finish();

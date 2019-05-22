@@ -18,7 +18,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 45
-        versionName "3.0.6"
+        versionName "3.0.7"
         multiDexEnabled true
 
         resValue "string", "io.fabric.ApiKey", "46ad5fd65bf082d38b16ad6dba97be9809b6fbc7"

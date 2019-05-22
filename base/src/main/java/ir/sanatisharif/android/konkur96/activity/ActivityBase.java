@@ -11,9 +11,13 @@ import android.webkit.WebView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
 public class ActivityBase extends AppCompatActivity {
 
@@ -59,7 +63,10 @@ public class ActivityBase extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(false);
         }
+        AccountInfo accountInfo = new AccountInfo(this, this);
+        User user = accountInfo.getInfo(ACCOUNT_TYPE);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setUserId("" + user.getId());
     }
 
     @Override

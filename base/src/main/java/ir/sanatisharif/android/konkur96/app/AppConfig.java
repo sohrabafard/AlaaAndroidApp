@@ -65,6 +65,7 @@ public class AppConfig extends Application {
 //        Fabric.with(this, new Crashlytics.Builder().core(crashlyticsCore).build());
 
         Fabric.with(this, new Crashlytics());
+
         Crashlytics.setBool("InstantApp", InstantApps.isInstantApp(this));
 
         mInstance = this;
