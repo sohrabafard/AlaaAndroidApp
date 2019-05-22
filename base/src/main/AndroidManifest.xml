@@ -110,7 +110,7 @@
 
                 <data
                     android:host="alaatv.com"
-                    android:pathPrefix="/product"
+                    android:pathPrefix="/product/"
                     android:scheme="https" />
             </intent-filter>
 
@@ -134,7 +134,7 @@
 
                 <data
                     android:host="alaatv.com"
-                    android:pathPrefix="/shop"
+                    android:path="/shop"
                     android:scheme="https" />
             </intent-filter>
 

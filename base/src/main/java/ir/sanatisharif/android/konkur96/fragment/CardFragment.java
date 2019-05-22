@@ -32,7 +32,6 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.CardReviewProductAdapter;
-import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
 import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
 import ir.sanatisharif.android.konkur96.api.Models.ItemCardReviewMOdel;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
@@ -274,7 +273,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         swipeRefreshLayout.setOnRefreshListener(this);
         //recyclerView
         productsRecyclerView = v.findViewById(R.id.recyclerView_card_shop);
-        productsRecyclerView.setHasFixedSize(true);
+        productsRecyclerView.setHasFixedSize(false);
         linearLayoutManager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
         productsRecyclerView.setLayoutManager(linearLayoutManager);
         adapter = new CardReviewProductAdapter(getContext(), items, this);
