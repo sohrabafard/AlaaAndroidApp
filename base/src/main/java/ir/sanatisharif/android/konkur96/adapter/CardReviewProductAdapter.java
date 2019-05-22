@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
 import ir.sanatisharif.android.konkur96.api.Models.ItemCardReviewMOdel;
-import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 
@@ -30,12 +29,14 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
     private Context context;
     private DeleteListener deleteListener;
     private ArrayList<ItemCardReviewMOdel> items;
-
-    private RecyclerView childRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private CardChildAdapter adapter;
 
 
+    public void setItems(@NonNull final ArrayList<ItemCardReviewMOdel> items) {
+        this.items.clear();
+        this.items.addAll(items);
+    }
     public CardReviewProductAdapter(Context context, ArrayList<ItemCardReviewMOdel> items, DeleteListener deleteListener) {
 
         this.deleteListener = deleteListener;

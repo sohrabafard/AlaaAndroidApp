@@ -216,7 +216,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         //recyclerView
         productsRecyclerView = v.findViewById(R.id.recyclerView_card_shop);
         productsRecyclerView.setHasFixedSize(false);
-        linearLayoutManager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         productsRecyclerView.setLayoutManager(linearLayoutManager);
         adapter = new CardReviewProductAdapter(getContext(), items, this::delete);
         productsRecyclerView.setAdapter(adapter);
