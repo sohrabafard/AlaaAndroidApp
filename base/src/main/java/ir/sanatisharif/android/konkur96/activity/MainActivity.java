@@ -198,23 +198,25 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             Uri appLinkData = intent.getData();
             //  Log.i(TAG, "handleIntent1: " + appLinkData);
             // Log.i(TAG, "handleIntent: " + appLinkData.getPath());
+            assert appLinkData != null;
+            String path = appLinkData.getPath();
+            if (path.startsWith("/c/") && path.length() > 3) {
 
-            if (appLinkData.getPath().startsWith("/c")) {
-                if (data.contains("tags")) {
-                    addFrg(FilterTagsFrg.newInstance(data, null), "FilterTagsFrg");
-                } else {
-                    addFrg(DetailsVideoFrg.newInstance(data), "DetailsVideoFrg");
-                }
-            } else if (appLinkData.getPath().startsWith("/product")) {
+                addFrg(DetailsVideoFrg.newInstance(data), "DetailsVideoFrg");
+
+            } else if (path.startsWith("/c")) {
+
+                addFrg(FilterTagsFrg.newInstance(data, null), "FilterTagsFrg");
+            } else if (path.startsWith("/product")) {
 
                 addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
 
 
-            } else if (appLinkData.getPath().startsWith("/login")) {
+            } else if (path.startsWith("/login")) {
                 if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
                     addFrg(DashboardMainFrg.newInstance(), "DashboardMainFrg");
                 }
-            } else if (appLinkData.getPath().startsWith("/zarinpal")) {
+            } else if (path.startsWith("/zarinpal")) {
 
                 if (data.contains("Status")) {
 
@@ -225,11 +227,11 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                     handlerZarinPalCallBack(amount, authority);
                 }
 
-            } else if (appLinkData.getPath().startsWith("/shop")) {
+            } else if (path.startsWith("/shop")) {
 
                 addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
 
-            } else if (appLinkData.getPath().equals("/")) {
+            } else if (path.equals("/")) {
                 addFrg(AllaMainFrg.newInstance(), "MainFrg");
             }
 
