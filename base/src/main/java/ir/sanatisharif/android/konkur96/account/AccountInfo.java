@@ -7,7 +7,6 @@ import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,10 +21,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.account.Authenticator;
-import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
@@ -127,6 +123,8 @@ public class AccountInfo {
 
         Gson gson = new Gson();
         Account[] account = mAccountManager.getAccountsByType(accountType);
+        if (account.length == 0)
+            return null;
         String userData = mAccountManager.getUserData(account[0], AccountManager.KEY_USERDATA);
 
         if (userData != null)

@@ -17,7 +17,7 @@ android {
         applicationId "ir.sanatisharif.android.konkur96"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 45
+        versionCode 49
         versionName "3.0.7"
         multiDexEnabled true
 

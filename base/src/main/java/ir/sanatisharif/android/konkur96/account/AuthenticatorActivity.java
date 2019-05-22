@@ -151,7 +151,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
                 Data data = u.getData();
                 User user1 = data.getUser();
                 addAccount(user1, data.getAccessToken());
-                mFirebaseAnalytics.setUserId("" + user1.getId());
+                if (user1 != null)
+                    mFirebaseAnalytics.setUserId("" + user1.getId());
                 dialog.dismiss();
                 startActivity(new Intent(AuthenticatorActivity.this, MainActivity.class));
                 finish();

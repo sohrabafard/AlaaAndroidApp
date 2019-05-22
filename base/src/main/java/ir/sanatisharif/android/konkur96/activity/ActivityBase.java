@@ -66,7 +66,8 @@ public class ActivityBase extends AppCompatActivity {
         AccountInfo accountInfo = new AccountInfo(this, this);
         User user = accountInfo.getInfo(ACCOUNT_TYPE);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        mFirebaseAnalytics.setUserId("" + user.getId());
+        if (user != null)
+            mFirebaseAnalytics.setUserId("" + user.getId());
     }
 
     @Override
