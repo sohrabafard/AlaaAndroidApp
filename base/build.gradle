@@ -4,11 +4,13 @@ apply plugin: 'com.google.gms.google-services' // Google Play services Gradle pl
 apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
-    compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     compileSdkVersion 28
     defaultConfig {
 
@@ -16,17 +18,14 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 45
-        versionName "3.0.5"
+        versionName "3.0.6"
         multiDexEnabled true
 
         resValue "string", "io.fabric.ApiKey", "46ad5fd65bf082d38b16ad6dba97be9809b6fbc7"
         resValue "bool", "com.crashlytics.RequireBuildId", "false"
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+
 
     buildTypes {
         debug {
@@ -37,15 +36,14 @@ android {
         }
         release {
             debuggable false
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
 
             resValue "string", "io.fabric.ApiKey", "46ad5fd65bf082d38b16ad6dba97be9809b6fbc7"
             resValue "bool", "com.crashlytics.RequireBuildId", "false"
             resValue "string", "alla_url", "https://alaatv.com"
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
-
         }
     }
 
@@ -53,9 +51,7 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
-    dexOptions {
-        javaMaxHeapSize "Xg"
-    }
+
 }
 
 crashlytics { instantAppSupport true }

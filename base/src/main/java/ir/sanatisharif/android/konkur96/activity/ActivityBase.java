@@ -2,20 +2,16 @@ package ir.sanatisharif.android.konkur96.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-
-import android.view.animation.Animation;
-import android.widget.TextView;
+import android.webkit.WebView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -60,6 +56,9 @@ public class ActivityBase extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(false);
+        }
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 

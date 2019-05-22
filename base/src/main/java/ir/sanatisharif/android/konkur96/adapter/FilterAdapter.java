@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import com.bumptech.glide.request.transition.Transition;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
@@ -37,7 +35,6 @@ import ir.sanatisharif.android.konkur96.fragment.ShowContentInfoFrg;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.model.filter.ArticleCourse;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
-import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 import ir.sanatisharif.android.konkur96.model.filter.PamphletCourse;
 import ir.sanatisharif.android.konkur96.model.filter.SetFilterCourse;
 import ir.sanatisharif.android.konkur96.model.filter.SetFilterProduct;
@@ -145,7 +142,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemHolder.layout_click.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    addFrg(ShowContentInfoFrg.newInstance(item), "DetailsVideoFrg");
+                    addFrg(ShowContentInfoFrg.newInstance(item), "DetailsPamphletFrg");
                 }
             });
 

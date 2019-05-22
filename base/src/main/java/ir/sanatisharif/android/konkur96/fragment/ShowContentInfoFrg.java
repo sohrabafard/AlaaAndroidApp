@@ -157,6 +157,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
         txtAuthor = view.findViewById(R.id.txtAuthor);
         txtTitle = view.findViewById(R.id.txtTitle);
         webView = view.findViewById(R.id.webView);
+
         btnDownload = view.findViewById(R.id.btnDownload);
         btnOpenPDF = view.findViewById(R.id.btnOpenPDF);
         tagGroup = view.findViewById(R.id.tag_group);
