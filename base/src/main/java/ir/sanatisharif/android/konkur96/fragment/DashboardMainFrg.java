@@ -148,7 +148,7 @@ public class DashboardMainFrg extends BaseFragment {
 
     private void initUi(View view) {
 
-        setToolbar(mToolbar, "داشبورد");
+        setToolbar(mToolbar, "پروفایل من");
 
         getFragmentManager().beginTransaction()
                 .add(R.id.fl_container_profile, MyProduct.newInstance(), "MyProduct")

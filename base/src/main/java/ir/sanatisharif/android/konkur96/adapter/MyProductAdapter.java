@@ -12,25 +12,22 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.api.Models.ProductSetModel;
 import ir.sanatisharif.android.konkur96.fragment.MyProductSet;
-import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
-import ir.sanatisharif.android.konkur96.ui.view.CustomShopItemView;
-import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.ContentHolder> {
 
-    private ArrayList<ProductModel> itemsList;
+    private List<ProductModel> itemsList = new ArrayList<>();
     private Context mContext;
 
 
     public MyProductAdapter(Context context, ArrayList<ProductModel> itemsList) {
-        this.itemsList = itemsList;
+        this.setItems(itemsList);
         this.mContext = context;
     }
 
@@ -58,6 +55,12 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.Cont
     @Override
     public int getItemCount() {
         return (null != itemsList ? itemsList.size() : 0);
+    }
+
+    public void setItems(ArrayList<ProductModel> objects) {
+        itemsList.clear();
+        itemsList.addAll(objects);
+        this.notifyDataSetChanged();
     }
 
 

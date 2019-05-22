@@ -1,5 +1,7 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,9 +30,9 @@ import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.user.User;
+import ir.sanatisharif.android.konkur96.utils.AuthToken;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 public class MyProduct extends Fragment {
 
@@ -46,6 +48,8 @@ public class MyProduct extends Fragment {
     private ArrayList<ProductModel> items = new ArrayList<>();
 
     private myProductsModel myProductsModel;
+    private Context mContext;
+    private Activity mActivity;
 
     public static MyProduct newInstance() {
 
@@ -66,9 +70,11 @@ public class MyProduct extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        repository = new RepositoryImpl(getActivity());
         accountInfo = new AccountInfo(getContext(), getActivity());
         user = accountInfo.getInfo(ACCOUNT_TYPE);
+        mActivity = getActivity();
+        repository = new RepositoryImpl(mActivity);
+        mContext = getContext();
 
         initView(view);
         getData();
@@ -94,23 +100,20 @@ public class MyProduct extends Fragment {
 
     private void getData() {
 
-        //  swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
+        adapter.setItems(new ArrayList<>());
 
-        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+        AuthToken.getInstant().get(mContext, mActivity, token -> {
+            if (token == null)
+                return;
+            repository.getDashboard(token, String.valueOf(user.getId()), data -> {
+                if (data instanceof Result.Success) {
+                    setData((myProductsModel) ((Result.Success) data).value);
+                } else {
 
-            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
-
-                    getActivity().runOnUiThread(() ->
-
-                            repository.getDashboard(token, String.valueOf(user.getId()), data -> {
-                                if (data instanceof Result.Success) {
-                                    setData((myProductsModel) ((Result.Success) data).value);
-                                } else {
-
-                                    Log.d("Test", (String) ((Result.Error) data).value);
-                                }
-                            })));
-        }
+                    Log.d("Test", (String) ((Result.Error) data).value);
+                }
+            });
+        });
     }
 
     private void setData(myProductsModel data) {
@@ -127,10 +130,7 @@ public class MyProduct extends Fragment {
 
         txtWallet.setText(tempBlance + " تومان ");
 
-        items.addAll(data.getData().get(0).getProducts());
-
-        //---------------------- update adapter ------------------------------------------------
-        adapter.notifyDataSetChanged();
+        adapter.setItems(data.getData().get(0).getProducts());
     }
 
 }
