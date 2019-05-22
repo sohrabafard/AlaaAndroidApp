@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layoutDirection="rtl"
     android:layout_width="match_parent"
@@ -22,12 +20,12 @@
             android:layout_height="25dp" />
 
         <TextView
-            android:fontFamily="@font/iransansbold"
-            android:textSize="18sp"
-            android:layout_marginRight="15dp"
-            android:text="حساب شما: "
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:fontFamily="@font/iransansbold"
+            android:text="موجودی کیف پول شما:"
+            android:textSize="18sp" />
 
         <TextView
             android:fontFamily="@font/iransansbold"
@@ -47,6 +45,17 @@
         android:text="محصولات خریداری شده توسط شما"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/iransansbold"
+        android:text="اگر در دانلود فیلم ها و جزوات خریداری شده مشکل دارید، به ادمین تلگرام آلاء پیام بدهید تا شما را راهنمایی کنند."
+        android:textColor="@color/DarkMagenta"
+        android:textSize="14sp" />
 
 
     <android.support.v7.widget.RecyclerView

@@ -151,7 +151,7 @@ public class DashboardMainFrg extends BaseFragment {
         setToolbar(mToolbar, "داشبورد");
 
         getFragmentManager().beginTransaction()
-                .add(R.id.fl_container_profile, MyProduct.newInstance(), "your fragment here")
+                .add(R.id.fl_container_profile, MyProduct.newInstance(), "MyProduct")
                 .commit();
 
         //init
@@ -186,9 +186,9 @@ public class DashboardMainFrg extends BaseFragment {
         fabItemNewOrder = itemNewOrder.findViewById(R.id.fabTitle);
 
         ((TextView) itemBasket.findViewById(R.id.txtTitle)).setText("سبدخرید");
-        ((TextView) itemAboutMe.findViewById(R.id.txtTitle)).setText("درباره ما");
-        ((TextView) itemVideo.findViewById(R.id.txtTitle)).setText("ویدیو");
-        ((TextView) itemNewOrder.findViewById(R.id.txtTitle)).setText("لیست سفارش ها");
+        ((TextView) itemAboutMe.findViewById(R.id.txtTitle)).setText("درباره آلاء");
+        ((TextView) itemVideo.findViewById(R.id.txtTitle)).setText("فیلم\u200Cهای دانلود شده");
+        ((TextView) itemNewOrder.findViewById(R.id.txtTitle)).setText("سفارش\u200Cهای من");
 
         fabItemBasket.setImageResource(R.drawable.ic_buy);//
         fabItemAboutMe.setImageResource(R.drawable.ic_call);
