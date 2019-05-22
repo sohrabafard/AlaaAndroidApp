@@ -81,6 +81,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
+                    android:path="/"
                     android:host="alaatv.com"
                     android:scheme="https" />
             </intent-filter>
