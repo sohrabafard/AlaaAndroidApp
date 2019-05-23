@@ -6,14 +6,11 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,14 +19,8 @@ import android.widget.TextView;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.google.android.gms.common.wrappers.InstantApps;
 
-import java.util.ArrayList;
-
 import ir.sanatisharif.android.konkur96.R;
-
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
-import ir.sanatisharif.android.konkur96.adapter.OnBoard_Adapter;
-import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.model.OnBoardItem;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
@@ -101,8 +92,6 @@ public class OnBoardingActivity extends ActivityBase {
         MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-
-        viewPager.setPageMargin(getResources().getDimensionPixelOffset(R.dimen.viewpager_margin_overlap));
         viewPager.setOffscreenPageLimit(4);
 
         btnNext.setOnClickListener(new View.OnClickListener() {
