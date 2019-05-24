@@ -119,7 +119,8 @@ public class AppConfig extends Application {
     }
 
     public void changeProgressColor(ProgressBar loader) {
-        loader.getIndeterminateDrawable().setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
+        if(loader != null)
+            loader.getIndeterminateDrawable().setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     @Override

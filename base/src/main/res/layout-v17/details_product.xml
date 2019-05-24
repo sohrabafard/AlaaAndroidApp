@@ -232,7 +232,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginEnd="15dp"
-                        android:text="انتخاب کنید:"
+                        android:text="@string/choose"
                         android:textColor="@color/Black_1"
                         android:textSize="17sp" />
 
@@ -320,20 +320,23 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:orientation="horizontal">
-
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginStart="5dp"
                             android:src="@drawable/ic_add_shopping_cart"
                             android:tint="@color/White" />
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layoutDirection="rtl"
                             android:text="@string/add_to_order"
                             android:textColor="@color/White"
                             android:textSize="20sp" />
+
+
+
+
 
                     </LinearLayout>
 

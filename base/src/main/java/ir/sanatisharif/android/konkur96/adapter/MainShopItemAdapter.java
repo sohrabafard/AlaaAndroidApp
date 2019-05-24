@@ -84,7 +84,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
             itemRowHolder.recyclerView.setHasFixedSize(true);
             itemRowHolder.recyclerView.setAdapter(itemListDataAdapter);
-            snapHelper.attachToRecyclerView(itemRowHolder.recyclerView);
+//            snapHelper.attachToRecyclerView(itemRowHolder.recyclerView);
             itemListDataAdapter.notifyDataSetChanged();
 
 
