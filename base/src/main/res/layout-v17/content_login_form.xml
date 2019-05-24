@@ -1,91 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layoutDirection="rtl"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:background="@drawable/shape_back_register"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="12dp">
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:background="@drawable/shape_back_register"
+        android:layout_margin="6dp"
         android:gravity="center"
-        android:orientation="vertical"
-        android:padding="12dp">
+        android:text="@string/login_desc"
+        android:textColor="@color/DimGray"
+        android:textSize="@dimen/_14sdp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:gravity="center"
-            android:text="@string/login_desc"
-            android:textColor="@color/DimGray"
-            android:textSize="@dimen/_14sdp" />
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/edtPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:background="@color/White"
-            android:gravity="end|bottom"
-            android:hint="@string/phone"
-            android:inputType="phone"
-            android:paddingEnd="8dp"
-            android:text=""
-            android:textColorHint="@color/Gray"
-            android:textColorLink="@color/White"
-            android:textDirection="ltr"
-            android:textSize="@dimen/_14sdp"
-            app:met_errorColor="@color/Red"
-            app:met_floatingLabel="normal"
-            app:met_primaryColor="@color/colorPrimary"
-            app:met_textColor="@color/Black"
-            app:met_textColorHint="@color/Gray"
-            app:met_underlineColor="@color/colorPrimary" />
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/edtPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="@color/White"
+        android:gravity="end|bottom"
+        android:hint="@string/phone"
+        android:inputType="phone"
+        android:paddingEnd="8dp"
+        android:text=""
+        android:textColorHint="@color/Gray"
+        android:textColorLink="@color/White"
+        android:textDirection="ltr"
+        android:textSize="@dimen/_14sdp"
+        app:met_errorColor="@color/Red"
+        app:met_floatingLabel="normal"
+        app:met_primaryColor="@color/colorPrimary"
+        app:met_textColor="@color/Black"
+        app:met_textColorHint="@color/Gray"
+        app:met_underlineColor="@color/colorPrimary" />
 
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/edtNathinalCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:background="@color/White"
-            android:gravity="end|bottom"
-            android:hint="@string/personalCode"
-            android:inputType="number"
-            android:paddingEnd="8dp"
-            android:textColorHint="@color/Gray"
-            android:textColorLink="@color/White"
-            android:textSize="@dimen/_14sdp"
-            app:met_errorColor="@color/Red"
-            app:met_floatingLabel="normal"
-            app:met_primaryColor="@color/colorPrimary"
-            app:met_textColor="@color/Black"
-            app:met_textColorHint="@color/Gray"
-            app:met_underlineColor="@color/colorPrimary" />
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/edtNathinalCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="@color/White"
+        android:gravity="end|bottom"
+        android:hint="@string/personalCode"
+        android:inputType="number"
+        android:paddingEnd="8dp"
+        android:textColorHint="@color/Gray"
+        android:textColorLink="@color/White"
+        android:textSize="@dimen/_14sdp"
+        app:met_errorColor="@color/Red"
+        app:met_floatingLabel="normal"
+        app:met_primaryColor="@color/colorPrimary"
+        app:met_textColor="@color/Black"
+        app:met_textColorHint="@color/Gray"
+        app:met_underlineColor="@color/colorPrimary" />
 
-        <Button
-            android:id="@+id/btnLogin"
-            style="@style/Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_button"
-            android:text="@string/login" />
+    <Button
+        android:id="@+id/btnLogin"
+        style="@style/Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_button"
+        android:text="@string/login" />
 
-        <TextView
-            android:id="@+id/txtDoNotAccount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:gravity="center"
-            android:padding="6dp"
-            android:text="@string/doNot_account"
-            android:textColor="@color/Black_1"
-            android:textSize="@dimen/_13sdp" />
+    <TextView
+        android:id="@+id/txtDoNotAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:gravity="center"
+        android:padding="6dp"
+        android:text="@string/doNot_account"
+        android:textColor="@color/Black_1"
+        android:textSize="@dimen/_13sdp" />
 
-    </LinearLayout>
 </LinearLayout>

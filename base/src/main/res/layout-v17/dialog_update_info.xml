@@ -6,6 +6,7 @@
     android:background="@color/White"
     android:orientation="vertical"
     android:padding="6dp"
+    android:layoutDirection="rtl"
     app:cardCornerRadius="4dp"
     app:cardElevation="10dp">
 

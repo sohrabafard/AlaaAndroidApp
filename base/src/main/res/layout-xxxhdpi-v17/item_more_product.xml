@@ -10,6 +10,7 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/White"
+    android:layoutDirection="rtl"
     app:cardCornerRadius="0dp"
     app:cardElevation="2dp">
 

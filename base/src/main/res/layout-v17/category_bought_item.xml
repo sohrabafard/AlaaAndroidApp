@@ -4,6 +4,7 @@
     android:id="@+id/cardViewRoot"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
     android:layout_gravity="center"
     android:layout_margin="4dp"
     android:clickable="true"
@@ -11,7 +12,8 @@
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/LightGrey"
     app:cardCornerRadius="12dp"
-    app:cardElevation="1dp">
+    app:cardElevation="1dp"
+    android:focusable="true">
 
     <RelativeLayout
         android:layout_width="match_parent"

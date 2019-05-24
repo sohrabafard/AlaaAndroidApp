@@ -5,6 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="top"
+    android:layoutDirection="rtl"
     android:layout_margin="6dp"
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/White"

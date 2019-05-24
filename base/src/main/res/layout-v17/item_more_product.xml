@@ -8,6 +8,7 @@
     android:layout_margin="4dp"
     android:clickable="true"
     android:focusable="true"
+    android:layoutDirection="rtl"
     android:foreground="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/LightGrey"

@@ -4,6 +4,7 @@
     android:id="@+id/cardViewRoot"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
     android:layout_margin="5dp"
     android:clickable="true"
     android:focusable="true"
