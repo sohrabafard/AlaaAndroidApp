@@ -79,9 +79,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             IncredibleOfferItemAdapter itemListDataAdapter = new IncredibleOfferItemAdapter(mContext, items);
 
-            itemRowHolder.recyclerView.setHasFixedSize(false);
             LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-            lin.setReverseLayout(false);
             itemRowHolder.recyclerView.setLayoutManager(lin);
             itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
             itemRowHolder.recyclerView.setHasFixedSize(true);

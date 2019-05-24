@@ -46,7 +46,7 @@
             android:text="Titel"
             android:textColor="#3A3A3A"
             android:layout_marginEnd="6dp"
-            android:gravity="end"
+            android:gravity="start"
             android:textSize="12sp" />
 
         <LinearLayout
