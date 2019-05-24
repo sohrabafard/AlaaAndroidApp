@@ -295,4 +295,5 @@
     <string name="your_product">محصولات خریداری شده توسط شما</string>
     <string name="dashboard_hint">اگر در دانلود فیلم ها و جزوات خریداری شده مشکل دارید، به ادمین تلگرام آلاء پیام بدهید تا شما را راهنمایی کنند.</string>
     <string name="checkout">پرداخت سبد خرید</string>
+    <string name="choose">انتخاب کنید:</string>
 </resources>

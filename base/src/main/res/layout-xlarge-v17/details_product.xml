@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/LightGreyBack"
-    android:layoutDirection="rtl"
+    android:layoutDirection="ltr"
     android:orientation="vertical">
 
 
@@ -198,7 +198,7 @@
                     android:layout_margin="10dp"
                     android:focusable="true"
                     android:focusableInTouchMode="false"
-                    android:gravity="end"
+                    android:gravity="start"
                     android:paddingStart="@dimen/activity_horizontal_margin"
                     android:paddingEnd="@dimen/activity_horizontal_margin"
                     android:scrollbars="vertical"
@@ -228,7 +228,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginEnd="15dp"
-                        android:text="انتخاب کنید:"
+                        android:text="@string/choose"
                         android:textColor="@color/Black_1"
                         android:textSize="17sp" />
 
@@ -255,7 +255,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginEnd="15dp"
-                        android:text="انتخاب کنید:"
+                        android:text="@string/choose"
                         android:textColor="@color/Black_1"
                         android:textSize="17sp" />
 
@@ -352,7 +352,7 @@
                 android:layout_margin="10dp"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
-                android:gravity="end"
+                android:gravity="start"
                 android:paddingStart="@dimen/activity_horizontal_margin"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:textColor="#4A4A4A"
