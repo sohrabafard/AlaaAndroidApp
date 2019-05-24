@@ -296,4 +296,7 @@
     <string name="dashboard_hint">اگر در دانلود فیلم ها و جزوات خریداری شده مشکل دارید، به ادمین تلگرام آلاء پیام بدهید تا شما را راهنمایی کنند.</string>
     <string name="checkout">پرداخت سبد خرید</string>
     <string name="choose">انتخاب کنید:</string>
+    <string name="product_sample">نمونه‌ها</string>
+    <string name="product_property">ویژگی‌ها</string>
+    <string name="add_to_order">افزودن به سبد خرید</string>
 </resources>
