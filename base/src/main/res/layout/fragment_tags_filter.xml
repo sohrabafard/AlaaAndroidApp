@@ -21,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:background="@color/colorPrimary"
-            android:layoutDirection="ltr"
             app:tabMode="fixed" />
 
     </android.support.design.widget.AppBarLayout>
@@ -69,6 +68,7 @@
         android:src="@drawable/ic_filter"
         app:fabSize="normal"
         app:backgroundTint="@color/Monochromatic_6"
+        android:focusable="true"
         app:layout_anchorGravity="bottom|right|end" />
 
 

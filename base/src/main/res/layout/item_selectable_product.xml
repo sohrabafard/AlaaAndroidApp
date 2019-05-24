@@ -16,7 +16,6 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layoutDirection="rtl"
             android:padding="5dp">
 
             <CheckBox

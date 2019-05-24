@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
-    android:layoutDirection="rtl"
     android:orientation="vertical">
 
     <include layout="@layout/app_bar" />
@@ -34,6 +33,7 @@
                     android:layout_height="264dp"
                     android:layout_gravity="top"
                     android:clickable="true"
+                    android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout
@@ -103,6 +103,7 @@
                             android:foreground="?android:attr/selectableItemBackground"
                             app:cardCornerRadius="6dp"
                             app:cardElevation="6dp"
+                            android:focusable="true"
                             app:cardUseCompatPadding="true">
 
                             <LinearLayout
@@ -187,6 +188,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="6dp"
                 app:cardElevation="6dp"
+                android:focusable="true"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout

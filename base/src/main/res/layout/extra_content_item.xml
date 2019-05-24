@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:layout_gravity="top"
     android:layout_margin="6dp"
-    android:layoutDirection="rtl"
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/White"
     app:cardElevation="0dp">
@@ -18,7 +17,6 @@
             android:id="@+id/layout_click"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layoutDirection="rtl"
             android:orientation="vertical">
 
             <FrameLayout
@@ -72,7 +70,7 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="0dp"
                         android:layout_weight="1"
                         android:orientation="horizontal">
 

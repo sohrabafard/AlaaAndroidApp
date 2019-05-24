@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
-    android:layoutDirection="rtl"
     android:orientation="vertical"
     android:padding="6dp"
     app:cardCornerRadius="4dp"
@@ -66,6 +65,7 @@
                 android:padding="8dp"
                 android:text="@string/playStore"
                 android:textColor="@color/White"
+                android:focusable="true"
                 android:textSize="@dimen/_14sdp" />
 
             <Button
@@ -82,6 +82,7 @@
                 android:padding="8dp"
                 android:text="@string/bazaar"
                 android:textColor="@color/White"
+                android:focusable="true"
                 android:textSize="@dimen/_14sdp" />
 
 
@@ -98,7 +99,7 @@
             <Button
                 android:id="@+id/txtDirectUrl"
                 style="@style/Button"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
@@ -109,6 +110,7 @@
                 android:padding="8dp"
                 android:text="@string/apkDownload"
                 android:textColor="@color/White"
+                android:focusable="true"
                 android:textSize="@dimen/_14sdp" />
 
 

@@ -7,10 +7,10 @@
     android:layout_gravity="center"
     android:layout_margin="4dp"
     android:clickable="true"
+    android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/White"
-    android:focusable="true"
     app:cardElevation="0dp">
 
     <FrameLayout

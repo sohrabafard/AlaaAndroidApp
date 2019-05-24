@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardViewRoot"
     android:layout_width="160dp"
     android:layout_height="230dp"
     android:layout_margin="5dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layoutDirection="rtl"
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/White"
     app:cardCornerRadius="0dp"
     app:cardElevation="2dp"
-    >
+    android:focusable="true">
 
     <LinearLayout
         android:id="@+id/layout_click"

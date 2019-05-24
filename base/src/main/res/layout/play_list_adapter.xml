@@ -8,9 +8,9 @@
     android:layout_margin="4dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layoutDirection="rtl"
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/White"
+    android:focusable="true"
     app:cardElevation="0dp">
 
     <RelativeLayout
@@ -33,7 +33,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_avatar" />
 

@@ -17,6 +17,7 @@
         app:backgroundTint="@color/shades_1"
         app:elevation="1dp"
         app:fabSize="normal"
+        android:focusable="true"
         app:rippleColor="@color/colorPrimaryDark" />
 
     <TextView
