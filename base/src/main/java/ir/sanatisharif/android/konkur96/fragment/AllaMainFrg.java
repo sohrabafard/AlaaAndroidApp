@@ -94,8 +94,7 @@ public class AllaMainFrg extends BaseFragment implements
 
         int id = item.getItemId();
 
-        if (id == R.id.actionSetting) {
-        }
+
         if (id == android.R.id.home) {
             Events.CloseFragment closeFragment = new Events.CloseFragment();
             closeFragment.setTagFragments("");

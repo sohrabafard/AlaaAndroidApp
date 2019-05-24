@@ -1,6 +1,7 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,6 +24,7 @@ import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MainShopItemAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
@@ -35,7 +37,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
 
     boolean isPaginate = false;
     private RecyclerView shopMainRecyclerView;
-    private Toolbar pageToolbar;
+    private Toolbar mToolbar;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Repository repository;
     private myPaginate paginate;
@@ -82,7 +84,17 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
 
         } else if (id == R.id.actionSetting) {
             startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
+        } else if (id == R.id.actionSettingSupportBuy) {
 
+            MyAlertDialogFrg alert = new MyAlertDialogFrg();
+            alert.setTitle(getString(R.string.settingsSupportBuy));
+            alert.setMessage(getString(R.string.supportBuy));
+            alert.setHtml(true);
+            alert.show(getFragmentManager(), "alert");
+        } else if (id == R.id.actionSettingTelegram) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ"));
+            intent.setPackage("org.telegram.messenger");
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -190,7 +202,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
                 .build();
 
         setHasOptionsMenu(true);
-        setToolbar(pageToolbar, "فروشگاه آلاء");
+        setToolbar(mToolbar, "فروشگاه آلاء");
 
     }
 
