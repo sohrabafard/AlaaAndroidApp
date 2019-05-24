@@ -299,4 +299,6 @@
     <string name="product_sample">نمونه‌ها</string>
     <string name="product_property">ویژگی‌ها</string>
     <string name="add_to_order">افزودن به سبد خرید</string>
+    <string name="add_to_cart_successfully">با موفقیت به سبد خرید اضافه شد.</string>
+    <string name="try_again">مشکلی بوجود آمده لطفا دوباره تکرار کنید.</string>
 </resources>

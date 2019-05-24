@@ -1,11 +1,7 @@
 package ir.sanatisharif.android.konkur96.dialog;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.CardView;
@@ -21,13 +17,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.sanatisharif.android.konkur96.BuildConfig;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.api.Models.AddToCardListModel;
-import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
-import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
-import ir.sanatisharif.android.konkur96.api.Models.PaymentResponse;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.fragment.CardFragment;
 import ir.sanatisharif.android.konkur96.handler.Repository;
@@ -36,7 +28,6 @@ import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.model.user.User;
 
-import static ir.sanatisharif.android.konkur96.activity.ActivityBase.containerHeight;
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
@@ -44,6 +35,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_F
 @SuppressLint("ValidFragment")
 public class ZarinPalDialogFragment extends DialogFragment {
 
+    private static final String TAG = "Alaa\\ZarinPalDialogFrg";
     private int finalPrice;
 
     private TextView txtTitle, txtDesc;
@@ -129,39 +121,28 @@ public class ZarinPalDialogFragment extends DialogFragment {
 
 
             accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
-
                     getActivity().runOnUiThread(() ->
-
                             repository.addToShopCard(token, model.getId(), attribute, products, extraAttribute, data -> {
                                 progPrice.setVisibility(View.GONE);
                                 if (data instanceof Result.Success) {
-
                                     AddToCardListModel temp = (AddToCardListModel) ((Result.Success) data).value;
 
                                     if (null == temp.getError()) {
-
-                                        txtTitle.setText("موفق");
-                                        txtDesc.setVisibility(View.VISIBLE);
-                                        txtDesc.setText("با موفقیت به سبد خرید اضافه شد.");
-                                        Toast.makeText(getContext(), "با موفقیت به سبد خرید اضافه شد.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), this.getString(R.string.add_to_cart_successfully), Toast.LENGTH_SHORT).show();
                                         addFrg(CardFragment.newInstance(), "CardFragment");
                                         this.dismiss();
                                     } else {
 
-                                        txtTitle.setText("ناموفق");
-                                        txtDesc.setVisibility(View.VISIBLE);
-                                        txtDesc.setText(temp.getError().getMessage());
+                                        Toast.makeText(getContext(), temp.getError().getMessage(), Toast.LENGTH_SHORT).show();
+                                        addFrg(CardFragment.newInstance(), "CardFragment");
+                                        this.dismiss();
                                     }
 
-
                                 } else {
-
                                     Log.d("Test", (String) ((Result.Error) data).value);
-                                    Toast.makeText(getContext(), "مشکلی بوجود آمده لطفا دوباره تکرار کنید.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), this.getString(R.string.try_again), Toast.LENGTH_LONG).show();
                                     this.dismiss();
                                 }
-
-
                             })));
 
         }
