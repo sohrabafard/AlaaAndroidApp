@@ -11,102 +11,92 @@
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/White"
     app:cardCornerRadius="12dp"
-    app:cardElevation="0dp">
+    app:cardElevation="0dp"
+    android:focusable="true">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/layout_click"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/White"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imgItem"
+            android:layout_width="@dimen/card_size_video"
+            android:layout_height="0dp"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/shape_preload_image" />
+
+
 
         <LinearLayout
-            android:id="@+id/layout_click"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/White"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/imgItem"
-                android:layout_width="@dimen/card_size_video"
-                android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/shape_preload_image" />
 
             <TextView
                 android:id="@+id/txtTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/imgItem"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="6dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/White"
                 android:ellipsize="end"
-                android:layout_marginStart="8dp"
                 android:maxLines="1"
                 android:text="wewe"
                 android:textColor="#3A3A3A"
-                android:layout_marginEnd="6dp"
                 android:gravity="end"
                 android:textSize="@dimen/video_title" />
-
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:gravity="end"
                 android:orientation="horizontal">
 
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_teacher" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/txtAuthor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_below="@id/txtTitle"
+                    android:background="@color/White"
+                    android:ellipsize="end"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:padding="5dp"
+                    android:text="author"
+                    android:textColor="#6D6D6D"
+                    android:textSize="@dimen/video_title_author" />
 
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_teacher" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_video_24dp"
+                    android:tint="@color/colorPrimary" />
 
-                    <TextView
-                        android:id="@+id/txtAuthor"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/txtTitle"
-                        android:background="@color/White"
-                        android:ellipsize="end"
-                        android:gravity="end"
-                        android:maxLines="1"
-                        android:padding="5dp"
-                        android:text="author"
-                        android:textColor="#6D6D6D"
-                        android:textSize="@dimen/video_title_author" />
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_video_24dp"
-                        android:tint="@color/colorPrimary" />
-
-                    <TextView
-                        android:id="@+id/txtContentCount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:padding="5dp"
-                        android:text="6"
-                        android:textColor="#6D6D6D"
-                        android:textSize="@dimen/content_count" />
-                </LinearLayout>
-
+                <TextView
+                    android:id="@+id/txtContentCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:padding="5dp"
+                    android:text="6"
+                    android:textColor="#6D6D6D"
+                    android:textSize="@dimen/content_count" />
             </LinearLayout>
-        </LinearLayout>
 
-    </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>
