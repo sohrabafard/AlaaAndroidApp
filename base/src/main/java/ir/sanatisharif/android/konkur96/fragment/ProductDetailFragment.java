@@ -260,62 +260,60 @@ public class ProductDetailFragment extends BaseFragment {
         cardAttrProduct.setOnClickListener(v -> showAtrrDialog());
         cardSampleProduct.setOnClickListener(v -> showSampleProduct());
         btnAddToCard.setOnClickListener(v -> {
-            if (null != model.getAttributes().getExtra()) {
-
-                if (type == ProductType.CONFIGURABLE) {
-
-                    if (attrList.size() > 0) {
-
-                        showExtraAtrrDialog();
-
-                    } else {
-
-                        Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
-                    }
-                } else if (type == ProductType.SELECTABLE) {
-
-                    if (selectableIdList.size() > 0) {
-
-                        showExtraAtrrDialog();
-
-                    } else {
-
-                        Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
-                    }
-                } else if (type == ProductType.SIMPLE) {
-
-                    showExtraAtrrDialog();
-                }
-
-
-            } else {
-
-                if (type == ProductType.CONFIGURABLE) {
-
-                    if (attrList.size() > 0) {
-
-                        showZarinPalDialog();
-
-                    } else {
-
-                        Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
-                    }
-                } else if (type == ProductType.SELECTABLE) {
-
-                    if (selectableIdList.size() > 0) {
-
-                        showZarinPalDialog();
-
-                    } else {
-
-                        Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
-                    }
-                } else if (type == ProductType.SIMPLE) {
-
-                    showZarinPalDialog();
-                }
+            if (modelExtraAttributeIsNull()) {
+                handleBtnAddToCardWhenModelExtraAttributeIsNull();
+                return;
             }
+            handleBtnAddToCardWhenModelExtraAttributeIsNotNull();
         });
+    }
+
+    private void handleBtnAddToCardWhenModelExtraAttributeIsNotNull() {
+        if (type == ProductType.CONFIGURABLE) {
+            if (attrList.size() > 0) {
+                showExtraAtrrDialog();
+                return;
+            }
+            Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (type == ProductType.SELECTABLE) {
+            if (selectableIdList.size() > 0) {
+                showExtraAtrrDialog();
+                return;
+            }
+            Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (type == ProductType.SIMPLE) {
+            showExtraAtrrDialog();
+        }
+    }
+
+    private void handleBtnAddToCardWhenModelExtraAttributeIsNull() {
+        if (type == ProductType.CONFIGURABLE) {
+            if (attrList.size() > 0) {
+                showZarinPalDialog();
+                return;
+            }
+            Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (type == ProductType.SELECTABLE) {
+            if (selectableIdList.size() > 0) {
+                showZarinPalDialog();
+                return;
+            }
+            Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (type == ProductType.SIMPLE) {
+            showZarinPalDialog();
+        }
+    }
+
+    private boolean modelExtraAttributeIsNull() {
+        return null == model.getAttributes().getExtra();
     }
 
 
@@ -611,8 +609,8 @@ public class ProductDetailFragment extends BaseFragment {
         FragmentManager fm = getFragmentManager();
         DialogFragment newFragment = new ZarinPalDialogFragment(type, model, totalPrice, selectableIdList, attrList, attrExtraList);
 
+        assert fm != null;
         newFragment.show(fm, "ZarinPalDialog");
-
     }
 
 
