@@ -51,6 +51,8 @@
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/Black_2"
+                android:layout_marginStart="@dimen/spacing_mxlarge"
+                android:layout_marginEnd="@dimen/spacing_mxlarge"
                 android:textSize="@dimen/video_title" />
 
         </LinearLayout>

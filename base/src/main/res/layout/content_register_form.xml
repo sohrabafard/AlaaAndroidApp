@@ -13,6 +13,8 @@
         android:background="@drawable/shape_back_register"
         android:gravity="center"
         android:orientation="vertical"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:padding="12dp">
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -21,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:background="@color/White"
-            android:gravity="right|bottom"
+            android:gravity="end|bottom"
             android:hint="@string/phone"
             android:inputType="phone"
             android:paddingRight="8dp"
@@ -34,6 +36,7 @@
             app:met_primaryColor="@color/colorPrimary"
             app:met_textColor="@color/Black"
             app:met_textColorHint="@color/Gray"
+            android:paddingEnd="8dp"
             app:met_underlineColor="@color/colorPrimary" />
 
 
@@ -44,7 +47,7 @@
             android:layout_margin="4dp"
             android:textSize="@dimen/_14sdp"
             android:background="@color/White"
-            android:gravity="right|bottom"
+            android:gravity="end|bottom"
             android:hint="@string/personalCode"
             android:inputType="number"
             android:paddingRight="8dp"
@@ -55,6 +58,7 @@
             app:met_primaryColor="@color/colorPrimary"
             app:met_textColor="@color/Black"
             app:met_textColorHint="@color/Gray"
+            android:paddingEnd="8dp"
             app:met_underlineColor="@color/colorPrimary" />
 
         <LinearLayout
@@ -70,7 +74,7 @@
                 android:textSize="@dimen/_14sdp"
                 android:layout_weight="0.5"
                 android:background="@color/White"
-                android:gravity="right|bottom"
+                android:gravity="end|bottom"
                 android:hint="@string/lastName"
                 android:inputType="text"
                 android:paddingRight="8dp"
@@ -81,6 +85,7 @@
                 app:met_primaryColor="@color/colorPrimary"
                 app:met_textColor="@color/Black"
                 app:met_textColorHint="@color/Gray"
+                android:paddingEnd="8dp"
                 app:met_underlineColor="@color/colorPrimary" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
@@ -91,7 +96,7 @@
                 android:textSize="@dimen/_14sdp"
                 android:layout_weight="0.5"
                 android:background="@color/White"
-                android:gravity="right|bottom"
+                android:gravity="end|bottom"
                 android:hint="@string/firstName"
                 android:inputType="text"
                 android:paddingRight="8dp"
@@ -102,6 +107,7 @@
                 app:met_primaryColor="@color/colorPrimary"
                 app:met_textColor="@color/Black"
                 app:met_textColorHint="@color/Gray"
+                android:paddingEnd="8dp"
                 app:met_underlineColor="@color/colorPrimary" />
 
 
@@ -114,7 +120,7 @@
             android:layout_margin="4dp"
             android:background="@color/White"
             android:textSize="@dimen/_14sdp"
-            android:gravity="right|bottom"
+            android:gravity="end|bottom"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:paddingRight="8dp"
@@ -125,6 +131,7 @@
             app:met_primaryColor="@color/colorPrimary"
             app:met_textColor="@color/Black"
             app:met_textColorHint="@color/Gray"
+            android:paddingEnd="8dp"
             app:met_underlineColor="@color/colorPrimary" />
 
         <Spinner
@@ -133,6 +140,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:paddingEnd="8dp"
             android:paddingRight="8dp" />
 
         <Spinner
@@ -141,6 +149,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:paddingEnd="8dp"
             android:paddingRight="8dp" />
 
         <Button

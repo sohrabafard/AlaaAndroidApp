@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
-                android:gravity="center|right"
+                android:gravity="center|end"
                 android:text=""
                 android:textColor="#070707"
                 android:textSize="@dimen/content_show_title" />
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
-                android:gravity="center|right"
+                android:gravity="center|end"
                 android:text=""
                 android:textColor="#070707"
                 android:textSize="@dimen/content_show_author" />
@@ -73,7 +73,7 @@
                     style="@style/Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                    android:layout_gravity="start"
                     android:background="@drawable/shape_button"
                     android:text="@string/download" />
 
@@ -82,7 +82,7 @@
                     style="@style/Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                    android:layout_gravity="start"
                     android:background="@drawable/shape_button"
                     android:text="@string/openPDf"
                     android:visibility="gone" />
@@ -119,11 +119,13 @@
                 android:layout_marginTop="-16dp"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
-                android:gravity="right"
+                android:gravity="end"
                 android:paddingLeft="@dimen/tvJustufMargin"
                 android:paddingRight="@dimen/tvJustufMargin"
                 android:textColor="#4A4A4A"
                 android:textSize="@dimen/content_show_desc"
+                android:paddingStart="@dimen/tvJustufMargin"
+                android:paddingEnd="@dimen/tvJustufMargin"
                 android:visibility="gone" />
 
             <WebView

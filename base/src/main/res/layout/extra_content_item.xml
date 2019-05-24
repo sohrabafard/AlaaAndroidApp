@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/root"
                 android:background="@color/White"
-                android:gravity="right|center"
+                android:gravity="end|center"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/White"
-                    android:gravity="right|center"
+                    android:gravity="end|center"
                     android:orientation="vertical"
                     android:padding="4dp">
 
@@ -97,6 +97,8 @@
                             android:maxLines="1"
                             android:text="12 k"
                             android:textColor="#606060"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
                             android:textSize="12sp" />
 
                     </LinearLayout>
@@ -108,6 +110,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dip"
                     android:src="@mipmap/ic_over_flow"
+                    android:layout_marginStart="4dip"
                     android:visibility="visible" />
 
 

@@ -1,13 +1,9 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
-import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LifecycleRegistry;
 import android.content.Context;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,8 +18,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
-import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
 
 /**
  * Created by Mohamad on 11/2/2018.

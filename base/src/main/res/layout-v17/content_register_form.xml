@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/shape_back_register"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@color/White"
+            android:gravity="end|bottom"
+            android:hint="@string/phone"
+            android:inputType="phone"
+            android:paddingEnd="8dp"
+            android:text=""
+            android:textColorHint="@color/Gray"
+            android:textColorLink="@color/White"
+            android:textSize="@dimen/_14sdp"
+            app:met_errorColor="@color/Red"
+            app:met_floatingLabel="normal"
+            app:met_primaryColor="@color/colorPrimary"
+            app:met_textColor="@color/Black"
+            app:met_textColorHint="@color/Gray"
+            app:met_underlineColor="@color/colorPrimary" />
+
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edtNathinalCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@color/White"
+            android:gravity="end|bottom"
+            android:hint="@string/personalCode"
+            android:inputType="number"
+            android:paddingEnd="8dp"
+            android:textColorHint="@color/Gray"
+            android:textColorLink="@color/White"
+            android:textSize="@dimen/_14sdp"
+            app:met_errorColor="@color/Red"
+            app:met_floatingLabel="normal"
+            app:met_primaryColor="@color/colorPrimary"
+            app:met_textColor="@color/Black"
+            app:met_textColorHint="@color/Gray"
+            app:met_underlineColor="@color/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/edtLastName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_weight="0.5"
+                android:background="@color/White"
+                android:gravity="end|bottom"
+                android:hint="@string/lastName"
+                android:inputType="text"
+                android:paddingEnd="8dp"
+                android:textColorHint="@color/Gray"
+                android:textColorLink="@color/White"
+                android:textSize="@dimen/_14sdp"
+                app:met_errorColor="@color/Red"
+                app:met_floatingLabel="normal"
+                app:met_primaryColor="@color/colorPrimary"
+                app:met_textColor="@color/Black"
+                app:met_textColorHint="@color/Gray"
+                app:met_underlineColor="@color/colorPrimary" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/edtFirstName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_weight="0.5"
+                android:background="@color/White"
+                android:gravity="end|bottom"
+                android:hint="@string/firstName"
+                android:inputType="text"
+                android:paddingEnd="8dp"
+                android:textColorHint="@color/Gray"
+                android:textColorLink="@color/White"
+                android:textSize="@dimen/_14sdp"
+                app:met_errorColor="@color/Red"
+                app:met_floatingLabel="normal"
+                app:met_primaryColor="@color/colorPrimary"
+                app:met_textColor="@color/Black"
+                app:met_textColorHint="@color/Gray"
+                app:met_underlineColor="@color/colorPrimary" />
+
+
+        </LinearLayout>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@color/White"
+            android:gravity="end|bottom"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:paddingEnd="8dp"
+            android:textColorHint="@color/Gray"
+            android:textColorLink="@color/White"
+            android:textSize="@dimen/_14sdp"
+            app:met_errorColor="@color/Red"
+            app:met_floatingLabel="normal"
+            app:met_primaryColor="@color/colorPrimary"
+            app:met_textColor="@color/Black"
+            app:met_textColorHint="@color/Gray"
+            app:met_underlineColor="@color/colorPrimary" />
+
+        <Spinner
+            android:id="@+id/spinnerGender"
+            style="@style/spinner_style"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:paddingEnd="8dp" />
+
+        <Spinner
+            android:id="@+id/spinnerField"
+            style="@style/spinner_style"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:paddingEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnRegister"
+            style="@style/Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button"
+            android:text="@string/register"
+            android:textSize="@dimen/_11sdp" />
+
+        <TextView
+            android:id="@+id/txtAccountExist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="@string/accountExist"
+            android:textColor="@color/Black_1"
+            android:textSize="@dimen/_10sdp" />
+
+
+    </LinearLayout>
+</LinearLayout>

@@ -39,6 +39,8 @@
                     android:paddingLeft="@dimen/spacing_mlarge"
                     android:paddingTop="@dimen/spacing_large"
                     android:paddingRight="@dimen/spacing_mlarge"
+                    android:paddingStart="@dimen/spacing_mlarge"
+                    android:paddingEnd="@dimen/spacing_mlarge"
                     android:paddingBottom="@dimen/spacing_large">
 
                     <TextView
@@ -83,6 +85,8 @@
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 app:cardCornerRadius="2dp"
                 app:cardElevation="2dp"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -93,6 +97,8 @@
                     android:paddingLeft="@dimen/spacing_mlarge"
                     android:paddingTop="@dimen/spacing_large"
                     android:paddingRight="@dimen/spacing_mlarge"
+                    android:paddingStart="@dimen/spacing_mlarge"
+                    android:paddingEnd="@dimen/spacing_mlarge"
                     android:paddingBottom="@dimen/spacing_large">
 
                     <TextView

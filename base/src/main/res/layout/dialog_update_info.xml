@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/dialog_right_margin"
+        android:layout_marginEnd="@dimen/dialog_right_margin"
         android:orientation="vertical">
 
         <LinearLayout
@@ -35,7 +36,7 @@
             android:id="@+id/txtContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:gravity="end"
             android:text=""
             android:textColor="@color/Black_1"
             android:textSize="14sp" />
@@ -44,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_footer"
             android:layout_marginTop="12dp"
-            android:gravity="right"
+            android:gravity="end"
             android:orientation="horizontal">
 
             <TextView

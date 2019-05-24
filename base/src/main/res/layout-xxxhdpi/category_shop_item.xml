@@ -38,7 +38,7 @@
                 android:id="@+id/txtDiscount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
+                android:layout_gravity="bottom|end"
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="@color/IndianRed"
@@ -58,10 +58,12 @@
             android:layout_marginTop="4dp"
             android:layout_marginRight="6dp"
             android:ellipsize="end"
-            android:gravity="right"
+            android:layout_marginStart="8dp"
             android:maxLines="1"
             android:text=""
             android:textColor="#3A3A3A"
+            android:layout_marginEnd="6dp"
+            android:gravity="end"
             android:textSize="12sp" />
 
         <TextView
@@ -78,6 +80,8 @@
             android:text=""
             android:textColor="@color/txtColor"
             android:textSize="12sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="6dp"
             android:visibility="visible" />
 
     </LinearLayout>

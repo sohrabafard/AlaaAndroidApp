@@ -5,6 +5,8 @@
     android:layout_marginLeft="10.0dip"
     android:layout_marginRight="10.0dip"
     android:gravity="center_vertical"
+    android:layout_marginStart="10.0dip"
+    android:layout_marginEnd="10.0dip"
     android:orientation="horizontal">
 
     <ImageView
@@ -24,6 +26,9 @@
         android:orientation="vertical"
         android:paddingLeft="5.0dip"
         android:paddingRight="5.0dip"
+        android:layout_marginStart="20dp"
+        android:paddingStart="5.0dip"
+        android:paddingEnd="5.0dip"
         android:visibility="visible">
 
         <TextView
@@ -33,10 +38,11 @@
             android:layout_marginLeft="2dip"
             android:layout_marginTop="2dp"
             android:ellipsize="end"
-            android:gravity="right"
+            android:layout_marginStart="2dip"
             android:singleLine="true"
             android:text=""
             android:textColor="@color/Black"
+            android:gravity="end"
             android:textSize="16sp" />
 
         <LinearLayout
@@ -61,6 +67,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
                 android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
                 android:src="@drawable/ic_play_arrow_black_24dp" />
 
         </LinearLayout>
@@ -71,7 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dip"
-            android:gravity="right"
+            android:layout_marginStart="2dip"
+            android:gravity="end"
             android:text="" />
 
 

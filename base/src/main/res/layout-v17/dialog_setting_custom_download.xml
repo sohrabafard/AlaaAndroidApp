@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioExcellentQuality"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_item_height"
+            android:checked="true"
+            android:paddingEnd="@dimen/dialog_radio_space_to_text"
+            android:text=""
+            android:textColor="#232F34"
+            android:theme="@style/MyRaidoButton" />
+
+        <RadioButton
+            android:id="@+id/radioHighQuality"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dialog_item_height"
+            android:paddingEnd="@dimen/dialog_radio_space_to_text"
+            android:text=""
+            android:textColor="#232F34"
+            android:theme="@style/MyRaidoButton" />
+
+        <RadioButton
+            android:id="@+id/radioMediumQuality"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dialog_item_height"
+            android:paddingEnd="@dimen/dialog_radio_space_to_text"
+            android:text=""
+            android:textColor="#232F34"
+            android:theme="@style/MyRaidoButton" />
+
+    </RadioGroup>
+</LinearLayout>

@@ -79,7 +79,7 @@
                             style="@style/Button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left"
+                            android:layout_gravity="start"
                             android:layout_margin="4dp"
                             android:background="@drawable/shape_button"
                             android:text="@string/login"
@@ -209,7 +209,8 @@
                         android:text="@string/my_product"
                         android:textColor="@color/Monochromatic_1"
                         android:textSize="18sp"
-                        android:id="@+id/btn_open_myproduct"/>
+                        android:id="@+id/btn_open_myproduct"
+                        android:drawableEnd="@drawable/ic_file_download" />
 
                     <View
                         android:id="@+id/view4324"
@@ -230,6 +231,7 @@
                         android:padding="2dp"
                         android:text="@string/bag"
                         android:textColor="@color/Monochromatic_1"
+                        android:drawableEnd="@drawable/ic_money_bag"
                         android:textSize="18sp" />
 
                     <View
@@ -252,7 +254,8 @@
                         android:text="سبد خرید"
                         android:textColor="@color/Monochromatic_1"
                         android:textSize="18sp"
-                        android:id="@+id/btn_open_card"/>
+                        android:id="@+id/btn_open_card"
+                        android:drawableEnd="@drawable/ic_shopping_cart" />
 
 
                 </LinearLayout>

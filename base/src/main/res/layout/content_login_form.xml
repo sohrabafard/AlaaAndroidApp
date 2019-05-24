@@ -14,6 +14,8 @@
         android:background="@drawable/shape_back_register"
         android:gravity="center"
         android:orientation="vertical"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:padding="12dp">
 
         <TextView
@@ -31,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:background="@color/White"
-            android:gravity="right|bottom"
+            android:gravity="end|bottom"
             android:hint="@string/phone"
             android:inputType="phone"
             android:paddingRight="8dp"
@@ -45,6 +47,7 @@
             app:met_primaryColor="@color/colorPrimary"
             app:met_textColor="@color/Black"
             app:met_textColorHint="@color/Gray"
+            android:paddingEnd="8dp"
             app:met_underlineColor="@color/colorPrimary" />
 
 
@@ -54,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:background="@color/White"
-            android:gravity="right|bottom"
+            android:gravity="end|bottom"
             android:hint="@string/personalCode"
             android:textSize="@dimen/_14sdp"
             android:inputType="number"
@@ -66,6 +69,7 @@
             app:met_primaryColor="@color/colorPrimary"
             app:met_textColor="@color/Black"
             app:met_textColorHint="@color/Gray"
+            android:paddingEnd="8dp"
             app:met_underlineColor="@color/colorPrimary" />
 
         <Button

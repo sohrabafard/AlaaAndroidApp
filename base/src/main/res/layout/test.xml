@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -19,6 +18,8 @@
             android:paddingLeft="@dimen/_43sdp"
             android:paddingTop="@dimen/_50sdp"
             android:paddingRight="@dimen/_43sdp"
+            android:paddingStart="@dimen/_43sdp"
+            android:paddingEnd="@dimen/_43sdp"
             android:paddingBottom="@dimen/_27sdp">
 
             <TextView

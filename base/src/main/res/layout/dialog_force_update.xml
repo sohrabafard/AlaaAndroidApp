@@ -14,6 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dialog_right_margin"
         android:layout_marginRight="@dimen/dialog_right_margin"
+        android:layout_marginStart="@dimen/dialog_right_margin"
+        android:layout_marginEnd="@dimen/dialog_right_margin"
         android:orientation="vertical">
 
         <LinearLayout
@@ -25,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="به روز رسانی آلاء"
                 android:textColor="@color/Black_1"
                 android:textSize="@dimen/_15sdp"
@@ -38,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:gravity="right"
+            android:gravity="end"
             android:text="نسخه جدید آلاء رسید"
             android:textColor="@color/Black_2"
             android:textSize="@dimen/_14sdp" />
@@ -92,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:gravity="right"
+            android:gravity="end"
             android:orientation="horizontal"
             android:visibility="visible">
 
