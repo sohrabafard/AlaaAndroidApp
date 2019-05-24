@@ -2,6 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/actionSetting"
+        android:title="@string/settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/actionSettingSupportBuy"
+        android:title="@string/settingsSupportBuy"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/actionSettingTelegram"
+        android:title="@string/settingsTelegram"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/actionSettingLogout"
