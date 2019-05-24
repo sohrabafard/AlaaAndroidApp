@@ -124,8 +124,14 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             repository.cardReview(token, data -> {
 
                 if (data instanceof Result.Success) {
-                    setData((CardReviewModel) ((Result.Success) data).value);
-                    swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(false));
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setData((CardReviewModel) ((Result.Success) data).value);
+                            swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(false));
+                        }
+                    });
+
                 } else {
                     Log.d("Test", (String) ((Result.Error) data).value);
                 }
@@ -170,7 +176,12 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
                     String url = ((PaymentUrlModel) ((Result.Success) data).value).getUrl();
                     if (null != url) {
-                        openWebView(url);
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                openWebView(url);
+                            }
+                        });
                     }
                 } else {
 
@@ -230,15 +241,20 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }
     }
 
-    private void delete(int id) {
+    public void delete(int id) {
         AuthToken.getInstant().get(mContext, mActivity, token -> {
             if (token == null)
                 return;
             repository.delProductFromCard(token, String.valueOf(id), data -> {
 
                 if (data instanceof Result.Success) {
-                    Toast.makeText(getContext(), "با موفقیت حدف شد.", Toast.LENGTH_LONG).show();
-                    getData();
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(), "با موفقیت حدف شد.", Toast.LENGTH_SHORT).show();
+                            getData();
+                        }
+                    });
                 } else {
                     Log.d("Test", (String) ((Result.Error) data).value);
                 }

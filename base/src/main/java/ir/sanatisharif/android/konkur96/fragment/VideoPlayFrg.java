@@ -54,6 +54,7 @@ import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import static android.content.Context.KEYGUARD_SERVICE;
 import static android.content.Context.POWER_SERVICE;
 import static ir.sanatisharif.android.konkur96.app.AppConfig.context;
+import static ir.sanatisharif.android.konkur96.app.AppConfig.currentActivity;
 
 /**
  * Created by Mohamad on 11/17/2018.
@@ -363,15 +364,20 @@ public class VideoPlayFrg extends BaseFragment {
                 mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                         .createMediaSource(Uri.parse(mUrl));
             } else {
-                AuthToken.getInstant().get(context, getActivity(), token -> {
+                AuthToken.getInstant().get(context, currentActivity, token -> {
                     Log.i(TAG, "startPlayer, has_token: " + (token != null));
 
-                    DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
-                    httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
-                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
+                    currentActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
+                            httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
+                            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
 
-                    mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                            .createMediaSource(Uri.parse(mUrl));
+                            mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                                    .createMediaSource(Uri.parse(mUrl));
+                        }
+                    });
                 });
             }
         }

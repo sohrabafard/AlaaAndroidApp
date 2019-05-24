@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.arch.lifecycle.Lifecycle;
@@ -111,6 +112,7 @@ import static android.content.Context.KEYGUARD_SERVICE;
 import static android.content.Context.POWER_SERVICE;
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConfig.context;
+import static ir.sanatisharif.android.konkur96.app.AppConfig.currentActivity;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -533,14 +535,20 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             });
         } else if (context != null) {
 
-            AuthToken.getInstant().get(Objects.requireNonNull(getContext()), Objects.requireNonNull(getActivity()), token -> {
+            AuthToken.getInstant().get(context, currentActivity, token -> {
                 repository.getDetailsCourse(url, token, new IServerCallbackContentCredit() {
                     @Override
                     public void onSuccess(Object obj) {
                         if (obj != null) {
-                            course = (DataCourse) obj;
-                            setData();
-                            getPlayListFromContentByUrl(course.getSet().getContentUrl());
+
+                            currentActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    course = (DataCourse) obj;
+                                    setData();
+                                    getPlayListFromContentByUrl(course.getSet().getContentUrl());
+                                }
+                            });
                         } else {
                             Log.i(TAG, "getData-else-onSuccess: \n\r" + url + "object is null");
                         }
@@ -549,11 +557,16 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     @Override
                     public void onSuccessCredit(ContentCredit obj) {
                         if (obj != null) {
-                            course = obj.getContent();
-                            setData();
-                            showSnackBar(obj.getMessage());
-                            setProduct(obj.getProduct());
-                            getPlayListFromContentByUrl(course.getSet().getContentUrl());
+                            currentActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    course = obj.getContent();
+                                    setData();
+                                    showSnackBar(obj.getMessage());
+                                    setProduct(obj.getProduct());
+                                    getPlayListFromContentByUrl(course.getSet().getContentUrl());
+                                }
+                            });
                         } else {
                             Log.i(TAG, "getData-else-onSuccessCredit: \n\r" + url + "object is null");
                         }
@@ -959,16 +972,20 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                                         .createMediaSource(Uri.parse(mUrl));
                                 player.prepare(mVideoSource, !haveResumePosition, false);
                             } else {
-                                AuthToken.getInstant().get(context, getActivity(), token -> {
+                                AuthToken.getInstant().get(context, currentActivity, token -> {
                                     Log.i(TAG, "startPlayer, has_token: " + (token != null));
+                                    currentActivity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
+                                            httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
+                                            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
 
-                                    DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
-                                    httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
-                                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
-
-                                    mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                                            .createMediaSource(Uri.parse(mUrl));
-                                    player.prepare(mVideoSource, !haveResumePosition, false);
+                                            mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                                                    .createMediaSource(Uri.parse(mUrl));
+                                            player.prepare(mVideoSource, !haveResumePosition, false);
+                                        }
+                                    });
                                 });
                             }
 
@@ -1125,16 +1142,21 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     .createMediaSource(Uri.parse(mUrl));
             player.prepare(mVideoSource, !haveResumePosition, false);
         } else {
-            AuthToken.getInstant().get(context, getActivity(), token -> {
+            AuthToken.getInstant().get(context, currentActivity, token -> {
                 Log.i(TAG, "startPlayer, has_token: " + (token != null));
 
-                DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
-                httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
-                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
+                currentActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
+                        httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
+                        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
 
-                mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                        .createMediaSource(Uri.parse(mUrl));
-                player.prepare(mVideoSource, !haveResumePosition, false);
+                        mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                                .createMediaSource(Uri.parse(mUrl));
+                        player.prepare(mVideoSource, !haveResumePosition, false);
+                    }
+                });
             });
         }
     }

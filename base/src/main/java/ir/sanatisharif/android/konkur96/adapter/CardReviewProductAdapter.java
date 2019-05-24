@@ -43,7 +43,13 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     public void setItems(@NonNull final ArrayList<ItemCardReviewMOdel> items) {
+        int c = this.items.size();
         this.items.clear();
+        this.notifyDataSetChanged();
+
+        if(items.isEmpty())
+            return;
+
         List<AddToCardModel> noGrandProducts = new ArrayList<>();
         List<ItemCardReviewMOdel> grandProducts = new ArrayList<>();
 

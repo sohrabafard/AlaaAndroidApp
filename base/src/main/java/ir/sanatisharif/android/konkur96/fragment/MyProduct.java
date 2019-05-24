@@ -107,7 +107,12 @@ public class MyProduct extends Fragment {
                 return;
             repository.getDashboard(token, String.valueOf(user.getId()), data -> {
                 if (data instanceof Result.Success) {
-                    setData((myProductsModel) ((Result.Success) data).value);
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setData((myProductsModel) ((Result.Success) data).value);
+                        }
+                    });
                 } else {
 
                     Log.d("Test", (String) ((Result.Error) data).value);
