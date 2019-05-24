@@ -153,7 +153,7 @@
     <string name="search_into_alla">جستحو در آلاء</string>
     <string name="errNotExistTags">خطا در پردازش پارامترها</string>
     <string name="alla_1">موسسه غیر تجاری آلاء</string>
-    <string name="not_internet">اتصال شما به اینترنت قط شده است دوباره تلاش کنید</string>
+    <string name="not_internet">اتصال شما به اینترنت قطع شده است دوباره تلاش کنید</string>
     <string name="repeat_try">تلاش مجدد</string>
     <string name="txtSection">انتخاب مقطه تحصیلی</string>
     <string name="txtField">انتخاب رشته تحصیلی</string>
@@ -301,4 +301,8 @@
     <string name="add_to_order">افزودن به سبد خرید</string>
     <string name="add_to_cart_successfully">با موفقیت به سبد خرید اضافه شد.</string>
     <string name="try_again">مشکلی بوجود آمده لطفا دوباره تکرار کنید.</string>
+    <string name="toman">تومان</string>
+    <string name="totalPrice">مبلغ کل:</string>
+    <string name="discount_price">سود شما از خرید:</string>
+    <string name="payable_price">مبلغ قابل‌پرداخت:</string>
 </resources>

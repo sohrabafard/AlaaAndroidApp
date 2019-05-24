@@ -2,14 +2,17 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,12 +25,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
@@ -41,6 +48,10 @@ import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
+import ir.sanatisharif.android.konkur96.utils.Utils;
+
+import static ir.sanatisharif.android.konkur96.app.AppConfig.currentActivity;
+import static ir.sanatisharif.android.konkur96.app.AppConfig.showNoInternetDialog;
 
 public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, CardReviewProductAdapter.DeleteListener {
 
@@ -78,7 +89,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mActivity = getActivity();
+        mActivity = currentActivity;
         repository = new RepositoryImpl(mActivity);
         mContext = getContext();
 
@@ -147,9 +158,9 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         finalPrice = data.getPrice().getMfinal();
 
         //---------------------- set txt data ---------------------------------------------
-        txtPriceBase.setText("مبلغ کل: " + ShopUtils.formatPrice(data.getPrice().getBase()) + " تومان ");
-        txtPriceDiscount.setText("سود شما از خرید: " + ShopUtils.formatPrice(data.getPrice().getDiscount()) + " تومان ");
-        txtPriceFinal.setText("مبلغ قابل‌پرداخت: " + ShopUtils.formatPrice(data.getPrice().getMfinal()) + " تومان ");
+        txtPriceBase.setText(this.getString(R.string.totalPrice) + ShopUtils.formatPrice(data.getPrice().getBase()) + this.getString(R.string.toman));
+        txtPriceDiscount.setText(this.getString(R.string.discount_price) + ShopUtils.formatPrice(data.getPrice().getDiscount()) + this.getString(R.string.toman));
+        txtPriceFinal.setText(this.getString(R.string.payable_price) + ShopUtils.formatPrice(data.getPrice().getMfinal()) + this.getString(R.string.toman));
 
         //---------------------- convert -------------------------------------------------------
 
@@ -167,6 +178,10 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     private void getUrl() {
+        if (!Utils.isConnected()) {
+            showDialog();
+            return;
+        }
         AuthToken.getInstant().get(mContext, mActivity, token -> {
             if (token == null)
                 return;
@@ -191,6 +206,37 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
             });
         });
+    }
+
+    public void showDialog() {
+        final Dialog dialog = new Dialog(new ContextThemeWrapper(currentActivity,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_no_internet);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        showNoInternetDialog = true;
+        Button btnOK = dialog.findViewById(R.id.btnOK);
+        ImageView imgCLose = dialog.findViewById(R.id.imgCLose);
+
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                showNoInternetDialog = false;
+            }
+        });
+        imgCLose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showNoInternetDialog = false;
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
     }
 
     private void initView(View v) {
