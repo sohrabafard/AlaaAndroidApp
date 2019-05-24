@@ -88,7 +88,7 @@
         <item>external</item>
     </string-array>
 
-    <string name="asset_statements" translatable="false">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://alaatv.com\",\n  }\n}]</string>
+    <string name="asset_statements" translatable="false">[{ \"include\": \"https://alaatv.com/.well-known/assetlinks.json\" }]</string>
     <string name="no_pagination_network_error">مشکلی بوجود آمده است.لطفا دوباره امتحان کنید.</string>
     <string name="no_pagination_network_error_button">تکرار</string>
 

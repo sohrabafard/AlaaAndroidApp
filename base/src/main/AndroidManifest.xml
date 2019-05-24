@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:dist="http://schemas.android.com/apk/distribution"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
     package="ir.sanatisharif.android.konkur96">
 
@@ -18,9 +18,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
-
     <application
-        android:name="ir.sanatisharif.android.konkur96.app.AppConfig"
+        android:name=".app.AppConfig"
         android:allowBackup="true"
         android:debuggable="false"
         android:icon="@drawable/ala_ok"
@@ -31,6 +30,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="HardcodedDebugMode"
         tools:targetApi="n">
+        <service
+            android:name=".service.AppIndexingService"
+            android:exported="false"></service>
 
         <meta-data
             android:name="asset_statements"
@@ -40,7 +42,7 @@
             android:value="46ad5fd65bf082d38b16ad6dba97be9809b6fbc7" />
 
         <provider
-            android:name="ir.sanatisharif.android.konkur96.utils.GenericFileProvider"
+            android:name=".utils.GenericFileProvider"
             android:authorities="${applicationId}.fileProvider"
             android:enabled="true"
             android:exported="false"
@@ -51,11 +53,11 @@
         </provider>
 
         <activity
-            android:name="ir.sanatisharif.android.konkur96.activity.SplashActivity"
+            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -70,8 +72,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:pathPrefix="/splash"
                     android:host="alaatv.com"
+                    android:pathPrefix="/splash"
                     android:scheme="https" />
             </intent-filter>
             <intent-filter>
@@ -81,17 +83,15 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:path="/"
                     android:host="alaatv.com"
+                    android:path="/"
                     android:scheme="https" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="ir.sanatisharif.android.konkur96.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait">
-
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -114,7 +114,6 @@
                     android:pathPrefix="/product/"
                     android:scheme="https" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -126,7 +125,6 @@
                     android:pathPrefix="/login"
                     android:scheme="https" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -138,7 +136,6 @@
                     android:path="/shop"
                     android:scheme="https" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -163,52 +160,46 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="ir.sanatisharif.android.konkur96.activity.OnBoardingActivity"
+            android:name=".activity.OnBoardingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="ir.sanatisharif.android.konkur96.activity.SettingActivity"
+            android:name=".activity.SettingActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="ir.sanatisharif.android.konkur96.activity.VideoPlayActivity"
+            android:name=".activity.VideoPlayActivity"
             android:screenOrientation="landscape" />
-
         <activity
-            android:name="ir.sanatisharif.android.konkur96.account.AuthenticatorActivity"
+            android:name=".account.AuthenticatorActivity"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
-            android:name="ir.sanatisharif.android.konkur96.activity.GalleryFullView"
+            android:name=".activity.GalleryFullView"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PlayerMusicTabsIcon"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="ir.sanatisharif.android.konkur96.activity.PlayerMusicTabsIcon"
-            android:screenOrientation="portrait" />
-
-        <service android:name="ir.sanatisharif.android.konkur96.service.MyFirebaseMessagingService">
+        <service android:name=".service.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service
-            android:name="ir.sanatisharif.android.konkur96.service.AuthenticatorService"
+            android:name=".service.AuthenticatorService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
 
-        <receiver android:name="ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver">
+        <receiver android:name=".service.NetworkChangedReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-
-
     </application>
 
 </manifest>

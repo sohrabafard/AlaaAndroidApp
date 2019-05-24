@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.Comment;
-import ir.sanatisharif.android.konkur96.ui.view.CircleTransform;
+
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.VideoHolder> {
 
