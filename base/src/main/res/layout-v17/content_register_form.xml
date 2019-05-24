@@ -25,7 +25,7 @@
         android:text=""
         android:textColorHint="@color/Gray"
         android:textColorLink="@color/White"
-        android:textSize="@dimen/_14sdp"
+        android:textSize="@dimen/video_title"
         app:met_errorColor="@color/Red"
         app:met_floatingLabel="normal"
         app:met_primaryColor="@color/colorPrimary"
@@ -46,7 +46,7 @@
         android:paddingEnd="8dp"
         android:textColorHint="@color/Gray"
         android:textColorLink="@color/White"
-        android:textSize="@dimen/_14sdp"
+        android:textSize="@dimen/video_title"
         app:met_errorColor="@color/Red"
         app:met_floatingLabel="normal"
         app:met_primaryColor="@color/colorPrimary"
@@ -72,7 +72,7 @@
             android:paddingEnd="8dp"
             android:textColorHint="@color/Gray"
             android:textColorLink="@color/White"
-            android:textSize="@dimen/_14sdp"
+            android:textSize="@dimen/video_title"
             app:met_errorColor="@color/Red"
             app:met_floatingLabel="normal"
             app:met_primaryColor="@color/colorPrimary"
@@ -93,7 +93,7 @@
             android:paddingEnd="8dp"
             android:textColorHint="@color/Gray"
             android:textColorLink="@color/White"
-            android:textSize="@dimen/_14sdp"
+            android:textSize="@dimen/video_title"
             app:met_errorColor="@color/Red"
             app:met_floatingLabel="normal"
             app:met_primaryColor="@color/colorPrimary"
@@ -116,7 +116,7 @@
         android:paddingEnd="8dp"
         android:textColorHint="@color/Gray"
         android:textColorLink="@color/White"
-        android:textSize="@dimen/_14sdp"
+        android:textSize="@dimen/video_title"
         app:met_errorColor="@color/Red"
         app:met_floatingLabel="normal"
         app:met_primaryColor="@color/colorPrimary"
@@ -143,11 +143,11 @@
     <Button
         android:id="@+id/btnRegister"
         style="@style/Button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_button"
         android:text="@string/register"
-        android:textSize="@dimen/_11sdp" />
+        android:textSize="@dimen/video_title" />
 
     <TextView
         android:id="@+id/txtAccountExist"
@@ -158,7 +158,7 @@
         android:padding="6dp"
         android:text="@string/accountExist"
         android:textColor="@color/Black_1"
-        android:textSize="@dimen/_10sdp" />
+        android:textSize="@dimen/header_title" />
 
 
 </LinearLayout>

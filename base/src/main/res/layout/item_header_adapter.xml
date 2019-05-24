@@ -15,7 +15,7 @@
         android:layout_margin="4dp"
         android:drawableStart="@drawable/ic_arrow_left"
         android:drawableLeft="@drawable/ic_arrow_left"
-        android:gravity="end|center"
+        android:gravity="start|center"
         android:text="@string/more"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/more_title" />

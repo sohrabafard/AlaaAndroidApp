@@ -16,7 +16,8 @@
         android:layout_gravity="start|center_vertical"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        android:gravity="end|center"
+        android:textDirection="anyRtl"
+        android:gravity="start|center"
         android:text="header title"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/header_title" />
@@ -24,11 +25,12 @@
 
     <TextView
         android:id="@+id/txtMore"
+        android:textDirection="anyRtl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:drawableStart="@drawable/ic_arrow_left"
-        android:gravity="end|center"
+        android:drawableEnd="@drawable/ic_arrow_left"
+        android:gravity="start|center"
         android:text="@string/more"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/more_title" />

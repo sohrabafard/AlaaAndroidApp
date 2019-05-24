@@ -19,7 +19,7 @@
         android:gravity="center"
         android:text="@string/login_desc"
         android:textColor="@color/DimGray"
-        android:textSize="@dimen/_14sdp" />
+        android:textSize="@dimen/video_title" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/edtPhone"
@@ -35,7 +35,7 @@
         android:textColorHint="@color/Gray"
         android:textColorLink="@color/White"
         android:textDirection="ltr"
-        android:textSize="@dimen/_14sdp"
+        android:textSize="@dimen/video_title"
         app:met_errorColor="@color/Red"
         app:met_floatingLabel="normal"
         app:met_primaryColor="@color/colorPrimary"
@@ -56,7 +56,7 @@
         android:paddingEnd="8dp"
         android:textColorHint="@color/Gray"
         android:textColorLink="@color/White"
-        android:textSize="@dimen/_14sdp"
+        android:textSize="@dimen/video_title"
         app:met_errorColor="@color/Red"
         app:met_floatingLabel="normal"
         app:met_primaryColor="@color/colorPrimary"
@@ -67,7 +67,7 @@
     <Button
         android:id="@+id/btnLogin"
         style="@style/Button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_button"
         android:text="@string/login" />
@@ -81,6 +81,6 @@
         android:padding="6dp"
         android:text="@string/doNot_account"
         android:textColor="@color/Black_1"
-        android:textSize="@dimen/_13sdp" />
+        android:textSize="@dimen/header_title" />
 
 </LinearLayout>

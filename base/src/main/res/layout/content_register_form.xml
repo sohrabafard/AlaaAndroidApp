@@ -26,17 +26,17 @@
             android:gravity="end|bottom"
             android:hint="@string/phone"
             android:inputType="phone"
+            android:paddingEnd="8dp"
             android:paddingRight="8dp"
             android:text=""
-            android:textSize="@dimen/_14sdp"
             android:textColorHint="@color/Gray"
             android:textColorLink="@color/White"
+            android:textSize="@dimen/video_title"
             app:met_errorColor="@color/Red"
             app:met_floatingLabel="normal"
             app:met_primaryColor="@color/colorPrimary"
             app:met_textColor="@color/Black"
             app:met_textColorHint="@color/Gray"
-            android:paddingEnd="8dp"
             app:met_underlineColor="@color/colorPrimary" />
 
 
@@ -45,20 +45,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:textSize="@dimen/_14sdp"
             android:background="@color/White"
             android:gravity="end|bottom"
             android:hint="@string/personalCode"
             android:inputType="number"
+            android:paddingEnd="8dp"
             android:paddingRight="8dp"
             android:textColorHint="@color/Gray"
             android:textColorLink="@color/White"
+            android:textSize="@dimen/video_title"
             app:met_errorColor="@color/Red"
             app:met_floatingLabel="normal"
             app:met_primaryColor="@color/colorPrimary"
             app:met_textColor="@color/Black"
             app:met_textColorHint="@color/Gray"
-            android:paddingEnd="8dp"
             app:met_underlineColor="@color/colorPrimary" />
 
         <LinearLayout
@@ -71,21 +71,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:textSize="@dimen/_14sdp"
                 android:layout_weight="0.5"
                 android:background="@color/White"
                 android:gravity="end|bottom"
                 android:hint="@string/lastName"
                 android:inputType="text"
+                android:paddingEnd="8dp"
                 android:paddingRight="8dp"
                 android:textColorHint="@color/Gray"
                 android:textColorLink="@color/White"
+                android:textSize="@dimen/video_title"
                 app:met_errorColor="@color/Red"
                 app:met_floatingLabel="normal"
                 app:met_primaryColor="@color/colorPrimary"
                 app:met_textColor="@color/Black"
                 app:met_textColorHint="@color/Gray"
-                android:paddingEnd="8dp"
                 app:met_underlineColor="@color/colorPrimary" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
@@ -93,21 +93,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:textSize="@dimen/_14sdp"
                 android:layout_weight="0.5"
                 android:background="@color/White"
                 android:gravity="end|bottom"
                 android:hint="@string/firstName"
                 android:inputType="text"
+                android:paddingEnd="8dp"
                 android:paddingRight="8dp"
                 android:textColorHint="@color/Gray"
                 android:textColorLink="@color/White"
+                android:textSize="@dimen/video_title"
                 app:met_errorColor="@color/Red"
                 app:met_floatingLabel="normal"
                 app:met_primaryColor="@color/colorPrimary"
                 app:met_textColor="@color/Black"
                 app:met_textColorHint="@color/Gray"
-                android:paddingEnd="8dp"
                 app:met_underlineColor="@color/colorPrimary" />
 
 
@@ -119,19 +119,19 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:background="@color/White"
-            android:textSize="@dimen/_14sdp"
             android:gravity="end|bottom"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
+            android:paddingEnd="8dp"
             android:paddingRight="8dp"
             android:textColorHint="@color/Gray"
             android:textColorLink="@color/White"
+            android:textSize="@dimen/video_title"
             app:met_errorColor="@color/Red"
             app:met_floatingLabel="normal"
             app:met_primaryColor="@color/colorPrimary"
             app:met_textColor="@color/Black"
             app:met_textColorHint="@color/Gray"
-            android:paddingEnd="8dp"
             app:met_underlineColor="@color/colorPrimary" />
 
         <Spinner
@@ -155,11 +155,11 @@
         <Button
             android:id="@+id/btnRegister"
             style="@style/Button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_button"
-            android:textSize="@dimen/_11sdp"
-            android:text="@string/register" />
+            android:text="@string/register"
+            android:textSize="@dimen/video_title" />
 
         <TextView
             android:id="@+id/txtAccountExist"
@@ -170,7 +170,7 @@
             android:padding="6dp"
             android:text="@string/accountExist"
             android:textColor="@color/Black_1"
-            android:textSize="@dimen/_10sdp" />
+            android:textSize="@dimen/header_title" />
 
 
     </LinearLayout>
