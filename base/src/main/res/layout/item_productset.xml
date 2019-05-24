@@ -6,13 +6,14 @@
     android:background="@color/no_pagination_error_background"
     android:layout_margin="10dp"
     app:cardElevation="2dp"
+    android:layout_gravity="end"
     android:id="@+id/card_body">
 
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:padding="5dp"
-       android:gravity="end|center_vertical">
+       android:gravity="start|center_vertical">
 
        <ImageView
            android:id="@+id/imgset"

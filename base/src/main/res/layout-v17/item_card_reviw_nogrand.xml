@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:layoutDirection="rtl"
     android:background="@color/no_pagination_error_background"
     app:cardElevation="2dp">
 

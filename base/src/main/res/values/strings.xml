@@ -292,4 +292,6 @@
     <string name="offerInstallAlaa">پیشنهاد نصب نسخه آلاء</string>
     <string name="shouldInstall">برای استفاده بعضی امکانات باید ثبت نام کنید و باید از نسخه نصبی آلاء استفاده کنید.</string>
     <string name="next">بعدی</string>
+    <string name="your_product">محصولات خریداری شده توسط شما</string>
+    <string name="dashboard_hint">اگر در دانلود فیلم ها و جزوات خریداری شده مشکل دارید، به ادمین تلگرام آلاء پیام بدهید تا شما را راهنمایی کنند.</string>
 </resources>
