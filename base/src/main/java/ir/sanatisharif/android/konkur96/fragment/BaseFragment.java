@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -29,11 +30,13 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
     private TextView txtTitle;
     // private LifecycleRegistry mLifecycleRegistry;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanseState) {
