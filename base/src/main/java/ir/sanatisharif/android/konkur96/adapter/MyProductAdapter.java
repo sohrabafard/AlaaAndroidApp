@@ -45,7 +45,10 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.Cont
         ProductModel item = itemsList.get(position);
 
         holder.title.setText(item.getName());
-        Glide.with(mContext).load(item.getPhoto()).into(holder.imageView);
+        Glide.with(mContext)
+                .load(item.getPhoto())
+                .thumbnail(0.1f)
+                .into(holder.imageView);
 
 
         holder.cardView.setOnClickListener(view -> addFrg(MyProductSet.newInstance(item.getSets()), "MyProductSet"));

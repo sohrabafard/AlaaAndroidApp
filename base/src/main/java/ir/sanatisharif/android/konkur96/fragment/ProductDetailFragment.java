@@ -28,7 +28,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,7 +38,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.common.util.ArrayUtils;
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -51,13 +49,11 @@ import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
-import ir.sanatisharif.android.konkur96.adapter.ProductAttrAdapter;
 import ir.sanatisharif.android.konkur96.adapter.ProductBonsAdapter;
 import ir.sanatisharif.android.konkur96.adapter.SelectableProductAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
-import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
@@ -71,7 +67,6 @@ import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.model.MainAttrType;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.model.SelectableProduct;
-import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.utils.GalleryWorker;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
@@ -351,6 +346,7 @@ public class ProductDetailFragment extends BaseFragment {
 
         Glide.with(AppConfig.context)
                 .load(model.getPhoto())
+                .thumbnail(0.1f)
                 .into(image);
 
         if (null != model.getBons() && model.getBons().size() > 0) {

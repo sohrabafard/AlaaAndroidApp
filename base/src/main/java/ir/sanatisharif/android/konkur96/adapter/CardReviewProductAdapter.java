@@ -109,7 +109,10 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
             itemRowHolderNoGrand.btnDel.setOnClickListener(view -> deleteListener.onClickDelete(product.getId()));
 
-            Glide.with(context).load(image).into(itemRowHolderNoGrand.imageView);
+            Glide.with(context)
+                    .load(image)
+                    .thumbnail(0.1f)
+                    .into(itemRowHolderNoGrand.imageView);
 
         } else {
 
@@ -121,7 +124,10 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
             final String image = model.getGrand().getPhoto();
 
             itemRowHolderGrand.txtTitle.setText(title);
-            Glide.with(context).load(image).into(itemRowHolderGrand.imageView);
+            Glide.with(context)
+                    .load(image)
+                    .thumbnail(0.1f)
+                    .into(itemRowHolderGrand.imageView);
 
 
             //recyclerView

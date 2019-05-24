@@ -248,6 +248,7 @@ public class Utils {
                 .load(url)
                 .apply(options)
                 //.transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
+                .thumbnail(0.1f)
                 .into(new SimpleTarget<Drawable>(460, 259) {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {

@@ -100,6 +100,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
         Glide.with(mContext)
                 .load(item.getThumbnail())
                 .apply(requestOptions)
+                .thumbnail(0.1f)
                 .into(new SimpleTarget<Drawable>(460, 259) {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {

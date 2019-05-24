@@ -46,7 +46,10 @@ public class MyProductSetAdapter extends RecyclerView.Adapter<MyProductSetAdapte
         ProductSetModel item = itemsList.get(position);
 
         holder.title.setText(item.getName());
-        Glide.with(mContext).load(item.getPhoto()).into(holder.imageView);
+        Glide.with(mContext)
+                .load(item.getPhoto())
+                .thumbnail(0.1f)
+                .into(holder.imageView);
 
 
 
