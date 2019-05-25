@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,13 +119,17 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                 View view = nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
                 int i = nestedScrollView.getHeight() + nestedScrollView.getScrollY();
                 int diff = (view.getBottom() - i);
+
                 if (diff == 0 ) {
+                    Toast.makeText(getContext(),"دریافت ادامه اطلاعات ...",Toast.LENGTH_SHORT).show();
                     if (pagination != null) {
                         String nextPageUrl = pagination.getNextPageUrl();
 
                         if (nextPageUrl != null) {
                             Log.i("Alaa\\FilterShowFrg",nextPageUrl);
                             getData(nextPageUrl);
+                        }else {
+                            Toast.makeText(getContext(),"لیست کامل نشان داده شده است",Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
