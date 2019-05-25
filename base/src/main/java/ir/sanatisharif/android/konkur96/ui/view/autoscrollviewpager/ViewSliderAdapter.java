@@ -1,11 +1,8 @@
 package ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +11,12 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.model.ViewSlider;
 import ir.sanatisharif.android.konkur96.model.main_page.MainBanner;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
@@ -35,6 +26,7 @@ import ir.sanatisharif.android.konkur96.utils.Utils;
 
 public class ViewSliderAdapter extends PagerAdapter {
 
+    private final Context mContext;
     private ImageView img;
     private List<MainBanner> imageList;
     private LayoutInflater inflater;
@@ -42,6 +34,7 @@ public class ViewSliderAdapter extends PagerAdapter {
     private int h;
 
     public ViewSliderAdapter(Context context, List<MainBanner> list, RequestManager glideRequests) {
+        mContext = context;
         imageList = list;
         inflater = LayoutInflater.from(context);
 
@@ -54,7 +47,7 @@ public class ViewSliderAdapter extends PagerAdapter {
         requestOptions = new RequestOptions()
                 .override(AppConfig.width, h)
                 .dontTransform()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .placeholder(R.mipmap.ic_launcher)
                 .fitCenter();
     }
@@ -69,31 +62,11 @@ public class ViewSliderAdapter extends PagerAdapter {
         img.getLayoutParams().height = h;
 
 
-//        Glide.with(mContext)
-//                .load(imageList.get(position).getUrl())
-//                .apply(requestOptions)
-//                .into(new SimpleTarget<Drawable>() {//1280, 500
-//                    @Override
-//                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-//                        img.setImageDrawable(resource);
-//                        Log.i("LOG", "onLoadFailed: ok " + imageList.get(position).getUrl());
-//                    }
-//
-//                    @Override
-//                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-//                        super.onLoadFailed(errorDrawable);
-//                        Log.i("LOG", "onLoadFailed: " + errorDrawable.toString());
-//                    }
-//                });
-
-
-        Picasso.get()
+        Glide.with(mContext)
                 .load(imageList.get(position).getUrl())
-                //  .fit()
-                .centerCrop()
-                .resize(1280, 500)
+                .thumbnail(0.1f)
+                .apply(requestOptions)
                 .into(img);
-
         img.setOnClickListener(view -> Utils.loadUrl(imageList.get(position).getLink(), AppConfig.context));
         collection.addView(imageLayout);
         return imageLayout;

@@ -118,7 +118,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                 View view = nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
                 int i = nestedScrollView.getHeight() + nestedScrollView.getScrollY();
                 int diff = (view.getBottom() - i);
-                if (diff <= 1200 ) {
+                if (diff == 0 ) {
                     if (pagination != null) {
                         String nextPageUrl = pagination.getNextPageUrl();
 
@@ -198,22 +198,21 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                 int size = mList.size();
                 if (type == AppConstants.FILTER_VIDEO) {
                     Log.i("LOG", "onFailure: onSuccess");
-
                     //reset pagination
-                    mList.addAll(filter.getResult().getVideo().getData());
                     pagination = filter.getResult().getVideo();
+                    mList.addAll(filter.getResult().getVideo().getData());
                 } else if (type == AppConstants.FILTER_PAMPHLET) {
-                    mList.addAll(filter.getResult().getPamphlet().getData());
                     pagination = filter.getResult().getPamphlet();
+                    mList.addAll(filter.getResult().getPamphlet().getData());
                 } else if (type == AppConstants.FILTER_ARTICLE) {
-                    mList.addAll(filter.getResult().getArticle().getData());
                     pagination = filter.getResult().getArticle();
+                    mList.addAll(filter.getResult().getArticle().getData());
                 } else if (type == AppConstants.FILTER_SET) {
-                    mList.addAll(filter.getResult().getSet().getData());
                     pagination = filter.getResult().getSet();
+                    mList.addAll(filter.getResult().getSet().getData());
                 } else if (type == AppConstants.FILTER_PRODUCT) {
-                    mList.addAll(filter.getResult().getProduct().getData());
                     pagination = filter.getResult().getProduct();
+                    mList.addAll(filter.getResult().getProduct().getData());
                 }
 //                adapter.notifyItemMoved(size, mList.size() - 1);
                 adapter.notifyItemRangeInserted(size,mList.size() - size);
