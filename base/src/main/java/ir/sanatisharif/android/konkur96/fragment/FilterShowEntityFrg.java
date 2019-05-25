@@ -121,15 +121,13 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                 int diff = (view.getBottom() - i);
 
                 if (diff == 0 ) {
-                    Toast.makeText(getContext(),"دریافت ادامه اطلاعات ...",Toast.LENGTH_SHORT).show();
+
                     if (pagination != null) {
                         String nextPageUrl = pagination.getNextPageUrl();
 
                         if (nextPageUrl != null) {
                             Log.i("Alaa\\FilterShowFrg",nextPageUrl);
                             getData(nextPageUrl);
-                        }else {
-                            Toast.makeText(getContext(),"لیست کامل نشان داده شده است",Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -194,11 +192,13 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
     //<editor-fold desc="get Data from server">
     void getData(String nextUrl) {
+        Toast.makeText(getContext(),"دریافت از سرور ...",Toast.LENGTH_SHORT).show();
         repeatLoad = true;
         repository.getFilterTagsByUrl(nextUrl, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
 
+                Toast.makeText(getContext(),"دریافت شد.",Toast.LENGTH_SHORT).show();
                 Filter filter = (Filter) obj;
                 int size = mList.size();
                 if (type == AppConstants.FILTER_VIDEO) {

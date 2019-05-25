@@ -119,9 +119,8 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         getLastVersion();
         //-----------add FirstFragment
 
-        if(!handleIntent(getIntent()))
-            addFrg(AllaMainFrg.newInstance(), "MainFrg");
-
+        addFrg(AllaMainFrg.newInstance(), "MainFrg");
+        handleIntent(getIntent());
 
         if (MyPreferenceManager.getInatanse().getLastVersionCode() < Utils.getVersionCode()) {
 
