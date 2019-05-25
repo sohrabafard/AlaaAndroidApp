@@ -305,4 +305,7 @@
     <string name="totalPrice">مبلغ کل:</string>
     <string name="discount_price">سود شما از خرید:</string>
     <string name="payable_price">مبلغ قابل‌پرداخت:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

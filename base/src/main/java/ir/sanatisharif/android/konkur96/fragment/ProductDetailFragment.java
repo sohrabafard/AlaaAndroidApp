@@ -2,6 +2,7 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -68,6 +69,7 @@ import ir.sanatisharif.android.konkur96.dialog.ZarinPalDialogFragment;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
+import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.model.MainAttrType;
@@ -84,6 +86,7 @@ public class ProductDetailFragment extends BaseFragment {
 
 
     Toolbar pageToolbar;
+    private LogUserActionsOnPublicContentInterface mUserAction;
     private CardView cardAttrProduct, cardSampleProduct;
 
     private ImageView image;
@@ -144,6 +147,31 @@ public class ProductDetailFragment extends BaseFragment {
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mUserAction = (LogUserActionsOnPublicContentInterface) context;
+        } catch (ClassCastException ex) {
+            throw new ClassCastException(context.toString()
+                    + " must implement LogUserActionsOnPublicContentInterface");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mUserAction = null;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (mUserAction != null && model != null)
+            mUserAction.userStartedViewingAParticularPage(model);
+    }
 
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

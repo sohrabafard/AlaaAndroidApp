@@ -433,7 +433,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     @Override
     public void onResume() {
         super.onResume();
-        FirebaseAnalytics.getInstance(getContext()).setCurrentScreen(getActivity(), this.getClass().getSimpleName(), this.getClass().getSimpleName());
         if (Util.SDK_INT <= 23) {
             if (player == null) {
                 initExoPlayer();
