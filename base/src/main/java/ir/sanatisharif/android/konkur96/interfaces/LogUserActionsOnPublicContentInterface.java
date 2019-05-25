@@ -1,5 +1,7 @@
 package ir.sanatisharif.android.konkur96.interfaces;
 
+import android.util.Log;
+
 import com.google.firebase.appindexing.Action;
 import com.google.firebase.appindexing.FirebaseAppIndex;
 import com.google.firebase.appindexing.FirebaseUserActions;
@@ -30,14 +32,23 @@ public interface LogUserActionsOnPublicContentInterface {
     }
 
     default void indexRecipe(Data data) {
-        Indexable recipeToIndex = new Indexable.Builder()
-                .setName(data.getUserActionTitle())
-                .setUrl(data.getUserActionUrl())
-                .setImage(data.getUserActionPhoto())
-                .setDescription(data.getUserActionDescription())
-                .build();
+        String userActionTitle = ""+data.getUserActionTitle();
+        String userActionUrl = ""+data.getUserActionUrl();
+        String userActionPhoto = ""+data.getUserActionPhoto();
+        String userActionDescription = ""+data.getUserActionDescription();
 
-        FirebaseAppIndex.getInstance().update(recipeToIndex);
+        try {
+            Indexable recipeToIndex = new Indexable.Builder()
+                    .setName(userActionTitle)
+                    .setUrl(userActionUrl)
+                    .setImage(userActionPhoto)
+                    .setDescription(userActionDescription)
+                    .build();
+            FirebaseAppIndex.getInstance().update(recipeToIndex);
+        }catch (Exception  ex){
+            Log.e("Alaa\\LogUserAction",ex.getMessage());
+        }
+
     }
 
     default Action getRecipeViewAction(Data data) {

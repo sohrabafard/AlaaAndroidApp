@@ -1,9 +1,12 @@
 package ir.sanatisharif.android.konkur96.activity;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -26,14 +29,17 @@ import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationResponse;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ForceUpdateDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.UpdateInfoDialogFrg;
+import ir.sanatisharif.android.konkur96.fragment.AbouteMeFrg;
 import ir.sanatisharif.android.konkur96.fragment.AllaMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.DashboardMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
 import ir.sanatisharif.android.konkur96.fragment.ForumMainFrg;
+import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
 import ir.sanatisharif.android.konkur96.fragment.ShopMainFragment;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
 import ir.sanatisharif.android.konkur96.handler.MainRepository;
@@ -77,7 +83,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.add(R.id.fl_container, frg, tag);
-        // transaction.setCustomAnimations(R.anim.left_enter, R.anim.right_out);
 
         if (fragments.size() == 0) {
             fragments.push(frg);
@@ -114,11 +119,9 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         getLastVersion();
         //-----------add FirstFragment
 
-        addFrg(AllaMainFrg.newInstance(), "MainFrg");
-        //  addFrg(DetailsVideoFrg.newInstance("https://alaatv.com/c/9841"), "DetailsVideoFrg");
-        //-------- handle deep link
-        if (getIntent() != null)
-            handleIntent(getIntent());
+        if(!handleIntent(getIntent()))
+            addFrg(AllaMainFrg.newInstance(), "MainFrg");
+
 
         if (MyPreferenceManager.getInatanse().getLastVersionCode() < Utils.getVersionCode()) {
 
@@ -186,57 +189,109 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         bottomNavigation.setOnTabSelectedListener(this);
     }
 
-    private void handleIntent(Intent intent) {
+    private boolean handleIntent(Intent intent) {
 
+        if(intent == null ){
+            return false;
+        }
         String action = intent.getAction();  // android.intent.action.VIEW
         String data = intent.getDataString();// https://sanatisharif.ir/c/8087
 
         if (action == null)
-            return;
+            return false;
+
         if (action.equals("ir.sanatisharif.android.SETTING")) {
             startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
-        } else if (Intent.ACTION_VIEW.equals(action) && data != null) {
-            Uri appLinkData = intent.getData();
-            //  Log.i(TAG, "handleIntent1: " + appLinkData);
-            // Log.i(TAG, "handleIntent: " + appLinkData.getPath());
-            assert appLinkData != null;
-            String path = appLinkData.getPath();
+            return true;
+        }
+        if (!Intent.ACTION_VIEW.equals(action) || data == null) {
+            return false;
+        }
+        Uri appLinkData = intent.getData();
+        if(appLinkData == null){
+            return false;
+        }
+        String path = appLinkData.getPath();
 
-            if (path.startsWith("/c/") && path.length() > 3) {
-
-                addFrg(DetailsVideoFrg.newInstance(data), "DetailsVideoFrg");
-
-            } else if (path.equals("/c") || (path.startsWith("/c") && data.contains("tags"))) {
-                addFrg(FilterTagsFrg.newInstance(data, null), "FilterTagsFrg");
-            } else if (path.startsWith("/product")) {
-
+        if (path.startsWith("/c/") && path.length() > 3) {
+            addFrg(DetailsVideoFrg.newInstance(data), "DetailsVideoFrg");
+            return true;
+        }
+        if (path.equals("/c") || (path.startsWith("/c") && data.contains("tags"))) {
+            addFrg(FilterTagsFrg.newInstance(data, null), "FilterTagsFrg");
+            return true;
+        }
+        if (path.startsWith("/product")) {
+            if (path.length() <= 9) {
                 addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
-
-
-            } else if (path.startsWith("/login")) {
-                if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
-                    addFrg(DashboardMainFrg.newInstance(), "DashboardMainFrg");
-                }
-            } else if (path.startsWith("/zarinpal")) {
-
-                if (data.contains("Status")) {
-
-                    String mStatus = appLinkData.getQueryParameter("Status");
-                    String amount = appLinkData.getQueryParameter("a");
-                    String authority = appLinkData.getQueryParameter("Authority");
-
-                    handlerZarinPalCallBack(amount, authority);
-                }
-
-            } else if (path.startsWith("/shop")) {
-
-                addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
-
-            } else if (path.equals("/")) {
-                addFrg(AllaMainFrg.newInstance(), "MainFrg");
+                return true;
             }
 
+            final Activity activity = this;
+            lunchProductFragmentByUrl(path, activity);
+            return true;
         }
+        if (path.startsWith("/login") && accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+            addFrg(DashboardMainFrg.newInstance(), "DashboardMainFrg");
+            return true;
+        }
+        if (path.startsWith("/zarinpal") && data.contains("Status")) {
+            String mStatus = appLinkData.getQueryParameter("Status");
+            String amount = appLinkData.getQueryParameter("a");
+            String authority = appLinkData.getQueryParameter("Authority");
+
+            handlerZarinPalCallBack(amount, authority);
+            return true;
+
+        }
+        if (path.startsWith("/shop")) {
+            addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
+            return true;
+        }
+        if (path.equals("/contactUs")) {
+            addFrg(AbouteMeFrg.newInstance(), "AbouteMeFrg");
+            return true;
+        }
+        if (path.equals("/asset")){
+            addFrg(DashboardMainFrg.newInstance(),"DashboardMainFrg");
+            return true;
+        }
+        if (path.equals("/")) {
+            addFrg(AllaMainFrg.newInstance(), "MainFrg");
+            return true;
+        }
+        return false;
+
+    }
+
+    private void lunchProductFragmentByUrl(String path, Activity activity) {
+        ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage(this.getString(R.string.loading));
+        mProgressDialog.show();
+
+        AuthToken.getInstant().get(this, this, token -> {
+            repository.getProductByUrl(path, token, data1 -> {
+                final Handler handler = new Handler();
+                handler.postDelayed(() -> {
+                    if (mProgressDialog != null)
+                        mProgressDialog.dismiss();
+                }, 5000);
+                if (data1 instanceof Result.Success) {
+                    try {
+                        ProductModel productModel = ((ProductModel) ((Result.Success) data1).value);
+                        activity.runOnUiThread(() -> {
+                            addFrg(ProductDetailFragment.newInstance(productModel), "ProductDetailFragment");
+                        });
+                    } catch (Exception ex) {
+                        Log.e(TAG, "lunchProductFragmentByUrl: parse-intent-if:" + path + "\n\r" + ex.getMessage());
+                    }
+
+                } else {
+                    Log.e(TAG, "lunchProductFragmentByUrl: parse-intent-else:" + path + "\n\r" + (String) ((Result.Error) data1).value);
+                }
+            });
+        });
     }
 
     private void sendRegistrationToServer() {
@@ -320,7 +375,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     private void manageStack() {
 
 
-
         boolean showHomeFrg = true;
 
         for (int i = 1; i < fragments.size(); i++) {
@@ -329,9 +383,9 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 Fragment f = fragments.pop();
                 transaction.remove(f).commit();
                 showHomeFrg = false;
-            }catch (Exception e){
+            } catch (Exception e) {
                 Log.e(TAG, "manageStack: error");
-                Log.e(TAG,e.getMessage());
+                Log.e(TAG, e.getMessage());
             }
 
         }

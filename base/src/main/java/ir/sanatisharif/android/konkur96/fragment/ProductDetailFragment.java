@@ -139,14 +139,6 @@ public class ProductDetailFragment extends BaseFragment {
 
     }
 
-    public static ProductDetailFragment newInstance() {
-
-        Bundle args = new Bundle();
-        ProductDetailFragment fragment = new ProductDetailFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

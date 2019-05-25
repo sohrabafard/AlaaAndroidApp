@@ -30,9 +30,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="HardcodedDebugMode"
         tools:targetApi="n">
-        <service
-            android:name=".service.AppIndexingService"
-            android:exported="false"></service>
 
         <meta-data
             android:name="asset_statements"
@@ -76,23 +73,14 @@
                     android:pathPrefix="/splash"
                     android:scheme="https" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="alaatv.com"
-                    android:path="/"
-                    android:scheme="https" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait">
-            <intent-filter android:order="1">
+            <intent-filter
+                android:autoVerify="true"
+                android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -103,7 +91,7 @@
                     android:path="/c"
                     android:scheme="https" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -111,10 +99,10 @@
 
                 <data
                     android:host="alaatv.com"
-                    android:pathPrefix="/product/"
-                    android:scheme="https" />
+                    android:scheme="https"
+                    android:pathPrefix="/product/" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -125,7 +113,7 @@
                     android:pathPrefix="/login"
                     android:scheme="https" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -136,7 +124,7 @@
                     android:path="/shop"
                     android:scheme="https" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -147,7 +135,7 @@
                     android:pathPrefix="/zarinpal"
                     android:scheme="alla" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -157,6 +145,41 @@
                     android:host="alaatv.com"
                     android:pathPrefix="/c/"
                     android:scheme="https" />
+            </intent-filter>
+            <intent-filter
+                android:autoVerify="true"
+                android:order="2">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:pathPrefix="/"
+                    android:host="alaatv.com"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="alaatv.com"
+                    android:path="/contactUs" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="alaatv.com"
+                    android:path="/asset" />
             </intent-filter>
         </activity>
         <activity

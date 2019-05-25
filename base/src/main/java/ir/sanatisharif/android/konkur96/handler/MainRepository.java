@@ -88,8 +88,7 @@ public class MainRepository implements MainRepositoryInterface {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "accept-throwable: " + throwable.getClass());
-                        Log.e(TAG, throwable.getMessage());
+                        Log.i(TAG, "accept-throwable: " + throwable.getClass());
 
                         if (throwable instanceof com.jakewharton.retrofit2.adapter.rxjava2.HttpException) {
                             if (((HttpException) throwable).code() == 403) {
@@ -97,6 +96,12 @@ public class MainRepository implements MainRepositoryInterface {
                                 iServerCallbackObject.onSuccessCredit((ContentCredit) ((HttpException) throwable).response().body());
                             }
                         } else {
+                            try {
+                                throw throwable;
+                            } catch (Throwable throwable1) {
+                                throwable1.printStackTrace();
+                            }
+                            Log.e(TAG, throwable.getMessage());
                             Log.e(TAG, "Info:\n" + "url: " + url + "\n\r" + "token:\n\r" + token);
                             iServerCallbackObject.onFailure(throwable.getMessage());
                         }

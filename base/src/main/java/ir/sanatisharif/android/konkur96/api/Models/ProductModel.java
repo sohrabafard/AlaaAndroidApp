@@ -316,6 +316,6 @@ public class ProductModel implements Parcelable , LogUserActionsOnPublicContentI
 
     @Override
     public String getUserActionDescription() {
-        return getShortDescription();
+        return getShortDescription() + "\n\r"+getLongDescription();
     }
 }

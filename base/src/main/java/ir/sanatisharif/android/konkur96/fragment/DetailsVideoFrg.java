@@ -180,7 +180,8 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         @Override
         public void onAnimationEnd(Animator animator) {
-            controlView.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+            controlView.findViewById(R.id.progressBar);
+            controlView.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -247,12 +248,14 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
                     break;
                 case Player.STATE_READY:      // The player is able to immediately play
-                    progressBarExoplaying.setVisibility(View.GONE);
+                    if(progressBarExoplaying != null)
+                        progressBarExoplaying.setVisibility(View.GONE);
                     controlView.findViewById(R.id.exo_play).animate().alpha(1).setDuration(400).setListener(animatorShow);
                     controlView.findViewById(R.id.exo_pause).animate().alpha(1).setDuration(400).setListener(animatorShow);
                     break;
                 case Player.STATE_ENDED:      // The player has finished playing the media
-                    progressBarExoplaying.setVisibility(View.GONE);
+                    if(progressBarExoplaying != null)
+                        progressBarExoplaying.setVisibility(View.GONE);
 
                     break;
             }
@@ -630,7 +633,8 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     private void getDataByUrl(String url) {
 
-        loaderPlayList.setVisibility(View.VISIBLE);
+        if(loaderPlayList != null )
+            loaderPlayList.setVisibility(View.VISIBLE);
         repository.getFilterTagsByUrl(url, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
@@ -641,20 +645,23 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     pagination = filter.getResult().getVideo();
                     playListAdapter.notifyItemMoved(playListAdapter.getItemCount(), videoCourses.size() - 1);
                 }
-                loaderPlayList.setVisibility(View.GONE);
+                if(loaderPlayList != null )
+                    loaderPlayList.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(String message) {
                 Log.i(TAG, "onSuccess:error " + message);
-                loaderPlayList.setVisibility(View.GONE);
+                if(loaderPlayList != null )
+                    loaderPlayList.setVisibility(View.GONE);
             }
         });
     }
 
     private void getPlayListFromContentByUrl(String url) {
 
-        loaderPlayList.setVisibility(View.VISIBLE);
+        if(loaderPlayList != null )
+            loaderPlayList.setVisibility(View.VISIBLE);
         repository.getFilterTagsByUrl(url, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
@@ -674,13 +681,15 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     } else {
                         playListAdapter.notifyDataSetChanged();
                     }
-                    loaderPlayList.setVisibility(View.GONE);
+                    if(loaderPlayList != null )
+                        loaderPlayList.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(String message) {
-                loaderPlayList.setVisibility(View.GONE);
+                if(loaderPlayList != null )
+                    loaderPlayList.setVisibility(View.GONE);
                 Log.i(TAG, "onSuccess:error " + message);
             }
         });
@@ -958,10 +967,14 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
                 // player.setPlayWhenReady(false);
                 // releasePlayer();
-                loader.setVisibility(View.VISIBLE);
+                if(loader != null)
+                    loader.setVisibility(View.VISIBLE);
+
                 positionPlaying = position;
                 course = (DataCourse) item;
-                loader.setVisibility(View.GONE);
+
+                if(loader != null)
+                    loader.setVisibility(View.GONE);
                 playListAdapter.setItemSelect(positionPlaying);
                 setData();
 
