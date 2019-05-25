@@ -73,8 +73,7 @@ dependencies {
     api 'com.google.firebase:firebase-core:16.0.9'
     api 'com.google.firebase:firebase-messaging:18.0.0'
     api 'com.google.firebase:firebase-perf:17.0.0'
-    api 'com.google.firebase:firebase-config:17.0.0'
-    api 'com.google.firebase:firebase-appindexing:+'
+    api 'com.google.firebase:firebase-appindexing:18.0.0'
     api 'com.google.android.exoplayer:exoplayer:2.8.3'
 
     api('com.crashlytics.sdk.android:crashlytics:2.10.0@aar') {

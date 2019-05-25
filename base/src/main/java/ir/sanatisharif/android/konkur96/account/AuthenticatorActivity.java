@@ -21,7 +21,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.gson.Gson;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -73,7 +72,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
     private MainRepository repository;
 
     FirebaseAnalytics mFirebaseAnalytics;
-    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -88,7 +86,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         mAccountManager = AccountManager.get(getBaseContext());
         AppConfig.currentActivity = this;
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         repository = new MainRepository(this);
         initUI();
         setDialog();
