@@ -1,12 +1,9 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,10 +41,8 @@ import ir.sanatisharif.android.konkur96.model.filter.VideoRoot;
 
 public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
-    private LinearLayoutManager manager;
     private RecyclerView myRecyclerView;
     private NestedScrollView nestedScrollView;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private FilterAdapter adapter;
     private List<FilterBaseModel> mList = new ArrayList<>();
     private Pagination pagination;
@@ -100,16 +95,20 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
     private void initView(View v) {
 
-        manager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
-        swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
+        LinearLayoutManager manager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
         myRecyclerView = v.findViewById(R.id.recyclerView);
         nestedScrollView = v.findViewById(R.id.nestedScrollView);
+
         myRecyclerView.setNestedScrollingEnabled(false);
         myRecyclerView.setHasFixedSize(false);
         myRecyclerView.setLayoutManager(manager);
-        adapter = new FilterAdapter(AppConfig.context, mList);
+        adapter = new FilterAdapter(getContext(), mList);
+
         myRecyclerView.setAdapter(adapter);
+        myRecyclerView.setItemViewCacheSize(30);
+        myRecyclerView.setDrawingCacheEnabled(true);
+        myRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+
         adapter.notifyDataSetChanged();
 
         nestedScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
@@ -117,11 +116,15 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
             public void onScrollChanged() {
 
                 View view = nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
-                int diff = (view.getBottom() - (nestedScrollView.getHeight() + nestedScrollView.getScrollY()));
-                if (diff == 0) {
+                int i = nestedScrollView.getHeight() + nestedScrollView.getScrollY();
+                int diff = (view.getBottom() - i);
+                if (diff <= 1200 ) {
                     if (pagination != null) {
-                        if (pagination.getNextPageUrl() != null) {
-                            getData(pagination.getNextPageUrl());
+                        String nextPageUrl = pagination.getNextPageUrl();
+
+                        if (nextPageUrl != null) {
+                            Log.i("Alaa\\FilterShowFrg",nextPageUrl);
+                            getData(nextPageUrl);
                         }
                     }
                 }
@@ -180,20 +183,13 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
         type = AppConstants.FILTER_PRODUCT;
         mList.clear();
         mList.addAll(product.getData());
+
     }
     //</editor-fold>
 
     //<editor-fold desc="get Data from server">
     void getData(String nextUrl) {
-        Log.i("LOG", "onFailure: start");
         repeatLoad = true;
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-            }
-        });
-
         repository.getFilterTagsByUrl(nextUrl, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
@@ -201,7 +197,6 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                 Filter filter = (Filter) obj;
                 int size = mList.size();
                 if (type == AppConstants.FILTER_VIDEO) {
-                    swipeRefreshLayout.setRefreshing(false);
                     Log.i("LOG", "onFailure: onSuccess");
 
                     //reset pagination
@@ -220,17 +215,14 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                     mList.addAll(filter.getResult().getProduct().getData());
                     pagination = filter.getResult().getProduct();
                 }
-
-                adapter.notifyItemMoved(size, mList.size() - 1);
-                swipeRefreshLayout.setRefreshing(false);
+//                adapter.notifyItemMoved(size, mList.size() - 1);
+                adapter.notifyItemRangeInserted(size,mList.size() - size);
             }
 
             @Override
             public void onFailure(String message) {
                 // failLoadDialog();
                 Log.i("LOG", "onFailure: faailllll " + message);
-                swipeRefreshLayout.setRefreshing(false);
-
             }
         });
     }
@@ -239,28 +231,6 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
     public void setScrollOnRecycler(ScrollOnRecycler scrollOnRecycler) {
         this.scrollOnRecycler = scrollOnRecycler;
-    }
-
-    private void failLoadDialog() {
-        new AlertDialog.Builder(getContext())
-                .setTitle("")
-                .setMessage("توی دریافت اطلاعات مشکلی پیش اومده")
-                .setPositiveButton("دوباره تلاش کن", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //reload
-                        if (pagination.getNextPageUrl() != null && repeatLoad) {
-                            getData(pagination.getNextPageUrl());
-                        }
-                    }
-                })
-                .setNegativeButton("نمی خوام", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        repeatLoad = false;
-                    }
-                }).create().show();
     }
 
     void show() {

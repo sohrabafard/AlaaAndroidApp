@@ -85,11 +85,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
 
 
         if (pos > -1 && position == pos) {
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                holder.linearBottom.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
-            } else {
-                holder.linearBottom.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
-            }
+            holder.linearBottom.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
         } else {
             holder.root.setBackgroundColor(mContext.getResources().getColor(R.color.White));
         }

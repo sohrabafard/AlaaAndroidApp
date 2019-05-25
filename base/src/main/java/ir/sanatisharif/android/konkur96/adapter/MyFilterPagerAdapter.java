@@ -22,12 +22,10 @@ public class MyFilterPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final String TAG = "MyFilterPagerAdapter";
     private List<FilterShowEntityFrg> mFrgArrayList;
-    private FragmentManager mFragmentManager;
     private Context context;
 
     public MyFilterPagerAdapter(Context context, FragmentManager fm, List<FilterShowEntityFrg> mFrgArrayList) {
         super(fm);
-        this.mFragmentManager = fm;
         this.mFrgArrayList = mFrgArrayList;
         this.context = context;
     }

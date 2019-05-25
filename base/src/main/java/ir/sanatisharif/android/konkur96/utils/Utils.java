@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
@@ -24,9 +23,8 @@ import android.webkit.URLUtil;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -240,21 +238,13 @@ public class Utils {
 
     public static void loadGlide(ImageView img, String url, int width, int height) {
 
-        RequestOptions options =
-                new RequestOptions()
-                        .override(width, height)
-                        .fitCenter();
+        RequestOptions options =new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         Glide.with(AppConfig.context)
                 .load(url)
                 .apply(options)
-                //.transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
                 .thumbnail(0.1f)
-                .into(new SimpleTarget<Drawable>(460, 259) {
-                    @Override
-                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                        img.setImageDrawable(resource);
-                    }
-                });
+                .into(img);
     }
 
     public static boolean isConnected() {

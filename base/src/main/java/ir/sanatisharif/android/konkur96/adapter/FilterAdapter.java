@@ -17,10 +17,12 @@ import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.List;
 
@@ -45,10 +47,9 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    RequestOptions requestOptions;
+    private RequestOptions requestOptions;
     private List<? extends FilterBaseModel> mList;
     private Context mContext;
-    private OnItemClickListener mClickListener;
     private int width, height;
 
     public FilterAdapter(Context context, List<? extends FilterBaseModel> list) {
@@ -63,12 +64,9 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         width = AppConfig.width;
         height = (int) (AppConfig.width * 0.56);
         requestOptions = new RequestOptions()
-                .override(width, height)
-                .dontTransform()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
 
     }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -108,19 +106,20 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .load(item.getThumbnail())
                     .apply(requestOptions)
                     .thumbnail(0.1f)
-                    .into(new SimpleTarget<Drawable>(460, 259) {
+                    .listener(new RequestListener<Drawable>() {
                         @Override
-                        public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                            itemHolder.imgItem.setImageDrawable(resource);
-                            itemHolder.loader.setVisibility(View.GONE);
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return false;
                         }
 
                         @Override
-                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                            super.onLoadFailed(errorDrawable);
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            itemHolder.imgItem.setImageDrawable(resource);
                             itemHolder.loader.setVisibility(View.GONE);
+                            return false;
                         }
-                    });
+                    })
+                    .into(itemHolder.imgItem);
 
             itemHolder.layout_click.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -160,19 +159,20 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .load(item.getPhoto())
                     .apply(requestOptions)
                     .thumbnail(0.1f)
-                    .into(new SimpleTarget<Drawable>(460, 259) {
+                    .listener(new RequestListener<Drawable>() {
                         @Override
-                        public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                            itemHolder.imgItem.setImageDrawable(resource);
-                            itemHolder.loader.setVisibility(View.GONE);
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return false;
                         }
 
                         @Override
-                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                            super.onLoadFailed(errorDrawable);
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            itemHolder.imgItem.setImageDrawable(resource);
                             itemHolder.loader.setVisibility(View.GONE);
+                            return false;
                         }
-                    });
+                    })
+                    .into(itemHolder.imgItem);
 
             itemHolder.layout_click.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -203,19 +203,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .load(item.getPhoto())
                     .apply(requestOptions)
                     .thumbnail(0.1f)
-                    .into(new SimpleTarget<Drawable>(460, 259) {
-                        @Override
-                        public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                            itemHolder.imageView.setImageDrawable(resource);
-
-                        }
-
-                        @Override
-                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                            super.onLoadFailed(errorDrawable);
-
-                        }
-                    });
+                    .into(itemHolder.imageView);
 
             itemHolder.txtn.setText(item.getName());
             itemHolder.txtPrice.setText(ShopUtils.formatPrice(item.getPrice().getMfinal()) + " تومان ");
@@ -262,7 +250,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     //<editor-fold desc="Class holder">
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
+        OnItemClickListener mClickListener = itemClickListener;
     }
 
     public class BaseHolder extends RecyclerView.ViewHolder {
