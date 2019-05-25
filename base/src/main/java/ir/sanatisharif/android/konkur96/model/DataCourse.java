@@ -2,13 +2,12 @@ package ir.sanatisharif.android.konkur96.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
-import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
 import ir.sanatisharif.android.konkur96.model.main_page.ApiUrl;
 import ir.sanatisharif.android.konkur96.model.main_page.Author;
 import ir.sanatisharif.android.konkur96.model.main_page.File;
@@ -18,7 +17,7 @@ import ir.sanatisharif.android.konkur96.model.main_page.PreviousApiUrl;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 import ir.sanatisharif.android.konkur96.model.main_page.Tags;
 
-public class DataCourse implements Parcelable {
+public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInterface.Data {
 
     public final static Creator<DataCourse> CREATOR = new Creator<DataCourse>() {
 
@@ -431,5 +430,28 @@ public class DataCourse implements Parcelable {
 
     public int describeContents() {
         return 0;
+    }
+
+    @Override
+    public String getUserActionTitle() {
+        return getName();
+    }
+
+    @Override
+    public String getUserActionUrl() {
+        Log.i("Alaa\\DataCourse","getUserActionUrl : url"+getUrl());
+        return getUrl();
+    }
+
+    @Override
+    public String getUserActionPhoto() {
+        Log.i("Alaa\\DataCourse","getUserActionPhoto ");
+        return getThumbnail();
+    }
+
+    @Override
+    public String getUserActionDescription() {
+        Log.i("Alaa\\DataCourse","getUserActionDescription ");
+        return getDescription();
     }
 }

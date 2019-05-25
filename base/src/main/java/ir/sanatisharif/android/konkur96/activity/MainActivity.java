@@ -40,6 +40,7 @@ import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
+import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
@@ -54,7 +55,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 //https://blog.iamsuleiman.com/bottom-navigation-bar-android-tutorial/
-public class MainActivity extends ActivityBase implements AHBottomNavigation.OnTabSelectedListener, ICheckNetwork {
+public class MainActivity extends ActivityBase implements AHBottomNavigation.OnTabSelectedListener, ICheckNetwork, LogUserActionsOnPublicContentInterface {
 
     private static final String TAG = "MainActivity";
     private static Stack<Fragment> fragments;

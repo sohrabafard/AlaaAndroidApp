@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.arch.lifecycle.Lifecycle;
@@ -75,7 +74,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
@@ -89,6 +87,7 @@ import ir.sanatisharif.android.konkur96.dialog.DeleteFileDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.DownloadDialogFrg;
 import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
+import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
@@ -127,7 +126,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     public static Pagination pagination;
     private static int kind_of_Load = -1;
     private static List<VideoCourse> videoCourses;
-    private static Content content;
+    private static Content mContent;
     private static int positionPlaying;
     private final String STATE_RESUME_WINDOW = "resumeWindow";
     private final String STATE_RESUME_POSITION = "resumePosition";
@@ -138,6 +137,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             return LinearSmoothScroller.SNAP_TO_START;
         }
     };
+    private LogUserActionsOnPublicContentInterface mUserAction;
     private SharedPreferences sharedPreferences;
     private String quality = "";
     private Bundle savedInsPlayer;
@@ -171,9 +171,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private EndlessRecyclerViewScrollListener endLess;
     //player
     private PlaybackControlView controlView;
-
-    private MainRepository repository;
-
     //<editor-fold desc="animate">
     Animator.AnimatorListener animatorHide = new Animator.AnimatorListener() {
         @Override
@@ -217,6 +214,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         }
     };
+    private MainRepository repository;
     private SimpleExoPlayer player;
     Player.EventListener eventListener = new Player.EventListener() {
         @Override
@@ -241,7 +239,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 case Player.STATE_IDLE:       // The player does not have any media to play yet.
                     controlView.findViewById(R.id.progressBar);
                     break;
-                case Player.STATE_BUFFERING:  // The player is buffering (loading the content)
+                case Player.STATE_BUFFERING:  // The player is buffering (loading the mContent)
 
                     controlView.findViewById(R.id.exo_play).animate().alpha(0F).setDuration(400).setListener(animatorHide);
                     controlView.findViewById(R.id.exo_pause).animate().alpha(0F).setDuration(400).setListener(animatorHide);
@@ -362,13 +360,13 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         return fragment;
     }
 
-    // from content
+    // from mContent
     public static DetailsVideoFrg newInstance(Content c) {
 
         Bundle args = new Bundle();
         DetailsVideoFrg fragment = new DetailsVideoFrg();
         fragment.setArguments(args);
-        content = c;
+        mContent = c;
         kind_of_Load = LOAD_CONTENT;
         return fragment;
     }
@@ -385,6 +383,24 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mUserAction = (LogUserActionsOnPublicContentInterface) context;
+        } catch (ClassCastException ex) {
+            throw new ClassCastException(context.toString()
+                    + " must implement LogUserActionsOnPublicContentInterface");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mUserAction = null;
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -393,6 +409,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     @Override
     public void onStart() {
         super.onStart();
+
+        if(mUserAction != null && mContent != null)
+            mUserAction.userStartedViewingAParticularPage(mContent);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.intent.action.PHONE_STATE");
@@ -408,6 +427,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 player.setPlayWhenReady(false);
             }
         }
+
     }
 
     @Override
@@ -426,12 +446,17 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onStop() {
+        if(mUserAction != null && mContent != null)
+            mUserAction.userHasFinishedViewingPage(mContent);
+
         super.onStop();
         getActivity().unregisterReceiver(phoneStateReceiver);
         if (Util.SDK_INT > 23) {
             player.setPlayWhenReady(false);
             Log.i(TAG, "onStart:onStop ");
         }
+
+
     }
 
     @Override
@@ -468,9 +493,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         initView(view, savedInstanceState);
 
         if (kind_of_Load == LOAD_CONTENT) {
-            course = content;
+            course = mContent;
             setData();
-            getPlayListFromContentByUrl(content.getSet().getContentUrl());
+            getPlayListFromContentByUrl(mContent.getSet().getContentUrl());
 
         } else if (kind_of_Load == LOAD_URL) { //get data from api and url
             String url = getArguments().getString("url");

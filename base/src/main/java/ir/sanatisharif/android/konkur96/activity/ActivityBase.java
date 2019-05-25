@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.webkit.WebView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -22,7 +23,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 public class ActivityBase extends AppCompatActivity {
 
     FirebaseAnalytics mFirebaseAnalytics;
-
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
     public static void toastShow(final String message, int MDToastType) {
 
         int toastDurationInMilliSeconds = 900;
@@ -66,6 +67,7 @@ public class ActivityBase extends AppCompatActivity {
         AccountInfo accountInfo = new AccountInfo(this, this);
         User user = accountInfo.getInfo(ACCOUNT_TYPE);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         if (user != null)
             mFirebaseAnalytics.setUserId("" + user.getId());
     }
