@@ -222,6 +222,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                 }
 
                 adapter.notifyItemMoved(size, mList.size() - 1);
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
