@@ -69,7 +69,6 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.gms.common.wrappers.InstantApps;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -923,7 +922,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         imgShare = view.findViewById(R.id.imgShare);
         mediaVideoFrame = view.findViewById(R.id.mediaVideoFrame);
         txtDesc = view.findViewById(R.id.txtDesc);
-        txtTitle = view.findViewById(R.id.txtTitle);
+        txtTitle = view.findViewById(R.id.txt_title);
         txtAuthor = view.findViewById(R.id.txtAuthor);
         tagGroup = view.findViewById(R.id.tag_group);
         loader = view.findViewById(R.id.loader);

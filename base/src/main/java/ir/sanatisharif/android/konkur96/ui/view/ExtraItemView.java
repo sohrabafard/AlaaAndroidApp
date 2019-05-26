@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -12,9 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -134,7 +130,7 @@ public class ExtraItemView extends LinearLayout {
 
         cardViewRoot = findViewById(R.id.cardViewRoot);
         layout_click = findViewById(R.id.layout_click);
-        txtTitle = findViewById(R.id.txtTitle);
+        txtTitle = findViewById(R.id.txt_title);
         txtView = findViewById(R.id.txtView);
         txtAuthor = findViewById(R.id.txtAuthor);
         imgItem = findViewById(R.id.imgItem);

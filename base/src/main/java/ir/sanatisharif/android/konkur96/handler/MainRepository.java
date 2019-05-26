@@ -13,8 +13,10 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import ir.sanatisharif.android.konkur96.api.ApiModule;
 import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.app.DaggerAppComponent;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
@@ -33,6 +35,9 @@ public class MainRepository implements MainRepositoryInterface {
 
     public MainRepository(Activity activity) {
         ((AppConfig) activity.getApplication()).getAppComponent().inject(this);
+    }
+    public MainRepository() {
+        DaggerAppComponent.builder().apiModule(new ApiModule()).build().inject(this);
     }
 
     @SuppressLint("CheckResult")
@@ -188,7 +193,7 @@ public class MainRepository implements MainRepositoryInterface {
     @SuppressLint("CheckResult")
     @Override
     public void sendRegistrationToServer(int user_id, String firebaseToken, String token, IServerCallbackObject iServerCallbackObject) {
-        mainApi.getFirebaseToken(user_id, firebaseToken, ("Bearer " + token))
+        mainApi.sendFirebaseToken(user_id, firebaseToken, ("Bearer " + token))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Object>() {

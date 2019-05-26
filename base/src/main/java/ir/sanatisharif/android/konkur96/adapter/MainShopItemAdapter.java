@@ -206,7 +206,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(view);
 
             root = view.findViewById(R.id.root);
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
             txtMore = view.findViewById(R.id.txtMore);
             recyclerView = view.findViewById(R.id.recyclerView);
 
@@ -246,7 +246,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(view);
 
             recyclerView = view.findViewById(R.id.recyclerView);
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
 
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);
             recyclerView.getLayoutParams().height = AppConfig.itemHeight;

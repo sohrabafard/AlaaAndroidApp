@@ -262,7 +262,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             super(view);
 
             layout_click = view.findViewById(R.id.layout_click);
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
             txtAuthor = view.findViewById(R.id.txtAuthor);
             txtSession = view.findViewById(R.id.txtSession);
 

@@ -73,7 +73,7 @@ public interface MainApi {
 
     @Headers({"Content-Type: application/json", "Accept: application/json", "X-Requested-With: XMLHttpRequest"})
     @POST("/api/v1/user/{user_id}/firebasetoken")
-    Observable<Object> getFirebaseToken(
+    Observable<Object> sendFirebaseToken(
             @Path("user_id") int user_id,
             @Query("token") String firebaseToken,
             @Header("Authorization") String token);

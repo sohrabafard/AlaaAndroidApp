@@ -82,7 +82,7 @@ public class IncredibleOfferItemAdapter extends RecyclerView.Adapter<IncredibleO
 
         public ContentHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.txtTitle);
+            title = itemView.findViewById(R.id.txt_title);
             price = itemView.findViewById(R.id.txtPrice);
             discount = itemView.findViewById(R.id.txtDiscount);
             image = itemView.findViewById(R.id.imgItem);

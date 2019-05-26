@@ -145,7 +145,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
             root = view.findViewById(R.id.root);
             linearBottom = view.findViewById(R.id.linearBottom);
             imgPlayList = view.findViewById(R.id.imgPlayList);
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
             txtSession = view.findViewById(R.id.txtSession);
             loader = view.findViewById(R.id.loader);
             loader.getIndeterminateDrawable().setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);

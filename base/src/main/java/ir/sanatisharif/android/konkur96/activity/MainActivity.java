@@ -303,9 +303,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             mainRepository.sendRegistrationToServer(user.getId(), firebaseToken, token, new IServerCallbackObject() {
                 @Override
                 public void onSuccess(Object obj) {
-
-                    MyPreferenceManager.getInatanse().setApiToken("");
-                    MyPreferenceManager.getInatanse().setAuthorize(false);
                     MyPreferenceManager.getInatanse().setSendTokenToServer(true);
                 }
 

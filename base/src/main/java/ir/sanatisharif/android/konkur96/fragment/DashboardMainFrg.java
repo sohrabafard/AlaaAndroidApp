@@ -201,10 +201,10 @@ public class DashboardMainFrg extends BaseFragment {
         fabItemVideo = itemVideo.findViewById(R.id.fabTitle);
         fabItemNewOrder = itemNewOrder.findViewById(R.id.fabTitle);
 
-        ((TextView) itemBasket.findViewById(R.id.txtTitle)).setText("سبدخرید");
-        ((TextView) itemAboutMe.findViewById(R.id.txtTitle)).setText("درباره آلاء");
-        ((TextView) itemVideo.findViewById(R.id.txtTitle)).setText("فیلم\u200Cهای دانلود شده");
-        ((TextView) itemNewOrder.findViewById(R.id.txtTitle)).setText("سفارش\u200Cهای من");
+        ((TextView) itemBasket.findViewById(R.id.txt_title)).setText("سبدخرید");
+        ((TextView) itemAboutMe.findViewById(R.id.txt_title)).setText("درباره آلاء");
+        ((TextView) itemVideo.findViewById(R.id.txt_title)).setText("فیلم\u200Cهای دانلود شده");
+        ((TextView) itemNewOrder.findViewById(R.id.txt_title)).setText("سفارش\u200Cهای من");
 
         fabItemBasket.setImageResource(R.drawable.ic_buy);//
         fabItemAboutMe.setImageResource(R.drawable.ic_call);

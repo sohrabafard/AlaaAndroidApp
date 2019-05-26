@@ -149,7 +149,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
 
         setToolbar(toolbar, "نمایش محتوا");
         txtAuthor = view.findViewById(R.id.txtAuthor);
-        txtTitle = view.findViewById(R.id.txtTitle);
+        txtTitle = view.findViewById(R.id.txt_title);
         webView = view.findViewById(R.id.webView);
 
         btnDownload = view.findViewById(R.id.btnDownload);

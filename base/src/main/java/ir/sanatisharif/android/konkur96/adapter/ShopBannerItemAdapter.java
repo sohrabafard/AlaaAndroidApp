@@ -93,7 +93,7 @@ public class ShopBannerItemAdapter extends RecyclerView.Adapter<ShopBannerItemAd
             super(view);
 
             layout_click = view.findViewById(R.id.layout_click);
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
             imgItem = view.findViewById(R.id.imgItem);
 
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);

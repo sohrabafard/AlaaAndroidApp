@@ -8,25 +8,19 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 
-import ir.sanatisharif.android.konkur96.model.Item;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
 
@@ -158,7 +152,7 @@ public class CustomItemView extends LinearLayout {
 
         cardViewRoot = findViewById(R.id.cardViewRoot);
         layout_click = findViewById(R.id.layout_click);
-        txtTitle = findViewById(R.id.txtTitle);
+        txtTitle = findViewById(R.id.txt_title);
         imgItem = findViewById(R.id.imgItem);
 
         if (layout == R.layout.category_item) {

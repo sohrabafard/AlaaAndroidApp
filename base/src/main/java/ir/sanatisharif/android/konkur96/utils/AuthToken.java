@@ -30,6 +30,12 @@ public class AuthToken {
         accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, callback::run);
     }
 
+    public void get(@NotNull Context context, @NotNull Callback callback){
+
+        AccountInfo accountInfo = new AccountInfo(context);
+
+    }
+
     public interface Callback {
         /**
          * Callback for when an item has been selected.

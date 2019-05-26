@@ -88,7 +88,7 @@ public class SplashActivity extends ActivityBase {
         }
 
 
-        // Log.i(TAG, "onCreate: " + MyPreferenceManager.getInatanse().getFirebaseToken());
+        // Log.i(TAG, "onCreate: " + MyPreferenceManager.getInatanse().sendFirebaseToken());
 
         if (MyPreferenceManager.getInatanse().getFirebaseToken().length() == 0) {
 

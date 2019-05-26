@@ -287,7 +287,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private HeaderHolder(View view) {
             super(view);
 
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
             txtMore = view.findViewById(R.id.txtMore);
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);
             txtMore.setTypeface(AppConfig.fontIRSensNumber);

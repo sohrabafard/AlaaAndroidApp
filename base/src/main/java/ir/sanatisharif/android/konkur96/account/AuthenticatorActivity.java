@@ -37,7 +37,6 @@ import ir.sanatisharif.android.konkur96.model.user.Data;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
-import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -194,8 +193,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         // (Not setting the auth token will cause another call to the server to authenticate the user)
         mAccountManager.addAccountExplicitly(account, user.getNationalCode(), userData);
         mAccountManager.setAuthToken(account, ARG_AUTH_TYPE, authToken);
-        MyPreferenceManager.getInatanse().setApiToken(authToken);
-
         Intent res = new Intent();
         res.putExtras(data);
         setAccountAuthenticatorResult(res.getExtras());

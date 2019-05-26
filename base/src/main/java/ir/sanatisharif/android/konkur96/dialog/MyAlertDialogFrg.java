@@ -104,7 +104,7 @@ public class MyAlertDialogFrg extends BaseDialogFragment<MyAlertDialogFrg> {
 
         txtDownload = dialog.findViewById(R.id.txtDownload);
         txtCancel = dialog.findViewById(R.id.txtCancel);
-        txtTitle = dialog.findViewById(R.id.txtTitle);
+        txtTitle = dialog.findViewById(R.id.txt_title);
 
         txtMessage = dialog.findViewById(R.id.txtMessage);
 

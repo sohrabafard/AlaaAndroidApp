@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -194,7 +193,7 @@ public class BoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(view);
 
             root = view.findViewById(R.id.root);
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
             txtMore = view.findViewById(R.id.txtMore);
             recyclerView = view.findViewById(R.id.recyclerView);
 
@@ -234,7 +233,7 @@ public class BoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(view);
 
             recyclerView = view.findViewById(R.id.recyclerView);
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
 
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);
             recyclerView.getLayoutParams().height = AppConfig.itemHeight;
