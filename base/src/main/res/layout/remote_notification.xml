@@ -3,83 +3,53 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="@color/Alaa"
-    android:orientation="horizontal"
-    android:layoutDirection="rtl"
-    android:layout_height="wrap_content">
-
+    android:orientation="vertical"
+    android:layout_height="256dp">
     <ImageView
         android:id="@+id/img"
-        android:layout_width="wrap_content"
-        android:minWidth="@dimen/_100sdp"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="8dp" />
-
-    <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="150dp"
+        android:layout_marginBottom="4dp" />
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:maxLines="1"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:gravity="start"
+        android:background="@color/grey_60"
+        android:lines="1"
+        android:padding="@dimen/_5sdp"
+        android:text="تیتر نوتیفیکیشن است"
+        android:textColor="@color/WhiteSmoke"
+        android:textSize="@dimen/video_title"
 
-        <TextView
-            android:id="@+id/txt_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+        android:textStyle="bold"/>
 
+    <TextView
+        android:id="@+id/txt_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:lines="3"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:gravity="start"
+        android:background="@color/grey_60"
 
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-
-
-
-            android:background="@color/grey_60"
-            android:lines="1"
-            android:padding="@dimen/_5sdp"
-            android:text="تیتر نوتیفیکیشن است"
-            android:textColor="@color/WhiteSmoke"
-            android:textSize="@dimen/video_title"
-
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/txt_body"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-
-            android:background="@color/grey_60"
-
-            android:padding="@dimen/_5sdp"
-            android:text="این برای تست است که ببینیم چقدر فضا نیاز است"
-            android:textColor="@color/WhiteSmoke"
-            android:textSize="@dimen/video_text_size"/>
-
-        <TextView
-            android:id="@+id/btn_action"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-
-            android:text="خرید همایش"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/Green"/>
-    </LinearLayout>
-
+        android:padding="@dimen/_5sdp"
+        android:text="این برای تست است که ببینیم چقدر فضا نیاز است"
+        android:textColor="@color/WhiteSmoke"
+        android:textSize="@dimen/video_text_size"/>
 
 </LinearLayout>

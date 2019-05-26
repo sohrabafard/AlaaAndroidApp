@@ -74,11 +74,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     //--- primitive define type-----
     private long back_pressed;
 
-    public static MainActivity newInstance() {
-
-        return new MainActivity();
-    }
-
     public static void addFrg(Fragment frg, String tag) {
 
         FragmentTransaction transaction = fm.beginTransaction();
