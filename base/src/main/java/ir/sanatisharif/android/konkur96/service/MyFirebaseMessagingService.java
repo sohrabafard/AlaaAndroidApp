@@ -1,22 +1,21 @@
 package ir.sanatisharif.android.konkur96.service;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.RemoteViews;
 
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.NotificationTarget;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -28,7 +27,6 @@ import ir.sanatisharif.android.konkur96.activity.MainActivity;
 import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.user.User;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.NotificationID;
@@ -46,7 +44,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private String mTitle;
     private String mBody;
-    private String mUrl ="";
+    private String mActionUrl = "";
     private String mImage = "";
     private String mActionTXT = "";
 
@@ -54,7 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onCreate() {
-        Log.e(TAG,"onCreate");
+        Log.e(TAG, "onCreate");
         super.onCreate();
         mainRepository = new MainRepository();
     }
@@ -62,7 +60,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        Log.e(TAG,"getMessage");
+        Log.e(TAG, "getMessage");
         // Check if message contains a data payload.
         Map<String, String> remoteMessageData = remoteMessage.getData();
         if (remoteMessageData.size() > 0) {
@@ -86,14 +84,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(String token) {
-        Log.e(TAG,"onNewToken");
+        Log.e(TAG, "onNewToken");
         MyPreferenceManager.getInatanse().setSendTokenToServer(false);
         sendRegistrationToServer(token);
     }
 
     private void handleDataNow(Map<String, String> remoteMessageData) {
         mImage = remoteMessageData.get("image");
-        mUrl = remoteMessageData.get("action_url");
+        mActionUrl = remoteMessageData.get("action_url");
         mActionTXT = remoteMessageData.get("action_txt");
     }
 
@@ -119,21 +117,60 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        int notificationID = NotificationID.getID();
+        final Context context = this.getApplicationContext();
 
+        final RemoteViews remoteViews = provideRemoteView();
+        String channelId = getString(R.string.default_notification_channel_id);
 
-        if (mUrl != null) {
-            Log.d(TAG,mUrl);
-            intent.setAction(Intent.ACTION_VIEW);
-            Uri data = Uri.parse(mUrl);
-            intent.setData(data);
-        }
+        final Notification notification = getNotification(context, remoteViews, channelId);
 
-        final Bitmap[] bitmap = new Bitmap[1];
+        notifUser(notificationID, channelId, notification);
+
         if (mImage != null) {
-            Log.d(TAG,mImage);
-            GlideApp
+            loadImageToRemoteViewOfNotification(context, remoteViews, notificationID, notification);
+        }
+    }
+
+    private void notifUser(int notificationID, String channelId, Notification notification) {
+        NotificationManager notificationManager = provideNotificationManager(channelId);
+        notificationManager.notify(notificationID, notification);
+    }
+
+    private Notification getNotification(Context context, RemoteViews remoteViews, String channelId) {
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        PendingIntent pendingIntent = provideIntent();
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(context, channelId)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(mTitle)
+                        .setContentText(mBody)
+                        .setCustomBigContentView(remoteViews)
+                        .setAutoCancel(true)
+                        .setSound(defaultSoundUri)
+                        .setContentIntent(pendingIntent)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                        .addAction(R.drawable.ic_arrow_back,
+                                mActionTXT, pendingIntent);
+
+        return notificationBuilder.build();
+    }
+
+    private void loadImageToRemoteViewOfNotification(Context context, RemoteViews remoteViews, int notificationID, Notification notification) {
+        final NotificationTarget notificationTarget = new NotificationTarget(
+                context,
+                R.id.image_view,
+                remoteViews,
+                notification,
+                notificationID);
+
+
+        Glide.with(context)
+                .asBitmap()
+                .load(mImage)
+                .into(notificationTarget);
+            /*GlideApp
                     .with(getApplicationContext())
                     .asBitmap()
                     .load(mImage)
@@ -145,35 +182,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                         @Override
                         public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            bitmap[0] = resource;
+
                             return false;
                         }
                     })
-                    .submit();
-        }
+                    .submit();*/
+    }
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+    @NonNull
+    private RemoteViews provideRemoteView() {
+        final RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.remote_notification);
 
-        String channelId = getString(R.string.default_notification_channel_id);
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        remoteViews.setTextViewText(R.id.txt_title, mTitle);
+        remoteViews.setTextViewText(R.id.txt_body, mBody);
+        return remoteViews;
+    }
 
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setLargeIcon(bitmap[0])
-                        .setStyle(new NotificationCompat.BigPictureStyle()
-                                .setSummaryText(mTitle)
-                                .bigPicture(bitmap[0]))
-                        .setContentTitle(mTitle)
-                        .setContentText(mBody)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .addAction(R.drawable.ic_favorite_on,
-                                "buy",pendingIntent)
-                        .setContentIntent(pendingIntent);
-
-
+    private NotificationManager provideNotificationManager(String channelId) {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -184,8 +209,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
+        return notificationManager;
+    }
 
-        notificationManager.notify(NotificationID.getID(), notificationBuilder.build());
+    private PendingIntent provideIntent() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+
+        if (mActionUrl != null) {
+            Log.d(TAG, mActionUrl);
+            intent.setAction(Intent.ACTION_VIEW);
+            Uri data = Uri.parse(mActionUrl);
+            intent.setData(data);
+        }
+
+        return PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
     }
 
 }
