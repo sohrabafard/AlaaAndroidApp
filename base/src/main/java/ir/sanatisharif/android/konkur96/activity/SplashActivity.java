@@ -10,9 +10,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.google.android.gms.common.wrappers.InstantApps;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
@@ -123,12 +121,9 @@ public class SplashActivity extends ActivityBase {
         Log.i(TAG, "onCreate: 2 ");
         // FirebaseApp.initializeApp(this);
         FirebaseInstanceId.getInstance().getInstanceId().
-                addOnSuccessListener(SplashActivity.this, new OnSuccessListener<InstanceIdResult>() {
-                    @Override
-                    public void onSuccess(InstanceIdResult instanceIdResult) {
-                        Log.i(TAG, "onCreate: " + instanceIdResult.getToken());
-                        MyPreferenceManager.getInatanse().setFirebaseToken(instanceIdResult.getToken());
-                    }
+                addOnSuccessListener(SplashActivity.this, instanceIdResult -> {
+                    Log.i(TAG, "onCreate: " + instanceIdResult.getToken());
+                    MyPreferenceManager.getInatanse().setFirebaseToken(instanceIdResult.getToken());
                 });
     }
 }

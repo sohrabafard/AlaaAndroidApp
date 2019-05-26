@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.android.gms.common.wrappers.InstantApps;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -123,10 +124,28 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             updateInfoDialogFrg.show(getSupportFragmentManager(), "");
         }
 
+        if (MyPreferenceManager.getInatanse().getFirebaseToken().length() == 0) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    retrieveToken();
+                }
+            }).start();
+        }
+
         //retrieveToken();
         if (!InstantApps.isInstantApp(getApplicationContext()))
             if (!MyPreferenceManager.getInatanse().isSendTokenToServer())
                 sendRegistrationToServer();
+    }
+    private void retrieveToken() {
+        Log.i(TAG, "onCreate: 2 ");
+        // FirebaseApp.initializeApp(this);
+        FirebaseInstanceId.getInstance().getInstanceId().
+                addOnSuccessListener(MainActivity.this, instanceIdResult -> {
+                    Log.i(TAG, "onCreate: " + instanceIdResult.getToken());
+                    MyPreferenceManager.getInatanse().setFirebaseToken(instanceIdResult.getToken());
+                });
     }
 
     @Override

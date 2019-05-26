@@ -29,10 +29,37 @@ import ir.sanatisharif.android.konkur96.ui.GlideApp;
 
 public class Notif {
     private static final String TAG = "Alaa\\Notif";
+    private String GROUP_KEY_WORK_PUSH = "ir.sanatisharif.android.konkur96.NOTIF_PUSH";
     private int mId;
     private RemoteViews mRemoteViews;
     private Context mContext;
-    String GROUP_KEY_WORK_PUSH = "com.alaatv.PUSH";
+    private String mTitle = null;
+    private String mBody = null;
+    private String mActionUrl = null;
+    private String mImage = null;
+    private String mActionTXT = null;
+    private String mChannelId;
+    private Notification mNotification = null;
+
+    private Notif(Context context) {
+        mContext = context;
+        mChannelId = context.getString(R.string.default_notification_channel_id);
+        mId = NotificationID.getID();
+        mRemoteViews =  new RemoteViews(mContext.getPackageName(), R.layout.remote_notification);
+    }
+
+    public static Notif get(@NonNull  Context context,@NonNull String title,@NonNull String body)
+    {
+        return new Notif(context)
+                .setTitle(title)
+                .setBody(body)
+                .initRemoteView();
+    }
+    public static Notif get(@NonNull  Context context)
+    {
+        return new Notif(context);
+    }
+
     public Notif setTitle(String title) {
         this.mTitle = title;
         return this;
@@ -78,34 +105,6 @@ public class Notif {
         return mActionTXT;
     }
 
-    private String mTitle = null;
-    private String mBody = null;
-    private String mActionUrl = null;
-    private String mImage = null;
-    private String mActionTXT = null;
-    private String mChannelId;
-    private Notification mNotification = null;
-
-    private Notif(Context context) {
-        mContext = context;
-        mChannelId = context.getString(R.string.default_notification_channel_id);
-        mId = NotificationID.getID();
-        initRemoteView();
-    }
-
-    public static Notif get(@NonNull  Context context,@NonNull String title,@NonNull String body)
-    {
-        return new Notif(context)
-                .initRemoteView()
-                .setTitle(title)
-                .setBody(body);
-    }
-    public static Notif get(@NonNull  Context context)
-    {
-        return new Notif(context)
-                .initRemoteView();
-    }
-
     public void send() {
         if(mTitle != null && mBody != null) {
             Log.d(TAG, "sending Notif " + mId + "....");
@@ -120,8 +119,12 @@ public class Notif {
     }
 
     private void notifUser(boolean isUpdating ) {
-        if(mNotification == null)
+        if(mNotification == null) {
             mNotification = initNotification();
+        }
+        if(!isUpdating) {
+            initRemoteView();
+        }
         getNotificationManager().notify(mId, mNotification);
         if (mImage != null && !isUpdating) {
             loadImageToRemoteViewOfNotification();
@@ -142,11 +145,10 @@ public class Notif {
                         .setContentIntent(pendingIntent)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                        .setGroup(GROUP_KEY_WORK_PUSH)
                         .addAction(R.drawable.ic_arrow_back,
                                 mActionTXT, pendingIntent);
 
-        return notificationBuilder.build();
+        return notificationBuilder.setGroup(GROUP_KEY_WORK_PUSH).build();
     }
 
     private void loadImageToRemoteViewOfNotification() {
@@ -183,7 +185,6 @@ public class Notif {
 
     @NonNull
     private Notif initRemoteView() {
-        mRemoteViews = new RemoteViews(mContext.getPackageName(), R.layout.remote_notification);
         mRemoteViews.setTextViewText(R.id.txt_title, mTitle);
         mRemoteViews.setTextViewText(R.id.txt_body, mBody);
         return this;
