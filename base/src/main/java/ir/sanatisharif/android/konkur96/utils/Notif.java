@@ -158,6 +158,7 @@ public class Notif {
                         .with(mContext)
                         .asBitmap()
                         .load(mImage)
+                        .centerCrop()
                         .listener(new RequestListener<Bitmap>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {

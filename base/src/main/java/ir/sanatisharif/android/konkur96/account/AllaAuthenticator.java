@@ -10,6 +10,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
+
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_ACCOUNT_NAME;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_ACCOUNT_TYPE;
@@ -21,7 +24,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_AUTH_TYPE;
 
 public class AllaAuthenticator extends AbstractAccountAuthenticator {
 
-    private String TAG = "udinic";
+    private String TAG = "AlaaAuthenticator";
     private Context mContext;
     private String authToken;
 
@@ -62,6 +65,26 @@ public class AllaAuthenticator extends AbstractAccountAuthenticator {
         authToken = am.peekAuthToken(account, authTokenType);
 
         // Log.d("udinic", TAG + "> peekAuthToken returned - " + authToken);
+
+        // Lets give another try to authenticate the user
+        if (TextUtils.isEmpty(authToken)) {
+            final String password = am.getPassword(account);
+            if (password != null) {
+                try {
+
+                    authToken = MyPreferenceManager.getInatanse().getApiToken();
+                    AppConfig.HANDLER.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            MyPreferenceManager.getInatanse().setApiToken("");
+                        }
+                    }, 200);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
 
         // If we get an authToken - we return it
         if (!TextUtils.isEmpty(authToken)) {

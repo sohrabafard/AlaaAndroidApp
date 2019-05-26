@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
+import com.facebook.stetho.Stetho;
 import com.google.android.gms.common.wrappers.InstantApps;
 
 import io.fabric.sdk.android.Fabric;
@@ -57,6 +58,8 @@ public class AppConfig extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Stetho.initializeWithDefaults(this);
 
         // carshlytics
 //        CrashlyticsCore crashlyticsCore = new CrashlyticsCore.Builder()

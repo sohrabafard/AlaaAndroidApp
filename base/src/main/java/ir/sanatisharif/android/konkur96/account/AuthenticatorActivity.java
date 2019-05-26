@@ -25,7 +25,7 @@ import com.google.gson.Gson;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.Objects;
-
+import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.MainActivity;
 import ir.sanatisharif.android.konkur96.adapter.FilterAdapterBySpinner;
@@ -193,6 +193,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         // (Not setting the auth token will cause another call to the server to authenticate the user)
         mAccountManager.addAccountExplicitly(account, user.getNationalCode(), userData);
         mAccountManager.setAuthToken(account, ARG_AUTH_TYPE, authToken);
+        MyPreferenceManager.getInatanse().setApiToken(authToken);
         Intent res = new Intent();
         res.putExtras(data);
         setAccountAuthenticatorResult(res.getExtras());

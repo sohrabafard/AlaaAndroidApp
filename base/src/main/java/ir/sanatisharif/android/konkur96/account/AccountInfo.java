@@ -95,17 +95,16 @@ public class AccountInfo {
      *
      * @param authTokenType
      */
-    public void getExistingAccountAuthToken(String accountType, String authTokenType, AuthToken listener) {
+    public void getExistingAccountAuthToken(String accountType, String authTokenType, final AuthToken listener) {
         Account[] account = mAccountManager.getAccountsByType(accountType);
         final AccountManagerFuture<Bundle> future;
         if(activity == null ){
-            future = mAccountManager.getAuthToken(account[0], authTokenType, null, true, null, null);
+            future = mAccountManager.getAuthToken(account[0], authTokenType, null, false, null, null);
         } else {
             future = mAccountManager.getAuthToken(account[0], authTokenType, null, activity, null, null);
         }
 
         Thread t = new Thread(() -> {
-
             try {
                 Bundle bnd = future.getResult();
                 Log.i(TAG, "onCreate: " + bnd);

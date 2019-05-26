@@ -37,6 +37,19 @@ public class MyPreferenceManager {
         return preferenceManager;
     }
 
+    public String getApiToken() {
+        return getSharedString(API_TOKEN, "");
+    }
+
+    /**
+     * Api Token
+     *
+     * @param token
+     */
+    public void setApiToken(String token) {
+        setSharedString(API_TOKEN, token);
+    }
+
     /**
      * String
      *
