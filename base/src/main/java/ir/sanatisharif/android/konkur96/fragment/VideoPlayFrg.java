@@ -9,6 +9,7 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.utils.AuthToken;
 
@@ -364,20 +366,27 @@ public class VideoPlayFrg extends BaseFragment {
                 mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                         .createMediaSource(Uri.parse(mUrl));
             } else {
-                AuthToken.getInstant().get(context, currentActivity, token -> {
-                    Log.i(TAG, "startPlayer, has_token: " + (token != null));
 
-                    currentActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
-                            httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
-                            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
+                AuthToken.getInstant().get(context, currentActivity, new AuthToken.Callback() {
+                    @Override
+                    public void run(@NonNull String token) {
+                        currentActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
+                                httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
+                                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
 
-                            mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                                    .createMediaSource(Uri.parse(mUrl));
-                        }
-                    });
+                                mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                                        .createMediaSource(Uri.parse(mUrl));
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void nill() {
+                        startActivity(new Intent(currentActivity, AuthenticatorActivity.class));
+                    }
                 });
             }
         }

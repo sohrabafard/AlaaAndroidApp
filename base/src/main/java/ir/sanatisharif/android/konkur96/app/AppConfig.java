@@ -61,14 +61,7 @@ public class AppConfig extends Application {
 
         Stetho.initializeWithDefaults(this);
 
-        // carshlytics
-//        CrashlyticsCore crashlyticsCore = new CrashlyticsCore.Builder()
-//                .disabled(BuildConfig.DEBUG)
-//                .build();
-//        Fabric.with(this, new Crashlytics.Builder().core(crashlyticsCore).build());
-
         Fabric.with(this, new Crashlytics());
-
         Crashlytics.setBool("InstantApp", InstantApps.isInstantApp(this));
 
         mInstance = this;

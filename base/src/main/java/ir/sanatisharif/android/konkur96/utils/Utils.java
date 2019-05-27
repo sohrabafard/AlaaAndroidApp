@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -308,9 +309,18 @@ public class Utils {
 
     public static void followRedirectedLink(Context context, Activity activity, String url, EncryptedDownloadInterface.Callback callback) {
         EncryptedDownloadRepository repository = new EncryptedDownloadRepository(activity);
-        AuthToken.getInstant().get(context, activity, token -> {
-            Log.i(TAG, "followRedirectedLink, has_token: " + (token != null));
-            repository.getDirectLink(url, token, callback);
+        AuthToken.getInstant().get(context, activity, new AuthToken.Callback() {
+            @Override
+            public void run(@NonNull String token) {
+                Log.i(TAG, "followRedirectedLink, has_token");
+                repository.getDirectLink(url, token, callback);
+            }
+
+            @Override
+            public void nill() {
+                Log.i(TAG, "followRedirectedLink, without_token");
+                repository.getDirectLink(url, null, callback);
+            }
         });
     }
 }

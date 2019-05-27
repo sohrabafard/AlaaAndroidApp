@@ -54,7 +54,7 @@ public class MDToast extends Toast {
     }
 
     public static MDToast makeText(Context context, String message, int duration, int type) {
-        MDToast mdToast = new MDToast(context);
+        MDToast mdToast = new MDToast(context.getApplicationContext());
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.custom_toast_container, null);

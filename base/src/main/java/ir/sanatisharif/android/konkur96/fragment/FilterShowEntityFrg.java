@@ -192,13 +192,14 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
     //<editor-fold desc="get Data from server">
     void getData(String nextUrl) {
-        Toast.makeText(getContext(),"دریافت از سرور ...",Toast.LENGTH_SHORT).show();
+        //TODO: issue
+        Toast.makeText(AppConfig.context,"دریافت از سرور ...",Toast.LENGTH_SHORT).show();
         repeatLoad = true;
         repository.getFilterTagsByUrl(nextUrl, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
 
-                Toast.makeText(getContext(),"دریافت شد.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AppConfig.context,"دریافت شد.",Toast.LENGTH_SHORT).show();
                 Filter filter = (Filter) obj;
                 int size = mList.size();
                 if (type == AppConstants.FILTER_VIDEO) {

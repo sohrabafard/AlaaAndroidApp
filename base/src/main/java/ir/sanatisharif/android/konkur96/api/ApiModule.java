@@ -133,6 +133,12 @@ public class ApiModule {
                 .create(HeadRequestInterface.class);
     }
 
+    @Provides
+    @Singleton
+    MainApi provideMainApi(Retrofit.Builder builder) {
+        return builder.baseUrl(AppConfig.BASE_URL).build().create(MainApi.class);
+    }
+
     ///http://developer.android.com/
     private static boolean handelStatusCode(int code) {
 
@@ -161,7 +167,7 @@ public class ApiModule {
             Log.i("LOG", "handelStatusCode: " + 500);
             handleToast("خطای داخلی سرور");
             valid = false;
-        } 
+        }
         return valid;
     }
 
@@ -173,11 +179,5 @@ public class ApiModule {
             }
         });
 
-    }
-
-    @Provides
-    @Singleton
-    MainApi provideMainApi(Retrofit.Builder builder) {
-        return builder.baseUrl(AppConfig.BASE_URL).build().create(MainApi.class);
     }
 }

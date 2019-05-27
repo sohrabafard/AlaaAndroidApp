@@ -21,6 +21,7 @@ import com.google.android.gms.common.wrappers.InstantApps;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
+import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
@@ -108,7 +109,11 @@ public class OnBoardingActivity extends ActivityBase {
                             startActivity(new Intent(OnBoardingActivity.this, MainActivity.class));
                         }
                     } else {
-                        startActivity(new Intent(OnBoardingActivity.this, MainActivity.class));
+                        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+                            startActivity(new Intent(OnBoardingActivity.this, MainActivity.class));
+                        }else {
+                            startActivity(new Intent(OnBoardingActivity.this, AuthenticatorActivity.class));
+                        }
                     }
                     finish();
                 }

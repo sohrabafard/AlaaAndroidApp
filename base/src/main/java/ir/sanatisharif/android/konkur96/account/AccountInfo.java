@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
@@ -37,28 +38,28 @@ public class AccountInfo {
 
     public String TAG = "Alla";
     private AccountManager mAccountManager;
-    private Context context;
+    private Context mContext;
     private Activity activity;
 
     public AccountInfo setActivity(Activity activity){
         this.activity = activity;
         return this;
     }
-    public AccountInfo setContext(Context context){
-        this.context = context;
+    public AccountInfo setmContext(Context context){
+        this.mContext = context.getApplicationContext();
         return this;
     }
 
 
     public AccountInfo(Context context) {
-        this.context = context;
-        mAccountManager = AccountManager.get(context);
+        this.mContext = context.getApplicationContext();
+        mAccountManager = AccountManager.get(this.mContext);
     }
 
     public AccountInfo(Context context, Activity activity) {
-        this.context = context;
+        this.mContext = context.getApplicationContext();
         this.activity = activity;
-        mAccountManager = AccountManager.get(context);
+        mAccountManager = AccountManager.get(this.mContext);
     }
 
 
@@ -80,11 +81,11 @@ public class AccountInfo {
                                 try {
                                     Bundle bnd = future.getResult();
                                     //  Log.i(TAG, "addNewAccount  : " + bnd);
-                                    toastShow(context.getResources().getString(R.string.register_success), MDToast.TYPE_SUCCESS);
+                                    toastShow(mContext.getResources().getString(R.string.register_success), MDToast.TYPE_SUCCESS);
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    // toastShow(context.getResources().getString(R.string.register_success), MDToast.TYPE_ERROR);
+                                    // toastShow(mContext.getResources().getString(R.string.register_success), MDToast.TYPE_ERROR);
                                 }
                             }
                         }, null);
@@ -95,11 +96,15 @@ public class AccountInfo {
      *
      * @param authTokenType
      */
-    public void getExistingAccountAuthToken(String accountType, String authTokenType, final AuthToken listener) {
+    public void getExistingAccountAuthToken(String accountType, String authTokenType,@NonNull final AuthToken listener) {
         Account[] account = mAccountManager.getAccountsByType(accountType);
+        if ( account.length == 0){
+            listener.onNullToken();
+            return;
+        }
         final AccountManagerFuture<Bundle> future;
         if(activity == null ){
-            future = mAccountManager.getAuthToken(account[0], authTokenType, null, false, null, null);
+            future = mAccountManager.getAuthToken(account[0], authTokenType, null, true, null, null);
         } else {
             future = mAccountManager.getAuthToken(account[0], authTokenType, null, activity, null, null);
         }
@@ -109,9 +114,12 @@ public class AccountInfo {
                 Bundle bnd = future.getResult();
                 Log.i(TAG, "onCreate: " + bnd);
                 final String authtoken = bnd.getString(AccountManager.KEY_AUTHTOKEN);
-
-                if (listener != null)
+                if (authtoken == null){
+                    listener.onNullToken();
+                }
+                else{
                     listener.onToken(authtoken);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -184,7 +192,7 @@ public class AccountInfo {
     }
 
     public boolean ExistAccount(String type)  {
-        if (!InstantApps.isInstantApp(context)) {
+        if (!InstantApps.isInstantApp(mContext)) {
             Account[] availableAccounts = mAccountManager.getAccountsByType(type);
             Log.i(TAG, "ExistAccount: " + availableAccounts.length);
             if (availableAccounts.length == 0) {
@@ -205,7 +213,7 @@ public class AccountInfo {
                         Intent goToMarket = new Intent(Intent.ACTION_VIEW)
                                 .setData(Uri.parse("https://play.google.com/store/apps/details?id=ir.sanatisharif.android.konkur96"));
                         goToMarket.setFlags(FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(goToMarket);
+                        mContext.startActivity(goToMarket);
                     }
                 })
                 .setNegativeButton("خیر", new DialogInterface.OnClickListener() {
@@ -220,7 +228,9 @@ public class AccountInfo {
     }
 
     public interface AuthToken {
-        void onToken(String token);
+        void onToken(@NonNull  String token);
+
+        void onNullToken();
     }
 
     public interface RemoveAccount {

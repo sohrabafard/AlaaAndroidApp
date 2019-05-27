@@ -10,12 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.duolingo.open.rtlviewpager.RtlViewPager;
 
@@ -25,9 +22,9 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.FullScreenAdapter;
 import ir.sanatisharif.android.konkur96.adapter.IndicatorAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
+import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.interfaces.PositionFounder;
 import ir.sanatisharif.android.konkur96.model.FullScreenModel;
-import ir.sanatisharif.android.konkur96.model.ImageGalleryModel;
 
 public class GalleryFullView extends AppCompatActivity implements PositionFounder {
 
@@ -140,7 +137,7 @@ public class GalleryFullView extends AppCompatActivity implements PositionFounde
         pagerFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "tapped", Toast.LENGTH_LONG).show();
+                Toast.makeText(AppConfig.context, "tapped", Toast.LENGTH_LONG).show();
             }
         });
 

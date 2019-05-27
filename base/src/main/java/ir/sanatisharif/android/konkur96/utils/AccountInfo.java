@@ -87,45 +87,6 @@ public class AccountInfo {
                         }, null);
     }
 
-    /**
-     * Get the auth token for an existing account on the AccountManager
-     *
-     * @param authTokenType
-     */
-    public void getExistingAccountAuthToken(String accountType, String authTokenType) throws Exception {
-
-        if(activity == null ){
-            throw new Exception("Activity is Null!");
-        }
-        Account[] account = mAccountManager.getAccountsByType(accountType);
-        final AccountManagerFuture<Bundle> future = mAccountManager.getAuthToken(account[0], authTokenType, null, activity, null, null);
-
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    Bundle bnd = future.getResult();
-                    final String authtoken = bnd.getString(AccountManager.KEY_AUTHTOKEN);
-                    token = authtoken;
-                    Log.i(TAG, "run: authtoken1 ");
-                    notify();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        t.start();
-
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
     public void invalidateAuthToken(final Account account, String authTokenType) throws Exception {
         if(activity == null ){
             throw new Exception("Activity is Null!");

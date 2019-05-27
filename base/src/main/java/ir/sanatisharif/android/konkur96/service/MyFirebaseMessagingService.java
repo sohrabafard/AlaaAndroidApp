@@ -1,5 +1,6 @@
 package ir.sanatisharif.android.konkur96.service;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -82,18 +83,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         MyPreferenceManager.getInatanse().setFirebaseToken(firebaseToken);
         final User user = accountInfo.getInfo(ACCOUNT_TYPE);
 
-        AuthToken.getInstant().get(this, token -> {
-            mainRepository.sendRegistrationToServer(user.getId(), firebaseToken, token, new IServerCallbackObject() {
-                @Override
-                public void onSuccess(Object obj) {
-                    MyPreferenceManager.getInatanse().setSendTokenToServer(true);
-                }
+        AuthToken.getInstant().get(this, new AuthToken.Callback() {
+            @Override
+            public void run(@NonNull String token) {
+                mainRepository.sendRegistrationToServer(user.getId(), firebaseToken, token, new IServerCallbackObject() {
+                    @Override
+                    public void onSuccess(Object obj) {
+                        MyPreferenceManager.getInatanse().setSendTokenToServer(true);
+                    }
 
-                @Override
-                public void onFailure(String message) {
+                    @Override
+                    public void onFailure(String message) {
 
-                }
-            });
+                    }
+                });
+            }
+
+            @Override
+            public void nill() {
+                MyPreferenceManager.getInatanse().setSendTokenToServer(false);
+            }
         });
     }
 
