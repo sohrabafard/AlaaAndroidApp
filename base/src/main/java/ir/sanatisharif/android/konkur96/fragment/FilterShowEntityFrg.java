@@ -3,7 +3,9 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -193,13 +195,10 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
     //<editor-fold desc="get Data from server">
     void getData(String nextUrl) {
         //TODO: issue
-        Toast.makeText(AppConfig.context,"دریافت از سرور ...",Toast.LENGTH_SHORT).show();
         repeatLoad = true;
         repository.getFilterTagsByUrl(nextUrl, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
-
-                Toast.makeText(AppConfig.context,"دریافت شد.",Toast.LENGTH_SHORT).show();
                 Filter filter = (Filter) obj;
                 int size = mList.size();
                 if (type == AppConstants.FILTER_VIDEO) {
@@ -237,18 +236,32 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
     public void setScrollOnRecycler(ScrollOnRecycler scrollOnRecycler) {
         this.scrollOnRecycler = scrollOnRecycler;
     }
-
+    public FragmentManager getHostFragmentManager() {
+        FragmentManager fm = getFragmentManager();
+        if (fm == null && isAdded()) {
+            fm = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+        }
+        return fm;
+    }
     void show() {
 
-        if (!AppConfig.showNoInternetDialog)
-            new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
-                @Override
-                public void onClickOk() {
-                    if (pagination.getNextPageUrl() != null) {
-                        getData(pagination.getNextPageUrl());
+        try {
+            if (!AppConfig.showNoInternetDialog) {
+                final String nextUrl = pagination.getNextPageUrl();
+                NotInternetDialogFrg dialogFrg = new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
+                    @Override
+                    public void onClickOk() {
+                        if ( nextUrl != null) {
+                            getData(nextUrl);
+                        }
                     }
-                }
-            }).show(getFragmentManager(), "");
+                });
+                dialogFrg.show(getHostFragmentManager(), "");
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
     }
 
     @Override

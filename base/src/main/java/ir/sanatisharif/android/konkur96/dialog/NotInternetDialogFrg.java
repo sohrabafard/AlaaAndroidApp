@@ -3,7 +3,7 @@ package ir.sanatisharif.android.konkur96.dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,16 +14,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.model.DownloadUrl;
-import ir.sanatisharif.android.konkur96.ui.view.MDToast;
-import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 
 /**
  * Created by Mohamad on 7/7/2017.
@@ -38,11 +31,6 @@ public class NotInternetDialogFrg extends BaseDialogFragment<NotInternetDialogFr
     private ImageView imgCLose;
     private NoInternetCallback callback;
 
-    public static NotInternetDialogFrg newInstance(ArrayList<DownloadUrl> Urls) {
-        NotInternetDialogFrg frag = new NotInternetDialogFrg();
-        return frag;
-    }
-
     public NotInternetDialogFrg setNoInternetCallback(NoInternetCallback callback) {
         this.callback = callback;
         return this;
@@ -52,7 +40,12 @@ public class NotInternetDialogFrg extends BaseDialogFragment<NotInternetDialogFr
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppConfig.showNoInternetDialog = true;
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog_Alert);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog_Alert);
+        }else
+        {
+            setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_DeviceDefault);
+        }
     }
 
     @Override

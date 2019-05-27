@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -404,15 +405,27 @@ public class FilterTagsFrg extends BaseFragment implements
                 });
     }
 
+    public FragmentManager getHostFragmentManager() {
+        FragmentManager fm = getFragmentManager();
+        if (fm == null && isAdded()) {
+            fm = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+        }
+        return fm;
+    }
     private void showNotInternetDialogFrg() {
-
-        if (!AppConfig.showNoInternetDialog)
-            new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
-                @Override
-                public void onClickOk() {
-                    getDataByUrl();
-                }
-            }).show(getFragmentManager(), "");
+        try {
+            if (!AppConfig.showNoInternetDialog) {
+                NotInternetDialogFrg dialogFrg = new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
+                    @Override
+                    public void onClickOk() {
+                        getDataByUrl();
+                    }
+                });
+                dialogFrg.show(getHostFragmentManager(), "");
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     @Override

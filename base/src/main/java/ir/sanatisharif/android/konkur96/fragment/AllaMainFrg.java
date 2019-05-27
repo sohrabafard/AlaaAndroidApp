@@ -5,7 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -233,16 +235,27 @@ public class AllaMainFrg extends BaseFragment implements
 
     //</editor-fold>
 
-
+    public FragmentManager getHostFragmentManager() {
+        FragmentManager fm = getFragmentManager();
+        if (fm == null && isAdded()) {
+            fm = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+        }
+        return fm;
+    }
     private void showNotInternetDialogFrg() {
-
-        if (!AppConfig.showNoInternetDialog)
-            new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
-                @Override
-                public void onClickOk() {
-                    getData();
-                }
-            }).show(getFragmentManager(), "");
+        try {
+            if (!AppConfig.showNoInternetDialog) {
+                NotInternetDialogFrg dialogFrg = new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
+                    @Override
+                    public void onClickOk() {
+                        getData();
+                    }
+                });
+                dialogFrg.show(getHostFragmentManager(), "");
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
 
