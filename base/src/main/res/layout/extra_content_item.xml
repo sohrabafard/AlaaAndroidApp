@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:layout_gravity="top"
     android:layout_margin="6dp"
-    android:layoutDirection="rtl"
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/White"
     app:cardElevation="0dp">
@@ -18,7 +17,6 @@
             android:id="@+id/layout_click"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layoutDirection="rtl"
             android:orientation="vertical">
 
             <FrameLayout
@@ -41,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/root"
                 android:background="@color/White"
-                android:gravity="right|center"
+                android:gravity="end|center"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -55,12 +53,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/White"
-                    android:gravity="right|center"
+                    android:gravity="end|center"
                     android:orientation="vertical"
                     android:padding="4dp">
 
                     <TextView
-                        android:id="@+id/txtTitle"
+                        android:id="@+id/txt_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
@@ -72,7 +70,7 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="0dp"
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
@@ -99,6 +97,8 @@
                             android:maxLines="1"
                             android:text="12 k"
                             android:textColor="#606060"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
                             android:textSize="12sp" />
 
                     </LinearLayout>
@@ -110,6 +110,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dip"
                     android:src="@mipmap/ic_over_flow"
+                    android:layout_marginStart="4dip"
                     android:visibility="visible" />
 
 

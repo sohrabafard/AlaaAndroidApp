@@ -36,7 +36,7 @@
                 android:src="@drawable/shape_preload_image" />
 
             <TextView
-                android:id="@+id/txtTitle"
+                android:id="@+id/txt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imgItem"
@@ -45,10 +45,12 @@
                 android:layout_marginRight="6dp"
                 android:background="@color/White"
                 android:ellipsize="end"
-                android:gravity="right"
+                android:layout_marginStart="8dp"
                 android:maxLines="1"
                 android:text="wewe"
                 android:textColor="#3A3A3A"
+                android:layout_marginEnd="6dp"
+                android:gravity="end"
                 android:textSize="@dimen/video_title" />
 
             <LinearLayout
@@ -56,6 +58,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:orientation="horizontal">
 
 
@@ -74,10 +78,10 @@
                         android:id="@+id/txtAuthor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/txtTitle"
+                        android:layout_below="@id/txt_title"
                         android:background="@color/White"
                         android:ellipsize="end"
-                        android:gravity="right"
+                        android:gravity="end"
                         android:maxLines="1"
                         android:padding="5dp"
                         android:text="author"
@@ -95,7 +99,7 @@
                         android:id="@+id/txtContentCount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
+                        android:gravity="end"
                         android:padding="5dp"
                         android:text="6"
                         android:visibility="gone"

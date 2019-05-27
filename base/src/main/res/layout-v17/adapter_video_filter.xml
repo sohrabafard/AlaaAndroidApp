@@ -9,116 +9,103 @@
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/White">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/layout_click"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgItem"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="fitXY"
+                android:src="@color/WhiteSmoke" />
+
+            <ProgressBar
+                android:id="@+id/loader"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:visibility="visible" />
+
+        </FrameLayout>
 
         <LinearLayout
-            android:id="@+id/layout_click"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layoutDirection="rtl"
-            android:orientation="vertical">
+            android:layout_margin="4dp"
+            android:background="@color/White"
+            android:gravity="end|center"
+            android:orientation="horizontal">
 
-            <FrameLayout
-                android:id="@+id/root"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imgAvatar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="2dp"
+                android:src="@mipmap/ic_launcher" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/White"
+                android:orientation="vertical"
+                android:padding="4dp">
 
-                <ImageView
-                    android:id="@+id/imgItem"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:scaleType="fitXY"
-                    android:src="@color/WhiteSmoke" />
-
-                <ProgressBar
-                    android:id="@+id/loader"
-                    style="?android:attr/progressBarStyleSmall"
+                <TextView
+                    android:id="@+id/txt_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:visibility="visible" />
-
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@color/White"
-                android:gravity="end|center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imgAvatar"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
                     android:layout_margin="2dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="title"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/video_title" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/White"
-                    android:gravity="end|center"
-                    android:orientation="vertical"
-                    android:padding="4dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/txtTitle"
+                        android:id="@+id/txtAuthor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start|right"
                         android:layout_margin="2dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="dddd"
-                        android:textColor="@color/Black"
-                        android:textSize="@dimen/_15sdp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/txtAuthor"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:text=""
-                            android:textColor="#606060"
-                            android:textSize="@dimen/_11sdp" />
-
-                        <TextView
-                            android:id="@+id/txtSession"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:gravity="start|center"
-                            android:text=""
-                            android:textColor="@color/Monochromatic_1"
-                            android:textSize="@dimen/_10sdp" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|right"
-                        android:layout_margin="2dp"
-                        android:fontFamily="@font/iransansbold"
-                        android:gravity="start"
-                        android:text="@string/alla_1"
+                        android:text=""
                         android:textColor="#606060"
-                        android:textSize="@dimen/_11sdp" />
+                        android:textSize="@dimen/video_title_author" />
+
+                    <TextView
+                        android:id="@+id/txtSession"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text=""
+                        android:textColor="@color/Monochromatic_1"
+                        android:textSize="@dimen/video_session" />
+
                 </LinearLayout>
 
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:fontFamily="@font/iransansbold"
+                    android:text="@string/alla_1"
+                    android:textColor="#606060"
+                    android:textSize="@dimen/video_title_author" />
             </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </android.support.v7.widget.CardView>

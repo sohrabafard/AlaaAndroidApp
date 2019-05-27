@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layoutDirection="rtl"
     android:id="@+id/root"
     android:layout_margin="5dp"
     android:background="@color/White"
@@ -21,25 +20,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text=""
-                android:textColor="@color/colorPrimary" />
-
-
-            <TextView
                 android:id="@+id/txtMore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:drawableLeft="@drawable/ic_arrow_left"
-                android:gravity="right"
-                android:textColor="@color/colorPrimary"
-                android:text="@string/more" />
+                android:drawableEnd="@drawable/ic_arrow_left"
+                android:drawableRight="@drawable/ic_arrow_left"
+                android:gravity="start"
+                android:text="@string/more"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/txt_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text=""
+                android:textColor="@color/colorPrimary" />
 
 
         </LinearLayout>

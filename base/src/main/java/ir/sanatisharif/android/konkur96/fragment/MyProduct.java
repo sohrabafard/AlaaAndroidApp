@@ -1,5 +1,7 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,9 +30,9 @@ import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.user.User;
+import ir.sanatisharif.android.konkur96.utils.AuthToken;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 public class MyProduct extends Fragment {
 
@@ -46,6 +48,8 @@ public class MyProduct extends Fragment {
     private ArrayList<ProductModel> items = new ArrayList<>();
 
     private myProductsModel myProductsModel;
+    private Context mContext;
+    private Activity mActivity;
 
     public static MyProduct newInstance() {
 
@@ -66,9 +70,11 @@ public class MyProduct extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        repository = new RepositoryImpl(getActivity());
         accountInfo = new AccountInfo(getContext(), getActivity());
         user = accountInfo.getInfo(ACCOUNT_TYPE);
+        mActivity = getActivity();
+        repository = new RepositoryImpl(mActivity);
+        mContext = getContext();
 
         initView(view);
         getData();
@@ -94,48 +100,25 @@ public class MyProduct extends Fragment {
 
     private void getData() {
 
-        //  swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
+        adapter.setItems(new ArrayList<>());
 
-        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+        AuthToken.getInstant().get(mContext, mActivity, token -> {
+            if (token == null)
+                return;
+            repository.getDashboard(token, String.valueOf(user.getId()), data -> {
+                if (data instanceof Result.Success) {
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setData((myProductsModel) ((Result.Success) data).value);
+                        }
+                    });
+                } else {
 
-            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
-
-                    getActivity().runOnUiThread(() ->
-
-                            repository.getDashboard(token, String.valueOf(user.getId()), data -> {
-
-                                if (data instanceof Result.Success) {
-
-                                    setData((myProductsModel) ((Result.Success) data).value);
-                                    // swipeRefreshLayout.setRefreshing(false);
-                                } else {
-
-                                    Log.d("Test", (String) ((Result.Error) data).value);
-                                    // swipeRefreshLayout.setRefreshing(false);
-                                }
-
-
-                            })));
-
-        }
-
-//        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjNhNDMzNmNjMzU1NGY0MzFmM2JiYTA2NTMwYjk4YmNmZTQ1MzZhMjY0OWVjZDQ1OWM3MzIxYTQyNDdhZjkwNzEyYmUyYjZlOThlZTQ2OWU1In0.eyJhdWQiOiIxIiwianRpIjoiM2E0MzM2Y2MzNTU0ZjQzMWYzYmJhMDY1MzBiOThiY2ZlNDUzNmEyNjQ5ZWNkNDU5YzczMjFhNDI0N2FmOTA3MTJiZTJiNmU5OGVlNDY5ZTUiLCJpYXQiOjE1NTI0NjY1NDgsIm5iZiI6MTU1MjQ2NjU0OCwiZXhwIjoxNTg0MDg4OTQ4LCJzdWIiOiIyMzcwMjAiLCJzY29wZXMiOltdfQ.gD3QsDN6C0MM66GuEJcdpQzWvrurdD6SyVr-L3HzOc5b76pTSg5n3hMw5Jdq4Jca-9muqkCf9EwAHMN1Qmnt4WXAHC6SmnJ_M4FOmXN5fD67Ink_5Z7CkthIJVlPcE3TJXlkDq5PbzC58bNppr19wMGea9EAkYy33q3Vb4-rV-GjMdIi_2vYkp8fTIpa2HacbCCueqlc_OHZRpewik69ANYn8YMSCy0XzXLzM6bnwxLsJVL8UCblu0Mm4SnlcMIK4O_80dWK7RCWlYFSP0gDnK_IYzbSosUYXVtSjAj3llW-1TT8QoueOZYVv-NexwtPCj2SO65-CenYmmSB40ATt1jrF043MhJmdr1fs_u5zMplWMD58cZeZRRg0QaioSuSyvdFtAqBZOlqGc_Gk_vdwpu-YqNbYgUSlQLndNNihVrGbGgEiSoYx1SIkGTW1PkGM-_l6eUFoIizOYUVyKXTSPNjzxDuFsSSXnf4LIXJY_4DO_-GtkN19W1tPRLcpXFY7HDQ8JwgkxnBDygQb814psmBNZM4aqCWfHP94dY9qZyv7iK0uGtyvl8ek93ntmMMjiQVTy7c1N4k73jgeU0RgipvUvslb7RBivCp_GmFACyjeoTrB7_DM_qZp09dVX-BSUCqiC7_uPf_n2ojL24hUs5XfswUwc8cQNaGOYnkilw";
-//
-//        repository.getDashboard(token, String.valueOf(user.getId()), data -> {
-//
-//            if (data instanceof Result.Success) {
-//
-//                setData((myProductsModel) ((Result.Success) data).value);
-//                swipeRefreshLayout.setRefreshing(false);
-//            } else {
-//
-//                Log.d("Test", (String) ((Result.Error) data).value);
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//
-//
-//        });
-
+                    Log.d("Test", (String) ((Result.Error) data).value);
+                }
+            });
+        });
     }
 
     private void setData(myProductsModel data) {
@@ -152,10 +135,7 @@ public class MyProduct extends Fragment {
 
         txtWallet.setText(tempBlance + " تومان ");
 
-        items.addAll(data.getData().get(0).getProducts());
-
-        //---------------------- update adapter ------------------------------------------------
-        adapter.notifyDataSetChanged();
+        adapter.setItems(data.getData().get(0).getProducts());
     }
 
 }

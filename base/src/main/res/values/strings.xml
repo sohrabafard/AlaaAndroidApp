@@ -88,7 +88,7 @@
         <item>external</item>
     </string-array>
 
-    <string name="asset_statements" translatable="false">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://sanatisharif.ir\",\n  }\n}]</string>
+    <string name="asset_statements" translatable="false">[{ \"include\": \"https://alaatv.com/.well-known/assetlinks.json\" }]</string>
     <string name="no_pagination_network_error">مشکلی بوجود آمده است.لطفا دوباره امتحان کنید.</string>
     <string name="no_pagination_network_error_button">تکرار</string>
 
@@ -153,7 +153,7 @@
     <string name="search_into_alla">جستحو در آلاء</string>
     <string name="errNotExistTags">خطا در پردازش پارامترها</string>
     <string name="alla_1">موسسه غیر تجاری آلاء</string>
-    <string name="not_internet">اتصال شما به اینترنت قط شده است دوباره تلاش کنید</string>
+    <string name="not_internet">اتصال شما به اینترنت قطع شده است دوباره تلاش کنید</string>
     <string name="repeat_try">تلاش مجدد</string>
     <string name="txtSection">انتخاب مقطه تحصیلی</string>
     <string name="txtField">انتخاب رشته تحصیلی</string>
@@ -292,4 +292,21 @@
     <string name="offerInstallAlaa">پیشنهاد نصب نسخه آلاء</string>
     <string name="shouldInstall">برای استفاده بعضی امکانات باید ثبت نام کنید و باید از نسخه نصبی آلاء استفاده کنید.</string>
     <string name="next">بعدی</string>
+    <string name="your_product">محصولات خریداری شده توسط شما</string>
+    <string name="dashboard_hint">اگر در دانلود فیلم ها و جزوات خریداری شده مشکل دارید، به ادمین تلگرام آلاء پیام بدهید تا شما را راهنمایی کنند.</string>
+    <string name="checkout">پرداخت سبد خرید</string>
+    <string name="choose">انتخاب کنید:</string>
+    <string name="product_sample">نمونه‌ها</string>
+    <string name="product_property">ویژگی‌ها</string>
+    <string name="add_to_order">افزودن به سبد خرید</string>
+    <string name="add_to_cart_successfully">با موفقیت به سبد خرید اضافه شد.</string>
+    <string name="try_again">مشکلی بوجود آمده لطفا دوباره تکرار کنید.</string>
+    <string name="toman">تومان</string>
+    <string name="totalPrice">مبلغ کل:</string>
+    <string name="discount_price">سود شما از خرید:</string>
+    <string name="payable_price">مبلغ قابل‌پرداخت:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loading">در حال بارگزاری . . .</string>
 </resources>

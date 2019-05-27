@@ -25,14 +25,15 @@ public class AuthToken {
         return getToken;
     }
 
-    public String get(@NotNull Context context, @NotNull Activity activity, @NotNull Callback callback) {
+    public void get(@NotNull Context context, @NotNull Activity activity, @NotNull Callback callback) {
         AccountInfo accountInfo = new AccountInfo(context, activity);
-        final String[] t = new String[1];
-        accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token -> {
-            t[0] = token;
-            callback.run(token);
-        });
-        return t[0];
+        accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, callback::run);
+    }
+
+    public void get(@NotNull Context context, @NotNull Callback callback){
+
+        AccountInfo accountInfo = new AccountInfo(context);
+
     }
 
     public interface Callback {

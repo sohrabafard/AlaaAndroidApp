@@ -8,10 +8,10 @@
     android:layout_margin="4dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layoutDirection="rtl"
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/LightGrey"
     app:cardCornerRadius="0dp"
+    android:focusable="true"
     app:cardElevation="1dp">
 
     <RelativeLayout
@@ -46,10 +46,12 @@
                 android:layout_marginRight="6dp"
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"
-                android:gravity="right"
+                android:layout_marginStart="8dp"
                 android:maxLines="1"
                 android:text="Titel"
                 android:textColor="#3A3A3A"
+                android:layout_marginEnd="6dp"
+                android:gravity="end"
                 android:textSize="12sp" />
 
 
@@ -67,7 +69,9 @@
                 android:text="Discount"
                 android:textColor="@color/Red"
                 android:textSize="12sp"
-                android:visibility="gone"/>
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="6dp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/txt_price_more"
@@ -82,7 +86,9 @@
                 android:text="Price"
                 android:textColor="@color/txtColor"
                 android:textSize="12sp"
-                android:visibility="visible"/>
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="6dp"
+                android:visibility="visible" />
 
         </LinearLayout>
 

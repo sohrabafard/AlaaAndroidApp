@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/White"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:background="@color/White">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -39,10 +40,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-
-                android:layoutDirection="ltr"
                 app:contentInsetStartWithNavigation="0dp"
                 app:layout_collapseMode="pin"
+                android:layoutDirection="ltr"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
                 <TextView
@@ -50,11 +50,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
                     android:ellipsize="end"
                     android:gravity="end"
                     android:maxLines="1"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
                     android:paddingRight="4dp"
-                    android:paddingLeft="4dp"
                     android:text=""
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/White" />
@@ -82,10 +84,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:padding="@dimen/spacing_large"
-                android:baselineAligned="false">
+                android:padding="@dimen/spacing_large">
 
                 <include
                     android:id="@+id/itemVideo"
@@ -106,10 +108,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:padding="@dimen/spacing_large"
-                android:baselineAligned="false">
+                android:padding="@dimen/spacing_large">
 
                 <include
                     android:id="@+id/itemAboutMe"

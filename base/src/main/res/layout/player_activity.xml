@@ -24,6 +24,8 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:textSize="10sp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
             tools:ignore="SmallSp" />
 
         <LinearLayout

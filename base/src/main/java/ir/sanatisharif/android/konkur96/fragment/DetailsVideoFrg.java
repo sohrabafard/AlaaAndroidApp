@@ -66,27 +66,27 @@ import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.gms.common.wrappers.InstantApps;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
 import ir.sanatisharif.android.konkur96.adapter.PlayListAdapter;
-import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.DeleteFileDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.DownloadDialogFrg;
+import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
+import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
@@ -110,6 +110,7 @@ import static android.content.Context.KEYGUARD_SERVICE;
 import static android.content.Context.POWER_SERVICE;
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConfig.context;
+import static ir.sanatisharif.android.konkur96.app.AppConfig.currentActivity;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -124,7 +125,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     public static Pagination pagination;
     private static int kind_of_Load = -1;
     private static List<VideoCourse> videoCourses;
-    private static Content content;
+    private static Content mContent;
     private static int positionPlaying;
     private final String STATE_RESUME_WINDOW = "resumeWindow";
     private final String STATE_RESUME_POSITION = "resumePosition";
@@ -135,6 +136,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             return LinearSmoothScroller.SNAP_TO_START;
         }
     };
+    private LogUserActionsOnPublicContentInterface mUserAction;
     private SharedPreferences sharedPreferences;
     private String quality = "";
     private Bundle savedInsPlayer;
@@ -177,7 +179,8 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         @Override
         public void onAnimationEnd(Animator animator) {
-            controlView.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+            controlView.findViewById(R.id.progressBar);
+            controlView.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -211,6 +214,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         }
     };
+    private MainRepository repository;
     private SimpleExoPlayer player;
     Player.EventListener eventListener = new Player.EventListener() {
         @Override
@@ -235,7 +239,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 case Player.STATE_IDLE:       // The player does not have any media to play yet.
                     controlView.findViewById(R.id.progressBar);
                     break;
-                case Player.STATE_BUFFERING:  // The player is buffering (loading the content)
+                case Player.STATE_BUFFERING:  // The player is buffering (loading the mContent)
 
                     controlView.findViewById(R.id.exo_play).animate().alpha(0F).setDuration(400).setListener(animatorHide);
                     controlView.findViewById(R.id.exo_pause).animate().alpha(0F).setDuration(400).setListener(animatorHide);
@@ -243,12 +247,14 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
                     break;
                 case Player.STATE_READY:      // The player is able to immediately play
-                    progressBarExoplaying.setVisibility(View.GONE);
+                    if(progressBarExoplaying != null)
+                        progressBarExoplaying.setVisibility(View.GONE);
                     controlView.findViewById(R.id.exo_play).animate().alpha(1).setDuration(400).setListener(animatorShow);
                     controlView.findViewById(R.id.exo_pause).animate().alpha(1).setDuration(400).setListener(animatorShow);
                     break;
                 case Player.STATE_ENDED:      // The player has finished playing the media
-                    progressBarExoplaying.setVisibility(View.GONE);
+                    if(progressBarExoplaying != null)
+                        progressBarExoplaying.setVisibility(View.GONE);
 
                     break;
             }
@@ -356,13 +362,13 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         return fragment;
     }
 
-    // from content
+    // from mContent
     public static DetailsVideoFrg newInstance(Content c) {
 
         Bundle args = new Bundle();
         DetailsVideoFrg fragment = new DetailsVideoFrg();
         fragment.setArguments(args);
-        content = c;
+        mContent = c;
         kind_of_Load = LOAD_CONTENT;
         return fragment;
     }
@@ -379,6 +385,24 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mUserAction = (LogUserActionsOnPublicContentInterface) context;
+        } catch (ClassCastException ex) {
+            throw new ClassCastException(context.toString()
+                    + " must implement LogUserActionsOnPublicContentInterface");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mUserAction = null;
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -387,6 +411,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     @Override
     public void onStart() {
         super.onStart();
+
+        if(mUserAction != null && mContent != null)
+            mUserAction.userStartedViewingAParticularPage(mContent);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.intent.action.PHONE_STATE");
@@ -402,12 +429,12 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 player.setPlayWhenReady(false);
             }
         }
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        FirebaseAnalytics.getInstance(getContext()).setCurrentScreen(getActivity(), this.getClass().getSimpleName(), this.getClass().getSimpleName());
         if (Util.SDK_INT <= 23) {
             if (player == null) {
                 initExoPlayer();
@@ -420,12 +447,17 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onStop() {
+        if(mUserAction != null && mContent != null)
+            mUserAction.userHasFinishedViewingPage(mContent);
+
         super.onStop();
         getActivity().unregisterReceiver(phoneStateReceiver);
         if (Util.SDK_INT > 23) {
             player.setPlayWhenReady(false);
             Log.i(TAG, "onStart:onStop ");
         }
+
+
     }
 
     @Override
@@ -447,6 +479,8 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (repository == null)
+            repository = new MainRepository(getActivity());
         return inflater.inflate(R.layout.fragment_detail, container, false);
     }
 
@@ -454,12 +488,15 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (repository == null)
+            repository = new MainRepository(getActivity());
+
         initView(view, savedInstanceState);
 
         if (kind_of_Load == LOAD_CONTENT) {
-            course = content;
+            course = mContent;
             setData();
-            getPlayListFromContentByUrl(content.getSet().getContentUrl());
+            getPlayListFromContentByUrl(mContent.getSet().getContentUrl());
 
         } else if (kind_of_Load == LOAD_URL) { //get data from api and url
             String url = getArguments().getString("url");
@@ -490,7 +527,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         Context context = getContext();
         if (context != null && InstantApps.isInstantApp(context)) {
-            MainApi.getInstance().getDetailsCourse(url, new IServerCallbackContentCredit() {
+            repository.getDetailsCourse(url, null, new IServerCallbackContentCredit() {
                 @Override
                 public void onSuccess(Object obj) {
                     if (obj != null) {
@@ -524,14 +561,20 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             });
         } else if (context != null) {
 
-            AuthToken.getInstant().get(Objects.requireNonNull(getContext()), Objects.requireNonNull(getActivity()), token -> {
-                MainApi.getInstance().getDetailsCourse(url, new IServerCallbackContentCredit() {
+            AuthToken.getInstant().get(context, currentActivity, token -> {
+                repository.getDetailsCourse(url, token, new IServerCallbackContentCredit() {
                     @Override
                     public void onSuccess(Object obj) {
                         if (obj != null) {
-                            course = (DataCourse) obj;
-                            setData();
-                            getPlayListFromContentByUrl(course.getSet().getContentUrl());
+
+                            currentActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    course = (DataCourse) obj;
+                                    setData();
+                                    getPlayListFromContentByUrl(course.getSet().getContentUrl());
+                                }
+                            });
                         } else {
                             Log.i(TAG, "getData-else-onSuccess: \n\r" + url + "object is null");
                         }
@@ -540,11 +583,16 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     @Override
                     public void onSuccessCredit(ContentCredit obj) {
                         if (obj != null) {
-                            course = obj.getContent();
-                            setData();
-                            showSnackBar(obj.getMessage());
-                            setProduct(obj.getProduct());
-                            getPlayListFromContentByUrl(course.getSet().getContentUrl());
+                            currentActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    course = obj.getContent();
+                                    setData();
+                                    showSnackBar(obj.getMessage());
+                                    setProduct(obj.getProduct());
+                                    getPlayListFromContentByUrl(course.getSet().getContentUrl());
+                                }
+                            });
                         } else {
                             Log.i(TAG, "getData-else-onSuccessCredit: \n\r" + url + "object is null");
                         }
@@ -584,8 +632,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     private void getDataByUrl(String url) {
 
-        loaderPlayList.setVisibility(View.VISIBLE);
-        MainApi.getInstance().getFilterTagsByUrl(url, new IServerCallbackObject() {
+        if(loaderPlayList != null )
+            loaderPlayList.setVisibility(View.VISIBLE);
+        repository.getFilterTagsByUrl(url, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
                 Filter filter = (Filter) obj;
@@ -595,21 +644,24 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     pagination = filter.getResult().getVideo();
                     playListAdapter.notifyItemMoved(playListAdapter.getItemCount(), videoCourses.size() - 1);
                 }
-                loaderPlayList.setVisibility(View.GONE);
+                if(loaderPlayList != null )
+                    loaderPlayList.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(String message) {
                 Log.i(TAG, "onSuccess:error " + message);
-                loaderPlayList.setVisibility(View.GONE);
+                if(loaderPlayList != null )
+                    loaderPlayList.setVisibility(View.GONE);
             }
         });
     }
 
     private void getPlayListFromContentByUrl(String url) {
 
-        loaderPlayList.setVisibility(View.VISIBLE);
-        MainApi.getInstance().getFilterTagsByUrl(url, new IServerCallbackObject() {
+        if(loaderPlayList != null )
+            loaderPlayList.setVisibility(View.VISIBLE);
+        repository.getFilterTagsByUrl(url, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
                 Filter filter = (Filter) obj;
@@ -628,13 +680,15 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     } else {
                         playListAdapter.notifyDataSetChanged();
                     }
-                    loaderPlayList.setVisibility(View.GONE);
+                    if(loaderPlayList != null )
+                        loaderPlayList.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(String message) {
-                loaderPlayList.setVisibility(View.GONE);
+                if(loaderPlayList != null )
+                    loaderPlayList.setVisibility(View.GONE);
                 Log.i(TAG, "onSuccess:error " + message);
             }
         });
@@ -706,9 +760,16 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         } else if (i == R.id.imgReady) {
 
             if (course.getFile().getVideo() != null) {
-                DeleteFileDialogFrg deleteFileDialogFrg = new DeleteFileDialogFrg();
-                deleteFileDialogFrg.setVideos(course.getFile().getVideo());
-                deleteFileDialogFrg.show(getFragmentManager(), "deleteFileDialogFrg");
+                (new DeleteFileDialogFrg())
+                        .setVideos(course.getFile().getVideo())
+                        .setCallback(new DeleteFileDialogFrg.Callback() {
+                            @Override
+                            public void fileDeleted() {
+                                imgReady.setVisibility(View.GONE);
+                                imgDownload.setVisibility(View.VISIBLE);
+                            }
+                        })
+                        .show(getFragmentManager(), "deleteFileDialogFrg");
             }
         } else if (i == R.id.imgShare) {
 
@@ -744,7 +805,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 player.seekTo(mResumeWindow, mResumePosition);
             }
             Log.i(TAG, "resume: " + mResumePosition);
-            //  player.prepare(mVideoSource, !haveResumePosition, false);
             player.setPlayWhenReady(true);
         }
     }
@@ -862,7 +922,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         imgShare = view.findViewById(R.id.imgShare);
         mediaVideoFrame = view.findViewById(R.id.mediaVideoFrame);
         txtDesc = view.findViewById(R.id.txtDesc);
-        txtTitle = view.findViewById(R.id.txtTitle);
+        txtTitle = view.findViewById(R.id.txt_title);
         txtAuthor = view.findViewById(R.id.txtAuthor);
         tagGroup = view.findViewById(R.id.tag_group);
         loader = view.findViewById(R.id.loader);
@@ -906,10 +966,14 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
                 // player.setPlayWhenReady(false);
                 // releasePlayer();
-                loader.setVisibility(View.VISIBLE);
+                if(loader != null)
+                    loader.setVisibility(View.VISIBLE);
+
                 positionPlaying = position;
                 course = (DataCourse) item;
-                loader.setVisibility(View.GONE);
+
+                if(loader != null)
+                    loader.setVisibility(View.GONE);
                 playListAdapter.setItemSelect(positionPlaying);
                 setData();
 
@@ -928,21 +992,38 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     AppConfig.HANDLER.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-
                             mResumePosition = 0;
-                            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
-                                    Util.getUserAgent(context, "mediaPlayerSample"));
-                            mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                                    .createMediaSource(Uri.parse(mUrl));
-
                             boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
-
                             if (haveResumePosition) {
                                 player.seekTo(mResumeWindow, mResumePosition);
                             }
+                            final String userAgent = Util.getUserAgent(context, "ExoPlayer");
                             player.seekTo(0);
-                            player.prepare(mVideoSource, !haveResumePosition, false);
                             player.setPlayWhenReady(true);
+
+                            if (mUrl.contains("cdn")) {
+                                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, userAgent);
+
+                                mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                                        .createMediaSource(Uri.parse(mUrl));
+                                player.prepare(mVideoSource, !haveResumePosition, false);
+                            } else {
+                                AuthToken.getInstant().get(context, currentActivity, token -> {
+                                    Log.i(TAG, "startPlayer, has_token: " + (token != null));
+                                    currentActivity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
+                                            httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
+                                            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
+
+                                            mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                                                    .createMediaSource(Uri.parse(mUrl));
+                                            player.prepare(mVideoSource, !haveResumePosition, false);
+                                        }
+                                    });
+                                });
+                            }
 
                         }
                     }, 200);
@@ -1087,15 +1168,33 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         if (haveResumePosition) {
             player.seekTo(mResumeWindow, mResumePosition);
         }
-
-        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
-                Util.getUserAgent(context, "mediaPlayerSample"));
-        mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(Uri.parse(mUrl));
-
         player.addListener(eventListener);
-        player.prepare(mVideoSource, !haveResumePosition, false);
         player.setPlayWhenReady(true);
+        final String userAgent = Util.getUserAgent(context, "ExoPlayer");
+        if (mUrl.contains("cdn")) {
+            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, userAgent);
+
+            mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                    .createMediaSource(Uri.parse(mUrl));
+            player.prepare(mVideoSource, !haveResumePosition, false);
+        } else {
+            AuthToken.getInstant().get(context, currentActivity, token -> {
+                Log.i(TAG, "startPlayer, has_token: " + (token != null));
+
+                currentActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
+                        httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
+                        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
+
+                        mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                                .createMediaSource(Uri.parse(mUrl));
+                        player.prepare(mVideoSource, !haveResumePosition, false);
+                    }
+                });
+            });
+        }
     }
 
     //</editor-fold>

@@ -3,19 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    android:layoutDirection="rtl"
     android:background="@color/White"
+    android:layoutDirection="rtl"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/layout_click"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="start"
         android:orientation="horizontal">
+
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start"
             android:orientation="vertical">
 
             <ImageView
@@ -38,21 +41,22 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtTitle"
+                android:id="@+id/txt_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start"
                 android:layout_margin="4dp"
-                android:text="name"
+                android:text="@string/name"
                 android:textColor="@color/Black_2"
-                android:textSize="@dimen/_14sdp" />
+                android:textSize="@dimen/video_title" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -60,22 +64,24 @@
                     android:id="@+id/txtCreated"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_margin="4dp"
-                    android:text="@string/alla_1"
                     android:fontFamily="@font/ir_sans"
+                    android:text="@string/alla_1"
                     android:textColor="#606060"
-                    android:textSize="@dimen/_11sdp" />
+                    android:textSize="@dimen/video_title_author" />
 
                 <TextView
                     android:id="@+id/txtAuthor"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:gravity="left"
-                    android:text="لالالا"
+                    android:gravity="start"
+                    android:text="@string/alaa"
                     android:textColor="#606060"
-                    android:textSize="@dimen/_11sdp" />
+                    android:textSize="@dimen/video_title_author" />
 
             </LinearLayout>
 

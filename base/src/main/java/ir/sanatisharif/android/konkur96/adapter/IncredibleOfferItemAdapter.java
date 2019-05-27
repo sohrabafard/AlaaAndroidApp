@@ -1,7 +1,6 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -19,8 +18,6 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
-import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
-import ir.sanatisharif.android.konkur96.ui.view.CustomShopItemView;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
@@ -60,7 +57,10 @@ public class IncredibleOfferItemAdapter extends RecyclerView.Adapter<IncredibleO
 
             holder.discount.setText("");
         }
-        Glide.with(mContext).load(item.getPhoto()).into(holder.image);
+        Glide.with(mContext)
+                .load(item.getPhoto())
+                .thumbnail(0.1f)
+                .into(holder.image);
 
 
         holder.cardViewRoot.setOnClickListener(view -> addFrg(ProductDetailFragment.newInstance(item), "ProductDetailFragment"));
@@ -82,7 +82,7 @@ public class IncredibleOfferItemAdapter extends RecyclerView.Adapter<IncredibleO
 
         public ContentHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.txtTitle);
+            title = itemView.findViewById(R.id.txt_title);
             price = itemView.findViewById(R.id.txtPrice);
             discount = itemView.findViewById(R.id.txtDiscount);
             image = itemView.findViewById(R.id.imgItem);

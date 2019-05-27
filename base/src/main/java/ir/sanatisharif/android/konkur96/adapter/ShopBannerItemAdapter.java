@@ -11,10 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -70,6 +68,7 @@ public class ShopBannerItemAdapter extends RecyclerView.Adapter<ShopBannerItemAd
         Glide.with(AppConfig.context)
                 .load(item.getUrl())
                 .apply(requestOptions)
+                .thumbnail(0.1f)
                 .into(new SimpleTarget<Drawable>(w, h) {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
@@ -94,7 +93,7 @@ public class ShopBannerItemAdapter extends RecyclerView.Adapter<ShopBannerItemAd
             super(view);
 
             layout_click = view.findViewById(R.id.layout_click);
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
             imgItem = view.findViewById(R.id.imgItem);
 
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);

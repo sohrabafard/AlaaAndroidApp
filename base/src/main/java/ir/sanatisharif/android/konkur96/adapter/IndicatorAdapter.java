@@ -4,7 +4,11 @@ import android.content.Context;
 import android.graphics.Point;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.*;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -14,7 +18,6 @@ import java.util.ArrayList;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
 import ir.sanatisharif.android.konkur96.interfaces.PositionFounder;
-import ir.sanatisharif.android.konkur96.model.ImageGalleryModel;
 
 public class IndicatorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -123,6 +126,7 @@ public class IndicatorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void bindView(final ProductPhotoModel model, final int pos) {
             Glide.with(context)
                     .load(model.getUrl())
+                    .thumbnail(0.1f)
                     .into(imgIndicator);
 
             itemView.getLayoutParams().width = getScreenWidth() / 3;
@@ -147,6 +151,7 @@ public class IndicatorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void bindView(final ProductPhotoModel model, final int pos) {
             Glide.with(context)
                     .load(model.getUrl())
+                    .thumbnail(0.1f)
                     .into(imgIndicator);
 
             itemView.getLayoutParams().width = getScreenWidth() / 3;
@@ -164,6 +169,7 @@ public class IndicatorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void bindView(final int pos) {
             Glide.with(context)
                     .load("")
+                    .thumbnail(0.1f)
                     .into(imgIndicator);
 
             itemView.getLayoutParams().width = getScreenWidth() / 3;

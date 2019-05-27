@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
-    android:layoutDirection="rtl"
     android:orientation="vertical">
 
     <include layout="@layout/app_bar" />
@@ -34,6 +33,7 @@
                     android:layout_height="264dp"
                     android:layout_gravity="top"
                     android:clickable="true"
+                    android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout
@@ -79,7 +79,7 @@
                             style="@style/Button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left"
+                            android:layout_gravity="start"
                             android:layout_margin="4dp"
                             android:background="@drawable/shape_button"
                             android:text="@string/login"
@@ -103,6 +103,7 @@
                             android:foreground="?android:attr/selectableItemBackground"
                             app:cardCornerRadius="6dp"
                             app:cardElevation="6dp"
+                            android:focusable="true"
                             app:cardUseCompatPadding="true">
 
                             <LinearLayout
@@ -187,6 +188,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="6dp"
                 app:cardElevation="6dp"
+                android:focusable="true"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -207,7 +209,8 @@
                         android:text="@string/my_product"
                         android:textColor="@color/Monochromatic_1"
                         android:textSize="18sp"
-                        android:id="@+id/btn_open_myproduct"/>
+                        android:id="@+id/btn_open_myproduct"
+                        android:drawableEnd="@drawable/ic_file_download" />
 
                     <View
                         android:id="@+id/view4324"
@@ -228,6 +231,7 @@
                         android:padding="2dp"
                         android:text="@string/bag"
                         android:textColor="@color/Monochromatic_1"
+                        android:drawableEnd="@drawable/ic_money_bag"
                         android:textSize="18sp" />
 
                     <View
@@ -250,7 +254,8 @@
                         android:text="سبد خرید"
                         android:textColor="@color/Monochromatic_1"
                         android:textSize="18sp"
-                        android:id="@+id/btn_open_card"/>
+                        android:id="@+id/btn_open_card"
+                        android:drawableEnd="@drawable/ic_shopping_cart" />
 
 
                 </LinearLayout>

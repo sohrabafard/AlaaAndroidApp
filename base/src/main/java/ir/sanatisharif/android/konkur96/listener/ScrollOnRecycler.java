@@ -1,7 +1,5 @@
 package ir.sanatisharif.android.konkur96.listener;
 
-import android.support.v7.widget.RecyclerView;
-
 /**
  * Created by Mohamad on 3/5/2019.
  */

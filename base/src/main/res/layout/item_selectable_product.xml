@@ -16,13 +16,12 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layoutDirection="rtl"
             android:padding="5dp">
 
             <CheckBox
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_gravity="right|center_vertical"
+                android:layout_gravity="end|center_vertical"
                 android:id="@+id/checkBox"/>
 
 
@@ -32,8 +31,9 @@
                 android:textSize="15sp"
                 android:textColor="@color/Black"
                 android:id="@+id/txt_name"
-                android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="40dp"/>
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="40dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -41,8 +41,9 @@
                 android:textSize="12sp"
                 android:textColor="@color/Green"
                 android:id="@+id/txt_final_price"
-                android:layout_gravity="left|bottom"
-                android:layout_marginRight="40dp"/>
+                android:layout_gravity="start|bottom"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="40dp" />
 
         </FrameLayout>
 

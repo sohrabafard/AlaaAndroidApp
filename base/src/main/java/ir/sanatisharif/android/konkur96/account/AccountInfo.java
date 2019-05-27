@@ -7,7 +7,6 @@ import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,10 +21,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.account.Authenticator;
-import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
@@ -44,6 +40,21 @@ public class AccountInfo {
     private Context context;
     private Activity activity;
 
+    public AccountInfo setActivity(Activity activity){
+        this.activity = activity;
+        return this;
+    }
+    public AccountInfo setContext(Context context){
+        this.context = context;
+        return this;
+    }
+
+
+    public AccountInfo(Context context) {
+        this.context = context;
+        mAccountManager = AccountManager.get(context);
+    }
+
     public AccountInfo(Context context, Activity activity) {
         this.context = context;
         this.activity = activity;
@@ -57,7 +68,10 @@ public class AccountInfo {
      * @param accountType
      * @param authTokenType
      */
-    public void addNewAccount(String accountType, String authTokenType) {
+    public void addNewAccount(String accountType, String authTokenType) throws Exception {
+        if(activity == null){
+            throw new Exception("Activity is Null!");
+        }
         final AccountManagerFuture<Bundle> future =
                 mAccountManager.addAccount(accountType, authTokenType, null, null,
                         activity, new AccountManagerCallback<Bundle>() {
@@ -81,13 +95,16 @@ public class AccountInfo {
      *
      * @param authTokenType
      */
-    public void getExistingAccountAuthToken(String accountType, String authTokenType, AuthToken listener) {
-
+    public void getExistingAccountAuthToken(String accountType, String authTokenType, final AuthToken listener) {
         Account[] account = mAccountManager.getAccountsByType(accountType);
-        final AccountManagerFuture<Bundle> future = mAccountManager.getAuthToken(account[0], authTokenType, null, activity, null, null);
+        final AccountManagerFuture<Bundle> future;
+        if(activity == null ){
+            future = mAccountManager.getAuthToken(account[0], authTokenType, null, false, null, null);
+        } else {
+            future = mAccountManager.getAuthToken(account[0], authTokenType, null, activity, null, null);
+        }
 
         Thread t = new Thread(() -> {
-
             try {
                 Bundle bnd = future.getResult();
                 Log.i(TAG, "onCreate: " + bnd);
@@ -100,11 +117,12 @@ public class AccountInfo {
             }
         });
         t.start();
-
-
     }
 
-    public void invalidateAuthToken(final Account account, String authTokenType) {
+    public void invalidateAuthToken(final Account account, String authTokenType) throws Exception {
+        if(activity == null ){
+            throw new Exception("Activity is Null!");
+        }
         final AccountManagerFuture<Bundle> future =
                 mAccountManager.getAuthToken(account, authTokenType, null, activity, null, null);
 
@@ -127,6 +145,8 @@ public class AccountInfo {
 
         Gson gson = new Gson();
         Account[] account = mAccountManager.getAccountsByType(accountType);
+        if (account.length == 0)
+            return null;
         String userData = mAccountManager.getUserData(account[0], AccountManager.KEY_USERDATA);
 
         if (userData != null)
@@ -163,13 +183,16 @@ public class AccountInfo {
         }, null);
     }
 
-    public boolean ExistAccount(String type) {
-
+    public boolean ExistAccount(String type)  {
         if (!InstantApps.isInstantApp(context)) {
             Account[] availableAccounts = mAccountManager.getAccountsByType(type);
             Log.i(TAG, "ExistAccount: " + availableAccounts.length);
             if (availableAccounts.length == 0) {
-                addNewAccount(type, AUTHTOKEN_TYPE_FULL_ACCESS);
+                try {
+                    addNewAccount(type, AUTHTOKEN_TYPE_FULL_ACCESS);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return false;
             }
             return true;

@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/White"
-    android:layoutDirection="rtl"
     android:orientation="vertical"
     android:padding="6dp"
     app:cardCornerRadius="4dp"
@@ -15,6 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dialog_right_margin"
         android:layout_marginRight="@dimen/dialog_right_margin"
+        android:layout_marginStart="@dimen/dialog_right_margin"
+        android:layout_marginEnd="@dimen/dialog_right_margin"
         android:orientation="vertical">
 
         <LinearLayout
@@ -23,7 +24,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/txtTitle"
+                android:id="@+id/txt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
@@ -45,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_footer"
             android:layout_marginTop="28dp"
-            android:gravity="right"
+            android:gravity="end"
             android:orientation="horizontal">
 
             <TextView
@@ -60,6 +61,7 @@
                 android:text="@string/ok_fan"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
+                android:focusable="true"
                 android:textStyle="bold" />
 
             <TextView
@@ -73,6 +75,7 @@
                 android:text="@string/cancel"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
+                android:focusable="true"
                 android:textStyle="bold" />
         </LinearLayout>
 

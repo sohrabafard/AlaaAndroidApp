@@ -1,7 +1,6 @@
 package ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,18 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.MainBannerModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.ui.GlideApp;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
 public class ViewSliderAdapterInShop extends PagerAdapter {
@@ -39,7 +33,7 @@ public class ViewSliderAdapterInShop extends PagerAdapter {
     }
 
     private void setSize() {
-        h = (int) (AppConfig.width * 0.39f);
+        h = (int) (AppConfig.width * 0.30f);
 
     }
 
@@ -54,7 +48,8 @@ public class ViewSliderAdapterInShop extends PagerAdapter {
 
         Glide.with(mContext)
                 .load(imageList.get(position).getUrl())
-                .apply(new RequestOptions().override(1280, 720))
+                .apply(new RequestOptions().override(1280, 329))
+                .thumbnail(0.1f)
                 .into(img);
 
 

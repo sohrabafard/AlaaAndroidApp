@@ -8,9 +8,9 @@
     android:layout_margin="4dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layoutDirection="rtl"
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/White"
+    android:focusable="true"
     app:cardElevation="0dp">
 
     <FrameLayout
@@ -30,7 +30,7 @@
             android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
+            android:layout_gravity="end|bottom"
             android:layout_margin="12dp"
             android:button="@drawable/circle_checkbox"
             android:elevation="4dp"

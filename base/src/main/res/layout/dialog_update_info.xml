@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/White"
-    android:layoutDirection="rtl"
     android:orientation="vertical"
     android:padding="6dp"
     app:cardCornerRadius="4dp"
@@ -14,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/dialog_right_margin"
+        android:layout_marginEnd="@dimen/dialog_right_margin"
         android:orientation="vertical">
 
         <LinearLayout
@@ -27,41 +27,37 @@
                 android:gravity="bottom"
                 android:text="آخرین تغییرات"
                 android:textColor="@color/Black_1"
-                android:textSize="@dimen/_15sdp"
+                android:textSize="@dimen/video_title"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/txtContent"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:layout_gravity="center_vertical|end"
+            android:gravity="start"
             android:text=""
             android:textColor="@color/Black_1"
-            android:textSize="14sp" />
+            android:textSize="@dimen/content_show_desc" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dialog_footer"
-            android:layout_marginTop="12dp"
-            android:gravity="right"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtAccept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:background="@color/White"
-                android:clickable="true"
-                android:enabled="true"
-                android:padding="8dp"
-                android:text="@string/ok_fan"
-                android:textColor="@color/colorPrimary"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/txtAccept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_margin="8dp"
+            android:background="@color/White"
+            android:clickable="true"
+            android:enabled="true"
+            android:focusable="true"
+            android:gravity="start|center_vertical"
+            android:padding="8dp"
+            android:text="@string/ok_fan"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

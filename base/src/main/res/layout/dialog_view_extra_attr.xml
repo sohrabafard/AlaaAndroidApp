@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/LightGreyBack"
-    android:layoutDirection="rtl"
     android:orientation="vertical">
 
     <TextView
@@ -41,7 +40,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="start"
         android:orientation="horizontal"
         android:padding="5dp">
 
@@ -51,6 +50,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:visibility="gone" />
 
         <TextView
@@ -60,6 +60,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:textColor="@color/MediumSeaGreen"
+            android:layout_marginStart="10dp"
             android:textSize="20sp" />
 
 
@@ -84,6 +85,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="5dp"
                 android:src="@drawable/ic_add_shopping_cart"
+                android:layout_marginStart="5dp"
                 android:tint="@color/White" />
 
             <TextView

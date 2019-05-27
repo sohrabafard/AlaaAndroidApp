@@ -1,9 +1,12 @@
 package ir.sanatisharif.android.konkur96.activity;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,7 +17,7 @@ import android.widget.Toast;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.android.gms.common.wrappers.InstantApps;
-import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -24,30 +27,34 @@ import java.util.Stack;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
-import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationResponse;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ForceUpdateDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.UpdateInfoDialogFrg;
+import ir.sanatisharif.android.konkur96.fragment.AbouteMeFrg;
 import ir.sanatisharif.android.konkur96.fragment.AllaMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.DashboardMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
 import ir.sanatisharif.android.konkur96.fragment.ForumMainFrg;
+import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
 import ir.sanatisharif.android.konkur96.fragment.ShopMainFragment;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
+import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
+import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
-import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
+import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
@@ -55,30 +62,23 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 //https://blog.iamsuleiman.com/bottom-navigation-bar-android-tutorial/
-public class MainActivity extends ActivityBase implements AHBottomNavigation.OnTabSelectedListener, ICheckNetwork {
+public class MainActivity extends ActivityBase implements AHBottomNavigation.OnTabSelectedListener, ICheckNetwork, LogUserActionsOnPublicContentInterface {
 
     private static final String TAG = "MainActivity";
     private static Stack<Fragment> fragments;
     private static FragmentManager fm;
-    private FirebaseAnalytics mFirebaseAnalytics;
-    private NetworkChangedReceiver networkChangedReceiver;
     private AccountInfo accountInfo;
     private AHBottomNavigation bottomNavigation;
     private Repository repository;
+    private MainRepository mainRepository;
 
     //--- primitive define type-----
     private long back_pressed;
-
-    public static MainActivity newInstance() {
-
-        return new MainActivity();
-    }
 
     public static void addFrg(Fragment frg, String tag) {
 
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.add(R.id.fl_container, frg, tag);
-        // transaction.setCustomAnimations(R.anim.left_enter, R.anim.right_out);
 
         if (fragments.size() == 0) {
             fragments.push(frg);
@@ -97,6 +97,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         setContentView(R.layout.activity_main);
 
         repository = new RepositoryImpl(this);
+        mainRepository = new MainRepository(this);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -114,11 +115,8 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         getLastVersion();
         //-----------add FirstFragment
 
-        addFrg(AllaMainFrg.newInstance(), "alla");
-        //  addFrg(DetailsVideoFrg.newInstance("https://alaatv.com/c/9841"), "DetailsVideoFrg");
-        //-------- handle deep link
-        if (getIntent() != null)
-            handleIntent(getIntent());
+        addFrg(AllaMainFrg.newInstance(), "MainFrg");
+        handleIntent(getIntent());
 
         if (MyPreferenceManager.getInatanse().getLastVersionCode() < Utils.getVersionCode()) {
 
@@ -126,10 +124,28 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             updateInfoDialogFrg.show(getSupportFragmentManager(), "");
         }
 
+        if (MyPreferenceManager.getInatanse().getFirebaseToken().length() == 0) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    retrieveToken();
+                }
+            }).start();
+        }
+
         //retrieveToken();
         if (!InstantApps.isInstantApp(getApplicationContext()))
             if (!MyPreferenceManager.getInatanse().isSendTokenToServer())
                 sendRegistrationToServer();
+    }
+    private void retrieveToken() {
+        Log.i(TAG, "onCreate: 2 ");
+        // FirebaseApp.initializeApp(this);
+        FirebaseInstanceId.getInstance().getInstanceId().
+                addOnSuccessListener(MainActivity.this, instanceIdResult -> {
+                    Log.i(TAG, "onCreate: " + instanceIdResult.getToken());
+                    MyPreferenceManager.getInatanse().setFirebaseToken(instanceIdResult.getToken());
+                });
     }
 
     @Override
@@ -186,55 +202,109 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         bottomNavigation.setOnTabSelectedListener(this);
     }
 
-    private void handleIntent(Intent intent) {
+    private boolean handleIntent(Intent intent) {
 
+        if(intent == null ){
+            return false;
+        }
         String action = intent.getAction();  // android.intent.action.VIEW
         String data = intent.getDataString();// https://sanatisharif.ir/c/8087
 
         if (action == null)
-            return;
+            return false;
+
         if (action.equals("ir.sanatisharif.android.SETTING")) {
             startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
-        } else if (Intent.ACTION_VIEW.equals(action) && data != null) {
-            Uri appLinkData = intent.getData();
-            //  Log.i(TAG, "handleIntent1: " + appLinkData);
-            // Log.i(TAG, "handleIntent: " + appLinkData.getPath());
+            return true;
+        }
+        if (!Intent.ACTION_VIEW.equals(action) || data == null) {
+            return false;
+        }
+        Uri appLinkData = intent.getData();
+        if(appLinkData == null){
+            return false;
+        }
+        String path = appLinkData.getPath();
 
-            if (appLinkData.getPath().startsWith("/c")) {
-                if (data.contains("tags")) {
-                    addFrg(FilterTagsFrg.newInstance(data, null), "FilterTagsFrg");
-                } else {
-                    addFrg(DetailsVideoFrg.newInstance(data), "DetailsVideoFrg");
-                }
-            } else if (appLinkData.getPath().startsWith("/product")) {
-
+        if (path.startsWith("/c/") && path.length() > 3) {
+            addFrg(DetailsVideoFrg.newInstance(data), "DetailsVideoFrg");
+            return true;
+        }
+        if (path.equals("/c") || (path.startsWith("/c") && data.contains("tags"))) {
+            addFrg(FilterTagsFrg.newInstance(data, null), "FilterTagsFrg");
+            return true;
+        }
+        if (path.startsWith("/product")) {
+            if (path.length() <= 9) {
                 addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
-
-
-            } else if (appLinkData.getPath().startsWith("/login")) {
-                if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
-                    addFrg(DashboardMainFrg.newInstance(), "DashboardMainFrg");
-                }
-            } else if (appLinkData.getPath().startsWith("/zarinpal")) {
-
-                if (data.contains("Status")) {
-
-                    String mStatus = appLinkData.getQueryParameter("Status");
-                    String amount = appLinkData.getQueryParameter("a");
-                    String authority = appLinkData.getQueryParameter("Authority");
-
-                    handlerZarinPalCallBack(amount, authority);
-                }
-
-            } else if (appLinkData.getPath().startsWith("/shop")) {
-
-                addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
-
-            } else if (appLinkData.getPath().startsWith("/")) {
-
+                return true;
             }
 
+            final Activity activity = this;
+            lunchProductFragmentByUrl(path, activity);
+            return true;
         }
+        if (path.startsWith("/login") && accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+            addFrg(DashboardMainFrg.newInstance(), "DashboardMainFrg");
+            return true;
+        }
+        if (path.startsWith("/zarinpal") && data.contains("Status")) {
+            String mStatus = appLinkData.getQueryParameter("Status");
+            String amount = appLinkData.getQueryParameter("a");
+            String authority = appLinkData.getQueryParameter("Authority");
+
+            handlerZarinPalCallBack(amount, authority);
+            return true;
+
+        }
+        if (path.startsWith("/shop")) {
+            addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
+            return true;
+        }
+        if (path.equals("/contactUs")) {
+            addFrg(AbouteMeFrg.newInstance(), "AbouteMeFrg");
+            return true;
+        }
+        if (path.equals("/asset")){
+            addFrg(DashboardMainFrg.newInstance(),"DashboardMainFrg");
+            return true;
+        }
+        if (path.equals("/")) {
+            addFrg(AllaMainFrg.newInstance(), "MainFrg");
+            return true;
+        }
+        return false;
+
+    }
+
+    private void lunchProductFragmentByUrl(String path, Activity activity) {
+        ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage(this.getString(R.string.loading));
+        mProgressDialog.show();
+
+        AuthToken.getInstant().get(this, this, token -> {
+            repository.getProductByUrl(path, token, data1 -> {
+                final Handler handler = new Handler();
+                handler.postDelayed(() -> {
+                    if (mProgressDialog != null)
+                        mProgressDialog.dismiss();
+                }, 5000);
+                if (data1 instanceof Result.Success) {
+                    try {
+                        ProductModel productModel = ((ProductModel) ((Result.Success) data1).value);
+                        activity.runOnUiThread(() -> {
+                            addFrg(ProductDetailFragment.newInstance(productModel), "ProductDetailFragment");
+                        });
+                    } catch (Exception ex) {
+                        Log.e(TAG, "lunchProductFragmentByUrl: parse-intent-if:" + path + "\n\r" + ex.getMessage());
+                    }
+
+                } else {
+                    Log.e(TAG, "lunchProductFragmentByUrl: parse-intent-else:" + path + "\n\r" + (String) ((Result.Error) data1).value);
+                }
+            });
+        });
     }
 
     private void sendRegistrationToServer() {
@@ -243,27 +313,18 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         final String firebaseToken = MyPreferenceManager.getInatanse().getFirebaseToken();
         final User user = accountInfo.getInfo(ACCOUNT_TYPE);
 
-        accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
-            @Override
-            public void onToken(String token) {
-                MyPreferenceManager.getInatanse().setApiToken(token);
-                MyPreferenceManager.getInatanse().setAuthorize(true);
+        AuthToken.getInstant().get(this, this, token -> {
+            mainRepository.sendRegistrationToServer(user.getId(), firebaseToken, token, new IServerCallbackObject() {
+                @Override
+                public void onSuccess(Object obj) {
+                    MyPreferenceManager.getInatanse().setSendTokenToServer(true);
+                }
 
-                MainApi.getInstance().sendRegistrationToServer(user.getId(), firebaseToken, new IServerCallbackObject() {
-                    @Override
-                    public void onSuccess(Object obj) {
+                @Override
+                public void onFailure(String message) {
 
-                        MyPreferenceManager.getInatanse().setApiToken("");
-                        MyPreferenceManager.getInatanse().setAuthorize(false);
-                        MyPreferenceManager.getInatanse().setSendTokenToServer(true);
-                    }
-
-                    @Override
-                    public void onFailure(String message) {
-
-                    }
-                });
-            }
+                }
+            });
         });
     }
 
@@ -272,6 +333,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         switch (tab_id) {
             case 0:
                 manageStack();
+                addFrg(AllaMainFrg.newInstance(), "MainFrg");
                 break;
 
             case 1:
@@ -323,7 +385,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     private void manageStack() {
 
 
-
         boolean showHomeFrg = true;
 
         for (int i = 1; i < fragments.size(); i++) {
@@ -332,9 +393,9 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 Fragment f = fragments.pop();
                 transaction.remove(f).commit();
                 showHomeFrg = false;
-            }catch (Exception e){
+            } catch (Exception e) {
                 Log.e(TAG, "manageStack: error");
-                Log.e(TAG,e.getMessage());
+                Log.e(TAG, e.getMessage());
             }
 
         }
@@ -372,10 +433,9 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     }
 
     private void getLastVersion() {
-        MainApi.getInstance().getLastVersion("https://alaatv.com/api/v1/lastVersion", new IServerCallbackObject() {
+        mainRepository.getLastVersion(new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
-
                 if (obj != null) {
                     LastVersion lastVersion = (LastVersion) obj;
                     if (lastVersion.getAndroid().getLastVersion() > Utils.getVersionCode()) {

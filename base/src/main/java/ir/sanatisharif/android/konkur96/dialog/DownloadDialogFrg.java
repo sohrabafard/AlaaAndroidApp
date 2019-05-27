@@ -189,11 +189,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                             @Override
                             public void fetch(String newUrl) {
                                 try {
-                                    if (newUrl != null) {
-                                        createDir(newUrl, title);
-                                    } else {
-                                        createDir(link, title);
-                                    }
+                                    createDir(newUrl, title);
                                 } catch (Exception e) {
                                     Log.e(TAG, e.getMessage());
                                 }

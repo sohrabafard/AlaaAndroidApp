@@ -2,6 +2,7 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,18 +23,17 @@ import android.widget.TextView;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
+import ir.sanatisharif.android.konkur96.handler.EncryptedDownloadInterface;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.filter.PamphletCourse;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
-import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.DownloadFile;
 import ir.sanatisharif.android.konkur96.utils.OpenFile;
 import ir.sanatisharif.android.konkur96.utils.Utils;
@@ -52,13 +52,14 @@ public class ShowContentInfoFrg extends BaseFragment implements
     private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
     private static final int PERMISSION_ALL = 1;
     private static PamphletCourse course;
-    private String TAG = "ShowContentInfoFrg";
+    FragmentManager fragmentManager;
     private TextView txtAuthor, txtTitle;
     //  private JustifiedTextView txtDesc;
     private WebView webView;
     private Button btnDownload, btnOpenPDF;
     private Toolbar toolbar;
     private TagGroup tagGroup;
+    private String TAG = "Alaa\\ShowContentInfoFrg";
 
     public static ShowContentInfoFrg newInstance(PamphletCourse c) {
 
@@ -90,18 +91,10 @@ public class ShowContentInfoFrg extends BaseFragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        fragmentManager = getFragmentManager();
         initUI(view);
         setData();
 
-//        URLImageGetter imageGetter = new URLImageGetter(getContext(), txtDesc);
-//        imageGetter.getDrawable("");
-//
-//        Spannable html;
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-//            html = (Spannable) Html.fromHtml(source, Html.FROM_HTML_MODE_LEGACY, imageGetter, null);
-//        } else {
-//            html = (Spannable) Html.fromHtml(source, imageGetter, null);
-//        }
     }
 
     private void setData() {
@@ -156,20 +149,22 @@ public class ShowContentInfoFrg extends BaseFragment implements
 
         setToolbar(toolbar, "نمایش محتوا");
         txtAuthor = view.findViewById(R.id.txtAuthor);
-        txtTitle = view.findViewById(R.id.txtTitle);
+        txtTitle = view.findViewById(R.id.txt_title);
         webView = view.findViewById(R.id.webView);
+
         btnDownload = view.findViewById(R.id.btnDownload);
         btnOpenPDF = view.findViewById(R.id.btnOpenPDF);
         tagGroup = view.findViewById(R.id.tag_group);
-        btnDownload.setOnClickListener(this);
-        btnOpenPDF.setOnClickListener(this);
-        tagGroup.setOnTagClickListener(this);
 
         for (View v : tagGroup.getTouchables()) {
             if (v instanceof TextView) {
                 ((TextView) v).setTypeface(AppConfig.fontIRSensLight);
             }
         }
+
+        btnDownload.setOnClickListener(this);
+        btnOpenPDF.setOnClickListener(this);
+        tagGroup.setOnTagClickListener(this);
     }
 
     @Override
@@ -189,39 +184,51 @@ public class ShowContentInfoFrg extends BaseFragment implements
     @Override
     public void onClick(View view) {
 
-        if (view.getId() == R.id.btnDownload) {
-            MyAlertDialogFrg alert = new MyAlertDialogFrg();
-            alert.setTitle("دانلود ");
-            alert.setMessage("آیا مایل به دانلود این فایل هستید؟");
-            alert.setListener(new MyAlertDialogFrg.MyAlertDialogListener() {
-                @Override
-                public void setOnPositive() {
-                    startFileDownload();
+        if (view != null) {
+            if (view.getId() == R.id.btnDownload) {
+                MyAlertDialogFrg alert = new MyAlertDialogFrg();
+                alert.setTitle("دانلود ")
+                        .setMessage("آیا مایل به دانلود این فایل هستید؟")
+                        .setListener(new MyAlertDialogFrg.MyAlertDialogListener() {
+                            @Override
+                            public void setOnPositive() {
+
+                                startFileDownload();
+                                alert.dismiss();
+                            }
+
+                            @Override
+                            public void setOnNegative() {
+                                alert.dismiss();
+                            }
+                        });
+
+                if (fragmentManager != null) {
+                    alert.show(fragmentManager, "alert");
                 }
 
-                @Override
-                public void setOnNegative() {
+            } else if (view.getId() == R.id.btnOpenPDF) {
+                String fileName = FileManager.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
+                if (fileName != null) {
+                    Intent pdfFileIntent = OpenFile.getPdfFileIntent(getActivity(), FileManager.getPDFPath() + "/" + fileName);
+                    Log.i(TAG, "." + pdfFileIntent.toString());
 
+
+                    try {
+                        startActivity(pdfFileIntent);
+                    } catch (Exception ex) {
+                        Log.e(TAG, ex.getMessage());
+                        ActivityBase.toastShow("خطایی رخ داده است، فایل را از فایل منیجر گوشی باز کنید.", MDToast.TYPE_ERROR);
+                    }
                 }
-            });
-            FragmentManager fragmentManager = getFragmentManager();
-            if (fragmentManager != null) {
-                alert.show(fragmentManager, "alert");
-            }
-
-        } else if (view.getId() == R.id.btnOpenPDF) {
-
-            String fileName = course.getFile().getPamphlet().get(0).getFileName();
-            if (fileName != null) {
-                startActivity(OpenFile.getPdfFileIntent(FileManager.getPDFPath() + "/" + fileName));
             }
         }
 
     }
 
     private void startFileDownload() {
-        if (checkLocationPermission()) {
-            if (course.getFile().getPamphlet().get(0).getLink() != null) {
+        if (getActivity() != null && checkLocationPermission()) {
+            if (course != null && course.getFile().getPamphlet().get(0).getLink() != null) {
                 String url = course.getFile().getPamphlet().get(0).getLink();
                 String fileName = Utils.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
                 String name = course.getName();
@@ -235,20 +242,34 @@ public class ShowContentInfoFrg extends BaseFragment implements
 
         Log.i(TAG, "download: " + url);
 
-        AuthToken.getInstant().get(Objects.requireNonNull(getContext()), Objects.requireNonNull(getActivity()), token -> {
-            Log.e(TAG, token);
-            if (token != null) {
-                DownloadFile.getInstance().init(getContext(), () -> {
 
-                    ActivityBase.toastShow(getResources().getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
-                    btnDownload.setVisibility(View.GONE);
-                    btnOpenPDF.setVisibility(View.VISIBLE);
-                });
+        if (url.contains("cdn")) {
+            startDownload(url, fileName, name);
+        } else {
+            Utils.followRedirectedLink(getContext(), getActivity(), url, new EncryptedDownloadInterface.Callback() {
+                @Override
+                public void fetch(String newUrl) {
+                    startDownload(newUrl, fileName, name);
+                }
 
-                DownloadFile.getInstance().start(url,
-                        AppConstants.ROOT + "/" + AppConstants.PDF, fileName, name, getResources().getString(R.string.alaa));
-            }
+                @Override
+                public void error(String message) {
+                    Log.e(TAG, "link: " + url + "\n\n" + "followRedirectedLink-error:\n\r" + message);
+                }
+            });
+        }
+
+    }
+
+    private void startDownload(String url, String fileName, String name) {
+        DownloadFile.getInstance().init(getContext(), () -> {
+
+            ActivityBase.toastShow(getResources().getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
+            btnDownload.setVisibility(View.GONE);
+            btnOpenPDF.setVisibility(View.VISIBLE);
         });
+        DownloadFile.getInstance().start(url,
+                AppConstants.ROOT + "/" + AppConstants.PDF, fileName, name, getResources().getString(R.string.alaa));
     }
 
     @Override

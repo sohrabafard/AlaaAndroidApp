@@ -18,13 +18,7 @@ import java.util.ArrayList;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
-import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
 import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
-import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
-import ir.sanatisharif.android.konkur96.model.ShopItem;
-import ir.sanatisharif.android.konkur96.ui.view.CustomShopItemView;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
@@ -71,7 +65,10 @@ public class CategoryShopItemAdapter extends RecyclerView.Adapter<CategoryShopIt
 
             holder.discount.setText("");
         }
-        Glide.with(mContext).load(item.getPhoto()).into(holder.image);
+        Glide.with(mContext)
+                .load(item.getPhoto())
+                .thumbnail(0.1f)
+                .into(holder.image);
 
 
         holder.cardViewRoot.setOnClickListener(view -> addFrg(ProductDetailFragment.newInstance(item), "ProductDetailFragment"));
@@ -92,7 +89,7 @@ public class CategoryShopItemAdapter extends RecyclerView.Adapter<CategoryShopIt
 
         public ContentHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.txtTitle);
+            title = itemView.findViewById(R.id.txt_title);
             price = itemView.findViewById(R.id.txtPrice);
             discount = itemView.findViewById(R.id.txtDiscount);
             image = itemView.findViewById(R.id.imgItem);

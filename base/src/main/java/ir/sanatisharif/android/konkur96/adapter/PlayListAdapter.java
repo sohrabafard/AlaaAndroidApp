@@ -85,11 +85,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
 
 
         if (pos > -1 && position == pos) {
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                holder.linearBottom.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
-            } else {
-                holder.linearBottom.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
-            }
+            holder.linearBottom.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shape_play_list));
         } else {
             holder.root.setBackgroundColor(mContext.getResources().getColor(R.color.White));
         }
@@ -100,6 +96,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
         Glide.with(mContext)
                 .load(item.getThumbnail())
                 .apply(requestOptions)
+                .thumbnail(0.1f)
                 .into(new SimpleTarget<Drawable>(460, 259) {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
@@ -148,7 +145,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
             root = view.findViewById(R.id.root);
             linearBottom = view.findViewById(R.id.linearBottom);
             imgPlayList = view.findViewById(R.id.imgPlayList);
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
             txtSession = view.findViewById(R.id.txtSession);
             loader = view.findViewById(R.id.loader);
             loader.getIndeterminateDrawable().setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);

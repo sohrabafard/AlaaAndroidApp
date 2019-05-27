@@ -12,8 +12,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.account.Authenticator;
-import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
@@ -26,15 +24,29 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_F
 
 public class AccountInfo {
 
-    public String TAG = "Alla";
+    public String TAG = "Alaa\\AccountInfo";
     private AccountManager mAccountManager;
     private Context context;
     private Activity activity;
     private String token;
 
+    public AccountInfo setActivity(Activity activity){
+        this.activity = activity;
+        return this;
+    }
+    public AccountInfo setActivity(Context context){
+        this.context = context;
+        return this;
+    }
+
     public AccountInfo(Context context, Activity activity) {
         this.context = context;
         this.activity = activity;
+        mAccountManager = AccountManager.get(context);
+    }
+
+    public AccountInfo(Context context) {
+        this.context = context;
         mAccountManager = AccountManager.get(context);
     }
 
@@ -52,7 +64,10 @@ public class AccountInfo {
      * @param accountType
      * @param authTokenType
      */
-    public void addNewAccount(String accountType, String authTokenType) {
+    public void addNewAccount(String accountType, String authTokenType) throws Exception {
+        if(activity == null){
+            throw new Exception("Activity is Null!");
+        }
         final AccountManagerFuture<Bundle> future =
                 mAccountManager.addAccount(accountType, authTokenType, null, null,
                         activity, new AccountManagerCallback<Bundle>() {
@@ -77,8 +92,11 @@ public class AccountInfo {
      *
      * @param authTokenType
      */
-    public void getExistingAccountAuthToken(String accountType, String authTokenType) {
+    public void getExistingAccountAuthToken(String accountType, String authTokenType) throws Exception {
 
+        if(activity == null ){
+            throw new Exception("Activity is Null!");
+        }
         Account[] account = mAccountManager.getAccountsByType(accountType);
         final AccountManagerFuture<Bundle> future = mAccountManager.getAuthToken(account[0], authTokenType, null, activity, null, null);
 
@@ -108,7 +126,10 @@ public class AccountInfo {
     }
 
 
-    public void invalidateAuthToken(final Account account, String authTokenType) {
+    public void invalidateAuthToken(final Account account, String authTokenType) throws Exception {
+        if(activity == null ){
+            throw new Exception("Activity is Null!");
+        }
         final AccountManagerFuture<Bundle> future =
                 mAccountManager.getAuthToken(account, authTokenType, null, activity, null, null);
 
@@ -140,8 +161,11 @@ public class AccountInfo {
 
     }
 
-    public boolean ExistAccount(String type) {
+    public boolean ExistAccount(String type) throws Exception {
 
+        if(activity == null ){
+            throw new Exception("Activity is Null!");
+        }
         Account[] availableAccounts = mAccountManager.getAccountsByType(type);
 
         if (availableAccounts.length == 0) {

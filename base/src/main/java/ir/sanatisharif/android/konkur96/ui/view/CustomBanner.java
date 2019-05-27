@@ -43,7 +43,7 @@ public class CustomBanner extends LinearLayout {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.custom_banner, this, true);
 
-        txtTitle = v.findViewById(R.id.txtTitle);
+        txtTitle = v.findViewById(R.id.txt_title);
         imgItem = v.findViewById(R.id.imgItem);
 
     }

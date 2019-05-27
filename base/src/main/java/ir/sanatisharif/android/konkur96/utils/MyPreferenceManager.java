@@ -37,6 +37,19 @@ public class MyPreferenceManager {
         return preferenceManager;
     }
 
+    public String getApiToken() {
+        return getSharedString(API_TOKEN, "");
+    }
+
+    /**
+     * Api Token
+     *
+     * @param token
+     */
+    public void setApiToken(String token) {
+        setSharedString(API_TOKEN, token);
+    }
+
     /**
      * String
      *
@@ -134,32 +147,6 @@ public class MyPreferenceManager {
         setSharedBoolean(SEND_TOKEN_TO_SERVER, sended);
     }
 
-    public String getApiToken() {
-        return getSharedString(API_TOKEN, "");
-    }
-
-    /**
-     * Api Token
-     *
-     * @param token
-     */
-    public void setApiToken(String token) {
-        setSharedString(API_TOKEN, token);
-    }
-
-    public boolean isAuthorize() {
-        return getSharedBoolean(AUTHORIZE, false);
-    }
-
-    /**
-     * check okhttp and set header
-     *
-     * @param authorize
-     */
-    public void setAuthorize(boolean authorize) {
-        setSharedBoolean(AUTHORIZE, authorize);
-    }
-
     public Boolean getTurnOffNotification() {
         return getSharedBoolean(TURN_OFF_NOTIFICATION, false);
     }
@@ -170,7 +157,7 @@ public class MyPreferenceManager {
     }
 
     public int getLastVersionCode() {
-        return getSharedInt(LAST_VERSION_CODE, 41);
+        return getSharedInt(LAST_VERSION_CODE, 44);
     }
 
     public void setLastVersionCode(int value) {

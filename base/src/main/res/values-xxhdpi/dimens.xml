@@ -1,4 +1,6 @@
 <resources>
 	<dimen name="fab_margin">57.6dp</dimen>
 	<dimen name="card_size_video">240dp</dimen>
+	<dimen name="spacing_middle">15dp</dimen>
+	<dimen name="onboard">50dp</dimen>
 </resources>

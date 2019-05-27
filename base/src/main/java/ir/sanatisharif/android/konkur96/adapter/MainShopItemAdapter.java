@@ -20,15 +20,10 @@ import java.util.ArrayList;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.fragment.ExtraItemFrg;
 import ir.sanatisharif.android.konkur96.fragment.MoreProductFragment;
-import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
-import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
-import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.MainShopItem;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager;
-import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ViewSliderAdapter;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ViewSliderAdapterInShop;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
@@ -84,14 +79,12 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             IncredibleOfferItemAdapter itemListDataAdapter = new IncredibleOfferItemAdapter(mContext, items);
 
-            itemRowHolder.recyclerView.setHasFixedSize(false);
             LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-            lin.setReverseLayout(false);
             itemRowHolder.recyclerView.setLayoutManager(lin);
             itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
             itemRowHolder.recyclerView.setHasFixedSize(true);
             itemRowHolder.recyclerView.setAdapter(itemListDataAdapter);
-            snapHelper.attachToRecyclerView(itemRowHolder.recyclerView);
+//            snapHelper.attachToRecyclerView(itemRowHolder.recyclerView);
             itemListDataAdapter.notifyDataSetChanged();
 
 
@@ -213,7 +206,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(view);
 
             root = view.findViewById(R.id.root);
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
             txtMore = view.findViewById(R.id.txtMore);
             recyclerView = view.findViewById(R.id.recyclerView);
 
@@ -253,7 +246,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(view);
 
             recyclerView = view.findViewById(R.id.recyclerView);
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
 
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);
             recyclerView.getLayoutParams().height = AppConfig.itemHeight;
@@ -273,7 +266,7 @@ public class MainShopItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             view_pager.startAutoScroll(50000);
             view_pager.setBorderAnimation(true);
 
-            int h = (int) (AppConfig.width * 0.39f);
+            int h = (int) (AppConfig.width * 0.30f);
             view_pager.getLayoutParams().height = h;
 
         }

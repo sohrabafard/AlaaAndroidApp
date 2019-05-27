@@ -116,14 +116,12 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             CategoryItemAdapter itemListDataAdapter = new CategoryItemAdapter(mContext, items);
 
-            itemRowHolder.recyclerView.setHasFixedSize(false);
-            LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-            lin.setReverseLayout(false);
+
+            LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
             itemRowHolder.recyclerView.setLayoutManager(lin);
             itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
             itemRowHolder.recyclerView.setHasFixedSize(true);
             itemRowHolder.recyclerView.setAdapter(itemListDataAdapter);
-            // snapHelper.attachToRecyclerView(itemRowHolder.recyclerView);
             itemListDataAdapter.notifyDataSetChanged();
 
         } else if (viewType == AppConstants.ITEM_CONTENT) {
@@ -289,7 +287,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private HeaderHolder(View view) {
             super(view);
 
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
             txtMore = view.findViewById(R.id.txtMore);
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);
             txtMore.setTypeface(AppConfig.fontIRSensNumber);

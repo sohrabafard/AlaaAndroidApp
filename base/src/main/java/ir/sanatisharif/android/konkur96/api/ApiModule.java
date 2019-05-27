@@ -14,7 +14,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
+import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -25,14 +27,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class ApiModule {
 
-    private static final long cacheSize = 10 * 1024 * 1024; // 10 MB
+    private static final long cacheSize = 100 * 1024 * 1024; // 10 MB
     private static Interceptor onlineInterceptor = chain -> {
         Request original = chain.request();
         Request.Builder builder = original.newBuilder();
         okhttp3.Response response = chain.proceed(builder.build());
 
-//            if (!handelStatusCode(response.code()))
-//                return response;
+        handelStatusCode(response.code());
 
         int maxAge = 10; // read from cache for 10 seconds even if there is internet connection
         return response.newBuilder()
@@ -130,5 +131,53 @@ public class ApiModule {
                 .baseUrl(AppConfig.BASE_URL)
                 .build()
                 .create(HeadRequestInterface.class);
+    }
+
+    ///http://developer.android.com/
+    private static boolean handelStatusCode(int code) {
+
+        boolean valid = true;
+        if (code == 401) {
+            Log.i("LOG", "handelStatusCode: " + 400);
+            handleToast("دسترسی نا معتبر");
+            valid = false;
+        } else if (code == 403) {
+            Log.i("LOG", "handelStatusCode: " + 403);
+            handleToast("دسترسی غیر مجاز ");
+            valid = false;
+        } else if (code == 404) {
+            Log.i("LOG", "handelStatusCode: " + 404);
+            handleToast("منبع درخواستی پیدا نشد");
+            valid = false;
+        } else if (code == 408) {
+            Log.i("LOG", "handelStatusCode: " + 408);
+            handleToast("پایان حداکثر زمان درخواست");
+            valid = false;
+        } else if (code == 413) {
+            Log.i("LOG", "handelStatusCode: " + 413);
+            handleToast("درخواست خیلی طولانی");
+            valid = false;
+        } else if (code >= 500) {
+            Log.i("LOG", "handelStatusCode: " + 500);
+            handleToast("خطای داخلی سرور");
+            valid = false;
+        } 
+        return valid;
+    }
+
+    private static void handleToast(String msg) {
+        AppConfig.HANDLER.post(new Runnable() {
+            @Override
+            public void run() {
+                ActivityBase.toastShow(msg, MDToast.TYPE_ERROR);
+            }
+        });
+
+    }
+
+    @Provides
+    @Singleton
+    MainApi provideMainApi(Retrofit.Builder builder) {
+        return builder.baseUrl(AppConfig.BASE_URL).build().create(MainApi.class);
     }
 }

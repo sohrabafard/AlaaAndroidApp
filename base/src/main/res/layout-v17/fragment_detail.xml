@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <com.google.android.exoplayer2.ui.AspectRatioFrameLayout
+        android:id="@+id/mediaVideoFrame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:resize_mode="fixed_width">
+
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/exoplayer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="0dp"
+            android:scaleY="1"
+            android:visibility="gone"
+            app:fastforward_increment="30000"
+            app:rewind_increment="30000"
+            app:show_buffering="true"
+            app:show_timeout="5000"
+            app:shutter_background_color="@color/White">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+        </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+    </com.google.android.exoplayer2.ui.AspectRatioFrameLayout>
+
+    <FrameLayout
+        android:id="@+id/relativePreview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/Gray"
+        android:visibility="visible">
+
+
+        <ImageView
+            android:id="@+id/imgPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/imgPlay"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_circle_play"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_play"
+            android:tint="@color/White" />
+
+    </FrameLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@color/White"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <include layout="@layout/details_video" />
+
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:layoutDirection="rtl"
     android:padding="6dp"
     app:cardCornerRadius="4dp"
     app:cardElevation="10dp"
@@ -19,6 +18,7 @@
         android:layout_margin="8dp"
         android:layout_marginRight="@dimen/dialog_right_margin"
         android:gravity="center"
+        android:layout_marginEnd="@dimen/dialog_right_margin"
         android:orientation="vertical">
 
 

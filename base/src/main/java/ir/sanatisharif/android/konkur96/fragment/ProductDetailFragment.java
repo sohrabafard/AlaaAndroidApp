@@ -1,10 +1,13 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,10 +29,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,7 +44,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.common.util.ArrayUtils;
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,16 +52,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
-import ir.sanatisharif.android.konkur96.adapter.ProductAttrAdapter;
 import ir.sanatisharif.android.konkur96.adapter.ProductBonsAdapter;
 import ir.sanatisharif.android.konkur96.adapter.SelectableProductAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
-import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
@@ -66,19 +69,24 @@ import ir.sanatisharif.android.konkur96.dialog.ZarinPalDialogFragment;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
+import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.IncredibleOffer;
 import ir.sanatisharif.android.konkur96.model.MainAttrType;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.model.SelectableProduct;
-import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.utils.GalleryWorker;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
+import ir.sanatisharif.android.konkur96.utils.Utils;
+
+import static ir.sanatisharif.android.konkur96.app.AppConfig.currentActivity;
+import static ir.sanatisharif.android.konkur96.app.AppConfig.showNoInternetDialog;
 
 public class ProductDetailFragment extends BaseFragment {
 
 
     Toolbar pageToolbar;
+    private LogUserActionsOnPublicContentInterface mUserAction;
     private CardView cardAttrProduct, cardSampleProduct;
 
     private ImageView image;
@@ -131,14 +139,31 @@ public class ProductDetailFragment extends BaseFragment {
 
     }
 
-    public static ProductDetailFragment newInstance() {
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
-        Bundle args = new Bundle();
-        ProductDetailFragment fragment = new ProductDetailFragment();
-        fragment.setArguments(args);
-        return fragment;
+        try {
+            mUserAction = (LogUserActionsOnPublicContentInterface) context;
+        } catch (ClassCastException ex) {
+            throw new ClassCastException(context.toString()
+                    + " must implement LogUserActionsOnPublicContentInterface");
+        }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mUserAction = null;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (mUserAction != null && model != null)
+            mUserAction.userStartedViewingAParticularPage(model);
+    }
 
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -265,62 +290,95 @@ public class ProductDetailFragment extends BaseFragment {
         cardAttrProduct.setOnClickListener(v -> showAtrrDialog());
         cardSampleProduct.setOnClickListener(v -> showSampleProduct());
         btnAddToCard.setOnClickListener(v -> {
-            if (null != model.getAttributes().getExtra()) {
+            if (!Utils.isConnected()) {
+                showDialog();
+                return;
+            }
+            if (modelExtraAttributeIsNull()) {
+                handleBtnAddToCardWhenModelExtraAttributeIsNull();
+                return;
+            }
+            handleBtnAddToCardWhenModelExtraAttributeIsNotNull();
+        });
+    }
 
-                if (type == ProductType.CONFIGURABLE) {
+    public void showDialog() {
+        final Dialog dialog = new Dialog(new ContextThemeWrapper(currentActivity,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_no_internet);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-                    if (attrList.size() > 0) {
+        showNoInternetDialog = true;
+        Button btnOK = dialog.findViewById(R.id.btnOK);
+        ImageView imgCLose = dialog.findViewById(R.id.imgCLose);
 
-                        showExtraAtrrDialog();
-
-                    } else {
-
-                        Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
-                    }
-                } else if (type == ProductType.SELECTABLE) {
-
-                    if (selectableIdList.size() > 0) {
-
-                        showExtraAtrrDialog();
-
-                    } else {
-
-                        Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
-                    }
-                } else if (type == ProductType.SIMPLE) {
-
-                    showExtraAtrrDialog();
-                }
-
-
-            } else {
-
-                if (type == ProductType.CONFIGURABLE) {
-
-                    if (attrList.size() > 0) {
-
-                        showZarinPalDialog();
-
-                    } else {
-
-                        Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
-                    }
-                } else if (type == ProductType.SELECTABLE) {
-
-                    if (selectableIdList.size() > 0) {
-
-                        showZarinPalDialog();
-
-                    } else {
-
-                        Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
-                    }
-                } else if (type == ProductType.SIMPLE) {
-
-                    showZarinPalDialog();
-                }
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                showNoInternetDialog = false;
             }
         });
+        imgCLose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showNoInternetDialog = false;
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+    }
+
+    private void handleBtnAddToCardWhenModelExtraAttributeIsNotNull() {
+        if (type == ProductType.CONFIGURABLE) {
+            if (attrList.size() > 0) {
+                showExtraAtrrDialog();
+                return;
+            }
+            Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (type == ProductType.SELECTABLE) {
+            if (selectableIdList.size() > 0) {
+                showExtraAtrrDialog();
+                return;
+            }
+            Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (type == ProductType.SIMPLE) {
+            showExtraAtrrDialog();
+        }
+    }
+
+    private void handleBtnAddToCardWhenModelExtraAttributeIsNull() {
+        if (type == ProductType.CONFIGURABLE) {
+            if (attrList.size() > 0) {
+                showZarinPalDialog();
+                return;
+            }
+            Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (type == ProductType.SELECTABLE) {
+            if (selectableIdList.size() > 0) {
+                showZarinPalDialog();
+                return;
+            }
+            Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (type == ProductType.SIMPLE) {
+            showZarinPalDialog();
+        }
+    }
+
+    private boolean modelExtraAttributeIsNull() {
+        return null == model.getAttributes().getExtra();
     }
 
 
@@ -351,6 +409,7 @@ public class ProductDetailFragment extends BaseFragment {
 
         Glide.with(AppConfig.context)
                 .load(model.getPhoto())
+                .thumbnail(0.1f)
                 .into(image);
 
         if (null != model.getBons() && model.getBons().size() > 0) {
@@ -615,8 +674,8 @@ public class ProductDetailFragment extends BaseFragment {
         FragmentManager fm = getFragmentManager();
         DialogFragment newFragment = new ZarinPalDialogFragment(type, model, totalPrice, selectableIdList, attrList, attrExtraList);
 
+        assert fm != null;
         newFragment.show(fm, "ZarinPalDialog");
-
     }
 
 

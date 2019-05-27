@@ -17,15 +17,16 @@
         app:backgroundTint="@color/shades_1"
         app:elevation="1dp"
         app:fabSize="normal"
+        android:focusable="true"
         app:rippleColor="@color/colorPrimaryDark" />
 
     <TextView
-        android:id="@+id/txtTitle"
+        android:id="@+id/txt_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
         android:text=""
-        android:textSize="@dimen/_12sdp"
+        android:textSize="@dimen/video_title"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
 </LinearLayout>

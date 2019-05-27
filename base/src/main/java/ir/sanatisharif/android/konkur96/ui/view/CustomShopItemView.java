@@ -15,8 +15,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -24,7 +22,6 @@ import com.bumptech.glide.request.transition.Transition;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.model.ShopItem;
 
 
 public class CustomShopItemView extends LinearLayout {
@@ -136,7 +133,7 @@ public class CustomShopItemView extends LinearLayout {
         }
 
         cardViewRoot = findViewById(R.id.cardViewRoot);
-        txtTitle = findViewById(R.id.txtTitle);
+        txtTitle = findViewById(R.id.txt_title);
         imgItem = findViewById(R.id.imgItem);
         txtPrice = findViewById(R.id.txtPrice);
         txtDiscount = findViewById(R.id.txtDiscount);

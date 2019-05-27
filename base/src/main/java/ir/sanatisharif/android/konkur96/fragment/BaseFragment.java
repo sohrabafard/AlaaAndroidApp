@@ -1,17 +1,15 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
-import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LifecycleRegistry;
 import android.content.Context;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +20,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
-import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
 
 /**
  * Created by Mohamad on 11/2/2018.
@@ -31,6 +27,7 @@ import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
 
 public abstract class BaseFragment extends Fragment implements LifecycleOwner {
 
+    private static final String TAG = "Alaa\\BaseFrg";
     private Toolbar toolbar;
     private TextView txtTitle;
     // private LifecycleRegistry mLifecycleRegistry;
@@ -39,7 +36,7 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanseState) {
@@ -48,57 +45,16 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
 
     public abstract View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
+
     @Override
     public void onResume() {
         super.onResume();
-
+        Log.i(TAG, "onStart:onResume");
+        FragmentActivity activity = getActivity();
+        if(mFirebaseAnalytics != null && activity != null) {
+            mFirebaseAnalytics.setCurrentScreen(activity, this.getClass().getSimpleName(), this.getClass().getSimpleName());
+        }
     }
-
-    //    @Override
-//    public LifecycleRegistry getLifecycle() {
-//        return mLifecycleRegistry;
-//    }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
-//
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
-//        super.onDestroy();
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
-//        super.onPause();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        mLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-//        super.onStop();
-//        AppConfig.mInstance.setICheckNetwork(null);
-//    }
-//
-//    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        mLifecycleRegistry = new LifecycleRegistry(this);
-//        mLifecycleRegistry.markState(Lifecycle.State.CREATED);
-//    }
-
     public void setToolbar(Toolbar mToolbar, String txtTitle) {
 
         setHasOptionsMenu(true);

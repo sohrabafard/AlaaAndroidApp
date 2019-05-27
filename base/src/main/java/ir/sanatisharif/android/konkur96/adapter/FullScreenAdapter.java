@@ -3,7 +3,6 @@ package ir.sanatisharif.android.konkur96.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +10,10 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
 
-
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
-import ir.sanatisharif.android.konkur96.model.ImageGalleryModel;
 
 public class FullScreenAdapter extends PagerAdapter {
 
@@ -56,6 +53,7 @@ public class FullScreenAdapter extends PagerAdapter {
         try {
             Glide.with(context)
                     .load(temp.getUrl())
+                    .thumbnail(0.1f)
                     .into(photoView);
 
 

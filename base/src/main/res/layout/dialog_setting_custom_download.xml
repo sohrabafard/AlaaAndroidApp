@@ -3,15 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
-    android:layoutDirection="rtl"
     android:orientation="vertical">
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:textDirection="rtl">
+        android:orientation="vertical">
 
         <RadioButton
             android:id="@+id/radioExcellentQuality"
@@ -21,6 +19,7 @@
             android:checked="true"
             android:paddingRight="@dimen/dialog_radio_space_to_text"
             android:text=""
+            android:paddingEnd="@dimen/dialog_radio_space_to_text"
             android:textColor="#232F34" />
 
         <RadioButton
@@ -30,6 +29,7 @@
             android:layout_height="@dimen/dialog_item_height"
             android:paddingRight="@dimen/dialog_radio_space_to_text"
             android:text=""
+            android:paddingEnd="@dimen/dialog_radio_space_to_text"
             android:textColor="#232F34" />
 
         <RadioButton
@@ -39,6 +39,7 @@
             android:paddingRight="@dimen/dialog_radio_space_to_text"
             android:theme="@style/MyRaidoButton"
             android:text=""
+            android:paddingEnd="@dimen/dialog_radio_space_to_text"
             android:textColor="#232F34" />
 
     </RadioGroup>

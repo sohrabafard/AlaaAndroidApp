@@ -1,42 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/root"
     android:layout_height="wrap_content"
     android:background="@color/White"
-    android:layoutDirection="rtl"
-    android:orientation="vertical">
+    android:layout_margin="6dp"
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/txtMore"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:orientation="horizontal">
+        android:layout_margin="4dp"
+        android:drawableStart="@drawable/ic_arrow_left"
+        android:drawableLeft="@drawable/ic_arrow_left"
+        android:gravity="start|center"
+        android:text="@string/more"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/more_title" />
 
-        <TextView
-            android:id="@+id/txtTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:gravity="right|center"
-            android:text="header title"
-            android:textSize="@dimen/header_title"
-            android:textColor="@color/colorPrimary" />
-
-
-        <TextView
-            android:id="@+id/txtMore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:gravity="right|center"
-            android:drawableLeft="@drawable/ic_arrow_left"
-            android:textSize="@dimen/more_title"
-            android:text="@string/more"
-            android:textColor="@color/colorPrimary" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        android:gravity="end|center"
+        android:text="header title"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/header_title" />
 
 
 </LinearLayout>

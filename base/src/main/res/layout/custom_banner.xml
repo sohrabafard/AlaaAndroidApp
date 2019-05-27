@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:layout_margin="12dp"
-    android:layoutDirection="rtl">
+    android:layout_margin="12dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,10 +21,10 @@
             android:background="@drawable/shape_back_banner">
 
             <TextView
-                android:id="@+id/txtTitle"
+                android:id="@+id/txt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:padding="4dp"
                 android:text="sdsdsd"
                 android:textColor="@color/White"

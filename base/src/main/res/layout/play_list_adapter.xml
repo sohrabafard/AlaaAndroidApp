@@ -8,9 +8,9 @@
     android:layout_margin="4dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layoutDirection="rtl"
     android:orientation="horizontal"
     app:cardBackgroundColor="@color/White"
+    android:focusable="true"
     app:cardElevation="0dp">
 
     <RelativeLayout
@@ -33,7 +33,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_avatar" />
 
@@ -56,11 +55,11 @@
                 android:padding="4dp">
 
                 <TextView
-                    android:id="@+id/txtTitle"
+                    android:id="@+id/txt_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:gravity="center|right"
+                    android:gravity="center|end"
                     android:maxLines="1"
                     android:padding="4dp"
                     android:singleLine="true"
@@ -72,7 +71,7 @@
                     android:id="@+id/txtSession"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right|center"
+                    android:gravity="end|center"
                     android:padding="4dp"
                     android:text="sessopn"
                     android:textColor="@color/Monochromatic_1"

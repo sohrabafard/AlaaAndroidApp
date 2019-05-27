@@ -13,12 +13,13 @@
         android:gravity="center"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:scaleType="fitXY" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/iv_onboard">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,6 +36,8 @@
                 android:paddingRight="@dimen/ob_desc_padding"
                 android:textAllCaps="true"
                 android:textColor="@color/ob_header"
+                android:paddingStart="@dimen/ob_desc_padding"
+                android:paddingEnd="@dimen/ob_desc_padding"
                 android:textSize="@dimen/ob_header_text_size" />
 
             <TextView
@@ -46,6 +49,8 @@
                 android:paddingLeft="@dimen/ob_desc_padding"
                 android:paddingRight="@dimen/ob_desc_padding"
                 android:textColor="@color/ob_desc"
+                android:paddingStart="@dimen/ob_desc_padding"
+                android:paddingEnd="@dimen/ob_desc_padding"
                 android:textSize="@dimen/ob_desc_text_size" />
 
         </LinearLayout>

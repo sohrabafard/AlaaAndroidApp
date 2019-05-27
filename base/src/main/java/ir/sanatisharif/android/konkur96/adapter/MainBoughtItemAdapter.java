@@ -3,15 +3,12 @@ package ir.sanatisharif.android.konkur96.adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
@@ -21,7 +18,6 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.model.MainBoughtItem;
-import ir.sanatisharif.android.konkur96.model.MainShopItem;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ViewSliderAdapter;
 
@@ -194,7 +190,7 @@ public class MainBoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(view);
 
             root = view.findViewById(R.id.root);
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
             txtMore = view.findViewById(R.id.txtMore);
             recyclerView = view.findViewById(R.id.recyclerView);
 
@@ -234,7 +230,7 @@ public class MainBoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(view);
 
             recyclerView = view.findViewById(R.id.recyclerView);
-            txtTitle = view.findViewById(R.id.txtTitle);
+            txtTitle = view.findViewById(R.id.txt_title);
 
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);
             recyclerView.getLayoutParams().height = AppConfig.itemHeight;

@@ -135,7 +135,7 @@ public class ShowArticleInfoFrg extends BaseFragment {
 
         setToolbar(toolbar, "نمایش محتوا");
         txtAuthor = view.findViewById(R.id.txtAuthor);
-        txtTitle = view.findViewById(R.id.txtTitle);
+        txtTitle = view.findViewById(R.id.txt_title);
         txtDesc = view.findViewById(R.id.txtDesc);
         txtContext = view.findViewById(R.id.txtContext);
         tagGroup = view.findViewById(R.id.tag_group);

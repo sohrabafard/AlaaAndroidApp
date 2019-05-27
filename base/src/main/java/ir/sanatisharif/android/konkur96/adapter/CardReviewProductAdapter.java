@@ -17,11 +17,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
 import ir.sanatisharif.android.konkur96.api.Models.ItemCardReviewMOdel;
-import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 
@@ -29,18 +29,40 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
     private Context context;
     private DeleteListener deleteListener;
-    private ArrayList<ItemCardReviewMOdel> items;
+    private List<Object> items = new ArrayList<>();
 
-    private RecyclerView childRecyclerView;
+
     private LinearLayoutManager linearLayoutManager;
     private CardChildAdapter adapter;
 
 
-    public CardReviewProductAdapter(Context context, ArrayList<ItemCardReviewMOdel> items, DeleteListener deleteListener) {
+    public CardReviewProductAdapter(Context context, DeleteListener deleteListener) {
 
         this.deleteListener = deleteListener;
-        this.items = items;
         this.context = context;
+    }
+
+    public void setItems(@NonNull final ArrayList<ItemCardReviewMOdel> items) {
+        int c = this.items.size();
+        this.items.clear();
+        this.notifyDataSetChanged();
+
+        if(items.isEmpty())
+            return;
+
+        List<AddToCardModel> noGrandProducts = new ArrayList<>();
+        List<ItemCardReviewMOdel> grandProducts = new ArrayList<>();
+
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getGrand() == null) {
+                noGrandProducts.addAll(items.get(i).getOrderproducts());
+            } else {
+                grandProducts.add(items.get(i));
+            }
+        }
+        this.items.addAll(noGrandProducts);
+        this.items.addAll(grandProducts);
+        this.notifyDataSetChanged();
     }
 
     @NonNull
@@ -66,15 +88,12 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
-
         // To Determine View Type
         int viewType = getItemViewType(position);
 
         if (viewType == 1) {
 
-            final ItemCardReviewMOdel model = items.get(position);
-            final AddToCardModel product = model.getOrderproducts().get(0);
-
+            final AddToCardModel product = (AddToCardModel) items.get(position);
 
             final String title = product.getProduct().getName();
             final int price = product.getProduct().getPrice().getMfinal();
@@ -91,19 +110,19 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
                 itemRowHolderNoGrand.txtDiscount.setText(ShopUtils.formatPrice(discount) + " تومان ");
 
             } else {
-
                 itemRowHolderNoGrand.txtDiscount.setVisibility(View.GONE);
-
             }
 
             itemRowHolderNoGrand.btnDel.setOnClickListener(view -> deleteListener.onClickDelete(product.getId()));
 
-            Glide.with(context).load(image).into(itemRowHolderNoGrand.imageView);
-
+            Glide.with(context)
+                    .load(image)
+                    .thumbnail(0.1f)
+                    .into(itemRowHolderNoGrand.imageView);
 
         } else {
 
-            final ItemCardReviewMOdel model = items.get(position);
+            final ItemCardReviewMOdel model = (ItemCardReviewMOdel) items.get(position);
 
             final GrandProductViewHolder itemRowHolderGrand = (GrandProductViewHolder) holder;
 
@@ -111,7 +130,10 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
             final String image = model.getGrand().getPhoto();
 
             itemRowHolderGrand.txtTitle.setText(title);
-            Glide.with(context).load(image).into(itemRowHolderGrand.imageView);
+            Glide.with(context)
+                    .load(image)
+                    .thumbnail(0.1f)
+                    .into(itemRowHolderGrand.imageView);
 
 
             //recyclerView
@@ -128,16 +150,11 @@ public class CardReviewProductAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public int getItemViewType(int position) {
-
-        if (items.get(position).getGrand() == null) {
-
+        if (items.get(position) instanceof AddToCardModel) {
             return 1;
-
         } else {
-
             return 2;
         }
-
     }
 
     public interface DeleteListener {

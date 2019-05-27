@@ -31,7 +31,10 @@ public class EncryptedDownloadRepository implements EncryptedDownloadInterface {
         headRequest.get(url, ("Bearer " + token)).enqueue(new retrofit2.Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                callBack.fetch(response.headers().get("location"));
+                String link = response.headers().get("location");
+                if (link == null)
+                    link = url;
+                callBack.fetch(link);
             }
 
             @Override

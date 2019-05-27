@@ -7,10 +7,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
 
-public class ProductModel implements Parcelable {
+import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
+
+public class ProductModel implements Parcelable , LogUserActionsOnPublicContentInterface.Data {
 
     public static final Creator<ProductModel> CREATOR = new Creator<ProductModel>() {
         @Override
@@ -27,6 +27,8 @@ public class ProductModel implements Parcelable {
     private int id;
     @SerializedName("redirectUrl")
     private String redirectUrl;
+    @SerializedName("url")
+    private String url;
     @SerializedName("name")
     private String name;
     @SerializedName("isFree")
@@ -77,6 +79,7 @@ public class ProductModel implements Parcelable {
     protected ProductModel(Parcel in) {
         id = in.readInt();
         redirectUrl = in.readString();
+        url = in.readString();
         name = in.readString();
         isFree = in.readInt();
         amount = in.readLong();
@@ -100,6 +103,7 @@ public class ProductModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(redirectUrl);
+        dest.writeString(url);
         dest.writeString(name);
         dest.writeInt(isFree);
         dest.writeLong(amount);
@@ -134,6 +138,13 @@ public class ProductModel implements Parcelable {
 
     public String getRedirectUrl() {
         return redirectUrl;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public void setRedirectUrl(String redirectUrl) {
@@ -286,5 +297,25 @@ public class ProductModel implements Parcelable {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    @Override
+    public String getUserActionTitle() {
+        return this.getName();
+    }
+
+    @Override
+    public String getUserActionUrl() {
+        return getUrl();
+    }
+
+    @Override
+    public String getUserActionPhoto() {
+        return getPhoto();
+    }
+
+    @Override
+    public String getUserActionDescription() {
+        return getShortDescription() + "\n\r"+getLongDescription();
     }
 }

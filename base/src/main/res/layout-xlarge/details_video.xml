@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
-    android:layoutDirection="rtl"
     android:orientation="vertical">
 
     <FrameLayout
@@ -29,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_margin="4dp"
-                    android:gravity="center|right"
+                    android:gravity="center|end"
                     android:text=" "
                     android:textColor="@color/Black_2"
                     android:textSize="13sp"
@@ -67,11 +66,11 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/txtTitle"
+                android:id="@+id/txt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:gravity="center|right"
+                android:gravity="center|end"
                 android:text=""
                 android:textColor="@color/Black_2"
                 android:textSize="15sp" />
@@ -131,7 +130,7 @@
         android:layout_marginTop="8dp"
         android:focusable="true"
         android:focusableInTouchMode="false"
-        android:gravity="right"
+        android:gravity="end"
         android:padding="4dp"
         android:textColor="#4A4A4A"
         android:textSize="14sp" />
@@ -201,7 +200,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:gravity="right"
+                        android:gravity="end"
                         android:text="67"
                         android:textColor="@color/Green"
                         android:textSize="12sp" />

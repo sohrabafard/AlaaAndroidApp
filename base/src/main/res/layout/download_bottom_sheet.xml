@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/White"
-    android:layoutDirection="rtl"
     android:orientation="vertical"
     android:padding="6dp"
     app:cardCornerRadius="4dp"
@@ -14,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/dialog_right_margin"
+        android:layout_marginEnd="@dimen/dialog_right_margin"
         android:orientation="vertical">
 
         <LinearLayout
@@ -46,6 +46,7 @@
                 android:checked="true"
                 android:paddingRight="@dimen/dialog_radio_space_to_text"
                 android:textColor="#232F34"
+                android:paddingEnd="@dimen/dialog_radio_space_to_text"
                 android:theme="@style/MyRaidoButton" />
 
             <RadioButton
@@ -54,6 +55,7 @@
                 android:layout_height="@dimen/dialog_item_height"
                 android:paddingRight="@dimen/dialog_radio_space_to_text"
                 android:textColor="#232F34"
+                android:paddingEnd="@dimen/dialog_radio_space_to_text"
                 android:theme="@style/MyRaidoButton" />
 
             <RadioButton
@@ -62,6 +64,7 @@
                 android:layout_height="@dimen/dialog_item_height"
                 android:paddingRight="@dimen/dialog_radio_space_to_text"
                 android:textColor="#232F34"
+                android:paddingEnd="@dimen/dialog_radio_space_to_text"
                 android:theme="@style/MyRaidoButton" />
 
         </RadioGroup>
@@ -70,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_footer"
             android:layout_marginTop="28dp"
-            android:gravity="right"
+            android:gravity="end"
             android:orientation="horizontal">
 
             <TextView
@@ -85,6 +88,7 @@
                 android:text="@string/download"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
+                android:focusable="true"
                 android:textStyle="bold" />
 
             <TextView
@@ -98,6 +102,7 @@
                 android:text="@string/cancel"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
+                android:focusable="true"
                 android:textStyle="bold" />
         </LinearLayout>
 

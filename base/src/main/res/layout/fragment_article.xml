@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
-    android:layoutDirection="rtl"
     android:orientation="vertical">
 
     <include layout="@layout/app_bar" />
@@ -36,11 +35,11 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtTitle"
+                android:id="@+id/txt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
-                android:gravity="center|right"
+                android:gravity="center|end"
                 android:text=""
                 android:textColor="#070707"
                 android:textSize="@dimen/content_show_title" />
@@ -50,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
-                android:gravity="center|right"
+                android:gravity="center|end"
                 android:text=""
                 android:textColor="#070707"
                 android:textSize="@dimen/content_show_title" />
@@ -86,10 +85,12 @@
                 android:layout_marginTop="-16dp"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
-                android:gravity="right"
+                android:gravity="end"
                 android:paddingLeft="@dimen/tvJustufMargin"
                 android:paddingRight="@dimen/tvJustufMargin"
                 android:textColor="#4A4A4A"
+                android:paddingStart="@dimen/tvJustufMargin"
+                android:paddingEnd="@dimen/tvJustufMargin"
                 android:textSize="@dimen/content_show_desc" />
 
             <com.uncopt.android.widget.text.justify.JustifiedTextView
@@ -100,10 +101,12 @@
                 android:layout_marginTop="-16dp"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
-                android:gravity="right"
+                android:gravity="end"
                 android:paddingLeft="@dimen/tvJustufMargin"
                 android:paddingRight="@dimen/tvJustufMargin"
                 android:textColor="#4A4A4A"
+                android:paddingStart="@dimen/tvJustufMargin"
+                android:paddingEnd="@dimen/tvJustufMargin"
                 android:textSize="@dimen/content_show_desc" />
 
 

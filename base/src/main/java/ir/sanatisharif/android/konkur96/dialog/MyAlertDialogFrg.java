@@ -2,6 +2,7 @@ package ir.sanatisharif.android.konkur96.dialog;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+
+import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 
@@ -47,24 +50,27 @@ public class MyAlertDialogFrg extends BaseDialogFragment<MyAlertDialogFrg> {
         this.html = html;
     }
 
-    public void setListener(MyAlertDialogListener listener) {
+    public MyAlertDialogFrg setListener(MyAlertDialogListener listener) {
         this.listener = listener;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public MyAlertDialogFrg setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public MyAlertDialogFrg setMessage(String message) {
         this.message = message;
+        return this;
     }
     //</editor-fold>
 
@@ -72,7 +78,11 @@ public class MyAlertDialogFrg extends BaseDialogFragment<MyAlertDialogFrg> {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog_Alert);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog_Alert);
+        } else {
+            setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_DeviceDefault);
+        }
     }
 
 
@@ -81,7 +91,7 @@ public class MyAlertDialogFrg extends BaseDialogFragment<MyAlertDialogFrg> {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(getDialog().getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         dialog = inflater.inflate(R.layout.dialog_alert, container, false);
 
@@ -94,7 +104,7 @@ public class MyAlertDialogFrg extends BaseDialogFragment<MyAlertDialogFrg> {
 
         txtDownload = dialog.findViewById(R.id.txtDownload);
         txtCancel = dialog.findViewById(R.id.txtCancel);
-        txtTitle = dialog.findViewById(R.id.txtTitle);
+        txtTitle = dialog.findViewById(R.id.txt_title);
 
         txtMessage = dialog.findViewById(R.id.txtMessage);
 

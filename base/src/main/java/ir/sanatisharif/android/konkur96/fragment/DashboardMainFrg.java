@@ -1,6 +1,7 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
+import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
@@ -98,6 +100,20 @@ public class DashboardMainFrg extends BaseFragment {
             Events.CloseFragment closeFragment = new Events.CloseFragment();
             closeFragment.setTagFragments("");
             EventBus.getDefault().post(closeFragment);
+
+        } else if (id == R.id.actionSetting) {
+            startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
+        } else if (id == R.id.actionSettingSupportBuy) {
+
+            MyAlertDialogFrg alert = new MyAlertDialogFrg();
+            alert.setTitle(getString(R.string.settingsSupportBuy));
+            alert.setMessage(getString(R.string.supportBuy));
+            alert.setHtml(true);
+            alert.show(getFragmentManager(), "alert");
+        } else if (id == R.id.actionSettingTelegram) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ"));
+            intent.setPackage("org.telegram.messenger");
+            startActivity(intent);
         } else if (id == R.id.actionSettingLogout) {
 
             MyAlertDialogFrg alert = new MyAlertDialogFrg();
@@ -148,10 +164,10 @@ public class DashboardMainFrg extends BaseFragment {
 
     private void initUi(View view) {
 
-        setToolbar(mToolbar, "داشبورد");
+        setToolbar(mToolbar, "پروفایل من");
 
         getFragmentManager().beginTransaction()
-                .add(R.id.fl_container_profile, MyProduct.newInstance(), "your fragment here")
+                .add(R.id.fl_container_profile, MyProduct.newInstance(), "MyProduct")
                 .commit();
 
         //init
@@ -185,10 +201,10 @@ public class DashboardMainFrg extends BaseFragment {
         fabItemVideo = itemVideo.findViewById(R.id.fabTitle);
         fabItemNewOrder = itemNewOrder.findViewById(R.id.fabTitle);
 
-        ((TextView) itemBasket.findViewById(R.id.txtTitle)).setText("سبدخرید");
-        ((TextView) itemAboutMe.findViewById(R.id.txtTitle)).setText("درباره ما");
-        ((TextView) itemVideo.findViewById(R.id.txtTitle)).setText("ویدیو");
-        ((TextView) itemNewOrder.findViewById(R.id.txtTitle)).setText("لیست سفارش ها");
+        ((TextView) itemBasket.findViewById(R.id.txt_title)).setText("سبدخرید");
+        ((TextView) itemAboutMe.findViewById(R.id.txt_title)).setText("درباره آلاء");
+        ((TextView) itemVideo.findViewById(R.id.txt_title)).setText("فیلم\u200Cهای دانلود شده");
+        ((TextView) itemNewOrder.findViewById(R.id.txt_title)).setText("سفارش\u200Cهای من");
 
         fabItemBasket.setImageResource(R.drawable.ic_buy);//
         fabItemAboutMe.setImageResource(R.drawable.ic_call);

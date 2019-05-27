@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/LightGreyBack"
@@ -19,10 +18,11 @@
             android:layout_width="100dp"
             android:layout_height="110dp"
             android:scaleType="centerCrop"
-            android:layout_gravity="right|center_vertical"
+            android:layout_gravity="end|center_vertical"
             android:layout_marginRight="10dp"
             android:id="@+id/img"
-            android:background="@color/Black"/>
+            android:layout_marginEnd="10dp"
+            android:background="@color/Black" />
 
         <TextView
             android:id="@+id/txt_name"
@@ -31,10 +31,12 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="120dp"
             android:layout_marginLeft="5dp"
-            android:gravity="center|right"
+            android:layout_marginStart="5dp"
             android:padding="2dp"
             android:text=""
             android:textColor="@color/Black"
+            android:layout_marginEnd="120dp"
+            android:gravity="center|end"
             android:textSize="15sp" />
 
         <TextView
@@ -44,12 +46,14 @@
             android:layout_marginTop="50dp"
             android:layout_marginRight="120dp"
             android:layout_marginLeft="5dp"
-            android:gravity="center|right"
+            android:layout_marginStart="5dp"
             android:padding="2dp"
             android:text=""
             android:textColor="#222222"
             android:textSize="13sp"
-            android:visibility="gone"/>
+            android:layout_marginEnd="120dp"
+            android:gravity="center|end"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/txt_discount"
@@ -58,12 +62,14 @@
             android:layout_marginTop="50dp"
             android:layout_marginRight="120dp"
             android:layout_marginLeft="5dp"
-            android:gravity="center|right"
+            android:layout_marginStart="5dp"
             android:padding="2dp"
             android:text=""
             android:textColor="@color/IndianRed"
             android:textSize="13sp"
-            android:visibility="visible"/>
+            android:layout_marginEnd="120dp"
+            android:gravity="center|end"
+            android:visibility="visible" />
 
     </android.support.v7.widget.CardView>
 
@@ -91,6 +97,7 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
                     android:src="@drawable/ic_documents"
+                    android:layout_marginStart="5dp"
                     android:tint="@color/Gray" />
 
                 <TextView
@@ -125,6 +132,7 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
                     android:src="@drawable/ic_more"
+                    android:layout_marginStart="5dp"
                     android:tint="@color/Gray" />
 
                 <TextView
@@ -159,6 +167,7 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
                     android:src="@drawable/ic_comments"
+                    android:layout_marginStart="5dp"
                     android:tint="@color/Gray" />
 
                 <TextView
@@ -199,12 +208,14 @@
                     android:layout_margin="10dp"
                     android:focusable="true"
                     android:focusableInTouchMode="false"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:textColor="#4A4A4A"
                     android:textSize="15sp"
                     android:scrollbars = "vertical"
+                    android:paddingStart="@dimen/activity_horizontal_margin"
+                    android:paddingEnd="@dimen/activity_horizontal_margin"
                     android:visibility="visible" />
 
 
@@ -225,12 +236,13 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="end"
                         android:textColor="@color/Black_1"
                         android:textSize="17sp"
                         android:id="@+id/txt_main_attr_com"
                         android:layout_marginRight="15dp"
-                        android:text="انتخاب کنید:"/>
+                        android:layout_marginEnd="15dp"
+                        android:text="انتخاب کنید:" />
 
                 </LinearLayout>
 
@@ -251,12 +263,13 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="end"
                         android:textColor="@color/Black_1"
                         android:textSize="17sp"
                         android:id="@+id/txt_selectable_com"
                         android:layout_marginRight="15dp"
-                        android:text="انتخاب کنید:"/>
+                        android:layout_marginEnd="15dp"
+                        android:text="انتخاب کنید:" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycler_selectable"
@@ -278,7 +291,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:padding="5dp">
 
                     <ProgressBar
@@ -287,7 +300,8 @@
                         android:layout_marginLeft="20dp"
                         android:layout_gravity="center_vertical"
                         android:id="@+id/prog_price"
-                        android:visibility="gone"/>
+                        android:layout_marginStart="20dp"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/txt_price"
@@ -296,6 +310,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/MediumSeaGreen"
+                        android:layout_marginStart="10dp"
                         android:textSize="20sp" />
 
 
@@ -324,6 +339,7 @@
                             android:layout_height="30dp"
                             android:layout_marginLeft="5dp"
                             android:src="@drawable/ic_add_shopping_cart"
+                            android:layout_marginStart="5dp"
                             android:tint="@color/White" />
 
                         <TextView
@@ -354,11 +370,13 @@
                 android:layout_margin="10dp"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
-                android:gravity="right"
+                android:gravity="end"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:textColor="#4A4A4A"
                 android:textSize="15sp"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:visibility="visible" />
 
         </android.support.v7.widget.CardView>

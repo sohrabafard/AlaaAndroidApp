@@ -2,15 +2,19 @@ package ir.sanatisharif.android.konkur96.handler;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.api.ShopAPI;
 import ir.sanatisharif.android.konkur96.api.ZarinPalAPI;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -36,8 +40,18 @@ public class RepositoryImpl implements Repository {
         shopAPI.getMain()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mainModel -> callBack.onResponse(new Result.Success(mainModel)),
-                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
+                .subscribe(new Consumer<MainModel>() {
+                               @Override
+                               public void accept(MainModel mainModel) throws Exception {
+                                   callBack.onResponse(new Result.Success(mainModel));
+                               }
+                           },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                callBack.onResponse(new Result.Error(throwable.getMessage()));
+                            }
+                        });
     }
 
     @SuppressLint("CheckResult")
@@ -216,4 +230,26 @@ public class RepositoryImpl implements Repository {
                         throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
 
     }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void getProductByUrl(String url, String token, ApiCallBack callBack) {
+
+        shopAPI.getProductByUrl(url,("Bearer " + token))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<ProductModel>() {
+                               @Override
+                               public void accept(ProductModel ProductModel) throws Exception {
+                                   callBack.onResponse(new Result.Success(ProductModel));
+                               }
+                           },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                callBack.onResponse(new Result.Error(throwable.getMessage()));
+                            }
+                        });
+    }
+
 }
