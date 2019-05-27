@@ -192,6 +192,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
     //<editor-fold desc="get Data from server">
     void getData(String nextUrl) {
+        //TODO: issue
         Toast.makeText(getContext(),"دریافت از سرور ...",Toast.LENGTH_SHORT).show();
         repeatLoad = true;
         repository.getFilterTagsByUrl(nextUrl, new IServerCallbackObject() {

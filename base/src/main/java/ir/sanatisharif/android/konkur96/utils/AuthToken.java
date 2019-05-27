@@ -2,6 +2,7 @@ package ir.sanatisharif.android.konkur96.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,12 +28,33 @@ public class AuthToken {
 
     public void get(@NotNull Context context, @NotNull Activity activity, @NotNull Callback callback) {
         AccountInfo accountInfo = new AccountInfo(context, activity);
-        accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, callback::run);
+        accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
+            @Override
+            public void onToken(@NonNull String token) {
+                callback.run(token);
+            }
+
+            @Override
+            public void onNullToken() {
+                callback.nill();
+            }
+        });
     }
 
     public void get(@NotNull Context context, @NotNull Callback callback){
 
         AccountInfo accountInfo = new AccountInfo(context);
+        accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
+            @Override
+            public void onToken(@NonNull String token) {
+                callback.run(token);
+            }
+
+            @Override
+            public void onNullToken() {
+                callback.nill();
+            }
+        });
 
     }
 
@@ -40,6 +62,8 @@ public class AuthToken {
         /**
          * Callback for when an item has been selected.
          */
-        void run(String token);
+        void run(@NonNull String token);
+
+        void nill();
     }
 }

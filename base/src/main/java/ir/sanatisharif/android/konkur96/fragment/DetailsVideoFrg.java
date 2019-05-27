@@ -76,6 +76,7 @@ import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
+import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
 import ir.sanatisharif.android.konkur96.adapter.PlayListAdapter;
@@ -561,48 +562,56 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             });
         } else if (context != null) {
 
-            AuthToken.getInstant().get(context, currentActivity, token -> {
-                repository.getDetailsCourse(url, token, new IServerCallbackContentCredit() {
-                    @Override
-                    public void onSuccess(Object obj) {
-                        if (obj != null) {
+            AuthToken.getInstant().get(context, currentActivity, new AuthToken.Callback() {
+                @Override
+                public void run(@NonNull String token) {
+                    repository.getDetailsCourse(url, token, new IServerCallbackContentCredit() {
+                        @Override
+                        public void onSuccess(Object obj) {
+                            if (obj != null) {
 
-                            currentActivity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    course = (DataCourse) obj;
-                                    setData();
-                                    getPlayListFromContentByUrl(course.getSet().getContentUrl());
-                                }
-                            });
-                        } else {
-                            Log.i(TAG, "getData-else-onSuccess: \n\r" + url + "object is null");
+                                currentActivity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        course = (DataCourse) obj;
+                                        setData();
+                                        getPlayListFromContentByUrl(course.getSet().getContentUrl());
+                                    }
+                                });
+                            } else {
+                                Log.i(TAG, "getData-else-onSuccess: \n\r" + url + "object is null");
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onSuccessCredit(ContentCredit obj) {
-                        if (obj != null) {
-                            currentActivity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    course = obj.getContent();
-                                    setData();
-                                    showSnackBar(obj.getMessage());
-                                    setProduct(obj.getProduct());
-                                    getPlayListFromContentByUrl(course.getSet().getContentUrl());
-                                }
-                            });
-                        } else {
-                            Log.i(TAG, "getData-else-onSuccessCredit: \n\r" + url + "object is null");
+                        @Override
+                        public void onSuccessCredit(ContentCredit obj) {
+                            if (obj != null) {
+                                currentActivity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        course = obj.getContent();
+                                        setData();
+                                        showSnackBar(obj.getMessage());
+                                        setProduct(obj.getProduct());
+                                        getPlayListFromContentByUrl(course.getSet().getContentUrl());
+                                    }
+                                });
+                            } else {
+                                Log.i(TAG, "getData-else-onSuccessCredit: \n\r" + url + "object is null");
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(String message) {
-                        Log.i(TAG, "onSuccess:error " + message);
-                    }
-                });
+                        @Override
+                        public void onFailure(String message) {
+                            Log.i(TAG, "onSuccess:error " + message);
+                        }
+                    });
+                }
+
+                @Override
+                public void nill() {
+                    startActivity(new Intent(currentActivity, AuthenticatorActivity.class));
+                }
             });
         }
     }
@@ -727,6 +736,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         } else if (i == R.id.imgDownload) {
 
+            //TODO:issue
             if (course.getFile().getVideo() != null) {
                 DownloadDialogFrg dialog = new DownloadDialogFrg();
                 dialog.setData(course.getFile().getVideo(), course.getName(), (course.getIsFree() > 0))
@@ -1008,20 +1018,35 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                                         .createMediaSource(Uri.parse(mUrl));
                                 player.prepare(mVideoSource, !haveResumePosition, false);
                             } else {
-                                AuthToken.getInstant().get(context, currentActivity, token -> {
-                                    Log.i(TAG, "startPlayer, has_token: " + (token != null));
-                                    currentActivity.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
-                                            httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
-                                            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
+                                AuthToken.getInstant().get(context, currentActivity, new AuthToken.Callback() {
 
-                                            mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                                                    .createMediaSource(Uri.parse(mUrl));
-                                            player.prepare(mVideoSource, !haveResumePosition, false);
-                                        }
-                                    });
+                                    public void initExo(String token){
+                                        DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
+                                        if(token != null)
+                                            httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
+                                        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
+
+                                        mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                                                .createMediaSource(Uri.parse(mUrl));
+                                        player.prepare(mVideoSource, !haveResumePosition, false);
+                                    }
+
+                                    @Override
+                                    public void run(@NonNull String token) {
+                                        Log.i(TAG, "startPlayer, has_token");
+                                        currentActivity.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                initExo(token);
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void nill() {
+                                        Log.i(TAG, "startPlayer, without_token");
+                                        initExo(null);
+                                    }
                                 });
                             }
 
@@ -1178,21 +1203,34 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     .createMediaSource(Uri.parse(mUrl));
             player.prepare(mVideoSource, !haveResumePosition, false);
         } else {
-            AuthToken.getInstant().get(context, currentActivity, token -> {
-                Log.i(TAG, "startPlayer, has_token: " + (token != null));
-
-                currentActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
+            AuthToken.getInstant().get(context, currentActivity, new AuthToken.Callback() {
+                public void initExo(String token){
+                    DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
+                    if(token != null)
                         httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
-                        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
+                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
 
-                        mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                                .createMediaSource(Uri.parse(mUrl));
-                        player.prepare(mVideoSource, !haveResumePosition, false);
-                    }
-                });
+                    mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                            .createMediaSource(Uri.parse(mUrl));
+                    player.prepare(mVideoSource, !haveResumePosition, false);
+                }
+                @Override
+                public void run(@NonNull String token) {
+                    Log.i(TAG, "startPlayer, has_token");
+
+                    currentActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            initExo(token);
+                        }
+                    });
+                }
+
+                @Override
+                public void nill() {
+                    Log.i(TAG, "startPlayer, without_token");
+                    initExo(null);
+                }
             });
         }
     }

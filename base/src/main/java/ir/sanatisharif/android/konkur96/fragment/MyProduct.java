@@ -2,6 +2,7 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
+import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
 import ir.sanatisharif.android.konkur96.adapter.MyProductAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.api.Models.WalletModel;
@@ -102,22 +104,28 @@ public class MyProduct extends Fragment {
 
         adapter.setItems(new ArrayList<>());
 
-        AuthToken.getInstant().get(mContext, mActivity, token -> {
-            if (token == null)
-                return;
-            repository.getDashboard(token, String.valueOf(user.getId()), data -> {
-                if (data instanceof Result.Success) {
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            setData((myProductsModel) ((Result.Success) data).value);
-                        }
-                    });
-                } else {
+        AuthToken.getInstant().get(mContext, mActivity, new AuthToken.Callback() {
+            @Override
+            public void run(@NonNull String token) {
+                repository.getDashboard(token, String.valueOf(user.getId()), data -> {
+                    if (data instanceof Result.Success) {
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setData((myProductsModel) ((Result.Success) data).value);
+                            }
+                        });
+                    } else {
+                        Log.d("Test", (String) ((Result.Error) data).value);
+                        startActivity(new Intent(mActivity, AuthenticatorActivity.class));
+                    }
+                });
+            }
 
-                    Log.d("Test", (String) ((Result.Error) data).value);
-                }
-            });
+            @Override
+            public void nill() {
+
+            }
         });
     }
 

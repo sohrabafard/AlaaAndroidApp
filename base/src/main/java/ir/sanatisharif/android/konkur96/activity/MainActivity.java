@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -27,6 +28,7 @@ import java.util.Stack;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
+import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
 import ir.sanatisharif.android.konkur96.api.Models.ErrorBase;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationResponse;
@@ -59,7 +61,6 @@ import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 //https://blog.iamsuleiman.com/bottom-navigation-bar-android-tutorial/
 public class MainActivity extends ActivityBase implements AHBottomNavigation.OnTabSelectedListener, ICheckNetwork, LogUserActionsOnPublicContentInterface {
@@ -277,33 +278,36 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
     }
 
-    private void lunchProductFragmentByUrl(String path, Activity activity) {
+    private void lunchProductFragmentByUrl(@NonNull String path,@NonNull final Activity activity) {
         ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage(this.getString(R.string.loading));
         mProgressDialog.show();
 
-        AuthToken.getInstant().get(this, this, token -> {
-            repository.getProductByUrl(path, token, data1 -> {
-                final Handler handler = new Handler();
-                handler.postDelayed(() -> {
-                    if (mProgressDialog != null)
-                        mProgressDialog.dismiss();
-                }, 5000);
-                if (data1 instanceof Result.Success) {
-                    try {
-                        ProductModel productModel = ((ProductModel) ((Result.Success) data1).value);
-                        activity.runOnUiThread(() -> {
-                            addFrg(ProductDetailFragment.newInstance(productModel), "ProductDetailFragment");
-                        });
-                    } catch (Exception ex) {
-                        Log.e(TAG, "lunchProductFragmentByUrl: parse-intent-if:" + path + "\n\r" + ex.getMessage());
-                    }
+        AuthToken.getInstant().get(this, this, new AuthToken.Callback() {
+            @Override
+            public void run(@NonNull String token) {
+                repository.getProductByUrl(path, token, data1 -> {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(mProgressDialog::dismiss, 3000);
+                    if (data1 instanceof Result.Success) {
+                        try {
+                            ProductModel productModel = ((ProductModel) ((Result.Success) data1).value);
+                            activity.runOnUiThread(() -> addFrg(ProductDetailFragment.newInstance(productModel), "ProductDetailFragment"));
+                        } catch (Exception ex) {
+                            Log.e(TAG, "lunchProductFragmentByUrl: parse-intent-if:" + path + "\n\r" + ex.getMessage());
+                        }
 
-                } else {
-                    Log.e(TAG, "lunchProductFragmentByUrl: parse-intent-else:" + path + "\n\r" + (String) ((Result.Error) data1).value);
-                }
-            });
+                    } else {
+                        Log.e(TAG, "lunchProductFragmentByUrl: parse-intent-else:" + path + "\n\r" + ((Result.Error) data1).value);
+                    }
+                });
+            }
+
+            @Override
+            public void nill() {
+                startActivity(new Intent(activity, AuthenticatorActivity.class));
+            }
         });
     }
 
@@ -313,18 +317,26 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         final String firebaseToken = MyPreferenceManager.getInatanse().getFirebaseToken();
         final User user = accountInfo.getInfo(ACCOUNT_TYPE);
 
-        AuthToken.getInstant().get(this, this, token -> {
-            mainRepository.sendRegistrationToServer(user.getId(), firebaseToken, token, new IServerCallbackObject() {
-                @Override
-                public void onSuccess(Object obj) {
-                    MyPreferenceManager.getInatanse().setSendTokenToServer(true);
-                }
+        AuthToken.getInstant().get(this, this, new AuthToken.Callback() {
+            @Override
+            public void run(@NonNull String token) {
+                mainRepository.sendRegistrationToServer(user.getId(), firebaseToken, token, new IServerCallbackObject() {
+                    @Override
+                    public void onSuccess(Object obj) {
+                        MyPreferenceManager.getInatanse().setSendTokenToServer(true);
+                    }
 
-                @Override
-                public void onFailure(String message) {
+                    @Override
+                    public void onFailure(String message) {
+                        MyPreferenceManager.getInatanse().setSendTokenToServer(false);
+                    }
+                });
+            }
 
-                }
-            });
+            @Override
+            public void nill() {
+
+            }
         });
     }
 
@@ -486,26 +498,24 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
     private void notifyTransaction(String cost, String authority, String refId) {
 
-        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
+        final Activity activity = this;
+        AuthToken.getInstant().get(this, this, new AuthToken.Callback() {
+            @Override
+            public void run(@NonNull String token) {
+                repository.notifyTransaction(token, cost, authority, refId, data -> {
+                    if (data instanceof Result.Success) {
+                        ErrorBase temp = (ErrorBase) ((Result.Success) data).value;
+                    } else {
+                        Log.d("Test", (String) ((Result.Error) data).value);
+                    }
+                });
+            }
 
-            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
-                    this.runOnUiThread(() -> {
-
-                        repository.notifyTransaction(token, cost, authority, refId, data -> {
-
-                            if (data instanceof Result.Success) {
-
-                                ErrorBase temp = (ErrorBase) ((Result.Success) data).value;
-
-                            } else {
-
-                                Log.d("Test", (String) ((Result.Error) data).value);
-                            }
-
-                        });
-
-                    }));
-        }
+            @Override
+            public void nill() {
+                startActivity(new Intent(activity, AuthenticatorActivity.class));
+            }
+        });
     }
 }
 

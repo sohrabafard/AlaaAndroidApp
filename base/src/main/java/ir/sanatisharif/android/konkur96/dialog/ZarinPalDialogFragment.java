@@ -1,8 +1,10 @@
 package ir.sanatisharif.android.konkur96.dialog;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -27,10 +29,10 @@ import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.model.user.User;
+import ir.sanatisharif.android.konkur96.utils.AuthToken;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
-import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_FULL_ACCESS;
 
 @SuppressLint("ValidFragment")
 public class ZarinPalDialogFragment extends DialogFragment {
@@ -55,7 +57,7 @@ public class ZarinPalDialogFragment extends DialogFragment {
     private Repository repository;
     private AccountInfo accountInfo;
     private User user;
-
+    Activity activity;
 
     @SuppressLint("ValidFragment")
     public ZarinPalDialogFragment(ProductType type, ProductModel model, int totalPrice,
@@ -84,6 +86,11 @@ public class ZarinPalDialogFragment extends DialogFragment {
         cardShowCard = v.findViewById(R.id.btn_showCard);
         cardClose = v.findViewById(R.id.btn_close);
 
+        repository = new RepositoryImpl(getActivity());
+        accountInfo = new AccountInfo(getContext(), getActivity());
+        user = accountInfo.getInfo(ACCOUNT_TYPE);
+
+        activity = getActivity();
 
         addToShopCard();
 
@@ -106,46 +113,49 @@ public class ZarinPalDialogFragment extends DialogFragment {
 
     private void addToShopCard() {
 
+
         ArrayList<Integer> attribute = new ArrayList<>(attrList);
         ArrayList<Integer> products = new ArrayList<>(selectableIdList);
         ArrayList<Integer> extraAttribute = new ArrayList<>(attrExtraList);
 
-        repository = new RepositoryImpl(getActivity());
-        accountInfo = new AccountInfo(getContext(), getActivity());
-        user = accountInfo.getInfo(ACCOUNT_TYPE);
-
-
         progPrice.setVisibility(View.VISIBLE);
 
-        if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
 
+        DialogFragment frg = this;
+        AuthToken.getInstant().get(activity, new AuthToken.Callback() {
+            @Override
+            public void run(@NonNull String token) {
+                activity.runOnUiThread(() ->
+                        repository.addToShopCard(token, model.getId(), attribute, products, extraAttribute, data -> {
+                            progPrice.setVisibility(View.GONE);
+                            if (data instanceof Result.Success) {
+                                AddToCardListModel temp = (AddToCardListModel) ((Result.Success) data).value;
 
-            accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, token ->
-                    getActivity().runOnUiThread(() ->
-                            repository.addToShopCard(token, model.getId(), attribute, products, extraAttribute, data -> {
-                                progPrice.setVisibility(View.GONE);
-                                if (data instanceof Result.Success) {
-                                    AddToCardListModel temp = (AddToCardListModel) ((Result.Success) data).value;
-
-                                    if (null == temp.getError()) {
-                                        Toast.makeText(getContext(), this.getString(R.string.add_to_cart_successfully), Toast.LENGTH_SHORT).show();
-                                        addFrg(CardFragment.newInstance(), "CardFragment");
-                                        this.dismiss();
-                                    } else {
-
-                                        Toast.makeText(getContext(), temp.getError().getMessage(), Toast.LENGTH_SHORT).show();
-                                        addFrg(CardFragment.newInstance(), "CardFragment");
-                                        this.dismiss();
-                                    }
-
+                                if (null == temp.getError()) {
+                                    Toast.makeText(getContext(), frg.getString(R.string.add_to_cart_successfully), Toast.LENGTH_SHORT).show();
+                                    addFrg(CardFragment.newInstance(), "CardFragment");
+                                    frg.dismiss();
                                 } else {
-                                    Log.d("Test", (String) ((Result.Error) data).value);
-                                    Toast.makeText(getContext(), this.getString(R.string.try_again), Toast.LENGTH_LONG).show();
-                                    this.dismiss();
-                                }
-                            })));
 
-        }
+                                    Toast.makeText(getContext(), temp.getError().getMessage(), Toast.LENGTH_SHORT).show();
+                                    addFrg(CardFragment.newInstance(), "CardFragment");
+                                    frg.dismiss();
+                                }
+
+                            } else {
+                                Log.d("Test", (String) ((Result.Error) data).value);
+                                Toast.makeText(getContext(), frg.getString(R.string.try_again), Toast.LENGTH_LONG).show();
+                                frg.dismiss();
+                            }
+                        }));
+
+            }
+
+            @Override
+            public void nill() {
+
+            }
+        });
 
     }
 

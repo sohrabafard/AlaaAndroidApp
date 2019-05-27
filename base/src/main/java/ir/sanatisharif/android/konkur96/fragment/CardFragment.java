@@ -10,6 +10,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
@@ -128,26 +129,31 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         adapter.setItems(new ArrayList<>());
 
-        AuthToken.getInstant().get(mContext, mActivity, token -> {
+        AuthToken.getInstant().get(mContext, mActivity, new AuthToken.Callback() {
+            @Override
+            public void run(@NonNull String token) {
+                repository.cardReview(token, data -> {
 
-            if (token == null)
-                return;
-            repository.cardReview(token, data -> {
+                    if (data instanceof Result.Success) {
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setData((CardReviewModel) ((Result.Success) data).value);
+                                swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(false));
+                            }
+                        });
 
-                if (data instanceof Result.Success) {
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            setData((CardReviewModel) ((Result.Success) data).value);
-                            swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(false));
-                        }
-                    });
+                    } else {
+                        Log.d("Test", (String) ((Result.Error) data).value);
+                    }
 
-                } else {
-                    Log.d("Test", (String) ((Result.Error) data).value);
-                }
+                });
+            }
 
-            });
+            @Override
+            public void nill() {
+
+            }
         });
     }
 
@@ -182,29 +188,35 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             showDialog();
             return;
         }
-        AuthToken.getInstant().get(mContext, mActivity, token -> {
-            if (token == null)
-                return;
-            repository.getPaymentUrl(token, data -> {
+        AuthToken.getInstant().get(mContext, mActivity, new AuthToken.Callback() {
+            @Override
+            public void run(@NonNull String token) {
+                repository.getPaymentUrl(token, data -> {
 
-                if (data instanceof Result.Success) {
+                    if (data instanceof Result.Success) {
 
-                    String url = ((PaymentUrlModel) ((Result.Success) data).value).getUrl();
-                    if (null != url) {
-                        mActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                openWebView(url);
-                            }
-                        });
+                        String url = ((PaymentUrlModel) ((Result.Success) data).value).getUrl();
+                        if (null != url) {
+                            mActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    openWebView(url);
+                                }
+                            });
+                        }
+                    } else {
+
+                        Log.d("Test", (String) ((Result.Error) data).value);
                     }
-                } else {
-
-                    Log.d("Test", (String) ((Result.Error) data).value);
-                }
 
 
-            });
+                });
+            }
+
+            @Override
+            public void nill() {
+
+            }
         });
     }
 
@@ -288,23 +300,29 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     public void delete(int id) {
-        AuthToken.getInstant().get(mContext, mActivity, token -> {
-            if (token == null)
-                return;
-            repository.delProductFromCard(token, String.valueOf(id), data -> {
+        AuthToken.getInstant().get(mContext, mActivity, new AuthToken.Callback() {
+            @Override
+            public void run(@NonNull String token) {
+                repository.delProductFromCard(token, String.valueOf(id), data -> {
 
-                if (data instanceof Result.Success) {
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getContext(), "با موفقیت حدف شد.", Toast.LENGTH_SHORT).show();
-                            getData();
-                        }
-                    });
-                } else {
-                    Log.d("Test", (String) ((Result.Error) data).value);
-                }
-            });
+                    if (data instanceof Result.Success) {
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), "با موفقیت حدف شد.", Toast.LENGTH_SHORT).show();
+                                getData();
+                            }
+                        });
+                    } else {
+                        Log.d("Test", (String) ((Result.Error) data).value);
+                    }
+                });
+            }
+
+            @Override
+            public void nill() {
+
+            }
         });
     }
 
