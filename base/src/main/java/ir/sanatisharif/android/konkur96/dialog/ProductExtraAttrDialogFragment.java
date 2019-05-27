@@ -149,7 +149,7 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
             } else {
 
-                Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                Toast.makeText(AppConfig.context, "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
             }
         } else if (type == ProductType.SELECTABLE) {
 
@@ -159,7 +159,7 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
             } else {
 
-                Toast.makeText(getContext(), "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
+                Toast.makeText(AppConfig.context, "لطفا یک مورد را انتخاب کنید", Toast.LENGTH_LONG).show();
             }
         } else if (type == ProductType.SIMPLE) {
 

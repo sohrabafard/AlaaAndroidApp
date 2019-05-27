@@ -479,17 +479,17 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
                 if (payment.getStatus() == 100) {
 
-                    Toast.makeText(this, "پرداخت با موفقیت انجام شد. کد پیگیری شما: " + payment.getRefID(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AppConfig.context, "پرداخت با موفقیت انجام شد. کد پیگیری شما: " + payment.getRefID(), Toast.LENGTH_LONG).show();
                     notifyTransaction(amount, authority, String.valueOf(payment.getRefID()));
                 } else {
 
-                    Toast.makeText(this, "خطا : " + payment.getStatus(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AppConfig.context, "خطا : " + payment.getStatus(), Toast.LENGTH_LONG).show();
                     notifyTransaction(amount, authority, String.valueOf(payment.getRefID()));
                 }
 
             } else {
                 Log.d(TAG, (String) ((Result.Error) data).value);
-                Toast.makeText(this, "تایید پرداخت با مشکل مواجه شد.در صورتی که محصول خریداری شده به لیست شما اضافه نشده است با پشتیبانی تماس بگیرید.", Toast.LENGTH_LONG).show();
+                Toast.makeText(AppConfig.context, "تایید پرداخت با مشکل مواجه شد.در صورتی که محصول خریداری شده به لیست شما اضافه نشده است با پشتیبانی تماس بگیرید.", Toast.LENGTH_LONG).show();
             }
 
         });

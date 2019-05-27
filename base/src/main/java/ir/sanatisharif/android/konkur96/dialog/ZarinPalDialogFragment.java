@@ -23,6 +23,7 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.api.Models.AddToCardListModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.fragment.CardFragment;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
@@ -132,19 +133,19 @@ public class ZarinPalDialogFragment extends DialogFragment {
                                 AddToCardListModel temp = (AddToCardListModel) ((Result.Success) data).value;
 
                                 if (null == temp.getError()) {
-                                    Toast.makeText(getContext(), frg.getString(R.string.add_to_cart_successfully), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AppConfig.context, frg.getString(R.string.add_to_cart_successfully), Toast.LENGTH_SHORT).show();
                                     addFrg(CardFragment.newInstance(), "CardFragment");
                                     frg.dismiss();
                                 } else {
 
-                                    Toast.makeText(getContext(), temp.getError().getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AppConfig.context, temp.getError().getMessage(), Toast.LENGTH_SHORT).show();
                                     addFrg(CardFragment.newInstance(), "CardFragment");
                                     frg.dismiss();
                                 }
 
                             } else {
                                 Log.d("Test", (String) ((Result.Error) data).value);
-                                Toast.makeText(getContext(), frg.getString(R.string.try_again), Toast.LENGTH_LONG).show();
+                                Toast.makeText(AppConfig.context, frg.getString(R.string.try_again), Toast.LENGTH_LONG).show();
                                 frg.dismiss();
                             }
                         }));
