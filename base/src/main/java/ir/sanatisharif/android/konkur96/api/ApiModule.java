@@ -18,6 +18,7 @@ import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import okhttp3.Cache;
+import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -27,6 +28,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class ApiModule {
 
+    private static final String HEADER_CACHE_CONTROL = "Cache-Control";
+    private static final String HEADER_PRAGMA = "Pragma";
     private static final long cacheSize = 100 * 1024 * 1024; // 10 MB
     private static Interceptor onlineInterceptor = chain -> {
         Request original = chain.request();
@@ -35,19 +38,26 @@ public class ApiModule {
 
         handelStatusCode(response.code());
 
-        int maxAge = 10; // read from cache for 10 seconds even if there is internet connection
+        CacheControl cacheControl = new CacheControl.Builder()
+                .maxStale(5 , TimeUnit.SECONDS)
+                .build();
+
         return response.newBuilder()
-                .header("Cache-Control", "public, max-age=" + maxAge)
-                .removeHeader("Pragma")
+                .removeHeader(HEADER_PRAGMA)
+                .removeHeader(HEADER_CACHE_CONTROL)
+                .header(HEADER_CACHE_CONTROL, cacheControl.toString())
                 .build();
     };
     private static Interceptor offlineInterceptor = chain -> {
         Request request = chain.request();
         if (!isConnected()) {
-            int maxStale = 60 * 60 * 24 * 30; // Offline cache available for 30 days
+            CacheControl cacheControl = new CacheControl.Builder()
+                    .maxStale(1 , TimeUnit.DAYS)
+                    .build();
             request = request.newBuilder()
-                    .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                    .removeHeader("Pragma")
+                    .removeHeader(HEADER_PRAGMA)
+                    .removeHeader(HEADER_CACHE_CONTROL)
+                    .cacheControl(cacheControl)
                     .build();
         }
         return chain.proceed(request);
