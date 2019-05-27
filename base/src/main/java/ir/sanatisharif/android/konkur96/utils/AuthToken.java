@@ -3,9 +3,6 @@ package ir.sanatisharif.android.konkur96.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
-
-import org.jetbrains.annotations.NotNull;
-
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
@@ -26,7 +23,7 @@ public class AuthToken {
         return getToken;
     }
 
-    public void get(@NotNull Context context, @NotNull Activity activity, @NotNull Callback callback) {
+    public void get(@NonNull Context context, @NonNull Activity activity, @NonNull Callback callback) {
         AccountInfo accountInfo = new AccountInfo(context, activity);
         accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {
             @Override
@@ -41,7 +38,7 @@ public class AuthToken {
         });
     }
 
-    public void get(@NotNull Context context, @NotNull Callback callback){
+    public void get(@NonNull Context context, @NonNull Callback callback){
 
         AccountInfo accountInfo = new AccountInfo(context);
         accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {

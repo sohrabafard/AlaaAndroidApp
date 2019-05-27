@@ -2,8 +2,7 @@ package ir.sanatisharif.android.konkur96.helper;
 
 import android.net.Uri;
 import android.os.Environment;
-
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -129,7 +128,7 @@ public class FileManager {
         return false;
     }
 
-    public static String getPathFromAllaUrl(@NotNull String url) {
+    public static String getPathFromAllaUrl(@NonNull String url) {
         try {
             Uri uri = Uri.parse(url);
             return uri.getPath();
