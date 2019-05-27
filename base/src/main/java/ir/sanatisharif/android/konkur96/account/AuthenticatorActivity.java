@@ -351,12 +351,12 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
     }
 
     public void showDialog() {
-        final Dialog dialog = new Dialog(new ContextThemeWrapper(this,
+        final Dialog dialog = new Dialog(new ContextThemeWrapper(AuthenticatorActivity.this,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_no_internet);
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         showNoInternetDialog = true;
         Button btnOK = dialog.findViewById(R.id.btnOK);
