@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -98,7 +100,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
             alert.setTitle(getString(R.string.settingsSupportBuy));
             alert.setMessage(getString(R.string.supportBuy));
             alert.setHtml(true);
-            alert.show(getFragmentManager(), "alert");
+            alert.show(getHostFragmentManager(), "alert");
         } else if (id == R.id.actionSettingTelegram) {
             String alaaTelegramUrl = "https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ";
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
@@ -119,7 +121,13 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
 
         return super.onOptionsItemSelected(item);
     }
-
+    public FragmentManager getHostFragmentManager() {
+        FragmentManager fm = getFragmentManager();
+        if (fm == null && isAdded()) {
+            fm = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+        }
+        return fm;
+    }
     private void getData() {
 
         items.clear();
