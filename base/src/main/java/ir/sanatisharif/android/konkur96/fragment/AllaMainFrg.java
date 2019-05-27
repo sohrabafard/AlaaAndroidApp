@@ -242,7 +242,7 @@ public class AllaMainFrg extends BaseFragment implements
                 public void onClickOk() {
                     getData();
                 }
-            }).show(getFragmentManager(), "");
+            }).show(getFragmentManager(), "showNotInternetDialogFrg");
     }
 
 

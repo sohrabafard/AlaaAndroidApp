@@ -60,6 +60,11 @@ public class NotInternetDialogFrg extends BaseDialogFragment<NotInternetDialogFr
         super.onDestroy();
     }
 
+    @Override
+    public void dismissAllowingStateLoss() {
+        super.dismissAllowingStateLoss();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -105,6 +110,9 @@ public class NotInternetDialogFrg extends BaseDialogFragment<NotInternetDialogFr
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         AppConfig.showNoInternetDialog = false;
+        if (isResumed()){
+            dismiss();
+        }
     }
 
     public interface NoInternetCallback {

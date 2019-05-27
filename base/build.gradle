@@ -74,8 +74,6 @@ dependencies {
     //noinspection GradleCompatible
     // Add the In-App Messaging dependency:
 
-
-
     implementation 'com.google.firebase:firebase-inappmessaging-display:17.1.1'
     api 'com.google.firebase:firebase-core:16.0.9'
     api 'com.google.firebase:firebase-messaging:18.0.0'
@@ -147,6 +145,6 @@ dependencies {
 
     api 'com.intuit.sdp:sdp-android:1.0.6'
 
-    api 'com.github.yongjhih.android-proguards:android-proguards-all:-SNAPSHOT'
+ //   api 'com.github.yongjhih.android-proguards:android-proguards-all:-SNAPSHOT'
 
 }

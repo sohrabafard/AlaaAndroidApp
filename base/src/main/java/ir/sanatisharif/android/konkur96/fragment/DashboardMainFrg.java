@@ -39,6 +39,7 @@ import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
+import ir.sanatisharif.android.konkur96.utils.Utils;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
@@ -111,9 +112,13 @@ public class DashboardMainFrg extends BaseFragment {
             alert.setHtml(true);
             alert.show(getFragmentManager(), "alert");
         } else if (id == R.id.actionSettingTelegram) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ"));
-            intent.setPackage("org.telegram.messenger");
-            startActivity(intent);
+            if (Utils.isAppAvailable(getContext(), "org.telegram.messenger")) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ"));
+                intent.setPackage("org.telegram.messenger");
+                startActivity(intent);
+            } else {
+                ActivityBase.toastShow("تلگرام نصب نیست!", MDToast.TYPE_ERROR);
+            }
         } else if (id == R.id.actionSettingLogout) {
 
             MyAlertDialogFrg alert = new MyAlertDialogFrg();
@@ -237,6 +242,7 @@ public class DashboardMainFrg extends BaseFragment {
             }
         });
     }
+
 
     //<editor-fold desc="set data">
     private void setData() {
