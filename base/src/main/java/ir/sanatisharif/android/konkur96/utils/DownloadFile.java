@@ -10,6 +10,7 @@ import android.util.Log;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
+import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
@@ -37,11 +38,11 @@ public class DownloadFile {
     }
 
 
-    public void init(Context c, DownloadComplete d) {
+    public void init(DownloadComplete d) {
         mReceiver = new DownloadCompleteReceiver();
         IntentFilter filter = new IntentFilter("android.intent.action.DOWNLOAD_COMPLETE");
-        c.registerReceiver(mReceiver, filter);
-        mDManager = (DownloadManager) c.getSystemService(DOWNLOAD_SERVICE);
+        AppConfig.context.registerReceiver(mReceiver, filter);
+        mDManager = (DownloadManager) AppConfig.context.getSystemService(DOWNLOAD_SERVICE);
 
         this.d = d;
     }

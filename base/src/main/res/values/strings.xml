@@ -301,7 +301,7 @@
     <string name="add_to_order">افزودن به سبد خرید</string>
     <string name="add_to_cart_successfully">با موفقیت به سبد خرید اضافه شد.</string>
     <string name="try_again">مشکلی بوجود آمده لطفا دوباره تکرار کنید.</string>
-    <string name="toman">تومان</string>
+    <string name="toman">  تومان  </string>
     <string name="totalPrice">مبلغ کل:</string>
     <string name="discount_price">سود شما از خرید:</string>
     <string name="payable_price">مبلغ قابل‌پرداخت:</string>
@@ -309,5 +309,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loading">در حال بارگزاری . . .</string>
-    <string name="toman">تومان</string>
+    <string name="open_with_file_manager">خطایی رخ داده است، فایل را از فایل منیجر گوشی باز کنید.</string>
 </resources>
