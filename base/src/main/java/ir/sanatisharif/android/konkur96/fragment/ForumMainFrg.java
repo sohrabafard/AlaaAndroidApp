@@ -106,11 +106,16 @@ public class ForumMainFrg extends BaseFragment {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
+
             if (waitingDialog == null) {
-                waitingDialog = new MyWaitingDialog(getContext());
-                waitingDialog.setDialog().show();
+                waitingDialog = new MyWaitingDialog(getActivity());
+                try {
+                    waitingDialog.setDialog().show();
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
             }
+            super.onPageStarted(view, url, favicon);
         }
 
         @Override
@@ -118,7 +123,11 @@ public class ForumMainFrg extends BaseFragment {
             super.onPageFinished(view, url);
             swipeRefreshLayout.setRefreshing(false);
             if (waitingDialog != null) {
-                waitingDialog.dismiss();
+                try {
+                    waitingDialog.dismiss();
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
             }
         }
 
