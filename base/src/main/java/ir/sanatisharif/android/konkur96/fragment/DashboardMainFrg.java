@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -111,9 +112,21 @@ public class DashboardMainFrg extends BaseFragment {
             alert.setHtml(true);
             alert.show(getFragmentManager(), "alert");
         } else if (id == R.id.actionSettingTelegram) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ"));
+            String alaaTelegramUrl = "https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
             intent.setPackage("org.telegram.messenger");
-            startActivity(intent);
+
+            try {
+                if (intent.resolveActivity(AppConfig.context.getPackageManager()) != null) {
+                    startActivity(intent);
+                }else {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
+                }
+                startActivity(intent);
+            }catch (Exception ex){
+                Toast.makeText(AppConfig.context,"@alaa_sanatisharif",Toast.LENGTH_LONG).show();
+            }
+
         } else if (id == R.id.actionSettingLogout) {
 
             MyAlertDialogFrg alert = new MyAlertDialogFrg();
