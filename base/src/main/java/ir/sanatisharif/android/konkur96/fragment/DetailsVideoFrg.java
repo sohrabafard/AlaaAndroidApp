@@ -41,6 +41,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -248,13 +249,13 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
                     break;
                 case Player.STATE_READY:      // The player is able to immediately play
-                    if(progressBarExoplaying != null)
+                    if (progressBarExoplaying != null)
                         progressBarExoplaying.setVisibility(View.GONE);
                     controlView.findViewById(R.id.exo_play).animate().alpha(1).setDuration(400).setListener(animatorShow);
                     controlView.findViewById(R.id.exo_pause).animate().alpha(1).setDuration(400).setListener(animatorShow);
                     break;
                 case Player.STATE_ENDED:      // The player has finished playing the media
-                    if(progressBarExoplaying != null)
+                    if (progressBarExoplaying != null)
                         progressBarExoplaying.setVisibility(View.GONE);
 
                     break;
@@ -411,26 +412,32 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onStart() {
-        super.onStart();
+        try {
+            if (mUserAction != null && mContent != null)
+                mUserAction.userStartedViewingAParticularPage(mContent);
+        } catch (Exception ex) {
+            Crashlytics.logException(ex);
+        }
+        try {
+            IntentFilter filter = new IntentFilter();
+            filter.addAction("android.intent.action.PHONE_STATE");
+            getActivity().registerReceiver(phoneStateReceiver, filter);
+            initWakeLockScreen();
+            savedInsPlayer = new Bundle();
 
-        if(mUserAction != null && mContent != null)
-            mUserAction.userStartedViewingAParticularPage(mContent);
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.intent.action.PHONE_STATE");
-        getActivity().registerReceiver(phoneStateReceiver, filter);
-        initWakeLockScreen();
-        savedInsPlayer = new Bundle();
-
-        Log.i(TAG, "onStart: ");
-        if (Util.SDK_INT > 23) {
-            if (player == null)
-                initExoPlayer();
-            else {
-                player.setPlayWhenReady(false);
+            Log.i(TAG, "onStart: ");
+            if (Util.SDK_INT > 23) {
+                if (player == null)
+                    initExoPlayer();
+                else {
+                    player.setPlayWhenReady(false);
+                }
             }
+        } catch (Exception ex) {
+            Crashlytics.logException(ex);
         }
 
+        super.onStart();
     }
 
     @Override
@@ -448,17 +455,23 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onStop() {
-        if(mUserAction != null && mContent != null)
-            mUserAction.userHasFinishedViewingPage(mContent);
-
-        super.onStop();
-        getActivity().unregisterReceiver(phoneStateReceiver);
-        if (Util.SDK_INT > 23) {
-            player.setPlayWhenReady(false);
-            Log.i(TAG, "onStart:onStop ");
+        try {
+            if (mUserAction != null && mContent != null)
+                mUserAction.userHasFinishedViewingPage(mContent);
+        } catch (Exception ex) {
+            Crashlytics.logException(ex);
         }
 
-
+        try {
+            getActivity().unregisterReceiver(phoneStateReceiver);
+            if (Util.SDK_INT > 23) {
+                player.setPlayWhenReady(false);
+                Log.i(TAG, "onStart:onStop ");
+            }
+        } catch (Exception ex) {
+            Crashlytics.logException(ex);
+        }
+        super.onStop();
     }
 
     @Override
@@ -641,7 +654,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     private void getDataByUrl(String url) {
 
-        if(loaderPlayList != null )
+        if (loaderPlayList != null)
             loaderPlayList.setVisibility(View.VISIBLE);
         repository.getFilterTagsByUrl(url, new IServerCallbackObject() {
             @Override
@@ -653,14 +666,14 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     pagination = filter.getResult().getVideo();
                     playListAdapter.notifyItemMoved(playListAdapter.getItemCount(), videoCourses.size() - 1);
                 }
-                if(loaderPlayList != null )
+                if (loaderPlayList != null)
                     loaderPlayList.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(String message) {
                 Log.i(TAG, "onSuccess:error " + message);
-                if(loaderPlayList != null )
+                if (loaderPlayList != null)
                     loaderPlayList.setVisibility(View.GONE);
             }
         });
@@ -668,7 +681,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
     private void getPlayListFromContentByUrl(String url) {
 
-        if(loaderPlayList != null )
+        if (loaderPlayList != null)
             loaderPlayList.setVisibility(View.VISIBLE);
         repository.getFilterTagsByUrl(url, new IServerCallbackObject() {
             @Override
@@ -689,14 +702,14 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     } else {
                         playListAdapter.notifyDataSetChanged();
                     }
-                    if(loaderPlayList != null )
+                    if (loaderPlayList != null)
                         loaderPlayList.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(String message) {
-                if(loaderPlayList != null )
+                if (loaderPlayList != null)
                     loaderPlayList.setVisibility(View.GONE);
                 Log.i(TAG, "onSuccess:error " + message);
             }
@@ -734,7 +747,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 showPlayList = false;
             }
 
-        } else if(course != null) {
+        } else if (course != null) {
             ir.sanatisharif.android.konkur96.model.main_page.File file = course.getFile();
             List<Video> videos = file.getVideo();
             if (i == R.id.imgDownload) {
@@ -758,7 +771,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
             } else if (i == R.id.imgPlay) {
 
-                if (file!= null && videos!= null && !checkExistVideoToSD(videos)) {
+                if (file != null && videos != null && !checkExistVideoToSD(videos)) {
                     // not Exist
                     handleQualityLink();
                 }
@@ -876,7 +889,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         if (course.getTags() != null && course.getTags().getTags() != null)
             tagGroup.setTags(course.getTags().getTags());
 
-        if (course!=null && course.getFile() != null && course.getFile().getVideo() != null && course.getFile().getVideo().size() > 0) {
+        if (course != null && course.getFile() != null && course.getFile().getVideo() != null && course.getFile().getVideo().size() > 0) {
 
             checkExistVideoToSD(course.getFile().getVideo());
 
@@ -980,13 +993,13 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
                 // player.setPlayWhenReady(false);
                 // releasePlayer();
-                if(loader != null)
+                if (loader != null)
                     loader.setVisibility(View.VISIBLE);
 
                 positionPlaying = position;
                 course = (DataCourse) item;
 
-                if(loader != null)
+                if (loader != null)
                     loader.setVisibility(View.GONE);
                 playListAdapter.setItemSelect(positionPlaying);
                 setData();
@@ -998,7 +1011,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     mFullScreenDialog.show();
                 }
 
-                if (course != null && course.getFile() != null && course.getFile().getVideo() != null &&  !checkExistVideoToSD(course.getFile().getVideo())) {
+                if (course != null && course.getFile() != null && course.getFile().getVideo() != null && !checkExistVideoToSD(course.getFile().getVideo())) {
                     handleQualityLink();
                 }
 
@@ -1024,9 +1037,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                             } else {
                                 AuthToken.getInstant().get(context, currentActivity, new AuthToken.Callback() {
 
-                                    public void initExo(String token){
+                                    public void initExo(String token) {
                                         DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
-                                        if(token != null)
+                                        if (token != null)
                                             httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
                                         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
 
@@ -1069,7 +1082,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 }
             }
         };
-        if(recyclerPlayList != null)
+        if (recyclerPlayList != null)
             recyclerPlayList.addOnScrollListener(endLess);
     }
 
@@ -1209,9 +1222,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             player.prepare(mVideoSource, !haveResumePosition, false);
         } else {
             AuthToken.getInstant().get(context, currentActivity, new AuthToken.Callback() {
-                public void initExo(String token){
+                public void initExo(String token) {
                     DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
-                    if(token != null)
+                    if (token != null)
                         httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
                     DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
 
@@ -1219,6 +1232,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                             .createMediaSource(Uri.parse(mUrl));
                     player.prepare(mVideoSource, !haveResumePosition, false);
                 }
+
                 @Override
                 public void run(@NonNull String token) {
                     Log.i(TAG, "startPlayer, has_token");
@@ -1284,8 +1298,8 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
      * @param videos
      * @return
      */
-    private boolean checkExistVideoToSD(@NonNull  List<Video> videos) {
-        if(videos == null)
+    private boolean checkExistVideoToSD(@NonNull List<Video> videos) {
+        if (videos == null)
             return false;
 
         if (InstantApps.isInstantApp(getContext())) {
