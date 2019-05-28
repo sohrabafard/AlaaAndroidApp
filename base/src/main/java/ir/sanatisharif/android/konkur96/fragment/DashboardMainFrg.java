@@ -42,6 +42,7 @@ import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.MainItem;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
+import ir.sanatisharif.android.konkur96.utils.Utils;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
@@ -128,7 +129,6 @@ public class DashboardMainFrg extends BaseFragment {
             }catch (Exception ex){
                 Toast.makeText(AppConfig.context,"@alaa_sanatisharif",Toast.LENGTH_LONG).show();
             }
-
         } else if (id == R.id.actionSettingLogout) {
 
             MyAlertDialogFrg alert = new MyAlertDialogFrg();
@@ -260,6 +260,7 @@ public class DashboardMainFrg extends BaseFragment {
             }
         });
     }
+
 
     //<editor-fold desc="set data">
     private void setData() {

@@ -77,7 +77,7 @@ public class VideoPlayFrg extends BaseFragment {
     PowerManager.WakeLock wl;
     KeyguardManager km;
     KeyguardManager.KeyguardLock kl;
-    VideoPlayer videoPlayer;
+
     //<editor-fold desc="animation">
     Animator.AnimatorListener animatorHide = new Animator.AnimatorListener() {
         @Override
@@ -147,15 +147,67 @@ public class VideoPlayFrg extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         initWakeLockScreen();
         // Fragment locked in landscape screen orientation
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        //  startPlayer();
-        // getLifecycle().addObserver(new VideoPlayerComponent(getContext(), mExoPlayerView, videoUrl));
-        videoPlayer = new VideoPlayer();
-        getLifecycle().addObserver(videoPlayer);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart: onStart");
+        if (Util.SDK_INT > 23) {
+            if (player == null)
+                initExoPlayer();
+            else {
+                player.setPlayWhenReady(false);
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Util.SDK_INT <= 23) {
+            if (player == null) {
+                initExoPlayer();
+            } else {
+                player.setPlayWhenReady(false);
+                Log.i(TAG, "onStart:onResume 11");
+            }
+        }
+        Log.i(TAG, "onStart:onResume ");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //  getActivity().unregisterReceiver(phoneStateReceiver);
+        if (Util.SDK_INT > 23) {
+            player.setPlayWhenReady(false);
+            Log.i(TAG, "onStart:onStop ");
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (Util.SDK_INT <= 23 && player != null) {
+            player.setPlayWhenReady(false);
+            Log.i(TAG, "onStart:onPause ");
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        releasePlayer();
+        super.onDestroyView();
+        Log.i(TAG, "onStart: onDesc ");
+    }
+
 
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -167,6 +219,7 @@ public class VideoPlayFrg extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         savedInsPlayer = new Bundle();
+        initUI();
         if (savedInstanceState != null) {
             mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
             mResumePosition = savedInstanceState.getLong(STATE_RESUME_POSITION);
@@ -297,8 +350,14 @@ public class VideoPlayFrg extends BaseFragment {
         player = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(getContext()), trackSelector, loadControl);
         mExoPlayerView.setPlayer(player);
 
+        String userAgent = Util.getUserAgent(context, "ExoPlayer");
+        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, userAgent);
+
+        mUrl = getArguments().getString("path");
+        mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(Uri.parse(mUrl));
+
         boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
-        Log.i("LOG", "onPause: savedInsPlayer2 " + mResumePosition);
         if (haveResumePosition) {
             player.seekTo(mResumeWindow, mResumePosition);
         }
@@ -308,46 +367,15 @@ public class VideoPlayFrg extends BaseFragment {
         player.setPlayWhenReady(true);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getLifecycle().removeObserver(videoPlayer);
-    }
 
-    private void resume() {
-        Log.i("LOG", "onPause: savedInsPlayer2 " + mResumePosition);
-        mResumeWindow = savedInsPlayer.getInt(STATE_RESUME_WINDOW);
-        mResumePosition = savedInsPlayer.getLong(STATE_RESUME_POSITION);
-        mExoPlayerFullscreen = savedInsPlayer.getBoolean(STATE_PLAYER_FULLSCREEN);
+    private void initUI() {
+        if (mExoPlayerView == null) {
 
-        Log.i("LOG", "onPause: savedInsPlayer3 " + mResumePosition);
-        if (player != null && mExoPlayerView.getPlayer() != null) {
+            mExoPlayerView = getView().findViewById(R.id.exoplayer);
 
-            boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
-
-            if (haveResumePosition) {
-                player.seekTo(mResumeWindow, mResumePosition);
-            }
-
-            player.addListener(new PlayerEventListener());
-            player.prepare(mVideoSource, !haveResumePosition, false);
-            player.setPlayWhenReady(true);
-        }
-    }
-
-    private void pausePlayer() {
-        if (savedInsPlayer != null) {
-
-            if (mExoPlayerView != null && mExoPlayerView.getPlayer() != null) {
-                mResumeWindow = mExoPlayerView.getPlayer().getCurrentWindowIndex();
-                mResumePosition = Math.max(0, mExoPlayerView.getPlayer().getContentPosition());
-
-                player.setPlayWhenReady(false);
-            }
-            savedInsPlayer.putInt(STATE_RESUME_WINDOW, mResumeWindow);
-            savedInsPlayer.putLong(STATE_RESUME_POSITION, mResumePosition);
-            savedInsPlayer.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);
-            Log.i("LOG", "onPause: savedInsPlayer1 " + mResumePosition);
+            Log.i(TAG, "startPlayer: " + mUrl);
+            initFullscreenDialog();
+            initFullscreenButton();
         }
     }
 
@@ -356,13 +384,14 @@ public class VideoPlayFrg extends BaseFragment {
 
             mExoPlayerView = getView().findViewById(R.id.exoplayer);
 
-            mUrl = getArguments().getString("path");
+            Log.i(TAG, "startPlayer: " + mUrl);
             initFullscreenDialog();
             initFullscreenButton();
             String userAgent = Util.getUserAgent(context, "ExoPlayer");
-            if (mUrl.contains("cdn")) {
-                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, userAgent);
+            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, userAgent);
 
+
+            if (mUrl.contains("cdn")) {
                 mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                         .createMediaSource(Uri.parse(mUrl));
             } else {
@@ -377,6 +406,7 @@ public class VideoPlayFrg extends BaseFragment {
                                 httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
                                 DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
 
+                                Log.i(TAG, "run: asaas");
                                 mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                                         .createMediaSource(Uri.parse(mUrl));
                             }
@@ -447,66 +477,6 @@ public class VideoPlayFrg extends BaseFragment {
         kl.disableKeyguard();
     }
 
-    public class VideoPlayer implements LifecycleObserver {
-
-//        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-//        public void play() {
-//            startPlayer();
-//            Log.i("LOG", "VideoPlayFrg: ON_RESUME");
-//        }
-//
-//        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-//        public void pause() {
-//            Log.i("LOG", "VideoPlayFrg: ON_PAUSE");
-//            pausePlayer();
-//        }
-//
-//        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-//        public void stop() {
-//            releasePlayer();
-//            Log.i("LOG", "VideoPlayFrg: ON_STOP");
-//            //stop logic
-//        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-        void onCreate() {
-            Log.i("LOG", "VideoPlayFrg: ON_CREATE");
-            clearResumePosition();
-            // mExoPlayerView.requestFocus();
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        void onStart() {
-            if (Util.SDK_INT > 23) {
-                Log.i("LOG", "VideoPlayFrg: ON_START");
-                startPlayer();
-            }
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-        void onStop() {
-            if (Util.SDK_INT > 23) {
-                Log.i("LOG", "VideoPlayFrg: ON_STOP");
-                releasePlayer();
-            }
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-        void onPause() {
-            if (Util.SDK_INT <= 23) {
-                Log.i("LOG", "VideoPlayFrg: ON_PAUSE");
-                releasePlayer();
-            }
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-        void onResume() {
-            if ((Util.SDK_INT <= 23)) {
-                Log.i("LOG", "VideoPlayFrg: ON_RESUME");
-                initExoPlayer();
-            }
-        }
-    }
 
     private class PlayerEventListener extends Player.DefaultEventListener {
 
