@@ -736,12 +736,13 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         } else if(course != null) {
             ir.sanatisharif.android.konkur96.model.main_page.File file = course.getFile();
+            List<Video> videos = file.getVideo();
             if (i == R.id.imgDownload) {
 
                 //TODO:issue
-                if (file != null && file.getVideo() != null) {
+                if (file != null && videos != null) {
                     DownloadDialogFrg dialog = new DownloadDialogFrg();
-                    dialog.setData(file.getVideo(), course.getName(), (course.getIsFree() > 0))
+                    dialog.setData(videos, course.getName(), (course.getIsFree() > 0))
                             .setComplete(new DownloadComplete() {
                                 @Override
                                 public void complete() {
@@ -757,7 +758,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
             } else if (i == R.id.imgPlay) {
 
-                if (file!= null && !checkExistVideoToSD(file.getVideo())) {
+                if (file!= null && videos!= null && !checkExistVideoToSD(videos)) {
                     // not Exist
                     handleQualityLink();
                 }
@@ -769,9 +770,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
             } else if (i == R.id.imgReady) {
 
-                if (file != null && file.getVideo() != null) {
+                if (file != null && videos != null) {
                     (new DeleteFileDialogFrg())
-                            .setVideos(file.getVideo())
+                            .setVideos(videos)
                             .setCallback(new DeleteFileDialogFrg.Callback() {
                                 @Override
                                 public void fileDeleted() {
@@ -875,9 +876,11 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         if (course.getTags() != null && course.getTags().getTags() != null)
             tagGroup.setTags(course.getTags().getTags());
 
-        if (course.getFile() != null && course.getFile().getVideo().size() > 0)
+        if (course!=null && course.getFile() != null && course.getFile().getVideo() != null && course.getFile().getVideo().size() > 0) {
+
             checkExistVideoToSD(course.getFile().getVideo());
 
+        }
         tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
             @Override
             public void onTagClick(String tag) {
@@ -995,7 +998,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     mFullScreenDialog.show();
                 }
 
-                if (!checkExistVideoToSD(course.getFile().getVideo())) {
+                if (course != null && course.getFile() != null && course.getFile().getVideo() != null &&  !checkExistVideoToSD(course.getFile().getVideo())) {
                     handleQualityLink();
                 }
 
@@ -1280,7 +1283,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
      * @param videos
      * @return
      */
-    private boolean checkExistVideoToSD(List<Video> videos) {
+    private boolean checkExistVideoToSD(@NonNull  List<Video> videos) {
+        if(videos == null)
+            return false;
 
         if (InstantApps.isInstantApp(getContext())) {
             imgDownload.setVisibility(View.GONE);
