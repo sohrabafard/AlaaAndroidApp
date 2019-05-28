@@ -264,7 +264,7 @@ public class AllaMainFrg extends BaseFragment implements
                         getData();
                     }
                 });
-                dialogFrg.show(getHostFragmentManager(), "");
+                dialogFrg.show(getHostFragmentManager(), "showNotInternetDialogFrg");
             }
         }catch (Exception ex){
             ex.printStackTrace();

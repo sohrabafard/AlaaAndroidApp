@@ -140,8 +140,6 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 sendRegistrationToServer();
     }
     private void retrieveToken() {
-        Log.i(TAG, "onCreate: 2 ");
-        // FirebaseApp.initializeApp(this);
         FirebaseInstanceId.getInstance().getInstanceId().
                 addOnSuccessListener(MainActivity.this, instanceIdResult -> {
                     Log.i(TAG, "onCreate: " + instanceIdResult.getToken());
