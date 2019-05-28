@@ -96,7 +96,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
-                    android:src="@drawable/ic_documents"
+                    app:srcCompat="@drawable/ic_documents"
                     android:layout_marginStart="5dp"
                     android:tint="@color/Gray" />
 
@@ -131,7 +131,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
-                    android:src="@drawable/ic_more"
+                    app:srcCompat="@drawable/ic_more"
                     android:layout_marginStart="5dp"
                     android:tint="@color/Gray" />
 
@@ -166,7 +166,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
-                    android:src="@drawable/ic_comments"
+                    app:srcCompat="@drawable/ic_comments"
                     android:layout_marginStart="5dp"
                     android:tint="@color/Gray" />
 
@@ -338,14 +338,14 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="5dp"
-                            android:src="@drawable/ic_add_shopping_cart"
+                            app:srcCompat="@drawable/ic_add_shopping_cart"
                             android:layout_marginStart="5dp"
                             android:tint="@color/White" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="افزودن به سبد خرید"
+                            android:text="@string/add_to_card"
                             android:textColor="@color/White"
                             android:textSize="20sp" />
 

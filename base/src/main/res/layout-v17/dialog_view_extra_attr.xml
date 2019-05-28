@@ -83,7 +83,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="5dp"
-                android:src="@drawable/ic_add_shopping_cart"
+                app:srcCompat="@drawable/ic_add_shopping_cart"
                 android:tint="@color/White" />
 
             <TextView

@@ -22,7 +22,7 @@
                 android:id="@id/exo_rew"
                 style="@style/ExoMediaButton.Rewind"
                 android:layout_weight="0.3"
-                android:src="@drawable/ic_replay_30"
+                app:srcCompat="@drawable/ic_replay_30"
                 android:tint="@color/colorPrimary" />
 
             <ImageButton
@@ -32,7 +32,7 @@
 
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:src="@drawable/ic_play"
+                app:srcCompat="@drawable/ic_play"
                 android:focusable="true"
                 android:tint="@color/colorPrimary" />
 
@@ -40,14 +40,14 @@
                 android:id="@id/exo_pause"
                 style="@style/ExoMediaButton.Pause"
                 android:layout_weight="0.3"
-                android:src="@drawable/ic_pause"
+                app:srcCompat="@drawable/ic_pause"
                 android:tint="@color/colorPrimary" />
 
             <ImageButton
                 android:id="@id/exo_ffwd"
                 style="@style/ExoMediaButton.FastForward"
                 android:layout_weight="0.3"
-                android:src="@drawable/ic_forward_30"
+                app:srcCompat="@drawable/ic_forward_30"
                 android:tint="@color/colorPrimary" />
 
         </LinearLayout>

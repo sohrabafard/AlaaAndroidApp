@@ -67,7 +67,7 @@
         android:clickable="true"
         android:focusable="true"
         android:padding="4dp"
-        android:src="@drawable/ic_filter"
+        app:srcCompat="@drawable/ic_filter"
         app:backgroundTint="@color/Monochromatic_6"
         app:fabSize="normal"
         app:layout_anchorGravity="bottom|right|end" />

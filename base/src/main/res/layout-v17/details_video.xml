@@ -50,7 +50,7 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_margin="6dp"
-                    android:src="@drawable/ic_ok_24dp"
+                    app:srcCompat="@drawable/ic_ok_24dp"
                     android:tint="@color/Monochromatic_3"
                     android:visibility="visible" />
 

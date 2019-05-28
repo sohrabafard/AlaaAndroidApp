@@ -86,7 +86,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_register);
 
-        mAccountManager = AccountManager.get(getBaseContext());
+        mAccountManager = AccountManager.get(AppConfig.context);
         AppConfig.currentActivity = this;
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         repository = new MainRepository(this);
@@ -354,11 +354,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         getLoginInfo(user);
     }
     public void showDialog() {
-        final Dialog dialog = new Dialog(new ContextThemeWrapper(AuthenticatorActivity.this,
-                android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth));
+        final Dialog d = new Dialog(new ContextThemeWrapper(AuthenticatorActivity.this,R.layout.dialog_no_internet));
         showNoInternetDialog = true;
-        Button btnOK = dialog.findViewById(R.id.btnOK);
-        ImageView imgCLose = dialog.findViewById(R.id.imgCLose);
+        Button btnOK = d.findViewById(R.id.btnOK);
+        ImageView imgCLose = d.findViewById(R.id.imgCLose);
 
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -368,7 +367,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
                     login();
                 else
                     register();
-                dialog.dismiss();
+                d.dismiss();
                 showNoInternetDialog = false;
             }
         });
@@ -376,16 +375,16 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             @Override
             public void onClick(View view) {
                 showNoInternetDialog = false;
-                dialog.dismiss();
+                d.dismiss();
             }
         });
 
         try {
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setCancelable(false);
-            dialog.setContentView(R.layout.dialog_no_internet);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            dialog.show();
+            d.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            d.setCancelable(false);
+            d.setContentView(R.layout.dialog_no_internet);
+            d.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            d.show();
         }catch (Exception ex){
             Log.e(TAG,ex.getMessage());
             ex.printStackTrace();

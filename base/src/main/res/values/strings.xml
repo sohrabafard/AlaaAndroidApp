@@ -312,4 +312,6 @@
     <string name="open_with_file_manager">خطایی رخ داده است، فایل را از فایل منیجر گوشی باز کنید.</string>
     <string name="title_alaacontent_list">AlaaContents</string>
     <string name="title_alaacontent_detail">AlaaContent Detail</string>
+    <string name="add_to_card">افزودن به سبد خرید</string>
+    <string name="stock">موجودی کیف پول شما:</string>
 </resources>
