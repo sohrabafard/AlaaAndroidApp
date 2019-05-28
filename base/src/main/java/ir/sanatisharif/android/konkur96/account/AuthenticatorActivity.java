@@ -8,7 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +27,8 @@ import com.google.gson.Gson;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.Objects;
+
+import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
 import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.MainActivity;
@@ -349,15 +353,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         user.setMajor_id(majer_id);
         getLoginInfo(user);
     }
-
     public void showDialog() {
         final Dialog dialog = new Dialog(new ContextThemeWrapper(AuthenticatorActivity.this,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth));
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog_no_internet);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
         showNoInternetDialog = true;
         Button btnOK = dialog.findViewById(R.id.btnOK);
         ImageView imgCLose = dialog.findViewById(R.id.imgCLose);
@@ -382,7 +380,16 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             }
         });
 
-        dialog.show();
+        try {
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.dialog_no_internet);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.show();
+        }catch (Exception ex){
+            Log.e(TAG,ex.getMessage());
+            ex.printStackTrace();
+        }
 
     }
 }

@@ -72,5 +72,6 @@
     <dimen name="content_show_desc">12sp</dimen>
     <dimen name="content_show_tag">12sp</dimen>
     <dimen name="button">14sp</dimen>
+    <dimen name="app_bar_height">200dp</dimen>
 
 </resources>
