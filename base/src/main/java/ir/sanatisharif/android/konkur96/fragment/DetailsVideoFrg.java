@@ -734,64 +734,65 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 showPlayList = false;
             }
 
-        } else if (i == R.id.imgDownload) {
+        } else if(course != null) {
+            ir.sanatisharif.android.konkur96.model.main_page.File file = course.getFile();
+            if (i == R.id.imgDownload) {
 
-            //TODO:issue
-            if (course.getFile().getVideo() != null) {
-                DownloadDialogFrg dialog = new DownloadDialogFrg();
-                dialog.setData(course.getFile().getVideo(), course.getName(), (course.getIsFree() > 0))
-                        .setComplete(new DownloadComplete() {
-                            @Override
-                            public void complete() {
-                                imgDownload.setVisibility(View.GONE);
-                                imgReady.setVisibility(View.VISIBLE);
-                            }
-                        })
-                        .show(getFragmentManager(), "dialog");
+                //TODO:issue
+                if (file != null && file.getVideo() != null) {
+                    DownloadDialogFrg dialog = new DownloadDialogFrg();
+                    dialog.setData(file.getVideo(), course.getName(), (course.getIsFree() > 0))
+                            .setComplete(new DownloadComplete() {
+                                @Override
+                                public void complete() {
+                                    imgDownload.setVisibility(View.GONE);
+                                    imgReady.setVisibility(View.VISIBLE);
+                                }
+                            })
+                            .show(getFragmentManager(), "dialog");
 
 
-            }
+                }
 
 
-        } else if (i == R.id.imgPlay) {
+            } else if (i == R.id.imgPlay) {
 
-            if (null != course) {
-                if (!checkExistVideoToSD(course.getFile().getVideo())) {
+                if (file!= null && !checkExistVideoToSD(file.getVideo())) {
                     // not Exist
                     handleQualityLink();
                 }
+                startPlayer(mUrl);
+
+                relativePreview.setVisibility(View.GONE);
+                mediaVideoFrame.setVisibility(View.VISIBLE);
+                mExoPlayerView.setVisibility(View.VISIBLE);
+
+            } else if (i == R.id.imgReady) {
+
+                if (file != null && file.getVideo() != null) {
+                    (new DeleteFileDialogFrg())
+                            .setVideos(file.getVideo())
+                            .setCallback(new DeleteFileDialogFrg.Callback() {
+                                @Override
+                                public void fileDeleted() {
+                                    imgReady.setVisibility(View.GONE);
+                                    imgDownload.setVisibility(View.VISIBLE);
+                                }
+                            })
+                            .show(getFragmentManager(), "deleteFileDialogFrg");
+                }
+            } else if (i == R.id.imgShare) {
+
+                String alla = getResources().getString(R.string.alla_1);
+                String title = course.getName();
+                String author = course.getAuthor().getFullName();
+                String url = course.getUrl();
+                int order = course.getOrder();
+
+                String share = String.format("%s \n\n %s \n\n %s جلسه %d \n\n %s", alla, title, author, order, url);
+
+                Utils.share(share, context);
             }
-            startPlayer(mUrl);
-
-            relativePreview.setVisibility(View.GONE);
-            mediaVideoFrame.setVisibility(View.VISIBLE);
-            mExoPlayerView.setVisibility(View.VISIBLE);
-
-        } else if (i == R.id.imgReady) {
-
-            if (course.getFile().getVideo() != null) {
-                (new DeleteFileDialogFrg())
-                        .setVideos(course.getFile().getVideo())
-                        .setCallback(new DeleteFileDialogFrg.Callback() {
-                            @Override
-                            public void fileDeleted() {
-                                imgReady.setVisibility(View.GONE);
-                                imgDownload.setVisibility(View.VISIBLE);
-                            }
-                        })
-                        .show(getFragmentManager(), "deleteFileDialogFrg");
-            }
-        } else if (i == R.id.imgShare) {
-
-            String alla = getResources().getString(R.string.alla_1);
-            String title = course.getName();
-            String author = course.getAuthor().getFullName();
-            String url = course.getUrl();
-            int order = course.getOrder();
-
-            String share = String.format("%s \n\n %s \n\n %s جلسه %d \n\n %s", alla, title, author, order, url);
-
-            Utils.share(share, getContext());
         }
     }
 
