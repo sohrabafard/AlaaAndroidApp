@@ -1064,12 +1064,13 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
 
-                if (pagination.getNextPageUrl() != null) {
+                if (pagination != null && pagination.getNextPageUrl() != null) {
                     getDataByUrl(pagination.getNextPageUrl());
                 }
             }
         };
-        recyclerPlayList.addOnScrollListener(endLess);
+        if(recyclerPlayList != null)
+            recyclerPlayList.addOnScrollListener(endLess);
     }
 
     private void resizePlayer() {
