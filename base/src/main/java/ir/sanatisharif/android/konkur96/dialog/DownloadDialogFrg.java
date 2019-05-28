@@ -253,7 +253,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
         if (sharedPreferences.getBoolean(mContext.getString(R.string.setting_external_download), true)) {
             Log.i(TAG, "startDL-internal");
-            DownloadFile.getInstance().init(mContext, () -> {
+            DownloadFile.getInstance().init(() -> {
 
                 if (downloadComplete != null) {
                     downloadComplete.complete();

@@ -17,8 +17,8 @@ android {
         applicationId "ir.sanatisharif.android.konkur96"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 51
-        versionName "3.0.8"
+        versionCode 52
+        versionName "3.0.9"
         multiDexEnabled true
 
         resValue "string", "io.fabric.ApiKey", "46ad5fd65bf082d38b16ad6dba97be9809b6fbc7"

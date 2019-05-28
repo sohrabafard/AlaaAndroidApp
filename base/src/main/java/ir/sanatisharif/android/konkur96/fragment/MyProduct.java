@@ -107,29 +107,42 @@ public class MyProduct extends Fragment {
         AuthToken.getInstant().get(mContext, mActivity, new AuthToken.Callback() {
             @Override
             public void run(@NonNull String token) {
-                repository.getDashboard(token, String.valueOf(user.getId()), data -> {
+                String userId = String.valueOf(user.getId());
+                repository.getDashboard(token, userId, data -> {
                     if (data instanceof Result.Success) {
                         mActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                setData((myProductsModel) ((Result.Success) data).value);
+                                try {
+
+                                    ir.sanatisharif.android.konkur96.api.Models.myProductsModel value = (myProductsModel) ((Result.Success) data).value;
+                                    setData(value);
+                                }catch (Exception e)
+                                {
+                                    Log.e("Alaa\\MyProduct","User-id:"+userId+"\n\r"+"getDashboard - cast to model error");
+                                    e.printStackTrace();
+                                }
                             }
                         });
                     } else {
-                        Log.d("Test", (String) ((Result.Error) data).value);
-                        startActivity(new Intent(mActivity, AuthenticatorActivity.class));
+                        try {
+                            Log.d("Alaa\\MyProduct", (String) ((Result.Error) data).value);
+                        }catch (Exception ex){
+                            Log.d("Alaa\\MyProduct", ex.getMessage());
+                            ex.printStackTrace();
+                        }
                     }
                 });
             }
 
             @Override
             public void nill() {
-
+                startActivity(new Intent(mActivity, AuthenticatorActivity.class));
             }
         });
     }
 
-    private void setData(myProductsModel data) {
+    private void setData(@NonNull myProductsModel data) {
 
         Gson gson = new Gson();
         WalletModel walletModel = gson.fromJson(String.valueOf(user.getInfo().getWallet()).replace("[", "").replace("]", ""), WalletModel.class);
@@ -141,7 +154,8 @@ public class MyProduct extends Fragment {
 
         String tempBlance = String.valueOf((int) Float.parseFloat(walletModel.getBlance()));
 
-        txtWallet.setText(tempBlance + " تومان ");
+        String walletText = tempBlance + getString(R.string.toman);
+        txtWallet.setText(walletText);
 
         adapter.setItems(data.getData().get(0).getProducts());
     }

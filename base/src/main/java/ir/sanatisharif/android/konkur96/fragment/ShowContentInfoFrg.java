@@ -218,7 +218,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
                         startActivity(pdfFileIntent);
                     } catch (Exception ex) {
                         Log.e(TAG, ex.getMessage());
-                        ActivityBase.toastShow("خطایی رخ داده است، فایل را از فایل منیجر گوشی باز کنید.", MDToast.TYPE_ERROR);
+                        ActivityBase.toastShow(getString(R.string.open_with_file_manager), MDToast.TYPE_ERROR);
                     }
                 }
             }
@@ -262,7 +262,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
     }
 
     private void startDownload(String url, String fileName, String name) {
-        DownloadFile.getInstance().init(getContext(), () -> {
+        DownloadFile.getInstance().init(() -> {
 
             ActivityBase.toastShow(getResources().getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
             btnDownload.setVisibility(View.GONE);

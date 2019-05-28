@@ -8,7 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -110,14 +113,21 @@ public class DashboardMainFrg extends BaseFragment {
             alert.setTitle(getString(R.string.settingsSupportBuy));
             alert.setMessage(getString(R.string.supportBuy));
             alert.setHtml(true);
-            alert.show(getFragmentManager(), "alert");
+            alert.show(getHostFragmentManager(), "alert");
         } else if (id == R.id.actionSettingTelegram) {
-            if (Utils.isAppAvailable(getContext(), "org.telegram.messenger")) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ"));
-                intent.setPackage("org.telegram.messenger");
+            String alaaTelegramUrl = "https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
+            intent.setPackage("org.telegram.messenger");
+
+            try {
+                if (intent.resolveActivity(AppConfig.context.getPackageManager()) != null) {
+                    startActivity(intent);
+                }else {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
+                }
                 startActivity(intent);
-            } else {
-                ActivityBase.toastShow("تلگرام نصب نیست!", MDToast.TYPE_ERROR);
+            }catch (Exception ex){
+                Toast.makeText(AppConfig.context,"@alaa_sanatisharif",Toast.LENGTH_LONG).show();
             }
         } else if (id == R.id.actionSettingLogout) {
 
@@ -159,12 +169,20 @@ public class DashboardMainFrg extends BaseFragment {
 
                 }
             });
-            alert.show(getFragmentManager(), "alert");
+            alert.show(getHostFragmentManager(), "alert");
 
         }
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public FragmentManager getHostFragmentManager() {
+        FragmentManager fm = getFragmentManager();
+        if (fm == null && isAdded()) {
+            fm = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+        }
+        return fm;
     }
 
     private void initUi(View view) {

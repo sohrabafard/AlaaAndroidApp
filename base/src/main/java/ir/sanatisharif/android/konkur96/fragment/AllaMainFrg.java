@@ -5,7 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -108,11 +111,23 @@ public class AllaMainFrg extends BaseFragment implements
             alert.setTitle(getString(R.string.settingsSupportBuy));
             alert.setMessage(getString(R.string.supportBuy));
             alert.setHtml(true);
-            alert.show(getFragmentManager(), "alert");
+            alert.show(getHostFragmentManager(), "alert");
         } else if (id == R.id.actionSettingTelegram) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ"));
+            String alaaTelegramUrl = "https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
             intent.setPackage("org.telegram.messenger");
-            startActivity(intent);
+
+            try {
+                if (intent.resolveActivity(AppConfig.context.getPackageManager()) != null) {
+                    startActivity(intent);
+                }else {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
+                }
+                startActivity(intent);
+            }catch (Exception ex){
+                Toast.makeText(AppConfig.context,"@alaa_sanatisharif",Toast.LENGTH_LONG).show();
+            }
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -233,16 +248,27 @@ public class AllaMainFrg extends BaseFragment implements
 
     //</editor-fold>
 
-
+    public FragmentManager getHostFragmentManager() {
+        FragmentManager fm = getFragmentManager();
+        if (fm == null && isAdded()) {
+            fm = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+        }
+        return fm;
+    }
     private void showNotInternetDialogFrg() {
-
-        if (!AppConfig.showNoInternetDialog)
-            new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
-                @Override
-                public void onClickOk() {
-                    getData();
-                }
-            }).show(getFragmentManager(), "showNotInternetDialogFrg");
+        try {
+            if (!AppConfig.showNoInternetDialog) {
+                NotInternetDialogFrg dialogFrg = new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
+                    @Override
+                    public void onClickOk() {
+                        getData();
+                    }
+                });
+                dialogFrg.show(getHostFragmentManager(), "showNotInternetDialogFrg");
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
 
