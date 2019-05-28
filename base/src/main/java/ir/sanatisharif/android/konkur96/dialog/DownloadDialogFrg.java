@@ -205,17 +205,42 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             }
 
             private String getLinkString() {
-                String link = null;
+                String link, l0 ,l1, l2 ;
+                link = l0 = l1 = l2 = null;
+                try {
+                    l0 = videos.get(0).getLink();
+                }catch (IndexOutOfBoundsException ex){
+                    Log.i(TAG,ex.getMessage());
+                }
+                try {
+                    l1 = videos.get(1).getLink();
+                }catch (IndexOutOfBoundsException ex){
+                    Log.i(TAG,ex.getMessage());
+                }
+                try {
+                    l2 = videos.get(2).getLink();
+                }catch (IndexOutOfBoundsException ex){
+                    Log.i(TAG,ex.getMessage());
+                }
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.radioExcellentQuality:
-                        link = videos.get(0).getLink();
+                        link = l0;
                         break;
                     case R.id.radioHighQuality:
-                        link = videos.get(1).getLink();
+                        link = l1;
                         break;
                     case R.id.radioMediumQuality:
-                        link = videos.get(2).getLink();
+                        link = l2;
                         break;
+                }
+                if(link == null){
+                    if(l2 != null){
+                        link = l2;
+                    }else if(l1 != null){
+                        link = l1;
+                    }else{
+                        link = l0;
+                    }
                 }
                 return link;
             }
