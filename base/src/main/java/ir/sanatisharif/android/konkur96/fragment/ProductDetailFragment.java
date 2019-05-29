@@ -44,6 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.crashlytics.android.Crashlytics;
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -61,6 +62,7 @@ import ir.sanatisharif.android.konkur96.adapter.SelectableProductAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
+import ir.sanatisharif.android.konkur96.api.Models.PriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
@@ -713,19 +715,28 @@ public class ProductDetailFragment extends BaseFragment {
     @SuppressLint("SetTextI18n")
     private void setPrice() {
 
-
-        if (model.getPrice().getMfinal() > 0) {
-            totalPrice = model.getPrice().getMfinal();
-            txtPrice.setText(ShopUtils.formatPrice(model.getPrice().getMfinal()) + " تومان ");
+        if (model == null) {
+            Crashlytics.log("ProductModel is null!!");
+            return;
+        }
+        PriceModel price = model.getPrice();
+        if (price == null) {
+            Crashlytics.log("price is null - ProductModel:" + model.getId());
+            return;
+        }
+        int mfinal = price.getMfinal();
+        if (mfinal > 0) {
+            totalPrice = mfinal;
+            txtPrice.setText(ShopUtils.formatPrice(mfinal) + " تومان ");
 
         } else {
 
             txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
         }
 
-        if (model.getPrice().getDiscount() > 0) {
+        if (price.getDiscount() > 0) {
 
-            txtDiscount.setText(ShopUtils.formatPrice(model.getPrice().getBase()) + " تومان ");
+            txtDiscount.setText(ShopUtils.formatPrice(price.getBase()) + " تومان ");
 
         } else {
 
