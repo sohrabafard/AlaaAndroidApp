@@ -118,7 +118,10 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
             @Override
             public void onScrollChanged() {
 
-                View view = nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
+                int index = nestedScrollView.getChildCount() - 1;
+                if(index < 0)
+                    index = 0;
+                View view = nestedScrollView.getChildAt(index);
                 int i = nestedScrollView.getHeight() + nestedScrollView.getScrollY();
                 int diff = (view.getBottom() - i);
 

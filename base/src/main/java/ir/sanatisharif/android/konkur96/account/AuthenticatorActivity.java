@@ -5,6 +5,7 @@ import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -354,7 +355,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         getLoginInfo(user);
     }
     public void showDialog() {
-        final Dialog d = new Dialog(new ContextThemeWrapper(AuthenticatorActivity.this,R.layout.dialog_no_internet));
+        final Dialog d = new Dialog(new ContextThemeWrapper(AuthenticatorActivity.this,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth));
+        d.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        d.setContentView(R.layout.dialog_no_internet);
+        d.setCancelable(false);
         showNoInternetDialog = true;
         Button btnOK = d.findViewById(R.id.btnOK);
         ImageView imgCLose = d.findViewById(R.id.imgCLose);
@@ -380,9 +385,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         });
 
         try {
-            d.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            d.setCancelable(false);
-            d.setContentView(R.layout.dialog_no_internet);
             d.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             d.show();
         }catch (Exception ex){
