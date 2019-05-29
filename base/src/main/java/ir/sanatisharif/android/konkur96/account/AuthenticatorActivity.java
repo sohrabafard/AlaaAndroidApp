@@ -5,13 +5,10 @@ import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.View;
@@ -29,8 +26,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.Objects;
 
-import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
-import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.MainActivity;
 import ir.sanatisharif.android.konkur96.adapter.FilterAdapterBySpinner;
@@ -42,8 +38,8 @@ import ir.sanatisharif.android.konkur96.model.user.Data;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
+import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.accounts.AccountManager.KEY_ERROR_MESSAGE;
 import static ir.sanatisharif.android.konkur96.activity.ActivityBase.toastShow;
@@ -79,7 +75,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @Override
