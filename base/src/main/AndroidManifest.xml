@@ -96,6 +96,19 @@
                     android:path="/c"
                     android:scheme="https" />
             </intent-filter>
+            <intent-filter
+                android:autoVerify="true"
+                android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sanatisharif.ir"
+                    android:path="/c"
+                    android:scheme="https" />
+            </intent-filter>
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -104,6 +117,17 @@
 
                 <data
                     android:host="alaatv.com"
+                    android:pathPrefix="/product/"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sanatisharif.ir"
                     android:pathPrefix="/product/"
                     android:scheme="https" />
             </intent-filter>
@@ -125,7 +149,29 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
+                    android:host="sanatisharif.ir"
+                    android:pathPrefix="/login"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
                     android:host="alaatv.com"
+                    android:path="/shop"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sanatisharif.ir"
                     android:path="/shop"
                     android:scheme="https" />
             </intent-filter>
@@ -147,7 +193,29 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
+                    android:host="sanatisharif.ir"
+                    android:pathPrefix="/zarinpal"
+                    android:scheme="alla" />
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
                     android:host="alaatv.com"
+                    android:pathPrefix="/c/"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sanatisharif.ir"
                     android:pathPrefix="/c/"
                     android:scheme="https" />
             </intent-filter>
@@ -161,6 +229,19 @@
 
                 <data
                     android:host="alaatv.com"
+                    android:path="/"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter
+                android:autoVerify="true"
+                android:order="2">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sanatisharif.ir"
                     android:path="/"
                     android:scheme="https" />
             </intent-filter>
@@ -182,7 +263,29 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
+                    android:host="sanatisharif.ir"
+                    android:path="/contactUs"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
                     android:host="alaatv.com"
+                    android:path="/asset"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sanatisharif.ir"
                     android:path="/asset"
                     android:scheme="https" />
             </intent-filter>
