@@ -18,5 +18,6 @@
     <dimen name="content_show_desc">15sp</dimen>
     <dimen name="content_show_tag">15sp</dimen>
     <dimen name="button">16sp</dimen>
+    <dimen name="product_detail_height">450dp</dimen>
 
 </resources>

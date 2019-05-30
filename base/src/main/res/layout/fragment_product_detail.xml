@@ -20,7 +20,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/product_detail_height"
                 android:id="@+id/intro_video"/>
 
             <include layout="@layout/details_product" />

@@ -94,7 +94,7 @@ public class ProductDetailFragment extends BaseFragment {
     private ImageView image;
     private FrameLayout intro;
 
-    private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice, txtMainAttrCom, txtDiscount;
+    private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice, txtMainAttrCom, txtDiscount,txtFinalPriceTop;
 
     private RecyclerView selectableRecyclerView;
 
@@ -240,7 +240,9 @@ public class ProductDetailFragment extends BaseFragment {
         txtAuthor = v.findViewById(R.id.txt_author);
         txtAtrr = v.findViewById(R.id.txt_atrr);
         txtComment = v.findViewById(R.id.txt_comment);
+        txtFinalPriceTop = v.findViewById(R.id.txt_final_price_top);
         selectableRecyclerView = v.findViewById(R.id.recycler_selectable);
+
 
         txtPrice = v.findViewById(R.id.txt_price);
         txtDiscount = v.findViewById(R.id.txt_discount);
@@ -278,7 +280,9 @@ public class ProductDetailFragment extends BaseFragment {
 
         txtPrice.setTypeface(AppConfig.fontIRSensLight);
         txtDiscount.setTypeface(AppConfig.fontIRSensLight);
+        txtFinalPriceTop.setTypeface(AppConfig.fontIRSensLight);
 
+        txtFinalPriceTop.setVisibility(View.GONE);
         txtDiscount.setPaintFlags(txtDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         txtShortDesc.setTypeface(AppConfig.fontIRSensLight);
@@ -737,11 +741,15 @@ public class ProductDetailFragment extends BaseFragment {
         if (price.getDiscount() > 0) {
 
             txtDiscount.setText(ShopUtils.formatPrice(price.getBase()) + " تومان ");
+            txtFinalPriceTop.setVisibility(View.VISIBLE);
+            txtFinalPriceTop.setText(txtPrice.getText());
 
         } else {
 
             txtDiscount.setText("");
         }
+
+
     }
 
 
