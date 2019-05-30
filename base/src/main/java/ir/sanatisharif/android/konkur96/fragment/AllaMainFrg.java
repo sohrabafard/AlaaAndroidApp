@@ -108,6 +108,8 @@ public class AllaMainFrg extends BaseFragment implements
         } else if (id == R.id.actionSettingSupportBuy) {
 
             MyAlertDialogFrg alert = new MyAlertDialogFrg();
+            alert.getTxtCancel().setVisibility(View.GONE);
+            alert.getTxtDownload().setText(getString(R.string.halleh));
             alert.setTitle(getString(R.string.settingsSupportBuy));
             alert.setMessage(getString(R.string.supportBuy));
             alert.setHtml(true);

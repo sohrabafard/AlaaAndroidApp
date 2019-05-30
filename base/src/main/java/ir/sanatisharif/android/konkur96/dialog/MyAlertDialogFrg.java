@@ -35,6 +35,12 @@ public class MyAlertDialogFrg extends BaseDialogFragment<MyAlertDialogFrg> {
     private String message;
     private boolean html = false;
 
+    public TextView getTxtCancel(){
+        return txtCancel;
+    }
+    public TextView getTxtDownload(){
+        return txtDownload;
+    }
     public static MyAlertDialogFrg newInstance() {
         MyAlertDialogFrg frag = new MyAlertDialogFrg();
         return frag;
