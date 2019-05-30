@@ -41,7 +41,7 @@
                     android:layout_gravity="center"
                     android:background="@drawable/shape_circle_play"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ic_play"
+                    app:srcCompat="@drawable/ic_play"
                     android:tint="@color/White"
                     android:visibility="gone" />
 

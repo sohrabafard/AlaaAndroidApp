@@ -24,7 +24,7 @@
         android:layout_gravity="start|center_vertical"
         android:background="#fb8C00"
         android:padding="8dp"
-        android:src="@drawable/ic_left_arrow" />
+        app:srcCompat="@drawable/ic_left_arrow" />
 
     <ImageView
         android:id="@+id/img_right"
@@ -33,7 +33,7 @@
         android:layout_gravity="end|center_vertical"
         android:background="#fb8C00"
         android:padding="8dp"
-        android:src="@drawable/ic_right_arrow" />
+        app:srcCompat="@drawable/ic_right_arrow" />
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/bottem_sheet"

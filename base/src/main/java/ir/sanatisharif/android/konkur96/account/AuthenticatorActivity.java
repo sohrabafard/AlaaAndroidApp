@@ -25,7 +25,8 @@ import com.google.gson.Gson;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.Objects;
-import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.MainActivity;
 import ir.sanatisharif.android.konkur96.adapter.FilterAdapterBySpinner;
@@ -37,8 +38,8 @@ import ir.sanatisharif.android.konkur96.model.user.Data;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
+import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import ir.sanatisharif.android.konkur96.utils.Utils;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.accounts.AccountManager.KEY_ERROR_MESSAGE;
 import static ir.sanatisharif.android.konkur96.activity.ActivityBase.toastShow;
@@ -74,7 +75,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @Override
@@ -82,7 +83,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_register);
 
-        mAccountManager = AccountManager.get(getBaseContext());
+        mAccountManager = AccountManager.get(AppConfig.context);
         AppConfig.currentActivity = this;
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         repository = new MainRepository(this);
@@ -349,18 +350,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         user.setMajor_id(majer_id);
         getLoginInfo(user);
     }
-
     public void showDialog() {
-        final Dialog dialog = new Dialog(new ContextThemeWrapper(AuthenticatorActivity.this,
+        final Dialog d = new Dialog(new ContextThemeWrapper(AuthenticatorActivity.this,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth));
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog_no_internet);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
+        d.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        d.setContentView(R.layout.dialog_no_internet);
+        d.setCancelable(false);
         showNoInternetDialog = true;
-        Button btnOK = dialog.findViewById(R.id.btnOK);
-        ImageView imgCLose = dialog.findViewById(R.id.imgCLose);
+        Button btnOK = d.findViewById(R.id.btnOK);
+        ImageView imgCLose = d.findViewById(R.id.imgCLose);
 
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -370,7 +368,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
                     login();
                 else
                     register();
-                dialog.dismiss();
+                d.dismiss();
                 showNoInternetDialog = false;
             }
         });
@@ -378,11 +376,17 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             @Override
             public void onClick(View view) {
                 showNoInternetDialog = false;
-                dialog.dismiss();
+                d.dismiss();
             }
         });
 
-        dialog.show();
+        try {
+            d.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            d.show();
+        }catch (Exception ex){
+            Log.e(TAG,ex.getMessage());
+            ex.printStackTrace();
+        }
 
     }
 }

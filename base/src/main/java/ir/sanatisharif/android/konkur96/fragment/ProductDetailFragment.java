@@ -44,6 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.crashlytics.android.Crashlytics;
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -61,6 +62,7 @@ import ir.sanatisharif.android.konkur96.adapter.SelectableProductAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
+import ir.sanatisharif.android.konkur96.api.Models.PriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.ProductAttrDialogFragment;
@@ -92,7 +94,7 @@ public class ProductDetailFragment extends BaseFragment {
     private ImageView image;
     private FrameLayout intro;
 
-    private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice, txtMainAttrCom, txtDiscount;
+    private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice, txtMainAttrCom, txtDiscount,txtFinalPriceTop;
 
     private RecyclerView selectableRecyclerView;
 
@@ -238,7 +240,9 @@ public class ProductDetailFragment extends BaseFragment {
         txtAuthor = v.findViewById(R.id.txt_author);
         txtAtrr = v.findViewById(R.id.txt_atrr);
         txtComment = v.findViewById(R.id.txt_comment);
+        txtFinalPriceTop = v.findViewById(R.id.txt_final_price_top);
         selectableRecyclerView = v.findViewById(R.id.recycler_selectable);
+
 
         txtPrice = v.findViewById(R.id.txt_price);
         txtDiscount = v.findViewById(R.id.txt_discount);
@@ -276,7 +280,9 @@ public class ProductDetailFragment extends BaseFragment {
 
         txtPrice.setTypeface(AppConfig.fontIRSensLight);
         txtDiscount.setTypeface(AppConfig.fontIRSensLight);
+        txtFinalPriceTop.setTypeface(AppConfig.fontIRSensLight);
 
+        txtFinalPriceTop.setVisibility(View.GONE);
         txtDiscount.setPaintFlags(txtDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         txtShortDesc.setTypeface(AppConfig.fontIRSensLight);
@@ -713,24 +719,37 @@ public class ProductDetailFragment extends BaseFragment {
     @SuppressLint("SetTextI18n")
     private void setPrice() {
 
-
-        if (model.getPrice().getMfinal() > 0) {
-            totalPrice = model.getPrice().getMfinal();
-            txtPrice.setText(ShopUtils.formatPrice(model.getPrice().getMfinal()) + " تومان ");
+        if (model == null) {
+            Crashlytics.log("ProductModel is null!!");
+            return;
+        }
+        PriceModel price = model.getPrice();
+        if (price == null) {
+            Crashlytics.log("price is null - ProductModel:" + model.getId());
+            return;
+        }
+        int mfinal = price.getMfinal();
+        if (mfinal > 0) {
+            totalPrice = mfinal;
+            txtPrice.setText(ShopUtils.formatPrice(mfinal) + " تومان ");
 
         } else {
 
             txtPrice.setText(ShopUtils.formatPrice(0) + " تومان ");
         }
 
-        if (model.getPrice().getDiscount() > 0) {
+        if (price.getDiscount() > 0) {
 
-            txtDiscount.setText(ShopUtils.formatPrice(model.getPrice().getBase()) + " تومان ");
+            txtDiscount.setText(ShopUtils.formatPrice(price.getBase()) + " تومان ");
+            txtFinalPriceTop.setVisibility(View.VISIBLE);
+            txtFinalPriceTop.setText(txtPrice.getText());
 
         } else {
 
             txtDiscount.setText("");
         }
+
+
     }
 
 

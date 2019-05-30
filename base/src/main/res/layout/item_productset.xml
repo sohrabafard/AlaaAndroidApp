@@ -19,7 +19,7 @@
            android:id="@+id/imgset"
            android:layout_width="100dp"
            android:layout_height="100dp"
-           android:src="@drawable/ic_check"
+           app:srcCompat="@drawable/ic_check"
            android:scaleType="fitXY" />
 
        <TextView

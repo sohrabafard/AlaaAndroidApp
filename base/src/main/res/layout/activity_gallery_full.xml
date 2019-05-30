@@ -18,7 +18,7 @@
 
     <ImageView
         android:id="@+id/img_left"
-        android:src="@drawable/ic_left_arrow"
+        app:srcCompat="@drawable/ic_left_arrow"
         android:layout_gravity="start|center_vertical"
         android:padding="8dp"
         android:background="#fb8C00"
@@ -27,7 +27,7 @@
 
     <ImageView
         android:id="@+id/img_right"
-        android:src="@drawable/ic_right_arrow"
+        app:srcCompat="@drawable/ic_right_arrow"
         android:background="#fb8C00"
         android:padding="8dp"
         android:layout_gravity="end|center_vertical"

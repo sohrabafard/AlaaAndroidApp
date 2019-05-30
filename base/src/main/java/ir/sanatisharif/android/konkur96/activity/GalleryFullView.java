@@ -1,5 +1,6 @@
 package ir.sanatisharif.android.konkur96.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +19,7 @@ import com.duolingo.open.rtlviewpager.RtlViewPager;
 
 import java.util.ArrayList;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.FullScreenAdapter;
 import ir.sanatisharif.android.konkur96.adapter.IndicatorAdapter;
@@ -38,6 +40,11 @@ public class GalleryFullView extends AppCompatActivity implements PositionFounde
     private ImageView imgTopArrow;
     private BottomSheetBehavior bottemSheetBehavior;
     private int position = 0;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

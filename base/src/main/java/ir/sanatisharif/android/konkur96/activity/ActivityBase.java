@@ -11,11 +11,11 @@ import android.webkit.WebView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
@@ -52,7 +52,7 @@ public class ActivityBase extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @Override

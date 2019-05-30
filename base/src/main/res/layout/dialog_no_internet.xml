@@ -23,20 +23,20 @@
             android:layout_height="24dp"
             android:layout_margin="8sp"
             android:layout_gravity="end"
-            android:src="@drawable/ic_close" />
+            app:srcCompat="@drawable/ic_close" />
 
         <ImageView
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:layout_margin="12dp"
-            android:src="@drawable/ic_cloud_off" />
+            app:srcCompat="@drawable/ic_cloud_off" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/not_internet"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:layout_margin="6dp"
             android:textColor="@color/White" />
 

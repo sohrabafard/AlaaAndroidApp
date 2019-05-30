@@ -23,47 +23,72 @@
             android:background="@color/Black"
             android:scaleType="centerCrop" />
 
-        <TextView
-            android:id="@+id/txt_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="120dp"
-            android:gravity="center|start"
-            android:padding="2dp"
-            android:text=""
-            android:textColor="@color/Black"
-            android:textSize="15sp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txt_author"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="120dp"
-            android:gravity="center|end"
-            android:padding="2dp"
-            android:text=""
-            android:textColor="#222222"
-            android:textSize="13sp"
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/txt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="120dp"
+                android:gravity="center|start"
+                android:lines="2"
+                android:padding="2dp"
+                android:text="عنوان همایش"
+                android:textColor="@color/Black"
+                android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/txt_discount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="120dp"
-            android:gravity="center|start"
-            android:padding="2dp"
-            android:text=""
-            android:textColor="@color/IndianRed"
-            android:textSize="13sp"
-            android:visibility="visible" />
+            <TextView
+                android:id="@+id/txt_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="120dp"
+                android:gravity="center|end"
+                android:padding="2dp"
+                android:text="نام دبیر"
+                android:textColor="#222222"
+                android:textSize="13sp"
+                android:visibility="gone" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="120dp"
+                android:layoutDirection="ltr"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_final_price_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:padding="8dp"
+                    android:text="8500 تومان"
+                    android:textColor="@color/DarkSeaGreen"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/txt_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="2dp"
+                    android:text="9500 تومان"
+                    android:textColor="@color/IndianRed"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
     <LinearLayout
@@ -98,9 +123,8 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="5dp"
-                    android:src="@drawable/ic_documents"
-                    android:tint="@color/Gray" />
-
+                    android:tint="@color/Gray"
+                    app:srcCompat="@drawable/ic_documents" />
 
 
             </LinearLayout>
@@ -134,9 +158,8 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="5dp"
-                    android:src="@drawable/ic_more"
-                    android:tint="@color/Gray" />
-
+                    android:tint="@color/Gray"
+                    app:srcCompat="@drawable/ic_more" />
 
 
             </LinearLayout>
@@ -161,8 +184,8 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="5dp"
-                    android:src="@drawable/ic_comments"
-                    android:tint="@color/Gray" />
+                    android:tint="@color/Gray"
+                    app:srcCompat="@drawable/ic_comments" />
 
                 <TextView
                     android:id="@+id/txt_comment"
@@ -206,6 +229,7 @@
                     android:paddingStart="@dimen/activity_horizontal_margin"
                     android:paddingEnd="@dimen/activity_horizontal_margin"
                     android:scrollbars="vertical"
+                    android:text="توضیح محصول"
                     android:textColor="#4A4A4A"
                     android:textSize="15sp"
                     android:visibility="visible" />
@@ -320,12 +344,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:orientation="horizontal">
+
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginStart="5dp"
                             android:src="@drawable/ic_add_shopping_cart"
                             android:tint="@color/White" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -333,9 +359,6 @@
                             android:text="@string/add_to_order"
                             android:textColor="@color/White"
                             android:textSize="20sp" />
-
-
-
 
 
                     </LinearLayout>

@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
@@ -17,12 +18,14 @@ import com.facebook.stetho.Stetho;
 import com.google.android.gms.common.wrappers.InstantApps;
 
 import io.fabric.sdk.android.Fabric;
+import io.github.inflationx.calligraphy3.CalligraphyConfig;
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
+import io.github.inflationx.viewpump.ViewPump;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.ApiModule;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 
 //@ReportsCrashes(formKey = "", formUri = "http://edu-edu.ir/alla/report.php", customReportContent = {
@@ -69,12 +72,13 @@ public class AppConfig extends Application {
         BASE_URL = getString(R.string.alla_url);
 
 
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/IRANSansMobile(FaNum).ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
-        );
-
+        ViewPump.init(ViewPump.builder()
+                .addInterceptor(new CalligraphyInterceptor(
+                        new CalligraphyConfig.Builder()
+                                .setDefaultFontPath("fonts/IRANSansMobile(FaNum).ttf")
+                                .setFontAttrId(R.attr.fontPath)
+                                .build()))
+                .build());
 
         //init
         // sAnalytics = GoogleAnalytics.getInstance(this);
@@ -115,8 +119,11 @@ public class AppConfig extends Application {
     }
 
     public void changeProgressColor(ProgressBar loader) {
-        if(loader != null)
-            loader.getIndeterminateDrawable().setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
+        if(loader != null) {
+            Drawable indeterminateDrawable = loader.getIndeterminateDrawable();
+            if(indeterminateDrawable != null)
+                indeterminateDrawable.setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
+        }
     }
 
     @Override
