@@ -8,9 +8,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.model.filter.Pagination;
-import ir.sanatisharif.android.konkur96.model.filter.SetFilterProduct;
 
 /**
  * Created by Mohamad on 2/17/2019.
@@ -37,7 +37,7 @@ public class Product extends Pagination implements Parcelable {
     private List<ProductModel> data = null;
 
     protected Product(Parcel in) {
-        in.readList(this.data, (Datum.class.getClassLoader()));
+        in.readList(this.data, (BlockDataModel.class.getClassLoader()));
     }
 
     public List<ProductModel> getData() {

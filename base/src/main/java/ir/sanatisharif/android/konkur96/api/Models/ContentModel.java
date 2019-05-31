@@ -103,29 +103,32 @@ public class ContentModel implements Parcelable, LogUserActionsOnPublicContentIn
     private Set set;
 
     protected ContentModel(Parcel in) {
-        this.id = ((int) in.readValue((int.class.getClassLoader())));
-        this.contenttypeId = ((int) in.readValue((int.class.getClassLoader())));
-        this.name = ((String) in.readValue((String.class.getClassLoader())));
-        this.description = ((String) in.readValue((String.class.getClassLoader())));
+        this.name = in.readString();
+        this.description = in.readString();
+        this.context = in.readString();
+        this.thumbnail = in.readString();
+        this.createdAt = in.readString();
+        this.updatedAt = in.readString();
+        this.url = in.readString();
+        this.nextUrl = in.readString();
+        this.previousUrl = in.readString();
+
+
+        this.id = in.readInt();
+        this.contenttypeId = in.readInt();
+        this.duration = in.readInt();
+        this.isFree = in.readInt();
+        this.order = in.readInt();
+        this.pageView =  in.readInt();
+
         this.tags = ((Tags) in.readValue((Tags.class.getClassLoader())));
-        this.context = ((String) in.readValue((Object.class.getClassLoader())));
         this.file = ((File) in.readValue((File.class.getClassLoader())));
-        this.duration = ((int) in.readValue((Object.class.getClassLoader())));
-        this.thumbnail = ((String) in.readValue((String.class.getClassLoader())));
-        this.isFree = ((int) in.readValue((int.class.getClassLoader())));
-        this.order = ((int) in.readValue((int.class.getClassLoader())));
-        this.pageView = in.readValue((Object.class.getClassLoader()));
-        this.createdAt = ((String) in.readValue((String.class.getClassLoader())));
-        this.updatedAt = ((String) in.readValue((String.class.getClassLoader())));
-        this.url = ((String) in.readValue((String.class.getClassLoader())));
-        this.author = ((Author) in.readValue((Author.class.getClassLoader())));
-        this.apiUrl = ((ApiUrl) in.readValue((ApiUrl.class.getClassLoader())));
-        this.nextUrl = ((String) in.readValue((String.class.getClassLoader())));
-        this.nextApiUrl = ((NextApiUrl) in.readValue((NextApiUrl.class.getClassLoader())));
-        this.previousUrl = ((String) in.readValue((String.class.getClassLoader())));
-        this.previousApiUrl = ((PreviousApiUrl) in.readValue((PreviousApiUrl.class.getClassLoader())));
-        this.pivot = ((Pivot) in.readValue((Pivot.class.getClassLoader())));
-        this.set = ((Set) in.readValue((Set.class.getClassLoader())));
+        this.author = in.readParcelable (Author.class.getClassLoader());
+        this.apiUrl = in.readParcelable((ApiUrl.class.getClassLoader()));
+        this.nextApiUrl = in.readParcelable((NextApiUrl.class.getClassLoader()));
+        this.previousApiUrl = in.readParcelable((PreviousApiUrl.class.getClassLoader()));
+        this.pivot = in.readParcelable((Pivot.class.getClassLoader()));
+        this.set = in.readParcelable((Set.class.getClassLoader()));
 
     }
 

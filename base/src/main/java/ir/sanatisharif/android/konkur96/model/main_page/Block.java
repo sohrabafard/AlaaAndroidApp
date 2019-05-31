@@ -1,13 +1,14 @@
 package ir.sanatisharif.android.konkur96.model.main_page;
 
-import java.util.List;
-
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
 
 public class Block implements Parcelable {
 
@@ -31,7 +32,7 @@ public class Block implements Parcelable {
     private Integer currentPage;
     @SerializedName("data")
     @Expose
-    private List<Datum> data = null;
+    private List<BlockDataModel> data = null;
     @SerializedName("first_page_url")
     @Expose
     private Object firstPageUrl;
@@ -65,7 +66,7 @@ public class Block implements Parcelable {
 
     protected Block(Parcel in) {
         this.currentPage = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        in.readList(this.data, (Datum.class.getClassLoader()));
+        in.readList(this.data, (BlockDataModel.class.getClassLoader()));
         this.firstPageUrl = in.readValue((Object.class.getClassLoader()));
         this.from = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.lastPage = ((Integer) in.readValue((Integer.class.getClassLoader())));
@@ -89,11 +90,11 @@ public class Block implements Parcelable {
         this.currentPage = currentPage;
     }
 
-    public List<Datum> getData() {
+    public List<BlockDataModel> getData() {
         return data;
     }
 
-    public void setData(List<Datum> data) {
+    public void setData(List<BlockDataModel> data) {
         this.data = data;
     }
 

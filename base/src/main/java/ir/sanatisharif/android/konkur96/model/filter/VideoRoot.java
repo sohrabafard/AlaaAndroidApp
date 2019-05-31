@@ -1,14 +1,14 @@
 package ir.sanatisharif.android.konkur96.model.filter;
 
-import java.util.List;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import ir.sanatisharif.android.konkur96.model.main_page.Datum;
+import java.util.List;
+
+import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
 
 
 public class VideoRoot extends Pagination implements Parcelable {
@@ -36,7 +36,7 @@ public class VideoRoot extends Pagination implements Parcelable {
     }
 
     protected VideoRoot(Parcel in) {
-        in.readList(this.data, (Datum.class.getClassLoader()));
+        in.readList(this.data, (BlockDataModel.class.getClassLoader()));
     }
 
     public List<VideoCourse> getData() {

@@ -6,10 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-import ir.sanatisharif.android.konkur96.model.main_page.Datum;
-
 /**
  * Created by Mohamad on 2/23/2019.
  */

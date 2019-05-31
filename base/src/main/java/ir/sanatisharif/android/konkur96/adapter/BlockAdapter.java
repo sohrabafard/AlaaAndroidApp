@@ -26,7 +26,6 @@ import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.model.Block;
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.model.Video;
-import ir.sanatisharif.android.konkur96.model.main_page.Banner;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ViewSliderAdapter;
@@ -163,7 +162,7 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             final ItemHolder itemRowHolder = (ItemHolder) holder;
 
-            List<Banner> items = dataList.get(position).getBanners();
+            List<MainBannerModel> items = dataList.get(position).getBanners();
 
             BannerItemAdapter itemListDataAdapter = new BannerItemAdapter(mContext, items);
 

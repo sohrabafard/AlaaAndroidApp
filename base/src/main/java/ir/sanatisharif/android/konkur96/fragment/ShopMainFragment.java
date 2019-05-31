@@ -160,7 +160,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
 
             swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
 
-            repository.getNextPage(mainModel.getBlock().getNext_page_url(), data -> {
+            repository.getNextPage(mainModel.getBlock().getNextPageUrl(), data -> {
 
                 if (data instanceof Result.Success) {
 
@@ -189,7 +189,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
 
 
         //---------------------- set paginate data ----------------------------------------------
-        if (null != mainModel && null != mainModel.getBlock().getNext_page_url()) {
+        if (null != mainModel && null != mainModel.getBlock().getNextPageUrl()) {
 
             isPaginate = true;
             paginate.setNoMoreItems(false);

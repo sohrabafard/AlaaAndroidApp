@@ -3,6 +3,7 @@ package ir.sanatisharif.android.konkur96.api.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -21,28 +22,51 @@ public class BlockModel implements Parcelable {
         }
     };
     @SerializedName("current_page")
+    @Expose
     private int current_page;
+
     @SerializedName("data")
+    @Expose
     private ArrayList<BlockDataModel> data;
+
     @SerializedName("first_page_url")
+    @Expose
     private String first_page_url;
+
     @SerializedName("from")
+    @Expose
     private int from;
+
     @SerializedName("last_page")
+    @Expose
     private int last_page;
+
     @SerializedName("last_page_url")
+    @Expose
     private String last_page_url;
+
     @SerializedName("next_page_url")
+    @Expose
     private String next_page_url;
+
     @SerializedName("path")
+    @Expose
     private String path;
+
     @SerializedName("per_page")
+    @Expose
     private int per_page;
+
     @SerializedName("prev_page_url")
+    @Expose
     private String prev_page_url;
+
     @SerializedName("to")
+    @Expose
     private int to;
+
     @SerializedName("total")
+    @Expose
     private int total;
 
     protected BlockModel(Parcel in) {
@@ -81,11 +105,11 @@ public class BlockModel implements Parcelable {
         return 0;
     }
 
-    public int getCurrent_page() {
+    public int getCurrentPage() {
         return current_page;
     }
 
-    public void setCurrent_page(int current_page) {
+    public void setCurrentPage(int current_page) {
         this.current_page = current_page;
     }
 
@@ -97,11 +121,11 @@ public class BlockModel implements Parcelable {
         this.data = data;
     }
 
-    public String getFirst_page_url() {
+    public String getFirstPageUrl() {
         return first_page_url;
     }
 
-    public void setFirst_page_url(String first_page_url) {
+    public void setFirstPageUrl(String first_page_url) {
         this.first_page_url = first_page_url;
     }
 
@@ -113,27 +137,27 @@ public class BlockModel implements Parcelable {
         this.from = from;
     }
 
-    public int getLast_page() {
+    public int getLastPage() {
         return last_page;
     }
 
-    public void setLast_page(int last_page) {
+    public void setLastPage(int last_page) {
         this.last_page = last_page;
     }
 
-    public String getLast_page_url() {
+    public String getLastPageUrl() {
         return last_page_url;
     }
 
-    public void setLast_page_url(String last_page_url) {
+    public void setLastPageUrl(String last_page_url) {
         this.last_page_url = last_page_url;
     }
 
-    public String getNext_page_url() {
+    public String getNextPageUrl() {
         return next_page_url;
     }
 
-    public void setNext_page_url(String next_page_url) {
+    public void setNextPageUrl(String next_page_url) {
         this.next_page_url = next_page_url;
     }
 
@@ -145,19 +169,19 @@ public class BlockModel implements Parcelable {
         this.path = path;
     }
 
-    public int getPer_page() {
+    public int getPerPage() {
         return per_page;
     }
 
-    public void setPer_page(int per_page) {
+    public void setPerPage(int per_page) {
         this.per_page = per_page;
     }
 
-    public String getPrev_page_url() {
+    public String getPrevPageUrl() {
         return prev_page_url;
     }
 
-    public void setPrev_page_url(String prev_page_url) {
+    public void setPrevPageUrl(String prev_page_url) {
         this.prev_page_url = prev_page_url;
     }
 

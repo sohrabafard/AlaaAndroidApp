@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import ir.sanatisharif.android.konkur96.model.main_page.Datum;
+import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
 
 /**
  * Created by Mohamad on 2/23/2019.
@@ -36,7 +36,7 @@ public class PamphletRoot extends Pagination implements Parcelable {
     private List<PamphletCourse> pamphletCourses = null;
 
     protected PamphletRoot(Parcel in) {
-        in.readList(this.pamphletCourses, (Datum.class.getClassLoader()));
+        in.readList(this.pamphletCourses, (BlockDataModel.class.getClassLoader()));
     }
 
     public List<PamphletCourse> getData() {

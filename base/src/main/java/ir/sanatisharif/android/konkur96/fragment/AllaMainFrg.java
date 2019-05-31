@@ -28,6 +28,7 @@ import java.util.Objects;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.BlockAdapter;
+import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
@@ -38,7 +39,6 @@ import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.Block;
-import ir.sanatisharif.android.konkur96.model.main_page.Datum;
 
 
 /**
@@ -145,7 +145,7 @@ public class AllaMainFrg extends BaseFragment implements
         myRecyclerView = v.findViewById(R.id.recyclerView);
         myRecyclerView.setNestedScrollingEnabled(false);
         myRecyclerView.setHasFixedSize(true);
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, RecyclerView.VERTICAL, false));
         adapter = new BlockAdapter(AppConfig.context, items);
         adapter.setSize(AppConfig.width, AppConfig.height);
         myRecyclerView.setAdapter(adapter);
@@ -200,13 +200,13 @@ public class AllaMainFrg extends BaseFragment implements
         //sets - contents- products- banners
         for (int i = 0; i < mainPagesInfo.getBlock().getData().size(); i++) {
 
-            Datum block = mainPagesInfo.getBlock().getData().get(i);
+            BlockDataModel block = mainPagesInfo.getBlock().getData().get(i);
 
             item = new Block();
             item.setId(block.getId());
             item.setTitle(block.getTitle());
             item.setUrl(block.getUrl());
-            item.setOffer(block.getOffer());
+            item.setOffer(block.isOffer());
             item.setType(AppConstants.HEADER_DATA);
             items.add(item);
 

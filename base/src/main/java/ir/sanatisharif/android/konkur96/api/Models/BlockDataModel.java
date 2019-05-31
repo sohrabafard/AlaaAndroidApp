@@ -3,9 +3,12 @@ package ir.sanatisharif.android.konkur96.api.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+
+import ir.sanatisharif.android.konkur96.model.main_page.Set;
 
 public class BlockDataModel implements Parcelable {
 
@@ -20,30 +23,52 @@ public class BlockDataModel implements Parcelable {
             return new BlockDataModel[size];
         }
     };
+
     @SerializedName("id")
+    @Expose
     private int id;
+
     @SerializedName("type")
+    @Expose
     private int type;
+
     @SerializedName("title")
+    @Expose
     private String title;
+
     @SerializedName("order")
+    @Expose
     private int order;
-    @SerializedName("offer")
-    private boolean offer;
+
     @SerializedName("updated_at")
+    @Expose
     private String updated_at;
 
-//    @SerializedName("contents")
-//    private String contents;
+    @SerializedName("offer")
+    @Expose
+    private boolean offer;
 
-//    @SerializedName("sets")
-//    private String sets;
+
     @SerializedName("url")
+    @Expose
     private String url;
+
+    @SerializedName("contents")
+    @Expose
+    private ArrayList<ContentModel> contents;
+
     @SerializedName("products")
+    @Expose
     private ArrayList<ProductModel> products;
+
     @SerializedName("banners")
+    @Expose
     private ArrayList<MainBannerModel> banners;
+
+    @SerializedName("sets")
+    @Expose
+    private ArrayList<Set> sets;
+
 
     protected BlockDataModel(Parcel in) {
         id = in.readInt();
@@ -53,8 +78,11 @@ public class BlockDataModel implements Parcelable {
         offer = in.readByte() != 0;
         updated_at = in.readString();
         url = in.readString();
+
         products = in.createTypedArrayList(ProductModel.CREATOR);
         banners = in.createTypedArrayList(MainBannerModel.CREATOR);
+        contents = in.createTypedArrayList(ContentModel.CREATOR);
+        sets = in.createTypedArrayList(Set.CREATOR);
     }
 
     @Override
@@ -68,6 +96,8 @@ public class BlockDataModel implements Parcelable {
         dest.writeString(url);
         dest.writeTypedList(products);
         dest.writeTypedList(banners);
+        dest.writeTypedList(sets);
+        dest.writeTypedList(contents);
     }
 
     @Override
@@ -115,11 +145,11 @@ public class BlockDataModel implements Parcelable {
         this.offer = offer;
     }
 
-    public String getUpdated_at() {
+    public String getUpdatedAt() {
         return updated_at;
     }
 
-    public void setUpdated_at(String updated_at) {
+    public void setUpdatedAt(String updated_at) {
         this.updated_at = updated_at;
     }
 
@@ -145,5 +175,20 @@ public class BlockDataModel implements Parcelable {
 
     public void setBanners(ArrayList<MainBannerModel> banners) {
         this.banners = banners;
+    }
+    public ArrayList<ContentModel> getContents() {
+        return contents;
+    }
+
+    public void setContents(ArrayList<ContentModel> contents) {
+        this.contents = contents;
+    }
+
+    public ArrayList<Set> getSets() {
+        return sets;
+    }
+
+    public void setSets(ArrayList<Set> sets) {
+        this.sets = sets;
     }
 }

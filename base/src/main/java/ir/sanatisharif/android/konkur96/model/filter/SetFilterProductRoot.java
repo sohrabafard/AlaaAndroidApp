@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import ir.sanatisharif.android.konkur96.model.main_page.Datum;
+import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
 
 public class SetFilterProductRoot extends Pagination implements Parcelable {
 
@@ -31,7 +31,7 @@ public class SetFilterProductRoot extends Pagination implements Parcelable {
     private List<SetFilterProduct> data = null;
 
     protected SetFilterProductRoot(Parcel in) {
-        in.readList(this.data, (Datum.class.getClassLoader()));
+        in.readList(this.data, (BlockDataModel.class.getClassLoader()));
     }
 
     public List<SetFilterProduct> getData() {

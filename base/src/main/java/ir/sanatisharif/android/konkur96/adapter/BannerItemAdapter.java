@@ -1,7 +1,6 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,20 +8,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.MainBannerModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.model.main_page.Banner;
+
 
 
 public class BannerItemAdapter extends RecyclerView.Adapter<BannerItemAdapter.BannerHolder> {
 
-    private List<Banner> itemsList;
+    private List<MainBannerModel> itemsList;
     private Context mContext;
 
 
-    public BannerItemAdapter(Context context, List<Banner> itemsList) {
+    public BannerItemAdapter(Context context, List<MainBannerModel> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -36,7 +38,7 @@ public class BannerItemAdapter extends RecyclerView.Adapter<BannerItemAdapter.Ba
     @Override
     public void onBindViewHolder(final BannerHolder holder, final int position) {
 
-        Banner item = itemsList.get(position);
+        MainBannerModel item = itemsList.get(position);
 
 
         int h = AppConfig.itemHeight - 34;
