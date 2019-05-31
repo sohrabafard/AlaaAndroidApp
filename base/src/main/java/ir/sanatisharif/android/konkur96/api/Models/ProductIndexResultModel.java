@@ -10,27 +10,29 @@ import java.util.ArrayList;
 
 public class ProductIndexResultModel implements Parcelable {
 
-    public static final Creator<ProductIndexResultModel> CREATOR = new Creator<ProductIndexResultModel>() {
-        @Override
-        public ProductIndexResultModel createFromParcel(Parcel in) {
-            return new ProductIndexResultModel(in);
-        }
+    public static final Creator<ProductIndexResultModel>
+                                                      CREATOR =
+            new Creator<ProductIndexResultModel>() {
+                @Override
+                public ProductIndexResultModel createFromParcel(Parcel in) {
+                    return new ProductIndexResultModel(in);
+                }
 
-        @Override
-        public ProductIndexResultModel[] newArray(int size) {
-            return new ProductIndexResultModel[size];
-        }
-    };
+                @Override
+                public ProductIndexResultModel[] newArray(int size) {
+                    return new ProductIndexResultModel[size];
+                }
+            };
     @SerializedName("result")
     @Expose
-    private             ProductDataModel                 result;
+    private             PaginationModel<ProductModel> result;
 
     @SerializedName("tags")
     @Expose
-    private             ArrayList<String>                tags;
+    private ArrayList<String> tags;
 
     protected ProductIndexResultModel(Parcel in) {
-        result = in.readParcelable(ProductDataModel.class.getClassLoader());
+        result = in.readParcelable(PaginationModel.class.getClassLoader());
         tags = in.createStringArrayList();
     }
 
@@ -45,11 +47,11 @@ public class ProductIndexResultModel implements Parcelable {
         return 0;
     }
 
-    public ProductDataModel getResult() {
+    public PaginationModel<ProductModel> getResult() {
         return result;
     }
 
-    public void setResult(ProductDataModel result) {
+    public void setResult(PaginationModel<ProductModel> result) {
         this.result = result;
     }
 

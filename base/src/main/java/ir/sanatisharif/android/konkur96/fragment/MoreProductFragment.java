@@ -169,7 +169,7 @@ public class MoreProductFragment extends BaseFragment implements SwipeRefreshLay
 
             swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
 
-            repository.getNextPageProduct(resultModel.getResult().getNext_page_url(), data -> {
+            repository.getNextPageProduct(resultModel.getResult().getNextPageUrl(), data -> {
 
                 if (data instanceof Result.Success) {
 
@@ -197,7 +197,7 @@ public class MoreProductFragment extends BaseFragment implements SwipeRefreshLay
 
 
         //---------------------- set paginate data ----------------------------------------------
-        if (null != resultModel && null != resultModel.getResult().getNext_page_url()) {
+        if (null != resultModel && null != resultModel.getResult().getNextPageUrl()) {
 
             isPaginate = true;
             paginate.setNoMoreItems(false);

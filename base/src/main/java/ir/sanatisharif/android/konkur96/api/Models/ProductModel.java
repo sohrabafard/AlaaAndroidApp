@@ -75,7 +75,7 @@ public class ProductModel extends PaginationDataModel implements LogUserActionsO
     @SerializedName("children")
     private ArrayList<ProductModel>      children;
     @SerializedName("sets")
-    private ArrayList<ProductSetModel>   sets;
+    private ArrayList<SetModel>   sets;
 
     protected ProductModel(Parcel in) {
         id = in.readInt();
@@ -97,7 +97,7 @@ public class ProductModel extends PaginationDataModel implements LogUserActionsO
         price = in.readParcelable(PriceModel.class.getClassLoader());
         bons = in.createTypedArrayList(BonModel.CREATOR);
         children = in.createTypedArrayList(ProductModel.CREATOR);
-        sets = in.createTypedArrayList(ProductSetModel.CREATOR);
+        sets = in.createTypedArrayList(SetModel.CREATOR);
     }
 
     @Override
@@ -281,11 +281,11 @@ public class ProductModel extends PaginationDataModel implements LogUserActionsO
         this.children = children;
     }
 
-    public ArrayList<ProductSetModel> getSets() {
+    public ArrayList<SetModel> getSets() {
         return sets;
     }
 
-    public void setSets(ArrayList<ProductSetModel> sets) {
+    public void setSets(ArrayList<SetModel> sets) {
         this.sets = sets;
     }
 

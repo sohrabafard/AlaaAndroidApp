@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MyProductSetAdapter;
-import ir.sanatisharif.android.konkur96.api.Models.ProductSetModel;
+import ir.sanatisharif.android.konkur96.api.Models.SetModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.Events;
 
@@ -33,11 +33,11 @@ public class MyProductSet extends BaseFragment {
     RecyclerView productSetRecyclerView;
     private LinearLayoutManager linearLayoutManager;
 
-    private MyProductSetAdapter        adapter;
-    private ArrayList<ProductSetModel> items = new ArrayList<>();
+    private MyProductSetAdapter adapter;
+    private ArrayList<SetModel> items = new ArrayList<>();
 
 
-    public static MyProductSet newInstance(ArrayList<ProductSetModel> list) {
+    public static MyProductSet newInstance(ArrayList<SetModel> list) {
 
         Bundle args = new Bundle();
 

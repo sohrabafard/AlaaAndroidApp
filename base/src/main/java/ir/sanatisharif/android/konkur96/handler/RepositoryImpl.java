@@ -11,7 +11,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
-import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.api.ShopAPI;
@@ -92,18 +91,6 @@ public class RepositoryImpl implements Repository {
 
     @SuppressLint("CheckResult")
     @Override
-    public void getMoreSet(String url, ApiCallBack callBack) {
-
-        shopAPI.getMoreSet(url)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(ResultBaseShowVideoModel -> callBack.onResponse(new Result.Success(ResultBaseShowVideoModel)),
-                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
-
-    }
-
-    @SuppressLint("CheckResult")
-    @Override
     public void getPrice(ProductType type, String productId, ArrayList<Integer> products, ArrayList<Integer> mainAttributeValues, ArrayList<Integer> extraAttributeValues, ApiCallBack callBack) {
 
         if (type == ProductType.CONFIGURABLE) {
@@ -122,19 +109,6 @@ public class RepositoryImpl implements Repository {
                     .subscribe(GETPriceModel -> callBack.onResponse(new Result.Success(GETPriceModel)),
                             throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
         }
-    }
-
-
-    @SuppressLint("CheckResult")
-    @Override
-    public void paymentRequest(PaymentRequest body, ApiCallBack callBack) {
-
-        zarinPalAPI.paymentRequest(body)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(ResultModel -> callBack.onResponse(new Result.Success(ResultModel)),
-                        throwable -> callBack.onResponse(new Result.Error(throwable.getMessage())));
-
     }
 
     @SuppressLint("CheckResult")

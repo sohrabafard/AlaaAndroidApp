@@ -223,7 +223,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
         shopMainRecyclerView.setNestedScrollingEnabled(false);
         shopMainRecyclerView.setHasFixedSize(true);
         linearLayoutManager =
-                new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
+                new LinearLayoutManager(AppConfig.context, RecyclerView.VERTICAL, false);
         shopMainRecyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MainShopItemAdapter(AppConfig.context, items);
         //adapter.setSize(AppConfig.width, AppConfig.height);

@@ -15,18 +15,18 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.ProductSetModel;
+import ir.sanatisharif.android.konkur96.api.Models.SetModel;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class MyProductSetAdapter extends RecyclerView.Adapter<MyProductSetAdapter.MyViewHolder> {
 
-    private ArrayList<ProductSetModel> itemsList;
+    private ArrayList<SetModel> itemsList;
     private Context                    mContext;
 
 
-    public MyProductSetAdapter(Context context, ArrayList<ProductSetModel> itemsList) {
+    public MyProductSetAdapter(Context context, ArrayList<SetModel> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -44,7 +44,7 @@ public class MyProductSetAdapter extends RecyclerView.Adapter<MyProductSetAdapte
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
 
-        ProductSetModel item = itemsList.get(position);
+        SetModel item = itemsList.get(position);
 
         holder.title.setText(item.getName());
         Glide.with(mContext)
