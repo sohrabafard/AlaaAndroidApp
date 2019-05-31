@@ -1,8 +1,6 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +8,25 @@ import android.webkit.URLUtil;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.MainBannerModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
-import ir.sanatisharif.android.konkur96.model.main_page.Content;
 import ir.sanatisharif.android.konkur96.model.Block;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.model.main_page.Banner;
-import ir.sanatisharif.android.konkur96.model.main_page.MainBanner;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ViewSliderAdapter;
@@ -128,7 +129,7 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             final ItemHolder itemRowHolder = (ItemHolder) holder;
 
-            List<Content> items = dataList.get(position).getContents();
+            List<ContentModel> items = dataList.get(position).getContents();
 
             ContentItemAdapter itemListDataAdapter = new ContentItemAdapter(mContext, items);
 
@@ -178,7 +179,7 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             final SliderHolder itemRowHolder = (SliderHolder) holder;
 
-            List<MainBanner> items = dataList.get(position).getSliders();
+            List<MainBannerModel> items = dataList.get(position).getSliders();
             itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items, null));
             itemRowHolder.view_pager.startAutoScroll();
 

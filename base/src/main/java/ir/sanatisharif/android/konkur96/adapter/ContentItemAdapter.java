@@ -1,26 +1,27 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
-import ir.sanatisharif.android.konkur96.model.main_page.Content;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.ui.view.CustomItemView;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class ContentItemAdapter extends RecyclerView.Adapter<ContentItemAdapter.ContentHolder> {
 
-    private List<Content> itemsList;
+    private List<ContentModel> itemsList;
     private Context mContext;
 
 
-    public ContentItemAdapter(Context context, List<Content> itemsList) {
+    public ContentItemAdapter(Context context, List<ContentModel> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -39,7 +40,7 @@ public class ContentItemAdapter extends RecyclerView.Adapter<ContentItemAdapter.
     @Override
     public void onBindViewHolder(final ContentHolder holder, final int position) {
 
-        Content item = itemsList.get(position);
+        ContentModel item = itemsList.get(position);
         holder.customItemView.setTitle(item.getName());
         holder.customItemView.setAuthor(item.getAuthor().getFullName());
         holder.customItemView.setImage(item.getThumbnail());

@@ -1,13 +1,13 @@
 package ir.sanatisharif.android.konkur96.model.filter;
 
 import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.model.DataCourse;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 
 /**
  * Created by Mohamad on 2/23/2019.
  */
 
-public class PamphletCourse extends DataCourse implements FilterBaseModel {
+public class PamphletCourse extends ContentModel implements FilterBaseModel {
 
     @Override
     public int getViewType() {

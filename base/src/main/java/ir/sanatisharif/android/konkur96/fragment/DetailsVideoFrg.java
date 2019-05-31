@@ -93,15 +93,14 @@ import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
-import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.Block;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
-import ir.sanatisharif.android.konkur96.model.main_page.Content;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
@@ -127,7 +126,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     public static Pagination pagination;
     private static int kind_of_Load = -1;
     private static List<VideoCourse> videoCourses;
-    private static Content mContent;
+    private static ContentModel mContent;
     private static int positionPlaying;
     private final String STATE_RESUME_WINDOW = "resumeWindow";
     private final String STATE_RESUME_POSITION = "resumePosition";
@@ -143,7 +142,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private String quality = "";
     private Bundle savedInsPlayer;
     private VideoPlayer videoPlayer;
-    private DataCourse course;
+    private ContentModel course;
     private boolean showPlayList = true;
     private int mResumeWindow;
     private long mResumePosition;
@@ -365,7 +364,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     }
 
     // from mContent
-    public static DetailsVideoFrg newInstance(Content c) {
+    public static DetailsVideoFrg newInstance(ContentModel c) {
 
         Bundle args = new Bundle();
         DetailsVideoFrg fragment = new DetailsVideoFrg();
@@ -545,7 +544,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 @Override
                 public void onSuccess(Object obj) {
                     if (obj != null) {
-                        course = (DataCourse) obj;
+                        course = (ContentModel) obj;
                         setData();
                         getPlayListFromContentByUrl(course.getSet().getContentUrl());
                     } else {
@@ -586,7 +585,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                                 currentActivity.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        course = (DataCourse) obj;
+                                        course = (ContentModel) obj;
                                         setData();
                                         getPlayListFromContentByUrl(course.getSet().getContentUrl());
                                     }
@@ -997,7 +996,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     loader.setVisibility(View.VISIBLE);
 
                 positionPlaying = position;
-                course = (DataCourse) item;
+                course = (ContentModel) item;
 
                 if (loader != null)
                     loader.setVisibility(View.GONE);

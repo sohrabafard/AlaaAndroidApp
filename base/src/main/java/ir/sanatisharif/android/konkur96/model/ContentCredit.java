@@ -8,8 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.model.main_page.Content;
 
 public class ContentCredit implements Parcelable {
 
@@ -34,14 +34,14 @@ public class ContentCredit implements Parcelable {
     private String message;
     @SerializedName("content")
     @Expose
-    private Content content;
+    private ContentModel content;
     @SerializedName("product")
     @Expose
     private List<ProductModel> product = null;
 
     protected ContentCredit(Parcel in) {
         this.message = ((String) in.readValue((String.class.getClassLoader())));
-        this.content = ((Content) in.readValue((Content.class.getClassLoader())));
+        this.content = ((ContentModel) in.readValue((ContentModel.class.getClassLoader())));
         in.readList(this.product, (ProductModel.class.getClassLoader()));
     }
 
@@ -56,11 +56,11 @@ public class ContentCredit implements Parcelable {
         this.message = message;
     }
 
-    public Content getContent() {
+    public ContentModel getContent() {
         return content;
     }
 
-    public void setContent(Content content) {
+    public void setContent(ContentModel content) {
         this.content = content;
     }
 

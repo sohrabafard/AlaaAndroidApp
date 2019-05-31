@@ -2,10 +2,10 @@ package ir.sanatisharif.android.konkur96.model;
 
 import java.util.List;
 
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.api.Models.MainBannerModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.model.main_page.Banner;
-import ir.sanatisharif.android.konkur96.model.main_page.Content;
-import ir.sanatisharif.android.konkur96.model.main_page.MainBanner;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 
 /**
@@ -20,9 +20,9 @@ public class Block {
     private boolean offer;
     private int order;
     private String url;
-    private List<MainBanner> sliders;
+    private List<MainBannerModel> sliders;
     private List<Set> sets;
-    private List<Content> contents;
+    private List<ContentModel> contents;
     private List<Banner> banners;
     private List<ProductModel> products;
     private List<Video> videos;
@@ -75,11 +75,11 @@ public class Block {
         this.url = url;
     }
 
-    public List<MainBanner> getSliders() {
+    public List<MainBannerModel> getSliders() {
         return sliders;
     }
 
-    public void setSliders(List<MainBanner> sliders) {
+    public void setSliders(List<MainBannerModel> sliders) {
         this.sliders = sliders;
     }
 
@@ -91,11 +91,11 @@ public class Block {
         this.sets = sets;
     }
 
-    public List<Content> getContents() {
+    public List<ContentModel> getContents() {
         return contents;
     }
 
-    public void setContents(List<Content> contents) {
+    public void setContents(List<ContentModel> contents) {
         this.contents = contents;
     }
 

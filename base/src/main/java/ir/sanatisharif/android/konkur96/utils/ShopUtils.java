@@ -12,8 +12,7 @@ import java.util.List;
 import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
-import ir.sanatisharif.android.konkur96.api.Models.ItemCardReviewMOdel;
-import ir.sanatisharif.android.konkur96.api.Models.MainDataModel;
+import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
@@ -45,7 +44,7 @@ public class ShopUtils {
     public static ArrayList<MainShopItem> convertToMainShopModel(MainModel apiModel, boolean first) {
 
         ArrayList<MainShopItem> items = new ArrayList<>();
-        ArrayList<MainDataModel> blockData = apiModel.getBlock().getData();
+        ArrayList<BlockDataModel> blockData = apiModel.getBlock().getData();
         MainShopItem item;
 
 
@@ -61,7 +60,7 @@ public class ShopUtils {
 
         for (int i = 0; i < blockData.size(); i++) {
 
-            MainDataModel temp = blockData.get(i);
+            BlockDataModel temp = blockData.get(i);
 
             if (temp.getProducts() != null && temp.getProducts().size() > 0) {
                 //---------------------- block products ----------------------------------------------------

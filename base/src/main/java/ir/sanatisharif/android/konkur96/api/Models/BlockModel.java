@@ -23,7 +23,7 @@ public class BlockModel implements Parcelable {
     @SerializedName("current_page")
     private int current_page;
     @SerializedName("data")
-    private ArrayList<MainDataModel> data;
+    private ArrayList<BlockDataModel> data;
     @SerializedName("first_page_url")
     private String first_page_url;
     @SerializedName("from")
@@ -47,7 +47,7 @@ public class BlockModel implements Parcelable {
 
     protected BlockModel(Parcel in) {
         current_page = in.readInt();
-        data = in.createTypedArrayList(MainDataModel.CREATOR);
+        data = in.createTypedArrayList(BlockDataModel.CREATOR);
         first_page_url = in.readString();
         from = in.readInt();
         last_page = in.readInt();
@@ -89,11 +89,11 @@ public class BlockModel implements Parcelable {
         this.current_page = current_page;
     }
 
-    public ArrayList<MainDataModel> getData() {
+    public ArrayList<BlockDataModel> getData() {
         return data;
     }
 
-    public void setData(ArrayList<MainDataModel> data) {
+    public void setData(ArrayList<BlockDataModel> data) {
         this.data = data;
     }
 

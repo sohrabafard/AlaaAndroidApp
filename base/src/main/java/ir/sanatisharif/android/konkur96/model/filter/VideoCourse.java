@@ -1,15 +1,13 @@
 package ir.sanatisharif.android.konkur96.model.filter;
 
-import androidx.recyclerview.widget.DiffUtil;
-
 import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.model.DataCourse;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 
 /**
  * Created by Mohamad on 2/23/2019.
  */
 
-public class VideoCourse extends DataCourse implements FilterBaseModel {
+public class VideoCourse extends ContentModel implements FilterBaseModel {
     @Override
     public int getViewType() {
         return AppConstants.FILTER_VIDEO;

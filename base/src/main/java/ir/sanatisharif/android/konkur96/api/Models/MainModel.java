@@ -3,6 +3,7 @@ package ir.sanatisharif.android.konkur96.api.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -20,25 +21,18 @@ public class MainModel implements Parcelable {
             return new MainModel[size];
         }
     };
+
     @SerializedName("mainBanner")
+    @Expose
     private ArrayList<MainBannerModel> mainBanner;
+
     @SerializedName("block")
+    @Expose
     private BlockModel block;
 
     protected MainModel(Parcel in) {
         mainBanner = in.createTypedArrayList(MainBannerModel.CREATOR);
         block = in.readParcelable(BlockModel.class.getClassLoader());
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(mainBanner);
-        dest.writeParcelable(block, flags);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     public ArrayList<MainBannerModel> getMainBanner() {
@@ -55,5 +49,16 @@ public class MainModel implements Parcelable {
 
     public void setBlock(BlockModel block) {
         this.block = block;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(mainBanner);
+        dest.writeParcelable(block, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

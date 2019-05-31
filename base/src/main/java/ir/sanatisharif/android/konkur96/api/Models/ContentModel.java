@@ -1,4 +1,4 @@
-package ir.sanatisharif.android.konkur96.model;
+package ir.sanatisharif.android.konkur96.api.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -17,20 +17,20 @@ import ir.sanatisharif.android.konkur96.model.main_page.PreviousApiUrl;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 import ir.sanatisharif.android.konkur96.model.main_page.Tags;
 
-public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInterface.Data {
+public class ContentModel implements Parcelable, LogUserActionsOnPublicContentInterface.Data {
 
-    public final static Creator<DataCourse> CREATOR = new Creator<DataCourse>() {
+    public final static Creator<ContentModel> CREATOR = new Creator<ContentModel>() {
 
 
         @SuppressWarnings({
                 "unchecked"
         })
-        public DataCourse createFromParcel(Parcel in) {
-            return new DataCourse(in);
+        public ContentModel createFromParcel(Parcel in) {
+            return new ContentModel(in);
         }
 
-        public DataCourse[] newArray(int size) {
-            return (new DataCourse[size]);
+        public ContentModel[] newArray(int size) {
+            return (new ContentModel[size]);
         }
 
     };
@@ -102,7 +102,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
     @Expose
     private Set set;
 
-    protected DataCourse(Parcel in) {
+    protected ContentModel(Parcel in) {
         this.id = ((int) in.readValue((int.class.getClassLoader())));
         this.contenttypeId = ((int) in.readValue((int.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
@@ -129,7 +129,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
 
     }
 
-    public DataCourse() {
+    public ContentModel() {
     }
 
     public int getId() {
@@ -140,7 +140,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.id = id;
     }
 
-    public DataCourse withId(int id) {
+    public ContentModel withId(int id) {
         this.id = id;
         return this;
     }
@@ -153,7 +153,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.contenttypeId = contenttypeId;
     }
 
-    public DataCourse withContenttypeId(int contenttypeId) {
+    public ContentModel withContenttypeId(int contenttypeId) {
         this.contenttypeId = contenttypeId;
         return this;
     }
@@ -166,7 +166,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.name = name;
     }
 
-    public DataCourse withName(String name) {
+    public ContentModel withName(String name) {
         this.name = name;
         return this;
     }
@@ -179,7 +179,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.description = description;
     }
 
-    public DataCourse withDescription(String description) {
+    public ContentModel withDescription(String description) {
         this.description = description;
         return this;
     }
@@ -192,7 +192,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.tags = tags;
     }
 
-    public DataCourse withTags(Tags tags) {
+    public ContentModel withTags(Tags tags) {
         this.tags = tags;
         return this;
     }
@@ -205,7 +205,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.context = context;
     }
 
-    public DataCourse withContext(String context) {
+    public ContentModel withContext(String context) {
         this.context = context;
         return this;
     }
@@ -218,7 +218,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.file = file;
     }
 
-    public DataCourse withFile(File file) {
+    public ContentModel withFile(File file) {
         this.file = file;
         return this;
     }
@@ -231,7 +231,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.duration = duration;
     }
 
-    public DataCourse withDuration(int duration) {
+    public ContentModel withDuration(int duration) {
         this.duration = duration;
         return this;
     }
@@ -244,7 +244,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.thumbnail = thumbnail;
     }
 
-    public DataCourse withThumbnail(String thumbnail) {
+    public ContentModel withThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
         return this;
     }
@@ -257,7 +257,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.isFree = isFree;
     }
 
-    public DataCourse withIsFree(int isFree) {
+    public ContentModel withIsFree(int isFree) {
         this.isFree = isFree;
         return this;
     }
@@ -270,7 +270,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.order = order;
     }
 
-    public DataCourse withOrder(int order) {
+    public ContentModel withOrder(int order) {
         this.order = order;
         return this;
     }
@@ -283,7 +283,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.pageView = pageView;
     }
 
-    public DataCourse withPageView(Object pageView) {
+    public ContentModel withPageView(Object pageView) {
         this.pageView = pageView;
         return this;
     }
@@ -296,7 +296,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.createdAt = createdAt;
     }
 
-    public DataCourse withCreatedAt(String createdAt) {
+    public ContentModel withCreatedAt(String createdAt) {
         this.createdAt = createdAt;
         return this;
     }
@@ -309,7 +309,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.updatedAt = updatedAt;
     }
 
-    public DataCourse withUpdatedAt(String updatedAt) {
+    public ContentModel withUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
         return this;
     }
@@ -322,7 +322,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.url = url;
     }
 
-    public DataCourse withUrl(String url) {
+    public ContentModel withUrl(String url) {
         this.url = url;
         return this;
     }
@@ -384,7 +384,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.author = author;
     }
 
-    public DataCourse withAuthor(Author author) {
+    public ContentModel withAuthor(Author author) {
         this.author = author;
         return this;
     }
@@ -397,7 +397,7 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
         this.set = set;
     }
 
-    public DataCourse withSet(Set set) {
+    public ContentModel withSet(Set set) {
         this.set = set;
         return this;
     }
@@ -439,19 +439,19 @@ public class DataCourse implements Parcelable, LogUserActionsOnPublicContentInte
 
     @Override
     public String getUserActionUrl() {
-        Log.i("Alaa\\DataCourse","getUserActionUrl : url"+getUrl());
+        Log.i("Alaa\\ContentModel","getUserActionUrl : url"+getUrl());
         return getUrl();
     }
 
     @Override
     public String getUserActionPhoto() {
-        Log.i("Alaa\\DataCourse","getUserActionPhoto ");
+        Log.i("Alaa\\ContentModel","getUserActionPhoto ");
         return getThumbnail();
     }
 
     @Override
     public String getUserActionDescription() {
-        Log.i("Alaa\\DataCourse","getUserActionDescription ");
+        Log.i("Alaa\\ContentModel","getUserActionDescription ");
         return getDescription();
     }
 }

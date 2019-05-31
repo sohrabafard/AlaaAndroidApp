@@ -3,6 +3,7 @@ package ir.sanatisharif.android.konkur96.api.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class MainBannerModel implements Parcelable {
@@ -19,17 +20,30 @@ public class MainBannerModel implements Parcelable {
         }
     };
     @SerializedName("id")
+    @Expose
     private int id;
+
     @SerializedName("title")
+    @Expose
     private String title;
+
     @SerializedName("shortDescription")
+    @Expose
     private String shortDescription;
+
     @SerializedName("link")
+    @Expose
     private String link;
+
     @SerializedName("order")
+    @Expose
     private int order;
+
     @SerializedName("updated_at")
+    @Expose
     private String updated_at;
+
+    @Expose
     @SerializedName("url")
     private String url;
 
@@ -83,11 +97,11 @@ public class MainBannerModel implements Parcelable {
         this.order = order;
     }
 
-    public String getUpdated_at() {
+    public String getUpdatedAt() {
         return updated_at;
     }
 
-    public void setUpdated_at(String updated_at) {
+    public void setUpdatedAt(String updated_at) {
         this.updated_at = updated_at;
     }
 
@@ -100,11 +114,6 @@ public class MainBannerModel implements Parcelable {
     }
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(title);
@@ -113,5 +122,10 @@ public class MainBannerModel implements Parcelable {
         dest.writeInt(order);
         dest.writeString(updated_at);
         dest.writeString(url);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

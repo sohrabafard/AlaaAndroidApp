@@ -15,14 +15,14 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ir.sanatisharif.android.konkur96.api.ApiModule;
 import ir.sanatisharif.android.konkur96.api.MainApi;
+import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.DaggerAppComponent;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
-import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
-import ir.sanatisharif.android.konkur96.model.main_page.MainPagesInfo;
 import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;
@@ -46,9 +46,9 @@ public class MainRepository implements MainRepositoryInterface {
         mainApi.getMainPage()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<MainPagesInfo>() {
+                .subscribe(new Consumer<MainModel>() {
                     @Override
-                    public void accept(MainPagesInfo mainPagesInfo) throws Exception {
+                    public void accept(MainModel mainPagesInfo) throws Exception {
                         iServerCallbackObject.onSuccess(mainPagesInfo);
                     }
                 }, new Consumer<Throwable>() {
@@ -82,12 +82,12 @@ public class MainRepository implements MainRepositoryInterface {
     @SuppressLint("CheckResult")
     @Override
     public void getDetailsCourse(String url, String token, IServerCallbackContentCredit iServerCallbackObject) {
-        mainApi.getDetailsCourseByURL(url, ("Bearer " + token))
+        mainApi.getContent(url, ("Bearer " + token))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<DataCourse>() {
+                .subscribe(new Consumer<ContentModel>() {
                     @Override
-                    public void accept(DataCourse response) throws Exception {
+                    public void accept(ContentModel response) throws Exception {
                         iServerCallbackObject.onSuccess(response);
                     }
                 }, new Consumer<Throwable>() {

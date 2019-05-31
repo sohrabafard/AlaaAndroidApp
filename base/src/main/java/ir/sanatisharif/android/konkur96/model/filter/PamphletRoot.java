@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import ir.sanatisharif.android.konkur96.model.DataCourse;
 import ir.sanatisharif.android.konkur96.model.main_page.Datum;
 
 /**

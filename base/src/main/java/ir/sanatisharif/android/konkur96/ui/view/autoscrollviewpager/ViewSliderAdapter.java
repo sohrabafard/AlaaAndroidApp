@@ -1,12 +1,13 @@
 package ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -16,8 +17,8 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.MainBannerModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.model.main_page.MainBanner;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
 /**
@@ -28,12 +29,12 @@ public class ViewSliderAdapter extends PagerAdapter {
 
     private final Context mContext;
     private ImageView img;
-    private List<MainBanner> imageList;
+    private List<MainBannerModel> imageList;
     private LayoutInflater inflater;
     private RequestOptions requestOptions;
     private int h;
 
-    public ViewSliderAdapter(Context context, List<MainBanner> list, RequestManager glideRequests) {
+    public ViewSliderAdapter(Context context, List<MainBannerModel> list, RequestManager glideRequests) {
         mContext = context;
         imageList = list;
         inflater = LayoutInflater.from(context);

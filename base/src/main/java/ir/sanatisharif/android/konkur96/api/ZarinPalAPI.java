@@ -14,12 +14,12 @@ public interface ZarinPalAPI {
 
     String BASE_URL = "https://www.zarinpal.com/pg/rest/WebGate/";
 
-    @Headers({"Content-Type: application/json"})
+    @Headers({"ContentModel-Type: application/json"})
     @POST("PaymentRequest.json")
     Observable<PaymentResponse> paymentRequest(@Body PaymentRequest body);
 
 
-    @Headers({"Content-Type: application/json"})
+    @Headers({"ContentModel-Type: application/json"})
     @POST("PaymentVerification.json")
     Observable<PaymentVerificationResponse> paymentVerification(@Body PaymentVerificationRequest body);
 

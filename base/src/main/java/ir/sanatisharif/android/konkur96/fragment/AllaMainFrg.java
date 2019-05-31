@@ -28,6 +28,7 @@ import java.util.Objects;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.BlockAdapter;
+import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
@@ -38,7 +39,6 @@ import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.Block;
 import ir.sanatisharif.android.konkur96.model.main_page.Datum;
-import ir.sanatisharif.android.konkur96.model.main_page.MainPagesInfo;
 
 
 /**
@@ -175,7 +175,7 @@ public class AllaMainFrg extends BaseFragment implements
         repository.mainPages(new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
-                mapData((MainPagesInfo) obj);
+                mapData((MainModel) obj);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -189,7 +189,7 @@ public class AllaMainFrg extends BaseFragment implements
     //</editor-fold>
 
     //<editor-fold desc="data mapping to list">
-    private void mapData(MainPagesInfo mainPagesInfo) {
+    private void mapData(MainModel mainPagesInfo) {
 
         //sliders
         Block item = new Block();

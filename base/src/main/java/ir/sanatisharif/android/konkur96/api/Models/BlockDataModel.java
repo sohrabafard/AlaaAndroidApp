@@ -7,17 +7,17 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class MainDataModel implements Parcelable {
+public class BlockDataModel implements Parcelable {
 
-    public static final Creator<MainDataModel> CREATOR = new Creator<MainDataModel>() {
+    public static final Creator<BlockDataModel> CREATOR = new Creator<BlockDataModel>() {
         @Override
-        public MainDataModel createFromParcel(Parcel in) {
-            return new MainDataModel(in);
+        public BlockDataModel createFromParcel(Parcel in) {
+            return new BlockDataModel(in);
         }
 
         @Override
-        public MainDataModel[] newArray(int size) {
-            return new MainDataModel[size];
+        public BlockDataModel[] newArray(int size) {
+            return new BlockDataModel[size];
         }
     };
     @SerializedName("id")
@@ -45,7 +45,7 @@ public class MainDataModel implements Parcelable {
     @SerializedName("banners")
     private ArrayList<MainBannerModel> banners;
 
-    protected MainDataModel(Parcel in) {
+    protected BlockDataModel(Parcel in) {
         id = in.readInt();
         type = in.readInt();
         title = in.readString();
