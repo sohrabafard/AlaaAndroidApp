@@ -3,13 +3,14 @@ package ir.sanatisharif.android.konkur96.ui.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.DrawableRes;
-import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import androidx.annotation.DrawableRes;
+import androidx.core.content.ContextCompat;
 
 import ir.sanatisharif.android.konkur96.R;
 
@@ -19,8 +20,8 @@ import ir.sanatisharif.android.konkur96.R;
  */
 public class BottomBarTab extends FrameLayout {
     private ImageView mIcon;
-    private Context mContext;
-    private int mTabPosition = -1;
+    private Context   mContext;
+    private int       mTabPosition = -1;
 
     public BottomBarTab(Context context, @DrawableRes int icon) {
         this(context, null, icon);
@@ -37,13 +38,17 @@ public class BottomBarTab extends FrameLayout {
 
     private void init(Context context, int icon) {
         mContext = context;
-        TypedArray typedArray = context.obtainStyledAttributes(new int[]{R.attr.selectableItemBackgroundBorderless});
-        Drawable drawable = typedArray.getDrawable(0);
+        TypedArray
+                 typedArray =
+                context.obtainStyledAttributes(new int[]{R.attr.selectableItemBackgroundBorderless});
+        Drawable drawable   = typedArray.getDrawable(0);
         setBackgroundDrawable(drawable);
         typedArray.recycle();
 
         mIcon = new ImageView(context);
-        int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 27, getResources().getDisplayMetrics());
+        int
+                     size   =
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 27, getResources().getDisplayMetrics());
         LayoutParams params = new LayoutParams(size, size);
         params.gravity = Gravity.CENTER;
         mIcon.setImageResource(icon);

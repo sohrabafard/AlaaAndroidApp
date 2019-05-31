@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.model.main_page.lastVersion;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -26,10 +25,10 @@ public class Type implements Parcelable {
     };
     @SerializedName("code")
     @Expose
-    private Integer code;
+    private             Integer       code;
     @SerializedName("hint")
     @Expose
-    private String hint;
+    private             String        hint;
 
     protected Type(Parcel in) {
         this.code = ((Integer) in.readValue((Integer.class.getClassLoader())));

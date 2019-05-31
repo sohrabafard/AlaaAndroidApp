@@ -3,10 +3,11 @@ package ir.sanatisharif.android.konkur96.interfaces;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 import ir.sanatisharif.android.konkur96.R;
 
@@ -45,7 +46,7 @@ public class BlankFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static BlankFragment newInstance(String param1, String param2) {
         BlankFragment fragment = new BlankFragment();
-        Bundle args = new Bundle();
+        Bundle        args     = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
@@ -82,7 +83,7 @@ public class BlankFragment extends Fragment {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                                       + " must implement OnFragmentInteractionListener");
         }
     }
 

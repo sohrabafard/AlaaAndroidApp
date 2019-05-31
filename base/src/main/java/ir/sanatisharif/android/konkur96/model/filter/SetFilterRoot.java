@@ -33,7 +33,7 @@ public class SetFilterRoot extends Pagination implements Parcelable {
     };
     @SerializedName("data")
     @Expose
-    private List<SetFilterCourse> data = null;
+    private             List<SetFilterCourse>  data    = null;
 
     protected SetFilterRoot(Parcel in) {
         in.readList(this.data, (BlockDataModel.class.getClassLoader()));

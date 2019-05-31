@@ -6,7 +6,7 @@ package ir.sanatisharif.android.konkur96.model;
 
 public class Comment {
 
-    private int id;
+    private int    id;
     private String name;
     private String content;
     private String date;

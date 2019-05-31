@@ -23,7 +23,7 @@ public class VideoFilesListModel implements Parcelable {
         }
     };
     @SerializedName("video")
-    private ArrayList<Video> video;
+    private             ArrayList<Video>             video;
 
     protected VideoFilesListModel(Parcel in) {
         video = in.createTypedArrayList(Video.CREATOR);

@@ -1,19 +1,20 @@
 package ir.sanatisharif.android.konkur96.fragment;
 
-import androidx.lifecycle.LifecycleOwner;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -27,11 +28,11 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 
 public abstract class BaseFragment extends Fragment implements LifecycleOwner {
 
-    private static final String TAG = "Alaa\\BaseFrg";
-    private Toolbar toolbar;
-    private TextView txtTitle;
+    private static final String            TAG = "Alaa\\BaseFrg";
+    private              Toolbar           toolbar;
+    private              TextView          txtTitle;
     // private LifecycleRegistry mLifecycleRegistry;
-    private FirebaseAnalytics mFirebaseAnalytics;
+    private              FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onAttach(Context context) {
@@ -51,10 +52,11 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
         super.onResume();
         Log.i(TAG, "onStart:onResume");
         FragmentActivity activity = getActivity();
-        if(mFirebaseAnalytics != null && activity != null) {
+        if (mFirebaseAnalytics != null && activity != null) {
             mFirebaseAnalytics.setCurrentScreen(activity, this.getClass().getSimpleName(), this.getClass().getSimpleName());
         }
     }
+
     public void setToolbar(Toolbar mToolbar, String txtTitle) {
 
         setHasOptionsMenu(true);
@@ -89,7 +91,8 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
                 TextView v1 = (TextView) v;
                 v1.setTypeface(AppConfig.fontIRSensNumber);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
         }
     }
 

@@ -3,16 +3,6 @@ package ir.sanatisharif.android.konkur96.fragment;
 import android.animation.Animator;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +13,18 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -52,27 +54,27 @@ public class FilterTagsFrg extends BaseFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         ICheckNetwork, ScrollOnRecycler {
 
-    private static final int NUMBER_TABS = 5;
-    private static final int SET = 0;
-    private static final int PRODUCT = 1;
-    private static final int VIDEO = 2;
-    private static final int PAMPHLET = 3;
-    private static final int ARTICLE = 4;
-    private TabControl[] tabControls;
-    private List<FilterShowEntityFrg> filterShowEntityFrgArrayList;
-    private List<String> titles = new ArrayList<>();
-    private MyFilterPagerAdapter myFilterAdapter;
-    private Toolbar mToolbar;
-    private TextView txtToolbarTitle;
-    private LinearLayout root;
-    private TabLayout tabLayout;
-    private FrameLayout frameViewPager;
-    private FloatingActionButton fabFilter;
+    private static final int                       NUMBER_TABS = 5;
+    private static final int                       SET         = 0;
+    private static final int                       PRODUCT     = 1;
+    private static final int                       VIDEO       = 2;
+    private static final int                       PAMPHLET    = 3;
+    private static final int                       ARTICLE     = 4;
+    private              TabControl[]              tabControls;
+    private              List<FilterShowEntityFrg> filterShowEntityFrgArrayList;
+    private              List<String>              titles      = new ArrayList<>();
+    private              MyFilterPagerAdapter      myFilterAdapter;
+    private              Toolbar                   mToolbar;
+    private              TextView                  txtToolbarTitle;
+    private              LinearLayout              root;
+    private              TabLayout                 tabLayout;
+    private              FrameLayout               frameViewPager;
+    private              FloatingActionButton      fabFilter;
 
-    private LinearLayout loaderParent;
-    private ProgressBar loader;
-    private ViewPager viewPager;
-    private List<String> params;
+    private LinearLayout   loaderParent;
+    private ProgressBar    loader;
+    private ViewPager      viewPager;
+    private List<String>   params;
     private MainRepository repository;
 
     public static FilterTagsFrg newInstance(String url, ArrayList<String> tags) {
@@ -168,7 +170,8 @@ public class FilterTagsFrg extends BaseFragment implements
         viewPager = view.findViewById(R.id.viewpager);
         tabLayout = view.findViewById(R.id.tabLayout);
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ffffff"));
-        tabLayout.setSelectedTabIndicatorHeight((int) (3 * getResources().getDisplayMetrics().density));
+        tabLayout.setSelectedTabIndicatorHeight((int) (3 *
+                                                       getResources().getDisplayMetrics().density));
         tabLayout.setTabTextColors(Color.parseColor("#ff0000"), Color.parseColor("#00ff00"));
         //---
         tabLayout.setVisibility(View.GONE);
@@ -176,7 +179,8 @@ public class FilterTagsFrg extends BaseFragment implements
 
         //binding
         filterShowEntityFrgArrayList = new ArrayList<>();
-        myFilterAdapter = new MyFilterPagerAdapter(getContext(), getChildFragmentManager(), filterShowEntityFrgArrayList);
+        myFilterAdapter =
+                new MyFilterPagerAdapter(getContext(), getChildFragmentManager(), filterShowEntityFrgArrayList);
         viewPager.setAdapter(myFilterAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -408,22 +412,26 @@ public class FilterTagsFrg extends BaseFragment implements
     public FragmentManager getHostFragmentManager() {
         FragmentManager fm = getFragmentManager();
         if (fm == null && isAdded()) {
-            fm = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+            fm = getActivity().getSupportFragmentManager();
         }
         return fm;
     }
+
     private void showNotInternetDialogFrg() {
         try {
             if (!AppConfig.showNoInternetDialog) {
-                NotInternetDialogFrg dialogFrg = new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
-                    @Override
-                    public void onClickOk() {
-                        getDataByUrl();
-                    }
-                });
+                NotInternetDialogFrg
+                        dialogFrg =
+                        new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
+                            @Override
+                            public void onClickOk() {
+                                getDataByUrl();
+                            }
+                        });
                 dialogFrg.show(getHostFragmentManager(), "");
             }
-        }catch (Exception ex){
+        }
+        catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -461,6 +469,7 @@ public class FilterTagsFrg extends BaseFragment implements
         if (!flag)//if false
             showNotInternetDialogFrg();
     }
+
     @Override
     public void onRefresh() {
 

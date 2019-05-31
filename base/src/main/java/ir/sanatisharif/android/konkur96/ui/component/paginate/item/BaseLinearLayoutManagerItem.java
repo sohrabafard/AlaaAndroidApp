@@ -1,7 +1,8 @@
 package ir.sanatisharif.android.konkur96.ui.component.paginate.item;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public interface BaseLinearLayoutManagerItem {

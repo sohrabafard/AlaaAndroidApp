@@ -24,7 +24,8 @@ public class MyFirebaseInstanceIDService extends FirebaseMessagingService {
         // FirebaseInstanceId.getInstance().getInstanceId().getResult().getToken();
         //Displaying token on logcat
         Log.d(TAG, "Refreshed token: " + refreshedToken);
-        Log.d(TAG, "Refreshed token: " + FirebaseInstanceId.getInstance().getInstanceId().getResult().getToken());
+        Log.d(TAG, "Refreshed token: " +
+                   FirebaseInstanceId.getInstance().getInstanceId().getResult().getToken());
 
         storeToken(refreshedToken);
 

@@ -2,15 +2,16 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -38,14 +39,15 @@ import ir.sanatisharif.android.konkur96.utils.Utils;
 
 public class ExtraItemFrg extends BaseFragment {
 
-    private Toolbar mToolbar;
-    private RecyclerView myRecyclerView;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private FilterAdapter adapter;
+    private Toolbar               mToolbar;
+    private RecyclerView          myRecyclerView;
+    private SwipeRefreshLayout    swipeRefreshLayout;
+    private FilterAdapter         adapter;
     private List<FilterBaseModel> mList = new ArrayList<>();
-    private List<String> params;
+    private List<String>          params;
 
     private MainRepository repository;
+
     public static ExtraItemFrg newInstance(String url) {
 
         Bundle args = new Bundle();

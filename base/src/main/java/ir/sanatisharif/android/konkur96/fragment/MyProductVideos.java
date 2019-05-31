@@ -2,18 +2,19 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -28,12 +29,12 @@ import ir.sanatisharif.android.konkur96.model.Video;
 
 public class MyProductVideos extends BaseFragment {
 
-    Toolbar pageToolbar;
+    Toolbar      pageToolbar;
     RecyclerView productVideosRecyclerView;
     private LinearLayoutManager linearLayoutManager;
 
     private MyProductVideosAdapter adapter;
-    private ArrayList<Video> items = new ArrayList<>();
+    private ArrayList<Video>       items = new ArrayList<>();
 
 
     public static MyProductVideos newInstance(ArrayList<Video> list) {

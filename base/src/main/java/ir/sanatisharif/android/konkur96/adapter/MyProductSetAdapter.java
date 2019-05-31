@@ -1,13 +1,14 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
@@ -22,7 +23,7 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 public class MyProductSetAdapter extends RecyclerView.Adapter<MyProductSetAdapter.MyViewHolder> {
 
     private ArrayList<ProductSetModel> itemsList;
-    private Context mContext;
+    private Context                    mContext;
 
 
     public MyProductSetAdapter(Context context, ArrayList<ProductSetModel> itemsList) {
@@ -52,7 +53,6 @@ public class MyProductSetAdapter extends RecyclerView.Adapter<MyProductSetAdapte
                 .into(holder.imageView);
 
 
-
         //holder.cardView.setOnClickListener(view -> addFrg(MoreProductSetFragment.newInstance(item.getContentUrl()),"MoreProductSetFragment"));
         holder.cardView.setOnClickListener(view -> addFrg(FilterTagsFrg.newInstance(item.getContentUrl(), null), "MoreProductSetFragment"));
 
@@ -66,9 +66,9 @@ public class MyProductSetAdapter extends RecyclerView.Adapter<MyProductSetAdapte
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
+        public TextView  title;
         public ImageView imageView;
-        public CardView cardView;
+        public CardView  cardView;
 
         public MyViewHolder(View view) {
             super(view);

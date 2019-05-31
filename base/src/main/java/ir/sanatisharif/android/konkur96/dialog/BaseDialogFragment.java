@@ -3,10 +3,11 @@ package ir.sanatisharif.android.konkur96.dialog;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import androidx.fragment.app.DialogFragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.fragment.app.DialogFragment;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 
@@ -49,7 +50,8 @@ public abstract class BaseDialogFragment<T> extends DialogFragment {
                 TextView v1 = (TextView) v;
                 v1.setTypeface(AppConfig.fontIRSensLight);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
         }
     }
 

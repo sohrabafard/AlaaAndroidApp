@@ -8,10 +8,11 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Handler;
-import androidx.multidex.MultiDex;
-import androidx.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.widget.ProgressBar;
+
+import androidx.multidex.MultiDex;
+import androidx.preference.PreferenceManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.stetho.Stetho;
@@ -37,22 +38,26 @@ import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
 public class AppConfig extends Application {
 
     //new
-    public static final String TAG = AppConfig.class.getSimpleName();
-    public static AppConfig mInstance;
-    public static Context context;
-    public static Activity currentActivity;
-    public static Handler HANDLER = new Handler();
-    public static LayoutInflater layoutinflater;
-    public static int width = 140, height = 140, itemHeight = 140, shopItemHeight = 100;
-    public static boolean showNoInternetDialog = false;
+    public static final String         TAG     = AppConfig.class.getSimpleName();
+    public static       AppConfig      mInstance;
+    public static       Context        context;
+    public static       Activity       currentActivity;
+    public static       Handler        HANDLER = new Handler();
+    public static       LayoutInflater layoutinflater;
+    public static       int            width   = 140, height = 140, itemHeight = 140,
+            shopItemHeight                     =
+                    100;
+    public static boolean             showNoInternetDialog = false;
     // Font
-    public static Typeface fontIRSensLight;
-    public static Typeface fontIRSensNumber;
-    public static SharedPreferences sharedPreferencesSetting;
-    public static int[] colorSwipeRefreshing;
-    public static String BASE_URL = "https://alaatv.com/";
-    static ConnectivityManager Manager = null;
-    private final AppComponent mAppComponent = DaggerAppComponent.builder().apiModule(new ApiModule()).build();
+    public static Typeface            fontIRSensLight;
+    public static Typeface            fontIRSensNumber;
+    public static SharedPreferences   sharedPreferencesSetting;
+    public static int[]               colorSwipeRefreshing;
+    public static String              BASE_URL             = "https://alaatv.com/";
+    static        ConnectivityManager Manager              = null;
+    private final AppComponent
+                                      mAppComponent        =
+            DaggerAppComponent.builder().apiModule(new ApiModule()).build();
 
     public static synchronized AppConfig getInstance() {
         return mInstance;
@@ -90,7 +95,8 @@ public class AppConfig extends Application {
         fontIRSensLight = Typeface.createFromAsset(getAssets(), "fonts/IRANSans(FaNum)_Light.ttf");
         fontIRSensNumber = Typeface.createFromAsset(getAssets(), "fonts/IRANSansMobile(FaNum).ttf");
 
-        sharedPreferencesSetting = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPreferencesSetting =
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         //check and create directories
         if (!FileManager.checkFileExist(FileManager.getRootPath())) {
@@ -107,7 +113,7 @@ public class AppConfig extends Application {
                             getResources().getColor(R.color.Monochromatic_2),
                             getResources().getColor(R.color.Monochromatic_3),
                             getResources().getColor(R.color.Monochromatic_4),
-                    };
+                            };
     }
 
     public AppComponent getAppComponent() {
@@ -119,9 +125,9 @@ public class AppConfig extends Application {
     }
 
     public void changeProgressColor(ProgressBar loader) {
-        if(loader != null) {
+        if (loader != null) {
             Drawable indeterminateDrawable = loader.getIndeterminateDrawable();
-            if(indeterminateDrawable != null)
+            if (indeterminateDrawable != null)
                 indeterminateDrawable.setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
         }
     }

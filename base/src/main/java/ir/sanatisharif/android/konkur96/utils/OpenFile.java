@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import androidx.core.content.FileProvider;
 import android.util.Log;
+
+import androidx.core.content.FileProvider;
 
 import java.io.File;
 
@@ -24,13 +25,13 @@ public class OpenFile {
                 .toLowerCase();
         /* 依扩展名的类型决定MimeType */
         if (end.equals("m4a") || end.equals("mp3") || end.equals("mid") || end.equals("xmf")
-                || end.equals("ogg") || end.equals("wav")) {
+            || end.equals("ogg") || end.equals("wav")) {
             return getAudioFileIntent(filePath);
         } else if (end.equals("3gp") || end.equals("mp4") || end.equals("flv") || end.equals("mpg")
-                || end.equals("rm")) {
+                   || end.equals("rm")) {
             return getVideoFileIntent(filePath);
         } else if (end.equals("jpg") || end.equals("gif") || end.equals("png")
-                || end.equals("jpeg") || end.equals("bmp")) {
+                   || end.equals("jpeg") || end.equals("bmp")) {
             return getImageFileIntent(filePath);
         } else if (end.equals("apk")) {
             return getApkFileIntent(filePath);
@@ -169,13 +170,15 @@ public class OpenFile {
     public static Intent getPdfFileIntent(final Activity activity, String param) {
         Log.i("OpenFile", param);
 
-        File file = new File(param);
+        File   file   = new File(param);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory("android.intent.category.DEFAULT");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Uri uri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            uri = FileProvider.getUriForFile(activity.getApplicationContext(), BuildConfig.APPLICATION_ID + ".fileProvider", file);
+            uri =
+                    FileProvider.getUriForFile(activity.getApplicationContext(),
+                            BuildConfig.APPLICATION_ID + ".fileProvider", file);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
             uri = Uri.fromFile(file);

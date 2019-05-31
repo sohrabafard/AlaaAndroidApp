@@ -1,11 +1,12 @@
 package ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager;
 
 import android.content.Context;
-import androidx.viewpager.widget.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -20,10 +21,10 @@ import ir.sanatisharif.android.konkur96.utils.Utils;
 public class ViewSliderAdapterInShop extends PagerAdapter {
 
     int h;
-    private Context mContext;
-    private ImageView img;
+    private Context               mContext;
+    private ImageView             img;
     private List<MainBannerModel> imageList;
-    private LayoutInflater inflater;
+    private LayoutInflater        inflater;
 
     public ViewSliderAdapterInShop(Context context, List<MainBannerModel> list) {
         mContext = context;
@@ -40,7 +41,9 @@ public class ViewSliderAdapterInShop extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup collection, final int position) {
 
-        ViewGroup imageLayout = (ViewGroup) inflater.inflate(R.layout.view_slider, collection, false);
+        ViewGroup
+                imageLayout =
+                (ViewGroup) inflater.inflate(R.layout.view_slider, collection, false);
         img = imageLayout.findViewById(R.id.imageView);
         img.getLayoutParams().width = AppConfig.width;
         img.getLayoutParams().height = h;

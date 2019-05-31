@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.model.user;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -26,16 +25,16 @@ public class Data implements Parcelable {
     };
     @SerializedName("user")
     @Expose
-    private User user;
+    private             User          user;
     @SerializedName("access_token")
     @Expose
-    private String accessToken;
+    private             String        accessToken;
     @SerializedName("token_type")
     @Expose
-    private String tokenType;
+    private             String        tokenType;
     @SerializedName("token_expires_at")
     @Expose
-    private String tokenExpiresAt;
+    private             String        tokenExpiresAt;
 
     protected Data(Parcel in) {
         this.user = ((User) in.readValue((User.class.getClassLoader())));

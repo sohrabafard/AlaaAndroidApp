@@ -2,13 +2,6 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +9,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -35,17 +36,17 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.myPaginat
 
 public class MoreProductFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    Toolbar pageToolbar;
-    Repository repository;
+    Toolbar     pageToolbar;
+    Repository  repository;
     ResultModel resultModel;
-    boolean isPaginate = false;
-    myPaginate paginate;
-    private RecyclerView recyclerMoreProduct;
+    boolean     isPaginate = false;
+    myPaginate  paginate;
+    private RecyclerView         recyclerMoreProduct;
     private RecyclerView.Adapter mAdapter;
-    private GridLayoutManager gridLayoutManager;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private String url;
-    private MoreProductAdapter adapter;
+    private GridLayoutManager    gridLayoutManager;
+    private SwipeRefreshLayout   swipeRefreshLayout;
+    private String               url;
+    private MoreProductAdapter   adapter;
 
     private ArrayList<ProductModel> items = new ArrayList<>();
 

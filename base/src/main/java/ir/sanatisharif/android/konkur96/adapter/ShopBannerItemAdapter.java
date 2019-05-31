@@ -2,13 +2,14 @@ package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -27,9 +28,9 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 public class ShopBannerItemAdapter extends RecyclerView.Adapter<ShopBannerItemAdapter.BannerHolder> {
 
     private ArrayList<MainBannerModel> itemsList;
-    private Context mContext;
-    private RequestOptions requestOptions;
-    private int h, w;
+    private Context                    mContext;
+    private RequestOptions             requestOptions;
+    private int                        h, w;
 
     public ShopBannerItemAdapter(Context context, ArrayList<MainBannerModel> itemsList) {
         this.itemsList = itemsList;
@@ -86,8 +87,8 @@ public class ShopBannerItemAdapter extends RecyclerView.Adapter<ShopBannerItemAd
     public class BannerHolder extends RecyclerView.ViewHolder {
 
         private LinearLayout layout_click;
-        private TextView txtTitle;
-        private ImageView imgItem;
+        private TextView     txtTitle;
+        private ImageView    imgItem;
 
         private BannerHolder(View view) {
             super(view);

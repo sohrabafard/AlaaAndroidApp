@@ -18,7 +18,7 @@ import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 
 public class Product extends Pagination implements Parcelable {
 
-    public final static Creator<Product> CREATOR = new Creator<Product>() {
+    public final static Creator<Product>   CREATOR = new Creator<Product>() {
 
         @SuppressWarnings({
                 "unchecked"
@@ -34,7 +34,7 @@ public class Product extends Pagination implements Parcelable {
     };
     @SerializedName("data")
     @Expose
-    private List<ProductModel> data = null;
+    private             List<ProductModel> data    = null;
 
     protected Product(Parcel in) {
         in.readList(this.data, (BlockDataModel.class.getClassLoader()));

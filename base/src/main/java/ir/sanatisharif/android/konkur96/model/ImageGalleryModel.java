@@ -16,9 +16,9 @@ public class ImageGalleryModel implements Parcelable {
             return new ImageGalleryModel[size];
         }
     };
-    private String imagePath;
-    private String imageTitle;
-    private String imageDesc;
+    private             String                     imagePath;
+    private             String                     imageTitle;
+    private             String                     imageDesc;
 
     public ImageGalleryModel(Parcel in) {
         imagePath = in.readString();

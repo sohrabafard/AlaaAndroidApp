@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
 
-public class ProductModel implements Parcelable , LogUserActionsOnPublicContentInterface.Data {
+public class ProductModel implements Parcelable, LogUserActionsOnPublicContentInterface.Data {
 
     public static final Creator<ProductModel> CREATOR = new Creator<ProductModel>() {
         @Override
@@ -24,57 +24,57 @@ public class ProductModel implements Parcelable , LogUserActionsOnPublicContentI
         }
     };
     @SerializedName("id")
-    private int id;
+    private             int                   id;
     @SerializedName("redirectUrl")
-    private String redirectUrl;
+    private             String                redirectUrl;
     @SerializedName("url")
-    private String url;
+    private             String                url;
     @SerializedName("name")
-    private String name;
+    private             String                name;
     @SerializedName("isFree")
-    private int isFree;
+    private             int                   isFree;
     @SerializedName("amount")
-    private long amount;
+    private             long                  amount;
     @SerializedName("shortDescription")
-    private String shortDescription;
+    private             String                shortDescription;
     @SerializedName("longDescription")
-    private String longDescription;
+    private             String                longDescription;
     @SerializedName("tags")
-    private TagModel tags;
+    private             TagModel              tags;
     @SerializedName("introVideo")
-    private String introVideo;
+    private             String                introVideo;
 
-//    @SerializedName("page_view")
+    //    @SerializedName("page_view")
 //    private String page_view;
     @SerializedName("order")
     private int order;
 
-//    @SerializedName("gift")
+    //    @SerializedName("gift")
 //    private String gift;
     @SerializedName("updated_at")
-    private String updated_at;
+    private String    updated_at;
     @SerializedName("type")
     private TypeModel type;
     @SerializedName("photo")
-    private String photo;
+    private String    photo;
 
-//    @SerializedName("samplePhotos")
+    //    @SerializedName("samplePhotos")
 //    @Expose
 //    private Map<String, ProductPhotoModel> samplePhotos;
     @SerializedName("attributes")
     @Expose
-    private AttributesModel attributes;
+    private AttributesModel              attributes;
     @SerializedName("samplePhotos")
     @Expose
     private ArrayList<ProductPhotoModel> samplePhotos;
     @SerializedName("price")
-    private PriceModel price;
+    private PriceModel                   price;
     @SerializedName("bons")
-    private ArrayList<BonModel> bons;
+    private ArrayList<BonModel>          bons;
     @SerializedName("children")
-    private ArrayList<ProductModel> children;
+    private ArrayList<ProductModel>      children;
     @SerializedName("sets")
-    private ArrayList<ProductSetModel> sets;
+    private ArrayList<ProductSetModel>   sets;
 
     protected ProductModel(Parcel in) {
         id = in.readInt();
@@ -140,15 +140,16 @@ public class ProductModel implements Parcelable , LogUserActionsOnPublicContentI
         return redirectUrl;
     }
 
+    public void setRedirectUrl(String redirectUrl) {
+        this.redirectUrl = redirectUrl;
+    }
+
     public String getUrl() {
         return url;
     }
+
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public void setRedirectUrl(String redirectUrl) {
-        this.redirectUrl = redirectUrl;
     }
 
     public String getName() {
@@ -316,6 +317,6 @@ public class ProductModel implements Parcelable , LogUserActionsOnPublicContentI
 
     @Override
     public String getUserActionDescription() {
-        return getShortDescription() + "\n\r"+getLongDescription();
+        return getShortDescription() + "\n\r" + getLongDescription();
     }
 }

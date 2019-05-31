@@ -19,13 +19,13 @@ public class PivotMode implements Parcelable {
         }
     };
     @SerializedName("orderproduct_id")
-    private int orderproduct_id;
+    private             int                orderproduct_id;
     @SerializedName("userbon_id")
-    private int userbon_id;
+    private             int                userbon_id;
     @SerializedName("usageNumber")
-    private int usageNumber;
+    private             int                usageNumber;
     @SerializedName("discount")
-    private int discount;
+    private             int                discount;
 
     protected PivotMode(Parcel in) {
         orderproduct_id = in.readInt();

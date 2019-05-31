@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +12,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.google.android.gms.common.wrappers.InstantApps;
@@ -31,34 +32,36 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
 public class OnBoardingActivity extends ActivityBase {
 
-    private static final int MAX_STEP = 4;
-    private AccountInfo accountInfo;
-    private ViewPager viewPager;
-    private Button btnNext;
-    private String[] desc;
+    private static final int         MAX_STEP = 4;
+    private              AccountInfo accountInfo;
+    private              ViewPager   viewPager;
+    private              Button      btnNext;
+    private              String[]    desc;
     //  viewpager change listener
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
+    ViewPager.OnPageChangeListener
+            viewPagerPageChangeListener =
+            new ViewPager.OnPageChangeListener() {
 
-        @Override
-        public void onPageSelected(final int position) {
-            bottomProgressDots(position);
-            if (viewPager.getCurrentItem() == desc.length - 1) {
-                btnNext.setText(getString(R.string.go));
-            } else {
-                btnNext.setText(getString(R.string.next));
-            }
-        }
+                @Override
+                public void onPageSelected(final int position) {
+                    bottomProgressDots(position);
+                    if (viewPager.getCurrentItem() == desc.length - 1) {
+                        btnNext.setText(getString(R.string.go));
+                    } else {
+                        btnNext.setText(getString(R.string.next));
+                    }
+                }
 
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
+                @Override
+                public void onPageScrolled(int arg0, float arg1, int arg2) {
 
-        }
+                }
 
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
+                @Override
+                public void onPageScrollStateChanged(int arg0) {
 
-        }
-    };
+                }
+            };
     private int[] image;
 
     @Override
@@ -111,7 +114,7 @@ public class OnBoardingActivity extends ActivityBase {
                     } else {
                         if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
                             startActivity(new Intent(OnBoardingActivity.this, MainActivity.class));
-                        }else {
+                        } else {
                             startActivity(new Intent(OnBoardingActivity.this, AuthenticatorActivity.class));
                         }
                     }
@@ -123,13 +126,15 @@ public class OnBoardingActivity extends ActivityBase {
 
     private void bottomProgressDots(int current_index) {
         LinearLayout dotsLayout = findViewById(R.id.layoutDots);
-        ImageView[] dots = new ImageView[MAX_STEP];
+        ImageView[]  dots       = new ImageView[MAX_STEP];
 
         dotsLayout.removeAllViews();
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new ImageView(this);
-            int width_height = 15;
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(width_height, width_height));
+            int                       width_height = 15;
+            LinearLayout.LayoutParams
+                                      params       =
+                    new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(width_height, width_height));
             params.setMargins(10, 10, 10, 10);
             dots[i].setLayoutParams(params);
             dots[i].setImageResource(R.drawable.shape_circle);

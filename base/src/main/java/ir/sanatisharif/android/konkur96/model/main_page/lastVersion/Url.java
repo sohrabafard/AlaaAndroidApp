@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.model.main_page.lastVersion;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -26,13 +25,13 @@ public class Url implements Parcelable {
     };
     @SerializedName("play_store")
     @Expose
-    private String playStore;
+    private             String       playStore;
     @SerializedName("bazaar")
     @Expose
-    private String bazaar;
+    private             String       bazaar;
     @SerializedName("direct")
     @Expose
-    private String direct;
+    private             String       direct;
 
     protected Url(Parcel in) {
         this.playStore = ((String) in.readValue((String.class.getClassLoader())));

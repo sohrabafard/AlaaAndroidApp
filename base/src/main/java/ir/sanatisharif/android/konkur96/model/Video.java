@@ -22,37 +22,37 @@ public class Video implements Parcelable {
     };
     @SerializedName("uuid")
     @Expose
-    private String uuid;
+    private             String         uuid;
     @SerializedName("disk")
     @Expose
-    private String disk;
+    private             String         disk;
     @SerializedName("url")
     @Expose
-    private String url;
+    private             String         url;
     @SerializedName("fileName")
     @Expose
-    private String fileName;
+    private             String         fileName;
     @SerializedName("size")
     @Expose
-    private Object size;
+    private             Object         size;
     @SerializedName("caption")
     @Expose
-    private String caption;
+    private             String         caption;
     @SerializedName("res")
     @Expose
-    private String res;
+    private             String         res;
     @SerializedName("type")
     @Expose
-    private String type;
+    private             String         type;
     @SerializedName("ext")
     @Expose
-    private String ext;
+    private             String         ext;
     @SerializedName("link")
     @Expose
-    private String link;
-    private String path;
-    private boolean checked;
-    private String name;
+    private             String         link;
+    private             String         path;
+    private             boolean        checked;
+    private             String         name;
 
     protected Video(Parcel in) {
         this.uuid = ((String) in.readValue((String.class.getClassLoader())));

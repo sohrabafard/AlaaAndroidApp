@@ -23,7 +23,7 @@ public class BlockModel implements Parcelable {
     };
     @SerializedName("current_page")
     @Expose
-    private int current_page;
+    private             int                 current_page;
 
     @SerializedName("data")
     @Expose
@@ -71,17 +71,19 @@ public class BlockModel implements Parcelable {
 
     protected BlockModel(Parcel in) {
         current_page = in.readInt();
-        data = in.createTypedArrayList(BlockDataModel.CREATOR);
-        first_page_url = in.readString();
         from = in.readInt();
         last_page = in.readInt();
+        per_page = in.readInt();
+        to = in.readInt();
+        total = in.readInt();
+
+        first_page_url = in.readString();
         last_page_url = in.readString();
         next_page_url = in.readString();
         path = in.readString();
-        per_page = in.readInt();
         prev_page_url = in.readString();
-        to = in.readInt();
-        total = in.readInt();
+
+        data = in.createTypedArrayList(BlockDataModel.CREATOR);
     }
 
     @Override

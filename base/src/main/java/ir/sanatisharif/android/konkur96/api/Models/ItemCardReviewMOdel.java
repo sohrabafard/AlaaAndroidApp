@@ -19,7 +19,7 @@ public class ItemCardReviewMOdel extends AddToCardListModel implements Parcelabl
         }
     };
     @SerializedName("grand")
-    private ProductModel grand;
+    private             ProductModel                 grand;
 
     protected ItemCardReviewMOdel(Parcel in) {
         grand = in.readParcelable(ProductModel.class.getClassLoader());

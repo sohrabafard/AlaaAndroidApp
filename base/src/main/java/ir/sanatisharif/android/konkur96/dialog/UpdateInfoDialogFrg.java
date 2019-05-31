@@ -4,15 +4,16 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class UpdateInfoDialogFrg extends BaseDialogFragment<UpdateInfoDialogFrg>
 
     //------init UI
     private static final String TAG = "UpdateInfoDialogFrg";
-    private View dialog;
+    private              View   dialog;
 
     public static UpdateInfoDialogFrg newInstance(ArrayList<DownloadUrl> Urls) {
         return new UpdateInfoDialogFrg();
@@ -42,8 +43,7 @@ public class UpdateInfoDialogFrg extends BaseDialogFragment<UpdateInfoDialogFrg>
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog_Alert);
-        }
-        else {
+        } else {
             setStyle(DialogFragment.STYLE_NORMAL, 0);
         }
     }
@@ -69,7 +69,7 @@ public class UpdateInfoDialogFrg extends BaseDialogFragment<UpdateInfoDialogFrg>
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView txtAccept = dialog.findViewById(R.id.txtAccept);
+        TextView txtAccept  = dialog.findViewById(R.id.txtAccept);
         TextView txtContent = dialog.findViewById(R.id.txtContent);
 
         txtContent.setText(Html.fromHtml(getString(R.string.update_info)));

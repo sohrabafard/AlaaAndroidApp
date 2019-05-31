@@ -1,7 +1,8 @@
 package ir.sanatisharif.android.konkur96.ui.component.paginate.paginate;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import ir.sanatisharif.android.konkur96.ui.component.paginate.callback.OnRepeatListener;
 import ir.sanatisharif.android.konkur96.ui.component.paginate.item.ErrorItem;
@@ -11,13 +12,13 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.item.LoadingItem;
 public final class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ITEM_VIEW_TYPE_LOADING = 46699933;
-    private static final int ITEM_VIEW_TYPE_ERROR = 46699932;
+    private static final int ITEM_VIEW_TYPE_ERROR   = 46699932;
 
     private RecyclerView.Adapter userAdapter;
-    private LoadingItem loadingItem;
-    private ErrorItem errorItem;
-    private PaginateStatus paginateStatus = PaginateStatus.LOADING;
-    private OnRepeatListener repeatListener;
+    private LoadingItem          loadingItem;
+    private ErrorItem            errorItem;
+    private PaginateStatus       paginateStatus = PaginateStatus.LOADING;
+    private OnRepeatListener     repeatListener;
 
 
     WrapperAdapter(RecyclerView.Adapter userAdapter, LoadingItem loadingItem, ErrorItem errorItem) {
@@ -63,12 +64,14 @@ public final class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     public boolean isErrorItem(int position) {
-        return paginateStatus == PaginateStatus.ERROR && position == getErrorOrLoadingItemPosition();
+        return paginateStatus == PaginateStatus.ERROR &&
+               position == getErrorOrLoadingItemPosition();
     }
 
 
     public boolean isLoadingItem(int position) {
-        return paginateStatus == PaginateStatus.LOADING && position == getErrorOrLoadingItemPosition();
+        return paginateStatus == PaginateStatus.LOADING &&
+               position == getErrorOrLoadingItemPosition();
     }
 
 

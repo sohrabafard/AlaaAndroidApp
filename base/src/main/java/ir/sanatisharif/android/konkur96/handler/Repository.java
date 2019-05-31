@@ -37,6 +37,6 @@ public interface Repository {
 
     void getPaymentUrl(String token, ApiCallBack callBack);
 
-    void getProductByUrl(String url, String token, ApiCallBack callBack );
+    void getProductByUrl(String url, String token, ApiCallBack callBack);
 
 }

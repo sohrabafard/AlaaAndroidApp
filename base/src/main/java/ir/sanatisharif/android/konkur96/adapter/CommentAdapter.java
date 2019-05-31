@@ -1,12 +1,13 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 
@@ -20,7 +21,7 @@ import ir.sanatisharif.android.konkur96.model.Comment;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.VideoHolder> {
 
     private ArrayList<Comment> itemsList;
-    private Context mContext;
+    private Context            mContext;
 
 
     public CommentAdapter(Context context, ArrayList<Comment> itemsList) {

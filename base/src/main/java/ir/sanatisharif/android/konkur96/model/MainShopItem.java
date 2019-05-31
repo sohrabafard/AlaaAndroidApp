@@ -3,11 +3,11 @@ package ir.sanatisharif.android.konkur96.model;
 import java.util.ArrayList;
 
 public class MainShopItem {
-    private int id;
-    private int type;
-    private String title;
-    private String url;
-    private boolean more;
+    private int          id;
+    private int          type;
+    private String       title;
+    private String       url;
+    private boolean      more;
     private ArrayList<?> items;
 
     public int getId() {

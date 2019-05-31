@@ -19,15 +19,15 @@ public class ProductSetModel implements Parcelable {
         }
     };
     @SerializedName("id")
-    private int id;
+    private             int                      id;
     @SerializedName("name")
-    private String name;
+    private             String                   name;
     @SerializedName("photo")
-    private String photo;
+    private             String                   photo;
     @SerializedName("shortName")
-    private String shortName;
+    private             String                   shortName;
     @SerializedName("contentUrl")
-    private String contentUrl;
+    private             String                   contentUrl;
 
     protected ProductSetModel(Parcel in) {
         id = in.readInt();

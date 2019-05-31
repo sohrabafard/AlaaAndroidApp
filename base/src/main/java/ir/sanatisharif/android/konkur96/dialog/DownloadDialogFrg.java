@@ -45,30 +45,34 @@ import ir.sanatisharif.android.konkur96.utils.Utils;
 public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
     //------init UI
-    private static final String TAG = "Alaa\\DownloadDialogFrg";
-    private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
-    private static final int PERMISSION_ALL = 1;
-    private ArrayList<Video> videos = new ArrayList<>();
-    private String title;
-    private boolean isFree;
-    private TextView txtDownload;
-    private TextView txtCancel;
-    private RadioGroup radioGroup;
-    private RadioButton radioExcellentQuality;
+    private static final String           TAG            = "Alaa\\DownloadDialogFrg";
+    private static final String[]
+                                          PERMISSIONS    =
+            {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
+    private static final int              PERMISSION_ALL = 1;
+    private              ArrayList<Video> videos         = new ArrayList<>();
+    private              String           title;
+    private              boolean          isFree;
+    private              TextView         txtDownload;
+    private              TextView         txtCancel;
+    private              RadioGroup       radioGroup;
+    private              RadioButton      radioExcellentQuality;
 
-    private Context mContext;
+    private Context           mContext;
     //------
-    private RadioButton radioHighQuality;
-    private RadioButton radioMediumQuality;
-    private View dialog;
+    private RadioButton       radioHighQuality;
+    private RadioButton       radioMediumQuality;
+    private View              dialog;
     private SharedPreferences sharedPreferences;
-    private DownloadComplete downloadComplete;
+    private DownloadComplete  downloadComplete;
 
     //---------------------------------------------------------------------------------------
     public static boolean hasPermissions(Context context, String... permissions) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null &&
+            permissions != null) {
             for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(context, permission) !=
+                    PackageManager.PERMISSION_GRANTED) {
                     return false;
                 }
             }
@@ -92,7 +96,8 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getContext().getApplicationContext();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(mContext));
+        sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(mContext));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog_Alert);
         } else {
@@ -191,14 +196,16 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                             public void fetch(String newUrl) {
                                 try {
                                     createDir(newUrl, title);
-                                } catch (Exception e) {
+                                }
+                                catch (Exception e) {
                                     Log.e(TAG, e.getMessage());
                                 }
                             }
 
                             @Override
                             public void error(String message) {
-                                Log.e(TAG, "link: " + link + "\n\n" + "followRedirectedLink-error:\n\r" + message);
+                                Log.e(TAG, "link: " + link + "\n\n" +
+                                           "followRedirectedLink-error:\n\r" + message);
                             }
                         });
                     }
@@ -206,22 +213,25 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             }
 
             private String getLinkString() {
-                String link, l0 ,l1, l2 ;
+                String link, l0, l1, l2;
                 link = l0 = l1 = l2 = null;
                 try {
                     l0 = videos.get(0).getLink();
-                }catch (IndexOutOfBoundsException ex){
-                    Log.i(TAG,ex.getMessage());
+                }
+                catch (IndexOutOfBoundsException ex) {
+                    Log.i(TAG, ex.getMessage());
                 }
                 try {
                     l1 = videos.get(1).getLink();
-                }catch (IndexOutOfBoundsException ex){
-                    Log.i(TAG,ex.getMessage());
+                }
+                catch (IndexOutOfBoundsException ex) {
+                    Log.i(TAG, ex.getMessage());
                 }
                 try {
                     l2 = videos.get(2).getLink();
-                }catch (IndexOutOfBoundsException ex){
-                    Log.i(TAG,ex.getMessage());
+                }
+                catch (IndexOutOfBoundsException ex) {
+                    Log.i(TAG, ex.getMessage());
                 }
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.radioExcellentQuality:
@@ -234,12 +244,12 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                         link = l2;
                         break;
                 }
-                if(link == null){
-                    if(l2 != null){
+                if (link == null) {
+                    if (l2 != null) {
                         link = l2;
-                    }else if(l1 != null){
+                    } else if (l1 != null) {
                         link = l1;
-                    }else{
+                    } else {
                         link = l0;
                     }
                 }
@@ -265,8 +275,8 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     private void createDir(String url, String title) {
 
         String mediaPath = FileManager.getPathFromAllaUrl(url);
-        File file = new File(FileManager.getRootPath() + mediaPath);
-        String fileName = FileManager.getFileNameFromUrl(url);
+        File   file      = new File(FileManager.getRootPath() + mediaPath);
+        String fileName  = FileManager.getFileNameFromUrl(url);
 
         if (file.exists()) {
             startDL(url, title, mediaPath, fileName, file);
@@ -286,7 +296,8 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                 }
                 Utils.addVideoToGallery(f, mContext);
             });
-            DownloadFile.getInstance().start(url, AppConstants.ROOT + "/" + mediaPath, fileName, title, mContext.getResources().getString(R.string.alaa));
+            DownloadFile.getInstance().start(url, AppConstants.ROOT + "/" +
+                                                  mediaPath, fileName, title, mContext.getResources().getString(R.string.alaa));
         } else {
             Log.i(TAG, "startDL-external");
             Utils.loadUrl(url, mContext);

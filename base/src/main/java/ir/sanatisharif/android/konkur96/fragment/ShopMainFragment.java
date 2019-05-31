@@ -3,14 +3,6 @@ package ir.sanatisharif.android.konkur96.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +11,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -41,14 +42,14 @@ import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     boolean isPaginate = false;
-    private RecyclerView shopMainRecyclerView;
-    private Toolbar mToolbar;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private Repository repository;
-    private myPaginate paginate;
-    private LinearLayoutManager linearLayoutManager;
-    private MainModel mainModel;
-    private MainShopItemAdapter adapter;
+    private RecyclerView            shopMainRecyclerView;
+    private Toolbar                 mToolbar;
+    private SwipeRefreshLayout      swipeRefreshLayout;
+    private Repository              repository;
+    private myPaginate              paginate;
+    private LinearLayoutManager     linearLayoutManager;
+    private MainModel               mainModel;
+    private MainShopItemAdapter     adapter;
     private ArrayList<MainShopItem> items = new ArrayList<>();
 
     public static ShopMainFragment newInstance() {
@@ -103,31 +104,34 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
             alert.show(getHostFragmentManager(), "alert");
         } else if (id == R.id.actionSettingTelegram) {
             String alaaTelegramUrl = "https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ";
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
+            Intent intent          = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
             intent.setPackage("org.telegram.messenger");
 
             try {
                 if (intent.resolveActivity(AppConfig.context.getPackageManager()) != null) {
                     startActivity(intent);
-                }else {
+                } else {
                     intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
                 }
                 startActivity(intent);
-            }catch (Exception ex){
-                Toast.makeText(AppConfig.context,"@alaa_sanatisharif",Toast.LENGTH_LONG).show();
+            }
+            catch (Exception ex) {
+                Toast.makeText(AppConfig.context, "@alaa_sanatisharif", Toast.LENGTH_LONG).show();
             }
 
         }
 
         return super.onOptionsItemSelected(item);
     }
+
     public FragmentManager getHostFragmentManager() {
         FragmentManager fm = getFragmentManager();
         if (fm == null && isAdded()) {
-            fm = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+            fm = getActivity().getSupportFragmentManager();
         }
         return fm;
     }
+
     private void getData() {
 
         items.clear();
@@ -219,7 +223,8 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
         shopMainRecyclerView = v.findViewById(R.id.recyclerView_main_shop);
         shopMainRecyclerView.setNestedScrollingEnabled(false);
         shopMainRecyclerView.setHasFixedSize(true);
-        linearLayoutManager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager =
+                new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
         shopMainRecyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MainShopItemAdapter(AppConfig.context, items);
         //adapter.setSize(AppConfig.width, AppConfig.height);

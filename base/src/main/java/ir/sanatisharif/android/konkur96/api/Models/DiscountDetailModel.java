@@ -19,11 +19,11 @@ public class DiscountDetailModel implements Parcelable {
         }
     };
     @SerializedName("productDiscount")
-    private int productDiscount;
+    private             int                          productDiscount;
     @SerializedName("bonDiscount")
-    private int bonDiscount;
+    private             int                          bonDiscount;
     @SerializedName("productDiscountAmount")
-    private int productDiscountAmount;
+    private             int                          productDiscountAmount;
 
     protected DiscountDetailModel(Parcel in) {
         productDiscount = in.readInt();

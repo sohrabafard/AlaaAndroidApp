@@ -1,14 +1,15 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
@@ -21,10 +22,10 @@ import ir.sanatisharif.android.konkur96.fragment.FilterShowEntityFrg;
 
 public class MyFilterAdapter extends FragmentStatePagerAdapter {
 
-    private static final String TAG = "MyFilterAdapter";
-    private List<FilterShowEntityFrg> mFrgArrayList;
-    private FragmentManager mFragmentManager;
-    private Context context;
+    private static final String                    TAG = "MyFilterAdapter";
+    private              List<FilterShowEntityFrg> mFrgArrayList;
+    private              FragmentManager           mFragmentManager;
+    private              Context                   context;
 
     public MyFilterAdapter(Context context, FragmentManager fm, List<FilterShowEntityFrg> mFrgArrayList) {
         super(fm);
@@ -74,7 +75,7 @@ public class MyFilterAdapter extends FragmentStatePagerAdapter {
 
     public View getTabView(int position, String title) {
 
-        View v = LayoutInflater.from(context).inflate(R.layout.custom_tab, null);
+        View     v  = LayoutInflater.from(context).inflate(R.layout.custom_tab, null);
         TextView tv = v.findViewById(R.id.txtTab);
         tv.setText(title);
         ImageView img = v.findViewById(R.id.imgTab);

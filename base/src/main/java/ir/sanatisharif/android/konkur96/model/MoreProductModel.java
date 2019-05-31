@@ -2,7 +2,7 @@ package ir.sanatisharif.android.konkur96.model;
 
 public class MoreProductModel {
 
-    private int id;
+    private int    id;
     private String title;
     private String imageUrl;
     private String author;

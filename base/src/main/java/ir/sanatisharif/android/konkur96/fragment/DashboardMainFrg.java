@@ -3,16 +3,6 @@ package ir.sanatisharif.android.konkur96.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.fragment.app.FragmentManager;
-import androidx.core.view.ViewCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +14,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -38,8 +40,8 @@ import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.BlockAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
-import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.Block;
+import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
@@ -52,17 +54,17 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
 public class DashboardMainFrg extends BaseFragment {
 
-    private User user;
-    private AccountInfo accountInfo;
-    private ImageView imgUser;
-    private Toolbar mToolbar;
+    private User         user;
+    private AccountInfo  accountInfo;
+    private ImageView    imgUser;
+    private Toolbar      mToolbar;
     private RecyclerView myRecyclerView;
-    private TextView txtNationalCode, txtMobile, txtFullName, txtField;
+    private TextView     txtNationalCode, txtMobile, txtFullName, txtField;
     private LinearLayout itemVideo, itemAboutMe, itemNewOrder, itemBasket;
     private FloatingActionButton fabItemVideo, fabItemAboutMe, fabItemNewOrder, fabItemBasket;
 
     private BlockAdapter adapter;
-    private List<Block> items = new ArrayList<>();
+    private List<Block>  items = new ArrayList<>();
 
     public static DashboardMainFrg newInstance() {
 
@@ -115,18 +117,19 @@ public class DashboardMainFrg extends BaseFragment {
             alert.show(getHostFragmentManager(), "alert");
         } else if (id == R.id.actionSettingTelegram) {
             String alaaTelegramUrl = "https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ";
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
+            Intent intent          = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
             intent.setPackage("org.telegram.messenger");
 
             try {
                 if (intent.resolveActivity(AppConfig.context.getPackageManager()) != null) {
                     startActivity(intent);
-                }else {
+                } else {
                     intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
                 }
                 startActivity(intent);
-            }catch (Exception ex){
-                Toast.makeText(AppConfig.context,"@alaa_sanatisharif",Toast.LENGTH_LONG).show();
+            }
+            catch (Exception ex) {
+                Toast.makeText(AppConfig.context, "@alaa_sanatisharif", Toast.LENGTH_LONG).show();
             }
         } else if (id == R.id.actionSettingLogout) {
 
@@ -179,7 +182,7 @@ public class DashboardMainFrg extends BaseFragment {
     public FragmentManager getHostFragmentManager() {
         FragmentManager fm = getFragmentManager();
         if (fm == null && isAdded()) {
-            fm = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+            fm = getActivity().getSupportFragmentManager();
         }
         return fm;
     }
@@ -194,13 +197,15 @@ public class DashboardMainFrg extends BaseFragment {
 
         //init
 
-        final CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
+        final CollapsingToolbarLayout
+                collapsing_toolbar =
+                view.findViewById(R.id.collapsing_toolbar);
         ((AppBarLayout) view.findViewById(R.id.app_bar_layout)).
                 addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                     @Override
                     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                        int min_height = ViewCompat.getMinimumHeight(collapsing_toolbar) * 2;
-                        float scale = (float) (min_height + verticalOffset) / min_height;
+                        int   min_height = ViewCompat.getMinimumHeight(collapsing_toolbar) * 2;
+                        float scale      = (float) (min_height + verticalOffset) / min_height;
 //                        image.setScaleX(scale >= 0 ? scale : 0);
 //                        image.setScaleY(scale >= 0 ? scale : 0);
                         Log.i("LOG", "onOffsetChanged: " + scale + " " + verticalOffset);

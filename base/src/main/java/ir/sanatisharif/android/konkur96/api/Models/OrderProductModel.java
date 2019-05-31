@@ -22,28 +22,28 @@ public class OrderProductModel implements Parcelable {
         }
     };
     @SerializedName("id")
-    private int id;
+    private             int                        id;
     @SerializedName("order_id")
-    private int orderId;
+    private             int                        orderId;
     @SerializedName("quantity")
-    private int quantity;
+    private             int                        quantity;
     @SerializedName("product")
-    private ProductModel product;
+    private             ProductModel               product;
     @SerializedName("grandId")
     @Expose
-    private int grandId;
+    private             int                        grandId;
     @SerializedName("price")
     @Expose
-    private PriceModel price;
+    private             PriceModel                 price;
     @SerializedName("bons")
     @Expose
-    private BonModel bons;
+    private             BonModel                   bons;
     @SerializedName("attributevalues")
     @Expose
-    private ArrayList<AttributesModel> attributeValues;
+    private             ArrayList<AttributesModel> attributeValues;
     @SerializedName("photo")
     @Expose
-    private String photo;
+    private             String                     photo;
 
     protected OrderProductModel(Parcel in) {
         id = in.readInt();

@@ -4,15 +4,16 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,13 +29,13 @@ import ir.sanatisharif.android.konkur96.model.Video;
 
 public class DeleteFileDialogFrg extends BaseDialogFragment<DeleteFileDialogFrg> {
 
-    private static final String TAG = "Alaa\\DeleteFileDialogFr";
+    private static final String           TAG    = "Alaa\\DeleteFileDialogFr";
     //------init UI
-    private View dialog;
-    private TextView txtOk;
-    private TextView txtCancel;
-    private ArrayList<Video> videos = new ArrayList<>();
-    private Callback mCallback;
+    private              View             dialog;
+    private              TextView         txtOk;
+    private              TextView         txtCancel;
+    private              ArrayList<Video> videos = new ArrayList<>();
+    private              Callback         mCallback;
 
     public DeleteFileDialogFrg setCallback(Callback callback) {
         mCallback = callback;
@@ -98,9 +99,9 @@ public class DeleteFileDialogFrg extends BaseDialogFragment<DeleteFileDialogFrg>
         Log.i(TAG, "video-size: " + videos.size());
         for (int i = 0; i < videos.size(); i++) {
 
-            String url = videos.get(i).getLink();
+            String url       = videos.get(i).getLink();
             String mediaPath = FileManager.getPathFromAllaUrl(url);
-            String fileName = FileManager.getFileNameFromUrl(url);
+            String fileName  = FileManager.getFileNameFromUrl(url);
             Log.i(TAG, "notifyAndDeleteFile: " + fileName + " " + mediaPath);
             File file = new File(FileManager.getRootPath() + mediaPath + "/" + fileName);
             if (file.exists()) {
@@ -111,13 +112,13 @@ public class DeleteFileDialogFrg extends BaseDialogFragment<DeleteFileDialogFrg>
         dismiss();
     }
 
-    public interface Callback {
-        void fileDeleted();
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         videos.clear();
+    }
+
+    public interface Callback {
+        void fileDeleted();
     }
 }

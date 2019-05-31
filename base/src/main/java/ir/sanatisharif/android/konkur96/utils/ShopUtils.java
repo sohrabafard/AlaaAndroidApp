@@ -11,8 +11,8 @@ import java.util.List;
 
 import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
-import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
 import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
+import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
@@ -43,9 +43,9 @@ public class ShopUtils {
 
     public static ArrayList<MainShopItem> convertToMainShopModel(MainModel apiModel, boolean first) {
 
-        ArrayList<MainShopItem> items = new ArrayList<>();
+        ArrayList<MainShopItem>   items     = new ArrayList<>();
         ArrayList<BlockDataModel> blockData = apiModel.getBlock().getData();
-        MainShopItem item;
+        MainShopItem              item;
 
 
         if (apiModel.getMainBanner() != null && first) {
@@ -131,8 +131,8 @@ public class ShopUtils {
 
     public static String getProductNames(CardReviewModel cardReviewModel) {
 
-        ArrayList<AddToCardModel> items = new ArrayList<>();
-        String finalNames = "";
+        ArrayList<AddToCardModel> items      = new ArrayList<>();
+        String                    finalNames = "";
 
 
         for (int i = 0; i < cardReviewModel.getItems().size(); i++) {

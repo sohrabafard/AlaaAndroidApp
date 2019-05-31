@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.model.main_page;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -26,7 +25,7 @@ public class PreviousApiUrl implements Parcelable {
     };
     @SerializedName("v1")
     @Expose
-    private String v1;
+    private             String                  v1;
 
     protected PreviousApiUrl(Parcel in) {
         this.v1 = ((String) in.readValue((String.class.getClassLoader())));

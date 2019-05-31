@@ -23,6 +23,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 public class ActivityBase extends AppCompatActivity {
 
     FirebaseAnalytics mFirebaseAnalytics;
+
     public static void toastShow(final String message, int MDToastType) {
 
         int toastDurationInMilliSeconds = 900;
@@ -64,7 +65,7 @@ public class ActivityBase extends AppCompatActivity {
             WebView.setWebContentsDebuggingEnabled(false);
         }
         AccountInfo accountInfo = new AccountInfo(this, this);
-        User user = accountInfo.getInfo(ACCOUNT_TYPE);
+        User        user        = accountInfo.getInfo(ACCOUNT_TYPE);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         if (user != null)
             mFirebaseAnalytics.setUserId("" + user.getId());

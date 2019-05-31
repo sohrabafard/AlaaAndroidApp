@@ -26,19 +26,19 @@ public class Author implements Parcelable {
     };
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private             Integer         id;
     @SerializedName("firstName")
     @Expose
-    private String firstName;
+    private             String          firstName;
     @SerializedName("lastName")
     @Expose
-    private String lastName;
+    private             String          lastName;
     @SerializedName("photo")
     @Expose
-    private String photo;
+    private             String          photo;
     @SerializedName("full_name")
     @Expose
-    private String fullName;
+    private             String          fullName;
 
     protected Author(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));

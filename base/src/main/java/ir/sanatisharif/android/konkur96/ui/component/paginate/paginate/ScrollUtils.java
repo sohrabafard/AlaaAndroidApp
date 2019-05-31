@@ -12,12 +12,15 @@ final class ScrollUtils {
     }
 
     static boolean isOnBottom(@NonNull RecyclerView recyclerView, int loadingTriggerThreshold) {
-        final int visibleItemCount = recyclerView.getChildCount();
-        final int totalItemCount = recyclerView.getLayoutManager().getItemCount();
-        final int firstVisibleItemPosition = getFirstVisibleItemPositionByLayoutManager(recyclerView.getLayoutManager());
+        final int visibleItemCount         = recyclerView.getChildCount();
+        final int totalItemCount           = recyclerView.getLayoutManager().getItemCount();
+        final int
+                  firstVisibleItemPosition =
+                getFirstVisibleItemPositionByLayoutManager(recyclerView.getLayoutManager());
         // Check if end of the list is reached (counting threshold) or if there is no items at all
-        return (totalItemCount - visibleItemCount) <= (firstVisibleItemPosition + loadingTriggerThreshold)
-                || totalItemCount == 0;
+        return (totalItemCount - visibleItemCount) <=
+               (firstVisibleItemPosition + loadingTriggerThreshold)
+               || totalItemCount == 0;
 
     }
 
@@ -25,11 +28,13 @@ final class ScrollUtils {
                                                                           layoutManager) {
         int firstVisibleItemPosition;
         if (layoutManager instanceof LinearLayoutManager) {
-            firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+            firstVisibleItemPosition =
+                    ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
             // https://code.google.com/p/android/issues/detail?id=181461
             if (layoutManager.getChildCount() > 0) {
-                firstVisibleItemPosition = ((StaggeredGridLayoutManager) layoutManager).findFirstVisibleItemPositions(null)[0];
+                firstVisibleItemPosition =
+                        ((StaggeredGridLayoutManager) layoutManager).findFirstVisibleItemPositions(null)[0];
             } else {
                 firstVisibleItemPosition = 0;
             }
@@ -43,6 +48,7 @@ final class ScrollUtils {
 
     static void fullScrollToBottom(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.Adapter
             adapter) {
-        recyclerView.getLayoutManager().smoothScrollToPosition(recyclerView, null, adapter.getItemCount() - 1);
+        recyclerView.getLayoutManager().smoothScrollToPosition(recyclerView, null,
+                adapter.getItemCount() - 1);
     }
 }

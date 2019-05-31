@@ -4,10 +4,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +12,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +30,13 @@ import ir.sanatisharif.android.konkur96.model.DownloadUrl;
 public class FilterCoursesDialogFrg extends BaseDialogFragment<FilterCoursesDialogFrg> implements AdapterView.OnItemSelectedListener {
 
     //------init UI
-    private static final String TAG = "LOG";
-    private String[] filters = new String[2];
-    private View dialog;
-    private Button btnOk;
-    private FilterSelectedCallback callback;
-    private Spinner spinnerSection;
-    private Spinner spinnerField;
+    private static final String                 TAG     = "LOG";
+    private              String[]               filters = new String[2];
+    private              View                   dialog;
+    private              Button                 btnOk;
+    private              FilterSelectedCallback callback;
+    private              Spinner                spinnerSection;
+    private              Spinner                spinnerField;
 
     public static FilterCoursesDialogFrg newInstance(ArrayList<DownloadUrl> Urls) {
         FilterCoursesDialogFrg frag = new FilterCoursesDialogFrg();

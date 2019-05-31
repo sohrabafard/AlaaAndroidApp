@@ -2,6 +2,7 @@ package ir.sanatisharif.android.konkur96.helper;
 
 import android.net.Uri;
 import android.os.Environment;
+
 import androidx.annotation.NonNull;
 
 import java.io.File;
@@ -15,9 +16,9 @@ import ir.sanatisharif.android.konkur96.app.AppConstants;
 
 public class FileManager {
 
-    private static final String TAG = "Alaa\\FileManager";
-    private static FileManager fileManager;
-    private ArrayList<File> filesArrayList = new ArrayList<>();
+    private static final String          TAG            = "Alaa\\FileManager";
+    private static       FileManager     fileManager;
+    private              ArrayList<File> filesArrayList = new ArrayList<>();
 
     public static FileManager getInstance() {
         if (fileManager == null)
@@ -33,7 +34,8 @@ public class FileManager {
     public static String getRootPath() {
 
         // External sdcard location
-        return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + AppConstants.ROOT + File.separator;
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +
+               AppConstants.ROOT + File.separator;
     }
 
     public static String getMediaPath() {
@@ -63,8 +65,11 @@ public class FileManager {
     public static Boolean createRootDir() {
 
         // External sdcard location
-        String pathName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + AppConstants.ROOT + File.separator;
-        File storageDir = new File(pathName);
+        String
+                pathName   =
+                Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +
+                AppConstants.ROOT + File.separator;
+        File    storageDir = new File(pathName);
         if (!storageDir.exists()) {
             return storageDir.mkdirs();
         }
@@ -100,8 +105,8 @@ public class FileManager {
 
     public static Boolean createAudioDir() {
 
-        String pathName = getAudioPath();
-        File storageDir = new File(pathName);
+        String pathName   = getAudioPath();
+        File   storageDir = new File(pathName);
         if (!storageDir.exists()) {
             return storageDir.mkdirs();
         }
@@ -110,8 +115,8 @@ public class FileManager {
 
     public static Boolean createPDFDir() {
 
-        String pathName = getPDFPath();
-        File storageDir = new File(pathName);
+        String pathName   = getPDFPath();
+        File   storageDir = new File(pathName);
         if (!storageDir.exists()) {
             return storageDir.mkdirs();
         }
@@ -132,7 +137,8 @@ public class FileManager {
         try {
             Uri uri = Uri.parse(url);
             return uri.getPath();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             return null;
         }
     }

@@ -19,31 +19,31 @@ public class AllBonModel implements Parcelable {
         }
     };
     @SerializedName("id")
-    private int id;
+    private             int                  id;
     @SerializedName("bon_id")
-    private int bon_id;
+    private             int                  bon_id;
     @SerializedName("user_id")
-    private int user_id;
+    private             int                  user_id;
     @SerializedName("totalNumber")
-    private int totalNumber;
+    private             int                  totalNumber;
     @SerializedName("usedNumber")
-    private int usedNumber;
+    private             int                  usedNumber;
     @SerializedName("userbonstatus_id")
-    private int userbonstatus_id;
+    private             int                  userbonstatus_id;
     @SerializedName("validSince")
-    private int validSince;
+    private             int                  validSince;
     @SerializedName("validUntil")
-    private int validUntil;
+    private             int                  validUntil;
     @SerializedName("orderproduct_id")
-    private int orderproduct_id;
+    private             int                  orderproduct_id;
     @SerializedName("created_at")
-    private String created_at;
+    private             String               created_at;
     @SerializedName("updated_at")
-    private String updated_at;
+    private             String               updated_at;
     @SerializedName("deleted_at")
-    private String deleted_at;
+    private             String               deleted_at;
     @SerializedName("pivot")
-    private PivotMode pivot;
+    private             PivotMode            pivot;
 
     protected AllBonModel(Parcel in) {
         id = in.readInt();

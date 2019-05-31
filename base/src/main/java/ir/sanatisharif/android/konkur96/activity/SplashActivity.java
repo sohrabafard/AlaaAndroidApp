@@ -4,10 +4,11 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.dynamicanimation.animation.SpringAnimation;
-import androidx.dynamicanimation.animation.SpringForce;
 import android.util.Log;
 import android.widget.ImageView;
+
+import androidx.dynamicanimation.animation.SpringAnimation;
+import androidx.dynamicanimation.animation.SpringForce;
 
 import com.google.android.gms.common.wrappers.InstantApps;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -21,11 +22,11 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
 public class SplashActivity extends ActivityBase {
 
-    private String TAG = "Alaa\\SplashActivity";
+    private String      TAG = "Alaa\\SplashActivity";
     private AccountInfo accountInfo;
-    private ImageView img1;
+    private ImageView   img1;
     private AlertDialog mAlertDialog;
-    private boolean mInvalidate;
+    private boolean     mInvalidate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,7 @@ public class SplashActivity extends ActivityBase {
         // ATTENTION: This was auto-generated to handle app links.
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
-        Uri appLinkData = appLinkIntent.getData();
+        Uri    appLinkData   = appLinkIntent.getData();
     }
 
     private void loadAnimation() {

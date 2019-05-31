@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.model.user;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -26,13 +25,13 @@ public class Major implements Parcelable {
     };
     @SerializedName("id")
     @Expose
-    private int id;
+    private             int            id;
     @SerializedName("name")
     @Expose
-    private String name;
+    private             String         name;
     @SerializedName("description")
     @Expose
-    private String description;
+    private             String         description;
 
     protected Major(Parcel in) {
         this.id = ((int) in.readValue((int.class.getClassLoader())));

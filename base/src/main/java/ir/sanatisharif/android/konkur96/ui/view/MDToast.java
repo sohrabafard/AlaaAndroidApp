@@ -3,14 +3,15 @@ package ir.sanatisharif.android.konkur96.ui.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.StringRes;
-import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -21,17 +22,17 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 
 public class MDToast extends Toast {
 
-    public static final int TYPE_INFO = 0;
+    public static final int TYPE_INFO    = 0;
     public static final int TYPE_SUCCESS = 1;
     public static final int TYPE_WARNING = 2;
-    public static final int TYPE_ERROR = 3;
+    public static final int TYPE_ERROR   = 3;
 
-    public static int LENGTH_LONG = Toast.LENGTH_LONG;
+    public static int LENGTH_LONG  = Toast.LENGTH_LONG;
     public static int LENGTH_SHORT = Toast.LENGTH_SHORT;
 
     private Context mContext;
-    private View mView;
-    private int mType;
+    private View    mView;
+    private int     mType;
 
     /**
      * Construct an empty Toast object.  You must call {@link #setView} before you
@@ -56,11 +57,13 @@ public class MDToast extends Toast {
     public static MDToast makeText(Context context, String message, int duration, int type) {
         MDToast mdToast = new MDToast(context.getApplicationContext());
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.custom_toast_container, null);
+        LayoutInflater
+                inflater =
+                (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View    view     = inflater.inflate(R.layout.custom_toast_container, null);
 
         ImageView icon = view.findViewById(R.id.icon);
-        TextView text = view.findViewById(R.id.text);
+        TextView  text = view.findViewById(R.id.text);
         text.setTypeface(AppConfig.fontIRSensNumber);
 
         switch (type) {

@@ -31,13 +31,13 @@ public class ContentCredit implements Parcelable {
     };
     @SerializedName("message")
     @Expose
-    private String message;
+    private             String                            message;
     @SerializedName("content")
     @Expose
-    private ContentModel content;
+    private             ContentModel                      content;
     @SerializedName("product")
     @Expose
-    private List<ProductModel> product = null;
+    private             List<ProductModel>                product = null;
 
     protected ContentCredit(Parcel in) {
         this.message = ((String) in.readValue((String.class.getClassLoader())));

@@ -16,6 +16,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainBannerModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -24,7 +25,6 @@ import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.model.Block;
-import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager;
@@ -37,8 +37,8 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.MORE_VIDEO_OFFLI
 public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     int width = 0;
-    private List<Block> dataList;
-    private Context mContext;
+    private List<Block>         dataList;
+    private Context             mContext;
     private OnItemClickListener mClickListener;
     //private SnapHelper snapHelper;
 
@@ -78,7 +78,7 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (viewType == AppConstants.HEADER_DATA) {
 
             HeaderHolder headerHolder = (HeaderHolder) holder;
-            String url = dataList.get(position).getUrl();
+            String       url          = dataList.get(position).getUrl();
 
             headerHolder.txtTitle.setText(dataList.get(position).getTitle());
 
@@ -117,7 +117,9 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             CategoryItemAdapter itemListDataAdapter = new CategoryItemAdapter(mContext, items);
 
 
-            LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
+            LinearLayoutManager
+                    lin =
+                    new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
             itemRowHolder.recyclerView.setLayoutManager(lin);
             itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
             itemRowHolder.recyclerView.setHasFixedSize(true);
@@ -133,7 +135,9 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             ContentItemAdapter itemListDataAdapter = new ContentItemAdapter(mContext, items);
 
             itemRowHolder.recyclerView.setHasFixedSize(false);
-            LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+            LinearLayoutManager
+                    lin =
+                    new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
             lin.setReverseLayout(false);
             itemRowHolder.recyclerView.setLayoutManager(lin);
             itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
@@ -147,10 +151,14 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             List<ProductModel> items = dataList.get(position).getProducts();
 
-            ProductMainItemAdapter productMainItemAdapter = new ProductMainItemAdapter(mContext, items);
+            ProductMainItemAdapter
+                    productMainItemAdapter =
+                    new ProductMainItemAdapter(mContext, items);
 
             itemRowHolder.recyclerView.setHasFixedSize(false);
-            LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+            LinearLayoutManager
+                    lin =
+                    new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
             lin.setReverseLayout(false);
             itemRowHolder.recyclerView.setLayoutManager(lin);
             itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
@@ -167,7 +175,9 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             BannerItemAdapter itemListDataAdapter = new BannerItemAdapter(mContext, items);
 
             itemRowHolder.recyclerView.setHasFixedSize(true);
-            LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+            LinearLayoutManager
+                    lin =
+                    new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
             lin.setReverseLayout(false);
             itemRowHolder.recyclerView.setLayoutManager(lin);
             itemRowHolder.recyclerView.setAdapter(itemListDataAdapter);
@@ -187,7 +197,7 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         } else if (viewType == AppConstants.VIDEO_OFFLINE_ITEM) {
 
-            final List<Video> items = dataList.get(position).getVideos();
+            final List<Video>            items         = dataList.get(position).getVideos();
             final VideoOfflineItemHolder itemRowHolder = (VideoOfflineItemHolder) holder;
 
             if (items.size() == 0) {
@@ -199,7 +209,9 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         VideoDownloadedAdapter(mContext, items, AppConstants.VIDEO_SHOW_LINEAR);
 
                 itemRowHolder.recyclerView.setHasFixedSize(false);
-                LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+                LinearLayoutManager
+                        lin =
+                        new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
                 lin.setReverseLayout(false);
                 itemRowHolder.recyclerView.setLayoutManager(lin);
                 itemRowHolder.recyclerView.setNestedScrollingEnabled(false);

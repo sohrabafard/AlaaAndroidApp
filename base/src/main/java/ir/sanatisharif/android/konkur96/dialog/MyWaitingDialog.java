@@ -1,8 +1,7 @@
 package ir.sanatisharif.android.konkur96.dialog;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AlertDialog;
 
 import ir.sanatisharif.android.konkur96.R;
@@ -14,7 +13,7 @@ import ir.sanatisharif.android.konkur96.R;
 public class MyWaitingDialog {
 
     private AlertDialog dialog;
-    private Context context;
+    private Context     context;
 
     public MyWaitingDialog(Context context) {
         this.context = context;

@@ -3,7 +3,7 @@ package ir.sanatisharif.android.konkur96.api.Models;
 public class PaymentRequest {
 
     final String MerchantID;
-    final int Amount;
+    final int    Amount;
     final String CallbackURL;
     final String Description;
 

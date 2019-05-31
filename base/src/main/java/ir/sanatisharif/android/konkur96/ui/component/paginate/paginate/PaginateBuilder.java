@@ -11,12 +11,12 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.item.LoadingItem;
 public class PaginateBuilder {
 
 
-    private RecyclerView recyclerView;
-    private OnLoadMore paginateCallback;
+    private RecyclerView       recyclerView;
+    private OnLoadMore         paginateCallback;
     private OnLoadMoreListener loadMoreListener;
-    private LoadingItem loadingItem;
-    private ErrorItem errorItem;
-    private int loadingTriggerThreshold = 0;
+    private LoadingItem        loadingItem;
+    private ErrorItem          errorItem;
+    private int                loadingTriggerThreshold = 0;
 
     /**
      * @deprecated use {@link myPaginateBuilder}

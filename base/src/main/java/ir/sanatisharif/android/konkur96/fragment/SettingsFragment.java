@@ -2,6 +2,9 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -9,14 +12,12 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
-import android.util.Log;
-import android.view.View;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.dialog.CustomDownloadDialogFragmentCompat;
 import ir.sanatisharif.android.konkur96.dialog.CustomStorageDialogFragmentCompat;
 import ir.sanatisharif.android.konkur96.dialog.DialogPrefChangeStorage;
 import ir.sanatisharif.android.konkur96.dialog.DialogPrefDownload;
-import ir.sanatisharif.android.konkur96.dialog.CustomDownloadDialogFragmentCompat;
 
 /**
  * Created by Mohamad on 11/3/2018.
@@ -61,7 +62,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             // pref2.setSummary(sharedPreferences.getString(pref2.getKey(), "external"));
 
             onSharedPreferenceChanged(sharedPreferences, getString(R.string.setting_external_download));
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             Log.i(TAG, "onCreatePreferences: " + ex.getMessage());
         }
 
@@ -121,7 +123,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             if (dialogFragment != null) {
                 dialogFragment.setTargetFragment(this, 0);
                 dialogFragment.show(this.getFragmentManager(), "android.support.v7.preference" +
-                        ".PreferenceFragment.DIALOG");
+                                                               ".PreferenceFragment.DIALOG");
             }
         } else if (preference instanceof DialogPrefChangeStorage) {
 
@@ -132,7 +134,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             if (dialogFragment != null) {
                 dialogFragment.setTargetFragment(this, 0);
                 dialogFragment.show(this.getFragmentManager(), "android.support.v7.preference" +
-                        ".PreferenceFragment.DIALOG");
+                                                               ".PreferenceFragment.DIALOG");
             }
         } else {
             // Dialog creation could not be handled here. Try with the super method.

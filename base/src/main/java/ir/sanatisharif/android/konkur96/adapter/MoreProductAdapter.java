@@ -1,9 +1,10 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 public class MoreProductAdapter extends RecyclerView.Adapter<MoreProductAdapter.ContentHolder> {
 
     private ArrayList<ProductModel> itemsList;
-    private Context mContext;
+    private Context                 mContext;
 
 
     public MoreProductAdapter(Context context, ArrayList<ProductModel> itemsList) {

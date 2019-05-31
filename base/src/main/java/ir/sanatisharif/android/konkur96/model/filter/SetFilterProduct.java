@@ -4,8 +4,6 @@ import android.os.Parcel;
 
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
-import ir.sanatisharif.android.konkur96.model.main_page.Product;
-import ir.sanatisharif.android.konkur96.model.main_page.Set;
 
 
 public class SetFilterProduct extends ProductModel implements FilterBaseModel {

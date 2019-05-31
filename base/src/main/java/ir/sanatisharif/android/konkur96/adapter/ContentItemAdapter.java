@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
 import ir.sanatisharif.android.konkur96.ui.view.CustomItemView;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
@@ -18,7 +18,7 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 public class ContentItemAdapter extends RecyclerView.Adapter<ContentItemAdapter.ContentHolder> {
 
     private List<ContentModel> itemsList;
-    private Context mContext;
+    private Context            mContext;
 
 
     public ContentItemAdapter(Context context, List<ContentModel> itemsList) {

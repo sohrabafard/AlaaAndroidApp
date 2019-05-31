@@ -19,13 +19,13 @@ public class BonModel implements Parcelable {
         }
     };
     @SerializedName("id")
-    private int id;
+    private             int               id;
     @SerializedName("name")
-    private String name;
+    private             String            name;
     @SerializedName("displayName")
-    private String displayName;
+    private             String            displayName;
     @SerializedName("description")
-    private String description;
+    private             String            description;
 
     protected BonModel(Parcel in) {
         id = in.readInt();

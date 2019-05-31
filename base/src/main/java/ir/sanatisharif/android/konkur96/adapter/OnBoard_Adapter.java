@@ -1,13 +1,14 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.viewpager.widget.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.viewpager.widget.PagerAdapter;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,9 @@ public class OnBoard_Adapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View itemView = LayoutInflater.from(mContext).inflate(R.layout.onboard_item, container, false);
+        View
+                itemView =
+                LayoutInflater.from(mContext).inflate(R.layout.onboard_item, container, false);
 
         OnBoardItem item = onBoardItems.get(position);
 

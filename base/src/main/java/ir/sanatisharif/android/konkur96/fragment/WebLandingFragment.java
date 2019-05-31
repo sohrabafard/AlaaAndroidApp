@@ -2,9 +2,6 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +10,16 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
 import ir.sanatisharif.android.konkur96.R;
 
 public class WebLandingFragment extends BaseFragment {
 
     private WebView webView;
-    private String recivedURL = "https://alaatv.com";
+    private String  recivedURL = "https://alaatv.com";
 
     public static WebLandingFragment newInstance(String url) {
 

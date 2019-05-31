@@ -3,14 +3,15 @@ package ir.sanatisharif.android.konkur96.dialog;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -21,8 +22,8 @@ import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 @SuppressLint("ValidFragment")
 public class ProductExtraAndAddFragment extends DialogFragment {
 
-    private RecyclerView mRecyclerView;
-    private ProductAttrAdapter adapter;
+    private RecyclerView              mRecyclerView;
+    private ProductAttrAdapter        adapter;
     private ArrayList<AttributeModel> attrList;
 
     @SuppressLint("ValidFragment")

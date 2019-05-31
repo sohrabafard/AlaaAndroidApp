@@ -4,9 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
-import androidx.cardview.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +12,10 @@ import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,26 +40,20 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 public class ZarinPalDialogFragment extends DialogFragment {
 
     private static final String TAG = "Alaa\\ZarinPalDialogFrg";
-    private int finalPrice;
-
+    Activity activity;
+    private              int    finalPrice;
     private TextView txtTitle, txtDesc;
     private ProgressBar progPrice;
-    private CardView cardShowCard, cardClose;
-
-
+    private CardView    cardShowCard, cardClose;
     private ProductModel model;
-    private int totalPrice;
-    private ProductType type;
-
+    private int          totalPrice;
+    private ProductType  type;
     private List<Integer> attrList;
     private List<Integer> attrExtraList;
     private List<Integer> selectableIdList;
-
-
-    private Repository repository;
+    private Repository  repository;
     private AccountInfo accountInfo;
-    private User user;
-    Activity activity;
+    private User        user;
 
     @SuppressLint("ValidFragment")
     public ZarinPalDialogFragment(ProductType type, ProductModel model, int totalPrice,
@@ -115,8 +110,8 @@ public class ZarinPalDialogFragment extends DialogFragment {
     private void addToShopCard() {
 
 
-        ArrayList<Integer> attribute = new ArrayList<>(attrList);
-        ArrayList<Integer> products = new ArrayList<>(selectableIdList);
+        ArrayList<Integer> attribute      = new ArrayList<>(attrList);
+        ArrayList<Integer> products       = new ArrayList<>(selectableIdList);
         ArrayList<Integer> extraAttribute = new ArrayList<>(attrExtraList);
 
         progPrice.setVisibility(View.VISIBLE);
@@ -130,7 +125,9 @@ public class ZarinPalDialogFragment extends DialogFragment {
                         repository.addToShopCard(token, model.getId(), attribute, products, extraAttribute, data -> {
                             progPrice.setVisibility(View.GONE);
                             if (data instanceof Result.Success) {
-                                AddToCardListModel temp = (AddToCardListModel) ((Result.Success) data).value;
+                                AddToCardListModel
+                                        temp =
+                                        (AddToCardListModel) ((Result.Success) data).value;
 
                                 if (null == temp.getError()) {
                                     Toast.makeText(AppConfig.context, frg.getString(R.string.add_to_cart_successfully), Toast.LENGTH_SHORT).show();

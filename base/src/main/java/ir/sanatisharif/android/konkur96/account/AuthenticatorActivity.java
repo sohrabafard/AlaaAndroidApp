@@ -8,8 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -19,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
@@ -56,22 +57,21 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         AdapterView.OnItemSelectedListener, ICheckNetwork {
 
     private final String TAG = this.getClass().getSimpleName();
-
-    private boolean login = true;//flag for check status login or register
-    private AccountManager mAccountManager;
+    FirebaseAnalytics mFirebaseAnalytics;
+    private boolean                 login        = true;//flag for check status login or register
+    private AccountManager          mAccountManager;
     private Utils.ValidNationalCode nationalCode = new Utils.ValidNationalCode();
     //ui
-    private AlertDialog dialog;
-    private View loginView, registerView;
+    private AlertDialog             dialog;
+    private View                    loginView, registerView;
     private LinearLayout linBody;
-    private Button btnLogin, btnRegister;
-    private MaterialEditText edtPhone, edtNathonalCode, edtPhoneReg, edtNationalCodeReg, edtLastName, edtFirstName, edtEmail;
+    private Button       btnLogin, btnRegister;
+    private MaterialEditText edtPhone, edtNathonalCode, edtPhoneReg, edtNationalCodeReg,
+            edtLastName, edtFirstName, edtEmail;
     private TextView txtDoNotAccount, txtAccountExist;
     private Spinner spinnerField, spinnerGender;
     private int gender_id = 0, majer_id = 0;
     private MainRepository repository;
-
-    FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -149,9 +149,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             @Override
             public void onSuccess(Object obj) {
 
-                UserInfo u = (UserInfo) obj;
-                Data data = u.getData();
-                User user1 = data.getUser();
+                UserInfo u     = (UserInfo) obj;
+                Data     data  = u.getData();
+                User     user1 = data.getUser();
                 addAccount(user1, data.getAccessToken());
                 if (user1 != null)
                     mFirebaseAnalytics.setUserId("" + user1.getId());
@@ -172,9 +172,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
     private void addAccount(User user, String authToken) {
 
-        Bundle data = new Bundle();
+        Bundle data     = new Bundle();
         Bundle userData = new Bundle();
-        Gson gson = new Gson();
+        Gson   gson     = new Gson();
 
         try {
             data.putString(AccountManager.KEY_ACCOUNT_NAME, user.getMobile());
@@ -184,7 +184,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
             userData.putString(AccountManager.KEY_USERDATA, gson.toJson(user));
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             data.putString(KEY_ERROR_MESSAGE, e.getMessage());
         }
 
@@ -350,6 +351,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         user.setMajor_id(majer_id);
         getLoginInfo(user);
     }
+
     public void showDialog() {
         final Dialog d = new Dialog(new ContextThemeWrapper(AuthenticatorActivity.this,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth));
@@ -357,7 +359,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         d.setContentView(R.layout.dialog_no_internet);
         d.setCancelable(false);
         showNoInternetDialog = true;
-        Button btnOK = d.findViewById(R.id.btnOK);
+        Button    btnOK    = d.findViewById(R.id.btnOK);
         ImageView imgCLose = d.findViewById(R.id.imgCLose);
 
         btnOK.setOnClickListener(new View.OnClickListener() {
@@ -383,8 +385,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         try {
             d.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             d.show();
-        }catch (Exception ex){
-            Log.e(TAG,ex.getMessage());
+        }
+        catch (Exception ex) {
+            Log.e(TAG, ex.getMessage());
             ex.printStackTrace();
         }
 

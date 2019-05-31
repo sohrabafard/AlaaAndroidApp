@@ -4,14 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -39,15 +38,15 @@ import ir.sanatisharif.android.konkur96.model.Video;
  */
 public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloadedAdapter.CustomViewHolder> {
 
-    private List<Video> list;
-    private Context mContext;
-    private int layout;
-    private String TAG = "LOG";
-    private OnItemClickListener onItemClickListener;
-    private OnItemLongListener onItemLongListener;
+    private List<Video>           list;
+    private Context               mContext;
+    private int                   layout;
+    private String                TAG       = "LOG";
+    private OnItemClickListener   onItemClickListener;
+    private OnItemLongListener    onItemLongListener;
     private OnItemCheckedListener onItemCheckedListener;
-    private Boolean isVisible = false;
-    private int type = 0, height, width, size_grid = 0;
+    private Boolean               isVisible = false;
+    private int                   type      = 0, height, width, size_grid = 0;
     private RequestOptions requestOptions;
 
     public VideoDownloadedAdapter(Context context, List<Video> list, int type) {
@@ -81,7 +80,9 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.media_layout, null);
+        View
+                view                =
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.media_layout, null);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }
@@ -218,7 +219,7 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         protected ImageView imgFrame;
-        protected CheckBox checkBox;
+        protected CheckBox  checkBox;
 
         public CustomViewHolder(View view) {
             super(view);

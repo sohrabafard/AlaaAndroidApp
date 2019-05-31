@@ -5,13 +5,14 @@ import android.content.res.TypedArray;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -29,18 +30,18 @@ public class CustomShopItemView extends LinearLayout {
     //-------- define primary type
     private String title;
     private String imageUrl;
-    private int width, height;
-    private int position;
+    private int    width, height;
+    private int    position;
     private String price, discount;
     private ProductModel item;
 
     //-------  define views
-    private View view;
-    private CardView cardViewRoot;
-    private TextView txtTitle;
-    private TextView txtPrice;
-    private TextView txtDiscount;
-    private ImageView imgItem;
+    private View        view;
+    private CardView    cardViewRoot;
+    private TextView    txtTitle;
+    private TextView    txtPrice;
+    private TextView    txtDiscount;
+    private ImageView   imgItem;
     //---------------
     private OnClickItem onClickItem;
 
@@ -61,11 +62,18 @@ public class CustomShopItemView extends LinearLayout {
 
         try {
 
-            title = a.getString(R.styleable.CustomShopItemView_title) != null ? a.getString(R.styleable.CustomShopItemView_title) : "not set";
-            price = a.getString(R.styleable.CustomShopItemView_price) != null ? a.getString(R.styleable.CustomShopItemView_price) : "0";
-            discount = a.getString(R.styleable.CustomShopItemView_discount) != null ? a.getString(R.styleable.CustomShopItemView_discount) : "0";
+            title =
+                    a.getString(R.styleable.CustomShopItemView_title) !=
+                    null ? a.getString(R.styleable.CustomShopItemView_title) : "not set";
+            price =
+                    a.getString(R.styleable.CustomShopItemView_price) !=
+                    null ? a.getString(R.styleable.CustomShopItemView_price) : "0";
+            discount =
+                    a.getString(R.styleable.CustomShopItemView_discount) !=
+                    null ? a.getString(R.styleable.CustomShopItemView_discount) : "0";
 
-        } finally {
+        }
+        finally {
             a.recycle();
         }
 

@@ -1,13 +1,14 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ import ir.sanatisharif.android.konkur96.model.Video;
 public class MyProductVideosAdapter extends RecyclerView.Adapter<MyProductVideosAdapter.MyViewHolder> {
 
     private ArrayList<Video> itemsList;
-    private Context mContext;
+    private Context          mContext;
 
 
     public MyProductVideosAdapter(Context context, ArrayList<Video> itemsList) {
@@ -54,9 +55,9 @@ public class MyProductVideosAdapter extends RecyclerView.Adapter<MyProductVideos
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
+        public TextView  title;
         public ImageView imageView;
-        public CardView cardView;
+        public CardView  cardView;
 
         public MyViewHolder(View view) {
             super(view);

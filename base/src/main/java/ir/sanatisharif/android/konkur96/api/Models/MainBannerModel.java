@@ -21,7 +21,7 @@ public class MainBannerModel implements Parcelable {
     };
     @SerializedName("id")
     @Expose
-    private int id;
+    private             int                      id;
 
     @SerializedName("title")
     @Expose

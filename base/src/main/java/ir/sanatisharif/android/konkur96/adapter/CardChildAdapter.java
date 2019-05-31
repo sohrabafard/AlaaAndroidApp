@@ -2,12 +2,13 @@ package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -19,8 +20,8 @@ import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 public class CardChildAdapter extends RecyclerView.Adapter<CardChildAdapter.vHolder> {
 
     private ArrayList<AddToCardModel> itemsList;
-    private Context mContext;
-    private DeleteListener deleteListener;
+    private Context                   mContext;
+    private DeleteListener            deleteListener;
 
 
     public CardChildAdapter(Context context, ArrayList<AddToCardModel> itemsList, DeleteListener deleteListener) {
@@ -41,8 +42,8 @@ public class CardChildAdapter extends RecyclerView.Adapter<CardChildAdapter.vHol
         AddToCardModel model = itemsList.get(position);
 
         final String proTitle = model.getProduct().getName();
-        final int price = model.getProduct().getPrice().getMfinal();
-        final int discount = model.getProduct().getPrice().getBase();
+        final int    price    = model.getProduct().getPrice().getMfinal();
+        final int    discount = model.getProduct().getPrice().getBase();
 
         final vHolder itemRowHolderGrand = holder;
 

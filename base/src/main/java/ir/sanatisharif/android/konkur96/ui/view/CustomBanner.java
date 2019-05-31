@@ -17,9 +17,9 @@ import ir.sanatisharif.android.konkur96.R;
 
 public class CustomBanner extends LinearLayout {
 
-    private TextView txtTitle;
+    private TextView  txtTitle;
     private ImageView imgItem;
-    private String title;
+    private String    title;
 
     public CustomBanner(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);

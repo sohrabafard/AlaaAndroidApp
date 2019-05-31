@@ -2,18 +2,19 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-import androidx.core.widget.NestedScrollView;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,19 +44,19 @@ import ir.sanatisharif.android.konkur96.model.filter.VideoRoot;
 
 public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
-    private RecyclerView myRecyclerView;
-    private NestedScrollView nestedScrollView;
-    private FilterAdapter adapter;
-    private List<FilterBaseModel> mList = new ArrayList<>();
-    private Pagination pagination;
-    private int type = -1;
-    private boolean repeatLoad = true;
-    private ScrollOnRecycler scrollOnRecycler;
-    private MainRepository repository;
+    private RecyclerView          myRecyclerView;
+    private NestedScrollView      nestedScrollView;
+    private FilterAdapter         adapter;
+    private List<FilterBaseModel> mList      = new ArrayList<>();
+    private Pagination            pagination;
+    private int                   type       = -1;
+    private boolean               repeatLoad = true;
+    private ScrollOnRecycler      scrollOnRecycler;
+    private MainRepository        repository;
 
     public static FilterShowEntityFrg newInstance() {
 
-        Bundle args = new Bundle();
+        Bundle              args     = new Bundle();
         FilterShowEntityFrg fragment = new FilterShowEntityFrg();
         fragment.setArguments(args);
         return fragment;
@@ -97,7 +98,9 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
     private void initView(View v) {
 
-        LinearLayoutManager manager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager
+                manager =
+                new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
         myRecyclerView = v.findViewById(R.id.recyclerView);
         nestedScrollView = v.findViewById(R.id.nestedScrollView);
 
@@ -118,19 +121,19 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
             public void onScrollChanged() {
 
                 int index = nestedScrollView.getChildCount() - 1;
-                if(index < 0)
+                if (index < 0)
                     index = 0;
                 View view = nestedScrollView.getChildAt(index);
-                int i = nestedScrollView.getHeight() + nestedScrollView.getScrollY();
-                int diff = (view.getBottom() - i);
+                int  i    = nestedScrollView.getHeight() + nestedScrollView.getScrollY();
+                int  diff = (view.getBottom() - i);
 
-                if (diff == 0 ) {
+                if (diff == 0) {
 
                     if (pagination != null) {
                         String nextPageUrl = pagination.getNextPageUrl();
 
                         if (nextPageUrl != null) {
-                            Log.i("Alaa\\FilterShowFrg",nextPageUrl);
+                            Log.i("Alaa\\FilterShowFrg", nextPageUrl);
                             getData(nextPageUrl);
                         }
                     }
@@ -202,7 +205,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
             @Override
             public void onSuccess(Object obj) {
                 Filter filter = (Filter) obj;
-                int size = mList.size();
+                int    size   = mList.size();
                 if (type == AppConstants.FILTER_VIDEO) {
                     Log.i("LOG", "onFailure: onSuccess");
                     //reset pagination
@@ -222,7 +225,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                     mList.addAll(filter.getResult().getProduct().getData());
                 }
 //                adapter.notifyItemMoved(size, mList.size() - 1);
-                adapter.notifyItemRangeInserted(size,mList.size() - size);
+                adapter.notifyItemRangeInserted(size, mList.size() - size);
             }
 
             @Override
@@ -238,29 +241,34 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
     public void setScrollOnRecycler(ScrollOnRecycler scrollOnRecycler) {
         this.scrollOnRecycler = scrollOnRecycler;
     }
+
     public FragmentManager getHostFragmentManager() {
         FragmentManager fm = getFragmentManager();
         if (fm == null && isAdded()) {
-            fm = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+            fm = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
         }
         return fm;
     }
+
     void show() {
 
         try {
             if (!AppConfig.showNoInternetDialog) {
                 final String nextUrl = pagination.getNextPageUrl();
-                NotInternetDialogFrg dialogFrg = new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
-                    @Override
-                    public void onClickOk() {
-                        if ( nextUrl != null) {
-                            getData(nextUrl);
-                        }
-                    }
-                });
+                NotInternetDialogFrg
+                        dialogFrg =
+                        new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
+                            @Override
+                            public void onClickOk() {
+                                if (nextUrl != null) {
+                                    getData(nextUrl);
+                                }
+                            }
+                        });
                 dialogFrg.show(getHostFragmentManager(), "");
             }
-        }catch (Exception ex){
+        }
+        catch (Exception ex) {
             ex.printStackTrace();
         }
 

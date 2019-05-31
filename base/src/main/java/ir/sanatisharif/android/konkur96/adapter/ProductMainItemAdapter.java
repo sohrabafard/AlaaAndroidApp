@@ -1,10 +1,10 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 public class ProductMainItemAdapter extends RecyclerView.Adapter<ProductMainItemAdapter.CategoryHolder> {
 
     private List<ProductModel> itemsList;
-    private Context mContext;
+    private Context            mContext;
 
     public ProductMainItemAdapter(Context context, List<ProductModel> itemsList) {
         this.itemsList = itemsList;
@@ -28,7 +28,9 @@ public class ProductMainItemAdapter extends RecyclerView.Adapter<ProductMainItem
     @Override
     public CategoryHolder onCreateViewHolder(ViewGroup parent, int typeviewsingle) {
 
-        CustomItemView itemView = new CustomItemView(parent.getContext(), R.layout.product_main_item);
+        CustomItemView
+                itemView =
+                new CustomItemView(parent.getContext(), R.layout.product_main_item);
         itemView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT

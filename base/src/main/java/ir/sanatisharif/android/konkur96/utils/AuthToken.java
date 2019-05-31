@@ -2,7 +2,9 @@ package ir.sanatisharif.android.konkur96.utils;
 
 import android.app.Activity;
 import android.content.Context;
+
 import androidx.annotation.NonNull;
+
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
@@ -38,7 +40,7 @@ public class AuthToken {
         });
     }
 
-    public void get(@NonNull Context context, @NonNull Callback callback){
+    public void get(@NonNull Context context, @NonNull Callback callback) {
 
         AccountInfo accountInfo = new AccountInfo(context);
         accountInfo.getExistingAccountAuthToken(ACCOUNT_TYPE, AUTHTOKEN_TYPE_FULL_ACCESS, new AccountInfo.AuthToken() {

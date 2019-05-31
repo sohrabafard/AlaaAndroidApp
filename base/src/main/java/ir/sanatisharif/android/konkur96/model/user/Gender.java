@@ -25,13 +25,13 @@ public class Gender implements Parcelable {
     };
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private             Integer                    id;
     @SerializedName("name")
     @Expose
-    private String name;
+    private             String                     name;
     @SerializedName("description")
     @Expose
-    private String description;
+    private             String                     description;
 
     protected Gender(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));

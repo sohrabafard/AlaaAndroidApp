@@ -3,14 +3,6 @@ package ir.sanatisharif.android.konkur96.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +11,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -37,8 +38,8 @@ import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
 import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
-import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.Block;
+import ir.sanatisharif.android.konkur96.model.Events;
 
 
 /**
@@ -49,17 +50,17 @@ public class AllaMainFrg extends BaseFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         ICheckNetwork {
 
-    private Toolbar mToolbar;
-    private RecyclerView myRecyclerView;
+    private Toolbar            mToolbar;
+    private RecyclerView       myRecyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private BlockAdapter adapter;
+    private BlockAdapter     adapter;
     private ArrayList<Block> items = new ArrayList<>();
-    private MainRepository repository;
+    private MainRepository   repository;
 
     public static AllaMainFrg newInstance() {
 
-        Bundle args = new Bundle();
+        Bundle      args     = new Bundle();
         AllaMainFrg fragment = new AllaMainFrg();
         fragment.setArguments(args);
         return fragment;
@@ -116,18 +117,19 @@ public class AllaMainFrg extends BaseFragment implements
             alert.show(getHostFragmentManager(), "alert");
         } else if (id == R.id.actionSettingTelegram) {
             String alaaTelegramUrl = "https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ";
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
+            Intent intent          = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
             intent.setPackage("org.telegram.messenger");
 
             try {
                 if (intent.resolveActivity(AppConfig.context.getPackageManager()) != null) {
                     startActivity(intent);
-                }else {
+                } else {
                     intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
                 }
                 startActivity(intent);
-            }catch (Exception ex){
-                Toast.makeText(AppConfig.context,"@alaa_sanatisharif",Toast.LENGTH_LONG).show();
+            }
+            catch (Exception ex) {
+                Toast.makeText(AppConfig.context, "@alaa_sanatisharif", Toast.LENGTH_LONG).show();
             }
 
         }
@@ -253,22 +255,26 @@ public class AllaMainFrg extends BaseFragment implements
     public FragmentManager getHostFragmentManager() {
         FragmentManager fm = getFragmentManager();
         if (fm == null && isAdded()) {
-            fm = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+            fm = getActivity().getSupportFragmentManager();
         }
         return fm;
     }
+
     private void showNotInternetDialogFrg() {
         try {
             if (!AppConfig.showNoInternetDialog) {
-                NotInternetDialogFrg dialogFrg = new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
-                    @Override
-                    public void onClickOk() {
-                        getData();
-                    }
-                });
+                NotInternetDialogFrg
+                        dialogFrg =
+                        new NotInternetDialogFrg().setNoInternetCallback(new NotInternetDialogFrg.NoInternetCallback() {
+                            @Override
+                            public void onClickOk() {
+                                getData();
+                            }
+                        });
                 dialogFrg.show(getHostFragmentManager(), "showNotInternetDialogFrg");
             }
-        }catch (Exception ex){
+        }
+        catch (Exception ex) {
             ex.printStackTrace();
         }
     }

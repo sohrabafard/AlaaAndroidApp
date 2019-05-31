@@ -1,10 +1,10 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapter.CategoryHolder> {
 
     private List<Set> itemsList;
-    private Context mContext;
+    private Context   mContext;
 
     public CategoryItemAdapter(Context context, List<Set> itemsList) {
         this.itemsList = itemsList;

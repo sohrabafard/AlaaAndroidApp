@@ -8,7 +8,10 @@ import retrofit2.http.Url;
 
 public interface HeadRequestInterface {
 
-    @Headers({"ContentModel-Type: application/json", "Accept: application/json"})
+    @Headers({
+            "ContentModel-Type: application/json",
+            "Accept: application/json"
+    })
     @HEAD
     Call<Void> get(@Url String url, @Header("Authorization") String token);
 }

@@ -1,8 +1,5 @@
 package ir.sanatisharif.android.konkur96.model;
 
-import java.security.PublicKey;
-import java.util.ArrayList;
-
 /**
  * Created by Mohamad on 11/19/2018.
  */

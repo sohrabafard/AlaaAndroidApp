@@ -3,6 +3,7 @@ package ir.sanatisharif.android.konkur96.sync;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+
 import androidx.annotation.Nullable;
 
 /**
@@ -13,9 +14,9 @@ public class SyncService extends Service {
 
 
     // Object to use as a thread-safe lock
-    private static final Object sSyncAdapterLock = new Object();
+    private static final Object      sSyncAdapterLock = new Object();
     // Storage for an instance of the sync adapter
-    private static SyncAdapter sSyncAdapter = null;
+    private static       SyncAdapter sSyncAdapter     = null;
 
     /*
      * Instantiate the sync adapter object.

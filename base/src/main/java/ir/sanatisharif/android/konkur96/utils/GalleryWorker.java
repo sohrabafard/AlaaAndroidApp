@@ -13,9 +13,9 @@ import ir.sanatisharif.android.konkur96.model.FullScreenModel;
 
 public class GalleryWorker {
 
-    private final String TAG_MODEL = "TAG_MODEL";
-    private Context context;
-    private ArrayList<ProductPhotoModel> images;
+    private final String                       TAG_MODEL = "TAG_MODEL";
+    private       Context                      context;
+    private       ArrayList<ProductPhotoModel> images;
 
 
     public GalleryWorker(Context context) {
@@ -29,7 +29,7 @@ public class GalleryWorker {
 
         if (getImages() != null && getImages().size() != 0) {
             Intent showFullView = new Intent(context, GalleryFullView.class);
-            Bundle bundle = new Bundle();
+            Bundle bundle       = new Bundle();
             bundle.putParcelable(TAG_MODEL, fullScreenModel);
             showFullView.putExtras(bundle);
             showFullView.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

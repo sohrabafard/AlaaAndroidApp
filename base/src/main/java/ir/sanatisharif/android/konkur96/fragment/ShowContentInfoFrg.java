@@ -6,11 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -19,6 +14,12 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -50,17 +51,19 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 public class ShowContentInfoFrg extends BaseFragment implements
         View.OnClickListener, TagGroup.OnTagClickListener {
 
-    private static final String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
-    private static final int PERMISSION_ALL = 1;
-    private static PamphletCourse course;
+    private static final String[]
+                                        PERMISSIONS    =
+            {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
+    private static final int            PERMISSION_ALL = 1;
+    private static       PamphletCourse course;
     FragmentManager fragmentManager;
     private TextView txtAuthor, txtTitle;
     //  private JustifiedTextView txtDesc;
     private WebView webView;
-    private Button btnDownload, btnOpenPDF;
-    private Toolbar toolbar;
+    private Button  btnDownload, btnOpenPDF;
+    private Toolbar  toolbar;
     private TagGroup tagGroup;
-    private String TAG = "Alaa\\ShowContentInfoFrg";
+    private String   TAG = "Alaa\\ShowContentInfoFrg";
 
     public static ShowContentInfoFrg newInstance(PamphletCourse c) {
 
@@ -73,9 +76,11 @@ public class ShowContentInfoFrg extends BaseFragment implements
 
     //---------------------------------------------------------------------------------------
     public static boolean hasPermissions(Context context, String... permissions) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null &&
+            permissions != null) {
             for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(context, permission) !=
+                    PackageManager.PERMISSION_GRANTED) {
                     return false;
                 }
             }
@@ -119,7 +124,8 @@ public class ShowContentInfoFrg extends BaseFragment implements
                             if (course.getDescription() != null)
                                 try {
                                     webView.loadData(course.getDescription(), "text/html", "UTF-8");
-                                } catch (Exception e) {
+                                }
+                                catch (Exception e) {
                                     toastShow("خطا در پردازش توضیحات", MDToast.TYPE_ERROR);
                                 }
                             if (course.getTags() != null && course.getTags().getTags() != null)
@@ -130,7 +136,9 @@ public class ShowContentInfoFrg extends BaseFragment implements
             }).start();
 
             if (course.getFile().getPamphlet().get(0).getLink() != null) {
-                String fileName = Utils.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
+                String
+                        fileName =
+                        Utils.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
                 if (fileName != null) {
                     if (FileManager.checkFileExist(FileManager.getPDFPath() + fileName)) {
                         btnDownload.setVisibility(View.GONE);
@@ -209,15 +217,21 @@ public class ShowContentInfoFrg extends BaseFragment implements
                 }
 
             } else if (view.getId() == R.id.btnOpenPDF) {
-                String fileName = FileManager.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
+                String
+                        fileName =
+                        FileManager.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
                 if (fileName != null) {
-                    Intent pdfFileIntent = OpenFile.getPdfFileIntent(getActivity(), FileManager.getPDFPath() + "/" + fileName);
+                    Intent
+                            pdfFileIntent =
+                            OpenFile.getPdfFileIntent(getActivity(),
+                                    FileManager.getPDFPath() + "/" + fileName);
                     Log.i(TAG, "." + pdfFileIntent.toString());
 
 
                     try {
                         startActivity(pdfFileIntent);
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex) {
                         Log.e(TAG, ex.getMessage());
                         ActivityBase.toastShow(getString(R.string.open_with_file_manager), MDToast.TYPE_ERROR);
                     }
@@ -230,9 +244,11 @@ public class ShowContentInfoFrg extends BaseFragment implements
     private void startFileDownload() {
         if (getActivity() != null && checkLocationPermission()) {
             if (course != null && course.getFile().getPamphlet().get(0).getLink() != null) {
-                String url = course.getFile().getPamphlet().get(0).getLink();
-                String fileName = Utils.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
-                String name = course.getName();
+                String url      = course.getFile().getPamphlet().get(0).getLink();
+                String
+                       fileName =
+                        Utils.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
+                String name     = course.getName();
                 downloadPreProcess(url, fileName, name);
             } else
                 ActivityBase.toastShow("لینک دانلود معتبر نیست!", MDToast.TYPE_ERROR);
@@ -250,13 +266,14 @@ public class ShowContentInfoFrg extends BaseFragment implements
             Utils.followRedirectedLink(getContext(), getActivity(), url, new EncryptedDownloadInterface.Callback() {
                 @Override
                 public void fetch(String newUrl) {
-                    Log.i(TAG,newUrl);
+                    Log.i(TAG, newUrl);
                     startDownload(newUrl, fileName, name);
                 }
 
                 @Override
                 public void error(String message) {
-                    Log.e(TAG, "link: " + url + "\n\n" + "followRedirectedLink-error:\n\r" + message);
+                    Log.e(TAG,
+                            "link: " + url + "\n\n" + "followRedirectedLink-error:\n\r" + message);
                 }
             });
         }
@@ -265,8 +282,8 @@ public class ShowContentInfoFrg extends BaseFragment implements
 
     private void startDownload(String url, String fileName, String name) {
         String mediaPath = FileManager.getPathFromAllaUrl(url);
-        File file = new File(FileManager.getRootPath() + mediaPath);
-        if(!file.exists()){
+        File   file      = new File(FileManager.getRootPath() + mediaPath);
+        if (!file.exists()) {
             file.mkdirs();
         }
         DownloadFile.getInstance().init(() -> {
@@ -276,7 +293,8 @@ public class ShowContentInfoFrg extends BaseFragment implements
             btnOpenPDF.setVisibility(View.VISIBLE);
         });
         DownloadFile.getInstance().start(url,
-                AppConstants.ROOT + "/" + mediaPath, fileName, name, getResources().getString(R.string.alaa));
+                AppConstants.ROOT + "/" +
+                mediaPath, fileName, name, getResources().getString(R.string.alaa));
     }
 
     @Override

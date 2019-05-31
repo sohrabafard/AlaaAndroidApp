@@ -2,8 +2,9 @@ package ir.sanatisharif.android.konkur96.dialog;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import androidx.preference.DialogPreference;
 import android.util.AttributeSet;
+
+import androidx.preference.DialogPreference;
 
 import ir.sanatisharif.android.konkur96.R;
 

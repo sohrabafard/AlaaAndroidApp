@@ -17,19 +17,19 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.grid.Wrap
 public final class Paginate implements OnAdapterChangeListener, OnRepeatListener {
 
 
-    private int loadingTriggerThreshold;
-    private RecyclerView recyclerView;
-    private OnLoadMore paginateCallback;
-    private OnLoadMoreListener loadMoreListener;
-    private WrapperAdapter wrapperAdapter;
-    private LoadingItem loadingItem;
-    private ErrorItem errorItem;
+    private int                    loadingTriggerThreshold;
+    private RecyclerView           recyclerView;
+    private OnLoadMore             paginateCallback;
+    private OnLoadMoreListener     loadMoreListener;
+    private WrapperAdapter         wrapperAdapter;
+    private LoadingItem            loadingItem;
+    private ErrorItem              errorItem;
     private WrapperAdapterObserver wrapperAdapterObserver;
-    private RecyclerView.Adapter userAdapter;
-    private WrapperSpanSizeLookup wrapperSpanSizeLookup;
-    private boolean isError;
-    private boolean isLoading;
-    private boolean isLoadedAllItems;
+    private RecyclerView.Adapter   userAdapter;
+    private WrapperSpanSizeLookup  wrapperSpanSizeLookup;
+    private boolean                isError;
+    private boolean                isLoading;
+    private boolean                isLoadedAllItems;
 
 
     @Deprecated
@@ -57,9 +57,10 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
     private void checkGridLayoutManager() {
         if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
             DefaultGridLayoutItem item = new DefaultGridLayoutItem(recyclerView.getLayoutManager());
-            wrapperSpanSizeLookup = new WrapperSpanSizeLookup(((GridLayoutManager) recyclerView.getLayoutManager()).getSpanSizeLookup(),
-                    item,
-                    wrapperAdapter);
+            wrapperSpanSizeLookup =
+                    new WrapperSpanSizeLookup(((GridLayoutManager) recyclerView.getLayoutManager()).getSpanSizeLookup(),
+                            item,
+                            wrapperAdapter);
             ((GridLayoutManager) recyclerView.getLayoutManager()).setSpanSizeLookup(wrapperSpanSizeLookup);
         }
     }
@@ -192,8 +193,11 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
             userAdapter.unregisterAdapterDataObserver(wrapperAdapterObserver);
             recyclerView.setAdapter(userAdapter);
 
-        } else if (recyclerView.getLayoutManager() instanceof GridLayoutManager && wrapperSpanSizeLookup != null) {
-            GridLayoutManager.SpanSizeLookup spanSizeLookup = wrapperSpanSizeLookup.getWrappedSpanSizeLookup();
+        } else if (recyclerView.getLayoutManager() instanceof GridLayoutManager &&
+                   wrapperSpanSizeLookup != null) {
+            GridLayoutManager.SpanSizeLookup
+                    spanSizeLookup =
+                    wrapperSpanSizeLookup.getWrappedSpanSizeLookup();
             ((GridLayoutManager) recyclerView.getLayoutManager()).setSpanSizeLookup(spanSizeLookup);
         }
     }

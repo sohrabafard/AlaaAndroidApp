@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.model.main_page.lastVersion;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -26,7 +25,7 @@ public class LastVersion implements Parcelable {
     };
     @SerializedName("android")
     @Expose
-    private Android android;
+    private             Android              android;
 
     protected LastVersion(Parcel in) {
         this.android = ((Android) in.readValue((Android.class.getClassLoader())));

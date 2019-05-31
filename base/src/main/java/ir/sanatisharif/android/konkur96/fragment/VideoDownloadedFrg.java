@@ -2,19 +2,18 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -40,16 +39,16 @@ import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 public class VideoDownloadedFrg extends BaseFragment {
 
     RecyclerView recyclerView;
-    Toolbar mToolbar;
-    boolean visibleMenu = false;
-    private Menu menu;
+    Toolbar      mToolbar;
+    boolean      visibleMenu = false;
+    private Menu                   menu;
     private VideoDownloadedAdapter adapter;
-    private GridLayoutManager manager;
-    private ArrayList<Video> videos = new ArrayList<>();
+    private GridLayoutManager      manager;
+    private ArrayList<Video>       videos = new ArrayList<>();
 
     public static VideoDownloadedFrg newInstance() {
 
-        Bundle args = new Bundle();
+        Bundle             args     = new Bundle();
         VideoDownloadedFrg fragment = new VideoDownloadedFrg();
         fragment.setArguments(args);
         return fragment;
@@ -96,7 +95,7 @@ public class VideoDownloadedFrg extends BaseFragment {
         } else if (item.getItemId() == R.id.actionDelete) {
 
             Events.VideoDeleted videoDeleted = new Events.VideoDeleted();
-            int deleteCount = 0;
+            int                 deleteCount  = 0;
             // convert list to array
             // clear video list
             // hard delete video file
@@ -154,7 +153,8 @@ public class VideoDownloadedFrg extends BaseFragment {
         setToolbar(mToolbar, "نمایش ویدیوها");
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        adapter = new VideoDownloadedAdapter(AppConfig.context, videos, AppConstants.VIDEO_SHOW_GRID);
+        adapter =
+                new VideoDownloadedAdapter(AppConfig.context, videos, AppConstants.VIDEO_SHOW_GRID);
         manager = new GridLayoutManager(AppConfig.context, 3);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);

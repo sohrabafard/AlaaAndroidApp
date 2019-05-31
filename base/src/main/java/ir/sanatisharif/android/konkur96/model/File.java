@@ -1,13 +1,12 @@
 package ir.sanatisharif.android.konkur96.model;
 
-import java.util.List;
-
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class File implements Parcelable {
 
@@ -28,7 +27,7 @@ public class File implements Parcelable {
     };
     @SerializedName("video")
     @Expose
-    private List<Video> video = null;
+    private             List<Video>   video   = null;
 
     protected File(Parcel in) {
         in.readList(this.video, (Video.class.getClassLoader()));

@@ -1,7 +1,8 @@
 package ir.sanatisharif.android.konkur96;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import ir.sanatisharif.android.konkur96.ui.alaacontent.AlaaContentFragment;
 

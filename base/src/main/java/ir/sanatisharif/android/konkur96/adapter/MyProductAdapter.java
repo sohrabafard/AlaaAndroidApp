@@ -1,13 +1,14 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
@@ -23,7 +24,7 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.ContentHolder> {
 
     private List<ProductModel> itemsList = new ArrayList<>();
-    private Context mContext;
+    private Context            mContext;
 
 
     public MyProductAdapter(Context context, ArrayList<ProductModel> itemsList) {
@@ -69,9 +70,9 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.Cont
 
     public class ContentHolder extends RecyclerView.ViewHolder {
 
-        public TextView title;
+        public TextView  title;
         public ImageView imageView;
-        public CardView cardView;
+        public CardView  cardView;
 
         public ContentHolder(View itemView) {
             super(itemView);

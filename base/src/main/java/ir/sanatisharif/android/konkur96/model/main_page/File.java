@@ -28,7 +28,7 @@ public class File implements Parcelable {
     };
     @SerializedName("video")
     @Expose
-    private List<Video> video = null;
+    private             List<Video>   video   = null;
 
     @SerializedName("pamphlet")
     @Expose

@@ -5,15 +5,15 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
 
@@ -29,10 +29,10 @@ public class ForceUpdateDialogFrg extends BaseDialogFragment<ForceUpdateDialogFr
 
     //------init UI
     private static final String TAG = "LOG";
-    private View dialog;
-    private Button txtDirectUrl, txtPlayStoreUrl, txtBazaarUrl;
+    private              View   dialog;
+    private              Button txtDirectUrl, txtPlayStoreUrl, txtBazaarUrl;
     private LastVersion lastVersion;
-    private String url;
+    private String      url;
 
     public static ForceUpdateDialogFrg newInstance(ArrayList<DownloadUrl> Urls) {
         ForceUpdateDialogFrg frag = new ForceUpdateDialogFrg();
@@ -98,7 +98,9 @@ public class ForceUpdateDialogFrg extends BaseDialogFragment<ForceUpdateDialogFr
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(lastVersion.getAndroid().getUrl().getPlayStore().trim()));
+                Intent
+                        intent =
+                        new Intent(Intent.ACTION_VIEW, Uri.parse(lastVersion.getAndroid().getUrl().getPlayStore().trim()));
                 startActivity(intent);
             }
         });
@@ -106,7 +108,9 @@ public class ForceUpdateDialogFrg extends BaseDialogFragment<ForceUpdateDialogFr
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(lastVersion.getAndroid().getUrl().getBazaar().trim()));
+                Intent
+                        intent =
+                        new Intent(Intent.ACTION_VIEW, Uri.parse(lastVersion.getAndroid().getUrl().getBazaar().trim()));
                 startActivity(intent);
             }
         });

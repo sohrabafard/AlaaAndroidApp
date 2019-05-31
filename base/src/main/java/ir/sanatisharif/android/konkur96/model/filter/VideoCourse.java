@@ -1,7 +1,7 @@
 package ir.sanatisharif.android.konkur96.model.filter;
 
-import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.app.AppConstants;
 
 /**
  * Created by Mohamad on 2/23/2019.

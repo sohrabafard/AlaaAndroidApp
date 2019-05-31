@@ -2,6 +2,7 @@ package ir.sanatisharif.android.konkur96.ui.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
@@ -27,13 +28,19 @@ public abstract class BitmapTransformation1 implements Transformation<Bitmap> {
         if (!Util.isValidDimensions(outWidth, outHeight)) {
             throw new IllegalArgumentException(
                     "Cannot apply transformation on width: " + outWidth + " or height: " + outHeight
-                            + " less than or equal to zero and not Target.SIZE_ORIGINAL");
+                    + " less than or equal to zero and not Target.SIZE_ORIGINAL");
         }
-        BitmapPool bitmapPool = Glide.get(context).getBitmapPool();
-        Bitmap toTransform = resource.get();
-        int targetWidth = outWidth == Target.SIZE_ORIGINAL ? toTransform.getWidth() : outWidth;
-        int targetHeight = outHeight == Target.SIZE_ORIGINAL ? toTransform.getHeight() : outHeight;
-        Bitmap transformed = transform(context.getApplicationContext(), bitmapPool, toTransform, targetWidth, targetHeight);
+        BitmapPool bitmapPool   = Glide.get(context).getBitmapPool();
+        Bitmap     toTransform  = resource.get();
+        int
+                   targetWidth  =
+                outWidth == Target.SIZE_ORIGINAL ? toTransform.getWidth() : outWidth;
+        int
+                   targetHeight =
+                outHeight == Target.SIZE_ORIGINAL ? toTransform.getHeight() : outHeight;
+        Bitmap
+                   transformed  =
+                transform(context.getApplicationContext(), bitmapPool, toTransform, targetWidth, targetHeight);
 
         final Resource<Bitmap> result;
         if (toTransform.equals(transformed)) {

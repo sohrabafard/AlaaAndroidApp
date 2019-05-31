@@ -10,15 +10,6 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +22,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -58,18 +59,18 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private int finalPrice;
 
-    private Toolbar pageToolbar;
+    private Toolbar            pageToolbar;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private Repository repository;
-    private LinearLayoutManager linearLayoutManager;
+    private Repository               repository;
+    private LinearLayoutManager      linearLayoutManager;
     private CardReviewProductAdapter adapter;
 
     private RecyclerView productsRecyclerView;
-    private CardView btnShowFactor;
-    private TextView txtPriceBase, txtPriceDiscount, txtPriceFinal;
+    private CardView     btnShowFactor;
+    private TextView     txtPriceBase, txtPriceDiscount, txtPriceFinal;
 
-    private Context mContext;
+    private Context  mContext;
     private Activity mActivity;
 
     public static CardFragment newInstance() {
@@ -164,9 +165,15 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         finalPrice = data.getPrice().getMfinal();
 
         //---------------------- set txt data ---------------------------------------------
-        txtPriceBase.setText(this.getString(R.string.totalPrice) + ShopUtils.formatPrice(data.getPrice().getBase()) + this.getString(R.string.toman));
-        txtPriceDiscount.setText(this.getString(R.string.discount_price) + ShopUtils.formatPrice(data.getPrice().getDiscount()) + this.getString(R.string.toman));
-        txtPriceFinal.setText(this.getString(R.string.payable_price) + ShopUtils.formatPrice(data.getPrice().getMfinal()) + this.getString(R.string.toman));
+        txtPriceBase.setText(this.getString(R.string.totalPrice) +
+                             ShopUtils.formatPrice(data.getPrice().getBase()) +
+                             this.getString(R.string.toman));
+        txtPriceDiscount.setText(this.getString(R.string.discount_price) +
+                                 ShopUtils.formatPrice(data.getPrice().getDiscount()) +
+                                 this.getString(R.string.toman));
+        txtPriceFinal.setText(this.getString(R.string.payable_price) +
+                              ShopUtils.formatPrice(data.getPrice().getMfinal()) +
+                              this.getString(R.string.toman));
 
         //---------------------- convert -------------------------------------------------------
 
@@ -229,7 +236,7 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         showNoInternetDialog = true;
-        Button btnOK = dialog.findViewById(R.id.btnOK);
+        Button    btnOK    = dialog.findViewById(R.id.btnOK);
         ImageView imgCLose = dialog.findViewById(R.id.imgCLose);
 
         btnOK.setOnClickListener(new View.OnClickListener() {
@@ -267,7 +274,8 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         //recyclerView
         productsRecyclerView = v.findViewById(R.id.recyclerView_card_shop);
         productsRecyclerView.setHasFixedSize(false);
-        linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager =
+                new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         productsRecyclerView.setLayoutManager(linearLayoutManager);
         adapter = new CardReviewProductAdapter(getContext(), this::delete);
         productsRecyclerView.setAdapter(adapter);
@@ -288,13 +296,18 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private void openWebView(String url) {
 
         try {
-            Uri uri = Uri.parse(url);
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            @SuppressLint("WrongConstant") ResolveInfo resolvable = getActivity().getPackageManager().resolveActivity(intent, PackageManager.GET_INTENT_FILTERS);
+            Uri                                        uri        = Uri.parse(url);
+            Intent
+                                                       intent     =
+                    new Intent(Intent.ACTION_VIEW, uri);
+            @SuppressLint("WrongConstant") ResolveInfo
+                                                       resolvable =
+                    getActivity().getPackageManager().resolveActivity(intent, PackageManager.GET_INTENT_FILTERS);
             if (resolvable != null) {
                 startActivity(intent);
             }
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e) {
             Log.e("Alla", e.getMessage(), e);
         }
     }

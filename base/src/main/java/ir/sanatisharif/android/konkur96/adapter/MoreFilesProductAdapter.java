@@ -1,13 +1,14 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
@@ -25,7 +26,7 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 public class MoreFilesProductAdapter extends RecyclerView.Adapter<MoreFilesProductAdapter.MyViewHolder> {
 
     private List<? extends FilterBaseModel> itemsList;
-    private Context mContext;
+    private Context                         mContext;
 
 
     public MoreFilesProductAdapter(Context context, ArrayList<VideoCourse> itemsList) {
@@ -67,8 +68,8 @@ public class MoreFilesProductAdapter extends RecyclerView.Adapter<MoreFilesProdu
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
-        public CardView cardView;
+        public TextView  title;
+        public CardView  cardView;
         public ImageView imageView;
 
         public MyViewHolder(View view) {

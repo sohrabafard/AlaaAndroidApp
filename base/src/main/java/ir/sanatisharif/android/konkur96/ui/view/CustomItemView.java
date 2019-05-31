@@ -4,14 +4,15 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.cardview.widget.CardView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -20,7 +21,6 @@ import com.bumptech.glide.request.transition.Transition;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
 
@@ -35,25 +35,25 @@ public class CustomItemView extends LinearLayout {
     private String title;
     private String price;
     private String author;
-    private int contentCount;
+    private int    contentCount;
     private String imageUrl;
-    private int width, height;
+    private int    width, height;
     private int position;
     private Set item;
     private int layout;
 
     //-------  define views
-    private View view;
-    private Context mContext;
-    private CardView cardViewRoot;
+    private View         view;
+    private Context      mContext;
+    private CardView     cardViewRoot;
     private LinearLayout layout_click;
-    private TextView txtTitle;
-    private TextView txtAuthor;
-    private TextView txtPrice;
-    private TextView txtContentCount;
-    private ImageView imgItem;
+    private TextView     txtTitle;
+    private TextView     txtAuthor;
+    private TextView     txtPrice;
+    private TextView     txtContentCount;
+    private ImageView    imgItem;
     //---------------
-    private OnClickItem onClickItem;
+    private OnClickItem  onClickItem;
 
     public CustomItemView(Context context, int layout) {
         super(context);
@@ -73,12 +73,17 @@ public class CustomItemView extends LinearLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomItemView, 0, 0);
 
         try {
-            title = a.getString(R.styleable.CustomItemView_title) != null ? a.getString(R.styleable.CustomItemView_title) : "not set";
-            author = a.getString(R.styleable.CustomItemView_author) != null ? a.getString(R.styleable.CustomItemView_author) : "not set";
+            title =
+                    a.getString(R.styleable.CustomItemView_title) !=
+                    null ? a.getString(R.styleable.CustomItemView_title) : "not set";
+            author =
+                    a.getString(R.styleable.CustomItemView_author) !=
+                    null ? a.getString(R.styleable.CustomItemView_author) : "not set";
             contentCount = a.getInteger(R.styleable.CustomItemView_contentCount, 0);
             //viewCount = a.getInteger(R.styleable.CustomItemView_viewCount, 0);
 
-        } finally {
+        }
+        finally {
             a.recycle();
         }
 

@@ -1,11 +1,12 @@
 package ir.sanatisharif.android.konkur96.dialog;
 
 import android.os.Bundle;
-import androidx.preference.DialogPreference;
-import androidx.preference.PreferenceDialogFragmentCompat;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import androidx.preference.DialogPreference;
+import androidx.preference.PreferenceDialogFragmentCompat;
 
 import ir.sanatisharif.android.konkur96.R;
 
@@ -18,7 +19,7 @@ public class CustomDownloadDialogFragmentCompat extends PreferenceDialogFragment
     String[] playerValue;
     String[] playerEntry;
     private RadioGroup radioGroup;
-    private String value;
+    private String     value;
 
     public static CustomDownloadDialogFragmentCompat newInstance(String key, String value) {
         final CustomDownloadDialogFragmentCompat

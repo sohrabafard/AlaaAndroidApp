@@ -19,9 +19,9 @@ public class ErrorModel implements Parcelable {
         }
     };
     @SerializedName("code")
-    private String code;
+    private             String              code;
     @SerializedName("message")
-    private String message;
+    private             String              message;
 
     protected ErrorModel(Parcel in) {
         code = in.readString();

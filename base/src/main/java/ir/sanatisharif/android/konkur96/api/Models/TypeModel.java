@@ -19,11 +19,11 @@ public class TypeModel implements Parcelable {
         }
     };
     @SerializedName("id")
-    private int id;
+    private             int                id;
     @SerializedName("type")
-    private String type;
+    private             String             type;
     @SerializedName("hint")
-    private String hint;
+    private             String             hint;
 
     protected TypeModel(Parcel in) {
         id = in.readInt();

@@ -21,9 +21,9 @@ public class ResultModel implements Parcelable {
         }
     };
     @SerializedName("result")
-    private ProductDataModel result;
+    private             ProductDataModel     result;
     @SerializedName("tags")
-    private ArrayList<String> tags;
+    private             ArrayList<String>    tags;
 
     protected ResultModel(Parcel in) {
         result = in.readParcelable(ProductDataModel.class.getClassLoader());

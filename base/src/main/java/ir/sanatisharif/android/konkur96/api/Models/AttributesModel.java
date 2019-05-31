@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class AttributesModel implements Parcelable {
 
-    public static final Creator<AttributesModel> CREATOR = new Creator<AttributesModel>() {
+    public static final Creator<AttributesModel>  CREATOR = new Creator<AttributesModel>() {
         @Override
         public AttributesModel createFromParcel(Parcel in) {
             return new AttributesModel(in);
@@ -21,11 +21,11 @@ public class AttributesModel implements Parcelable {
         }
     };
     @SerializedName("main")
-    private ArrayList<AttributeModel> main;
+    private             ArrayList<AttributeModel> main;
     @SerializedName("information")
-    private ArrayList<AttributeModel> information;
+    private             ArrayList<AttributeModel> information;
     @SerializedName("extra")
-    private ArrayList<AttributeModel> extra;
+    private             ArrayList<AttributeModel> extra;
 
     protected AttributesModel(Parcel in) {
         main = in.createTypedArrayList(AttributeModel.CREATOR);

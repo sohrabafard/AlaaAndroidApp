@@ -3,7 +3,7 @@ package ir.sanatisharif.android.konkur96.model;
 public class SectionList_class {
 
     private String headerTitle;
-    private int type;
+    private int    type;
 
 
     public SectionList_class() {

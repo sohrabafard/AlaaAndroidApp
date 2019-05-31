@@ -21,17 +21,17 @@ public class MyProductsDataModel implements Parcelable {
         }
     };
     @SerializedName("id")
-    private int id;
+    private             int                          id;
     @SerializedName("order")
-    private int order;
+    private             int                          order;
     @SerializedName("title")
-    private String title;
+    private             String                       title;
     @SerializedName("url")
-    private String url;
+    private             String                       url;
     @SerializedName("offer")
-    private Boolean offer;
+    private             Boolean                      offer;
     @SerializedName("products")
-    private ArrayList<ProductModel> products;
+    private             ArrayList<ProductModel>      products;
 
     protected MyProductsDataModel(Parcel in) {
         id = in.readInt();

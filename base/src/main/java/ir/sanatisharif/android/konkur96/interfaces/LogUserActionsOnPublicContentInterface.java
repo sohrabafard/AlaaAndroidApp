@@ -12,30 +12,20 @@ import io.reactivex.annotations.NonNull;
 
 public interface LogUserActionsOnPublicContentInterface {
 
-    interface Data {
-
-        String getUserActionTitle();
-
-        String getUserActionUrl();
-
-        String getUserActionPhoto();
-
-        String getUserActionDescription();
-    }
-
-    default void userStartedViewingAParticularPage(@NonNull Data page){
+    default void userStartedViewingAParticularPage(@NonNull Data page) {
         indexRecipe(page);
         FirebaseUserActions.getInstance().start(getRecipeViewAction(page));
     }
-    default void userHasFinishedViewingPage(@NonNull Data page){
+
+    default void userHasFinishedViewingPage(@NonNull Data page) {
         FirebaseUserActions.getInstance().end(getRecipeViewAction(page));
     }
 
     default void indexRecipe(Data data) {
-        String userActionTitle = ""+data.getUserActionTitle();
-        String userActionUrl = ""+data.getUserActionUrl();
-        String userActionPhoto = ""+data.getUserActionPhoto();
-        String userActionDescription = ""+data.getUserActionDescription();
+        String userActionTitle       = "" + data.getUserActionTitle();
+        String userActionUrl         = "" + data.getUserActionUrl();
+        String userActionPhoto       = "" + data.getUserActionPhoto();
+        String userActionDescription = "" + data.getUserActionDescription();
 
         try {
             Indexable recipeToIndex = new Indexable.Builder()
@@ -45,13 +35,25 @@ public interface LogUserActionsOnPublicContentInterface {
                     .setDescription(userActionDescription)
                     .build();
             FirebaseAppIndex.getInstance().update(recipeToIndex);
-        }catch (Exception  ex){
-            Log.e("Alaa\\LogUserAction",ex.getMessage());
+        }
+        catch (Exception ex) {
+            Log.e("Alaa\\LogUserAction", ex.getMessage());
         }
 
     }
 
     default Action getRecipeViewAction(Data data) {
-        return Actions.newView(data.getUserActionTitle(),data.getUserActionUrl());
+        return Actions.newView(data.getUserActionTitle(), data.getUserActionUrl());
+    }
+
+    interface Data {
+
+        String getUserActionTitle();
+
+        String getUserActionUrl();
+
+        String getUserActionPhoto();
+
+        String getUserActionDescription();
     }
 }

@@ -11,7 +11,7 @@ import ir.sanatisharif.android.konkur96.fragment.SettingsFragment;
 
 public class SettingActivity extends ActivityBase {
 
-    private Toolbar toolbar;
+    private Toolbar  toolbar;
     private TextView txtToolbarTitle;
 
     @Override

@@ -30,7 +30,7 @@ public class VideoRoot extends Pagination implements Parcelable {
     };
     @SerializedName("data")
     @Expose
-    private List<VideoCourse> data = null;
+    private             List<VideoCourse>  data    = null;
 
     public VideoRoot() {
     }

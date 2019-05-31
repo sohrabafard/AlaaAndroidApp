@@ -19,9 +19,9 @@ public class AttributeDataModel implements Parcelable {
         }
     };
     @SerializedName("name")
-    private String name;
+    private             String                      name;
     @SerializedName("id")
-    private int id;
+    private             int                         id;
 
     protected AttributeDataModel(Parcel in) {
         name = in.readString();

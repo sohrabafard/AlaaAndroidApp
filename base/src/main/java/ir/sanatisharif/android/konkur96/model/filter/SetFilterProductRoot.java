@@ -12,23 +12,25 @@ import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
 
 public class SetFilterProductRoot extends Pagination implements Parcelable {
 
-    public final static Creator<SetFilterProductRoot> CREATOR = new Creator<SetFilterProductRoot>() {
+    public final static Creator<SetFilterProductRoot>
+                                               CREATOR =
+            new Creator<SetFilterProductRoot>() {
 
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public SetFilterProductRoot createFromParcel(Parcel in) {
-            return new SetFilterProductRoot(in);
-        }
+                @SuppressWarnings({
+                        "unchecked"
+                })
+                public SetFilterProductRoot createFromParcel(Parcel in) {
+                    return new SetFilterProductRoot(in);
+                }
 
-        public SetFilterProductRoot[] newArray(int size) {
-            return (new SetFilterProductRoot[size]);
-        }
+                public SetFilterProductRoot[] newArray(int size) {
+                    return (new SetFilterProductRoot[size]);
+                }
 
-    };
+            };
     @SerializedName("data")
     @Expose
-    private List<SetFilterProduct> data = null;
+    private             List<SetFilterProduct> data    = null;
 
     protected SetFilterProductRoot(Parcel in) {
         in.readList(this.data, (BlockDataModel.class.getClassLoader()));

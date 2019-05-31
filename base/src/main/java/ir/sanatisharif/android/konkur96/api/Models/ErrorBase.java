@@ -1,8 +1,5 @@
 package ir.sanatisharif.android.konkur96.api.Models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.SerializedName;
 
 public class ErrorBase {

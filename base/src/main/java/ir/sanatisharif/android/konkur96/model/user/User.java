@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.model.user;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -26,93 +25,93 @@ public class User implements Parcelable {
     };
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private             Integer                  id;
     @SerializedName("firstName")
     @Expose
-    private String firstName;
+    private             String                   firstName;
     @SerializedName("lastName")
     @Expose
-    private String lastName;
+    private             String                   lastName;
     @SerializedName("nameSlug")
     @Expose
-    private Object nameSlug;
+    private             Object                   nameSlug;
     @SerializedName("mobile")
     @Expose
-    private String mobile;
+    private             String                   mobile;
     @SerializedName("email_verified_at")
     @Expose
-    private Object emailVerifiedAt;
+    private             Object                   emailVerifiedAt;
     @SerializedName("mobile_verified_at")
     @Expose
-    private Object mobileVerifiedAt;
+    private             Object                   mobileVerifiedAt;
     @SerializedName("whatsapp")
     @Expose
-    private Object whatsapp;
+    private             Object                   whatsapp;
     @SerializedName("skype")
     @Expose
-    private Object skype;
+    private             Object                   skype;
     @SerializedName("nationalCode")
     @Expose
-    private String nationalCode;
+    private             String                   nationalCode;
     @SerializedName("password")
     @Expose
-    private String password;
+    private             String                   password;
     @SerializedName("lockProfile")
     @Expose
-    private Integer lockProfile;
+    private             Integer                  lockProfile;
     @SerializedName("photo")
     @Expose
-    private String photo;
+    private             String                   photo;
     @SerializedName("province")
     @Expose
-    private Object province;
+    private             Object                   province;
     @SerializedName("city")
     @Expose
-    private Object city;
+    private             Object                   city;
     @SerializedName("address")
     @Expose
-    private Object address;
+    private             Object                   address;
     @SerializedName("postalCode")
     @Expose
-    private Object postalCode;
+    private             Object                   postalCode;
     @SerializedName("school")
     @Expose
-    private Object school;
+    private             Object                   school;
     @SerializedName("created_at")
     @Expose
-    private String createdAt;
+    private             String                   createdAt;
     @SerializedName("updated_at")
     @Expose
-    private String updatedAt;
+    private             String                   updatedAt;
     @SerializedName("email")
     @Expose
-    private String email;
+    private             String                   email;
     @SerializedName("bio")
     @Expose
-    private Object bio;
+    private             Object                   bio;
     @SerializedName("introducedBy")
     @Expose
-    private Object introducedBy;
+    private             Object                   introducedBy;
     @SerializedName("bloodtype_id")
     @Expose
-    private Object bloodtypeId;
+    private             Object                   bloodtypeId;
     @SerializedName("allergy")
     @Expose
-    private Object allergy;
+    private             Object                   allergy;
     @SerializedName("medicalCondition")
     @Expose
-    private Object medicalCondition;
+    private             Object                   medicalCondition;
     @SerializedName("diet")
     @Expose
-    private Object diet;
+    private             Object                   diet;
     @SerializedName("info")
     @Expose
-    private Info info;
+    private             Info                     info;
     @SerializedName("full_name")
     @Expose
-    private String fullName;
-    private int gender_id;
-    private int major_id;
+    private             String                   fullName;
+    private             int                      gender_id;
+    private             int                      major_id;
 
     protected User(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));

@@ -24,9 +24,9 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_AUTH_TYPE;
 
 public class AllaAuthenticator extends AbstractAccountAuthenticator {
 
-    private String TAG = "AlaaAuthenticator";
+    private String  TAG = "AlaaAuthenticator";
     private Context mContext;
-    private String authToken;
+    private String  authToken;
 
     public AllaAuthenticator(Context context) {
         super(context);
@@ -79,7 +79,8 @@ public class AllaAuthenticator extends AbstractAccountAuthenticator {
                             MyPreferenceManager.getInatanse().setApiToken("");
                         }
                     }, 200);
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     e.printStackTrace();
                 }
             }

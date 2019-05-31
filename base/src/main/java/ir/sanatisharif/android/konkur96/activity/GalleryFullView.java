@@ -3,19 +3,20 @@ package ir.sanatisharif.android.konkur96.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.duolingo.open.rtlviewpager.RtlViewPager;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.ArrayList;
 
@@ -31,15 +32,15 @@ import ir.sanatisharif.android.konkur96.model.FullScreenModel;
 public class GalleryFullView extends AppCompatActivity implements PositionFounder {
 
     TextView title, description;
-    private RtlViewPager pagerFullScreen;
-    private RecyclerView recyclerIndicator;
-    private FullScreenModel fullScreenModel;
+    private RtlViewPager        pagerFullScreen;
+    private RecyclerView        recyclerIndicator;
+    private FullScreenModel     fullScreenModel;
     private LinearLayoutManager layoutManager;
-    private ImageView imgRightArrow;
-    private ImageView imgLeftArrow;
-    private ImageView imgTopArrow;
+    private ImageView           imgRightArrow;
+    private ImageView           imgLeftArrow;
+    private ImageView           imgTopArrow;
     private BottomSheetBehavior bottemSheetBehavior;
-    private int position = 0;
+    private int                 position = 0;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -65,7 +66,9 @@ public class GalleryFullView extends AppCompatActivity implements PositionFounde
         getItem();
 
         recyclerIndicator = findViewById(R.id.recycler_indicator);
-        FullScreenAdapter fullScreenImageAdapter = new FullScreenAdapter(this, getAllImage(), selectedPosition());
+        FullScreenAdapter
+                fullScreenImageAdapter =
+                new FullScreenAdapter(this, getAllImage(), selectedPosition());
         pagerFullScreen.setAdapter(fullScreenImageAdapter);
 
 
@@ -76,7 +79,9 @@ public class GalleryFullView extends AppCompatActivity implements PositionFounde
             }
         };
         recyclerIndicator.setLayoutManager(layoutManager);
-        IndicatorAdapter indicatorAdapter = new IndicatorAdapter(this, getAllImage(), selectedPosition(), this);
+        IndicatorAdapter
+                indicatorAdapter =
+                new IndicatorAdapter(this, getAllImage(), selectedPosition(), this);
         recyclerIndicator.setAdapter(indicatorAdapter);
         setCurrentIndicator();
         initPosition(selectedPosition());
@@ -154,7 +159,7 @@ public class GalleryFullView extends AppCompatActivity implements PositionFounde
 
         if (getIntent().hasExtra("TAG_MODEL")) {
             Intent getData = this.getIntent();
-            Bundle bundle = getData.getExtras();
+            Bundle bundle  = getData.getExtras();
             assert bundle != null;
             fullScreenModel = bundle.getParcelable("TAG_MODEL");
 

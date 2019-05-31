@@ -11,41 +11,43 @@ import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
 
 public class PageVideoShowVideoModel implements Parcelable {
 
-    public static final Creator<PageVideoShowVideoModel> CREATOR = new Creator<PageVideoShowVideoModel>() {
-        @Override
-        public PageVideoShowVideoModel createFromParcel(Parcel in) {
-            return new PageVideoShowVideoModel(in);
-        }
+    public static final Creator<PageVideoShowVideoModel>
+                                               CREATOR =
+            new Creator<PageVideoShowVideoModel>() {
+                @Override
+                public PageVideoShowVideoModel createFromParcel(Parcel in) {
+                    return new PageVideoShowVideoModel(in);
+                }
 
-        @Override
-        public PageVideoShowVideoModel[] newArray(int size) {
-            return new PageVideoShowVideoModel[size];
-        }
-    };
+                @Override
+                public PageVideoShowVideoModel[] newArray(int size) {
+                    return new PageVideoShowVideoModel[size];
+                }
+            };
     @SerializedName("current_page")
-    private int current_page;
+    private             int                    current_page;
     @SerializedName("data")
-    private ArrayList<VideoCourse> data;
+    private             ArrayList<VideoCourse> data;
     @SerializedName("first_page_url")
-    private String first_page_url;
+    private             String                 first_page_url;
     @SerializedName("from")
-    private int from;
+    private             int                    from;
     @SerializedName("last_page")
-    private int last_page;
+    private             int                    last_page;
     @SerializedName("last_page_url")
-    private String last_page_url;
+    private             String                 last_page_url;
     @SerializedName("next_page_url")
-    private String next_page_url;
+    private             String                 next_page_url;
     @SerializedName("path")
-    private String path;
+    private             String                 path;
     @SerializedName("per_page")
-    private int per_page;
+    private             int                    per_page;
     @SerializedName("prev_page_url")
-    private String prev_page_url;
+    private             String                 prev_page_url;
     @SerializedName("to")
-    private int to;
+    private             int                    to;
     @SerializedName("total")
-    private int total;
+    private             int                    total;
 
     protected PageVideoShowVideoModel(Parcel in) {
         current_page = in.readInt();

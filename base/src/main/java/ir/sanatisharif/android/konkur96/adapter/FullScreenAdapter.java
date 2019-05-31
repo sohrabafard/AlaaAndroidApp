@@ -1,11 +1,12 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
@@ -17,9 +18,9 @@ import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
 
 public class FullScreenAdapter extends PagerAdapter {
 
-    Context context;
+    Context                      context;
     ArrayList<ProductPhotoModel> items;
-    LayoutInflater inflater;
+    LayoutInflater               inflater;
     private int selectedPosition;
 
     public FullScreenAdapter(Context context, ArrayList<ProductPhotoModel> items, int selectedPos) {
@@ -42,8 +43,11 @@ public class FullScreenAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
-        inflater = (LayoutInflater) context.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.item_fullscreen_pager, container, false);
+        inflater =
+                (LayoutInflater) context.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View
+                itemView       =
+                inflater.inflate(R.layout.item_fullscreen_pager, container, false);
         ProductPhotoModel temp = getModel(position);
 
         PhotoView photoView;
@@ -57,7 +61,8 @@ public class FullScreenAdapter extends PagerAdapter {
                     .into(photoView);
 
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
 
         }
 

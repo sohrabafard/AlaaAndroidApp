@@ -1,13 +1,14 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -24,9 +25,9 @@ import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ViewSliderAd
 public class MainBoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<MainBoughtItem> dataList;
-    private Context mContext;
+    private Context                   mContext;
     //  private SnapHelper snapHelper;
-    private OnItemClickListener mClickListener;
+    private OnItemClickListener       mClickListener;
 
     //-----------size------
     private int width;
@@ -63,17 +64,23 @@ public class MainBoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             final MainBoughtItem model = dataList.get(position);
 
-            final String title = model.getTitle();
+            final String    title = model.getTitle();
             final ArrayList items = model.getItems();
 
-            final MainBoughtItemAdapter.IncredibleOffersItemHolder itemRowHolder = (MainBoughtItemAdapter.IncredibleOffersItemHolder) holder;
+            final MainBoughtItemAdapter.IncredibleOffersItemHolder
+                    itemRowHolder =
+                    (MainBoughtItemAdapter.IncredibleOffersItemHolder) holder;
 
             itemRowHolder.txtTitle.setText(title);
 
-            IncredibleOfferItemAdapter itemListDataAdapter = new IncredibleOfferItemAdapter(mContext, items);
+            IncredibleOfferItemAdapter
+                    itemListDataAdapter =
+                    new IncredibleOfferItemAdapter(mContext, items);
 
             itemRowHolder.recyclerView.setHasFixedSize(false);
-            LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+            LinearLayoutManager
+                    lin =
+                    new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
             lin.setReverseLayout(false);
             itemRowHolder.recyclerView.setLayoutManager(lin);
             itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
@@ -85,16 +92,20 @@ public class MainBoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         } else if (viewType == AppConstants.SHOP_BANNER_ITEM) {
 
-            final MainBoughtItemAdapter.BannerItemHolder itemRowHolder = (MainBoughtItemAdapter.BannerItemHolder) holder;
+            final MainBoughtItemAdapter.BannerItemHolder
+                    itemRowHolder =
+                    (MainBoughtItemAdapter.BannerItemHolder) holder;
 
             ArrayList items = dataList.get(position).getItems();
-            String title = dataList.get(position).getTitle();
+            String    title = dataList.get(position).getTitle();
             itemRowHolder.txtTitle.setText(title);
 
             BannerItemAdapter itemListDataAdapter = new BannerItemAdapter(mContext, items);
 
             itemRowHolder.recyclerView.setHasFixedSize(true);
-            LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+            LinearLayoutManager
+                    lin =
+                    new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
             lin.setReverseLayout(false);
             itemRowHolder.recyclerView.setLayoutManager(lin);
             itemRowHolder.recyclerView.setAdapter(itemListDataAdapter);
@@ -103,7 +114,9 @@ public class MainBoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         } else if (viewType == AppConstants.SHOP_SLIDER_ITEM) {
 
-            final MainBoughtItemAdapter.SliderHolder itemRowHolder = (MainBoughtItemAdapter.SliderHolder) holder;
+            final MainBoughtItemAdapter.SliderHolder
+                    itemRowHolder =
+                    (MainBoughtItemAdapter.SliderHolder) holder;
 
             ArrayList items = dataList.get(position).getItems();
             itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items, null));
@@ -116,10 +129,12 @@ public class MainBoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             final MainBoughtItem model = dataList.get(position);
 
-            final String title = model.getTitle();
+            final String    title = model.getTitle();
             final ArrayList items = model.getItems();
 
-            final MainBoughtItemAdapter.CategoryShopItemHolder itemRowHolder = (MainBoughtItemAdapter.CategoryShopItemHolder) holder;
+            final MainBoughtItemAdapter.CategoryShopItemHolder
+                    itemRowHolder =
+                    (MainBoughtItemAdapter.CategoryShopItemHolder) holder;
 
             itemRowHolder.txtMore.setOnClickListener(v -> {
 
@@ -134,10 +149,14 @@ public class MainBoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             itemRowHolder.txtTitle.setText(title);
 
-            CategoryShopItemAdapter itemListDataAdapter = new CategoryShopItemAdapter(mContext, items);
+            CategoryShopItemAdapter
+                    itemListDataAdapter =
+                    new CategoryShopItemAdapter(mContext, items);
 
             itemRowHolder.recyclerView.setHasFixedSize(false);
-            LinearLayoutManager lin = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+            LinearLayoutManager
+                    lin =
+                    new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
             lin.setReverseLayout(false);
             itemRowHolder.recyclerView.setLayoutManager(lin);
             itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
@@ -182,8 +201,8 @@ public class MainBoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public class ItemHolder extends RecyclerView.ViewHolder {
 
         protected LinearLayout root;
-        protected TextView txtTitle;
-        protected TextView txtMore;
+        protected TextView     txtTitle;
+        protected TextView     txtMore;
         protected RecyclerView recyclerView;
 
         private ItemHolder(View view) {
@@ -224,7 +243,7 @@ public class MainBoughtItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public class BannerItemHolder extends RecyclerView.ViewHolder {
 
         private RecyclerView recyclerView;
-        private TextView txtTitle;
+        private TextView     txtTitle;
 
         private BannerItemHolder(View view) {
             super(view);

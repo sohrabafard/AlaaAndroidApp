@@ -13,18 +13,18 @@ import ir.sanatisharif.android.konkur96.model.main_page.Set;
 
 public class Block {
 
-    private int id;
-    private int type;
-    private String title;
-    private boolean offer;
-    private int order;
-    private String url;
+    private int                   id;
+    private int                   type;
+    private String                title;
+    private boolean               offer;
+    private int                   order;
+    private String                url;
     private List<MainBannerModel> sliders;
-    private List<Set> sets;
-    private List<ContentModel> contents;
+    private List<Set>             sets;
+    private List<ContentModel>    contents;
     private List<MainBannerModel> banners;
-    private List<ProductModel> products;
-    private List<Video> videos;
+    private List<ProductModel>    products;
+    private List<Video>           videos;
 
     public String getTitle() {
         return title;

@@ -5,15 +5,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
@@ -28,7 +29,7 @@ import ir.sanatisharif.android.konkur96.model.Events;
 
 public class AbouteMeFrg extends BaseFragment {
 
-    private Toolbar mToolbar;
+    private Toolbar   mToolbar;
     private ImageView imgTelegram, imgInstagram;
     private JustifiedTextView txtContentAboutMe;
 
@@ -92,11 +93,13 @@ public class AbouteMeFrg extends BaseFragment {
             @Override
             public void onClick(View view) {
 
-                final String appName = "org.telegram.messenger";
+                final String  appName        = "org.telegram.messenger";
                 final boolean isAppInstalled = isAppAvailable(getContext(), appName);
 
                 if (isAppInstalled) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://telegram.me/alaa_sanatisharif"));
+                    Intent
+                            intent =
+                            new Intent(Intent.ACTION_VIEW, Uri.parse("https://telegram.me/alaa_sanatisharif"));
                     intent.setPackage("org.telegram.messenger");
                     startActivity(intent);
                 }
@@ -107,11 +110,13 @@ public class AbouteMeFrg extends BaseFragment {
             @Override
             public void onClick(View view) {
 
-                final String appName = "com.instagram.android";
+                final String  appName        = "com.instagram.android";
                 final boolean isAppInstalled = isAppAvailable(getContext(), appName);
 
                 if (isAppInstalled) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/alaa_sanatisharif"));
+                    Intent
+                            intent =
+                            new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/alaa_sanatisharif"));
                     intent.setPackage("com.instagram.android");
                     startActivity(intent);
                 }
@@ -124,7 +129,8 @@ public class AbouteMeFrg extends BaseFragment {
         try {
             pm.getPackageInfo(appName, PackageManager.GET_ACTIVITIES);
             return true;
-        } catch (PackageManager.NameNotFoundException e) {
+        }
+        catch (PackageManager.NameNotFoundException e) {
             return false;
         }
     }

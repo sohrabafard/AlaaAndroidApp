@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.core.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,8 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
+
+import androidx.core.view.ViewCompat;
 
 
 /**
@@ -21,12 +22,12 @@ public class BottomBar extends LinearLayout {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
 
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
-    private boolean mVisible = true;
+    private       boolean      mVisible      = true;
 
     private LinearLayout mTabLayout;
 
-    private LayoutParams mTabParams;
-    private int mCurrentPosition = 0;
+    private LayoutParams          mTabParams;
+    private int                   mCurrentPosition = 0;
     private OnTabSelectedListener mListener;
 
     public BottomBar(Context context) {
@@ -188,7 +189,7 @@ public class BottomBar extends LinearLayout {
                 return new SavedState[size];
             }
         };
-        private int position;
+        private             int                 position;
 
         public SavedState(Parcel source) {
             super(source);

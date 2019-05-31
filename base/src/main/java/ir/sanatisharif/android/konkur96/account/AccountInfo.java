@@ -37,20 +37,10 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_F
 
 public class AccountInfo {
 
-    public String TAG = "Alla";
+    public  String         TAG = "Alla";
     private AccountManager mAccountManager;
-    private Context mContext;
-    private Activity activity;
-
-    public AccountInfo setActivity(Activity activity){
-        this.activity = activity;
-        return this;
-    }
-    public AccountInfo setmContext(Context context){
-        this.mContext = context.getApplicationContext();
-        return this;
-    }
-
+    private Context        mContext;
+    private Activity       activity;
 
     public AccountInfo(Context context) {
         this.mContext = context.getApplicationContext();
@@ -63,6 +53,15 @@ public class AccountInfo {
         mAccountManager = AccountManager.get(this.mContext);
     }
 
+    public AccountInfo setActivity(Activity activity) {
+        this.activity = activity;
+        return this;
+    }
+
+    public AccountInfo setmContext(Context context) {
+        this.mContext = context.getApplicationContext();
+        return this;
+    }
 
     /**
      * Add new account to the account manager
@@ -71,7 +70,7 @@ public class AccountInfo {
      * @param authTokenType
      */
     public void addNewAccount(String accountType, String authTokenType) throws Exception {
-        if(activity == null){
+        if (activity == null) {
             throw new Exception("Activity is Null!");
         }
         final AccountManagerFuture<Bundle> future =
@@ -84,7 +83,8 @@ public class AccountInfo {
                                     //  Log.i(TAG, "addNewAccount  : " + bnd);
                                     toastShow(mContext.getResources().getString(R.string.register_success), MDToast.TYPE_SUCCESS);
 
-                                } catch (Exception e) {
+                                }
+                                catch (Exception e) {
                                     e.printStackTrace();
                                     // toastShow(mContext.getResources().getString(R.string.register_success), MDToast.TYPE_ERROR);
                                 }
@@ -97,17 +97,19 @@ public class AccountInfo {
      *
      * @param authTokenType
      */
-    public void getExistingAccountAuthToken(String accountType, String authTokenType,@NonNull final AuthToken listener) {
+    public void getExistingAccountAuthToken(String accountType, String authTokenType, @NonNull final AuthToken listener) {
         Account[] account = mAccountManager.getAccountsByType(accountType);
-        if ( account.length == 0){
+        if (account.length == 0) {
             listener.onNullToken();
             return;
         }
         final AccountManagerFuture<Bundle> future;
-        if(activity == null ){
-            future = mAccountManager.getAuthToken(account[0], authTokenType, null, true, null, null);
+        if (activity == null) {
+            future =
+                    mAccountManager.getAuthToken(account[0], authTokenType, null, true, null, null);
         } else {
-            future = mAccountManager.getAuthToken(account[0], authTokenType, null, activity, null, null);
+            future =
+                    mAccountManager.getAuthToken(account[0], authTokenType, null, activity, null, null);
         }
 
         Thread t = new Thread(() -> {
@@ -115,13 +117,13 @@ public class AccountInfo {
                 Bundle bnd = future.getResult();
                 Log.i(TAG, "onCreate: " + bnd);
                 final String authtoken = bnd.getString(AccountManager.KEY_AUTHTOKEN);
-                if (authtoken == null){
+                if (authtoken == null) {
                     listener.onNullToken();
-                }
-                else{
+                } else {
                     listener.onToken(authtoken);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -129,7 +131,7 @@ public class AccountInfo {
     }
 
     public void invalidateAuthToken(final Account account, String authTokenType) throws Exception {
-        if(activity == null ){
+        if (activity == null) {
             throw new Exception("Activity is Null!");
         }
         final AccountManagerFuture<Bundle> future =
@@ -143,7 +145,8 @@ public class AccountInfo {
 
                     final String authtoken = bnd.getString(AccountManager.KEY_AUTHTOKEN);
                     mAccountManager.invalidateAuthToken(account.type, authtoken);
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -152,7 +155,7 @@ public class AccountInfo {
 
     public User getInfo(String accountType) {
 
-        Gson gson = new Gson();
+        Gson      gson    = new Gson();
         Account[] account = mAccountManager.getAccountsByType(accountType);
         if (account.length == 0)
             return null;
@@ -181,25 +184,29 @@ public class AccountInfo {
                             removeAccount.onRemove(future.isDone());
                         }
                     }
-                } catch (OperationCanceledException e) {
+                }
+                catch (OperationCanceledException e) {
                     e.printStackTrace();
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     e.printStackTrace();
-                } catch (AuthenticatorException e) {
+                }
+                catch (AuthenticatorException e) {
                     e.printStackTrace();
                 }
             }
         }, null);
     }
 
-    public boolean ExistAccount(String type)  {
+    public boolean ExistAccount(String type) {
         if (!InstantApps.isInstantApp(mContext)) {
             Account[] availableAccounts = mAccountManager.getAccountsByType(type);
             Log.i(TAG, "ExistAccount: " + availableAccounts.length);
             if (availableAccounts.length == 0) {
                 try {
                     addNewAccount(type, AUTHTOKEN_TYPE_FULL_ACCESS);
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     e.printStackTrace();
                 }
                 return false;
@@ -229,7 +236,7 @@ public class AccountInfo {
     }
 
     public interface AuthToken {
-        void onToken(@NonNull  String token);
+        void onToken(@NonNull String token);
 
         void onNullToken();
     }

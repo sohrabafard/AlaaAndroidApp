@@ -4,9 +4,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -14,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import java.util.Objects;
 
@@ -26,24 +27,26 @@ import ir.sanatisharif.android.konkur96.R;
 public class MyAlertDialogFrg extends BaseDialogFragment<MyAlertDialogFrg> {
 
     //------init UI
-    private static final String TAG = "LOG";
-    private View dialog;
-    private TextView txtDownload, txtCancel, txtTitle, txtMessage;
+    private static final String   TAG = "LOG";
+    private              View     dialog;
+    private              TextView txtDownload, txtCancel, txtTitle, txtMessage;
     private MyAlertDialogListener listener;
 
-    private String title;
-    private String message;
+    private String  title;
+    private String  message;
     private boolean html = false;
 
-    public TextView getTxtCancel(){
-        return txtCancel;
-    }
-    public TextView getTxtDownload(){
-        return txtDownload;
-    }
     public static MyAlertDialogFrg newInstance() {
         MyAlertDialogFrg frag = new MyAlertDialogFrg();
         return frag;
+    }
+
+    public TextView getTxtCancel() {
+        return txtCancel;
+    }
+
+    public TextView getTxtDownload() {
+        return txtDownload;
     }
 
     //<editor-fold desc="setter">

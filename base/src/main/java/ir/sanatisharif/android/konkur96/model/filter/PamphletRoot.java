@@ -16,7 +16,7 @@ import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
 
 public class PamphletRoot extends Pagination implements Parcelable {
 
-    public final static Creator<PamphletRoot> CREATOR = new Creator<PamphletRoot>() {
+    public final static Creator<PamphletRoot> CREATOR         = new Creator<PamphletRoot>() {
 
 
         @SuppressWarnings({
@@ -33,7 +33,7 @@ public class PamphletRoot extends Pagination implements Parcelable {
     };
     @SerializedName("data")
     @Expose
-    private List<PamphletCourse> pamphletCourses = null;
+    private             List<PamphletCourse>  pamphletCourses = null;
 
     protected PamphletRoot(Parcel in) {
         in.readList(this.pamphletCourses, (BlockDataModel.class.getClassLoader()));

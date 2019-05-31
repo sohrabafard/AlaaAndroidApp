@@ -11,11 +11,11 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.item.LoadingItem;
 public final class myPaginateBuilder {
 
 
-    private RecyclerView recyclerView;
+    private RecyclerView       recyclerView;
     private OnLoadMoreListener loadMoreListener;
-    private LoadingItem loadingItem;
-    private ErrorItem errorItem;
-    private int loadingTriggerThreshold = 0;
+    private LoadingItem        loadingItem;
+    private ErrorItem          errorItem;
+    private int                loadingTriggerThreshold = 0;
 
 
     myPaginateBuilder(@NonNull RecyclerView recyclerView) {

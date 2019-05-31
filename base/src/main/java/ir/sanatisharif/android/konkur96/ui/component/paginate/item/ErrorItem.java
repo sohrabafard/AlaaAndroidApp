@@ -1,11 +1,12 @@
 package ir.sanatisharif.android.konkur96.ui.component.paginate.item;
 
 import android.os.Build;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.ui.component.paginate.callback.OnRepeatListener;
@@ -18,7 +19,9 @@ public interface ErrorItem {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_error, parent, false);
+            View
+                    view =
+                    LayoutInflater.from(parent.getContext()).inflate(R.layout.item_error, parent, false);
             return new RecyclerView.ViewHolder(view) {
             };
         }

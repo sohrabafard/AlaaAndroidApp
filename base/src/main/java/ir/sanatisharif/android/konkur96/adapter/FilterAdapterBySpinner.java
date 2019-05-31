@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 
@@ -21,7 +19,7 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 public class FilterAdapterBySpinner extends ArrayAdapter<String> {
 
     // Your sent context
-    private Context context;
+    private Context  context;
     // Your custom values for the spinner (User)
     private String[] values;
 

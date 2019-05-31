@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class CardReviewModel implements Parcelable {
 
-    public static final Creator<CardReviewModel> CREATOR = new Creator<CardReviewModel>() {
+    public static final Creator<CardReviewModel>       CREATOR = new Creator<CardReviewModel>() {
         @Override
         public CardReviewModel createFromParcel(Parcel in) {
             return new CardReviewModel(in);
@@ -21,11 +21,11 @@ public class CardReviewModel implements Parcelable {
         }
     };
     @SerializedName("items")
-    private ArrayList<ItemCardReviewMOdel> items;
+    private             ArrayList<ItemCardReviewMOdel> items;
     @SerializedName("orderproductCount")
-    private int orderproductCount;
+    private             int                            orderproductCount;
     @SerializedName("price")
-    private PriceModel price;
+    private             PriceModel                     price;
 
     protected CardReviewModel(Parcel in) {
         items = in.createTypedArrayList(ItemCardReviewMOdel.CREATOR);

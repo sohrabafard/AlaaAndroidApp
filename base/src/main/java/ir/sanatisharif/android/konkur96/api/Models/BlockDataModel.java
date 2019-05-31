@@ -176,6 +176,7 @@ public class BlockDataModel implements Parcelable {
     public void setBanners(ArrayList<MainBannerModel> banners) {
         this.banners = banners;
     }
+
     public ArrayList<ContentModel> getContents() {
         return contents;
     }

@@ -2,8 +2,6 @@ package ir.sanatisharif.android.konkur96.api.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
 public class PaymentUrlModel extends ErrorBase {
 
     @SerializedName("url")

@@ -19,11 +19,11 @@ public class ProductPhotoModel implements Parcelable {
         }
     };
     @SerializedName("title")
-    private String title;
+    private             String                     title;
     @SerializedName("description")
-    private String description;
+    private             String                     description;
     @SerializedName("url")
-    private String url;
+    private             String                     url;
 
     protected ProductPhotoModel(Parcel in) {
         title = in.readString();

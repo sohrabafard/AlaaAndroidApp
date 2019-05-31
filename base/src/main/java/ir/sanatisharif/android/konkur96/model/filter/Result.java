@@ -6,12 +6,9 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import ir.sanatisharif.android.konkur96.model.main_page.Product;
-import ir.sanatisharif.android.konkur96.model.main_page.Set;
-
 public class Result implements Parcelable {
 
-    public final static Creator<Result> CREATOR = new Creator<Result>() {
+    public final static Creator<Result>      CREATOR = new Creator<Result>() {
 
 
         @SuppressWarnings({
@@ -28,19 +25,19 @@ public class Result implements Parcelable {
     };
     @SerializedName("video")
     @Expose
-    private VideoRoot media;
+    private             VideoRoot            media;
     @SerializedName("pamphlet")
     @Expose
-    private PamphletRoot pamphlet;
+    private             PamphletRoot         pamphlet;
     @SerializedName("article")
     @Expose
-    private ArticleRoot article;
+    private             ArticleRoot          article;
     @SerializedName("set")
     @Expose
-    private SetFilterRoot set;
+    private             SetFilterRoot        set;
     @SerializedName("product")
     @Expose
-    private SetFilterProductRoot product;
+    private             SetFilterProductRoot product;
 
     protected Result(Parcel in) {
         this.media = ((VideoRoot) in.readValue((VideoRoot.class.getClassLoader())));

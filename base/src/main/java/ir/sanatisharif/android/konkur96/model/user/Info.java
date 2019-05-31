@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.model.user;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -26,19 +25,19 @@ public class Info implements Parcelable {
     };
     @SerializedName("major")
     @Expose
-    private Major major;
+    private             Major         major;
     @SerializedName("grade")
     @Expose
-    private Object grade;
+    private             Object        grade;
     @SerializedName("gender")
     @Expose
-    private Gender gender;
+    private             Gender        gender;
     @SerializedName("completion")
     @Expose
-    private int completion;
+    private             int           completion;
     @SerializedName("wallet")
     @Expose
-    private Object wallet;
+    private             Object        wallet;
 
     protected Info(Parcel in) {
         this.major = ((Major) in.readValue((Major.class.getClassLoader())));

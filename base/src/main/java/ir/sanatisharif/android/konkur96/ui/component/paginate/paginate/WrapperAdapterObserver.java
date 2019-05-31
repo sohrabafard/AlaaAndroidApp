@@ -7,7 +7,7 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.callback.OnAdapter
 
 final class WrapperAdapterObserver extends RecyclerView.AdapterDataObserver {
 
-    private WrapperAdapter wrapperAdapter;
+    private WrapperAdapter          wrapperAdapter;
     private OnAdapterChangeListener adapterChangeListener;
 
 

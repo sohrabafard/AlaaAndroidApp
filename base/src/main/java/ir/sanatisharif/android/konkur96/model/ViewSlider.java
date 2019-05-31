@@ -6,13 +6,13 @@ package ir.sanatisharif.android.konkur96.model;
 
 public class ViewSlider {
 
-    private int id;
-    private int order;
+    private int    id;
+    private int    order;
     private String title;
     private String shortDescription;
     private String imgUrl;
     private String intentLink;
-    private int kindOfIntent;
+    private int    kindOfIntent;
 
     public ViewSlider() {
     }

@@ -11,16 +11,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -42,6 +32,17 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.crashlytics.android.Crashlytics;
@@ -89,12 +90,13 @@ public class ProductDetailFragment extends BaseFragment {
 
     Toolbar pageToolbar;
     private LogUserActionsOnPublicContentInterface mUserAction;
-    private CardView cardAttrProduct, cardSampleProduct;
+    private CardView                               cardAttrProduct, cardSampleProduct;
 
-    private ImageView image;
+    private ImageView   image;
     private FrameLayout intro;
 
-    private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice, txtMainAttrCom, txtDiscount,txtFinalPriceTop;
+    private TextView txtName, txtAuthor, txtAtrr, txtComment, txtPrice, txtMainAttrCom, txtDiscount,
+            txtFinalPriceTop;
 
     private RecyclerView selectableRecyclerView;
 
@@ -110,12 +112,12 @@ public class ProductDetailFragment extends BaseFragment {
     private RecyclerView bonsRecyclerView;
 
     private ProductModel model;
-    private ProductType type;
+    private ProductType  type;
 
-    private List<Integer> attrList = new ArrayList<>();
-    private List<Integer> attrExtraList = new ArrayList<>();
-    private List<Integer> selectableIdList = new ArrayList<>();
-    private ArrayList<ProductModel> selectableList = new ArrayList<>();
+    private List<Integer>           attrList         = new ArrayList<>();
+    private List<Integer>           attrExtraList    = new ArrayList<>();
+    private List<Integer>           selectableIdList = new ArrayList<>();
+    private ArrayList<ProductModel> selectableList   = new ArrayList<>();
 
     private Repository repository;
 
@@ -147,9 +149,11 @@ public class ProductDetailFragment extends BaseFragment {
 
         try {
             mUserAction = (LogUserActionsOnPublicContentInterface) context;
-        } catch (ClassCastException ex) {
+        }
+        catch (ClassCastException ex) {
             throw new ClassCastException(context.toString()
-                    + " must implement LogUserActionsOnPublicContentInterface");
+                                         +
+                                         " must implement LogUserActionsOnPublicContentInterface");
         }
     }
 
@@ -317,7 +321,7 @@ public class ProductDetailFragment extends BaseFragment {
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         showNoInternetDialog = true;
-        Button btnOK = dialog.findViewById(R.id.btnOK);
+        Button    btnOK    = dialog.findViewById(R.id.btnOK);
         ImageView imgCLose = dialog.findViewById(R.id.imgCLose);
 
         btnOK.setOnClickListener(new View.OnClickListener() {
@@ -421,7 +425,7 @@ public class ProductDetailFragment extends BaseFragment {
         if (null != model.getBons() && model.getBons().size() > 0) {
 
             //setadapter
-            ProductBonsAdapter adapter = new ProductBonsAdapter(model.getBons());
+            ProductBonsAdapter         adapter        = new ProductBonsAdapter(model.getBons());
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             bonsRecyclerView.setLayoutManager(mLayoutManager);
             bonsRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -446,28 +450,32 @@ public class ProductDetailFragment extends BaseFragment {
 
             bodySelectable.setVisibility(View.VISIBLE);
 
-            ArrayList<SelectableProduct> items = ShopUtils.convertToSelectableProductModel(model.getChildren());
+            ArrayList<SelectableProduct>
+                    items =
+                    ShopUtils.convertToSelectableProductModel(model.getChildren());
 
-            SelectableProductAdapter adapter = new SelectableProductAdapter(getContext(), items, new SelectableProductAdapter.CheckListeners() {
-                @Override
-                public void onItemCheck(ProductModel model, int position, boolean isFirst) {
+            SelectableProductAdapter
+                    adapter =
+                    new SelectableProductAdapter(getContext(), items, new SelectableProductAdapter.CheckListeners() {
+                        @Override
+                        public void onItemCheck(ProductModel model, int position, boolean isFirst) {
 
-                    selectableList.add(model);
-                    addToSelectableIdList(model.getId(), isFirst);
-                    final Handler handler = new Handler();
-                    handler.postDelayed(() -> getPrice(), 700);
+                            selectableList.add(model);
+                            addToSelectableIdList(model.getId(), isFirst);
+                            final Handler handler = new Handler();
+                            handler.postDelayed(() -> getPrice(), 700);
 
-                }
+                        }
 
-                @Override
-                public void onItemUncheck(ProductModel model, int position) {
+                        @Override
+                        public void onItemUncheck(ProductModel model, int position) {
 
-                    selectableList.remove(model);
-                    removeToSelectableIdList(model.getId());
-                    final Handler handler = new Handler();
-                    handler.postDelayed(() -> getPrice(), 700);
-                }
-            });
+                            selectableList.remove(model);
+                            removeToSelectableIdList(model.getId());
+                            final Handler handler = new Handler();
+                            handler.postDelayed(() -> getPrice(), 700);
+                        }
+                    });
 
 
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -609,7 +617,7 @@ public class ProductDetailFragment extends BaseFragment {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long ij) {
                 for (int i = 0; i < spinnerArray.size(); i++) {
                     String spinner = spinnerArray.get(i);
-                    int id = spinnerMap.get(spinner);
+                    int    id      = spinnerMap.get(spinner);
                     removeToAttrList(id);
                 }
 
@@ -652,8 +660,10 @@ public class ProductDetailFragment extends BaseFragment {
 
         if (null != model.getAttributes().getInformation()) {
 
-            FragmentManager fm = getFragmentManager();
-            DialogFragment newFragment = new ProductAttrDialogFragment(model.getAttributes().getInformation());
+            FragmentManager fm          = getFragmentManager();
+            DialogFragment
+                            newFragment =
+                    new ProductAttrDialogFragment(model.getAttributes().getInformation());
             newFragment.show(fm, "ProductAttr");
         }
 
@@ -677,8 +687,10 @@ public class ProductDetailFragment extends BaseFragment {
 
     private void showZarinPalDialog() {
 
-        FragmentManager fm = getFragmentManager();
-        DialogFragment newFragment = new ZarinPalDialogFragment(type, model, totalPrice, selectableIdList, attrList, attrExtraList);
+        FragmentManager fm          = getFragmentManager();
+        DialogFragment
+                        newFragment =
+                new ZarinPalDialogFragment(type, model, totalPrice, selectableIdList, attrList, attrExtraList);
 
         assert fm != null;
         newFragment.show(fm, "ZarinPalDialog");
@@ -793,9 +805,9 @@ public class ProductDetailFragment extends BaseFragment {
     @SuppressLint("SetTextI18n")
     private void getPrice() {
 
-        ArrayList<Integer> mainAttributeValues = new ArrayList<>(attrList);
+        ArrayList<Integer> mainAttributeValues  = new ArrayList<>(attrList);
         ArrayList<Integer> extraAttributeValues = new ArrayList<>(attrExtraList);
-        ArrayList<Integer> products = new ArrayList<>(selectableIdList);
+        ArrayList<Integer> products             = new ArrayList<>(selectableIdList);
         Collections.sort(products);
         progPrice.setVisibility(View.VISIBLE);
 
@@ -809,7 +821,8 @@ public class ProductDetailFragment extends BaseFragment {
 
                     if (temp.getCost().getMfinal() > 0) {
                         totalPrice = temp.getCost().getMfinal();
-                        txtPrice.setText(ShopUtils.formatPrice(temp.getCost().getMfinal()) + " تومان ");
+                        txtPrice.setText(
+                                ShopUtils.formatPrice(temp.getCost().getMfinal()) + " تومان ");
 
                     } else {
 
@@ -821,7 +834,8 @@ public class ProductDetailFragment extends BaseFragment {
 
                     Log.d("Error", temp.getError().getMessage());
                     totalPrice = model.getPrice().getMfinal();
-                    txtPrice.setText(ShopUtils.formatPrice(model.getPrice().getMfinal()) + " تومان ");
+                    txtPrice.setText(
+                            ShopUtils.formatPrice(model.getPrice().getMfinal()) + " تومان ");
                 }
 
 

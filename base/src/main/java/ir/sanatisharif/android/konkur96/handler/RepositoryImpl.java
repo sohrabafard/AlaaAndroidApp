@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.handler;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -235,7 +234,7 @@ public class RepositoryImpl implements Repository {
     @Override
     public void getProductByUrl(String url, String token, ApiCallBack callBack) {
 
-        shopAPI.getProductByUrl(url,("Bearer " + token))
+        shopAPI.getProductByUrl(url, ("Bearer " + token))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ProductModel>() {

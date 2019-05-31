@@ -7,8 +7,8 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.WrapperAd
 
 public final class WrapperSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
     private final GridLayoutManager.SpanSizeLookup wrappedSpanSizeLookup;
-    private final BaseGridLayoutManagerItem loadingListItemSpanLookup;
-    private final WrapperAdapter wrapperAdapter;
+    private final BaseGridLayoutManagerItem        loadingListItemSpanLookup;
+    private final WrapperAdapter                   wrapperAdapter;
 
     public WrapperSpanSizeLookup(GridLayoutManager.SpanSizeLookup gridSpanSizeLookup,
                                  BaseGridLayoutManagerItem loadingListItemSpanLookup,

@@ -4,7 +4,7 @@ public class ProductSliderModel {
 
     private String text;
     private String imgUrl;
-    private int id;
+    private int    id;
 
     public ProductSliderModel() {
     }

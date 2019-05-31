@@ -8,8 +8,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
-import androidx.core.app.NotificationCompat;
 import android.text.Html;
+
+import androidx.core.app.NotificationCompat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +26,7 @@ import ir.sanatisharif.android.konkur96.R;
 
 public class MyNotificationManager {
 
-    public static final int ID_BIG_NOTIFICATION = 234;
+    public static final int ID_BIG_NOTIFICATION   = 234;
     public static final int ID_SMALL_NOTIFICATION = 235;
 
     private Context mCtx;
@@ -45,12 +46,14 @@ public class MyNotificationManager {
                         intent,
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
-        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+        NotificationCompat.BigPictureStyle
+                bigPictureStyle =
+                new NotificationCompat.BigPictureStyle();
         bigPictureStyle.setBigContentTitle(title);
         bigPictureStyle.setSummaryText(Html.fromHtml(message).toString());
         bigPictureStyle.bigPicture(getBitmapFromURL(url));
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mCtx);
-        Notification notification;
+        Notification               notification;
         notification = mBuilder.setSmallIcon(R.mipmap.ic_launcher).setTicker(title).setWhen(0)
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
@@ -64,7 +67,9 @@ public class MyNotificationManager {
 
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
-        NotificationManager notificationManager = (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager
+                notificationManager =
+                (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(ID_BIG_NOTIFICATION, notification);
     }
 
@@ -81,7 +86,7 @@ public class MyNotificationManager {
                 );
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mCtx);
-        Notification notification;
+        Notification               notification;
         notification = mBuilder
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setTicker(title)
@@ -123,21 +128,24 @@ public class MyNotificationManager {
 
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
-        NotificationManager notificationManager = (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager
+                notificationManager =
+                (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(ID_SMALL_NOTIFICATION, notification);
     }
 
     //The method will return Bitmap from an image URL
     private Bitmap getBitmapFromURL(String strURL) {
         try {
-            URL url = new URL(strURL);
+            URL               url        = new URL(strURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
             connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            InputStream input    = connection.getInputStream();
+            Bitmap      myBitmap = BitmapFactory.decodeStream(input);
             return myBitmap;
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
             return null;
         }

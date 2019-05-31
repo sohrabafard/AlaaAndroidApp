@@ -7,13 +7,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatDelegate;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -65,13 +66,13 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 //https://blog.iamsuleiman.com/bottom-navigation-bar-android-tutorial/
 public class MainActivity extends ActivityBase implements AHBottomNavigation.OnTabSelectedListener, ICheckNetwork, LogUserActionsOnPublicContentInterface {
 
-    private static final String TAG = "MainActivity";
-    private static Stack<Fragment> fragments;
-    private static FragmentManager fm;
-    private AccountInfo accountInfo;
-    private AHBottomNavigation bottomNavigation;
-    private Repository repository;
-    private MainRepository mainRepository;
+    private static final String             TAG = "MainActivity";
+    private static       Stack<Fragment>    fragments;
+    private static       FragmentManager    fm;
+    private              AccountInfo        accountInfo;
+    private              AHBottomNavigation bottomNavigation;
+    private              Repository         repository;
+    private              MainRepository     mainRepository;
 
     //--- primitive define type-----
     private long back_pressed;
@@ -139,6 +140,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             if (!MyPreferenceManager.getInatanse().isSendTokenToServer())
                 sendRegistrationToServer();
     }
+
     private void retrieveToken() {
         FirebaseInstanceId.getInstance().getInstanceId().
                 addOnSuccessListener(MainActivity.this, instanceIdResult -> {
@@ -184,10 +186,18 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
         // forceCrash(bottomNavigation);
         ArrayList<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(getString(R.string.home), R.drawable.ic_home);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(getString(R.string.forum), R.drawable.ic_message);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(getString(R.string.product), R.drawable.ic_shopping_cart);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem(getString(R.string.myProfile), R.drawable.ic_user);
+        AHBottomNavigationItem
+                                          item1                 =
+                new AHBottomNavigationItem(getString(R.string.home), R.drawable.ic_home);
+        AHBottomNavigationItem
+                                          item2                 =
+                new AHBottomNavigationItem(getString(R.string.forum), R.drawable.ic_message);
+        AHBottomNavigationItem
+                                          item3                 =
+                new AHBottomNavigationItem(getString(R.string.product), R.drawable.ic_shopping_cart);
+        AHBottomNavigationItem
+                                          item4                 =
+                new AHBottomNavigationItem(getString(R.string.myProfile), R.drawable.ic_user);
 
         bottomNavigationItems.add(item1);
         bottomNavigationItems.add(item2);
@@ -203,11 +213,11 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
     private boolean handleIntent(Intent intent) {
 
-        if(intent == null ){
+        if (intent == null) {
             return false;
         }
         String action = intent.getAction();  // android.intent.action.VIEW
-        String data = intent.getDataString();// https://sanatisharif.ir/c/8087
+        String data   = intent.getDataString();// https://sanatisharif.ir/c/8087
 
         if (action == null)
             return false;
@@ -220,7 +230,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             return false;
         }
         Uri appLinkData = intent.getData();
-        if(appLinkData == null){
+        if (appLinkData == null) {
             return false;
         }
         String path = appLinkData.getPath();
@@ -248,8 +258,8 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             return true;
         }
         if (path.startsWith("/zarinpal") && data.contains("Status")) {
-            String mStatus = appLinkData.getQueryParameter("Status");
-            String amount = appLinkData.getQueryParameter("a");
+            String mStatus   = appLinkData.getQueryParameter("Status");
+            String amount    = appLinkData.getQueryParameter("a");
             String authority = appLinkData.getQueryParameter("Authority");
 
             handlerZarinPalCallBack(amount, authority);
@@ -264,8 +274,8 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             addFrg(AbouteMeFrg.newInstance(), "AbouteMeFrg");
             return true;
         }
-        if (path.equals("/asset")){
-            addFrg(DashboardMainFrg.newInstance(),"DashboardMainFrg");
+        if (path.equals("/asset")) {
+            addFrg(DashboardMainFrg.newInstance(), "DashboardMainFrg");
             return true;
         }
         if (path.equals("/")) {
@@ -276,7 +286,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
     }
 
-    private void lunchProductFragmentByUrl(@NonNull String path,@NonNull final Activity activity) {
+    private void lunchProductFragmentByUrl(@NonNull String path, @NonNull final Activity activity) {
         ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage(this.getString(R.string.loading));
@@ -290,14 +300,20 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                     handler.postDelayed(mProgressDialog::dismiss, 3000);
                     if (data1 instanceof Result.Success) {
                         try {
-                            ProductModel productModel = ((ProductModel) ((Result.Success) data1).value);
+                            ProductModel
+                                    productModel =
+                                    ((ProductModel) ((Result.Success) data1).value);
                             activity.runOnUiThread(() -> addFrg(ProductDetailFragment.newInstance(productModel), "ProductDetailFragment"));
-                        } catch (Exception ex) {
-                            Log.e(TAG, "lunchProductFragmentByUrl: parse-intent-if:" + path + "\n\r" + ex.getMessage());
+                        }
+                        catch (Exception ex) {
+                            Log.e(TAG,
+                                    "lunchProductFragmentByUrl: parse-intent-if:" + path + "\n\r" +
+                                    ex.getMessage());
                         }
 
                     } else {
-                        Log.e(TAG, "lunchProductFragmentByUrl: parse-intent-else:" + path + "\n\r" + ((Result.Error) data1).value);
+                        Log.e(TAG, "lunchProductFragmentByUrl: parse-intent-else:" + path + "\n\r" +
+                                   ((Result.Error) data1).value);
                     }
                 });
             }
@@ -313,7 +329,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         // TODO: Implement this method to send token to your app server.
 
         final String firebaseToken = MyPreferenceManager.getInatanse().getFirebaseToken();
-        final User user = accountInfo.getInfo(ACCOUNT_TYPE);
+        final User   user          = accountInfo.getInfo(ACCOUNT_TYPE);
 
         AuthToken.getInstant().get(this, this, new AuthToken.Callback() {
             @Override
@@ -400,10 +416,11 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         for (int i = 1; i < fragments.size(); i++) {
             try {
                 FragmentTransaction transaction = fm.beginTransaction();
-                Fragment f = fragments.pop();
+                Fragment            f           = fragments.pop();
                 transaction.remove(f).commit();
                 showHomeFrg = false;
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 Log.e(TAG, "manageStack: error");
                 Log.e(TAG, e.getMessage());
             }
@@ -414,7 +431,8 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             if (!showHomeFrg) {
                 transaction.show(fragments.lastElement()).commit();
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Log.e(TAG, "manageStack-show: error");
             Log.e(TAG, e.getMessage());
         }
@@ -465,23 +483,29 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
 
     private void handlerZarinPalCallBack(String amount, String authority) {
 
-        PaymentVerificationRequest body = new PaymentVerificationRequest("55eb1362-08d4-42ee-8c74-4c5f5bef37d4",
-                Integer.parseInt(amount),
-                authority);
+        PaymentVerificationRequest
+                body =
+                new PaymentVerificationRequest("55eb1362-08d4-42ee-8c74-4c5f5bef37d4",
+                        Integer.parseInt(amount),
+                        authority);
 
         repository.paymentVerification(body, data -> {
 
             if (data instanceof Result.Success) {
 
-                PaymentVerificationResponse payment = (PaymentVerificationResponse) ((Result.Success) data).value;
+                PaymentVerificationResponse
+                        payment =
+                        (PaymentVerificationResponse) ((Result.Success) data).value;
 
                 if (payment.getStatus() == 100) {
 
-                    Toast.makeText(AppConfig.context, "پرداخت با موفقیت انجام شد. کد پیگیری شما: " + payment.getRefID(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AppConfig.context, "پرداخت با موفقیت انجام شد. کد پیگیری شما: " +
+                                                      payment.getRefID(), Toast.LENGTH_LONG).show();
                     notifyTransaction(amount, authority, String.valueOf(payment.getRefID()));
                 } else {
 
-                    Toast.makeText(AppConfig.context, "خطا : " + payment.getStatus(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AppConfig.context,
+                            "خطا : " + payment.getStatus(), Toast.LENGTH_LONG).show();
                     notifyTransaction(amount, authority, String.valueOf(payment.getRefID()));
                 }
 

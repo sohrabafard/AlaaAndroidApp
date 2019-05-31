@@ -20,18 +20,18 @@ public class GrandModel implements Parcelable {
         }
     };
     @SerializedName("id")
-    private int id;
+    private             int                 id;
     @SerializedName("name")
-    private String name;
+    private             String              name;
     @SerializedName("url")
-    private String url;
+    private             String              url;
     @SerializedName("apiUrl")
-    private ApiUrlModel apiUrl;
+    private             ApiUrlModel         apiUrl;
     @SerializedName("photo")
-    private String photo;
+    private             String              photo;
     @SerializedName("attributes")
     @Expose
-    private AttributesModel attributes;
+    private             AttributesModel     attributes;
 
     protected GrandModel(Parcel in) {
         id = in.readInt();

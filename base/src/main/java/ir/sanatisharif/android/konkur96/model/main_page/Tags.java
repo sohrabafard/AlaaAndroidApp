@@ -1,13 +1,12 @@
 package ir.sanatisharif.android.konkur96.model.main_page;
 
-import java.util.List;
-
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class Tags implements Parcelable {
 
@@ -28,10 +27,10 @@ public class Tags implements Parcelable {
     };
     @SerializedName("bucket")
     @Expose
-    private String bucket;
+    private             String        bucket;
     @SerializedName("tags")
     @Expose
-    private List<String> tags = null;
+    private             List<String>  tags    = null;
 
     protected Tags(Parcel in) {
         this.bucket = ((String) in.readValue((String.class.getClassLoader())));

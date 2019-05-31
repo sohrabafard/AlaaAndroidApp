@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.model.main_page;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -27,44 +26,44 @@ public class Set implements Parcelable {
     };
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private             Integer      id;
     @SerializedName("name")
     @Expose
-    private String name;
+    private             String       name;
     @SerializedName("description")
     @Expose
-    private Object description;
+    private             Object       description;
     @SerializedName("photo")
     @Expose
-    private String photo;
+    private             String       photo;
     @SerializedName("tags")
     @Expose
-    private Tags tags;
+    private             Tags         tags;
     @SerializedName("created_at")
     @Expose
-    private String createdAt;
+    private             String       createdAt;
     @SerializedName("updated_at")
     @Expose
-    private String updatedAt;
+    private             String       updatedAt;
     @SerializedName("contents_count")
     @Expose
-    private Integer contentsCount;
+    private             Integer      contentsCount;
     @SerializedName("url")
     @Expose
-    private String url;
+    private             String       url;
     @SerializedName("apiUrl")
     @Expose
-    private ApiUrl apiUrl;
+    private             ApiUrl       apiUrl;
     @SerializedName("shortName")
     @Expose
-    private String shortName;
+    private             String       shortName;
     @SerializedName("author")
     @Expose
-    private Author author;
+    private             Author       author;
     @SerializedName("contentUrl")
     @Expose
-    private String contentUrl;
-    private int type;
+    private             String       contentUrl;
+    private             int          type;
 
     protected Set(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));

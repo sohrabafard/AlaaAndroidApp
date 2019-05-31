@@ -2,8 +2,6 @@ package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
@@ -31,10 +32,10 @@ import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
 
 public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoHolder> {
 
-    private List<VideoCourse> itemsList;
-    private Context mContext;
+    private List<VideoCourse>   itemsList;
+    private Context             mContext;
     private OnItemClickListener onItemClickListener;
-    private int width, height, pos = -1;
+    private int                 width, height, pos = -1;
     private RequestOptions requestOptions;
 
     public PlayListAdapter(Context context, List<VideoCourse> itemsList) {
@@ -79,7 +80,8 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
         try {
             holder.txtTitle.setText(item.getName());
             holder.txtSession.setText("   جلسه " + item.getOrder());
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Log.i("LOG", "error dont load content");
         }
 
@@ -136,7 +138,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
 
         private LinearLayout root, linearBottom;
         private ImageView imgPlayList;
-        private TextView txtTitle, txtSession;
+        private TextView  txtTitle, txtSession;
         private ProgressBar loader;
 
         private VideoHolder(View view) {

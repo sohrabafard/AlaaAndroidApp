@@ -6,7 +6,7 @@ package ir.sanatisharif.android.konkur96.model;
 
 public class OnBoardItem {
 
-    int imageID;
+    int    imageID;
     String title;
     String description;
 

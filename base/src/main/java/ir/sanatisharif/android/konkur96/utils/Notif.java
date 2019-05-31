@@ -10,11 +10,12 @@ import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
+import android.widget.RemoteViews;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-import android.util.Log;
-import android.widget.RemoteViews;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -28,36 +29,41 @@ import ir.sanatisharif.android.konkur96.activity.MainActivity;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
 
 public class Notif {
-    private static final String TAG = "Alaa\\Notif";
-    private String GROUP_KEY_WORK_PUSH = "ir.sanatisharif.android.konkur96.NOTIF_PUSH";
-    private int mId;
-    private RemoteViews mRemoteViews;
-    private Context mContext;
-    private String mTitle = null;
-    private String mBody = null;
-    private String mActionUrl = null;
-    private String mImage = null;
-    private String mActionTXT = null;
-    private String mChannelId;
-    private Notification mNotification = null;
+    private static final String       TAG                 = "Alaa\\Notif";
+    private              String
+                                      GROUP_KEY_WORK_PUSH =
+            "ir.sanatisharif.android.konkur96.NOTIF_PUSH";
+    private              int          mId;
+    private              RemoteViews  mRemoteViews;
+    private              Context      mContext;
+    private              String       mTitle              = null;
+    private              String       mBody               = null;
+    private              String       mActionUrl          = null;
+    private              String       mImage              = null;
+    private              String       mActionTXT          = null;
+    private              String       mChannelId;
+    private              Notification mNotification       = null;
 
     private Notif(Context context) {
         mContext = context;
         mChannelId = context.getString(R.string.default_notification_channel_id);
         mId = NotificationID.getID();
-        mRemoteViews =  new RemoteViews(mContext.getPackageName(), R.layout.remote_notification);
+        mRemoteViews = new RemoteViews(mContext.getPackageName(), R.layout.remote_notification);
     }
 
-    public static Notif get(@NonNull  Context context,@NonNull String title,@NonNull String body)
-    {
+    public static Notif get(@NonNull Context context, @NonNull String title, @NonNull String body) {
         return new Notif(context)
                 .setTitle(title)
                 .setBody(body)
                 .initRemoteView();
     }
-    public static Notif get(@NonNull  Context context)
-    {
+
+    public static Notif get(@NonNull Context context) {
         return new Notif(context);
+    }
+
+    public String getTitle() {
+        return mTitle;
     }
 
     public Notif setTitle(String title) {
@@ -65,9 +71,17 @@ public class Notif {
         return this;
     }
 
+    public String getBody() {
+        return mBody;
+    }
+
     public Notif setBody(String body) {
         this.mBody = body;
         return this;
+    }
+
+    public String getActionUrl() {
+        return mActionUrl;
     }
 
     public Notif setActionUrl(String actionUrl) {
@@ -75,9 +89,8 @@ public class Notif {
         return this;
     }
 
-    public Notif setActionTXT(String actionTXT) {
-        this.mActionTXT = actionTXT;
-        return this;
+    public String getImage() {
+        return mImage;
     }
 
     public Notif setImage(String image) {
@@ -85,44 +98,34 @@ public class Notif {
         return this;
     }
 
-    public String getTitle() {
-        return mTitle;
-    }
-
-    public String getBody() {
-        return mBody;
-    }
-
-    public String getActionUrl() {
-        return mActionUrl;
-    }
-
-    public String getImage() {
-        return mImage;
-    }
-
     public String getActionTXT() {
         return mActionTXT;
     }
 
+    public Notif setActionTXT(String actionTXT) {
+        this.mActionTXT = actionTXT;
+        return this;
+    }
+
     public void send() {
-        if(mTitle != null && mBody != null) {
+        if (mTitle != null && mBody != null) {
             Log.d(TAG, "sending Notif " + mId + "....");
             notifUser(false);
         }
     }
+
     public void update() {
-        if(mTitle != null && mBody != null) {
+        if (mTitle != null && mBody != null) {
             Log.d(TAG, "sending Notif " + mId + "....");
             notifUser(true);
         }
     }
 
-    private void notifUser(boolean isUpdating ) {
-        if(mNotification == null) {
+    private void notifUser(boolean isUpdating) {
+        if (mNotification == null) {
             mNotification = initNotification();
         }
-        if(!isUpdating) {
+        if (!isUpdating) {
             initRemoteView();
         }
         getNotificationManager().notify(mId, mNotification);
@@ -132,7 +135,9 @@ public class Notif {
     }
 
     private Notification initNotification() {
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri
+                defaultSoundUri     =
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         PendingIntent pendingIntent = provideIntent();
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(mContext, mChannelId)
@@ -152,7 +157,7 @@ public class Notif {
     }
 
     private void loadImageToRemoteViewOfNotification() {
-        if(mImage != null){
+        if (mImage != null) {
             try {
                 GlideApp
                         .with(mContext)
@@ -162,26 +167,27 @@ public class Notif {
                         .listener(new RequestListener<Bitmap>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                                Log.d(TAG,"onLoadFailed");
+                                Log.d(TAG, "onLoadFailed");
                                 return false;
                             }
 
                             @Override
                             public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                                Log.d(TAG,"onResourceReady");
+                                Log.d(TAG, "onResourceReady");
                                 updateRemoteView(resource).update();
                                 return false;
                             }
                         })
                         .submit().get();
-            } catch (ExecutionException e) {
+            }
+            catch (ExecutionException e) {
                 e.printStackTrace();
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
-
 
 
     @NonNull
@@ -192,8 +198,8 @@ public class Notif {
     }
 
     @NonNull
-    private Notif updateRemoteView(@NonNull  Bitmap bitmap) {
-        mRemoteViews.setImageViewBitmap(R.id.img,bitmap);
+    private Notif updateRemoteView(@NonNull Bitmap bitmap) {
+        mRemoteViews.setImageViewBitmap(R.id.img, bitmap);
         return this;
     }
 
@@ -223,7 +229,7 @@ public class Notif {
             intent.setData(data);
         }
 
-        return PendingIntent.getActivity(mContext, 0 , intent,
+        return PendingIntent.getActivity(mContext, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
     }
 }

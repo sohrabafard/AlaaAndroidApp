@@ -9,7 +9,7 @@ import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
 
 public class FullScreenModel implements Parcelable {
 
-    public static final Creator<FullScreenModel> CREATOR = new Creator<FullScreenModel>() {
+    public static final Creator<FullScreenModel>     CREATOR = new Creator<FullScreenModel>() {
         @Override
         public FullScreenModel createFromParcel(Parcel in) {
             return new FullScreenModel(in);
@@ -20,9 +20,9 @@ public class FullScreenModel implements Parcelable {
             return new FullScreenModel[size];
         }
     };
-    private int position;
+    private             int                          position;
     //private ArrayList<ImageGalleryModel> imageGalleryModels;
-    private ArrayList<ProductPhotoModel> productPhotoModel;
+    private             ArrayList<ProductPhotoModel> productPhotoModel;
 
     public FullScreenModel(int position, ArrayList<ProductPhotoModel> productPhotoModel) {
         this.position = position;

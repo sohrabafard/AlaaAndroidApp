@@ -1,9 +1,7 @@
 package ir.sanatisharif.android.konkur96.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
-
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.fragment.VideoPlayFrg;

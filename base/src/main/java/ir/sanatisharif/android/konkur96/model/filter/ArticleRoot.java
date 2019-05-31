@@ -33,7 +33,7 @@ public class ArticleRoot extends Pagination implements Parcelable {
     };
     @SerializedName("data")
     @Expose
-    private List<ArticleCourse> data = null;
+    private             List<ArticleCourse>  data    = null;
 
     protected ArticleRoot(Parcel in) {
         in.readList(this.data, (BlockDataModel.class.getClassLoader()));

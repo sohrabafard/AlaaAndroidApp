@@ -6,10 +6,10 @@ package ir.sanatisharif.android.konkur96.model;
 
 public class BannerItem {
 
-    private int id;
+    private int    id;
     private String title;
     private String url;
-    private int intent;
+    private int    intent;
 
     public int getId() {
         return id;

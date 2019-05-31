@@ -3,9 +3,6 @@ package ir.sanatisharif.android.konkur96.fragment;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +10,10 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -27,8 +28,8 @@ import ir.sanatisharif.android.konkur96.model.Events;
 
 public class ForumMainFrg extends BaseFragment {
 
-    private WebView webView;
-    private Toolbar mToolbar;
+    private WebView            webView;
+    private Toolbar            mToolbar;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     public static ForumMainFrg newInstance() {
@@ -111,7 +112,8 @@ public class ForumMainFrg extends BaseFragment {
                 waitingDialog = new MyWaitingDialog(getActivity());
                 try {
                     waitingDialog.setDialog().show();
-                }catch (Exception ex){
+                }
+                catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
@@ -125,7 +127,8 @@ public class ForumMainFrg extends BaseFragment {
             if (waitingDialog != null) {
                 try {
                     waitingDialog.dismiss();
-                }catch (Exception ex){
+                }
+                catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }

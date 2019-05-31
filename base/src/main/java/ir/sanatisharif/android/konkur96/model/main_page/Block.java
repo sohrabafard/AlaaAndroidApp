@@ -12,7 +12,7 @@ import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
 
 public class Block implements Parcelable {
 
-    public final static Creator<Block> CREATOR = new Creator<Block>() {
+    public final static Creator<Block>       CREATOR = new Creator<Block>() {
 
 
         @SuppressWarnings({
@@ -29,40 +29,40 @@ public class Block implements Parcelable {
     };
     @SerializedName("current_page")
     @Expose
-    private Integer currentPage;
+    private             Integer              currentPage;
     @SerializedName("data")
     @Expose
-    private List<BlockDataModel> data = null;
+    private             List<BlockDataModel> data    = null;
     @SerializedName("first_page_url")
     @Expose
-    private Object firstPageUrl;
+    private             Object               firstPageUrl;
     @SerializedName("from")
     @Expose
-    private Integer from;
+    private             Integer              from;
     @SerializedName("last_page")
     @Expose
-    private Integer lastPage;
+    private             Integer              lastPage;
     @SerializedName("last_page_url")
     @Expose
-    private Object lastPageUrl;
+    private             Object               lastPageUrl;
     @SerializedName("next_page_url")
     @Expose
-    private Object nextPageUrl;
+    private             Object               nextPageUrl;
     @SerializedName("path")
     @Expose
-    private String path;
+    private             String               path;
     @SerializedName("per_page")
     @Expose
-    private Integer perPage;
+    private             Integer              perPage;
     @SerializedName("prev_page_url")
     @Expose
-    private Object prevPageUrl;
+    private             Object               prevPageUrl;
     @SerializedName("to")
     @Expose
-    private Integer to;
+    private             Integer              to;
     @SerializedName("total")
     @Expose
-    private Integer total;
+    private             Integer              total;
 
     protected Block(Parcel in) {
         this.currentPage = ((Integer) in.readValue((Integer.class.getClassLoader())));

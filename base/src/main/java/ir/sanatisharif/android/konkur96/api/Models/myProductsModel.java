@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class myProductsModel implements Parcelable {
 
-    public static final Creator<myProductsModel> CREATOR = new Creator<myProductsModel>() {
+    public static final Creator<myProductsModel>       CREATOR = new Creator<myProductsModel>() {
         @Override
         public myProductsModel createFromParcel(Parcel in) {
             return new myProductsModel(in);
@@ -21,9 +21,9 @@ public class myProductsModel implements Parcelable {
         }
     };
     @SerializedName("user_id")
-    private int user_id;
+    private             int                            user_id;
     @SerializedName("data")
-    private ArrayList<MyProductsDataModel> data;
+    private             ArrayList<MyProductsDataModel> data;
 
     protected myProductsModel(Parcel in) {
         user_id = in.readInt();

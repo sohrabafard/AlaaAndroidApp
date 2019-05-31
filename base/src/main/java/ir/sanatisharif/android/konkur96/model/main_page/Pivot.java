@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.model.main_page;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -26,19 +25,19 @@ public class Pivot implements Parcelable {
     };
     @SerializedName("block_id")
     @Expose
-    private Integer blockId;
+    private             Integer        blockId;
     @SerializedName("blockable_id")
     @Expose
-    private Integer blockableId;
+    private             Integer        blockableId;
     @SerializedName("blockable_type")
     @Expose
-    private String blockableType;
+    private             String         blockableType;
     @SerializedName("created_at")
     @Expose
-    private String createdAt;
+    private             String         createdAt;
     @SerializedName("updated_at")
     @Expose
-    private String updatedAt;
+    private             String         updatedAt;
 
     protected Pivot(Parcel in) {
         this.blockId = ((Integer) in.readValue((Integer.class.getClassLoader())));

@@ -22,12 +22,12 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class DownloadFile {
 
-    private static DownloadFile dm;
-    private DownloadManager mDManager;
-    private DownloadCompleteReceiver mReceiver;
-    private DownloadManager.Request req = null;
-    private long id = 0;
-    private DownloadComplete d;
+    private static DownloadFile             dm;
+    private        DownloadManager          mDManager;
+    private        DownloadCompleteReceiver mReceiver;
+    private        DownloadManager.Request  req = null;
+    private        long                     id  = 0;
+    private        DownloadComplete         d;
 
     public static DownloadFile getInstance() {
 

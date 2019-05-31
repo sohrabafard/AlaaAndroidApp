@@ -1,9 +1,10 @@
 package ir.sanatisharif.android.konkur96.ui.component.paginate.item;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import ir.sanatisharif.android.konkur96.R;
 
@@ -14,7 +15,9 @@ public interface LoadingItem extends BaseLinearLayoutManagerItem {
     LoadingItem DEFAULT = new LoadingItem() {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+            View
+                    view =
+                    LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
             return new RecyclerView.ViewHolder(view) {
             };
         }

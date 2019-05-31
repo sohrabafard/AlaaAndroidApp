@@ -19,11 +19,11 @@ public class ErrorBaseModel implements Parcelable {
         }
     };
     @SerializedName("error")
-    private String error;
+    private             String                  error;
     @SerializedName("code")
-    private int code;
+    private             int                     code;
     @SerializedName("message")
-    private String message;
+    private             String                  message;
 
     protected ErrorBaseModel(Parcel in) {
         error = in.readString();

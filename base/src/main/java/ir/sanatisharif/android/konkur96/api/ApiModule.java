@@ -28,18 +28,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class ApiModule {
 
-    private static final String HEADER_CACHE_CONTROL = "Cache-Control";
-    private static final String HEADER_PRAGMA = "Pragma";
-    private static final long cacheSize = 100 * 1024 * 1024; // 10 MB
-    private static Interceptor onlineInterceptor = chain -> {
-        Request original = chain.request();
-        Request.Builder builder = original.newBuilder();
+    private static final String      HEADER_CACHE_CONTROL = "Cache-Control";
+    private static final String      HEADER_PRAGMA        = "Pragma";
+    private static final long        cacheSize            = 100 * 1024 * 1024; // 10 MB
+    private static       Interceptor onlineInterceptor    = chain -> {
+        Request          original = chain.request();
+        Request.Builder  builder  = original.newBuilder();
         okhttp3.Response response = chain.proceed(builder.build());
 
         handelStatusCode(response.code());
 
         CacheControl cacheControl = new CacheControl.Builder()
-                .maxStale(5 , TimeUnit.SECONDS)
+                .maxStale(5, TimeUnit.SECONDS)
                 .build();
 
         return response.newBuilder()
@@ -48,11 +48,11 @@ public class ApiModule {
                 .header(HEADER_CACHE_CONTROL, cacheControl.toString())
                 .build();
     };
-    private static Interceptor offlineInterceptor = chain -> {
+    private static       Interceptor offlineInterceptor   = chain -> {
         Request request = chain.request();
         if (!isConnected()) {
             CacheControl cacheControl = new CacheControl.Builder()
-                    .maxStale(1 , TimeUnit.DAYS)
+                    .maxStale(1, TimeUnit.DAYS)
                     .build();
             request = request.newBuilder()
                     .removeHeader(HEADER_PRAGMA)
@@ -65,15 +65,60 @@ public class ApiModule {
 
     private static boolean isConnected() {
         try {
-            android.net.ConnectivityManager e = (android.net.ConnectivityManager) AppConfig.context.getSystemService(
-                    Context.CONNECTIVITY_SERVICE);
+            android.net.ConnectivityManager
+                    e =
+                    (android.net.ConnectivityManager) AppConfig.context.getSystemService(
+                            Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = e.getActiveNetworkInfo();
             return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Log.w("LOG", e.toString());
         }
 
         return false;
+    }
+
+    ///http://developer.android.com/
+    private static boolean handelStatusCode(int code) {
+
+        boolean valid = true;
+        if (code == 401) {
+            Log.i("LOG", "handelStatusCode: " + 400);
+            handleToast("دسترسی نا معتبر");
+            valid = false;
+        } else if (code == 403) {
+            Log.i("LOG", "handelStatusCode: " + 403);
+            handleToast("دسترسی غیر مجاز ");
+            valid = false;
+        } else if (code == 404) {
+            Log.i("LOG", "handelStatusCode: " + 404);
+            handleToast("منبع درخواستی پیدا نشد");
+            valid = false;
+        } else if (code == 408) {
+            Log.i("LOG", "handelStatusCode: " + 408);
+            handleToast("پایان حداکثر زمان درخواست");
+            valid = false;
+        } else if (code == 413) {
+            Log.i("LOG", "handelStatusCode: " + 413);
+            handleToast("درخواست خیلی طولانی");
+            valid = false;
+        } else if (code >= 500) {
+            Log.i("LOG", "handelStatusCode: " + 500);
+            handleToast("خطای داخلی سرور");
+            valid = false;
+        }
+        return valid;
+    }
+
+    private static void handleToast(String msg) {
+        AppConfig.HANDLER.post(new Runnable() {
+            @Override
+            public void run() {
+                ActivityBase.toastShow(msg, MDToast.TYPE_ERROR);
+            }
+        });
+
     }
 
     @Provides
@@ -118,7 +163,6 @@ public class ApiModule {
         return builder.baseUrl(ZarinPalAPI.BASE_URL).build().create(ZarinPalAPI.class);
     }
 
-
     @Provides
     @Singleton
     HeadRequestInterface provideHeadRequest(Retrofit.Builder builder) {
@@ -147,47 +191,5 @@ public class ApiModule {
     @Singleton
     MainApi provideMainApi(Retrofit.Builder builder) {
         return builder.baseUrl(AppConfig.BASE_URL).build().create(MainApi.class);
-    }
-
-    ///http://developer.android.com/
-    private static boolean handelStatusCode(int code) {
-
-        boolean valid = true;
-        if (code == 401) {
-            Log.i("LOG", "handelStatusCode: " + 400);
-            handleToast("دسترسی نا معتبر");
-            valid = false;
-        } else if (code == 403) {
-            Log.i("LOG", "handelStatusCode: " + 403);
-            handleToast("دسترسی غیر مجاز ");
-            valid = false;
-        } else if (code == 404) {
-            Log.i("LOG", "handelStatusCode: " + 404);
-            handleToast("منبع درخواستی پیدا نشد");
-            valid = false;
-        } else if (code == 408) {
-            Log.i("LOG", "handelStatusCode: " + 408);
-            handleToast("پایان حداکثر زمان درخواست");
-            valid = false;
-        } else if (code == 413) {
-            Log.i("LOG", "handelStatusCode: " + 413);
-            handleToast("درخواست خیلی طولانی");
-            valid = false;
-        } else if (code >= 500) {
-            Log.i("LOG", "handelStatusCode: " + 500);
-            handleToast("خطای داخلی سرور");
-            valid = false;
-        }
-        return valid;
-    }
-
-    private static void handleToast(String msg) {
-        AppConfig.HANDLER.post(new Runnable() {
-            @Override
-            public void run() {
-                ActivityBase.toastShow(msg, MDToast.TYPE_ERROR);
-            }
-        });
-
     }
 }

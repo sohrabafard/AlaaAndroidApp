@@ -6,10 +6,10 @@ package ir.sanatisharif.android.konkur96.model;
 
 public class TabControl {
 
-    private int id;
-    private String name;
-    private String title;
-    private int icon;
+    private int     id;
+    private String  name;
+    private String  title;
+    private int     icon;
     private boolean show;
 
     public TabControl() {

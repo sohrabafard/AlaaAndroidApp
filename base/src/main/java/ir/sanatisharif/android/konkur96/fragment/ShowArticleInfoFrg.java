@@ -3,9 +3,6 @@ package ir.sanatisharif.android.konkur96.fragment;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
@@ -39,11 +40,11 @@ import me.gujun.android.taggroup.TagGroup;
 public class ShowArticleInfoFrg extends BaseFragment {
 
     private static ArticleCourse course;
-    private String TAG = "ShowContentInfoFrg";
-    private TextView txtAuthor, txtTitle;
+    private        String        TAG = "ShowContentInfoFrg";
+    private        TextView      txtAuthor, txtTitle;
     private JustifiedTextView txtContext, txtDesc;
     // private WebView webView;
-    private Toolbar toolbar;
+    private Toolbar  toolbar;
     private TagGroup tagGroup;
 
     public static ShowArticleInfoFrg newInstance(ArticleCourse c) {
@@ -109,14 +110,17 @@ public class ShowArticleInfoFrg extends BaseFragment {
 
     private void convertStringTo(String input) {
 
-        InputStream inputStream = new ByteArrayInputStream(input.getBytes(Charset.forName("UTF-8")));
+        InputStream
+                inputStream =
+                new ByteArrayInputStream(input.getBytes(Charset.forName("UTF-8")));
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
         String output = null;
         try {
             output = bufferedReader.readLine();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -125,7 +129,8 @@ public class ShowArticleInfoFrg extends BaseFragment {
             try {
                 output = bufferedReader.readLine();
                 Log.i(TAG, "convertStringTo: " + output);
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
         }

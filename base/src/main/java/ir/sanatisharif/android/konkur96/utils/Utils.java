@@ -13,8 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -22,6 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -64,12 +65,14 @@ public class Utils {
     }
 
     public static int getVersionCode() {
-        int versionCode = 0;
-        PackageInfo pInfo = null;
+        int         versionCode = 0;
+        PackageInfo pInfo       = null;
         try {
-            pInfo = AppConfig.context.getPackageManager().getPackageInfo(AppConfig.context.getPackageName(), 0);
+            pInfo =
+                    AppConfig.context.getPackageManager().getPackageInfo(AppConfig.context.getPackageName(), 0);
             versionCode = pInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
+        }
+        catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -86,10 +89,12 @@ public class Utils {
 
     public static Boolean validEmail(String email) {
 
-        String EMAIL_PATTERN = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
+        String
+                EMAIL_PATTERN =
+                "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
 
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher match = pattern.matcher(email);
+        Matcher match   = pattern.matcher(email);
 
         return match.matches();
     }
@@ -99,7 +104,7 @@ public class Utils {
         String EMAIL_PATTERN = "[a-zA-Z0-9.\\-_]{3,}";
 
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher match = pattern.matcher(userName);
+        Matcher match   = pattern.matcher(userName);
 
         return match.matches();
     }
@@ -109,7 +114,7 @@ public class Utils {
         String expression = "(\\+98|0)?9\\d{9}";
 
         Pattern pattern = Pattern.compile(expression);
-        Matcher match = pattern.matcher(phone);
+        Matcher match   = pattern.matcher(phone);
 
         return match.matches();
     }
@@ -144,15 +149,27 @@ public class Utils {
     public static String getFileSize(long size) {
         if (size <= 0)
             return "0";
-        final String[] units = new String[]{"بایت", "کیلوبایت", "مگابابت", "گیگابایت", "ترابایت"};
-        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
-        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+        final String[]
+                units       =
+                new String[]{
+                        "بایت",
+                        "کیلوبایت",
+                        "مگابابت",
+                        "گیگابایت",
+                        "ترابایت"
+                };
+        int     digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " +
+               units[digitGroups];
     }
 
     public static String convertTime(long millis) {
 
         long minute = TimeUnit.MILLISECONDS.toMinutes(millis);
-        long sec = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis));
+        long
+             sec    =
+                TimeUnit.MILLISECONDS.toSeconds(millis) -
+                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis));
 
         if (minute == 0)
             return String.format("%d ثانیه", sec);
@@ -169,23 +186,28 @@ public class Utils {
 
     public static int pxToDp(int px, Activity activity) {
         DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
-        int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        int
+                       dp             =
+                Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         return dp;
     }
 
     public static int dpToPx(int dp, Activity activity) {
         DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
-        int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        int
+                       px             =
+                Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         return px;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public static Point getScreenSize(Activity activity) {
         Display display = activity.getWindowManager().getDefaultDisplay();
-        Point size = new Point();
+        Point   size    = new Point();
         try {
             display.getSize(size);
-        } catch (NoSuchMethodError e) {
+        }
+        catch (NoSuchMethodError e) {
             // For lower than api 11
             size.x = display.getWidth();
             size.y = display.getHeight();
@@ -229,7 +251,7 @@ public class Utils {
             return null;
         if (!contentUrl.contains("&") && !contentUrl.contains("?"))
             return null;
-        String[] t = contentUrl.substring(contentUrl.lastIndexOf("?") + 1).split("&");
+        String[] t      = contentUrl.substring(contentUrl.lastIndexOf("?") + 1).split("&");
         String[] params = new String[t.length];
         for (int i = 0; i < t.length; i++) {
             params[i] = t[i].substring(t[i].lastIndexOf("=") + 1);
@@ -239,7 +261,7 @@ public class Utils {
 
     public static void loadGlide(ImageView img, String url, int width, int height) {
 
-        RequestOptions options =new RequestOptions()
+        RequestOptions options = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         Glide.with(AppConfig.context)
                 .load(url)
@@ -250,30 +272,52 @@ public class Utils {
 
     public static boolean isConnected() {
         try {
-            android.net.ConnectivityManager e = (android.net.ConnectivityManager) AppConfig.context.getSystemService(
-                    Context.CONNECTIVITY_SERVICE);
+            android.net.ConnectivityManager
+                    e =
+                    (android.net.ConnectivityManager) AppConfig.context.getSystemService(
+                            Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = e.getActiveNetworkInfo();
             return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Log.w("LOG", e.toString());
         }
 
         return false;
     }
 
-    public static boolean  isAppAvailable(Context context, String appName) {
+    public static boolean isAppAvailable(Context context, String appName) {
         PackageManager pm = context.getPackageManager();
         try {
             pm.getPackageInfo(appName, PackageManager.GET_ACTIVITIES);
             return true;
-        } catch (PackageManager.NameNotFoundException e) {
+        }
+        catch (PackageManager.NameNotFoundException e) {
             return false;
         }
     }
+
+    public static void followRedirectedLink(Context context, Activity activity, String url, EncryptedDownloadInterface.Callback callback) {
+        EncryptedDownloadRepository repository = new EncryptedDownloadRepository(activity);
+        AuthToken.getInstant().get(context, activity, new AuthToken.Callback() {
+            @Override
+            public void run(@NonNull String token) {
+                Log.i(TAG, "followRedirectedLink, has_token");
+                repository.getDirectLink(url, token, callback);
+            }
+
+            @Override
+            public void nill() {
+                Log.i(TAG, "followRedirectedLink, without_token");
+                repository.getDirectLink(url, null, callback);
+            }
+        });
+    }
+
     public static class ValidNationalCode {
 
         private boolean valid;
-        private String message;
+        private String  message;
 
         public boolean isValid() {
             return valid;
@@ -286,11 +330,11 @@ public class Utils {
         public void check(String code) {
 
             String expression = "\\d{10}";
-            int len = code.length();
-            int sum = 0, div = 0, control = 0;
+            int    len        = code.length();
+            int    sum        = 0, div = 0, control = 0;
 
             Pattern pattern = Pattern.compile(expression);
-            Matcher match = pattern.matcher(code);
+            Matcher match   = pattern.matcher(code);
 
             if (!match.matches()) {
                 valid = false;
@@ -314,22 +358,5 @@ public class Utils {
                 return;
             }
         }
-    }
-
-    public static void followRedirectedLink(Context context, Activity activity, String url, EncryptedDownloadInterface.Callback callback) {
-        EncryptedDownloadRepository repository = new EncryptedDownloadRepository(activity);
-        AuthToken.getInstant().get(context, activity, new AuthToken.Callback() {
-            @Override
-            public void run(@NonNull String token) {
-                Log.i(TAG, "followRedirectedLink, has_token");
-                repository.getDirectLink(url, token, callback);
-            }
-
-            @Override
-            public void nill() {
-                Log.i(TAG, "followRedirectedLink, without_token");
-                repository.getDirectLink(url, null, callback);
-            }
-        });
     }
 }

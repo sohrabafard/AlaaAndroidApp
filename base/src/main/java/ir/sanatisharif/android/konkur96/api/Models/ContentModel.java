@@ -36,71 +36,71 @@ public class ContentModel implements Parcelable, LogUserActionsOnPublicContentIn
     };
     @SerializedName("id")
     @Expose
-    private int id;
+    private             int                   id;
     @SerializedName("contenttype_id")
     @Expose
-    private int contenttypeId;
+    private             int                   contenttypeId;
     @SerializedName("name")
     @Expose
-    private String name;
+    private             String                name;
     @SerializedName("description")
     @Expose
-    private String description;
+    private             String                description;
     @SerializedName("tags")
     @Expose
-    private Tags tags;
+    private             Tags                  tags;
     @SerializedName("context")
     @Expose
-    private String context;
+    private             String                context;
     @SerializedName("file")
     @Expose
-    private File file;
+    private             File                  file;
     @SerializedName("duration")
     @Expose
-    private int duration;
+    private             int                   duration;
     @SerializedName("thumbnail")
     @Expose
-    private String thumbnail;
+    private             String                thumbnail;
     @SerializedName("isFree")
     @Expose
-    private int isFree;
+    private             int                   isFree;
     @SerializedName("order")
     @Expose
-    private int order;
+    private             int                   order;
     @SerializedName("page_view")
     @Expose
-    private Object pageView;
+    private             Object                pageView;
     @SerializedName("created_at")
     @Expose
-    private String createdAt;
+    private             String                createdAt;
     @SerializedName("updated_at")
     @Expose
-    private String updatedAt;
+    private             String                updatedAt;
     @SerializedName("url")
     @Expose
-    private String url;
-    private ApiUrl apiUrl;
+    private             String                url;
+    private             ApiUrl                apiUrl;
     @SerializedName("nextUrl")
     @Expose
-    private String nextUrl;
+    private             String                nextUrl;
     @SerializedName("nextApiUrl")
     @Expose
-    private NextApiUrl nextApiUrl;
+    private             NextApiUrl            nextApiUrl;
     @SerializedName("previousUrl")
     @Expose
-    private String previousUrl;
+    private             String                previousUrl;
     @SerializedName("previousApiUrl")
     @Expose
-    private PreviousApiUrl previousApiUrl;
+    private             PreviousApiUrl        previousApiUrl;
     @SerializedName("author")
     @Expose
-    private Author author;
+    private             Author                author;
     @SerializedName("pivot")
     @Expose
-    private Pivot pivot;
+    private             Pivot                 pivot;
     @SerializedName("set")
     @Expose
-    private Set set;
+    private             Set                   set;
 
     protected ContentModel(Parcel in) {
         this.name = in.readString();
@@ -119,11 +119,11 @@ public class ContentModel implements Parcelable, LogUserActionsOnPublicContentIn
         this.duration = in.readInt();
         this.isFree = in.readInt();
         this.order = in.readInt();
-        this.pageView =  in.readInt();
+        this.pageView = in.readInt();
 
         this.tags = ((Tags) in.readValue((Tags.class.getClassLoader())));
         this.file = ((File) in.readValue((File.class.getClassLoader())));
-        this.author = in.readParcelable (Author.class.getClassLoader());
+        this.author = in.readParcelable(Author.class.getClassLoader());
         this.apiUrl = in.readParcelable((ApiUrl.class.getClassLoader()));
         this.nextApiUrl = in.readParcelable((NextApiUrl.class.getClassLoader()));
         this.previousApiUrl = in.readParcelable((PreviousApiUrl.class.getClassLoader()));
@@ -442,19 +442,19 @@ public class ContentModel implements Parcelable, LogUserActionsOnPublicContentIn
 
     @Override
     public String getUserActionUrl() {
-        Log.i("Alaa\\ContentModel","getUserActionUrl : url"+getUrl());
+        Log.i("Alaa\\ContentModel", "getUserActionUrl : url" + getUrl());
         return getUrl();
     }
 
     @Override
     public String getUserActionPhoto() {
-        Log.i("Alaa\\ContentModel","getUserActionPhoto ");
+        Log.i("Alaa\\ContentModel", "getUserActionPhoto ");
         return getThumbnail();
     }
 
     @Override
     public String getUserActionDescription() {
-        Log.i("Alaa\\ContentModel","getUserActionDescription ");
+        Log.i("Alaa\\ContentModel", "getUserActionDescription ");
         return getDescription();
     }
 }

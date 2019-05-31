@@ -8,12 +8,13 @@ package ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import androidx.core.view.MotionEventCompat;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.animation.Interpolator;
+
+import androidx.core.view.MotionEventCompat;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -23,59 +24,59 @@ public class AutoScrollViewPager extends ViewPager {
 
     public static final int DEFAULT_INTERVAL = 4000;
 
-    public static final int LEFT = 0;
+    public static final int LEFT  = 0;
     public static final int RIGHT = 1;
 
     /**
      * do nothing when sliding at the last or first item
      **/
-    public static final int SLIDE_BORDER_MODE_NONE = 0;
+    public static final int     SLIDE_BORDER_MODE_NONE      = 0;
     /**
      * cycle when sliding at the last or first item
      **/
-    public static final int SLIDE_BORDER_MODE_CYCLE = 1;
+    public static final int     SLIDE_BORDER_MODE_CYCLE     = 1;
     /**
      * deliver event to parent when sliding at the last or first item
      **/
-    public static final int SLIDE_BORDER_MODE_TO_PARENT = 2;
-    public static final int SCROLL_WHAT = 0;
+    public static final int     SLIDE_BORDER_MODE_TO_PARENT = 2;
+    public static final int     SCROLL_WHAT                 = 0;
     /**
      * auto scroll time in milliseconds, default is {@link #DEFAULT_INTERVAL}
      **/
-    private long interval = DEFAULT_INTERVAL;
+    private             long    interval                    = DEFAULT_INTERVAL;
     /**
      * auto scroll direction, default is {@link #RIGHT}
      **/
-    private int direction = RIGHT;
+    private             int     direction                   = RIGHT;
     /**
      * whether automatic cycle when auto scroll reaching the last or first item, default is true
      **/
-    private boolean isCycle = true;
+    private             boolean isCycle                     = true;
     /**
      * whether stop auto scroll when touching, default is true
      **/
-    private boolean stopScrollWhenTouch = true;
+    private             boolean stopScrollWhenTouch         = true;
     /**
      * how to process when sliding at the last or first item, default is {@link #SLIDE_BORDER_MODE_NONE}
      **/
-    private int slideBorderMode = SLIDE_BORDER_MODE_NONE;
+    private             int     slideBorderMode             = SLIDE_BORDER_MODE_NONE;
     /**
      * whether animating when auto scroll at the last or first item
      **/
-    private boolean isBorderAnimation = true;
+    private             boolean isBorderAnimation           = true;
     /**
      * scroll factor for auto scroll animation, default is 1.0
      **/
-    private double autoScrollFactor = 1.0;
+    private             double  autoScrollFactor            = 1.0;
     /**
      * scroll factor for swipe scroll animation, default is 1.0
      **/
-    private double swipeScrollFactor = 1.0;
-    private Handler handler;
-    private boolean isAutoScroll = false;
-    private boolean isStopByTouch = false;
-    private float touchX = 0f, downX = 0f;
-    private float touchY = 0f;
+    private             double  swipeScrollFactor           = 1.0;
+    private             Handler handler;
+    private             boolean isAutoScroll                = false;
+    private             boolean isStopByTouch               = false;
+    private             float   touchX                      = 0f, downX = 0f;
+    private float                  touchY   = 0f;
     private CustomDurationScroller scroller = null;
 
     public AutoScrollViewPager(Context paramContext) {
@@ -98,7 +99,8 @@ public class AutoScrollViewPager extends ViewPager {
      */
     public void startAutoScroll() {
         isAutoScroll = true;
-        sendScrollMessage((long) (interval + scroller.getDuration() / autoScrollFactor * swipeScrollFactor));
+        sendScrollMessage((long) (interval +
+                                  scroller.getDuration() / autoScrollFactor * swipeScrollFactor));
     }
 
     /**
@@ -149,9 +151,11 @@ public class AutoScrollViewPager extends ViewPager {
             Field interpolatorField = ViewPager.class.getDeclaredField("sInterpolator");
             interpolatorField.setAccessible(true);
 
-            scroller = new CustomDurationScroller(getContext(), (Interpolator) interpolatorField.get(null));
+            scroller =
+                    new CustomDurationScroller(getContext(), (Interpolator) interpolatorField.get(null));
             scrollerField.set(this, scroller);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -160,9 +164,9 @@ public class AutoScrollViewPager extends ViewPager {
      * scroll only once
      */
     public void scrollOnce() {
-        PagerAdapter adapter = getAdapter();
-        int currentItem = getCurrentItem();
-        int totalCount;
+        PagerAdapter adapter     = getAdapter();
+        int          currentItem = getCurrentItem();
+        int          totalCount;
         if (adapter == null || (totalCount = adapter.getCount()) <= 1) {
             return;
         }
@@ -201,21 +205,23 @@ public class AutoScrollViewPager extends ViewPager {
             }
         }
 
-        if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT || slideBorderMode == SLIDE_BORDER_MODE_CYCLE) {
+        if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT ||
+            slideBorderMode == SLIDE_BORDER_MODE_CYCLE) {
             touchX = ev.getX();
             if (ev.getAction() == MotionEvent.ACTION_DOWN) {
                 downX = touchX;
             }
-            int currentItem = getCurrentItem();
-            PagerAdapter adapter = getAdapter();
-            int pageCount = adapter == null ? 0 : adapter.getCount();
+            int          currentItem = getCurrentItem();
+            PagerAdapter adapter     = getAdapter();
+            int          pageCount   = adapter == null ? 0 : adapter.getCount();
             /**
              * current index is first one and slide to right or current index is last one and slide to left.<br/>
              * if slide border mode is to parent, then requestDisallowInterceptTouchEvent false.<br/>
              * else scroll to last one when current item is first one, scroll to first one when current item is last
              * one.
              */
-            if ((currentItem == 0 && downX <= touchX) || (currentItem == pageCount - 1 && downX >= touchX)) {
+            if ((currentItem == 0 && downX <= touchX) ||
+                (currentItem == pageCount - 1 && downX >= touchX)) {
                 if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT) {
                     getParent().requestDisallowInterceptTouchEvent(false);
                 } else {

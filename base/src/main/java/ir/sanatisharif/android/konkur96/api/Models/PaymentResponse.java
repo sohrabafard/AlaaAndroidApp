@@ -19,9 +19,9 @@ public class PaymentResponse implements Parcelable {
         }
     };
     @SerializedName("Status")
-    private int Status;
+    private             int                      Status;
     @SerializedName("Authority")
-    private String Authority;
+    private             String                   Authority;
 
     protected PaymentResponse(Parcel in) {
         Status = in.readInt();

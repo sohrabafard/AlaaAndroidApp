@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
 public class PriceModel implements Parcelable {
 
     public static final Creator<PriceModel> CREATOR = new Creator<PriceModel>() {
@@ -21,11 +19,11 @@ public class PriceModel implements Parcelable {
         }
     };
     @SerializedName("base")
-    private int base;
+    private             int                 base;
     @SerializedName("discount")
-    private int discount;
+    private             int                 discount;
     @SerializedName("final")
-    private int mfinal;
+    private             int                 mfinal;
 
     protected PriceModel(Parcel in) {
         base = in.readInt();

@@ -2,14 +2,15 @@ package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
 import android.graphics.Point;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
@@ -21,14 +22,14 @@ import ir.sanatisharif.android.konkur96.interfaces.PositionFounder;
 
 public class IndicatorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context context;
+    private Context                      context;
     private ArrayList<ProductPhotoModel> imageGalleryModels;
-    private int selectedPosition;
-    private PositionFounder positionFounder;
+    private int                          selectedPosition;
+    private PositionFounder              positionFounder;
 
     private int TAG_NOTSELECTED = 0;
-    private int TAG_SELECTED = 1;
-    private int TAG_EMPTY = 2;
+    private int TAG_SELECTED    = 1;
+    private int TAG_EMPTY       = 2;
 
     public IndicatorAdapter(Context context, ArrayList<ProductPhotoModel> imageGalleryModels, int selectedPosition, PositionFounder pos) {
         this.context = context;
@@ -80,7 +81,8 @@ public class IndicatorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         } else {
 
             if (holder.getItemViewType() == TAG_SELECTED) {
-                ((ViewHolderSelected) holder).bindView(imageGalleryModels.get(position - 1), position + 1);
+                ((ViewHolderSelected) holder).bindView(imageGalleryModels.get(position - 1),
+                        position + 1);
 
             } else {
 
@@ -110,7 +112,7 @@ public class IndicatorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         assert wm != null;
         Display display = wm.getDefaultDisplay();
-        Point size = new Point();
+        Point   size    = new Point();
         display.getSize(size);
         return size.x;
     }

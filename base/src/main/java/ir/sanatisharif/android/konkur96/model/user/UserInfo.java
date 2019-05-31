@@ -2,7 +2,6 @@ package ir.sanatisharif.android.konkur96.model.user;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -26,22 +25,22 @@ public class UserInfo implements Parcelable {
     };
     @SerializedName("status")
     @Expose
-    private int status;
+    private             int               status;
     @SerializedName("msg")
     @Expose
-    private String msg;
+    private             String            msg;
     @SerializedName("redirectTo")
     @Expose
-    private String redirectTo;
+    private             String            redirectTo;
     @SerializedName("data")
     @Expose
-    private Data data;
+    private             Data              data;
 
     protected UserInfo(Parcel in) {
-        this.status = ((int) in.readValue((int.class.getClassLoader())));
-        this.msg = ((String) in.readValue((String.class.getClassLoader())));
-        this.redirectTo = ((String) in.readValue((String.class.getClassLoader())));
-        this.data = ((Data) in.readValue((Data.class.getClassLoader())));
+        this.status = in.readInt();
+        this.msg = in.readString();
+        this.redirectTo = in.readString();
+        this.data = in.readParcelable((Data.class.getClassLoader()));
     }
 
     public UserInfo() {

@@ -15,12 +15,12 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ir.sanatisharif.android.konkur96.api.ApiModule;
 import ir.sanatisharif.android.konkur96.api.MainApi;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.DaggerAppComponent;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
-import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
 import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
@@ -36,6 +36,7 @@ public class MainRepository implements MainRepositoryInterface {
     public MainRepository(Activity activity) {
         ((AppConfig) activity.getApplication()).getAppComponent().inject(this);
     }
+
     public MainRepository() {
         DaggerAppComponent.builder().apiModule(new ApiModule()).build().inject(this);
     }
@@ -103,7 +104,8 @@ public class MainRepository implements MainRepositoryInterface {
                         } else {
                             try {
                                 throw throwable;
-                            } catch (Throwable throwable1) {
+                            }
+                            catch (Throwable throwable1) {
                                 throwable1.printStackTrace();
                             }
                             Log.e(TAG, throwable.getMessage());

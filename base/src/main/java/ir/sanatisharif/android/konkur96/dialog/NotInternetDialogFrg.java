@@ -5,15 +5,16 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -25,11 +26,11 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 public class NotInternetDialogFrg extends BaseDialogFragment<NotInternetDialogFrg> {
 
     //------init UI
-    private static final String TAG = "LOG";
-    private View dialog;
-    private Button btnOk;
-    private ImageView imgCLose;
-    private NoInternetCallback callback;
+    private static final String             TAG = "LOG";
+    private              View               dialog;
+    private              Button             btnOk;
+    private              ImageView          imgCLose;
+    private              NoInternetCallback callback;
 
     public NotInternetDialogFrg setNoInternetCallback(NoInternetCallback callback) {
         this.callback = callback;
@@ -42,8 +43,7 @@ public class NotInternetDialogFrg extends BaseDialogFragment<NotInternetDialogFr
         AppConfig.showNoInternetDialog = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog_Alert);
-        }else
-        {
+        } else {
             setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_DeviceDefault);
         }
     }
@@ -103,7 +103,7 @@ public class NotInternetDialogFrg extends BaseDialogFragment<NotInternetDialogFr
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         AppConfig.showNoInternetDialog = false;
-        if (isResumed()){
+        if (isResumed()) {
             dismiss();
         }
     }

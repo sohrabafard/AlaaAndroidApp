@@ -19,13 +19,13 @@ public class WalletModel implements Parcelable {
         }
     };
     @SerializedName("id")
-    private int orderproducts;
+    private             int                  orderproducts;
     @SerializedName("name")
-    private String name;
+    private             String               name;
     @SerializedName("hint")
-    private String hint;
+    private             String               hint;
     @SerializedName("balance")
-    private String blance;
+    private             String               blance;
 
     protected WalletModel(Parcel in) {
         orderproducts = in.readInt();

@@ -39,11 +39,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         try {
             String authToken = mAccountManager.blockingGetAuthToken(account, "sd", true);
-        } catch (OperationCanceledException e) {
+        }
+        catch (OperationCanceledException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
-        } catch (AuthenticatorException e) {
+        }
+        catch (AuthenticatorException e) {
             e.printStackTrace();
         }
 

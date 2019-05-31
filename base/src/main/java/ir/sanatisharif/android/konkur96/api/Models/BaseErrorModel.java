@@ -19,7 +19,7 @@ public class BaseErrorModel implements Parcelable {
         }
     };
     @SerializedName("error")
-    private ErrorModel error;
+    private             ErrorModel              error;
 
     protected BaseErrorModel(Parcel in) {
         error = in.readParcelable(ErrorModel.class.getClassLoader());

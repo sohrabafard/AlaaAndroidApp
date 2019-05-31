@@ -23,14 +23,14 @@ public class CircleProgressBar extends View {
      * ProgressBar's line thickness
      */
     private float strokeWidth = 4;
-    private float progress = 0;
-    private int min = 0;
-    private int max = 100;
+    private float progress    = 0;
+    private int   min         = 0;
+    private int   max         = 100;
     /**
      * Start the progress at 12 o'clock
      */
-    private int startAngle = -90;
-    private int color = Color.DKGRAY;
+    private int   startAngle  = -90;
+    private int   color       = Color.DKGRAY;
     private RectF rectF;
     private Paint backgroundPaint;
     private Paint foregroundPaint;
@@ -99,12 +99,14 @@ public class CircleProgressBar extends View {
                 0, 0);
         //Reading values from the XML layout
         try {
-            strokeWidth = typedArray.getDimension(R.styleable.CircleProgressBar_progressBarThickness, strokeWidth);
+            strokeWidth =
+                    typedArray.getDimension(R.styleable.CircleProgressBar_progressBarThickness, strokeWidth);
             progress = typedArray.getFloat(R.styleable.CircleProgressBar_progressValue, progress);
             color = typedArray.getInt(R.styleable.CircleProgressBar_progressbarColor, color);
             min = typedArray.getInt(R.styleable.CircleProgressBar_min, min);
             max = typedArray.getInt(R.styleable.CircleProgressBar_max, max);
-        } finally {
+        }
+        finally {
             typedArray.recycle();
         }
 
@@ -133,10 +135,12 @@ public class CircleProgressBar extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         final int height = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);
-        final int width = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
-        final int min = Math.min(width, height);
+        final int width  = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
+        final int min    = Math.min(width, height);
         setMeasuredDimension(min, min);
-        rectF.set(0 + strokeWidth / 2, 0 + strokeWidth / 2, min - strokeWidth / 2, min - strokeWidth / 2);
+        rectF.set(
+                0 + strokeWidth / 2,
+                0 + strokeWidth / 2, min - strokeWidth / 2, min - strokeWidth / 2);
     }
 
     /**
@@ -147,13 +151,13 @@ public class CircleProgressBar extends View {
      * @return A brighter color
      */
     public int lightenColor(int color, float factor) {
-        float r = Color.red(color) * factor;
-        float g = Color.green(color) * factor;
-        float b = Color.blue(color) * factor;
-        int ir = Math.min(255, (int) r);
-        int ig = Math.min(255, (int) g);
-        int ib = Math.min(255, (int) b);
-        int ia = Color.alpha(color);
+        float r  = Color.red(color) * factor;
+        float g  = Color.green(color) * factor;
+        float b  = Color.blue(color) * factor;
+        int   ir = Math.min(255, (int) r);
+        int   ig = Math.min(255, (int) g);
+        int   ib = Math.min(255, (int) b);
+        int   ia = Color.alpha(color);
         return (Color.argb(ia, ir, ig, ib));
     }
 
@@ -167,9 +171,9 @@ public class CircleProgressBar extends View {
      */
     public int adjustAlpha(int color, float factor) {
         int alpha = Math.round(Color.alpha(color) * factor);
-        int red = Color.red(color);
+        int red   = Color.red(color);
         int green = Color.green(color);
-        int blue = Color.blue(color);
+        int blue  = Color.blue(color);
         return Color.argb(alpha, red, green, blue);
     }
 

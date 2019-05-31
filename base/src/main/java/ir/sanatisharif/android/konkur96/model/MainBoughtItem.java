@@ -3,9 +3,9 @@ package ir.sanatisharif.android.konkur96.model;
 import java.util.ArrayList;
 
 public class MainBoughtItem {
-    private int id;
-    private int type;
-    private String title;
+    private int          id;
+    private int          type;
+    private String       title;
     private ArrayList<?> items;
 
     public String getTitle() {

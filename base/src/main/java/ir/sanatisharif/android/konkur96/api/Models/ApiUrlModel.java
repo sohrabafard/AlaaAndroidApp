@@ -19,7 +19,7 @@ public class ApiUrlModel implements Parcelable {
         }
     };
     @SerializedName("v1")
-    private String v1;
+    private             String               v1;
 
     protected ApiUrlModel(Parcel in) {
         v1 = in.readString();

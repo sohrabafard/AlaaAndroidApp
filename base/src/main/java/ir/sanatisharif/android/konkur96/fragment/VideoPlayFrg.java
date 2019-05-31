@@ -63,17 +63,17 @@ import static ir.sanatisharif.android.konkur96.app.AppConfig.currentActivity;
 public class VideoPlayFrg extends BaseFragment {
 
 
-    private static final String TAG = "Alaa\\VideoPlayFrag";
-    private final String STATE_RESUME_WINDOW = "resumeWindow";
-    private final String STATE_RESUME_POSITION = "resumePosition";
-    private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
-    ProgressBar progressBar;
-    LifecycleRegistry mLifecycleRegistry;
-    PlaybackControlView controlView;
+    private static final String TAG                     = "Alaa\\VideoPlayFrag";
+    private final        String STATE_RESUME_WINDOW     = "resumeWindow";
+    private final        String STATE_RESUME_POSITION   = "resumePosition";
+    private final        String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
+    ProgressBar                  progressBar;
+    LifecycleRegistry            mLifecycleRegistry;
+    PlaybackControlView          controlView;
     //lock
-    PowerManager pm;
-    PowerManager.WakeLock wl;
-    KeyguardManager km;
+    PowerManager                 pm;
+    PowerManager.WakeLock        wl;
+    KeyguardManager              km;
     KeyguardManager.KeyguardLock kl;
 
     //<editor-fold desc="animation">
@@ -119,18 +119,18 @@ public class VideoPlayFrg extends BaseFragment {
 
         }
     };
-    private Bundle savedInsPlayer;
-    private SimpleExoPlayer player;
+    private Bundle              savedInsPlayer;
+    private SimpleExoPlayer     player;
     private SimpleExoPlayerView mExoPlayerView;
-    private MediaSource mVideoSource;
-    private boolean mExoPlayerFullscreen = false;
-    private FrameLayout mFullScreenButton;
-    private ImageView mFullScreenIcon;
-    private Dialog mFullScreenDialog;
+    private MediaSource         mVideoSource;
+    private boolean             mExoPlayerFullscreen = false;
+    private FrameLayout         mFullScreenButton;
+    private ImageView           mFullScreenIcon;
+    private Dialog              mFullScreenDialog;
     //private ImageButton imgPlay, imgPause;
-    private int mResumeWindow;
-    private long mResumePosition;
-    private String mUrl;
+    private int                 mResumeWindow;
+    private long                mResumePosition;
+    private String              mUrl;
 
     public static VideoPlayFrg newInstance(String path) {
 
@@ -236,13 +236,14 @@ public class VideoPlayFrg extends BaseFragment {
 
     private void initFullscreenDialog() {
 
-        mFullScreenDialog = new Dialog(AppConfig.currentActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
-            public void onBackPressed() {
-                if (mExoPlayerFullscreen)
-                    closeFullscreenDialog();
-                super.onBackPressed();
-            }
-        };
+        mFullScreenDialog =
+                new Dialog(AppConfig.currentActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
+                    public void onBackPressed() {
+                        if (mExoPlayerFullscreen)
+                            closeFullscreenDialog();
+                        super.onBackPressed();
+                    }
+                };
     }
 
     private void openFullscreenDialog() {
@@ -340,15 +341,20 @@ public class VideoPlayFrg extends BaseFragment {
 
     private void initExoPlayer() {
 
-        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-        LoadControl loadControl = new DefaultLoadControl();
+        BandwidthMeter         bandwidthMeter             = new DefaultBandwidthMeter();
+        TrackSelection.Factory
+                               videoTrackSelectionFactory =
+                new AdaptiveTrackSelection.Factory(bandwidthMeter);
+        TrackSelector
+                               trackSelector              =
+                new DefaultTrackSelector(videoTrackSelectionFactory);
+        LoadControl            loadControl                = new DefaultLoadControl();
 
-        player = ExoPlayerFactory.newSimpleInstance(getContext(),new DefaultRenderersFactory(getContext()), trackSelector, loadControl);
+        player =
+                ExoPlayerFactory.newSimpleInstance(getContext(), new DefaultRenderersFactory(getContext()), trackSelector, loadControl);
         mExoPlayerView.setPlayer(player);
 
-        String userAgent = Util.getUserAgent(context, "ExoPlayer");
+        String             userAgent         = Util.getUserAgent(context, "ExoPlayer");
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, userAgent);
 
         mUrl = getArguments().getString("path");
@@ -385,7 +391,7 @@ public class VideoPlayFrg extends BaseFragment {
             Log.i(TAG, "startPlayer: " + mUrl);
             initFullscreenDialog();
             initFullscreenButton();
-            String userAgent = Util.getUserAgent(context, "ExoPlayer");
+            String             userAgent         = Util.getUserAgent(context, "ExoPlayer");
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, userAgent);
 
 
@@ -400,9 +406,14 @@ public class VideoPlayFrg extends BaseFragment {
                         currentActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null);
-                                httpDataSourceFactory.getDefaultRequestProperties().set("Authorization", "Bearer " + token);
-                                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
+                                DefaultHttpDataSourceFactory
+                                        httpDataSourceFactory =
+                                        new DefaultHttpDataSourceFactory(userAgent, null);
+                                httpDataSourceFactory.getDefaultRequestProperties().set("Authorization",
+                                        "Bearer " + token);
+                                DataSource.Factory
+                                        dataSourceFactory =
+                                        new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
 
                                 Log.i(TAG, "run: asaas");
                                 mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
@@ -451,8 +462,8 @@ public class VideoPlayFrg extends BaseFragment {
     private void initWakeLockScreen() {
         pm = (PowerManager) getContext().getSystemService(POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
-                | PowerManager.ACQUIRE_CAUSES_WAKEUP
-                | PowerManager.ON_AFTER_RELEASE, "alla");
+                            | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                            | PowerManager.ON_AFTER_RELEASE, "alla");
 
 
         km = (KeyguardManager) getContext().getSystemService(KEYGUARD_SERVICE);

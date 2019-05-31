@@ -17,11 +17,10 @@ import ir.sanatisharif.android.konkur96.api.Models.MainBannerModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 
 
-
 public class BannerItemAdapter extends RecyclerView.Adapter<BannerItemAdapter.BannerHolder> {
 
     private List<MainBannerModel> itemsList;
-    private Context mContext;
+    private Context               mContext;
 
 
     public BannerItemAdapter(Context context, List<MainBannerModel> itemsList) {
@@ -70,8 +69,8 @@ public class BannerItemAdapter extends RecyclerView.Adapter<BannerItemAdapter.Ba
     public class BannerHolder extends RecyclerView.ViewHolder {
 
         private LinearLayout layout_click;
-        private TextView txtTitle;
-        private ImageView imgItem;
+        private TextView     txtTitle;
+        private ImageView    imgItem;
 
         private BannerHolder(View view) {
             super(view);

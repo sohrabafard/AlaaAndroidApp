@@ -1,7 +1,6 @@
 package ir.sanatisharif.android.konkur96.api;
 
 import io.reactivex.Observable;
-import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentResponse;
 import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;

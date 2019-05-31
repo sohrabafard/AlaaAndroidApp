@@ -19,15 +19,15 @@ public class VideoFilesModel implements Parcelable {
         }
     };
     @SerializedName("id")
-    private int id;
+    private             int                      id;
     @SerializedName("name")
-    private String name;
+    private             String                   name;
     @SerializedName("description")
-    private String description;
+    private             String                   description;
     @SerializedName("file")
-    private VideoFilesListModel file;
+    private             VideoFilesListModel      file;
     @SerializedName("thumbnail")
-    private String thumbnail;
+    private             String                   thumbnail;
 
     protected VideoFilesModel(Parcel in) {
         id = in.readInt();

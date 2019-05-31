@@ -4,9 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
@@ -47,10 +48,10 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private RequestOptions requestOptions;
+    private RequestOptions                  requestOptions;
     private List<? extends FilterBaseModel> mList;
-    private Context mContext;
-    private int width, height;
+    private Context                         mContext;
+    private int                             width, height;
 
     public FilterAdapter(Context context, List<? extends FilterBaseModel> list) {
         this.mList = list;
@@ -67,6 +68,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
 
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -92,7 +94,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (viewType == AppConstants.FILTER_VIDEO) {
 
-            final VideoCourse item = (VideoCourse) mList.get(position);
+            final VideoCourse item       = (VideoCourse) mList.get(position);
             final VideoHolder itemHolder = (VideoHolder) holder;
             itemHolder.txtTitle.setText(item.getName());
             itemHolder.txtAuthor.setText(item.getAuthor().getFullName());
@@ -133,7 +135,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         } else if (viewType == AppConstants.FILTER_PAMPHLET) {
 
-            final PamphletCourse item = (PamphletCourse) mList.get(position);
+            final PamphletCourse item       = (PamphletCourse) mList.get(position);
             final PamphletHolder itemHolder = (PamphletHolder) holder;
             itemHolder.txtTitle.setText(item.getName());
             itemHolder.txtAuthor.setText(item.getAuthor().getFullName());
@@ -147,8 +149,8 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         } else if (viewType == AppConstants.FILTER_SET) {
 
-            final SetFilterCourse item = (SetFilterCourse) mList.get(position);
-            final SetHolder itemHolder = (SetHolder) holder;
+            final SetFilterCourse item       = (SetFilterCourse) mList.get(position);
+            final SetHolder       itemHolder = (SetHolder) holder;
             itemHolder.txtTitle.setText(item.getName());
             itemHolder.txtAuthor.setText(item.getAuthor().getFullName());
 
@@ -182,7 +184,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
 
         } else if (viewType == AppConstants.FILTER_ARTICLE) {
-            final ArticleCourse item = (ArticleCourse) mList.get(position);
+            final ArticleCourse item       = (ArticleCourse) mList.get(position);
             final ArticleHolder itemHolder = (ArticleHolder) holder;
 
             itemHolder.txtAuthor.setText(item.getAuthor().getFullName());
@@ -196,7 +198,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
         } else if (viewType == AppConstants.FILTER_PRODUCT) {
 
-            SetFilterProduct item = (SetFilterProduct) mList.get(position);
+            SetFilterProduct    item       = (SetFilterProduct) mList.get(position);
             final ProductHolder itemHolder = (ProductHolder) holder;
 
             Glide.with(mContext)
@@ -206,11 +208,14 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .into(itemHolder.imageView);
 
             itemHolder.txtn.setText(item.getName());
-            itemHolder.txtPrice.setText(ShopUtils.formatPrice(item.getPrice().getMfinal()) + " تومان ");
-            itemHolder.txtDiscount.setPaintFlags(itemHolder.txtDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            itemHolder.txtPrice.setText(
+                    ShopUtils.formatPrice(item.getPrice().getMfinal()) + " تومان ");
+            itemHolder.txtDiscount.setPaintFlags(
+                    itemHolder.txtDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             if (item.getPrice().getDiscount() > 0) {
                 itemHolder.txtDiscount.setVisibility(View.VISIBLE);
-                itemHolder.txtDiscount.setText(ShopUtils.formatPrice(item.getPrice().getBase()) + " تومان ");
+                itemHolder.txtDiscount.setText(
+                        ShopUtils.formatPrice(item.getPrice().getBase()) + " تومان ");
 
             } else {
 
@@ -256,7 +261,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public class BaseHolder extends RecyclerView.ViewHolder {
 
         protected LinearLayout layout_click;
-        protected TextView txtTitle, txtAuthor, txtSession;
+        protected TextView     txtTitle, txtAuthor, txtSession;
 
         private BaseHolder(View view) {
             super(view);
@@ -291,7 +296,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class VideoHolder extends BaseHolder {
 
-        private ImageView imgItem;
+        private ImageView   imgItem;
         private ProgressBar loader;
 
         private VideoHolder(View view) {
@@ -319,7 +324,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class SetHolder extends BaseHolder {
 
-        private ImageView imgItem;
+        private ImageView   imgItem;
         private ProgressBar loader;
 
         private SetHolder(View view) {
@@ -346,8 +351,8 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public class ProductHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
-        private CardView cardViewRoot;
-        private TextView txtn, txtPrice, txtDiscount;
+        private CardView  cardViewRoot;
+        private TextView  txtn, txtPrice, txtDiscount;
 
         public ProductHolder(View itemView) {
             super(itemView);

@@ -27,12 +27,12 @@ import ir.sanatisharif.android.konkur96.utils.Utils;
 
 public class ViewSliderAdapter extends PagerAdapter {
 
-    private final Context mContext;
-    private ImageView img;
-    private List<MainBannerModel> imageList;
-    private LayoutInflater inflater;
-    private RequestOptions requestOptions;
-    private int h;
+    private final Context               mContext;
+    private       ImageView             img;
+    private       List<MainBannerModel> imageList;
+    private       LayoutInflater        inflater;
+    private       RequestOptions        requestOptions;
+    private       int                   h;
 
     public ViewSliderAdapter(Context context, List<MainBannerModel> list, RequestManager glideRequests) {
         mContext = context;
@@ -57,7 +57,9 @@ public class ViewSliderAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup collection, final int position) {
 
-        ViewGroup imageLayout = (ViewGroup) inflater.inflate(R.layout.view_slider, collection, false);
+        ViewGroup
+                imageLayout =
+                (ViewGroup) inflater.inflate(R.layout.view_slider, collection, false);
         img = imageLayout.findViewById(R.id.imageView);
         img.getLayoutParams().width = AppConfig.width;
         img.getLayoutParams().height = h;

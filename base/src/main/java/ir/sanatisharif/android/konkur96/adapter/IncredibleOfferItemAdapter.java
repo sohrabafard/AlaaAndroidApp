@@ -2,13 +2,14 @@ package ir.sanatisharif.android.konkur96.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
@@ -25,7 +26,7 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 public class IncredibleOfferItemAdapter extends RecyclerView.Adapter<IncredibleOfferItemAdapter.ContentHolder> {
 
     private ArrayList<ProductModel> itemsList;
-    private Context mContext;
+    private Context                 mContext;
 
 
     public IncredibleOfferItemAdapter(Context context, ArrayList<ProductModel> itemsList) {
@@ -78,7 +79,7 @@ public class IncredibleOfferItemAdapter extends RecyclerView.Adapter<IncredibleO
 
         public TextView title, price, discount;
         public ImageView image;
-        public CardView cardViewRoot;
+        public CardView  cardViewRoot;
 
         public ContentHolder(View itemView) {
             super(itemView);

@@ -10,40 +10,40 @@ import com.google.gson.annotations.SerializedName;
 public class Users {
 
 
-    private final static long serialVersionUID = 3774137690317975166L;
+    private final static long    serialVersionUID = 3774137690317975166L;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private              Integer id;
     @SerializedName("user_id")
     @Expose
-    private String userId;
+    private              String  userId;
     @SerializedName("content")
     @Expose
-    private String content;
+    private              String  content;
     @SerializedName("media_type")
     @Expose
-    private Integer mediaType;
+    private              Integer mediaType;
     @SerializedName("media_name")
     @Expose
-    private String mediaName;
+    private              String  mediaName;
     @SerializedName("created")
     @Expose
-    private String created;
+    private              String  created;
     @SerializedName("liked")
     @Expose
-    private Integer liked;
+    private              Integer liked;
     @SerializedName("comments")
     @Expose
-    private Integer comments;
+    private              Integer comments;
     @SerializedName("isDeleted")
     @Expose
-    private Integer isDeleted;
+    private              Integer isDeleted;
     @SerializedName("isActive")
     @Expose
-    private Integer isActive;
+    private              Integer isActive;
     @SerializedName("userName")
     @Expose
-    private String userName;
+    private              String  userName;
 
     public Integer getId() {
         return id;

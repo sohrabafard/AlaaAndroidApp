@@ -21,9 +21,9 @@ public class TagModel implements Parcelable {
         }
     };
     @SerializedName("bucket")
-    private String bucket;
+    private             String            bucket;
     @SerializedName("tags")
-    private ArrayList<String> tags;
+    private             ArrayList<String> tags;
 
     protected TagModel(Parcel in) {
         bucket = in.readString();

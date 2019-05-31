@@ -1,11 +1,12 @@
 package ir.sanatisharif.android.konkur96.dialog;
 
 import android.os.Bundle;
-import androidx.preference.DialogPreference;
-import androidx.preference.PreferenceDialogFragmentCompat;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import androidx.preference.DialogPreference;
+import androidx.preference.PreferenceDialogFragmentCompat;
 
 import ir.sanatisharif.android.konkur96.R;
 
@@ -18,7 +19,7 @@ public class CustomStorageDialogFragmentCompat extends PreferenceDialogFragmentC
     String[] storageValue;
     String[] storageEntry;
     private RadioGroup radioGroup;
-    private String value;
+    private String     value;
 
     public static CustomStorageDialogFragmentCompat newInstance(String key, String value) {
         final CustomStorageDialogFragmentCompat
@@ -73,7 +74,9 @@ public class CustomStorageDialogFragmentCompat extends PreferenceDialogFragmentC
             // Save the value
             DialogPreference preference = getPreference();
             if (preference instanceof DialogPrefChangeStorage) {
-                DialogPrefChangeStorage dialogPrefChangeStorage = ((DialogPrefChangeStorage) preference);
+                DialogPrefChangeStorage
+                        dialogPrefChangeStorage =
+                        ((DialogPrefChangeStorage) preference);
                 // This allows the client to ignore the user value.
                 if (dialogPrefChangeStorage.callChangeListener(value)) {
                     // Save the value

@@ -7,8 +7,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-import ir.sanatisharif.android.konkur96.model.main_page.Product;
-
 public class AddToCardModel extends ErrorBase implements Parcelable {
 
     public static final Creator<AddToCardModel> CREATOR = new Creator<AddToCardModel>() {
@@ -23,23 +21,23 @@ public class AddToCardModel extends ErrorBase implements Parcelable {
         }
     };
     @SerializedName("order_id")
-    private int order_id;
+    private             int                     order_id;
     @SerializedName("id")
-    private int id;
+    private             int                     id;
     @SerializedName("orderproducttype")
-    private OrderProductTypeModel orderproducttype;
+    private             OrderProductTypeModel   orderproducttype;
     @SerializedName("product")
-    private ProductModel product;
+    private             ProductModel            product;
     @SerializedName("grandId")
-    private String grandId;
+    private             String                  grandId;
     @SerializedName("price")
-    private AllPriceModel price;
+    private             AllPriceModel           price;
     @SerializedName("bons")
-    private ArrayList<AllBonModel> bons;
+    private             ArrayList<AllBonModel>  bons;
     @SerializedName("photo")
-    private String photo;
+    private             String                  photo;
     @SerializedName("grandProduct")
-    private ProductModel grandProduct;
+    private             ProductModel            grandProduct;
 
     protected AddToCardModel(Parcel in) {
         order_id = in.readInt();

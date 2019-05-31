@@ -4,17 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -38,20 +39,20 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
 public class MyProduct extends Fragment {
 
-    private RecyclerView productMainRecyclerView;
-    private TextView txtWallet;
+    private RecyclerView        productMainRecyclerView;
+    private TextView            txtWallet;
     private LinearLayoutManager linearLayoutManager;
 
-    private Repository repository;
+    private Repository  repository;
     private AccountInfo accountInfo;
-    private User user;
+    private User        user;
 
-    private MyProductAdapter adapter;
+    private MyProductAdapter        adapter;
     private ArrayList<ProductModel> items = new ArrayList<>();
 
     private myProductsModel myProductsModel;
-    private Context mContext;
-    private Activity mActivity;
+    private Context         mContext;
+    private Activity        mActivity;
 
     public static MyProduct newInstance() {
 
@@ -115,11 +116,14 @@ public class MyProduct extends Fragment {
                             public void run() {
                                 try {
 
-                                    ir.sanatisharif.android.konkur96.api.Models.myProductsModel value = (myProductsModel) ((Result.Success) data).value;
+                                    ir.sanatisharif.android.konkur96.api.Models.myProductsModel
+                                            value =
+                                            (myProductsModel) ((Result.Success) data).value;
                                     setData(value);
-                                }catch (Exception e)
-                                {
-                                    Log.e("Alaa\\MyProduct","User-id:"+userId+"\n\r"+"getDashboard - cast to model error");
+                                }
+                                catch (Exception e) {
+                                    Log.e("Alaa\\MyProduct", "User-id:" + userId + "\n\r" +
+                                                             "getDashboard - cast to model error");
                                     e.printStackTrace();
                                 }
                             }
@@ -127,7 +131,8 @@ public class MyProduct extends Fragment {
                     } else {
                         try {
                             Log.d("Alaa\\MyProduct", (String) ((Result.Error) data).value);
-                        }catch (Exception ex){
+                        }
+                        catch (Exception ex) {
                             Log.d("Alaa\\MyProduct", ex.getMessage());
                             ex.printStackTrace();
                         }
@@ -144,8 +149,10 @@ public class MyProduct extends Fragment {
 
     private void setData(@NonNull myProductsModel data) {
 
-        Gson gson = new Gson();
-        WalletModel walletModel = gson.fromJson(String.valueOf(user.getInfo().getWallet()).replace("[", "").replace("]", ""), WalletModel.class);
+        Gson        gson        = new Gson();
+        WalletModel
+                    walletModel =
+                gson.fromJson(String.valueOf(user.getInfo().getWallet()).replace("[", "").replace("]", ""), WalletModel.class);
 
 
         //---------------------- set mainModel data ---------------------------------------------

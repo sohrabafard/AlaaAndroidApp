@@ -6,11 +6,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.core.content.ContextCompat;
-import androidx.cardview.widget.CardView;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,6 +21,11 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,15 +51,15 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
     private List<Integer> attrList;
     private List<Integer> attrExtraList = new ArrayList<>();
-    private int id, totalPrice;
+    private int           id, totalPrice;
     private ArrayList<AttributeModel> extraAttrList;
-    private List<Integer> selectableIdList;
-    private ArrayList<ProductModel> selectableList;
+    private List<Integer>             selectableIdList;
+    private ArrayList<ProductModel>   selectableList;
 
     private LinearLayout bodyExtraAttr;
-    private ProgressBar progPrice;
-    private CardView btnAddToCard;
-    private TextView txtPrice;
+    private ProgressBar  progPrice;
+    private CardView     btnAddToCard;
+    private TextView     txtPrice;
 
     private Repository repository;
 
@@ -270,7 +270,7 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long ij) {
                 for (int i = 0; i < spinnerArray.size(); i++) {
                     String spinner = spinnerArray.get(i);
-                    int id = spinnerMap.get(spinner);
+                    int    id      = spinnerMap.get(spinner);
                     removeToAttrList(id);
                 }
 
@@ -328,8 +328,10 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
     private void showZarinPalDialog() {
 
-        FragmentManager fm = getFragmentManager();
-        DialogFragment newFragment = new ZarinPalDialogFragment(type, model, totalPrice, selectableIdList, attrList, attrExtraList);
+        FragmentManager fm          = getFragmentManager();
+        DialogFragment
+                        newFragment =
+                new ZarinPalDialogFragment(type, model, totalPrice, selectableIdList, attrList, attrExtraList);
 
         newFragment.show(fm, "ZarinPalDialog");
 
@@ -341,9 +343,9 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
     @SuppressLint("SetTextI18n")
     private void getPrice() {
 
-        ArrayList<Integer> mainAttributeValues = new ArrayList<>(attrList);
+        ArrayList<Integer> mainAttributeValues  = new ArrayList<>(attrList);
         ArrayList<Integer> extraAttributeValues = new ArrayList<>(attrExtraList);
-        ArrayList<Integer> products = new ArrayList<>(selectableIdList);
+        ArrayList<Integer> products             = new ArrayList<>(selectableIdList);
         progPrice.setVisibility(View.VISIBLE);
 
         repository = new RepositoryImpl(getActivity());
@@ -358,7 +360,8 @@ public class ProductExtraAttrDialogFragment extends DialogFragment {
 
                     if (temp.getCost().getMfinal() > 0) {
                         totalPrice = temp.getCost().getMfinal();
-                        txtPrice.setText(ShopUtils.formatPrice(temp.getCost().getMfinal()) + " تومان ");
+                        txtPrice.setText(
+                                ShopUtils.formatPrice(temp.getCost().getMfinal()) + " تومان ");
 
                     } else {
 

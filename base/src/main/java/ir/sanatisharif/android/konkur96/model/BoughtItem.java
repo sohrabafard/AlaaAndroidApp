@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 public class BoughtItem implements Serializable {
 
-    private int id;
+    private int    id;
     private String title;
     private String imageUrl;
     private String author;
-    private long price;
+    private long   price;
 
 
     public int getId() {

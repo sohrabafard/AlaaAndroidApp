@@ -11,22 +11,23 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
  */
 public class MyPreferenceManager {
 
-    private static final String PREFERENCE_FILE_NAME = "Prefs";
-    private final static String API_TOKEN = "api_token";
-    private final static String FIREBASE_TOKEN = "firebase_token";
-    private final static String SEND_TOKEN_TO_SERVER = "sendTokenToServer";
-    private final static String ONBOARDING = "onboarding";
-    private final static String TURN_OFF_NOTIFICATION = "turn_off_notification";
-    private final static String UPDATE_SHOW_DIALOG = "";
-    private final static String LAST_VERSION_CODE = "last_version_code";
-    private final static String AUTHORIZE = "authorization";
-    public static SharedPreferences.Editor editor;
-    private static MyPreferenceManager preferenceManager = null;
-    private static SharedPreferences sharedPreferences;
+    private static final String                   PREFERENCE_FILE_NAME  = "Prefs";
+    private final static String                   API_TOKEN             = "api_token";
+    private final static String                   FIREBASE_TOKEN        = "firebase_token";
+    private final static String                   SEND_TOKEN_TO_SERVER  = "sendTokenToServer";
+    private final static String                   ONBOARDING            = "onboarding";
+    private final static String                   TURN_OFF_NOTIFICATION = "turn_off_notification";
+    private final static String                   UPDATE_SHOW_DIALOG    = "";
+    private final static String                   LAST_VERSION_CODE     = "last_version_code";
+    private final static String                   AUTHORIZE             = "authorization";
+    public static        SharedPreferences.Editor editor;
+    private static       MyPreferenceManager      preferenceManager     = null;
+    private static       SharedPreferences        sharedPreferences;
 
 
     private MyPreferenceManager() {
-        sharedPreferences = AppConfig.context.getApplicationContext().getSharedPreferences(PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
+        sharedPreferences =
+                AppConfig.context.getApplicationContext().getSharedPreferences(PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 
