@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
-import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.main_page.ApiUrl;
 import ir.sanatisharif.android.konkur96.model.main_page.Author;
 import ir.sanatisharif.android.konkur96.model.main_page.File;

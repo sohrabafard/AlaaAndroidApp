@@ -5,7 +5,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
-import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;

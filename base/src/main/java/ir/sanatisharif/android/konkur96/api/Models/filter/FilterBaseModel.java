@@ -1,4 +1,4 @@
-package ir.sanatisharif.android.konkur96.model.filter;
+package ir.sanatisharif.android.konkur96.api.Models.filter;
 
 /**
  * Created by Mohamad on 2/22/2019.

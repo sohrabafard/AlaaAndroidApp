@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
-import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
 
 public class ProductModel extends PaginationDataModel implements LogUserActionsOnPublicContentInterface.Data, FilterBaseModel {
 

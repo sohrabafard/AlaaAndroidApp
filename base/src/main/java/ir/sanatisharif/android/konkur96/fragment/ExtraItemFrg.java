@@ -28,8 +28,8 @@ import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
-import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
-import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 

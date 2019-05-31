@@ -22,7 +22,7 @@ import ir.sanatisharif.android.konkur96.app.DaggerAppComponent;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
-import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;

@@ -1,4 +1,4 @@
-package ir.sanatisharif.android.konkur96.model.filter;
+package ir.sanatisharif.android.konkur96.api.Models.filter;
 
 import android.os.Parcel;
 import android.os.Parcelable;

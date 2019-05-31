@@ -18,7 +18,7 @@ import java.util.List;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
-import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 

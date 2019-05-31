@@ -38,7 +38,7 @@ import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
 import ir.sanatisharif.android.konkur96.fragment.ShowArticleInfoFrg;
 import ir.sanatisharif.android.konkur96.fragment.ShowContentInfoFrg;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
-import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.api.Models.SetModel;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 

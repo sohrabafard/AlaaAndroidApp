@@ -43,7 +43,7 @@ import ir.sanatisharif.android.konkur96.listener.ScrollOnRecycler;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.TabControl;
-import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
 
 /**
  * Created by Mohamad on 10/13/2018.

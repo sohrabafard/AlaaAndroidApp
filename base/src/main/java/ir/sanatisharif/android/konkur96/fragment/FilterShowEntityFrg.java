@@ -32,8 +32,8 @@ import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.ScrollOnRecycler;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.api.Models.PaginationModel;
-import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
-import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
 
 
 /**
