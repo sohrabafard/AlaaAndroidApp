@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="dummy_main_product">
-        <item>پسران</item>
-        <item>دختران</item>
-    </string-array>
-
-
-    <string-array name="dummy_extra_product">
-        <item>خوابگاه نمی خواهم</item>
-        <item>خوابگاه می خواهم (+۱۰۰۰۰۰)</item>
-    </string-array>
-
-
-    <string-array name="dummy_extra_product_day">
-        <item>نمی خوام (+۱۰۰۰ تومان)</item>
-        <item>۱ روز (+۲۰۰۰۰ تومان)</item>
-        <item>۲ روز (+۳۰۰۰۰ تومان)</item>
-    </string-array>
 
 
 </resources>

@@ -1,7 +1,5 @@
 <resources>
-	<dimen name="fab_margin">72dp</dimen>
-	<dimen name="card_size_video">300dp</dimen>
+    <dimen name="card_size_video">300dp</dimen>
 	<integer name="gallery_columns">2</integer>
 	<dimen name="spacing_middle">20dp</dimen>
-	<dimen name="onboard">50dp</dimen>
 </resources>
