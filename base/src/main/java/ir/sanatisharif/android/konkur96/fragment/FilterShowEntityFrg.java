@@ -30,7 +30,7 @@ import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.ScrollOnRecycler;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.filter.ArticleRoot;
-import ir.sanatisharif.android.konkur96.model.filter.Filter;
+import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 import ir.sanatisharif.android.konkur96.model.filter.PamphletRoot;
@@ -204,8 +204,8 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
         repository.getFilterTagsByUrl(nextUrl, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
-                Filter filter = (Filter) obj;
-                int    size   = mList.size();
+                FilterModel filter = (FilterModel) obj;
+                int         size   = mList.size();
                 if (type == AppConstants.FILTER_VIDEO) {
                     Log.i("LOG", "onFailure: onSuccess");
                     //reset pagination

@@ -3,29 +3,33 @@ package ir.sanatisharif.android.konkur96.api.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class ResultModel implements Parcelable {
+public class ProductIndexResultModel implements Parcelable {
 
-    public static final Creator<ResultModel> CREATOR = new Creator<ResultModel>() {
+    public static final Creator<ProductIndexResultModel> CREATOR = new Creator<ProductIndexResultModel>() {
         @Override
-        public ResultModel createFromParcel(Parcel in) {
-            return new ResultModel(in);
+        public ProductIndexResultModel createFromParcel(Parcel in) {
+            return new ProductIndexResultModel(in);
         }
 
         @Override
-        public ResultModel[] newArray(int size) {
-            return new ResultModel[size];
+        public ProductIndexResultModel[] newArray(int size) {
+            return new ProductIndexResultModel[size];
         }
     };
     @SerializedName("result")
-    private             ProductDataModel     result;
-    @SerializedName("tags")
-    private             ArrayList<String>    tags;
+    @Expose
+    private             ProductDataModel                 result;
 
-    protected ResultModel(Parcel in) {
+    @SerializedName("tags")
+    @Expose
+    private             ArrayList<String>                tags;
+
+    protected ProductIndexResultModel(Parcel in) {
         result = in.readParcelable(ProductDataModel.class.getClassLoader());
         tags = in.createStringArrayList();
     }

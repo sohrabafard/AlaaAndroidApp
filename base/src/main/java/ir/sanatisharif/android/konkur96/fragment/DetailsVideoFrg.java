@@ -98,7 +98,7 @@ import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Block;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
 import ir.sanatisharif.android.konkur96.model.Video;
-import ir.sanatisharif.android.konkur96.model.filter.Filter;
+import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.filter.Pagination;
 import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
@@ -668,7 +668,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         repository.getFilterTagsByUrl(url, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
-                Filter filter = (Filter) obj;
+                FilterModel filter = (FilterModel) obj;
 
                 if (filter.getResult().getVideo() != null) {
                     videoCourses.addAll(filter.getResult().getVideo().getData());
@@ -696,7 +696,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         repository.getFilterTagsByUrl(url, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
-                Filter filter = (Filter) obj;
+                FilterModel filter = (FilterModel) obj;
 
                 if (filter.getResult().getVideo() != null) {
 

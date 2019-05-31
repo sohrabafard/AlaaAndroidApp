@@ -6,40 +6,43 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Result implements Parcelable {
+public class FilterResult implements Parcelable {
 
-    public final static Creator<Result>      CREATOR = new Creator<Result>() {
+    public final static Creator<FilterResult> CREATOR = new Creator<FilterResult>() {
 
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Result createFromParcel(Parcel in) {
-            return new Result(in);
+        @Override
+        public FilterResult createFromParcel(Parcel in) {
+            return new FilterResult(in);
         }
 
-        public Result[] newArray(int size) {
-            return (new Result[size]);
+        @Override
+        public FilterResult[] newArray(int size) {
+            return (new FilterResult[size]);
         }
 
     };
     @SerializedName("video")
     @Expose
-    private             VideoRoot            media;
+    private             VideoRoot             media;
+
     @SerializedName("pamphlet")
     @Expose
-    private             PamphletRoot         pamphlet;
+    private             PamphletRoot          pamphlet;
+
     @SerializedName("article")
     @Expose
-    private             ArticleRoot          article;
+    private             ArticleRoot           article;
+
     @SerializedName("set")
     @Expose
-    private             SetFilterRoot        set;
+    private             SetFilterRoot         set;
+
     @SerializedName("product")
     @Expose
-    private             SetFilterProductRoot product;
+    private             SetFilterProductRoot  product;
 
-    protected Result(Parcel in) {
+
+    protected FilterResult(Parcel in) {
         this.media = ((VideoRoot) in.readValue((VideoRoot.class.getClassLoader())));
         this.pamphlet = ((PamphletRoot) in.readValue((Object.class.getClassLoader())));
         this.article = ((ArticleRoot) in.readValue((Object.class.getClassLoader())));
@@ -47,8 +50,6 @@ public class Result implements Parcelable {
         this.product = ((SetFilterProductRoot) in.readValue((Object.class.getClassLoader())));
     }
 
-    public Result() {
-    }
 
     public VideoRoot getVideo() {
         return media;
@@ -90,6 +91,7 @@ public class Result implements Parcelable {
         this.product = product;
     }
 
+    @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(media);
         dest.writeValue(pamphlet);
@@ -98,6 +100,7 @@ public class Result implements Parcelable {
         dest.writeValue(product);
     }
 
+    @Override
     public int describeContents() {
         return 0;
     }

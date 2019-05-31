@@ -5,7 +5,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
-import ir.sanatisharif.android.konkur96.model.filter.Filter;
+import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;
@@ -60,7 +60,7 @@ public interface MainApi {
             "X-Requested-With: XMLHttpRequest"
     })
     @GET("c")
-    Observable<Filter> getContentOnly(
+    Observable<FilterModel> getContentOnly(
             @Query("set") String id,
             @Query("contentOnly") int contentOnly);
 
@@ -70,7 +70,7 @@ public interface MainApi {
             "X-Requested-With: XMLHttpRequest"
     })
     @GET("c")
-    Observable<Filter> getFilterBySearch(
+    Observable<FilterModel> getFilterBySearch(
             @Query("search") String search);
 
     @Headers({
@@ -79,7 +79,7 @@ public interface MainApi {
             "X-Requested-With: XMLHttpRequest"
     })
     @GET("c")
-    Observable<Filter> getFilterTags(@Query("tags[]") List<String> tags);
+    Observable<FilterModel> getFilterTags(@Query("tags[]") List<String> tags);
 
     @Headers({
             "ContentModel-Type: application/json",
@@ -87,7 +87,7 @@ public interface MainApi {
             "X-Requested-With: XMLHttpRequest"
     })
     @GET
-    Observable<Filter> getFilterTagsByUrl(@Url String url);
+    Observable<FilterModel> getFilterTagsByUrl(@Url String url);
 
     @Headers({
             "ContentModel-Type: application/json",

@@ -43,7 +43,7 @@ import ir.sanatisharif.android.konkur96.listener.ScrollOnRecycler;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.TabControl;
-import ir.sanatisharif.android.konkur96.model.filter.Filter;
+import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -185,7 +185,7 @@ public class FilterTagsFrg extends BaseFragment implements
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void setupViewPager(ViewPager viewPager, Filter filter) {
+    private void setupViewPager(ViewPager viewPager, FilterModel filter) {
 
         int tabCount = 0, selected_first_index = -1;
 
@@ -326,7 +326,7 @@ public class FilterTagsFrg extends BaseFragment implements
 
     private void mapToViewpager(Object obj) {
 
-        Filter filter = (Filter) obj;
+        FilterModel filter = (FilterModel) obj;
 
         setupViewPager(viewPager, filter);
         int tabCount = 0;

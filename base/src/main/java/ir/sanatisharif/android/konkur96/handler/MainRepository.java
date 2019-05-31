@@ -22,7 +22,7 @@ import ir.sanatisharif.android.konkur96.app.DaggerAppComponent;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
-import ir.sanatisharif.android.konkur96.model.filter.Filter;
+import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;
@@ -122,9 +122,9 @@ public class MainRepository implements MainRepositoryInterface {
         mainApi.getFilterBySearch(search)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Filter>() {
+                .subscribe(new Consumer<FilterModel>() {
                     @Override
-                    public void accept(Filter response) throws Exception {
+                    public void accept(FilterModel response) throws Exception {
                         iServerCallbackObject.onSuccess(response);
                     }
                 }, new Consumer<Throwable>() {
@@ -141,9 +141,9 @@ public class MainRepository implements MainRepositoryInterface {
         mainApi.getContentOnly(id, 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Filter>() {
+                .subscribe(new Consumer<FilterModel>() {
                     @Override
-                    public void accept(Filter response) throws Exception {
+                    public void accept(FilterModel response) throws Exception {
                         iServerCallbackObject.onSuccess(response);
                     }
                 }, new Consumer<Throwable>() {
@@ -160,9 +160,9 @@ public class MainRepository implements MainRepositoryInterface {
         mainApi.getFilterTagsByUrl(url)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Filter>() {
+                .subscribe(new Consumer<FilterModel>() {
                     @Override
-                    public void accept(Filter response) throws Exception {
+                    public void accept(FilterModel response) throws Exception {
                         iServerCallbackObject.onSuccess(response);
                     }
                 }, new Consumer<Throwable>() {
@@ -179,9 +179,9 @@ public class MainRepository implements MainRepositoryInterface {
         mainApi.getFilterTags(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Filter>() {
+                .subscribe(new Consumer<FilterModel>() {
                     @Override
-                    public void accept(Filter response) throws Exception {
+                    public void accept(FilterModel response) throws Exception {
                         iServerCallbackObject.onSuccess(response);
                     }
                 }, new Consumer<Throwable>() {

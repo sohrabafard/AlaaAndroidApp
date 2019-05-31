@@ -26,7 +26,7 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MoreProductAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.api.Models.ResultModel;
+import ir.sanatisharif.android.konkur96.api.Models.ProductIndexResultModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
@@ -36,11 +36,11 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.myPaginat
 
 public class MoreProductFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    Toolbar     pageToolbar;
-    Repository  repository;
-    ResultModel resultModel;
-    boolean     isPaginate = false;
-    myPaginate  paginate;
+    Toolbar                 pageToolbar;
+    Repository              repository;
+    ProductIndexResultModel resultModel;
+    boolean                 isPaginate = false;
+    myPaginate              paginate;
     private RecyclerView         recyclerMoreProduct;
     private RecyclerView.Adapter mAdapter;
     private GridLayoutManager    gridLayoutManager;
@@ -148,7 +148,7 @@ public class MoreProductFragment extends BaseFragment implements SwipeRefreshLay
 
             if (data instanceof Result.Success) {
 
-                setData((ResultModel) ((Result.Success) data).value);
+                setData((ProductIndexResultModel) ((Result.Success) data).value);
                 swipeRefreshLayout.setRefreshing(false);
 
             } else {
@@ -173,7 +173,7 @@ public class MoreProductFragment extends BaseFragment implements SwipeRefreshLay
 
                 if (data instanceof Result.Success) {
 
-                    setData((ResultModel) ((Result.Success) data).value);
+                    setData((ProductIndexResultModel) ((Result.Success) data).value);
                     swipeRefreshLayout.setRefreshing(false);
 
                 } else {
@@ -190,7 +190,7 @@ public class MoreProductFragment extends BaseFragment implements SwipeRefreshLay
 
     }
 
-    private void setData(ResultModel data) {
+    private void setData(ProductIndexResultModel data) {
 
         //---------------------- set mainModel data ---------------------------------------------
         resultModel = data;

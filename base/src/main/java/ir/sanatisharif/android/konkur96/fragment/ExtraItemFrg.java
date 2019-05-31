@@ -27,7 +27,7 @@ import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
-import ir.sanatisharif.android.konkur96.model.filter.Filter;
+import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
@@ -130,7 +130,7 @@ public class ExtraItemFrg extends BaseFragment {
             @Override
             public void onSuccess(Object obj) {
 
-                Filter filter = (Filter) obj;
+                FilterModel filter = (FilterModel) obj;
                 if (filter.getResult().getVideo() != null) {
                     List<VideoCourse> videos = filter.getResult().getVideo().getData();
                     mList.addAll(videos);

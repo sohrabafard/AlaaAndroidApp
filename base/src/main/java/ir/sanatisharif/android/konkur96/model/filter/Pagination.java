@@ -53,7 +53,7 @@ public class Pagination implements Parcelable {
     private             Integer             perPage;
     @SerializedName("prev_page_url")
     @Expose
-    private             Object              prevPageUrl;
+    private             String              prevPageUrl;
     @SerializedName("to")
     @Expose
     private             Integer             to;
@@ -70,7 +70,7 @@ public class Pagination implements Parcelable {
         this.nextPageUrl = ((String) in.readValue((String.class.getClassLoader())));
         this.path = ((String) in.readValue((String.class.getClassLoader())));
         this.perPage = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.prevPageUrl = in.readValue((Object.class.getClassLoader()));
+        this.prevPageUrl = ((String) in.readValue((String.class.getClassLoader())));
         this.to = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.total = ((Integer) in.readValue((Integer.class.getClassLoader())));
     }
@@ -143,11 +143,11 @@ public class Pagination implements Parcelable {
         this.perPage = perPage;
     }
 
-    public Object getPrevPageUrl() {
+    public String getPrevPageUrl() {
         return prevPageUrl;
     }
 
-    public void setPrevPageUrl(Object prevPageUrl) {
+    public void setPrevPageUrl(String prevPageUrl) {
         this.prevPageUrl = prevPageUrl;
     }
 
