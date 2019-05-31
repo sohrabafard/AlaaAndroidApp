@@ -1,7 +1,6 @@
 package ir.sanatisharif.android.konkur96.model.filter;
 
-import android.os.Parcelable;
-import android.support.v7.util.DiffUtil;
+import androidx.recyclerview.widget.DiffUtil;
 
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.model.DataCourse;

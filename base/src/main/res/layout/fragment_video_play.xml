@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        app:show_buffering="true"
         app:fastforward_increment="30000"
         app:rewind_increment="30000"
         app:show_timeout="4000">

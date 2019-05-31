@@ -1,6 +1,6 @@
 package ir.sanatisharif.android.konkur96.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +9,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
-import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 import ir.sanatisharif.android.konkur96.api.Models.BonModel;
 
 public class ProductBonsAdapter extends RecyclerView.Adapter<ProductBonsAdapter.MyViewHolder> {

@@ -1,6 +1,6 @@
 package ir.sanatisharif.android.konkur96.ui.component.paginate.paginate;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import ir.sanatisharif.android.konkur96.ui.component.paginate.callback.OnRepeatListener;

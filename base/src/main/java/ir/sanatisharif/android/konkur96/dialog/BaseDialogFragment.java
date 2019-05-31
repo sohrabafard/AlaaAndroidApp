@@ -3,7 +3,7 @@ package ir.sanatisharif.android.konkur96.dialog;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.app.DialogFragment;
+import androidx.fragment.app.DialogFragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.balysv.materialripple.MaterialRippleLayout;
 
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 
 
 /**

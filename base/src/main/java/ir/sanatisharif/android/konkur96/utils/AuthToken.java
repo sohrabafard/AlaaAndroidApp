@@ -2,7 +2,7 @@ package ir.sanatisharif.android.konkur96.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;

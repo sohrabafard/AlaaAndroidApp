@@ -24,7 +24,6 @@
             android:visibility="gone"
             app:fastforward_increment="30000"
             app:rewind_increment="30000"
-            app:show_buffering="true"
             app:show_timeout="5000"
             app:shutter_background_color="@color/White">
 
@@ -64,7 +63,7 @@
 
     </FrameLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/activity_horizontal_margin"
@@ -73,5 +72,5 @@
 
         <include layout="@layout/details_video" />
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

@@ -1,8 +1,8 @@
 package ir.sanatisharif.android.konkur96.ui.component.paginate.paginate;
 
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import ir.sanatisharif.android.konkur96.ui.component.paginate.callback.OnAdapterChangeListener;
 import ir.sanatisharif.android.konkur96.ui.component.paginate.callback.OnLoadMore;

@@ -1,14 +1,12 @@
 package ir.sanatisharif.android.konkur96.activity;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.fragment.VideoPlayFrg;
-import ir.sanatisharif.android.konkur96.model.Video;
 
 public class VideoPlayActivity extends ActivityBase {
 

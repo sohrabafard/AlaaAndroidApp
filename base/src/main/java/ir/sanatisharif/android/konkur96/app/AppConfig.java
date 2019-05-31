@@ -8,8 +8,8 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Handler;
-import android.support.multidex.MultiDex;
-import android.support.v7.preference.PreferenceManager;
+import androidx.multidex.MultiDex;
+import androidx.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.widget.ProgressBar;
 

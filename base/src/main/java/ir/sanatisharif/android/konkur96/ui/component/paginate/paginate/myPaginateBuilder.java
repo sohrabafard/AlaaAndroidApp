@@ -1,8 +1,8 @@
 package ir.sanatisharif.android.konkur96.ui.component.paginate.paginate;
 
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import ir.sanatisharif.android.konkur96.ui.component.paginate.callback.OnLoadMoreListener;
 import ir.sanatisharif.android.konkur96.ui.component.paginate.item.ErrorItem;

@@ -15,7 +15,7 @@
         app:srcCompat="@drawable/ic_arrow_drop_up"
         android:tint="@color/Monochromatic_7" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -78,7 +78,7 @@
         </FrameLayout>
 
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
 </LinearLayout>

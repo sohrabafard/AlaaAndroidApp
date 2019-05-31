@@ -1,9 +1,10 @@
 package ir.sanatisharif.android.konkur96.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.fragment.SettingsFragment;

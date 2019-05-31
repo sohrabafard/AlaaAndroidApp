@@ -2,7 +2,7 @@ package ir.sanatisharif.android.konkur96.helper;
 
 import android.net.Uri;
 import android.os.Environment;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.File;
 import java.util.ArrayList;

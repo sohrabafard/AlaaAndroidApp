@@ -1,6 +1,6 @@
 package ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.grid;
 
-import android.support.v7.widget.GridLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import ir.sanatisharif.android.konkur96.ui.component.paginate.item.BaseGridLayoutManagerItem;
 import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.WrapperAdapter;
