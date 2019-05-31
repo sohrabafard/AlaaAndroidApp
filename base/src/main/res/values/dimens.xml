@@ -1,50 +1,29 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="nav_header_vertical_spacing">16dp</dimen>
-    <dimen name="nav_header_height">160dp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">24dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. --><![CDATA[>
+    ]]>
     <dimen name="bottombar_height">60dp</dimen>
-    <dimen name="bottombar_wechat_height">52dp</dimen>
     <dimen name="card_size_video">100dp</dimen>
 
     <!--genaral spacing-->
-    <dimen name="onboard">50dp</dimen>
-    <dimen name="spacing_xsmall">2dp</dimen>
-    <dimen name="spacing_small">3dp</dimen>
     <dimen name="spacing_medium">5dp</dimen>
-    <dimen name="spacing_xmedium">7dp</dimen>
     <dimen name="spacing_middle">10dp</dimen>
     <dimen name="spacing_large">15dp</dimen>
-    <dimen name="spacing_smlarge">18dp</dimen>
     <dimen name="spacing_mlarge">20dp</dimen>
     <dimen name="spacing_mxlarge">25dp</dimen>
     <dimen name="spacing_xlarge">35dp</dimen>
-    <dimen name="spacing_xmlarge">40dp</dimen>
-    <dimen name="spacing_xxlarge">50dp</dimen>
-    <dimen name="spacing_xxxlarge">55dp</dimen>
 
-
-    <dimen name="pager_dot_size">8dp</dimen>
-    <dimen name="pager_height">16dp</dimen>
-    <dimen name="ob_header_top_margin">50dp</dimen>
 
     <dimen name="ob_desc_padding">30dp</dimen>
     <dimen name="ob_banner_height">300dp</dimen>
-    <dimen name="items_inbetween">8dp</dimen>
 
-    <dimen name="button_text">18sp</dimen>
     <dimen name="ob_header_text_size">22sp</dimen>
     <dimen name="ob_desc_text_size">18sp</dimen>
 
     <!-- dialog rtl-->
-    <dimen name="dialog_top_margin">48dp</dimen>
     <dimen name="dialog_right_margin">24dp</dimen>
     <dimen name="dialog_header">64dp</dimen>
     <dimen name="dialog_footer">52dp</dimen>
-    <dimen name="dialog_radio_size">24dp</dimen>
     <dimen name="dialog_radio_space_to_text">32dp</dimen>
     <dimen name="dialog_item_height">48dp</dimen>
     <dimen name="dialog_header_text_size">20sp</dimen>
@@ -58,9 +37,7 @@
 
     <integer name="gallery_columns">3</integer>
 
-    <dimen name="item_width">200dp</dimen>
     <dimen name="video_text_size">12sp</dimen>
-    <dimen name="video_rows_font_size">12sp</dimen>
     <dimen name="video_title_author">12sp</dimen>
     <dimen name="video_session">11sp</dimen>
     <dimen name="video_title">13sp</dimen>
@@ -72,7 +49,6 @@
     <dimen name="content_show_desc">12sp</dimen>
     <dimen name="content_show_tag">12sp</dimen>
     <dimen name="button">14sp</dimen>
-    <dimen name="app_bar_height">200dp</dimen>
     <dimen name="product_detail_height">200dp</dimen>
 
 </resources>

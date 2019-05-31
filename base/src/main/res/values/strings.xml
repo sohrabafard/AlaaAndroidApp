@@ -2,14 +2,10 @@
     <string name="app_name">آلاء</string>
 
     <!-- tabs -->
-    <string name="alla">آلاء</string>
     <string name="search">جستجو</string>
     <string name="forum">انجمن</string>
-    <string name="profile">پروفایل</string>
-    <string name="my_product">محصولات من</string>
 
 
-    <string name="firebaseApplicationId" translatable="false">1:93895183217:android:c0eff60db6b60372</string>
     <string name="aboutMe">
         آلاء پنجره ای است رو به دور نمای آموزش کشور که می کوشد با اساتید کار بلد و مخاطبان پر تعداد و متعهد خود آموزش همگانی را در چهار گوشه ی این سرزمین در دسترس فرزندان ایران قرار دهد.
 خدمات اصلی آموزش در آلاء کاملا رایگان بوده و درآمد خدمات جانبی آن صرف برپا نگه داشتن و دوام این مجموعه عام المنفعه می شود. محصولات ما پیش تر با نام های آلاء و تخته خاک در اختیار مخاطبان قرار می گرفت که برای سهولت در مدیریت و دسترسی کاربران اکنون انحصارا با نام آلاء منتشر می شود.
@@ -27,32 +23,17 @@
 
 
     <string name="more">بیشتر</string>
-    <string name="bag">کیف پول</string>
-    <string name="watch">تماشا</string>
-    <string name="desc">
-        این مبحث یکی دو تا سوال ازش طرح میشه تو کنکور، تا اونجا پیش رفتیم که توی نثر چقدر می تونه نکته های پیچیده ای وجود داشته باشه  اگر ما از روش درست استفاده نکنیم، اگر از روش درست استفاده کنیم چقدر آنچه که از دید دیگران پیچیده هست برای ما ساده هست، توجه به نقش نماها و توجه به گذر فعل و توجه به  حذف اجزاء جمله، حالا همین ها رو باید در بیت ها هم بتونیم اجرا کنیم  که این فقط از عهده شما بر میاد
-    </string>
-    <string name="ob_get_started">شروع کن</string>
     <string name="cancel">لغو</string>
     <string name="download">دانلود</string>
 
     <!-- setting -->
     <string name="settings">تنظیمات</string>
     <string name="setting_external_download">external_download</string>
-    <string name="setting_title_external_download">دانلود</string>
     <string name="setting_summary_download">مایلید از دانلود منیجر داخلی استفاده کنید؟</string>
     <string name="setting_summary_get_notif_new_video">دریافت نوتیفیکیشن برای فیلم های جدید</string>
-    <string name="setting_summary_get_notif_favorite_video">دریافت نوتیفیکیشن برای دروس محبوب</string>
-    <string name="setting_summary_get_notif_product">دریافت نوتیفیکیشن برای محصولات</string>
-    <string name="setting_summary_player_quality">انتخاب کیفیت فیلم</string>
-    <string name="edit">ویرایش</string>
     <string name="notification">اعلانیه</string>
-    <string name="messages">پیام ها</string>
-    <string name="friend">دوستان</string>
     <string name="personalCode">کدملی</string>
     <string name="phone">شماره موبایل</string>
-    <string name="more_comment">نظران بیشتر</string>
-    <string name="login_to_account">ورود به حساب کاربری</string>
     <string name="player">پخش کننده</string>
     <string name="player_quality">player_quality</string>
     <string name="storage">انخاب حافظه</string>
@@ -62,10 +43,6 @@
     <string name="twiceClick">برای خروج یکبار دیگر کلیک کنید</string>
     <string name="completeDownload">دانلود تکمیل شد!</string>
     <string name="ok_fan">بزن بریم</string>
-    <string name="mobile">شماره همراه</string>
-    <string name="userName">نام کاربری</string>
-    <string name="downloaded_List">فیلم های دانلود شده</string>
-    <string name="shareProfile">اشتراک گذاری</string>
     <string-array name="player_quality_entries">
         <item>کیفیت عالی</item>
         <item>کیفیت خوب</item>
@@ -91,14 +68,6 @@
     <string name="asset_statements" translatable="false">[{ \"include\": \"https://alaatv.com/.well-known/assetlinks.json\" }]</string>
     <string name="no_pagination_network_error">مشکلی بوجود آمده است.لطفا دوباره امتحان کنید.</string>
     <string name="no_pagination_network_error_button">تکرار</string>
-
-    <string-array name="filterTab">
-        <item>دروس</item>
-        <item>محصولات</item>
-        <item>ویدیو</item>
-        <item>جزوه</item>
-        <item>مقاله</item>
-    </string-array>
 
     <string-array name="FilterSection">
         <item>همه_مقاطع</item>
@@ -132,13 +101,8 @@
         <item>انسانی</item>
     </string-array>
 
-    <string-array name="FilterTeacher">
-        <item>همه دبیر</item>
-    </string-array>
-
     <string name="empty_phone">شماره مویابل خالی است</string>
     <string name="empty_personal_code">کدملی خالی است</string>
-    <string name="not_valid_personal_code">فرمت کدملی درست نیست</string>
     <string name="not_valid_phone">فرمت شماره موبایل درست نیست</string>
     <string name="firstName">نام</string>
     <string name="lastName">نام خانوادگی</string>
@@ -150,14 +114,12 @@
     <string name="empty_email">ایمیل خالی است</string>
     <string name="not_valid_email">فرمت ایمیل درست نیست</string>
     <string name="register_success">اکانت با موفقیت ایجاد شد.</string>
-    <string name="search_into_alla">جستحو در آلاء</string>
     <string name="errNotExistTags">خطا در پردازش پارامترها</string>
     <string name="alla_1">موسسه غیر تجاری آلاء</string>
     <string name="not_internet">اتصال شما به اینترنت قطع شده است دوباره تلاش کنید</string>
     <string name="repeat_try">تلاش مجدد</string>
     <string name="txtSection">انتخاب مقطه تحصیلی</string>
     <string name="txtField">انتخاب رشته تحصیلی</string>
-    <string name="nationalCode">کدملی</string>
     <string name="titleDeleteFile">حذف فایل</string>
     <string name="msg_delete_file">مایل به حذف فایل ها می باشید؟</string>
     <string name="ok">بله</string>
@@ -165,7 +127,6 @@
     <string name="openPDf">نمایش</string>
     <string name="go">بزن بریم</string>
     <string name="default_notification_channel_id">FCM</string>
-    <string name="txtGender">جنسیت</string>
     <string name="newOrder">در ورژن بعدی این امکان اضافه می شود.</string>
     <string name="address_centeral">تهران ، خ آزادی ، خ حبیب اللهی
 خ شهید احمد قاسمی
@@ -173,7 +134,6 @@
     <string name="phoneNumber">شماره تماس</string>
     <string name="phoneNumberValue">۰۲۱-۶۶۱۶۵۱۹۱ - فقط ساعت 14 الی 18 </string>
     <string name="zipCode">کد پستی</string>
-    <string name="zipCodeValue">1459993639</string>
     <string name="socialNetwork">شبکه های اجتماعی</string>
     <string name="txt_aboute_alla">درباره آلاء</string>
 
@@ -233,61 +193,8 @@
     <string name="bazaar">بازار</string>
     <string name="playStore">پلی استور</string>
     <string name="apkDownload">فایل APk</string>
-    <string name="exit">خروج</string>
 
-    <string name="application_name">ExoPlayer</string>
-
-    <string name="unexpected_intent_action">Unexpected intent action: </string>
-
-    <string name="error_cleartext_not_permitted">Cleartext traffic not permitted</string>
-
-    <string name="error_generic">Playback failed</string>
-
-    <string name="error_unrecognized_abr_algorithm">Unrecognized ABR algorithm</string>
-
-    <string name="error_unrecognized_stereo_mode">Unrecognized stereo mode</string>
-
-    <string name="error_drm_not_supported">Protected content not supported on API levels below 18</string>
-
-    <string name="error_drm_unsupported_scheme">This device does not support the required DRM scheme</string>
-
-    <string name="error_drm_unknown">An unknown DRM error occurred</string>
-
-    <string name="error_no_decoder">This device does not provide a decoder for </string>
-
-    <string name="error_no_secure_decoder">This device does not provide a secure decoder for</string>
-
-    <string name="error_querying_decoders">Unable to query device decoders</string>
-
-    <string name="error_instantiating_decoder">Unable to instantiate decoder </string>
-
-    <string name="error_unsupported_video">Media includes video tracks, but none are playable by this device</string>
-
-    <string name="error_unsupported_audio">Media includes audio tracks, but none are playable by this device</string>
-
-    <string name="storage_permission_denied">Permission to access storage was denied</string>
-
-    <string name="sample_list_load_error">One or more sample lists failed to load</string>
-
-    <string name="ima_not_loaded">Playing sample without ads, as the IMA extension was not loaded</string>
-
-    <string name="download_start_error">Failed to start download</string>
-
-    <string name="download_playlist_unsupported">This demo app does not support downloading playlists</string>
-
-    <string name="download_drm_unsupported">This demo app does not support downloading protected content</string>
-
-    <string name="download_scheme_unsupported">This demo app only supports downloading http streams</string>
-
-    <string name="download_ads_unsupported">IMA does not support offline ads</string>
-
-    <string name="prefer_extension_decoders">Prefer extension decoders</string>
-
-    <string name="random_abr">Enable random ABR</string>
     <string name="name">اسم</string>
-    <string name="user_id">User Id</string>
-    <string name="password">Password</string>
-    <string name="create_account">Create Account</string>
     <string name="alaa">آلاء</string>
     <string name="offerInstallAlaa">پیشنهاد نصب نسخه آلاء</string>
     <string name="shouldInstall">برای استفاده بعضی امکانات باید ثبت نام کنید و باید از نسخه نصبی آلاء استفاده کنید.</string>
@@ -310,8 +217,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loading">در حال بارگزاری . . .</string>
     <string name="open_with_file_manager">خطایی رخ داده است، فایل را از فایل منیجر گوشی باز کنید.</string>
-    <string name="title_alaacontent_list">AlaaContents</string>
-    <string name="title_alaacontent_detail">AlaaContent Detail</string>
-    <string name="add_to_card">افزودن به سبد خرید</string>
     <string name="stock">موجودی کیف پول شما:</string>
 </resources>
