@@ -97,7 +97,7 @@ import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredi
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Block;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
-import ir.sanatisharif.android.konkur96.model.PaginationModel;
+import ir.sanatisharif.android.konkur96.api.Models.PaginationModel;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.filter.FilterModel;

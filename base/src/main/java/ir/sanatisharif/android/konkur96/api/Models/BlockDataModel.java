@@ -8,8 +8,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-import ir.sanatisharif.android.konkur96.model.main_page.SetModel;
-
 public class BlockDataModel implements Parcelable {
 
     public static final Creator<BlockDataModel> CREATOR = new Creator<BlockDataModel>() {

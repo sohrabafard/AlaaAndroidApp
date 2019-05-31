@@ -8,8 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.model.PaginationModel;
-import ir.sanatisharif.android.konkur96.model.main_page.SetModel;
+import ir.sanatisharif.android.konkur96.api.Models.PaginationModel;
+import ir.sanatisharif.android.konkur96.api.Models.SetModel;
 
 public class FilterResult implements Parcelable {
 

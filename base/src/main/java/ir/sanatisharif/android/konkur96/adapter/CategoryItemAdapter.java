@@ -10,7 +10,7 @@ import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
-import ir.sanatisharif.android.konkur96.model.main_page.SetModel;
+import ir.sanatisharif.android.konkur96.api.Models.SetModel;
 import ir.sanatisharif.android.konkur96.ui.view.CustomItemView;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;

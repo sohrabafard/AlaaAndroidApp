@@ -15,7 +15,6 @@ import ir.sanatisharif.android.konkur96.model.main_page.File;
 import ir.sanatisharif.android.konkur96.model.main_page.NextApiUrl;
 import ir.sanatisharif.android.konkur96.model.main_page.Pivot;
 import ir.sanatisharif.android.konkur96.model.main_page.PreviousApiUrl;
-import ir.sanatisharif.android.konkur96.model.main_page.SetModel;
 import ir.sanatisharif.android.konkur96.model.main_page.Tags;
 
 public class ContentModel extends PaginationDataModel implements LogUserActionsOnPublicContentInterface.Data, FilterBaseModel {

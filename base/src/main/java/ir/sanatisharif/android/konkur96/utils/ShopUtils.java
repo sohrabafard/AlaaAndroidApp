@@ -15,13 +15,11 @@ import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.CardReviewModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
 import ir.sanatisharif.android.konkur96.api.Models.TypeModel;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.model.DownloadUrl;
 import ir.sanatisharif.android.konkur96.model.MainAttrType;
 import ir.sanatisharif.android.konkur96.model.MainShopItem;
-import ir.sanatisharif.android.konkur96.model.ProductSliderModel;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.model.SelectableProduct;
 import ir.sanatisharif.android.konkur96.model.Video;
@@ -149,22 +147,6 @@ public class ShopUtils {
 
 
         return finalNames;
-    }
-
-
-    public static ArrayList<ProductSliderModel> convertToProductSliderModel(ArrayList<ProductPhotoModel> photos) {
-
-        ArrayList<ProductSliderModel> items = new ArrayList<>();
-
-        for (int i = 0; i < photos.size(); i++) {
-
-            ProductPhotoModel temp = photos.get(i);
-
-            items.add(new ProductSliderModel(temp.getTitle(), temp.getUrl(), i));
-        }
-
-
-        return items;
     }
 
     public static ArrayList<SelectableProduct> convertToSelectableProductModel(ArrayList<ProductModel> list) {

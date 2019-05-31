@@ -1,13 +1,15 @@
-package ir.sanatisharif.android.konkur96.model.main_page;
+package ir.sanatisharif.android.konkur96.api.Models;
 
 import android.os.Parcel;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import ir.sanatisharif.android.konkur96.api.Models.PaginationDataModel;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.model.main_page.ApiUrl;
+import ir.sanatisharif.android.konkur96.model.main_page.Author;
+import ir.sanatisharif.android.konkur96.model.main_page.Tags;
 
 
 public class SetModel extends PaginationDataModel implements FilterBaseModel {
