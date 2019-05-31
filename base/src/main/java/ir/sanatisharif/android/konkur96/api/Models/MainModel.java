@@ -28,11 +28,11 @@ public class MainModel implements Parcelable {
 
     @SerializedName("block")
     @Expose
-    private BlockModel block;
+    private PaginationModel<BlockDataModel> block;
 
     protected MainModel(Parcel in) {
         mainBanner = in.createTypedArrayList(MainBannerModel.CREATOR);
-        block = in.readParcelable(BlockModel.class.getClassLoader());
+        block = in.readParcelable(PaginationModel.class.getClassLoader());
     }
 
     public ArrayList<MainBannerModel> getMainBanner() {
@@ -43,11 +43,11 @@ public class MainModel implements Parcelable {
         this.mainBanner = mainBanner;
     }
 
-    public BlockModel getBlock() {
+    public PaginationModel<BlockDataModel> getBlock() {
         return block;
     }
 
-    public void setBlock(BlockModel block) {
+    public void setBlock(PaginationModel<BlockDataModel> block) {
         this.block = block;
     }
 

@@ -1,14 +1,13 @@
 package ir.sanatisharif.android.konkur96.api.Models;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class BlockDataModel implements Parcelable {
+public class BlockDataModel extends PaginationDataModel {
 
     public static final Creator<BlockDataModel> CREATOR = new Creator<BlockDataModel>() {
         @Override
