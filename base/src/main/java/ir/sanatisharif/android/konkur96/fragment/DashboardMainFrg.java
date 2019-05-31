@@ -35,7 +35,7 @@ import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
-import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
+import ir.sanatisharif.android.konkur96.adapter.BlockAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
 import ir.sanatisharif.android.konkur96.model.Events;
@@ -61,7 +61,7 @@ public class DashboardMainFrg extends BaseFragment {
     private LinearLayout itemVideo, itemAboutMe, itemNewOrder, itemBasket;
     private FloatingActionButton fabItemVideo, fabItemAboutMe, fabItemNewOrder, fabItemBasket;
 
-    private MainItemAdapter adapter;
+    private BlockAdapter adapter;
     private List<Block> items = new ArrayList<>();
 
     public static DashboardMainFrg newInstance() {

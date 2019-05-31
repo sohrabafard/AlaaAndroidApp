@@ -27,7 +27,7 @@ import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
-import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
+import ir.sanatisharif.android.konkur96.adapter.BlockAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
@@ -53,7 +53,7 @@ public class AllaMainFrg extends BaseFragment implements
     private RecyclerView myRecyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private MainItemAdapter adapter;
+    private BlockAdapter adapter;
     private ArrayList<Block> items = new ArrayList<>();
     private MainRepository repository;
 
@@ -146,7 +146,7 @@ public class AllaMainFrg extends BaseFragment implements
         myRecyclerView.setNestedScrollingEnabled(false);
         myRecyclerView.setHasFixedSize(true);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false));
-        adapter = new MainItemAdapter(AppConfig.context, items);
+        adapter = new BlockAdapter(AppConfig.context, items);
         adapter.setSize(AppConfig.width, AppConfig.height);
         myRecyclerView.setAdapter(adapter);
 

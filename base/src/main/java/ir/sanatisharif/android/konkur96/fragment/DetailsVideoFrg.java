@@ -79,7 +79,7 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
-import ir.sanatisharif.android.konkur96.adapter.MainItemAdapter;
+import ir.sanatisharif.android.konkur96.adapter.BlockAdapter;
 import ir.sanatisharif.android.konkur96.adapter.PlayListAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
@@ -343,7 +343,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private Dialog mFullScreenDialog;
     private boolean mExoPlayerFullscreen = false;
     //comment
-    private MainItemAdapter adapter;
+    private BlockAdapter adapter;
     private ArrayList<Block> items = new ArrayList<>();
     //lock
     private PowerManager pm;
@@ -638,7 +638,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         myRecyclerViewProduct.setNestedScrollingEnabled(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
         myRecyclerViewProduct.setLayoutManager(layoutManager);
-        adapter = new MainItemAdapter(AppConfig.context, items);
+        adapter = new BlockAdapter(AppConfig.context, items);
         adapter.setSize(AppConfig.width, AppConfig.height);
         myRecyclerViewProduct.setAdapter(adapter);
 

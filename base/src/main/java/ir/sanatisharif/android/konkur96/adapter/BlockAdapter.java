@@ -34,7 +34,7 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.MORE_VIDEO_OFFLINE;
 
 
-public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     int width = 0;
     private List<Block> dataList;
@@ -42,7 +42,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private OnItemClickListener mClickListener;
     //private SnapHelper snapHelper;
 
-    public MainItemAdapter(Context context, List<Block> dataList) {
+    public BlockAdapter(Context context, List<Block> dataList) {
         this.dataList = dataList;
         this.mContext = context;
         //snapHelper = new GravitySnapHelper(Gravity.START);
