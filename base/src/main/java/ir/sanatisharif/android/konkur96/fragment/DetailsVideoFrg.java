@@ -616,7 +616,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
                         @Override
                         public void onFailure(String message) {
-                            Log.i(TAG, "onSuccess:error " + message);
+                            Log.i(TAG, "onFailure:error " + message);
                         }
                     });
                 }

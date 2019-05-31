@@ -699,11 +699,6 @@ public class ProductDetailFragment extends BaseFragment {
 
         if (null != url) {
 
-//            Video video = ShopUtils.createVideoModelByURL(url);
-//            if (video != null) {
-//
-//            }
-
             DetailsVideoFrg videoPlayFrg = DetailsVideoFrg.newInstance(url);
             getFragmentManager().beginTransaction()
                     .add(R.id.intro_video, videoPlayFrg, "videoPlayFrg")
