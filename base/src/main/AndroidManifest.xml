@@ -35,6 +35,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="HardcodedDebugMode"
         tools:targetApi="n">
+        <activity android:name=".AlaaContentActivity"></activity>
 
         <meta-data
             android:name="asset_statements"
