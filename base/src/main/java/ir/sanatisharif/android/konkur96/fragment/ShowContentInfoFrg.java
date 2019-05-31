@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
@@ -232,23 +233,24 @@ public class ShowContentInfoFrg extends BaseFragment implements
                 String url = course.getFile().getPamphlet().get(0).getLink();
                 String fileName = Utils.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
                 String name = course.getName();
-                download(url, fileName, name);
+                downloadPreProcess(url, fileName, name);
             } else
                 ActivityBase.toastShow("لینک دانلود معتبر نیست!", MDToast.TYPE_ERROR);
         }
     }
 
-    private void download(String url, String fileName, String name) {
+    private void downloadPreProcess(String url, String fileName, String name) {
 
-        Log.i(TAG, "download: " + url);
+        Log.i(TAG, "downloadPreProcess: " + url);
 
 
-        if (url.contains("cdn")) {
+        if (url.contains("cdn.") || url.contains("paid.")) {
             startDownload(url, fileName, name);
         } else {
             Utils.followRedirectedLink(getContext(), getActivity(), url, new EncryptedDownloadInterface.Callback() {
                 @Override
                 public void fetch(String newUrl) {
+                    Log.i(TAG,newUrl);
                     startDownload(newUrl, fileName, name);
                 }
 
@@ -262,6 +264,11 @@ public class ShowContentInfoFrg extends BaseFragment implements
     }
 
     private void startDownload(String url, String fileName, String name) {
+        String mediaPath = FileManager.getPathFromAllaUrl(url);
+        File file = new File(FileManager.getRootPath() + mediaPath);
+        if(!file.exists()){
+            file.mkdirs();
+        }
         DownloadFile.getInstance().init(() -> {
 
             ActivityBase.toastShow(getResources().getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
@@ -269,7 +276,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
             btnOpenPDF.setVisibility(View.VISIBLE);
         });
         DownloadFile.getInstance().start(url,
-                AppConstants.ROOT + "/" + AppConstants.PDF, fileName, name, getResources().getString(R.string.alaa));
+                AppConstants.ROOT + "/" + mediaPath, fileName, name, getResources().getString(R.string.alaa));
     }
 
     @Override

@@ -91,29 +91,11 @@ public class DownloadFile {
         public void onReceive(Context context, Intent intent) {
 
             if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
-                ActivityBase.toastShow(context.getResources().getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
+                ActivityBase.toastShow(AppConfig.context.getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
                 if (d != null) {
                     d.complete();
                 }
             }
         }
-
-       /* @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-                intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-                DownloadManager.Query query = new DownloadManager.Query();
-                query.setFilterById(id);
-                Cursor cursor = mDManager.query(query);
-                if (cursor.moveToFirst()) {
-                    int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
-                    if (DownloadManager.STATUS_SUCCESSFUL == cursor.getInt(columnIndex)) {
-
-                    }
-                }
-            }
-
-        }*/
     }
 }

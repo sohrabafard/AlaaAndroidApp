@@ -182,7 +182,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             private void downloadPreProcess() {
                 String link = getLinkString();
                 if (link != null) {
-                    if (isFree || link.contains("cdn"))
+                    if (link.contains("paid.") || link.contains("cdn."))
                         createDir(link, title);
                     else {
                         Utils.followRedirectedLink(mContext, getActivity(), link, new EncryptedDownloadInterface.Callback() {
