@@ -10,17 +10,17 @@ import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
-import ir.sanatisharif.android.konkur96.model.main_page.Set;
+import ir.sanatisharif.android.konkur96.model.main_page.SetModel;
 import ir.sanatisharif.android.konkur96.ui.view.CustomItemView;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapter.CategoryHolder> {
 
-    private List<Set> itemsList;
-    private Context   mContext;
+    private List<SetModel> itemsList;
+    private Context        mContext;
 
-    public CategoryItemAdapter(Context context, List<Set> itemsList) {
+    public CategoryItemAdapter(Context context, List<SetModel> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -39,7 +39,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
     @Override
     public void onBindViewHolder(final CategoryHolder holder, final int position) {
 
-        final Set item = itemsList.get(position);
+        final SetModel item = itemsList.get(position);
         holder.customItemView.setClickItem(position);
         holder.customItemView.setTitle(item.getShortName());
         holder.customItemView.setAuthor(item.getAuthor().getLastName());

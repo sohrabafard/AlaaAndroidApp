@@ -97,11 +97,10 @@ import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredi
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Block;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
+import ir.sanatisharif.android.konkur96.model.PaginationModel;
 import ir.sanatisharif.android.konkur96.model.Video;
-import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
-import ir.sanatisharif.android.konkur96.model.filter.Pagination;
-import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
+import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
@@ -120,18 +119,20 @@ import static ir.sanatisharif.android.konkur96.app.AppConfig.currentActivity;
 
 public class DetailsVideoFrg extends BaseFragment implements View.OnClickListener {
 
-    private final static String            TAG                     = "Alaa\\DetailsVideoFrg";
-    private static final int               LOAD_URL                = 0;
-    private static final int               LOAD_CONTENT            = 1;
-    private static final int               LOAD_LIST               = 2;
-    public static        Pagination        pagination;
-    private static       int               kind_of_Load            = -1;
-    private static       List<VideoCourse> videoCourses;
-    private static       ContentModel      mContent;
-    private static       int               positionPlaying;
-    private final        String            STATE_RESUME_WINDOW     = "resumeWindow";
-    private final        String            STATE_RESUME_POSITION   = "resumePosition";
-    private final        String            STATE_PLAYER_FULLSCREEN = "playerFullscreen";
+    private final static String
+                                                       TAG                     =
+            "Alaa\\DetailsVideoFrg";
+    private static final int                           LOAD_URL                = 0;
+    private static final int                           LOAD_CONTENT            = 1;
+    private static final int                           LOAD_LIST               = 2;
+    public static        PaginationModel<ContentModel> pagination;
+    private static       int                           kind_of_Load            = -1;
+    private static       List<ContentModel>            ContentModels;
+    private static       ContentModel                  mContent;
+    private static       int                           positionPlaying;
+    private final        String                        STATE_RESUME_WINDOW     = "resumeWindow";
+    private final        String                        STATE_RESUME_POSITION   = "resumePosition";
+    private final        String                        STATE_PLAYER_FULLSCREEN = "playerFullscreen";
     RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(context) {
         @Override
         protected int getVerticalSnapPreference() {
@@ -358,7 +359,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         Bundle          args     = new Bundle();
         DetailsVideoFrg fragment = new DetailsVideoFrg();
         fragment.setArguments(args);
-        videoCourses = (List<VideoCourse>) v;//get video list
+        ContentModels = (List<ContentModel>) v;//get video list
         positionPlaying = pos;
         kind_of_Load = LOAD_LIST;
         return fragment;
@@ -525,7 +526,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             getData(url);
         } else if (kind_of_Load == LOAD_LIST) {
             //get data from list
-            course = videoCourses.get(positionPlaying);
+            course = ContentModels.get(positionPlaying);
             setData();
         }
     }
@@ -534,8 +535,8 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     public void onDestroy() {
         super.onDestroy();
 
-        if (videoCourses != null) {
-            videoCourses = null;
+        if (ContentModels != null) {
+            ContentModels = null;
             positionPlaying = 0;
         }
         if (playListAdapter != null) {
@@ -671,10 +672,10 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 FilterModel filter = (FilterModel) obj;
 
                 if (filter.getResult().getVideo() != null) {
-                    videoCourses.addAll(filter.getResult().getVideo().getData());
+                    ContentModels.addAll(filter.getResult().getVideo().getData());
                     pagination = filter.getResult().getVideo();
                     playListAdapter.notifyItemMoved(playListAdapter.getItemCount(),
-                            videoCourses.size() - 1);
+                            ContentModels.size() - 1);
                 }
                 if (loaderPlayList != null)
                     loaderPlayList.setVisibility(View.GONE);
@@ -700,16 +701,16 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
                 if (filter.getResult().getVideo() != null) {
 
-                    videoCourses = filter.getResult().getVideo().getData();
+                    ContentModels = filter.getResult().getVideo().getData();
                     pagination = filter.getResult().getVideo();
 
                     initPlayList();
-                    // playListAdapter = new PlayListAdapter(getContext(), videoCourses);
+                    // playListAdapter = new PlayListAdapter(getContext(), ContentModels);
                     // recyclerPlayList.setAdapter(playListAdapter);
 
-                    if (videoCourses.size() > 1) {
+                    if (ContentModels.size() > 1) {
                         playListAdapter.notifyItemMoved(playListAdapter.getItemCount(),
-                                videoCourses.size() - 1);
+                                ContentModels.size() - 1);
                     } else {
                         playListAdapter.notifyDataSetChanged();
                     }
@@ -998,7 +999,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     }
 
     private void initPlayList() {
-        playListAdapter = new PlayListAdapter(getContext(), videoCourses);
+        playListAdapter = new PlayListAdapter(getContext(), ContentModels);
         managerPlayList =
                 new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerPlayList.setLayoutManager(managerPlayList);
@@ -1219,14 +1220,14 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private void initExoPlayer() {
 
         //estimating available network bandwidth based on measured download speed
-        BandwidthMeter         bandwidthMeter             = new DefaultBandwidthMeter();
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         TrackSelection.Factory
-                               videoTrackSelectionFactory =
+                videoTrackSelectionFactory =
                 new AdaptiveTrackSelection.Factory(bandwidthMeter);
         TrackSelector
-                               trackSelector              =
+                trackSelector =
                 new DefaultTrackSelector(videoTrackSelectionFactory);
-        LoadControl            loadControl                = new DefaultLoadControl();
+        LoadControl loadControl = new DefaultLoadControl();
 
         player = ExoPlayerFactory.newSimpleInstance(getContext(),
                 new DefaultRenderersFactory(getContext()),

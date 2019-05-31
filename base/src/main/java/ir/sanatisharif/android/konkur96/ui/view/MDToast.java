@@ -122,7 +122,7 @@ public class MDToast extends Toast {
     }
 
     /**
-     * Set the icon resource id to display in the MD toast.
+     * SetModel the icon resource id to display in the MD toast.
      *
      * @param iconId the resource id.
      */
@@ -131,7 +131,7 @@ public class MDToast extends Toast {
     }
 
     /**
-     * Set the icon to display in the MD toast.
+     * SetModel the icon to display in the MD toast.
      *
      * @param icon the drawable to set as icon.
      */
@@ -154,7 +154,7 @@ public class MDToast extends Toast {
     }
 
     /**
-     * Set the type of the MDToast.
+     * SetModel the type of the MDToast.
      *
      * @param type the type to set.
      */

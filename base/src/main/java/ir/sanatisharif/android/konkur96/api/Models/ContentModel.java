@@ -1,106 +1,128 @@
 package ir.sanatisharif.android.konkur96.api.Models;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
+import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.main_page.ApiUrl;
 import ir.sanatisharif.android.konkur96.model.main_page.Author;
 import ir.sanatisharif.android.konkur96.model.main_page.File;
 import ir.sanatisharif.android.konkur96.model.main_page.NextApiUrl;
 import ir.sanatisharif.android.konkur96.model.main_page.Pivot;
 import ir.sanatisharif.android.konkur96.model.main_page.PreviousApiUrl;
-import ir.sanatisharif.android.konkur96.model.main_page.Set;
+import ir.sanatisharif.android.konkur96.model.main_page.SetModel;
 import ir.sanatisharif.android.konkur96.model.main_page.Tags;
 
-public class ContentModel implements Parcelable, LogUserActionsOnPublicContentInterface.Data {
+public class ContentModel extends PaginationDataModel implements LogUserActionsOnPublicContentInterface.Data, FilterBaseModel {
 
     public final static Creator<ContentModel> CREATOR = new Creator<ContentModel>() {
 
-
-        @SuppressWarnings({
-                "unchecked"
-        })
+        @Override
         public ContentModel createFromParcel(Parcel in) {
             return new ContentModel(in);
         }
 
+        @Override
         public ContentModel[] newArray(int size) {
             return (new ContentModel[size]);
         }
 
     };
+
     @SerializedName("id")
     @Expose
-    private             int                   id;
+    private int id;
+
     @SerializedName("contenttype_id")
     @Expose
-    private             int                   contenttypeId;
+    private int contenttypeId;
+
     @SerializedName("name")
     @Expose
-    private             String                name;
+    private String name;
+
     @SerializedName("description")
     @Expose
-    private             String                description;
+    private String description;
+
     @SerializedName("tags")
     @Expose
-    private             Tags                  tags;
+    private Tags tags;
+
     @SerializedName("context")
     @Expose
-    private             String                context;
+    private String context;
+
     @SerializedName("file")
     @Expose
-    private             File                  file;
+    private File file;
+
     @SerializedName("duration")
     @Expose
-    private             int                   duration;
+    private int duration;
+
     @SerializedName("thumbnail")
     @Expose
-    private             String                thumbnail;
+    private String thumbnail;
+
     @SerializedName("isFree")
     @Expose
-    private             int                   isFree;
+    private int isFree;
+
     @SerializedName("order")
     @Expose
-    private             int                   order;
+    private int order;
+
     @SerializedName("page_view")
     @Expose
-    private             Object                pageView;
+    private Object pageView;
+
     @SerializedName("created_at")
     @Expose
-    private             String                createdAt;
+    private String createdAt;
+
     @SerializedName("updated_at")
     @Expose
-    private             String                updatedAt;
+    private String updatedAt;
+
     @SerializedName("url")
     @Expose
-    private             String                url;
-    private             ApiUrl                apiUrl;
+    private String url;
+
+    private ApiUrl apiUrl;
+
     @SerializedName("nextUrl")
     @Expose
-    private             String                nextUrl;
+    private String nextUrl;
+
     @SerializedName("nextApiUrl")
     @Expose
-    private             NextApiUrl            nextApiUrl;
+    private NextApiUrl nextApiUrl;
+
     @SerializedName("previousUrl")
     @Expose
-    private             String                previousUrl;
+    private String previousUrl;
+
     @SerializedName("previousApiUrl")
     @Expose
-    private             PreviousApiUrl        previousApiUrl;
+    private PreviousApiUrl previousApiUrl;
+
     @SerializedName("author")
     @Expose
-    private             Author                author;
+    private Author author;
+
     @SerializedName("pivot")
     @Expose
-    private             Pivot                 pivot;
+    private Pivot pivot;
+
     @SerializedName("set")
     @Expose
-    private             Set                   set;
+    private SetModel set;
 
     protected ContentModel(Parcel in) {
         this.name = in.readString();
@@ -128,7 +150,7 @@ public class ContentModel implements Parcelable, LogUserActionsOnPublicContentIn
         this.nextApiUrl = in.readParcelable((NextApiUrl.class.getClassLoader()));
         this.previousApiUrl = in.readParcelable((PreviousApiUrl.class.getClassLoader()));
         this.pivot = in.readParcelable((Pivot.class.getClassLoader()));
-        this.set = in.readParcelable((Set.class.getClassLoader()));
+        this.set = in.readParcelable((SetModel.class.getClassLoader()));
 
     }
 
@@ -392,15 +414,15 @@ public class ContentModel implements Parcelable, LogUserActionsOnPublicContentIn
         return this;
     }
 
-    public Set getSet() {
+    public SetModel getSet() {
         return set;
     }
 
-    public void setSet(Set set) {
+    public void setSet(SetModel set) {
         this.set = set;
     }
 
-    public ContentModel withSet(Set set) {
+    public ContentModel withSet(SetModel set) {
         this.set = set;
         return this;
     }
@@ -456,5 +478,16 @@ public class ContentModel implements Parcelable, LogUserActionsOnPublicContentIn
     public String getUserActionDescription() {
         Log.i("Alaa\\ContentModel", "getUserActionDescription ");
         return getDescription();
+    }
+
+    @Override
+    public int getViewType() {
+        if (this.contenttypeId == 8)
+            return AppConstants.FILTER_VIDEO;
+        if (this.contenttypeId == 1)
+            return AppConstants.FILTER_PAMPHLET;
+        if (this.contenttypeId == 9)
+            return AppConstants.FILTER_ARTICLE;
+        return -1;
     }
 }

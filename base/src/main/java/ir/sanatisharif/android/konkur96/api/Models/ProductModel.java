@@ -1,16 +1,17 @@
 package ir.sanatisharif.android.konkur96.api.Models;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
+import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 
-public class ProductModel implements Parcelable, LogUserActionsOnPublicContentInterface.Data {
+public class ProductModel extends PaginationDataModel implements LogUserActionsOnPublicContentInterface.Data, FilterBaseModel {
 
     public static final Creator<ProductModel> CREATOR = new Creator<ProductModel>() {
         @Override
@@ -318,5 +319,10 @@ public class ProductModel implements Parcelable, LogUserActionsOnPublicContentIn
     @Override
     public String getUserActionDescription() {
         return getShortDescription() + "\n\r" + getLongDescription();
+    }
+
+    @Override
+    public int getViewType() {
+        return AppConstants.FILTER_PRODUCT;
     }
 }

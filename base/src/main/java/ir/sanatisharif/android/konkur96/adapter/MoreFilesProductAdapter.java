@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
-import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
@@ -29,7 +29,7 @@ public class MoreFilesProductAdapter extends RecyclerView.Adapter<MoreFilesProdu
     private Context                         mContext;
 
 
-    public MoreFilesProductAdapter(Context context, ArrayList<VideoCourse> itemsList) {
+    public MoreFilesProductAdapter(Context context, ArrayList<ContentModel> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -47,7 +47,7 @@ public class MoreFilesProductAdapter extends RecyclerView.Adapter<MoreFilesProdu
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
 
-        VideoCourse item = (VideoCourse) itemsList.get(position);
+        ContentModel item = (ContentModel) itemsList.get(position);
 
         holder.title.setText(item.getName());
         Glide.with(mContext)

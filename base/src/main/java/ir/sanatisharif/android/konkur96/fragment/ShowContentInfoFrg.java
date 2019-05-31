@@ -34,7 +34,7 @@ import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
 import ir.sanatisharif.android.konkur96.handler.EncryptedDownloadInterface;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.model.Events;
-import ir.sanatisharif.android.konkur96.model.filter.PamphletCourse;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.DownloadFile;
 import ir.sanatisharif.android.konkur96.utils.OpenFile;
@@ -55,7 +55,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
                                         PERMISSIONS    =
             {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
     private static final int            PERMISSION_ALL = 1;
-    private static       PamphletCourse course;
+    private static       ContentModel course;
     FragmentManager fragmentManager;
     private TextView txtAuthor, txtTitle;
     //  private JustifiedTextView txtDesc;
@@ -65,7 +65,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
     private TagGroup tagGroup;
     private String   TAG = "Alaa\\ShowContentInfoFrg";
 
-    public static ShowContentInfoFrg newInstance(PamphletCourse c) {
+    public static ShowContentInfoFrg newInstance(ContentModel c) {
 
         Bundle args = new Bundle();
         course = c;

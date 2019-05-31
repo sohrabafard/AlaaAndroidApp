@@ -178,7 +178,7 @@ public class CircleProgressBar extends View {
     }
 
     /**
-     * Set the progress with an animation.
+     * SetModel the progress with an animation.
      * Note that the {@link ObjectAnimator} Class automatically set the progress
      * so don't call the {@link CircleProgressBar#setProgress(float)} directly within this method.
      *

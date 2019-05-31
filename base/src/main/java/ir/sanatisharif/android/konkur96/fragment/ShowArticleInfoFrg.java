@@ -30,7 +30,7 @@ import java.util.Locale;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.Events;
-import ir.sanatisharif.android.konkur96.model.filter.ArticleCourse;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import me.gujun.android.taggroup.TagGroup;
 
 /**
@@ -39,7 +39,7 @@ import me.gujun.android.taggroup.TagGroup;
 
 public class ShowArticleInfoFrg extends BaseFragment {
 
-    private static ArticleCourse course;
+    private static ContentModel course;
     private        String        TAG = "ShowContentInfoFrg";
     private        TextView      txtAuthor, txtTitle;
     private JustifiedTextView txtContext, txtDesc;
@@ -47,7 +47,7 @@ public class ShowArticleInfoFrg extends BaseFragment {
     private Toolbar  toolbar;
     private TagGroup tagGroup;
 
-    public static ShowArticleInfoFrg newInstance(ArticleCourse c) {
+    public static ShowArticleInfoFrg newInstance(ContentModel c) {
 
         Bundle args = new Bundle();
         course = c;

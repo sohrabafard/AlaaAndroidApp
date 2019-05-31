@@ -28,6 +28,8 @@ import com.bumptech.glide.request.target.Target;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
@@ -36,12 +38,8 @@ import ir.sanatisharif.android.konkur96.fragment.ProductDetailFragment;
 import ir.sanatisharif.android.konkur96.fragment.ShowArticleInfoFrg;
 import ir.sanatisharif.android.konkur96.fragment.ShowContentInfoFrg;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
-import ir.sanatisharif.android.konkur96.model.filter.ArticleCourse;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
-import ir.sanatisharif.android.konkur96.model.filter.PamphletCourse;
-import ir.sanatisharif.android.konkur96.model.filter.SetFilterCourse;
-import ir.sanatisharif.android.konkur96.model.filter.SetFilterProduct;
-import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
+import ir.sanatisharif.android.konkur96.model.main_page.SetModel;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
@@ -94,7 +92,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (viewType == AppConstants.FILTER_VIDEO) {
 
-            final VideoCourse item       = (VideoCourse) mList.get(position);
+            final ContentModel item       = (ContentModel) mList.get(position);
             final VideoHolder itemHolder = (VideoHolder) holder;
             itemHolder.txtTitle.setText(item.getName());
             itemHolder.txtAuthor.setText(item.getAuthor().getFullName());
@@ -135,7 +133,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         } else if (viewType == AppConstants.FILTER_PAMPHLET) {
 
-            final PamphletCourse item       = (PamphletCourse) mList.get(position);
+            final ContentModel   item       = (ContentModel) mList.get(position);
             final PamphletHolder itemHolder = (PamphletHolder) holder;
             itemHolder.txtTitle.setText(item.getName());
             itemHolder.txtAuthor.setText(item.getAuthor().getFullName());
@@ -149,8 +147,8 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         } else if (viewType == AppConstants.FILTER_SET) {
 
-            final SetFilterCourse item       = (SetFilterCourse) mList.get(position);
-            final SetHolder       itemHolder = (SetHolder) holder;
+            final SetModel  item       = (SetModel) mList.get(position);
+            final SetHolder itemHolder = (SetHolder) holder;
             itemHolder.txtTitle.setText(item.getName());
             itemHolder.txtAuthor.setText(item.getAuthor().getFullName());
 
@@ -184,7 +182,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
 
         } else if (viewType == AppConstants.FILTER_ARTICLE) {
-            final ArticleCourse item       = (ArticleCourse) mList.get(position);
+            final ContentModel item       = (ContentModel) mList.get(position);
             final ArticleHolder itemHolder = (ArticleHolder) holder;
 
             itemHolder.txtAuthor.setText(item.getAuthor().getFullName());
@@ -198,7 +196,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
         } else if (viewType == AppConstants.FILTER_PRODUCT) {
 
-            SetFilterProduct    item       = (SetFilterProduct) mList.get(position);
+            ProductModel        item       = (ProductModel) mList.get(position);
             final ProductHolder itemHolder = (ProductHolder) holder;
 
             Glide.with(mContext)

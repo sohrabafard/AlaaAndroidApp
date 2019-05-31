@@ -6,103 +6,105 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.model.PaginationModel;
+import ir.sanatisharif.android.konkur96.model.main_page.SetModel;
+
 public class FilterResult implements Parcelable {
 
-    public final static Creator<FilterResult> CREATOR = new Creator<FilterResult>() {
-
-        @Override
-        public FilterResult createFromParcel(Parcel in) {
-            return new FilterResult(in);
-        }
-
-        @Override
-        public FilterResult[] newArray(int size) {
-            return (new FilterResult[size]);
-        }
-
-    };
     @SerializedName("video")
     @Expose
-    private             VideoRoot             media;
+    private PaginationModel<ContentModel> video;
 
     @SerializedName("pamphlet")
     @Expose
-    private             PamphletRoot          pamphlet;
+    private PaginationModel<ContentModel> pamphlet;
 
     @SerializedName("article")
     @Expose
-    private             ArticleRoot           article;
+    private PaginationModel<ContentModel> article;
 
     @SerializedName("set")
     @Expose
-    private             SetFilterRoot         set;
+    private PaginationModel<SetModel> set;
 
     @SerializedName("product")
     @Expose
-    private             SetFilterProductRoot  product;
+    private PaginationModel<ProductModel> product;
 
-
-    protected FilterResult(Parcel in) {
-        this.media = ((VideoRoot) in.readValue((VideoRoot.class.getClassLoader())));
-        this.pamphlet = ((PamphletRoot) in.readValue((Object.class.getClassLoader())));
-        this.article = ((ArticleRoot) in.readValue((Object.class.getClassLoader())));
-        this.set = ((SetFilterRoot) in.readValue((Object.class.getClassLoader())));
-        this.product = ((SetFilterProductRoot) in.readValue((Object.class.getClassLoader())));
-    }
-
-
-    public VideoRoot getVideo() {
-        return media;
-    }
-
-    public void setVideo(VideoRoot video) {
-        this.media = video;
-    }
-
-    public PamphletRoot getPamphlet() {
-        return pamphlet;
-    }
-
-    public void setPamphlet(PamphletRoot pamphlet) {
-        this.pamphlet = pamphlet;
-    }
-
-    public ArticleRoot getArticle() {
-        return article;
-    }
-
-    public void setArticle(ArticleRoot article) {
-        this.article = article;
-    }
-
-    public SetFilterRoot getSet() {
-        return set;
-    }
-
-    public void setSet(SetFilterRoot set) {
-        this.set = set;
-    }
-
-    public SetFilterProductRoot getProduct() {
-        return product;
-    }
-
-    public void setProduct(SetFilterProductRoot product) {
-        this.product = product;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(media);
-        dest.writeValue(pamphlet);
-        dest.writeValue(article);
-        dest.writeValue(set);
-        dest.writeValue(product);
-    }
 
     @Override
     public int describeContents() {
         return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.video, flags);
+        dest.writeParcelable(this.pamphlet, flags);
+        dest.writeParcelable(this.article, flags);
+        dest.writeParcelable(this.set, flags);
+        dest.writeParcelable(this.product, flags);
+    }
+
+    protected FilterResult(Parcel in) {
+        this.video = in.readParcelable(PaginationModel.class.getClassLoader());
+        this.pamphlet = in.readParcelable(PaginationModel.class.getClassLoader());
+        this.article = in.readParcelable(PaginationModel.class.getClassLoader());
+        this.set = in.readParcelable(PaginationModel.class.getClassLoader());
+        this.product = in.readParcelable(PaginationModel.class.getClassLoader());
+    }
+
+    public static final Creator<FilterResult> CREATOR = new Creator<FilterResult>() {
+        @Override
+        public FilterResult createFromParcel(Parcel source) {
+            return new FilterResult(source);
+        }
+
+        @Override
+        public FilterResult[] newArray(int size) {
+            return new FilterResult[size];
+        }
+    };
+
+    public PaginationModel<ContentModel> getVideo() {
+        return video;
+    }
+
+    public void setVideo(PaginationModel<ContentModel> media) {
+        this.video = media;
+    }
+
+    public PaginationModel<ContentModel> getPamphlet() {
+        return pamphlet;
+    }
+
+    public void setPamphlet(PaginationModel<ContentModel> pamphlet) {
+        this.pamphlet = pamphlet;
+    }
+
+    public PaginationModel<ContentModel> getArticle() {
+        return article;
+    }
+
+    public void setArticle(PaginationModel<ContentModel> article) {
+        this.article = article;
+    }
+
+    public PaginationModel<SetModel> getSet() {
+        return set;
+    }
+
+    public void setSet(PaginationModel<SetModel> set) {
+        this.set = set;
+    }
+
+    public PaginationModel<ProductModel> getProduct() {
+        return product;
+    }
+
+    public void setProduct(PaginationModel<ProductModel> product) {
+        this.product = product;
+    }
 }

@@ -21,7 +21,7 @@ import com.bumptech.glide.request.transition.Transition;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
-import ir.sanatisharif.android.konkur96.model.main_page.Set;
+import ir.sanatisharif.android.konkur96.model.main_page.SetModel;
 import ir.sanatisharif.android.konkur96.ui.GlideApp;
 
 
@@ -38,9 +38,9 @@ public class CustomItemView extends LinearLayout {
     private int    contentCount;
     private String imageUrl;
     private int    width, height;
-    private int position;
-    private Set item;
-    private int layout;
+    private int      position;
+    private SetModel item;
+    private int      layout;
 
     //-------  define views
     private View         view;

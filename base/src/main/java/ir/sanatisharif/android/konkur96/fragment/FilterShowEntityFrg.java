@@ -22,6 +22,8 @@ import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.FilterAdapter;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.api.Models.PaginationDataModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
@@ -29,14 +31,10 @@ import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.ScrollOnRecycler;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
-import ir.sanatisharif.android.konkur96.model.filter.ArticleRoot;
-import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
+import ir.sanatisharif.android.konkur96.model.PaginationModel;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
-import ir.sanatisharif.android.konkur96.model.filter.Pagination;
-import ir.sanatisharif.android.konkur96.model.filter.PamphletRoot;
-import ir.sanatisharif.android.konkur96.model.filter.SetFilterProductRoot;
-import ir.sanatisharif.android.konkur96.model.filter.SetFilterRoot;
-import ir.sanatisharif.android.konkur96.model.filter.VideoRoot;
+import ir.sanatisharif.android.konkur96.model.filter.FilterModel;
+
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -44,15 +42,15 @@ import ir.sanatisharif.android.konkur96.model.filter.VideoRoot;
 
 public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 
-    private RecyclerView          myRecyclerView;
-    private NestedScrollView      nestedScrollView;
-    private FilterAdapter         adapter;
-    private List<FilterBaseModel> mList      = new ArrayList<>();
-    private Pagination            pagination;
-    private int                   type       = -1;
-    private boolean               repeatLoad = true;
-    private ScrollOnRecycler      scrollOnRecycler;
-    private MainRepository        repository;
+    private RecyclerView                                   myRecyclerView;
+    private NestedScrollView                               nestedScrollView;
+    private FilterAdapter                                  adapter;
+    private List<FilterBaseModel>                          mList      = new ArrayList<>();
+    private PaginationModel<? extends PaginationDataModel> pagination;
+    private int                                            type       = -1;
+    private boolean                                        repeatLoad = true;
+    private ScrollOnRecycler                               scrollOnRecycler;
+    private MainRepository                                 repository;
 
     public static FilterShowEntityFrg newInstance() {
 
@@ -154,46 +152,20 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
     }
 
     //<editor-fold desc="set data">
-    public void setVideoCourses(VideoRoot videoRoot) {
+    public <T extends PaginationDataModel & FilterBaseModel> void setDataModels(PaginationModel<T> pagination) {
 
-        pagination = videoRoot;
-        DetailsVideoFrg.pagination = pagination;
+        this.pagination = pagination;
+
+        try {
+            DetailsVideoFrg.pagination = (PaginationModel<ContentModel>) pagination;
+        }
+        catch (ClassCastException ex) {
+            DetailsVideoFrg.pagination = null;
+        }
+
         type = AppConstants.FILTER_VIDEO;
         mList.clear();
-        mList.addAll(videoRoot.getData());
-    }
-
-    public void setPamphletCourses(PamphletRoot pamphletRoot) {
-
-        pagination = pamphletRoot;
-        type = AppConstants.FILTER_PAMPHLET;
-        mList.clear();
-        mList.addAll(pamphletRoot.getData());
-    }
-
-    public void setArticleCourses(ArticleRoot articleRoot) {
-
-        pagination = articleRoot;
-        type = AppConstants.FILTER_ARTICLE;
-        mList.clear();
-        mList.addAll(articleRoot.getData());
-    }
-
-    public void setToSetFilterCourses(SetFilterRoot setFilterRoot) {
-
-        pagination = setFilterRoot;
-        type = AppConstants.FILTER_SET;
-        mList.clear();
-        mList.addAll(setFilterRoot.getData());
-    }
-
-    public void setToProduct(SetFilterProductRoot product) {
-
-        pagination = product;
-        type = AppConstants.FILTER_PRODUCT;
-        mList.clear();
-        mList.addAll(product.getData());
-
+        mList.addAll(pagination.getData());
     }
     //</editor-fold>
 

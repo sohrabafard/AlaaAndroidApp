@@ -25,7 +25,7 @@ public class SyncService extends Service {
     public void onCreate() {
         /*
          * Create the sync adapter as a singleton.
-         * Set the sync adapter as syncable
+         * SetModel the sync adapter as syncable
          * Disallow parallel syncs
          */
         synchronized (sSyncAdapterLock) {

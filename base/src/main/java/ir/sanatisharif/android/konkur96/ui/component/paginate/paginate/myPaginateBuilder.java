@@ -36,7 +36,7 @@ public final class myPaginateBuilder {
 
 
     /**
-     * Set the offset from the end of the list at which the load more event needs to be triggered. Default offset
+     * SetModel the offset from the end of the list at which the load more event needs to be triggered. Default offset
      * if 5.
      *
      * @param loadingTriggerThreshold number of items from the end of the list.

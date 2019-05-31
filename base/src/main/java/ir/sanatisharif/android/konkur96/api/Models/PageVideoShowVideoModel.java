@@ -7,8 +7,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
-
 public class PageVideoShowVideoModel implements Parcelable {
 
     public static final Creator<PageVideoShowVideoModel>
@@ -27,7 +25,7 @@ public class PageVideoShowVideoModel implements Parcelable {
     @SerializedName("current_page")
     private             int                    current_page;
     @SerializedName("data")
-    private             ArrayList<VideoCourse> data;
+    private             ArrayList<ContentModel> data;
     @SerializedName("first_page_url")
     private             String                 first_page_url;
     @SerializedName("from")
@@ -51,7 +49,7 @@ public class PageVideoShowVideoModel implements Parcelable {
 
     protected PageVideoShowVideoModel(Parcel in) {
         current_page = in.readInt();
-        //data = in.readArrayList(VideoCourse.CREATOR);
+        //data = in.readArrayList(ContentModel.CREATOR);
         first_page_url = in.readString();
         from = in.readInt();
         last_page = in.readInt();
@@ -72,11 +70,11 @@ public class PageVideoShowVideoModel implements Parcelable {
         this.current_page = current_page;
     }
 
-    public ArrayList<VideoCourse> getData() {
+    public ArrayList<ContentModel> getData() {
         return data;
     }
 
-    public void setData(ArrayList<VideoCourse> data) {
+    public void setData(ArrayList<ContentModel> data) {
         this.data = data;
     }
 

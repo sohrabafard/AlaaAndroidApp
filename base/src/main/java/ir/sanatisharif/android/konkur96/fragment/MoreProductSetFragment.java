@@ -31,7 +31,7 @@ import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
 import ir.sanatisharif.android.konkur96.handler.Result;
 import ir.sanatisharif.android.konkur96.model.Events;
-import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.myPaginate;
 
 public class MoreProductSetFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -48,7 +48,7 @@ public class MoreProductSetFragment extends BaseFragment implements SwipeRefresh
     private String                  url;
     private MoreFilesProductAdapter adapter;
 
-    private ArrayList<VideoCourse> items = new ArrayList<>();
+    private ArrayList<ContentModel> items = new ArrayList<>();
 
     public static MoreProductSetFragment newInstance(String url) {
 
@@ -209,7 +209,7 @@ public class MoreProductSetFragment extends BaseFragment implements SwipeRefresh
 
 
         //---------------------- convert -------------------------------------------------------
-        for (VideoCourse pro : data.getResult().getVideo().getData()) {
+        for (ContentModel pro : data.getResult().getVideo().getData()) {
 
 
             if (!items.contains(pro)) {

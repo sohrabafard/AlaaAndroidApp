@@ -28,17 +28,17 @@ import java.util.List;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
-import ir.sanatisharif.android.konkur96.model.filter.VideoCourse;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 
 public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoHolder> {
 
-    private List<VideoCourse>   itemsList;
+    private List<ContentModel>   itemsList;
     private Context             mContext;
     private OnItemClickListener onItemClickListener;
     private int                 width, height, pos = -1;
     private RequestOptions requestOptions;
 
-    public PlayListAdapter(Context context, List<VideoCourse> itemsList) {
+    public PlayListAdapter(Context context, List<ContentModel> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
         pos = -1;
@@ -75,7 +75,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.VideoH
     @Override
     public void onBindViewHolder(final VideoHolder holder, final int position) {
 
-        final VideoCourse item = itemsList.get(position);
+        final ContentModel item = itemsList.get(position);
 
         try {
             holder.txtTitle.setText(item.getName());

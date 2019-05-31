@@ -78,7 +78,7 @@ public class FilterAdapterBySpinner extends ArrayAdapter<String> {
         label.setTypeface(AppConfig.fontIRSensLight);
 
         if (position == 0) {
-            // Set the hint text color gray
+            // SetModel the hint text color gray
             label.setTextColor(Color.GRAY);
         } else {
             label.setTextColor(Color.BLACK);

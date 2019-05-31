@@ -33,7 +33,7 @@ public class CustomDurationScroller extends Scroller {
     // }
 
     /**
-     * Set the factor by which the duration will change
+     * SetModel the factor by which the duration will change
      */
     public void setScrollDurationFactor(double scrollFactor) {
         this.scrollFactor = scrollFactor;

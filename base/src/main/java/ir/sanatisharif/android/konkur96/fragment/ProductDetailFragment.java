@@ -275,7 +275,7 @@ public class ProductDetailFragment extends BaseFragment {
 
         progPrice = v.findViewById(R.id.prog_price);
 
-        //Set Typeface
+        //SetModel Typeface
         txtName.setTypeface(AppConfig.fontIRSensLight);
         txtAuthor.setTypeface(AppConfig.fontIRSensLight);
         txtAtrr.setTypeface(AppConfig.fontIRSensLight);

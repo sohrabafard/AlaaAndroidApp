@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-import ir.sanatisharif.android.konkur96.model.main_page.Set;
+import ir.sanatisharif.android.konkur96.model.main_page.SetModel;
 
 public class BlockDataModel implements Parcelable {
 
@@ -67,7 +67,7 @@ public class BlockDataModel implements Parcelable {
 
     @SerializedName("sets")
     @Expose
-    private ArrayList<Set> sets;
+    private ArrayList<SetModel> sets;
 
 
     protected BlockDataModel(Parcel in) {
@@ -82,7 +82,7 @@ public class BlockDataModel implements Parcelable {
         products = in.createTypedArrayList(ProductModel.CREATOR);
         banners = in.createTypedArrayList(MainBannerModel.CREATOR);
         contents = in.createTypedArrayList(ContentModel.CREATOR);
-        sets = in.createTypedArrayList(Set.CREATOR);
+        sets = in.createTypedArrayList(SetModel.CREATOR);
     }
 
     @Override
@@ -185,11 +185,11 @@ public class BlockDataModel implements Parcelable {
         this.contents = contents;
     }
 
-    public ArrayList<Set> getSets() {
+    public ArrayList<SetModel> getSets() {
         return sets;
     }
 
-    public void setSets(ArrayList<Set> sets) {
+    public void setSets(ArrayList<SetModel> sets) {
         this.sets = sets;
     }
 }

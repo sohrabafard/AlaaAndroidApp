@@ -5,7 +5,7 @@ import java.util.List;
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainBannerModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.model.main_page.Set;
+import ir.sanatisharif.android.konkur96.model.main_page.SetModel;
 
 /**
  * Created by Mohamad on 10/6/2018.
@@ -20,7 +20,7 @@ public class Block {
     private int                   order;
     private String                url;
     private List<MainBannerModel> sliders;
-    private List<Set>             sets;
+    private List<SetModel>        sets;
     private List<ContentModel>    contents;
     private List<MainBannerModel> banners;
     private List<ProductModel>    products;
@@ -82,11 +82,11 @@ public class Block {
         this.sliders = sliders;
     }
 
-    public List<Set> getSets() {
+    public List<SetModel> getSets() {
         return sets;
     }
 
-    public void setSets(List<Set> sets) {
+    public void setSets(List<SetModel> sets) {
         this.sets = sets;
     }
 

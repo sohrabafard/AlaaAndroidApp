@@ -332,19 +332,19 @@ public class FilterTagsFrg extends BaseFragment implements
         int tabCount = 0;
 
         if (filter.getResult().getSet() != null) {
-            filterShowEntityFrgArrayList.get(tabCount++).setToSetFilterCourses(filter.getResult().getSet());
+            filterShowEntityFrgArrayList.get(tabCount++).setDataModels(filter.getResult().getSet());
         }
         if (filter.getResult().getProduct() != null) {
-            filterShowEntityFrgArrayList.get(tabCount++).setToProduct(filter.getResult().getProduct());
+            filterShowEntityFrgArrayList.get(tabCount++).setDataModels(filter.getResult().getProduct());
         }
         if (filter.getResult().getVideo() != null) {
-            filterShowEntityFrgArrayList.get(tabCount++).setVideoCourses(filter.getResult().getVideo());
+            filterShowEntityFrgArrayList.get(tabCount++).setDataModels(filter.getResult().getVideo());
         }
         if (filter.getResult().getPamphlet() != null) {
-            filterShowEntityFrgArrayList.get(tabCount++).setPamphletCourses(filter.getResult().getPamphlet());
+            filterShowEntityFrgArrayList.get(tabCount++).setDataModels(filter.getResult().getPamphlet());
         }
         if (filter.getResult().getArticle() != null) {
-            filterShowEntityFrgArrayList.get(tabCount++).setArticleCourses(filter.getResult().getArticle());
+            filterShowEntityFrgArrayList.get(tabCount++).setDataModels(filter.getResult().getArticle());
         }
     }
 

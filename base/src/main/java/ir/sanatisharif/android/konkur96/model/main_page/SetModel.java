@@ -1,71 +1,85 @@
 package ir.sanatisharif.android.konkur96.model.main_page;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import ir.sanatisharif.android.konkur96.api.Models.PaginationDataModel;
+import ir.sanatisharif.android.konkur96.app.AppConstants;
+import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
 
-public class Set implements Parcelable {
 
-    public final static Creator<Set> CREATOR = new Creator<Set>() {
+public class SetModel extends PaginationDataModel implements FilterBaseModel {
 
+    public final static Creator<SetModel> CREATOR = new Creator<SetModel>() {
 
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Set createFromParcel(Parcel in) {
-            return new Set(in);
+        @Override
+        public SetModel createFromParcel(Parcel in) {
+            return new SetModel(in);
         }
 
-        public Set[] newArray(int size) {
-            return (new Set[size]);
+        @Override
+        public SetModel[] newArray(int size) {
+            return (new SetModel[size]);
         }
 
     };
     @SerializedName("id")
     @Expose
-    private             Integer      id;
+    private             Integer           id;
+
     @SerializedName("name")
     @Expose
-    private             String       name;
+    private String name;
+
     @SerializedName("description")
     @Expose
-    private             Object       description;
+    private Object description;
+
     @SerializedName("photo")
     @Expose
-    private             String       photo;
+    private String photo;
+
     @SerializedName("tags")
     @Expose
-    private             Tags         tags;
+    private Tags tags;
+
     @SerializedName("created_at")
     @Expose
-    private             String       createdAt;
+    private String createdAt;
+
     @SerializedName("updated_at")
     @Expose
-    private             String       updatedAt;
+    private String updatedAt;
+
     @SerializedName("contents_count")
     @Expose
-    private             Integer      contentsCount;
+    private Integer contentsCount;
+
     @SerializedName("url")
     @Expose
-    private             String       url;
+    private String url;
+
     @SerializedName("apiUrl")
     @Expose
-    private             ApiUrl       apiUrl;
+    private ApiUrl apiUrl;
+
     @SerializedName("shortName")
     @Expose
-    private             String       shortName;
+    private String shortName;
+
     @SerializedName("author")
     @Expose
-    private             Author       author;
+    private Author author;
+
     @SerializedName("contentUrl")
     @Expose
-    private             String       contentUrl;
-    private             int          type;
+    private String contentUrl;
 
-    protected Set(Parcel in) {
+    private int type;
+
+    protected SetModel(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
         this.description = in.readValue((Object.class.getClassLoader()));
@@ -81,7 +95,7 @@ public class Set implements Parcelable {
         this.contentUrl = ((String) in.readValue((String.class.getClassLoader())));
     }
 
-    public Set() {
+    public SetModel() {
     }
 
     public Integer getId() {
@@ -196,6 +210,7 @@ public class Set implements Parcelable {
         this.type = type;
     }
 
+    @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(id);
         dest.writeValue(name);
@@ -212,8 +227,13 @@ public class Set implements Parcelable {
         dest.writeValue(contentUrl);
     }
 
+    @Override
     public int describeContents() {
         return 0;
     }
 
+    @Override
+    public int getViewType() {
+        return AppConstants.FILTER_SET;
+    }
 }
