@@ -6,14 +6,13 @@ import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.model.main_page.Banner;
 import ir.sanatisharif.android.konkur96.model.main_page.Content;
 import ir.sanatisharif.android.konkur96.model.main_page.MainBanner;
-import ir.sanatisharif.android.konkur96.model.main_page.Product;
 import ir.sanatisharif.android.konkur96.model.main_page.Set;
 
 /**
  * Created by Mohamad on 10/6/2018.
  */
 
-public class MainItem {
+public class Block {
 
     private int id;
     private int type;

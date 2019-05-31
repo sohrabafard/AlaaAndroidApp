@@ -95,7 +95,7 @@ import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredi
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
 import ir.sanatisharif.android.konkur96.model.DataCourse;
-import ir.sanatisharif.android.konkur96.model.MainItem;
+import ir.sanatisharif.android.konkur96.model.Block;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.model.filter.Filter;
 import ir.sanatisharif.android.konkur96.model.filter.FilterBaseModel;
@@ -344,7 +344,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private boolean mExoPlayerFullscreen = false;
     //comment
     private MainItemAdapter adapter;
-    private ArrayList<MainItem> items = new ArrayList<>();
+    private ArrayList<Block> items = new ArrayList<>();
     //lock
     private PowerManager pm;
     private PowerManager.WakeLock wl;
@@ -643,8 +643,8 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         myRecyclerViewProduct.setAdapter(adapter);
 
         // setData
-        MainItem item = new MainItem();
-        item = new MainItem();
+        Block item = new Block();
+        item = new Block();
         item.setType(AppConstants.ITEM_PRODUCT);
         item.setProducts(productModels);
         items.add(item);

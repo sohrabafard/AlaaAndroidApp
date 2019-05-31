@@ -22,7 +22,7 @@ import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.model.main_page.Content;
-import ir.sanatisharif.android.konkur96.model.MainItem;
+import ir.sanatisharif.android.konkur96.model.Block;
 import ir.sanatisharif.android.konkur96.model.Video;
 import ir.sanatisharif.android.konkur96.model.main_page.Banner;
 import ir.sanatisharif.android.konkur96.model.main_page.MainBanner;
@@ -37,12 +37,12 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.MORE_VIDEO_OFFLI
 public class MainItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     int width = 0;
-    private List<MainItem> dataList;
+    private List<Block> dataList;
     private Context mContext;
     private OnItemClickListener mClickListener;
     //private SnapHelper snapHelper;
 
-    public MainItemAdapter(Context context, List<MainItem> dataList) {
+    public MainItemAdapter(Context context, List<Block> dataList) {
         this.dataList = dataList;
         this.mContext = context;
         //snapHelper = new GravitySnapHelper(Gravity.START);
