@@ -46,18 +46,6 @@ public class BannerItemAdapter extends RecyclerView.Adapter<BannerItemAdapter.Ba
         holder.imgItem.getLayoutParams().width = w;
         holder.imgItem.getLayoutParams().height = h;
         holder.txtTitle.getLayoutParams().width = w;
-
-//        GlideApp.with(AppConfig.context)
-//                .load(item.getUrl())
-//                .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
-//                .override(w, h)
-//                .transition(DrawableTransitionOptions.withCrossFade())
-//                .into(new SimpleTarget<Drawable>(w, h) {
-//                    @Override
-//                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-//                        holder.imgItem.setImageDrawable(resource);
-//                    }
-//                });
     }
 
     @Override
