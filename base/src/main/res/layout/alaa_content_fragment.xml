@@ -8,35 +8,7 @@
     android:background="@color/White"
     android:orientation="vertical">
 
-    <com.google.android.exoplayer2.ui.AspectRatioFrameLayout
-        android:id="@+id/mediaVideoFrame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:resize_mode="fixed_width">
 
-        <com.google.android.exoplayer2.ui.PlayerView
-            android:id="@+id/exoplayer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="0dp"
-            android:scaleY="1"
-            android:visibility="gone"
-            app:fastforward_increment="30000"
-            app:rewind_increment="30000"
-            app:show_timeout="5000"
-            app:shutter_background_color="@color/White">
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
-
-        </com.google.android.exoplayer2.ui.PlayerView>
-    </com.google.android.exoplayer2.ui.AspectRatioFrameLayout>
 
     <FrameLayout
         android:id="@+id/relativePreview"

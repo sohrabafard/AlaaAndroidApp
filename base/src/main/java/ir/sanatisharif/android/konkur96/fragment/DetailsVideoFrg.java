@@ -131,9 +131,11 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private static       List<ContentModel>            ContentModels;
     private static       ContentModel                  mContent;
     private static       int                           positionPlaying;
+    
     private final        String                        STATE_RESUME_WINDOW     = "resumeWindow";
     private final        String                        STATE_RESUME_POSITION   = "resumePosition";
     private final        String                        STATE_PLAYER_FULLSCREEN = "playerFullscreen";
+    
     RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(context) {
         @Override
         protected int getVerticalSnapPreference() {
@@ -144,7 +146,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private SharedPreferences                      sharedPreferences;
     private String                                 quality      = "";
     private Bundle                                 savedInsPlayer;
-    private VideoPlayer                            videoPlayer;
     private ContentModel                           course;
     private boolean                                showPlayList = true;
     private int                                    mResumeWindow;
@@ -218,6 +219,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         
         }
     };
+    
     private MainRepository  repository;
     private SimpleExoPlayer player;
     Player.EventListener eventListener      = new Player.EventListener() {
@@ -1458,37 +1460,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         }
         catch (Exception ex) {
             Log.e(TAG, "start-showSnackBar" + ex.getMessage());
-        }
-    }
-    
-    public class VideoPlayer implements LifecycleObserver {
-        
-        @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        public void start() {
-            //play logic
-            Log.i(TAG, "play:1 ");
-            initExoPlayer();
-        }
-        
-        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-        public void play() {
-            //play logic
-            Log.i(TAG, "play:2 ");
-            resume();
-        }
-        
-        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-        public void pause() {
-            Log.i(TAG, "play:3");
-            if (Util.SDK_INT <= 23)
-                pausePlayer();
-        }
-        
-        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-        public void stop() {
-            Log.i(TAG, "play: 4");
-            if (Util.SDK_INT > 23)
-                releasePlayer();
         }
     }
 }

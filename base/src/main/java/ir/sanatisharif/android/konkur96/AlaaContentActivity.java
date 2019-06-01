@@ -30,7 +30,7 @@ public class AlaaContentActivity extends AppCompatActivity implements LogUserAct
     public static final String
                                              LOAD_BUY_CONTENT_ALSO_USER_CAN_NOT_SEE_CONTENT =
             "load_buy_content_also_can_not_see";
-    private             AlaaContentViewModel mViewModel;
+    private             AlaaContentViewModel mContentViewModel;
 
     
     @Override
@@ -48,8 +48,8 @@ public class AlaaContentActivity extends AppCompatActivity implements LogUserAct
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        
-        mViewModel = ViewModelProviders.of(this).get(AlaaContentViewModel.class);
+    
+        mContentViewModel = ViewModelProviders.of(this).get(AlaaContentViewModel.class);
         
         if (savedInstanceState == null) {
             
@@ -78,7 +78,7 @@ public class AlaaContentActivity extends AppCompatActivity implements LogUserAct
     
     @Override
     protected void onStop() {
-        this.userHasFinishedViewingPage(mViewModel.getContent().getValue());
+        this.userHasFinishedViewingPage(mContentViewModel.getContent().getValue());
         super.onStop();
     }
     
@@ -90,14 +90,14 @@ public class AlaaContentActivity extends AppCompatActivity implements LogUserAct
         String token  = intent.getStringExtra(SET_TOKEN);
         String action = intent.getAction();  // android.intent.action.VIEW
         String data   = intent.getDataString();// https://sanatisharif.ir/c/8087
-        mViewModel.setToken(token);
+        mContentViewModel.setToken(token);
         
         if (Intent.ACTION_VIEW.equals(action)) {
             Uri appLinkData = intent.getData();
             if (appLinkData != null) {
                 String path = appLinkData.getPath();
                 if (path != null && path.startsWith("/c/") && path.length() > 3) {
-                    mViewModel.setUrl(data);
+                    mContentViewModel.setUrl(data);
                     return;
                 }
             }
@@ -106,15 +106,15 @@ public class AlaaContentActivity extends AppCompatActivity implements LogUserAct
                 content =
                 intent.getParcelableExtra(LOAD_BUY_CONTENT_ALSO_USER_CAN_SEE_CONTENT);
         if (content != null) {
-            mViewModel.setCanSee(true);
-            mViewModel.setContent(content);
+            mContentViewModel.setCanSee(true);
+            mContentViewModel.setContent(content);
             return;
         }
         
         String url = intent.getStringExtra(LOAD_BUY_URL);
         
         if (url != null) {
-            mViewModel.setUrl(url);
+            mContentViewModel.setUrl(url);
             return;
         }
         
@@ -123,8 +123,8 @@ public class AlaaContentActivity extends AppCompatActivity implements LogUserAct
                 error =
                 intent.getParcelableExtra(LOAD_BUY_CONTENT_ALSO_USER_CAN_NOT_SEE_CONTENT);
         if (error != null) {
-            mViewModel.setCanSee(false);
-            mViewModel.setError(error);
+            mContentViewModel.setCanSee(false);
+            mContentViewModel.setError(error);
         }
     }
     
