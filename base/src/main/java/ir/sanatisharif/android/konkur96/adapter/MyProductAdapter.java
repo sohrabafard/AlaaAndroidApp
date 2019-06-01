@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.fragment.MyProductSet;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;

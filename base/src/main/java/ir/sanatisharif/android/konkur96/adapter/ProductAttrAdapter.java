@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
-import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
+import ir.sanatisharif.android.konkur96.Models.AttributeDataModel;
+import ir.sanatisharif.android.konkur96.Models.AttributeModel;
 
 public class ProductAttrAdapter extends RecyclerView.Adapter<ProductAttrAdapter.MyViewHolder> {
     

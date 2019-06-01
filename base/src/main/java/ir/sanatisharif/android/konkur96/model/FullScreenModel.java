@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
+import ir.sanatisharif.android.konkur96.Models.ProductPhotoModel;
 
 public class FullScreenModel implements Parcelable {
     

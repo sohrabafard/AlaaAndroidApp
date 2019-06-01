@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.SetModel;
+import ir.sanatisharif.android.konkur96.Models.SetModel;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
 
 import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;

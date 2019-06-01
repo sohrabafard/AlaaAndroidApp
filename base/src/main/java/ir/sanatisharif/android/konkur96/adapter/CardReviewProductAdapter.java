@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
-import ir.sanatisharif.android.konkur96.api.Models.ItemCardReviewMOdel;
+import ir.sanatisharif.android.konkur96.Models.AddToCardModel;
+import ir.sanatisharif.android.konkur96.Models.ItemCardReviewMOdel;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 

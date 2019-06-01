@@ -8,7 +8,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.activity.GalleryFullView;
-import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
+import ir.sanatisharif.android.konkur96.Models.ProductPhotoModel;
 import ir.sanatisharif.android.konkur96.model.FullScreenModel;
 
 public class GalleryWorker {

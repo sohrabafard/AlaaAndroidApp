@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;

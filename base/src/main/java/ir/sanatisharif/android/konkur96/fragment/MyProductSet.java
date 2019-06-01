@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MyProductSetAdapter;
-import ir.sanatisharif.android.konkur96.api.Models.SetModel;
+import ir.sanatisharif.android.konkur96.Models.SetModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.Events;
 

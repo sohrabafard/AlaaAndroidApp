@@ -296,7 +296,7 @@
 -keep interface okhttp3.** { *; }
 
 -dontwarn okhttp3.**
--keep class ir.sanatisharif.android.konkur96.api.Models.** { *; }
+-keep class ir.sanatisharif.android.konkur96.Models.** { *; }
 
 # Add project specific ProGuard rules here.
 # By default, the flags in this file are appended to flags specified

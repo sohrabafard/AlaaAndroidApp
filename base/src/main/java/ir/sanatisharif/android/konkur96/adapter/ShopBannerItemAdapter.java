@@ -21,7 +21,7 @@ import com.bumptech.glide.request.transition.Transition;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.MainBannerModel;
+import ir.sanatisharif.android.konkur96.Models.MainBannerModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 
 

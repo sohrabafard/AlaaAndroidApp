@@ -3,7 +3,7 @@ package ir.sanatisharif.android.konkur96.handler;
 import java.util.ArrayList;
 
 import io.reactivex.annotations.Nullable;
-import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
+import ir.sanatisharif.android.konkur96.Models.PaymentVerificationRequest;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 
 public interface Repository {

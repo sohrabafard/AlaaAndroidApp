@@ -16,11 +16,11 @@ import com.viewpagerindicator.CirclePageIndicator;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
-import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
-import ir.sanatisharif.android.konkur96.api.Models.MainBannerModel;
-import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.api.Models.SetModel;
+import ir.sanatisharif.android.konkur96.Models.BlockDataModel;
+import ir.sanatisharif.android.konkur96.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.Models.MainBannerModel;
+import ir.sanatisharif.android.konkur96.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.Models.SetModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;

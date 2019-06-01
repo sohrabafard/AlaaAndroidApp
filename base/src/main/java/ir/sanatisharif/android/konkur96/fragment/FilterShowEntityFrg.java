@@ -22,11 +22,11 @@ import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.FilterAdapter;
-import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
-import ir.sanatisharif.android.konkur96.api.Models.PaginationDataModel;
-import ir.sanatisharif.android.konkur96.api.Models.PaginationModel;
-import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
-import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
+import ir.sanatisharif.android.konkur96.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.Models.PaginationDataModel;
+import ir.sanatisharif.android.konkur96.Models.PaginationModel;
+import ir.sanatisharif.android.konkur96.Models.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.Models.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;

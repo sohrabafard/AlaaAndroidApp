@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.ProductAttrAdapter;
-import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
+import ir.sanatisharif.android.konkur96.Models.AttributeModel;
 
 @SuppressLint("ValidFragment")
 public class ProductAttrDialogFragment extends DialogFragment {

@@ -25,9 +25,9 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
 import ir.sanatisharif.android.konkur96.adapter.MyProductAdapter;
-import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.api.Models.WalletModel;
-import ir.sanatisharif.android.konkur96.api.Models.myProductsModel;
+import ir.sanatisharif.android.konkur96.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.Models.WalletModel;
+import ir.sanatisharif.android.konkur96.Models.myProductsModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;
@@ -116,7 +116,7 @@ public class MyProduct extends Fragment {
                             public void run() {
                                 try {
                                     
-                                    ir.sanatisharif.android.konkur96.api.Models.myProductsModel
+                                    ir.sanatisharif.android.konkur96.Models.myProductsModel
                                             value =
                                             (myProductsModel) ((Result.Success) data).value;
                                     setData(value);

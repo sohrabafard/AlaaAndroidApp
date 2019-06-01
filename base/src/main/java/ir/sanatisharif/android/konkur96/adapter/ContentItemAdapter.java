@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;
 import ir.sanatisharif.android.konkur96.ui.view.CustomItemView;
 

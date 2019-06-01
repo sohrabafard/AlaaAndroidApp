@@ -22,8 +22,8 @@ import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
-import ir.sanatisharif.android.konkur96.api.Models.AddToCardListModel;
-import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.Models.AddToCardListModel;
+import ir.sanatisharif.android.konkur96.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.fragment.CardFragment;
 import ir.sanatisharif.android.konkur96.handler.Repository;

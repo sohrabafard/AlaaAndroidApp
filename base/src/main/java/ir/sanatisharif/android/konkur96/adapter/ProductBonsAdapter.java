@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.BonModel;
+import ir.sanatisharif.android.konkur96.Models.BonModel;
 
 public class ProductBonsAdapter extends RecyclerView.Adapter<ProductBonsAdapter.MyViewHolder> {
     

@@ -28,10 +28,10 @@ import com.bumptech.glide.request.target.Target;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
-import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
-import ir.sanatisharif.android.konkur96.api.Models.SetModel;
-import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.Models.SetModel;
+import ir.sanatisharif.android.konkur96.Models.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.DetailsVideoFrg;

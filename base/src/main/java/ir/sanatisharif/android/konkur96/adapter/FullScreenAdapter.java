@@ -14,7 +14,7 @@ import com.github.chrisbanes.photoview.PhotoView;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
+import ir.sanatisharif.android.konkur96.Models.ProductPhotoModel;
 
 public class FullScreenAdapter extends PagerAdapter {
     

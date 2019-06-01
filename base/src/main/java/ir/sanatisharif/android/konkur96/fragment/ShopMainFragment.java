@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MainShopItemAdapter;
-import ir.sanatisharif.android.konkur96.api.Models.MainModel;
+import ir.sanatisharif.android.konkur96.Models.MainModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
 import ir.sanatisharif.android.konkur96.handler.Repository;

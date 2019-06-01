@@ -34,7 +34,7 @@ import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.MyFilterPagerAdapter;
-import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
+import ir.sanatisharif.android.konkur96.Models.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.FilterCoursesDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;

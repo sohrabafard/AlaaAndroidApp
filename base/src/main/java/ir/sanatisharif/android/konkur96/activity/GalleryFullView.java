@@ -24,7 +24,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.FullScreenAdapter;
 import ir.sanatisharif.android.konkur96.adapter.IndicatorAdapter;
-import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
+import ir.sanatisharif.android.konkur96.Models.ProductPhotoModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.interfaces.PositionFounder;
 import ir.sanatisharif.android.konkur96.model.FullScreenModel;

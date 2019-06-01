@@ -30,7 +30,7 @@
                     android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:gravity="center|start"
-                    android:text="اسم"
+                    android:text="نام دبیر"
                     android:textColor="@color/Black_2"
                     android:textSize="@dimen/content_show_author"
                     android:textStyle="bold" />
@@ -104,7 +104,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:rotation="180"
-            android:src="@drawable/ic_arrow_up"
+            app:srcCompat="@drawable/ic_arrow_up"
             android:tint="@color/Monochromatic_1" />
 
         <FrameLayout

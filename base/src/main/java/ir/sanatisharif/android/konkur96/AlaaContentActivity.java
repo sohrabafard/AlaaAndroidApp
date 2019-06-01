@@ -7,7 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
-import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
 import ir.sanatisharif.android.konkur96.ui.alaacontent.AlaaContentFragment;
 import ir.sanatisharif.android.konkur96.ui.alaacontent.AlaaContentViewModel;

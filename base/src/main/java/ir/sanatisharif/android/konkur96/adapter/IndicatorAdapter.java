@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.ProductPhotoModel;
+import ir.sanatisharif.android.konkur96.Models.ProductPhotoModel;
 import ir.sanatisharif.android.konkur96.interfaces.PositionFounder;
 
 public class IndicatorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

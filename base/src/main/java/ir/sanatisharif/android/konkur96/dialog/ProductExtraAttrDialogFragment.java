@@ -32,10 +32,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
-import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
-import ir.sanatisharif.android.konkur96.api.Models.GETPriceModel;
-import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.Models.AttributeDataModel;
+import ir.sanatisharif.android.konkur96.Models.AttributeModel;
+import ir.sanatisharif.android.konkur96.Models.GETPriceModel;
+import ir.sanatisharif.android.konkur96.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.handler.Repository;
 import ir.sanatisharif.android.konkur96.handler.RepositoryImpl;

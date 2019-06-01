@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.AddToCardModel;
+import ir.sanatisharif.android.konkur96.Models.AddToCardModel;
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 

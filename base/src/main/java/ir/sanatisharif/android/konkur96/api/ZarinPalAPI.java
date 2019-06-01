@@ -1,10 +1,10 @@
 package ir.sanatisharif.android.konkur96.api;
 
 import io.reactivex.Observable;
-import ir.sanatisharif.android.konkur96.api.Models.PaymentRequest;
-import ir.sanatisharif.android.konkur96.api.Models.PaymentResponse;
-import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationRequest;
-import ir.sanatisharif.android.konkur96.api.Models.PaymentVerificationResponse;
+import ir.sanatisharif.android.konkur96.Models.PaymentRequest;
+import ir.sanatisharif.android.konkur96.Models.PaymentResponse;
+import ir.sanatisharif.android.konkur96.Models.PaymentVerificationRequest;
+import ir.sanatisharif.android.konkur96.Models.PaymentVerificationResponse;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;

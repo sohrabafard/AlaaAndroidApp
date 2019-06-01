@@ -28,7 +28,7 @@ import java.nio.charset.Charset;
 import java.util.Locale;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.Events;
 import me.gujun.android.taggroup.TagGroup;
