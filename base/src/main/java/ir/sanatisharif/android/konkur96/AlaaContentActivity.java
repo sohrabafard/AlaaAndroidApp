@@ -3,16 +3,21 @@ package ir.sanatisharif.android.konkur96;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import ir.sanatisharif.android.konkur96.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.activity.MainActivity;
+import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
 import ir.sanatisharif.android.konkur96.ui.alaacontent.AlaaContentFragment;
 import ir.sanatisharif.android.konkur96.ui.alaacontent.AlaaContentViewModel;
 
-public class AlaaContentActivity extends AppCompatActivity {
+public class AlaaContentActivity extends AppCompatActivity implements LogUserActionsOnPublicContentInterface {
     public static final String
                                              LOAD_BUY_URL                                   =
             "load_buy_url";
@@ -26,11 +31,24 @@ public class AlaaContentActivity extends AppCompatActivity {
                                              LOAD_BUY_CONTENT_ALSO_USER_CAN_NOT_SEE_CONTENT =
             "load_buy_content_also_can_not_see";
     private             AlaaContentViewModel mViewModel;
+
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alaa_content_activity);
+    
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(getTitle());
+    
+    
+        // Show the Up button in the action bar.
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        
         mViewModel = ViewModelProviders.of(this).get(AlaaContentViewModel.class);
         
         if (savedInstanceState == null) {
@@ -40,6 +58,28 @@ public class AlaaContentActivity extends AppCompatActivity {
                     .replace(R.id.container, AlaaContentFragment.newInstance())
                     .commitNow();
         }
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            // This ID represents the Home or Up button. In the case of this
+            // activity, the Up button is shown. For
+            // more details, see the Navigation pattern on Android Design:
+            //
+            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+            //
+            navigateUpTo(new Intent(this, MainActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
+    @Override
+    protected void onStop() {
+        this.userHasFinishedViewingPage(mViewModel.getContent().getValue());
+        super.onStop();
     }
     
     private void handleIntent() {

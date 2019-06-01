@@ -13,15 +13,16 @@ import io.reactivex.annotations.NonNull;
 public interface LogUserActionsOnPublicContentInterface {
     
     default void userStartedViewingAParticularPage(@NonNull Data page) {
-        indexRecipe(page);
-        FirebaseUserActions.getInstance().start(getRecipeViewAction(page));
+        indexPage(page);
+        FirebaseUserActions.getInstance().start(getPageViewAction(page));
     }
     
     default void userHasFinishedViewingPage(@NonNull Data page) {
-        FirebaseUserActions.getInstance().end(getRecipeViewAction(page));
+        FirebaseUserActions.getInstance().end(getPageViewAction(page));
     }
     
-    default void indexRecipe(Data data) {
+    
+    default void indexPage(Data data) {
         String userActionTitle       = "" + data.getUserActionTitle();
         String userActionUrl         = "" + data.getUserActionUrl();
         String userActionPhoto       = "" + data.getUserActionPhoto();
@@ -42,7 +43,7 @@ public interface LogUserActionsOnPublicContentInterface {
         
     }
     
-    default Action getRecipeViewAction(Data data) {
+    default Action getPageViewAction(Data data) {
         return Actions.newView(data.getUserActionTitle(), data.getUserActionUrl());
     }
     
