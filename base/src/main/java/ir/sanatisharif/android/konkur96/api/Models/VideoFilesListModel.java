@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-import ir.sanatisharif.android.konkur96.model.Video;
+import ir.sanatisharif.android.konkur96.model.FileDiskModel;
 
 public class VideoFilesListModel implements Parcelable {
 
@@ -22,16 +22,16 @@ public class VideoFilesListModel implements Parcelable {
             return new VideoFilesListModel[size];
         }
     };
-    @SerializedName("video")
-    private             ArrayList<Video>             video;
+    @SerializedName("fileDiskModel")
+    private             ArrayList<FileDiskModel>     fileDiskModel;
 
     protected VideoFilesListModel(Parcel in) {
-        video = in.createTypedArrayList(Video.CREATOR);
+        fileDiskModel = in.createTypedArrayList(FileDiskModel.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(video);
+        dest.writeTypedList(fileDiskModel);
     }
 
     @Override
@@ -39,11 +39,11 @@ public class VideoFilesListModel implements Parcelable {
         return 0;
     }
 
-    public ArrayList<Video> getVideo() {
-        return video;
+    public ArrayList<FileDiskModel> getVideo() {
+        return fileDiskModel;
     }
 
-    public void setVideo(ArrayList<Video> video) {
-        this.video = video;
+    public void setFileDiskModel(ArrayList<FileDiskModel> fileDiskModel) {
+        this.fileDiskModel = fileDiskModel;
     }
 }

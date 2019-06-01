@@ -31,14 +31,14 @@ import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.OnItemCheckedListener;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.listener.OnItemLongListener;
-import ir.sanatisharif.android.konkur96.model.Video;
+import ir.sanatisharif.android.konkur96.model.FileDiskModel;
 
 /**
  * Created by Mohamad on 11/7/2016.
  */
 public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloadedAdapter.CustomViewHolder> {
 
-    private List<Video>           list;
+    private List<FileDiskModel>   list;
     private Context               mContext;
     private int                   layout;
     private String                TAG       = "LOG";
@@ -49,7 +49,7 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
     private int                   type      = 0, height, width, size_grid = 0;
     private RequestOptions requestOptions;
 
-    public VideoDownloadedAdapter(Context context, List<Video> list, int type) {
+    public VideoDownloadedAdapter(Context context, List<FileDiskModel> list, int type) {
         this.list = list;
         this.mContext = context;
         this.type = type;
@@ -74,8 +74,8 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
 
     }
 
-    public void updateList(Video video, int position) {
-        list.set(position, video);
+    public void updateList(FileDiskModel fileDiskModel, int position) {
+        list.set(position, fileDiskModel);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class VideoDownloadedAdapter extends RecyclerView.Adapter<VideoDownloaded
     @Override
     public void onBindViewHolder(final CustomViewHolder holder, final int position) {
 
-        final Video item = list.get(position);
+        final FileDiskModel item = list.get(position);
 
         holder.imgFrame.setOnClickListener(new View.OnClickListener() {
             @Override

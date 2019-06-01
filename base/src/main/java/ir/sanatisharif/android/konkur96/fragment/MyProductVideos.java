@@ -25,7 +25,7 @@ import ir.sanatisharif.android.konkur96.activity.SettingActivity;
 import ir.sanatisharif.android.konkur96.adapter.MyProductVideosAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.model.Events;
-import ir.sanatisharif.android.konkur96.model.Video;
+import ir.sanatisharif.android.konkur96.model.FileDiskModel;
 
 public class MyProductVideos extends BaseFragment {
 
@@ -33,11 +33,11 @@ public class MyProductVideos extends BaseFragment {
     RecyclerView productVideosRecyclerView;
     private LinearLayoutManager linearLayoutManager;
 
-    private MyProductVideosAdapter adapter;
-    private ArrayList<Video>       items = new ArrayList<>();
+    private MyProductVideosAdapter   adapter;
+    private ArrayList<FileDiskModel> items = new ArrayList<>();
 
 
-    public static MyProductVideos newInstance(ArrayList<Video> list) {
+    public static MyProductVideos newInstance(ArrayList<FileDiskModel> list) {
 
         Bundle args = new Bundle();
 

@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.model.Video;
+import ir.sanatisharif.android.konkur96.model.FileDiskModel;
 
 public class MyProductVideosAdapter extends RecyclerView.Adapter<MyProductVideosAdapter.MyViewHolder> {
 
-    private ArrayList<Video> itemsList;
-    private Context          mContext;
+    private ArrayList<FileDiskModel> itemsList;
+    private Context                  mContext;
 
 
-    public MyProductVideosAdapter(Context context, ArrayList<Video> itemsList) {
+    public MyProductVideosAdapter(Context context, ArrayList<FileDiskModel> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -39,7 +39,7 @@ public class MyProductVideosAdapter extends RecyclerView.Adapter<MyProductVideos
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
 
-        Video item = itemsList.get(position);
+        FileDiskModel item = itemsList.get(position);
 
         holder.title.setText(item.getName());
 

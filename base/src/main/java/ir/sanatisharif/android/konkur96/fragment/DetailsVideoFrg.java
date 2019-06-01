@@ -100,7 +100,8 @@ import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
-import ir.sanatisharif.android.konkur96.model.Video;
+import ir.sanatisharif.android.konkur96.model.FileDiskModel;
+import ir.sanatisharif.android.konkur96.model.FileModel;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
@@ -759,14 +760,14 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             }
 
         } else if (course != null) {
-            ir.sanatisharif.android.konkur96.model.main_page.File file   = course.getFile();
-            List<Video>                                           videos = file.getVideo();
+            FileModel           file           = course.getFile();
+            List<FileDiskModel> fileDiskModels = file.getVideo();
             if (i == R.id.imgDownload) {
 
                 //TODO:issue
-                if (file != null && videos != null) {
+                if (file != null && fileDiskModels != null) {
                     DownloadDialogFrg dialog = new DownloadDialogFrg();
-                    dialog.setData(videos, course.getName(), (course.getIsFree() > 0))
+                    dialog.setData(fileDiskModels, course.getName(), (course.getIsFree() > 0))
                             .setComplete(new DownloadComplete() {
                                 @Override
                                 public void complete() {
@@ -782,7 +783,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
             } else if (i == R.id.imgPlay) {
 
-                if (file != null && videos != null && !checkExistVideoToSD(videos)) {
+                if (file != null && fileDiskModels != null && !checkExistVideoToSD(fileDiskModels)) {
                     // not Exist
                     handleQualityLink();
                 }
@@ -794,9 +795,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
             } else if (i == R.id.imgReady) {
 
-                if (file != null && videos != null) {
+                if (file != null && fileDiskModels != null) {
                     (new DeleteFileDialogFrg())
-                            .setVideos(videos)
+                            .setFileDiskModels(fileDiskModels)
                             .setCallback(new DeleteFileDialogFrg.Callback() {
                                 @Override
                                 public void fileDeleted() {
@@ -1331,11 +1332,11 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
      * if return true ie file is exist ito SD
      * if return false file not exist
      *
-     * @param videos
+     * @param fileDiskModels
      * @return
      */
-    private boolean checkExistVideoToSD(@NonNull List<Video> videos) {
-        if (videos == null)
+    private boolean checkExistVideoToSD(@NonNull List<FileDiskModel> fileDiskModels) {
+        if (fileDiskModels == null)
             return false;
 
         if (InstantApps.isInstantApp(getContext())) {
@@ -1344,9 +1345,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             return false;
         }
 
-        for (int i = 0; i < videos.size(); i++) {
+        for (int i = 0; i < fileDiskModels.size(); i++) {
 
-            String url = videos.get(i).getLink();
+            String url = fileDiskModels.get(i).getLink();
 
             String mediaPath = FileManager.getPathFromAllaUrl(url);
             String fileName  = FileManager.getFileNameFromUrl(url);

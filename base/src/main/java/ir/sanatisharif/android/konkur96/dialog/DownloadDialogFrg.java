@@ -34,7 +34,7 @@ import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.handler.EncryptedDownloadInterface;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
-import ir.sanatisharif.android.konkur96.model.Video;
+import ir.sanatisharif.android.konkur96.model.FileDiskModel;
 import ir.sanatisharif.android.konkur96.utils.DownloadFile;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 
@@ -45,18 +45,18 @@ import ir.sanatisharif.android.konkur96.utils.Utils;
 public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
 
     //------init UI
-    private static final String           TAG            = "Alaa\\DownloadDialogFrg";
+    private static final String                   TAG            = "Alaa\\DownloadDialogFrg";
     private static final String[]
-                                          PERMISSIONS    =
+                                                  PERMISSIONS    =
             {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
-    private static final int              PERMISSION_ALL = 1;
-    private              ArrayList<Video> videos         = new ArrayList<>();
-    private              String           title;
-    private              boolean          isFree;
-    private              TextView         txtDownload;
-    private              TextView         txtCancel;
-    private              RadioGroup       radioGroup;
-    private              RadioButton      radioExcellentQuality;
+    private static final int                      PERMISSION_ALL = 1;
+    private              ArrayList<FileDiskModel> fileDiskModels = new ArrayList<>();
+    private              String                   title;
+    private              boolean                  isFree;
+    private              TextView                 txtDownload;
+    private              TextView                 txtCancel;
+    private              RadioGroup               radioGroup;
+    private              RadioButton              radioExcellentQuality;
 
     private Context           mContext;
     //------
@@ -80,8 +80,8 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         return true;
     }
 
-    public DownloadDialogFrg setData(List<Video> v, String t, boolean free) {
-        videos.addAll(v);
+    public DownloadDialogFrg setData(List<FileDiskModel> v, String t, boolean free) {
+        fileDiskModels.addAll(v);
         title = t;
         isFree = free;
         return this;
@@ -108,7 +108,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        videos.clear();
+        fileDiskModels.clear();
     }
 
     @Nullable
@@ -139,18 +139,18 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         ripple(txtDownload, 4);
         ripple(txtCancel, 4);
 
-        if (videos.size() == 1) {
-            radioExcellentQuality.setText(toString(videos.get(0).getCaption(), videos.get(0).getRes()));
+        if (fileDiskModels.size() == 1) {
+            radioExcellentQuality.setText(toString(fileDiskModels.get(0).getCaption(), fileDiskModels.get(0).getRes()));
             radioHighQuality.setVisibility(View.GONE);
             radioMediumQuality.setVisibility(View.GONE);
-        } else if (videos.size() == 2) {
-            radioExcellentQuality.setText(toString(videos.get(0).getCaption(), videos.get(0).getRes()));
-            radioHighQuality.setText(toString(videos.get(1).getCaption(), videos.get(1).getRes()));
+        } else if (fileDiskModels.size() == 2) {
+            radioExcellentQuality.setText(toString(fileDiskModels.get(0).getCaption(), fileDiskModels.get(0).getRes()));
+            radioHighQuality.setText(toString(fileDiskModels.get(1).getCaption(), fileDiskModels.get(1).getRes()));
             radioMediumQuality.setVisibility(View.GONE);
-        } else if (videos.size() == 3) {
-            radioExcellentQuality.setText(toString(videos.get(0).getCaption(), videos.get(0).getRes()));
-            radioHighQuality.setText(toString(videos.get(1).getCaption(), videos.get(1).getRes()));
-            radioMediumQuality.setText(toString(videos.get(2).getCaption(), videos.get(2).getRes()));
+        } else if (fileDiskModels.size() == 3) {
+            radioExcellentQuality.setText(toString(fileDiskModels.get(0).getCaption(), fileDiskModels.get(0).getRes()));
+            radioHighQuality.setText(toString(fileDiskModels.get(1).getCaption(), fileDiskModels.get(1).getRes()));
+            radioMediumQuality.setText(toString(fileDiskModels.get(2).getCaption(), fileDiskModels.get(2).getRes()));
         }
 
 
@@ -216,19 +216,19 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                 String link, l0, l1, l2;
                 link = l0 = l1 = l2 = null;
                 try {
-                    l0 = videos.get(0).getLink();
+                    l0 = fileDiskModels.get(0).getLink();
                 }
                 catch (IndexOutOfBoundsException ex) {
                     Log.i(TAG, ex.getMessage());
                 }
                 try {
-                    l1 = videos.get(1).getLink();
+                    l1 = fileDiskModels.get(1).getLink();
                 }
                 catch (IndexOutOfBoundsException ex) {
                     Log.i(TAG, ex.getMessage());
                 }
                 try {
-                    l2 = videos.get(2).getLink();
+                    l2 = fileDiskModels.get(2).getLink();
                 }
                 catch (IndexOutOfBoundsException ex) {
                     Log.i(TAG, ex.getMessage());

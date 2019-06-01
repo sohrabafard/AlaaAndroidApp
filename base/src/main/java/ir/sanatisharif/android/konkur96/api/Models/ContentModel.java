@@ -11,7 +11,7 @@ import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContent
 import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.model.main_page.ApiUrl;
 import ir.sanatisharif.android.konkur96.model.main_page.Author;
-import ir.sanatisharif.android.konkur96.model.main_page.File;
+import ir.sanatisharif.android.konkur96.model.FileModel;
 import ir.sanatisharif.android.konkur96.model.main_page.NextApiUrl;
 import ir.sanatisharif.android.konkur96.model.main_page.Pivot;
 import ir.sanatisharif.android.konkur96.model.main_page.PreviousApiUrl;
@@ -59,7 +59,7 @@ public class ContentModel extends PaginationDataModel implements LogUserActionsO
 
     @SerializedName("file")
     @Expose
-    private File file;
+    private FileModel file;
 
     @SerializedName("duration")
     @Expose
@@ -143,7 +143,7 @@ public class ContentModel extends PaginationDataModel implements LogUserActionsO
         this.pageView = in.readInt();
 
         this.tags = ((Tags) in.readValue((Tags.class.getClassLoader())));
-        this.file = ((File) in.readValue((File.class.getClassLoader())));
+        this.file = ((FileModel) in.readValue((FileModel.class.getClassLoader())));
         this.author = in.readParcelable(Author.class.getClassLoader());
         this.apiUrl = in.readParcelable((ApiUrl.class.getClassLoader()));
         this.nextApiUrl = in.readParcelable((NextApiUrl.class.getClassLoader()));
@@ -234,15 +234,15 @@ public class ContentModel extends PaginationDataModel implements LogUserActionsO
         return this;
     }
 
-    public File getFile() {
+    public FileModel getFile() {
         return file;
     }
 
-    public void setFile(File file) {
+    public void setFile(FileModel file) {
         this.file = file;
     }
 
-    public ContentModel withFile(File file) {
+    public ContentModel withFile(FileModel file) {
         this.file = file;
         return this;
     }

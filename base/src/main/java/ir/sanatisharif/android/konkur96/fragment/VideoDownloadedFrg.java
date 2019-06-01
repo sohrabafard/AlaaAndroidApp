@@ -29,7 +29,7 @@ import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.listener.OnItemCheckedListener;
 import ir.sanatisharif.android.konkur96.listener.OnItemLongListener;
 import ir.sanatisharif.android.konkur96.model.Events;
-import ir.sanatisharif.android.konkur96.model.Video;
+import ir.sanatisharif.android.konkur96.model.FileDiskModel;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 
 /**
@@ -41,10 +41,10 @@ public class VideoDownloadedFrg extends BaseFragment {
     RecyclerView recyclerView;
     Toolbar      mToolbar;
     boolean      visibleMenu = false;
-    private Menu                   menu;
-    private VideoDownloadedAdapter adapter;
-    private GridLayoutManager      manager;
-    private ArrayList<Video>       videos = new ArrayList<>();
+    private Menu                     menu;
+    private VideoDownloadedAdapter   adapter;
+    private GridLayoutManager        manager;
+    private ArrayList<FileDiskModel> fileDiskModels = new ArrayList<>();
 
     public static VideoDownloadedFrg newInstance() {
 
@@ -71,7 +71,7 @@ public class VideoDownloadedFrg extends BaseFragment {
     public void onDetach() {
         super.onDetach();
 
-        videos.clear();
+        fileDiskModels.clear();
         if (adapter == null)
             adapter = null;
 
@@ -100,19 +100,20 @@ public class VideoDownloadedFrg extends BaseFragment {
             // clear video list
             // hard delete video file
             // and add array into list
-            Video[] video_temp = videos.toArray(new Video[videos.size()]);
-            videos.clear();
-            for (int i = 0; i < video_temp.length; i++) {
+            FileDiskModel[]
+                    fileDiskModel_temp = fileDiskModels.toArray(new FileDiskModel[fileDiskModels.size()]);
+            fileDiskModels.clear();
+            for (int i = 0; i < fileDiskModel_temp.length; i++) {
 
-                if (video_temp[i].isChecked()) {
-                    if (FileManager.deleteFileAndCheck(video_temp[i].getPath())) {
+                if (fileDiskModel_temp[i].isChecked()) {
+                    if (FileManager.deleteFileAndCheck(fileDiskModel_temp[i].getPath())) {
                         deleteCount++;
 
                         videoDeleted.setPosition(i);
                         EventBus.getDefault().post(videoDeleted);
                     }
                 } else
-                    videos.add(video_temp[i]);
+                    fileDiskModels.add(fileDiskModel_temp[i]);
             }
 
             if (deleteCount != 0)
@@ -154,7 +155,7 @@ public class VideoDownloadedFrg extends BaseFragment {
 
         recyclerView = view.findViewById(R.id.recyclerView);
         adapter =
-                new VideoDownloadedAdapter(AppConfig.context, videos, AppConstants.VIDEO_SHOW_GRID);
+                new VideoDownloadedAdapter(AppConfig.context, fileDiskModels, AppConstants.VIDEO_SHOW_GRID);
         manager = new GridLayoutManager(AppConfig.context, 3);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
@@ -177,9 +178,9 @@ public class VideoDownloadedFrg extends BaseFragment {
             @Override
             public void onItemClick(int position, Object item, View view, RecyclerView.ViewHolder vh, boolean check) {
 
-                Video v = videos.get(position);
+                FileDiskModel v = fileDiskModels.get(position);
                 v.setChecked(check);
-                videos.set(position, v);
+                fileDiskModels.set(position, v);
 
             }
         });
@@ -187,11 +188,11 @@ public class VideoDownloadedFrg extends BaseFragment {
 
     private void resetCheckBox() {
         int index = 0;
-        for (Video v : videos) {
+        for (FileDiskModel v : fileDiskModels) {
             index++;
             if (v.isChecked()) {
                 v.setChecked(false);
-                videos.set(index, v);
+                fileDiskModels.set(index, v);
             }
         }
     }
@@ -205,7 +206,7 @@ public class VideoDownloadedFrg extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        videos.clear();
+        fileDiskModels.clear();
     }
 
     private void getListVideos() {
@@ -214,16 +215,16 @@ public class VideoDownloadedFrg extends BaseFragment {
         FileManager.getInstance().clearFilesList();
         FileManager.getInstance().getFilesInDirs(new File(FileManager.getMediaPath()));
         ArrayList<File> files = FileManager.getInstance().getFilesArrayList();
-        videos.clear();
+        fileDiskModels.clear();
         if (files != null) {
 
             for (File f : files) {
 
-                Video v = new Video();
+                FileDiskModel v = new FileDiskModel();
                 v.setName(f.getName());
                 v.setPath(f.getPath());
                 v.setSize(f.length() + "");
-                videos.add(v);
+                fileDiskModels.add(v);
             }
 
             adapter.notifyDataSetChanged();

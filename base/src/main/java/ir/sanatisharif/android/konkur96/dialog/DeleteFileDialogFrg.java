@@ -21,7 +21,7 @@ import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
-import ir.sanatisharif.android.konkur96.model.Video;
+import ir.sanatisharif.android.konkur96.model.FileDiskModel;
 
 /**
  * Created by Mohamad on 7/7/2017.
@@ -29,13 +29,13 @@ import ir.sanatisharif.android.konkur96.model.Video;
 
 public class DeleteFileDialogFrg extends BaseDialogFragment<DeleteFileDialogFrg> {
 
-    private static final String           TAG    = "Alaa\\DeleteFileDialogFr";
+    private static final String                   TAG            = "Alaa\\DeleteFileDialogFr";
     //------init UI
-    private              View             dialog;
-    private              TextView         txtOk;
-    private              TextView         txtCancel;
-    private              ArrayList<Video> videos = new ArrayList<>();
-    private              Callback         mCallback;
+    private              View                     dialog;
+    private              TextView                 txtOk;
+    private              TextView                 txtCancel;
+    private              ArrayList<FileDiskModel> fileDiskModels = new ArrayList<>();
+    private              Callback                 mCallback;
 
     public DeleteFileDialogFrg setCallback(Callback callback) {
         mCallback = callback;
@@ -76,7 +76,7 @@ public class DeleteFileDialogFrg extends BaseDialogFragment<DeleteFileDialogFrg>
         txtOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (videos != null)
+                if (fileDiskModels != null)
                     notifyAndDeleteFile();
             }
         });
@@ -89,17 +89,17 @@ public class DeleteFileDialogFrg extends BaseDialogFragment<DeleteFileDialogFrg>
 
     }
 
-    public DeleteFileDialogFrg setVideos(List<Video> v) {
-        Log.i(TAG, "setVideos: " + v.size());
-        videos.addAll(v);
+    public DeleteFileDialogFrg setFileDiskModels(List<FileDiskModel> v) {
+        Log.i(TAG, "setFileDiskModels: " + v.size());
+        fileDiskModels.addAll(v);
         return this;
     }
 
     private void notifyAndDeleteFile() {
-        Log.i(TAG, "video-size: " + videos.size());
-        for (int i = 0; i < videos.size(); i++) {
+        Log.i(TAG, "video-size: " + fileDiskModels.size());
+        for (int i = 0; i < fileDiskModels.size(); i++) {
 
-            String url       = videos.get(i).getLink();
+            String url       = fileDiskModels.get(i).getLink();
             String mediaPath = FileManager.getPathFromAllaUrl(url);
             String fileName  = FileManager.getFileNameFromUrl(url);
             Log.i(TAG, "notifyAndDeleteFile: " + fileName + " " + mediaPath);
@@ -115,7 +115,7 @@ public class DeleteFileDialogFrg extends BaseDialogFragment<DeleteFileDialogFrg>
     @Override
     public void onDestroy() {
         super.onDestroy();
-        videos.clear();
+        fileDiskModels.clear();
     }
 
     public interface Callback {

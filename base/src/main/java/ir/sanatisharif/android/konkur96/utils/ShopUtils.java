@@ -18,11 +18,11 @@ import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.api.Models.TypeModel;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.model.DownloadUrl;
+import ir.sanatisharif.android.konkur96.model.FileDiskModel;
 import ir.sanatisharif.android.konkur96.model.MainAttrType;
 import ir.sanatisharif.android.konkur96.model.MainShopItem;
 import ir.sanatisharif.android.konkur96.model.ProductType;
 import ir.sanatisharif.android.konkur96.model.SelectableProduct;
-import ir.sanatisharif.android.konkur96.model.Video;
 
 public class ShopUtils {
 
@@ -194,7 +194,7 @@ public class ShopUtils {
 
     }
 
-    public static Video createVideoModelByURL(String url) {
+    public static FileDiskModel createVideoModelByURL(String url) {
 
 
         ArrayList<DownloadUrl> downloadUrls = new ArrayList<>();
@@ -203,7 +203,7 @@ public class ShopUtils {
         downloadUrl.setUrl(url);
         downloadUrls.add(downloadUrl);
 
-        Video item = new Video();
+        FileDiskModel item = new FileDiskModel();
         // item.setDownloadUrls(downloadUrls);
 
 
