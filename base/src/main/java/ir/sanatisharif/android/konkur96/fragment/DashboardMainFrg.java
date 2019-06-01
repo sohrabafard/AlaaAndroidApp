@@ -28,18 +28,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.account.AccountInfo;
 import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.activity.SettingActivity;
-import ir.sanatisharif.android.konkur96.adapter.BlockAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
-import ir.sanatisharif.android.konkur96.model.Block;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
@@ -61,9 +56,6 @@ public class DashboardMainFrg extends BaseFragment {
     private TextView     txtNationalCode, txtMobile, txtFullName, txtField;
     private LinearLayout itemVideo, itemAboutMe, itemNewOrder, itemBasket;
     private FloatingActionButton fabItemVideo, fabItemAboutMe, fabItemNewOrder, fabItemBasket;
-
-    private BlockAdapter adapter;
-    private List<Block>  items = new ArrayList<>();
 
     public static DashboardMainFrg newInstance() {
 

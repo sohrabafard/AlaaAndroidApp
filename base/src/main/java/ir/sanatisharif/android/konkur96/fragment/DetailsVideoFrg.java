@@ -82,8 +82,12 @@ import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
 import ir.sanatisharif.android.konkur96.adapter.BlockAdapter;
 import ir.sanatisharif.android.konkur96.adapter.PlayListAdapter;
+import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.api.Models.PaginationModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.DeleteFileDialogFrg;
@@ -95,12 +99,8 @@ import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
-import ir.sanatisharif.android.konkur96.model.Block;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
-import ir.sanatisharif.android.konkur96.api.Models.PaginationModel;
 import ir.sanatisharif.android.konkur96.model.Video;
-import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
-import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
@@ -345,7 +345,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private boolean                      mExoPlayerFullscreen = false;
     //comment
     private BlockAdapter                 adapter;
-    private ArrayList<Block>             items                = new ArrayList<>();
+    private ArrayList<BlockDataModel>    items                = new ArrayList<>();
     //lock
     private PowerManager                 pm;
     private PowerManager.WakeLock        wl;
@@ -637,7 +637,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         }
     }
 
-    private void setProduct(List<ProductModel> productModels) {
+    private void setProduct(ArrayList<ProductModel> productModels) {
 
         // set adapter to recyclerView
         myRecyclerViewProduct.setVisibility(View.VISIBLE);
@@ -653,8 +653,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         myRecyclerViewProduct.setAdapter(adapter);
 
         // setData
-        Block item = new Block();
-        item = new Block();
+        BlockDataModel item = new BlockDataModel();
         item.setType(AppConstants.ITEM_PRODUCT);
         item.setProducts(productModels);
         items.add(item);

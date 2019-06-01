@@ -66,6 +66,9 @@ public class BlockDataModel extends PaginationDataModel {
     @Expose
     private ArrayList<SetModel> sets;
 
+    public BlockDataModel(){
+
+    }
 
     protected BlockDataModel(Parcel in) {
         id = in.readInt();
@@ -93,8 +96,8 @@ public class BlockDataModel extends PaginationDataModel {
         dest.writeString(url);
         dest.writeTypedList(products);
         dest.writeTypedList(banners);
-        dest.writeTypedList(sets);
         dest.writeTypedList(contents);
+        dest.writeTypedList(sets);
     }
 
     @Override

@@ -37,7 +37,6 @@ import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
 import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
-import ir.sanatisharif.android.konkur96.model.Block;
 import ir.sanatisharif.android.konkur96.model.Events;
 
 
@@ -54,7 +53,7 @@ public class AllaMainFrg extends BaseFragment implements
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private BlockAdapter     adapter;
-    private ArrayList<Block> items = new ArrayList<>();
+    private ArrayList<BlockDataModel> items = new ArrayList<>();
     private MainRepository   repository;
 
     public static AllaMainFrg newInstance() {
@@ -193,9 +192,9 @@ public class AllaMainFrg extends BaseFragment implements
     private void mapData(MainModel mainPagesInfo) {
 
         //sliders
-        Block item = new Block();
+        BlockDataModel item = new BlockDataModel();
         item.setType(AppConstants.ITEM_SLIDER);
-        item.setSliders(mainPagesInfo.getMainBanner());
+        item.setBanners(mainPagesInfo.getMainBanner());
         items.add(item);
 
         //sets - contents- products- banners
@@ -203,7 +202,7 @@ public class AllaMainFrg extends BaseFragment implements
 
             BlockDataModel block = mainPagesInfo.getBlock().getData().get(i);
 
-            item = new Block();
+            item = new BlockDataModel();
             item.setId(block.getId());
             item.setTitle(block.getTitle());
             item.setUrl(block.getUrl());
@@ -212,25 +211,25 @@ public class AllaMainFrg extends BaseFragment implements
             items.add(item);
 
             if (block.getSets() != null && block.getSets().size() > 0) {
-                item = new Block();
+                item = new BlockDataModel();
                 item.setType(AppConstants.ITEM_SET);
                 item.setSets(block.getSets());
                 items.add(item);
             }
             if (block.getContents() != null && block.getContents().size() > 0) {
-                item = new Block();
+                item = new BlockDataModel();
                 item.setType(AppConstants.ITEM_CONTENT);
                 item.setContents(block.getContents());
                 items.add(item);
             }
             if (block.getBanners() != null && block.getBanners().size() > 0) {
-                item = new Block();
+                item = new BlockDataModel();
                 item.setType(AppConstants.ITEM_BANNER);
                 item.setBanners(block.getBanners());
                 items.add(item);
             }
             if (block.getProducts() != null && block.getProducts().size() > 0) {
-                item = new Block();
+                item = new BlockDataModel();
                 item.setType(AppConstants.ITEM_PRODUCT);
                 item.setProducts(block.getProducts());
                 items.add(item);

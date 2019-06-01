@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
@@ -37,7 +37,7 @@ public class ContentCredit implements Parcelable {
     private             ContentModel                      content;
     @SerializedName("product")
     @Expose
-    private             List<ProductModel>                product = null;
+    private             ArrayList<ProductModel>                product = null;
 
     protected ContentCredit(Parcel in) {
         this.message = ((String) in.readValue((String.class.getClassLoader())));
@@ -64,11 +64,11 @@ public class ContentCredit implements Parcelable {
         this.content = content;
     }
 
-    public List<ProductModel> getProduct() {
+    public ArrayList<ProductModel> getProduct() {
         return product;
     }
 
-    public void setProduct(List<ProductModel> product) {
+    public void setProduct(ArrayList<ProductModel> product) {
         this.product = product;
     }
 

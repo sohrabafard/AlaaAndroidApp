@@ -16,17 +16,16 @@ import com.viewpagerindicator.CirclePageIndicator;
 import java.util.List;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.BlockDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainBannerModel;
 import ir.sanatisharif.android.konkur96.api.Models.ProductModel;
+import ir.sanatisharif.android.konkur96.api.Models.SetModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.fragment.FilterTagsFrg;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
-import ir.sanatisharif.android.konkur96.model.Block;
-import ir.sanatisharif.android.konkur96.model.Video;
-import ir.sanatisharif.android.konkur96.api.Models.SetModel;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.AutoScrollViewPager;
 import ir.sanatisharif.android.konkur96.ui.view.autoscrollviewpager.ViewSliderAdapter;
 
@@ -37,12 +36,12 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.MORE_VIDEO_OFFLI
 public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     int width = 0;
-    private List<Block>         dataList;
+    private List<BlockDataModel>         dataList;
     private Context             mContext;
     private OnItemClickListener mClickListener;
     //private SnapHelper snapHelper;
 
-    public BlockAdapter(Context context, List<Block> dataList) {
+    public BlockAdapter(Context context, List<BlockDataModel> dataList) {
         this.dataList = dataList;
         this.mContext = context;
         //snapHelper = new GravitySnapHelper(Gravity.START);
@@ -188,38 +187,13 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             final SliderHolder itemRowHolder = (SliderHolder) holder;
 
-            List<MainBannerModel> items = dataList.get(position).getSliders();
+            List<MainBannerModel> items = dataList.get(position).getBanners();
             itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items, null));
             itemRowHolder.view_pager.startAutoScroll();
 
             itemRowHolder.indicator = itemRowHolder.itemView.findViewById(R.id.indicator);
             itemRowHolder.indicator.setViewPager(itemRowHolder.view_pager);
 
-        } else if (viewType == AppConstants.VIDEO_OFFLINE_ITEM) {
-
-            final List<Video>            items         = dataList.get(position).getVideos();
-            final VideoOfflineItemHolder itemRowHolder = (VideoOfflineItemHolder) holder;
-
-            if (items.size() == 0) {
-                itemRowHolder.root.setVisibility(View.GONE);
-
-            } else {
-
-                VideoDownloadedAdapter itemListDataAdapter = new
-                        VideoDownloadedAdapter(mContext, items, AppConstants.VIDEO_SHOW_LINEAR);
-
-                itemRowHolder.recyclerView.setHasFixedSize(false);
-                LinearLayoutManager
-                        lin =
-                        new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-                lin.setReverseLayout(false);
-                itemRowHolder.recyclerView.setLayoutManager(lin);
-                itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
-                itemRowHolder.recyclerView.setHasFixedSize(true);
-                itemRowHolder.recyclerView.setAdapter(itemListDataAdapter);
-                itemListDataAdapter.notifyDataSetChanged();
-
-            }
         }
     }
 
@@ -244,8 +218,6 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return AppConstants.ITEM_CONTENT;
         else if (dataList.get(position).getType() == AppConstants.ITEM_BANNER)
             return AppConstants.ITEM_BANNER;
-        else if (dataList.get(position).getType() == AppConstants.VIDEO_OFFLINE_ITEM)
-            return AppConstants.VIDEO_OFFLINE_ITEM;
 
         return -1;
 
