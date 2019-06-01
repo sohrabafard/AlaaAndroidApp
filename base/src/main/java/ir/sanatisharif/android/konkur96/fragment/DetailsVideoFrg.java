@@ -549,7 +549,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
 
         Context context = getContext();
         if (context != null && InstantApps.isInstantApp(context)) {
-            repository.getDetailsCourse(url, null, new IServerCallbackContentCredit() {
+            repository.getContent(url, null, new IServerCallbackContentCredit() {
                 @Override
                 public void onSuccess(Object obj) {
                     if (obj != null) {
@@ -586,7 +586,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             AuthToken.getInstant().get(context, currentActivity, new AuthToken.Callback() {
                 @Override
                 public void run(@NonNull String token) {
-                    repository.getDetailsCourse(url, token, new IServerCallbackContentCredit() {
+                    repository.getContent(url, token, new IServerCallbackContentCredit() {
                         @Override
                         public void onSuccess(Object obj) {
                             if (obj != null) {

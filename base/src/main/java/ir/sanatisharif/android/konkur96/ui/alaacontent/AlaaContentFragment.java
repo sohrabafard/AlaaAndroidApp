@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
+import ir.sanatisharif.android.konkur96.model.ContentCredit;
 
 public class AlaaContentFragment extends Fragment {
 
@@ -31,7 +34,36 @@ public class AlaaContentFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(AlaaContentViewModel.class);
-        // TODO: Use the ViewModel
+
+        mViewModel.userCanSeeContent().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean userCanSee) {
+                if(userCanSee){
+                    handleWhenUserCanSeeContent();
+                }else {
+                    handleWhenUserCanNotSeeContent();
+                }
+            }
+        });
     }
+
+    private void handleWhenUserCanSeeContent(){
+        mViewModel.getContent().observe(this, new Observer<ContentModel>() {
+            @Override
+            public void onChanged(ContentModel contentModel) {
+
+            }
+        });
+    }
+
+    private void handleWhenUserCanNotSeeContent() {
+        mViewModel.getError().observe(this, new Observer<ContentCredit>() {
+            @Override
+            public void onChanged(ContentCredit contentCredit) {
+
+            }
+        });
+    }
+
 
 }

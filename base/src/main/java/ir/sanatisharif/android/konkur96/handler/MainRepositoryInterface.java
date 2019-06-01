@@ -11,7 +11,7 @@ public interface MainRepositoryInterface {
 
     void userInfo(User user, IServerCallbackObject iServerCallbackObject);
 
-    void getDetailsCourse(String url, String token, IServerCallbackContentCredit iServerCallbackObject);
+    void getContent(String url, String token, IServerCallbackContentCredit iServerCallbackObject);
 
     void getFilterBySearchCall(String search, IServerCallbackObject iServerCallbackObject);
 

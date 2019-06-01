@@ -82,7 +82,7 @@ public class MainRepository implements MainRepositoryInterface {
 
     @SuppressLint("CheckResult")
     @Override
-    public void getDetailsCourse(String url, String token, IServerCallbackContentCredit iServerCallbackObject) {
+    public void getContent(String url, String token, IServerCallbackContentCredit iServerCallbackObject) {
         mainApi.getContent(url, ("Bearer " + token))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
