@@ -12,7 +12,7 @@ import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredi
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
 
 public class AlaaContentViewModel extends ViewModel {
-
+    
     private String                         TAG = "Alaa\\ContentViewModel";
     private String                         mUrl;
     private String                         mToken;
@@ -20,31 +20,24 @@ public class AlaaContentViewModel extends ViewModel {
     private MutableLiveData<ContentCredit> mError;
     private MutableLiveData<Boolean>       mCanSee;
     private MainRepository                 mRepository;
-
-    public void setUrl(String mUrl) {
-        this.mUrl = mUrl;
-    }
-
-    public void setToken(String mToken) {
-        this.mToken = mToken;
-    }
-
-    public void setContent(ContentModel content) {
-        mContent.setValue(content);
-    }
-
-    public void setCanSee(Boolean canSee) {
-        mCanSee.setValue(canSee);
-    }
-    public void setError(ContentCredit error) {
-        mError.setValue(error);
-    }
-
+    
     public AlaaContentViewModel() {
         super();
         mRepository = new MainRepository();
     }
-
+    
+    public void setUrl(String mUrl) {
+        this.mUrl = mUrl;
+    }
+    
+    public void setToken(String mToken) {
+        this.mToken = mToken;
+    }
+    
+    public void setCanSee(Boolean canSee) {
+        mCanSee.setValue(canSee);
+    }
+    
     public LiveData<ContentModel> getContent() {
         if (mContent == null) {
             mContent = new MutableLiveData<>();
@@ -52,7 +45,11 @@ public class AlaaContentViewModel extends ViewModel {
         }
         return mContent;
     }
-
+    
+    public void setContent(ContentModel content) {
+        mContent.setValue(content);
+    }
+    
     public LiveData<ContentCredit> getError() {
         if (mError == null) {
             mError = new MutableLiveData<>();
@@ -60,7 +57,11 @@ public class AlaaContentViewModel extends ViewModel {
         }
         return mError;
     }
-
+    
+    public void setError(ContentCredit error) {
+        mError.setValue(error);
+    }
+    
     public LiveData<Boolean> userCanSeeContent() {
         if (mCanSee == null) {
             mCanSee = new MutableLiveData<>();
@@ -68,7 +69,7 @@ public class AlaaContentViewModel extends ViewModel {
         }
         return mCanSee;
     }
-
+    
     private void init() {
         if (mCanSee == null)
             mCanSee = new MutableLiveData<>();
@@ -77,35 +78,35 @@ public class AlaaContentViewModel extends ViewModel {
         if (mContent == null)
             mContent = new MutableLiveData<>();
     }
-
+    
     private void loadContent() {
         if (mUrl == null)
             return;
         init();
-
+        
         mRepository.getContent(mUrl, mToken, new IServerCallbackContentCredit() {
             @Override
             public void onSuccess(Object obj) {
                 mCanSee.setValue(true);
                 mContent.setValue((ContentModel) obj);
             }
-
+            
             @Override
             public void onSuccessCredit(ContentCredit obj) {
                 mCanSee.setValue(false);
                 mError.setValue(obj);
             }
-
+            
             @Override
             public void onFailure(String message) {
-                Log.e(TAG,message);
+                Log.e(TAG, message);
             }
         });
     }
-
+    
     @Override
     protected void onCleared() {
         super.onCleared();
-
+        
     }
 }

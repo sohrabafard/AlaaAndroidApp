@@ -14,46 +14,46 @@ import ir.sanatisharif.android.konkur96.api.Models.AttributeDataModel;
 import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 
 public class ProductAttrAdapter extends RecyclerView.Adapter<ProductAttrAdapter.MyViewHolder> {
-
+    
     private ArrayList<AttributeModel> attrList;
-
+    
     public ProductAttrAdapter(ArrayList<AttributeModel> attrList) {
         this.attrList = attrList;
     }
-
+    
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_productattr, parent, false);
-
+        
         return new MyViewHolder(itemView);
     }
-
+    
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
+        
         AttributeModel model = attrList.get(position);
         holder.title.setText(model.getTitle());
-
+        
         String data = "";
-
+        
         for (AttributeDataModel attrData : model.getData()) {
-
+            
             data += " " + attrData.getName() + " ";
-
+            
         }
-
+        
         holder.data.setText(data);
     }
-
+    
     @Override
     public int getItemCount() {
         return attrList.size();
     }
-
+    
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, data;
-
+        
         public MyViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.txt_titel);

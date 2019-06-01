@@ -13,9 +13,9 @@ import java.io.File;
 import ir.sanatisharif.android.konkur96.BuildConfig;
 
 public class OpenFile {
-
+    
     public static Intent openFile(final Activity activity, String filePath) {
-
+        
         File file = new File(filePath);
         if (!file.exists())
             return null;
@@ -51,10 +51,10 @@ public class OpenFile {
             return getAllIntent(filePath);
         }
     }
-
-
+    
+    
     public static Intent getAllIntent(String param) {
-
+        
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(Intent.ACTION_VIEW);
@@ -62,7 +62,7 @@ public class OpenFile {
         intent.setDataAndType(uri, "*/*");
         return intent;
     }
-
+    
     //
     public static Intent getApkFileIntent(String param) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -72,18 +72,18 @@ public class OpenFile {
                 "application/vnd.android.package-archive");
         return intent;
     }
-
+    
     public static Intent getVideoFileIntent(String param) {
-
+        
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Uri uri = Uri.fromFile(new File(param));
         intent.setDataAndType(uri, "video/*");
         return intent;
     }
-
+    
     public static Intent getAudioFileIntent(String param) {
-
+        
         Intent intent = new Intent("android.intent.action.VIEW");
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("oneshot", 0);
@@ -92,18 +92,18 @@ public class OpenFile {
         intent.setDataAndType(uri, "audio/*");
         return intent;
     }
-
+    
     public static Intent getHtmlFileIntent(String param) {
-
+        
         Uri uri = Uri.parse(param).buildUpon().encodedAuthority("com.android.htmlfileprovider")
                 .scheme("content").encodedPath(param).build();
         Intent intent = new Intent("android.intent.action.VIEW");
         intent.setDataAndType(uri, "text/html");
         return intent;
     }
-
+    
     public static Intent getImageFileIntent(String param) {
-
+        
         Intent intent = new Intent("android.intent.action.VIEW");
         intent.addCategory("android.intent.category.DEFAULT");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -111,9 +111,9 @@ public class OpenFile {
         intent.setDataAndType(uri, "image/*");
         return intent;
     }
-
+    
     public static Intent getPptFileIntent(String param) {
-
+        
         Intent intent = new Intent("android.intent.action.VIEW");
         intent.addCategory("android.intent.category.DEFAULT");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -121,9 +121,9 @@ public class OpenFile {
         intent.setDataAndType(uri, "application/vnd.ms-powerpoint");
         return intent;
     }
-
+    
     public static Intent getExcelFileIntent(String param) {
-
+        
         Intent intent = new Intent("android.intent.action.VIEW");
         intent.addCategory("android.intent.category.DEFAULT");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -131,9 +131,9 @@ public class OpenFile {
         intent.setDataAndType(uri, "application/vnd.ms-excel");
         return intent;
     }
-
+    
     public static Intent getWordFileIntent(String param) {
-
+        
         Intent intent = new Intent("android.intent.action.VIEW");
         intent.addCategory("android.intent.category.DEFAULT");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -141,9 +141,9 @@ public class OpenFile {
         intent.setDataAndType(uri, "application/msword");
         return intent;
     }
-
+    
     public static Intent getChmFileIntent(String param) {
-
+        
         Intent intent = new Intent("android.intent.action.VIEW");
         intent.addCategory("android.intent.category.DEFAULT");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -151,9 +151,9 @@ public class OpenFile {
         intent.setDataAndType(uri, "application/x-chm");
         return intent;
     }
-
+    
     public static Intent getTextFileIntent(String param, boolean paramBoolean) {
-
+        
         Intent intent = new Intent("android.intent.action.VIEW");
         intent.addCategory("android.intent.category.DEFAULT");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -166,10 +166,10 @@ public class OpenFile {
         }
         return intent;
     }
-
+    
     public static Intent getPdfFileIntent(final Activity activity, String param) {
         Log.i("OpenFile", param);
-
+        
         File   file   = new File(param);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory("android.intent.category.DEFAULT");

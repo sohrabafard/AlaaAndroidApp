@@ -11,22 +11,22 @@ import com.google.firebase.appindexing.builders.Actions;
 import io.reactivex.annotations.NonNull;
 
 public interface LogUserActionsOnPublicContentInterface {
-
+    
     default void userStartedViewingAParticularPage(@NonNull Data page) {
         indexRecipe(page);
         FirebaseUserActions.getInstance().start(getRecipeViewAction(page));
     }
-
+    
     default void userHasFinishedViewingPage(@NonNull Data page) {
         FirebaseUserActions.getInstance().end(getRecipeViewAction(page));
     }
-
+    
     default void indexRecipe(Data data) {
         String userActionTitle       = "" + data.getUserActionTitle();
         String userActionUrl         = "" + data.getUserActionUrl();
         String userActionPhoto       = "" + data.getUserActionPhoto();
         String userActionDescription = "" + data.getUserActionDescription();
-
+        
         try {
             Indexable recipeToIndex = new Indexable.Builder()
                     .setName(userActionTitle)
@@ -39,21 +39,21 @@ public interface LogUserActionsOnPublicContentInterface {
         catch (Exception ex) {
             Log.e("Alaa\\LogUserAction", ex.getMessage());
         }
-
+        
     }
-
+    
     default Action getRecipeViewAction(Data data) {
         return Actions.newView(data.getUserActionTitle(), data.getUserActionUrl());
     }
-
+    
     interface Data {
-
+        
         String getUserActionTitle();
-
+        
         String getUserActionUrl();
-
+        
         String getUserActionPhoto();
-
+        
         String getUserActionDescription();
     }
 }

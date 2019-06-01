@@ -21,38 +21,38 @@ import ir.sanatisharif.android.konkur96.api.Models.AttributeModel;
 
 @SuppressLint("ValidFragment")
 public class ProductAttrDialogFragment extends DialogFragment {
-
-
+    
+    
     private RecyclerView              mRecyclerView;
     private ProductAttrAdapter        adapter;
     private ArrayList<AttributeModel> attrList;
-
-
+    
+    
     @SuppressLint("ValidFragment")
     public ProductAttrDialogFragment(ArrayList<AttributeModel> attrList) {
-
+        
         this.attrList = attrList;
-
+        
     }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        
         View v = inflater.inflate(R.layout.dialog_view_attr, container, false);
-
+        
         mRecyclerView = v.findViewById(R.id.recycler_view);
-
+        
         //setadapter
         adapter = new ProductAttrAdapter(attrList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(adapter);
-
+        
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-
+        
+        
         return v;
     }
 }

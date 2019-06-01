@@ -7,7 +7,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Url;
 
 public interface HeadRequestInterface {
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json"

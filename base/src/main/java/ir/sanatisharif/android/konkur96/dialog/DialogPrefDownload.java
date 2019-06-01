@@ -13,36 +13,36 @@ import ir.sanatisharif.android.konkur96.R;
  */
 
 public class DialogPrefDownload extends DialogPreference {
-
+    
     private String mValue;
-
+    
     public DialogPrefDownload(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
-
+    
     public DialogPrefDownload(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
+    
     public DialogPrefDownload(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
+    
     public DialogPrefDownload(Context context) {
         super(context);
     }
-
+    
     public String getValue() {
         return mValue;
     }
-
+    
     public void setValue(String value) {
         this.mValue = value;
-
+        
         // Save to SharedPreference
         persistString(mValue);
     }
-
+    
     /**
      * Called when a Preference is being inflated and the default value attribute needs to be read
      */
@@ -52,9 +52,9 @@ public class DialogPrefDownload extends DialogPreference {
         // as Int. Fallback value is set to 0.
         return a.getInt(index, 0);
     }
-
+    
     //
-
+    
     /**
      * Returns the layout resource that is used as the content View for the dialog
      */
@@ -62,18 +62,18 @@ public class DialogPrefDownload extends DialogPreference {
     public int getDialogLayoutResource() {
         return R.layout.dialog_setting_custom_download;
     }
-
+    
     @Override
     public CharSequence getPositiveButtonText() {
         return "بله";
     }
-
+    
     @Override
     public CharSequence getNegativeButtonText() {
         return "لغو";
     }
-
-
+    
+    
     /**
      * Implement this to set the initial value of the Preference.
      */

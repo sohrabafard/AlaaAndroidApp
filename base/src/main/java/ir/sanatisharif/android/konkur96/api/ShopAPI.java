@@ -21,9 +21,9 @@ import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 public interface ShopAPI {
-
+    
     //String BASE_URL = "http://79.127.123.246:8080/";
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -31,7 +31,7 @@ public interface ShopAPI {
     })
     @GET("shop")
     Observable<MainModel> getMain();
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -39,8 +39,8 @@ public interface ShopAPI {
     })
     @GET
     Observable<MainModel> getPagination(@Url String url);
-
-
+    
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -48,7 +48,7 @@ public interface ShopAPI {
     })
     @GET
     Observable<ProductIndexResultModel> getPaginationProduct(@Url String url);
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -56,7 +56,7 @@ public interface ShopAPI {
     })
     @GET
     Observable<ProductIndexResultModel> getMore(@Url String url);
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -64,7 +64,7 @@ public interface ShopAPI {
     })
     @POST("api/v1/getPrice/{product_id}")
     Observable<GETPriceModel> getPrice(@Path("product_id") String productId, @Query("mainAttributeValues[]") ArrayList<Integer> mainAttributeValues, @Query("extraAttributeValues[]") ArrayList<Integer> extraAttributeValues);
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -72,8 +72,8 @@ public interface ShopAPI {
     })
     @POST("api/v1/getPrice/{product_id}")
     Observable<GETPriceModel> getPriceSelectable(@Path("product_id") String productId, @Query("products[]") ArrayList<Integer> mainAttributeValues, @Query("extraAttributeValues[]") ArrayList<Integer> extraAttributeValues);
-
-
+    
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -85,8 +85,8 @@ public interface ShopAPI {
                                                  @Query("attribute[]") ArrayList<Integer> attribute,
                                                  @Query("products[]") ArrayList<Integer> products,
                                                  @Query("extraAttribute[]") ArrayList<Integer> extraAttribute);
-
-
+    
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -94,8 +94,8 @@ public interface ShopAPI {
     })
     @GET("api/v1/checkout/review")
     Observable<CardReviewModel> cardReview(@Header("Authorization") String token);
-
-
+    
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -106,14 +106,14 @@ public interface ShopAPI {
                                             @Query("cost") String cost,
                                             @Query("authority") String authority,
                                             @Query("refId") String refId);
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json"
     })
     @GET("api/v1/user/{user_id}/dashboard")
     Observable<myProductsModel> getDashboard(@Header("Authorization") String token, @Path("user_id") String userId);
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -123,7 +123,7 @@ public interface ShopAPI {
     Observable<ErrorBase> delProductFromCard(@Header("Authorization") String token,
                                              @Path("orderproduct_id") String orderproductId,
                                              @Query("_method") String _method);
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -131,7 +131,7 @@ public interface ShopAPI {
     })
     @GET("api/v1/getPaymentRedirectEncryptedLink")
     Observable<PaymentUrlModel> getPaymentUrl(@Header("Authorization") String token);
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",

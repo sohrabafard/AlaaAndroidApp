@@ -20,7 +20,7 @@ import java.security.MessageDigest;
  */
 
 public abstract class BitmapTransformation1 implements Transformation<Bitmap> {
-
+    
     @NonNull
     @Override
     public final Resource<Bitmap> transform(@NonNull Context context, @NonNull Resource<Bitmap> resource,
@@ -30,18 +30,18 @@ public abstract class BitmapTransformation1 implements Transformation<Bitmap> {
                     "Cannot apply transformation on width: " + outWidth + " or height: " + outHeight
                     + " less than or equal to zero and not Target.SIZE_ORIGINAL");
         }
-        BitmapPool bitmapPool   = Glide.get(context).getBitmapPool();
-        Bitmap     toTransform  = resource.get();
+        BitmapPool bitmapPool  = Glide.get(context).getBitmapPool();
+        Bitmap     toTransform = resource.get();
         int
-                   targetWidth  =
+                targetWidth =
                 outWidth == Target.SIZE_ORIGINAL ? toTransform.getWidth() : outWidth;
         int
-                   targetHeight =
+                targetHeight =
                 outHeight == Target.SIZE_ORIGINAL ? toTransform.getHeight() : outHeight;
         Bitmap
-                   transformed  =
+                transformed =
                 transform(context.getApplicationContext(), bitmapPool, toTransform, targetWidth, targetHeight);
-
+        
         final Resource<Bitmap> result;
         if (toTransform.equals(transformed)) {
             result = resource;
@@ -50,16 +50,16 @@ public abstract class BitmapTransformation1 implements Transformation<Bitmap> {
         }
         return result;
     }
-
+    
     protected abstract Bitmap transform(@NonNull Context context, @NonNull BitmapPool pool,
                                         @NonNull Bitmap toTransform, int outWidth, int outHeight);
-
+    
     @Override
     public abstract void updateDiskCacheKey(@NonNull MessageDigest messageDigest);
-
+    
     @Override
     public abstract boolean equals(Object o);
-
+    
     @Override
     public abstract int hashCode();
 }

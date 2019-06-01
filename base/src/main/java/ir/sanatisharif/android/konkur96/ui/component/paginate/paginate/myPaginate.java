@@ -15,23 +15,23 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.grid.Wrap
 
 
 public final class myPaginate implements OnAdapterChangeListener, OnRepeatListener {
-
-
+    
+    
     private final int                loadingTriggerThreshold;
     private final RecyclerView       recyclerView;
     private final OnLoadMoreListener loadMoreListener;
     private final LoadingItem        loadingItem;
     private final ErrorItem          errorItem;
-
+    
     private WrapperAdapter         wrapperAdapter;
     private WrapperAdapterObserver wrapperAdapterObserver;
     private RecyclerView.Adapter   userAdapter;
     private WrapperSpanSizeLookup  wrapperSpanSizeLookup;
-
+    
     private boolean isError;
     private boolean isLoading;
     private boolean isLoadedAllItems;
-
+    
     private final RecyclerView.OnScrollListener
             scrollListener =
             new RecyclerView.OnScrollListener() {
@@ -40,8 +40,8 @@ public final class myPaginate implements OnAdapterChangeListener, OnRepeatListen
                     checkScroll();
                 }
             };
-
-
+    
+    
     myPaginate(RecyclerView recyclerView,
                OnLoadMoreListener loadMoreListener,
                int loadingTriggerThreshold,
@@ -55,12 +55,12 @@ public final class myPaginate implements OnAdapterChangeListener, OnRepeatListen
         setupWrapper();
         setupScrollListener();
     }
-
-
+    
+    
     public static myPaginateBuilder with(@NonNull RecyclerView recyclerView) {
         return new myPaginateBuilder(recyclerView);
     }
-
+    
     private void setupWrapper() {
         this.userAdapter = recyclerView.getAdapter();
         wrapperAdapter = new WrapperAdapter(userAdapter, loadingItem, errorItem);
@@ -70,7 +70,7 @@ public final class myPaginate implements OnAdapterChangeListener, OnRepeatListen
         wrapperAdapter.setRepeatListener(this);
         checkGridLayoutManager();
     }
-
+    
     private void checkGridLayoutManager() {
         if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
             DefaultGridLayoutItem item = new DefaultGridLayoutItem(recyclerView.getLayoutManager());
@@ -81,13 +81,13 @@ public final class myPaginate implements OnAdapterChangeListener, OnRepeatListen
             ((GridLayoutManager) recyclerView.getLayoutManager()).setSpanSizeLookup(wrapperSpanSizeLookup);
         }
     }
-
-
+    
+    
     private void setupScrollListener() {
         recyclerView.addOnScrollListener(scrollListener);
     }
-
-
+    
+    
     private void checkAdapterState() {
         if (isCanLoadMore()) {
             if (loadMoreListener != null) {
@@ -95,29 +95,29 @@ public final class myPaginate implements OnAdapterChangeListener, OnRepeatListen
             }
         }
     }
-
+    
     private boolean isCanLoadMore() {
         return !isLoading && !isError && !isLoadedAllItems;
     }
-
+    
     @Override
     public void onAdapterChange() {
-
+        
         recyclerView.post(() -> {
             final PaginateStatus status = PaginateStatus.getStatus(isLoadedAllItems, isError);
             wrapperAdapter.stateChanged(status);
             checkScroll();
         });
     }
-
-
+    
+    
     private void checkScroll() {
         if (ScrollUtils.isOnBottom(recyclerView, loadingTriggerThreshold)) {
             checkAdapterState();
         }
     }
-
-
+    
+    
     /**
      * This method will show error on the bottom of your recyclerView.
      *
@@ -132,8 +132,8 @@ public final class myPaginate implements OnAdapterChangeListener, OnRepeatListen
             isError = false;
         }
     }
-
-
+    
+    
     /**
      * This method will show error on the bottom of your recyclerView.
      *
@@ -147,7 +147,7 @@ public final class myPaginate implements OnAdapterChangeListener, OnRepeatListen
             isLoading = false;
         }
     }
-
+    
     /**
      * This method  show error on the bottom of your recyclerView.
      *
@@ -161,25 +161,25 @@ public final class myPaginate implements OnAdapterChangeListener, OnRepeatListen
             this.isLoadedAllItems = false;
         }
     }
-
+    
     @Override
     public void onClickRepeat() {
         showError(false);
         checkScroll();
     }
-
+    
     /**
      * This method unsubscribe observer and change listeners reference to null
      * for avoid memory leaks.
      */
     public void unbind() {
         recyclerView.removeOnScrollListener(scrollListener);
-
+        
         if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
             wrapperAdapter.unbind();
             userAdapter.unregisterAdapterDataObserver(wrapperAdapterObserver);
             recyclerView.setAdapter(userAdapter);
-
+            
         } else if (recyclerView.getLayoutManager() instanceof GridLayoutManager &&
                    wrapperSpanSizeLookup != null) {
             GridLayoutManager.SpanSizeLookup
@@ -188,6 +188,6 @@ public final class myPaginate implements OnAdapterChangeListener, OnRepeatListen
             ((GridLayoutManager) recyclerView.getLayoutManager()).setSpanSizeLookup(spanSizeLookup);
         }
     }
-
+    
 }
 

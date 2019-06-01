@@ -65,7 +65,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
 //https://blog.iamsuleiman.com/bottom-navigation-bar-android-tutorial/
 public class MainActivity extends ActivityBase implements AHBottomNavigation.OnTabSelectedListener, ICheckNetwork, LogUserActionsOnPublicContentInterface {
-
+    
     private static final String             TAG = "MainActivity";
     private static       Stack<Fragment>    fragments;
     private static       FragmentManager    fm;
@@ -73,18 +73,18 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
     private              AHBottomNavigation bottomNavigation;
     private              Repository         repository;
     private              MainRepository     mainRepository;
-
+    
     //--- primitive define type-----
     private long back_pressed;
-
+    
     public static void addFrg(Fragment frg, String tag) {
-
+        
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.add(R.id.fl_container, frg, tag);
-
+        
         if (fragments.size() == 0) {
             fragments.push(frg);
-
+            
         } else {
             fragments.lastElement().onPause();
             transaction.hide(fragments.lastElement());
@@ -92,40 +92,40 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         }
         transaction.commit();
     }
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        
         repository = new RepositoryImpl(this);
         mainRepository = new MainRepository(this);
-
+        
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         }
-
+        
         //   getLastVersion();
         accountInfo = new AccountInfo(getApplicationContext(), this);
         containerHeight(this);
         fragments = new Stack<>();
         fm = getSupportFragmentManager();
-
+        
         //---------initialize UI--------
         initUI();
-
+        
         getLastVersion();
         //-----------add FirstFragment
-
+        
         addFrg(AllaMainFrg.newInstance(), "MainFrg");
         handleIntent(getIntent());
-
+        
         if (MyPreferenceManager.getInatanse().getLastVersionCode() < Utils.getVersionCode()) {
-
+            
             UpdateInfoDialogFrg updateInfoDialogFrg = new UpdateInfoDialogFrg();
             updateInfoDialogFrg.show(getSupportFragmentManager(), "");
         }
-
+        
         if (MyPreferenceManager.getInatanse().getFirebaseToken().length() == 0) {
             new Thread(new Runnable() {
                 @Override
@@ -134,13 +134,13 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 }
             }).start();
         }
-
+        
         //retrieveToken();
         if (!InstantApps.isInstantApp(getApplicationContext()))
             if (!MyPreferenceManager.getInatanse().isSendTokenToServer())
                 sendRegistrationToServer();
     }
-
+    
     private void retrieveToken() {
         FirebaseInstanceId.getInstance().getInstanceId().
                 addOnSuccessListener(MainActivity.this, instanceIdResult -> {
@@ -148,28 +148,28 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                     MyPreferenceManager.getInatanse().setFirebaseToken(instanceIdResult.getToken());
                 });
     }
-
+    
     @Override
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
     }
-
+    
     @Override
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
-
+    
     @Override
     public boolean onTabSelected(int position, boolean wasSelected) {
         itemSelect(position);
         return true;
     }
-
+    
     @Override
     public void onBackPressed() {
-
+        
         boolean flag;
         if (fragments.lastElement() instanceof VideoDownloadedFrg) {
             flag = ((VideoDownloadedFrg) fragments.lastElement()).onBack();
@@ -177,51 +177,51 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 close();
         } else
             close();
-
+        
     }
-
+    
     private void initUI() {
-
+        
         bottomNavigation = findViewById(R.id.bottom_navigation);
-
+        
         // forceCrash(bottomNavigation);
         ArrayList<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
         AHBottomNavigationItem
-                                          item1                 =
+                item1 =
                 new AHBottomNavigationItem(getString(R.string.home), R.drawable.ic_home);
         AHBottomNavigationItem
-                                          item2                 =
+                item2 =
                 new AHBottomNavigationItem(getString(R.string.forum), R.drawable.ic_message);
         AHBottomNavigationItem
-                                          item3                 =
+                item3 =
                 new AHBottomNavigationItem(getString(R.string.product), R.drawable.ic_shopping_cart);
         AHBottomNavigationItem
-                                          item4                 =
+                item4 =
                 new AHBottomNavigationItem(getString(R.string.myProfile), R.drawable.ic_user);
-
+        
         bottomNavigationItems.add(item1);
         bottomNavigationItems.add(item2);
         bottomNavigationItems.add(item3);
         bottomNavigationItems.add(item4);
-
+        
         bottomNavigation.setAccentColor(getResources().getColor(R.color.colorPrimary));
         bottomNavigation.addItems(bottomNavigationItems);
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
-
+        
         bottomNavigation.setOnTabSelectedListener(this);
     }
-
+    
     private boolean handleIntent(Intent intent) {
-
+        
         if (intent == null) {
             return false;
         }
         String action = intent.getAction();  // android.intent.action.VIEW
         String data   = intent.getDataString();// https://sanatisharif.ir/c/8087
-
+        
         if (action == null)
             return false;
-
+        
         if (action.equals("ir.sanatisharif.android.SETTING")) {
             startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
             return true;
@@ -234,7 +234,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             return false;
         }
         String path = appLinkData.getPath();
-
+        
         if (path.startsWith("/c/") && path.length() > 3) {
             addFrg(DetailsVideoFrg.newInstance(data), "DetailsVideoFrg");
             return true;
@@ -248,7 +248,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
                 return true;
             }
-
+            
             final Activity activity = this;
             lunchProductFragmentByUrl(path, activity);
             return true;
@@ -261,10 +261,10 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             String mStatus   = appLinkData.getQueryParameter("Status");
             String amount    = appLinkData.getQueryParameter("a");
             String authority = appLinkData.getQueryParameter("Authority");
-
+            
             handlerZarinPalCallBack(amount, authority);
             return true;
-
+            
         }
         if (path.startsWith("/shop")) {
             addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
@@ -283,15 +283,15 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             return true;
         }
         return false;
-
+        
     }
-
+    
     private void lunchProductFragmentByUrl(@NonNull String path, @NonNull final Activity activity) {
         ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage(this.getString(R.string.loading));
         mProgressDialog.show();
-
+        
         AuthToken.getInstant().get(this, this, new AuthToken.Callback() {
             @Override
             public void run(@NonNull String token) {
@@ -310,27 +310,27 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                                     "lunchProductFragmentByUrl: parse-intent-if:" + path + "\n\r" +
                                     ex.getMessage());
                         }
-
+                        
                     } else {
                         Log.e(TAG, "lunchProductFragmentByUrl: parse-intent-else:" + path + "\n\r" +
                                    ((Result.Error) data1).value);
                     }
                 });
             }
-
+            
             @Override
             public void nill() {
                 startActivity(new Intent(activity, AuthenticatorActivity.class));
             }
         });
     }
-
+    
     private void sendRegistrationToServer() {
         // TODO: Implement this method to send token to your app server.
-
+        
         final String firebaseToken = MyPreferenceManager.getInatanse().getFirebaseToken();
         final User   user          = accountInfo.getInfo(ACCOUNT_TYPE);
-
+        
         AuthToken.getInstant().get(this, this, new AuthToken.Callback() {
             @Override
             public void run(@NonNull String token) {
@@ -339,39 +339,39 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                     public void onSuccess(Object obj) {
                         MyPreferenceManager.getInatanse().setSendTokenToServer(true);
                     }
-
+                    
                     @Override
                     public void onFailure(String message) {
                         MyPreferenceManager.getInatanse().setSendTokenToServer(false);
                     }
                 });
             }
-
+            
             @Override
             public void nill() {
-
+            
             }
         });
     }
-
+    
     private void itemSelect(int tab_id) {
-
+        
         switch (tab_id) {
             case 0:
                 manageStack();
                 addFrg(AllaMainFrg.newInstance(), "MainFrg");
                 break;
-
+            
             case 1:
                 manageStack();
                 addFrg(ForumMainFrg.newInstance(), "ForumMainFrg");
                 break;
-
+            
             case 2:
                 manageStack();
                 addFrg(ShopMainFragment.newInstance(), "ShopMainFragment");
                 break;
-
+            
             case 3:
                 manageStack();
                 if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
@@ -380,18 +380,18 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 break;
         }
     }
-
+    
     public void close() {
-
+        
         if (fragments.size() > 1) {
-
+            
             FragmentTransaction transaction = fm.beginTransaction();
             // fragments.lastElement().onPause();
             transaction.remove(fragments.pop());
             // fragments.lastElement().onResume();
             transaction.show(fragments.lastElement());
             transaction.commit();
-
+            
             if (fragments.lastElement() instanceof AllaMainFrg) {
                 bottomNavigation.setCurrentItem(0, false);
             } else if (fragments.lastElement() instanceof ForumMainFrg) {
@@ -401,18 +401,18 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             } else if (fragments.lastElement() instanceof DashboardMainFrg) {
                 bottomNavigation.setCurrentItem(3, false);
             }
-
+            
         } else {
-
+            
             twiceClick();
         }
     }
-
+    
     private void manageStack() {
-
-
+        
+        
         boolean showHomeFrg = true;
-
+        
         for (int i = 1; i < fragments.size(); i++) {
             try {
                 FragmentTransaction transaction = fm.beginTransaction();
@@ -424,7 +424,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                 Log.e(TAG, "manageStack: error");
                 Log.e(TAG, e.getMessage());
             }
-
+            
         }
         try {
             FragmentTransaction transaction = fm.beginTransaction();
@@ -436,11 +436,11 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
             Log.e(TAG, "manageStack-show: error");
             Log.e(TAG, e.getMessage());
         }
-
+        
     }
-
+    
     private void twiceClick() {
-
+        
         if (back_pressed + 1000 > System.currentTimeMillis()) {
             super.onBackPressed();
             finish();
@@ -449,17 +449,17 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
         }
         back_pressed = System.currentTimeMillis();
     }
-
+    
     @Subscribe
     public void getMessage(Events.CloseFragment closeFragment) {
         close();
     }
-
+    
     @Override
     public void onCheckNetwork(boolean flag) {
-
+    
     }
-
+    
     private void getLastVersion() {
         mainRepository.getLastVersion(new IServerCallbackObject() {
             @Override
@@ -473,53 +473,53 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                     }
                 }
             }
-
+            
             @Override
             public void onFailure(String message) {
                 Log.i(TAG, "onSuccess: " + message);
             }
         });
     }
-
+    
     private void handlerZarinPalCallBack(String amount, String authority) {
-
+        
         PaymentVerificationRequest
                 body =
                 new PaymentVerificationRequest("55eb1362-08d4-42ee-8c74-4c5f5bef37d4",
                         Integer.parseInt(amount),
                         authority);
-
+        
         repository.paymentVerification(body, data -> {
-
+            
             if (data instanceof Result.Success) {
-
+                
                 PaymentVerificationResponse
                         payment =
                         (PaymentVerificationResponse) ((Result.Success) data).value;
-
+                
                 if (payment.getStatus() == 100) {
-
+                    
                     Toast.makeText(AppConfig.context, "پرداخت با موفقیت انجام شد. کد پیگیری شما: " +
                                                       payment.getRefID(), Toast.LENGTH_LONG).show();
                     notifyTransaction(amount, authority, String.valueOf(payment.getRefID()));
                 } else {
-
+                    
                     Toast.makeText(AppConfig.context,
                             "خطا : " + payment.getStatus(), Toast.LENGTH_LONG).show();
                     notifyTransaction(amount, authority, String.valueOf(payment.getRefID()));
                 }
-
+                
             } else {
                 Log.d(TAG, (String) ((Result.Error) data).value);
                 Toast.makeText(AppConfig.context, "تایید پرداخت با مشکل مواجه شد.در صورتی که محصول خریداری شده به لیست شما اضافه نشده است با پشتیبانی تماس بگیرید.", Toast.LENGTH_LONG).show();
             }
-
+            
         });
     }
-
-
+    
+    
     private void notifyTransaction(String cost, String authority, String refId) {
-
+        
         final Activity activity = this;
         AuthToken.getInstant().get(this, this, new AuthToken.Callback() {
             @Override
@@ -532,7 +532,7 @@ public class MainActivity extends ActivityBase implements AHBottomNavigation.OnT
                     }
                 });
             }
-
+            
             @Override
             public void nill() {
                 startActivity(new Intent(activity, AuthenticatorActivity.class));

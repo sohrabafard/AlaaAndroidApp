@@ -16,7 +16,7 @@ public class AuthenticatorService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-
+        
         AllaAuthenticator authenticator = new AllaAuthenticator(this);
         return authenticator.getIBinder();
     }

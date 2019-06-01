@@ -15,8 +15,8 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.grid.Wrap
 
 @Deprecated
 public final class Paginate implements OnAdapterChangeListener, OnRepeatListener {
-
-
+    
+    
     private int                    loadingTriggerThreshold;
     private RecyclerView           recyclerView;
     private OnLoadMore             paginateCallback;
@@ -30,8 +30,8 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
     private boolean                isError;
     private boolean                isLoading;
     private boolean                isLoadedAllItems;
-
-
+    
+    
     @Deprecated
     Paginate(RecyclerView recyclerView, OnLoadMore paginateCallback, OnLoadMoreListener loadMoreListener, int loadingTriggerThreshold, LoadingItem loadingItem, ErrorItem errorItem) {
         this.recyclerView = recyclerView;
@@ -43,7 +43,7 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
         setupWrapper();
         setupScrollListener();
     }
-
+    
     private void setupWrapper() {
         this.userAdapter = recyclerView.getAdapter();
         wrapperAdapter = new WrapperAdapter(userAdapter, loadingItem, errorItem);
@@ -53,7 +53,7 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
         wrapperAdapter.setRepeatListener(this);
         checkGridLayoutManager();
     }
-
+    
     private void checkGridLayoutManager() {
         if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
             DefaultGridLayoutItem item = new DefaultGridLayoutItem(recyclerView.getLayoutManager());
@@ -64,8 +64,8 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
             ((GridLayoutManager) recyclerView.getLayoutManager()).setSpanSizeLookup(wrapperSpanSizeLookup);
         }
     }
-
-
+    
+    
     private void setupScrollListener() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -74,7 +74,7 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
             }
         });
     }
-
+    
     private void checkAdapterState() {
         if (isCanLoadMore()) {
             if (loadMoreListener != null) {
@@ -85,15 +85,15 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
             }
         }
     }
-
+    
     private boolean isCanLoadMore() {
         return !isLoading && !isError && !isLoadedAllItems;
     }
-
+    
     @Deprecated
     @Override
     public void onAdapterChange() {
-
+        
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
@@ -103,15 +103,15 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
             }
         });
     }
-
-
+    
+    
     private void checkScroll() {
         if (ScrollUtils.isOnBottom(recyclerView, loadingTriggerThreshold)) {
             checkAdapterState();
         }
     }
-
-
+    
+    
     /**
      * This method will show error on the bottom of your recyclerView.
      *
@@ -127,8 +127,8 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
             isError = false;
         }
     }
-
-
+    
+    
     /**
      * This method will show error on the bottom of your recyclerView.
      *
@@ -143,7 +143,7 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
             isLoading = false;
         }
     }
-
+    
     /**
      * This method  show error on the bottom of your recyclerView.
      *
@@ -158,14 +158,14 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
             this.isLoadedAllItems = false;
         }
     }
-
+    
     @Override
     @Deprecated
     public void onClickRepeat() {
         showError(false);
         checkScroll();
     }
-
+    
     /**
      * @deprecated use method {@link #setNoMoreItems(boolean)} instead this
      */
@@ -173,7 +173,7 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
     public void setPaginateNoMoreItems(boolean isNoMoreItems) {
         setNoMoreItems(isNoMoreItems);
     }
-
+    
     /**
      * @deprecated use method {@link #unbind()} instead this
      */
@@ -181,7 +181,7 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
     public void unSubscribe() {
         unbind();
     }
-
+    
     /**
      * This method unsubscribe observer and change listeners reference to null
      * for avoid memory leaks.
@@ -192,7 +192,7 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
             wrapperAdapter.unbind();
             userAdapter.unregisterAdapterDataObserver(wrapperAdapterObserver);
             recyclerView.setAdapter(userAdapter);
-
+            
         } else if (recyclerView.getLayoutManager() instanceof GridLayoutManager &&
                    wrapperSpanSizeLookup != null) {
             GridLayoutManager.SpanSizeLookup
@@ -201,6 +201,6 @@ public final class Paginate implements OnAdapterChangeListener, OnRepeatListener
             ((GridLayoutManager) recyclerView.getLayoutManager()).setSpanSizeLookup(spanSizeLookup);
         }
     }
-
+    
 }
 

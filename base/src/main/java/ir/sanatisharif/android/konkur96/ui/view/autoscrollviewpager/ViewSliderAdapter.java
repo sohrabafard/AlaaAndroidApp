@@ -26,25 +26,25 @@ import ir.sanatisharif.android.konkur96.utils.Utils;
  */
 
 public class ViewSliderAdapter extends PagerAdapter {
-
+    
     private final Context               mContext;
     private       ImageView             img;
     private       List<MainBannerModel> imageList;
     private       LayoutInflater        inflater;
     private       RequestOptions        requestOptions;
     private       int                   h;
-
+    
     public ViewSliderAdapter(Context context, List<MainBannerModel> list, RequestManager glideRequests) {
         mContext = context;
         imageList = list;
         inflater = LayoutInflater.from(context);
-
+        
         setSize();
     }
-
+    
     private void setSize() {
         h = (int) (AppConfig.width * 0.39f);
-
+        
         requestOptions = new RequestOptions()
                 .override(AppConfig.width, h)
                 .dontTransform()
@@ -52,19 +52,19 @@ public class ViewSliderAdapter extends PagerAdapter {
                 .placeholder(R.mipmap.ic_launcher)
                 .fitCenter();
     }
-
+    
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup collection, final int position) {
-
+        
         ViewGroup
                 imageLayout =
                 (ViewGroup) inflater.inflate(R.layout.view_slider, collection, false);
         img = imageLayout.findViewById(R.id.imageView);
         img.getLayoutParams().width = AppConfig.width;
         img.getLayoutParams().height = h;
-
-
+        
+        
         Glide.with(mContext)
                 .load(imageList.get(position).getUrl())
                 .thumbnail(0.1f)
@@ -74,25 +74,25 @@ public class ViewSliderAdapter extends PagerAdapter {
         collection.addView(imageLayout);
         return imageLayout;
     }
-
+    
     @Override
     public void destroyItem(ViewGroup collection, int position, Object view) {
         collection.removeView((View) view);
     }
-
+    
     @Override
     public int getCount() {
         return imageList.size();
     }
-
+    
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
     }
-
+    
     @Override
     public CharSequence getPageTitle(int position) {
-
+        
         String title = imageList.get(position).getTitle();
         return title == null ? "" : title;
     }

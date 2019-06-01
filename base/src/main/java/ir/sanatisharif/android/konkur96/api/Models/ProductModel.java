@@ -7,18 +7,18 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
-import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
 
 public class ProductModel extends PaginationDataModel implements LogUserActionsOnPublicContentInterface.Data, FilterBaseModel {
-
+    
     public static final Creator<ProductModel> CREATOR = new Creator<ProductModel>() {
         @Override
         public ProductModel createFromParcel(Parcel in) {
             return new ProductModel(in);
         }
-
+        
         @Override
         public ProductModel[] newArray(int size) {
             return new ProductModel[size];
@@ -44,12 +44,12 @@ public class ProductModel extends PaginationDataModel implements LogUserActionsO
     private             TagModel              tags;
     @SerializedName("introVideo")
     private             String                introVideo;
-
+    
     //    @SerializedName("page_view")
 //    private String page_view;
     @SerializedName("order")
     private int order;
-
+    
     //    @SerializedName("gift")
 //    private String gift;
     @SerializedName("updated_at")
@@ -58,7 +58,7 @@ public class ProductModel extends PaginationDataModel implements LogUserActionsO
     private TypeModel type;
     @SerializedName("photo")
     private String    photo;
-
+    
     //    @SerializedName("samplePhotos")
 //    @Expose
 //    private Map<String, ProductPhotoModel> samplePhotos;
@@ -75,8 +75,8 @@ public class ProductModel extends PaginationDataModel implements LogUserActionsO
     @SerializedName("children")
     private ArrayList<ProductModel>      children;
     @SerializedName("sets")
-    private ArrayList<SetModel>   sets;
-
+    private ArrayList<SetModel>          sets;
+    
     protected ProductModel(Parcel in) {
         id = in.readInt();
         redirectUrl = in.readString();
@@ -99,7 +99,7 @@ public class ProductModel extends PaginationDataModel implements LogUserActionsO
         children = in.createTypedArrayList(ProductModel.CREATOR);
         sets = in.createTypedArrayList(SetModel.CREATOR);
     }
-
+    
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
@@ -123,204 +123,204 @@ public class ProductModel extends PaginationDataModel implements LogUserActionsO
         dest.writeTypedList(children);
         dest.writeTypedList(sets);
     }
-
+    
     @Override
     public int describeContents() {
         return 0;
     }
-
+    
     public int getId() {
         return id;
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
-
+    
     public String getRedirectUrl() {
         return redirectUrl;
     }
-
+    
     public void setRedirectUrl(String redirectUrl) {
         this.redirectUrl = redirectUrl;
     }
-
+    
     public String getUrl() {
         return url;
     }
-
+    
     public void setUrl(String url) {
         this.url = url;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public int getIsFree() {
         return isFree;
     }
-
+    
     public void setIsFree(int isFree) {
         this.isFree = isFree;
     }
-
+    
     public long getAmount() {
         return amount;
     }
-
+    
     public void setAmount(long amount) {
         this.amount = amount;
     }
-
+    
     public String getShortDescription() {
         return shortDescription;
     }
-
+    
     public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
     }
-
+    
     public String getLongDescription() {
         return longDescription;
     }
-
+    
     public void setLongDescription(String longDescription) {
         this.longDescription = longDescription;
     }
-
+    
     public TagModel getTags() {
         return tags;
     }
-
+    
     public void setTags(TagModel tags) {
         this.tags = tags;
     }
-
+    
     public String getIntroVideo() {
         return introVideo;
     }
-
+    
     public void setIntroVideo(String introVideo) {
         this.introVideo = introVideo;
     }
-
+    
     public int getOrder() {
         return order;
     }
-
+    
     public void setOrder(int order) {
         this.order = order;
     }
-
+    
     public String getUpdated_at() {
         return updated_at;
     }
-
+    
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
-
+    
     public TypeModel getType() {
         return type;
     }
-
+    
     public void setType(TypeModel type) {
         this.type = type;
     }
-
+    
     public String getPhoto() {
         return photo;
     }
-
+    
     public void setPhoto(String photo) {
         this.photo = photo;
     }
-
+    
     public AttributesModel getAttributes() {
         return attributes;
     }
-
+    
     public void setAttributes(AttributesModel attributes) {
         this.attributes = attributes;
     }
-
+    
     public ArrayList<ProductPhotoModel> getSamplePhotos() {
         return samplePhotos;
     }
-
+    
     public void setSamplePhotos(ArrayList<ProductPhotoModel> samplePhotos) {
         this.samplePhotos = samplePhotos;
     }
-
+    
     public PriceModel getPrice() {
         return price;
     }
-
+    
     public void setPrice(PriceModel price) {
         this.price = price;
     }
-
+    
     public ArrayList<BonModel> getBons() {
         return bons;
     }
-
+    
     public void setBons(ArrayList<BonModel> bons) {
         this.bons = bons;
     }
-
+    
     public ArrayList<ProductModel> getChildren() {
         return children;
     }
-
+    
     public void setChildren(ArrayList<ProductModel> children) {
         this.children = children;
     }
-
+    
     public ArrayList<SetModel> getSets() {
         return sets;
     }
-
+    
     public void setSets(ArrayList<SetModel> sets) {
         this.sets = sets;
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         return id == ((ProductModel) o).id;
     }
-
+    
     @Override
     public int hashCode() {
         return id;
     }
-
+    
     @Override
     public String getUserActionTitle() {
         return this.getName();
     }
-
+    
     @Override
     public String getUserActionUrl() {
         return getUrl();
     }
-
+    
     @Override
     public String getUserActionPhoto() {
         return getPhoto();
     }
-
+    
     @Override
     public String getUserActionDescription() {
         return getShortDescription() + "\n\r" + getLongDescription();
     }
-
+    
     @Override
     public int getViewType() {
         return AppConstants.FILTER_PRODUCT;

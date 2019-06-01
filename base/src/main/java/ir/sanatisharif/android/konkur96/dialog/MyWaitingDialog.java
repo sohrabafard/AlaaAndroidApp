@@ -11,27 +11,27 @@ import ir.sanatisharif.android.konkur96.R;
  */
 
 public class MyWaitingDialog {
-
+    
     private AlertDialog dialog;
     private Context     context;
-
+    
     public MyWaitingDialog(Context context) {
         this.context = context;
     }
-
+    
     public MyWaitingDialog setDialog() {
         dialog = new AlertDialog.Builder(context)
                 .setView(R.layout.progress_dialog)
                 .create();
         return this;
     }
-
+    
     public void show() {
         dialog.show();
     }
-
+    
     public void dismiss() {
-
+        
         dialog.dismiss();
     }
 }

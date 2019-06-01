@@ -6,24 +6,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 final class ScrollUtils {
-
-
+    
+    
     private ScrollUtils() {
     }
-
+    
     static boolean isOnBottom(@NonNull RecyclerView recyclerView, int loadingTriggerThreshold) {
-        final int visibleItemCount         = recyclerView.getChildCount();
-        final int totalItemCount           = recyclerView.getLayoutManager().getItemCount();
+        final int visibleItemCount = recyclerView.getChildCount();
+        final int totalItemCount   = recyclerView.getLayoutManager().getItemCount();
         final int
-                  firstVisibleItemPosition =
+                firstVisibleItemPosition =
                 getFirstVisibleItemPositionByLayoutManager(recyclerView.getLayoutManager());
         // Check if end of the list is reached (counting threshold) or if there is no items at all
         return (totalItemCount - visibleItemCount) <=
                (firstVisibleItemPosition + loadingTriggerThreshold)
                || totalItemCount == 0;
-
+        
     }
-
+    
     private static int getFirstVisibleItemPositionByLayoutManager(@NonNull RecyclerView.LayoutManager
                                                                           layoutManager) {
         int firstVisibleItemPosition;
@@ -38,14 +38,14 @@ final class ScrollUtils {
             } else {
                 firstVisibleItemPosition = 0;
             }
-
+            
         } else {
             throw new IllegalStateException("LayoutManager needs to subclass LinearLayoutManager or StaggeredGridLayoutManager");
         }
         return firstVisibleItemPosition;
     }
-
-
+    
+    
     static void fullScrollToBottom(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.Adapter
             adapter) {
         recyclerView.getLayoutManager().smoothScrollToPosition(recyclerView, null,

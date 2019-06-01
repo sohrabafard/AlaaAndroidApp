@@ -38,85 +38,85 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
 @SuppressLint("ValidFragment")
 public class ZarinPalDialogFragment extends DialogFragment {
-
+    
     private static final String TAG = "Alaa\\ZarinPalDialogFrg";
     Activity activity;
-    private              int    finalPrice;
+    private int      finalPrice;
     private TextView txtTitle, txtDesc;
     private ProgressBar progPrice;
     private CardView    cardShowCard, cardClose;
-    private ProductModel model;
-    private int          totalPrice;
-    private ProductType  type;
+    private ProductModel  model;
+    private int           totalPrice;
+    private ProductType   type;
     private List<Integer> attrList;
     private List<Integer> attrExtraList;
     private List<Integer> selectableIdList;
-    private Repository  repository;
-    private AccountInfo accountInfo;
-    private User        user;
-
+    private Repository    repository;
+    private AccountInfo   accountInfo;
+    private User          user;
+    
     @SuppressLint("ValidFragment")
     public ZarinPalDialogFragment(ProductType type, ProductModel model, int totalPrice,
                                   List<Integer> selectableIdList, List<Integer> attrList, List<Integer> attrExtraList) {
-
+        
         this.model = model;
         this.totalPrice = totalPrice;
         this.type = type;
-
+        
         this.selectableIdList = selectableIdList;
         this.attrList = attrList;
         this.attrExtraList = attrExtraList;
-
+        
     }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        
         View v = inflater.inflate(R.layout.dialog_view_zarinpal, container, false);
-
-
+        
+        
         progPrice = v.findViewById(R.id.prog_price);
         txtTitle = v.findViewById(R.id.txt_title);
         txtDesc = v.findViewById(R.id.txt_desc);
-
+        
         cardShowCard = v.findViewById(R.id.btn_showCard);
         cardClose = v.findViewById(R.id.btn_close);
-
+        
         repository = new RepositoryImpl(getActivity());
         accountInfo = new AccountInfo(getContext(), getActivity());
         user = accountInfo.getInfo(ACCOUNT_TYPE);
-
+        
         activity = getActivity();
-
+        
         addToShopCard();
-
-
+        
+        
         cardShowCard.setOnClickListener(view -> {
-
+            
             addFrg(CardFragment.newInstance(), "CardFragment");
             this.dismiss();
         });
-
+        
         cardClose.setOnClickListener(view -> this.dismiss());
-
+        
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-
+        
+        
         return v;
     }
-
-
+    
+    
     private void addToShopCard() {
-
-
+        
+        
         ArrayList<Integer> attribute      = new ArrayList<>(attrList);
         ArrayList<Integer> products       = new ArrayList<>(selectableIdList);
         ArrayList<Integer> extraAttribute = new ArrayList<>(attrExtraList);
-
+        
         progPrice.setVisibility(View.VISIBLE);
-
-
+        
+        
         DialogFragment frg = this;
         AuthToken.getInstant().get(activity, new AuthToken.Callback() {
             @Override
@@ -128,34 +128,34 @@ public class ZarinPalDialogFragment extends DialogFragment {
                                 AddToCardListModel
                                         temp =
                                         (AddToCardListModel) ((Result.Success) data).value;
-
+                                
                                 if (null == temp.getError()) {
                                     Toast.makeText(AppConfig.context, frg.getString(R.string.add_to_cart_successfully), Toast.LENGTH_SHORT).show();
                                     addFrg(CardFragment.newInstance(), "CardFragment");
                                     frg.dismiss();
                                 } else {
-
+                                    
                                     Toast.makeText(AppConfig.context, temp.getError().getMessage(), Toast.LENGTH_SHORT).show();
                                     addFrg(CardFragment.newInstance(), "CardFragment");
                                     frg.dismiss();
                                 }
-
+                                
                             } else {
                                 Log.d("Test", (String) ((Result.Error) data).value);
                                 Toast.makeText(AppConfig.context, frg.getString(R.string.try_again), Toast.LENGTH_LONG).show();
                                 frg.dismiss();
                             }
                         }));
-
+                
             }
-
+            
             @Override
             public void nill() {
-
+            
             }
         });
-
+        
     }
-
-
+    
+    
 }

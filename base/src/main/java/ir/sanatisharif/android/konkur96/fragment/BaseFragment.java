@@ -27,26 +27,26 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
  */
 
 public abstract class BaseFragment extends Fragment implements LifecycleOwner {
-
+    
     private static final String            TAG = "Alaa\\BaseFrg";
     private              Toolbar           toolbar;
     private              TextView          txtTitle;
     // private LifecycleRegistry mLifecycleRegistry;
     private              FirebaseAnalytics mFirebaseAnalytics;
-
+    
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
     }
-
+    
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanseState) {
         return createFragmentView(inflater, container, savedInstanseState);
     }
-
+    
     public abstract View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
-
-
+    
+    
     @Override
     public void onResume() {
         super.onResume();
@@ -56,29 +56,29 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
             mFirebaseAnalytics.setCurrentScreen(activity, this.getClass().getSimpleName(), this.getClass().getSimpleName());
         }
     }
-
+    
     public void setToolbar(Toolbar mToolbar, String txtTitle) {
-
+        
         setHasOptionsMenu(true);
         mToolbar = getView().findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-
+        
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
-
+        
         if (mToolbar.getChildAt(0) instanceof TextView) {
             ((TextView) (mToolbar.findViewById(R.id.txtToolbarTitle))).setText(txtTitle);
         }
-
+        
         toolbar = mToolbar;
     }
-
+    
     public Toolbar getToolbar() {
         return toolbar;
     }
-
+    
     public void overrideFonts(Context context, final View v) {
         try {
             if (v instanceof ViewGroup) {
@@ -95,7 +95,7 @@ public abstract class BaseFragment extends Fragment implements LifecycleOwner {
         catch (Exception e) {
         }
     }
-
+    
     void ripple(View view, int radius) {
         MaterialRippleLayout.on(view)
                 .rippleOverlay(true)

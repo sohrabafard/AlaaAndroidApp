@@ -26,32 +26,32 @@ public class AlaaContentActivity extends AppCompatActivity {
                                              LOAD_BUY_CONTENT_ALSO_USER_CAN_NOT_SEE_CONTENT =
             "load_buy_content_also_can_not_see";
     private             AlaaContentViewModel mViewModel;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alaa_content_activity);
         mViewModel = ViewModelProviders.of(this).get(AlaaContentViewModel.class);
-
+        
         if (savedInstanceState == null) {
-
+            
             handleIntent();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, AlaaContentFragment.newInstance())
                     .commitNow();
         }
     }
-
+    
     private void handleIntent() {
         Intent intent = getIntent();
         if (intent == null)
             return;
-
+        
         String token  = intent.getStringExtra(SET_TOKEN);
         String action = intent.getAction();  // android.intent.action.VIEW
         String data   = intent.getDataString();// https://sanatisharif.ir/c/8087
         mViewModel.setToken(token);
-
+        
         if (Intent.ACTION_VIEW.equals(action)) {
             Uri appLinkData = intent.getData();
             if (appLinkData != null) {
@@ -70,15 +70,15 @@ public class AlaaContentActivity extends AppCompatActivity {
             mViewModel.setContent(content);
             return;
         }
-
+        
         String url = intent.getStringExtra(LOAD_BUY_URL);
-
+        
         if (url != null) {
             mViewModel.setUrl(url);
             return;
         }
-
-
+        
+        
         ContentCredit
                 error =
                 intent.getParcelableExtra(LOAD_BUY_CONTENT_ALSO_USER_CAN_NOT_SEE_CONTENT);
@@ -87,6 +87,6 @@ public class AlaaContentActivity extends AppCompatActivity {
             mViewModel.setError(error);
         }
     }
-
-
+    
+    
 }

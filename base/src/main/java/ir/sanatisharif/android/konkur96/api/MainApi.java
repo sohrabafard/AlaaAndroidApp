@@ -23,7 +23,7 @@ import retrofit2.http.Url;
  */
 
 public interface MainApi {
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -31,7 +31,7 @@ public interface MainApi {
     })
     @GET("/")
     Observable<MainModel> getMainPage();
-
+    
     // @GET("c/{id}")
     //  Call<ContentModel> getContent(@Path("id") String id);
     @Headers({
@@ -41,7 +41,7 @@ public interface MainApi {
     })
     @GET
     Observable<ContentModel> getContent(@Url String url, @Header("Authorization") String token);
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -49,7 +49,7 @@ public interface MainApi {
     })
     @POST("api/login")
     Observable<UserInfo> getLoginUserInfo(@Body User user);
-
+    
     /**
      * contentOnly
      * c?set=191&contentOnly=1
@@ -63,7 +63,7 @@ public interface MainApi {
     Observable<FilterModel> getContentOnly(
             @Query("set") String id,
             @Query("contentOnly") int contentOnly);
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -72,7 +72,7 @@ public interface MainApi {
     @GET("c")
     Observable<FilterModel> getFilterBySearch(
             @Query("search") String search);
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -80,7 +80,7 @@ public interface MainApi {
     })
     @GET("c")
     Observable<FilterModel> getFilterTags(@Query("tags[]") List<String> tags);
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -88,7 +88,7 @@ public interface MainApi {
     })
     @GET
     Observable<FilterModel> getFilterTagsByUrl(@Url String url);
-
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -99,8 +99,8 @@ public interface MainApi {
             @Path("user_id") int user_id,
             @Query("token") String firebaseToken,
             @Header("Authorization") String token);
-
-
+    
+    
     @Headers({
             "ContentModel-Type: application/json",
             "Accept: application/json",
@@ -108,5 +108,5 @@ public interface MainApi {
     })
     @GET("api/v1/lastVersion")
     Observable<LastVersion> getLastVersion();
-
+    
 }

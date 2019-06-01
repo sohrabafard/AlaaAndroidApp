@@ -28,22 +28,22 @@ import ir.sanatisharif.android.konkur96.fragment.DashboardMainFrg;
 import ir.sanatisharif.android.konkur96.fragment.VideoDownloadedFrg;
 
 public class PlayerMusicTabsIcon extends AppCompatActivity {
-
-
+    
+    
     public View parent_view;
-
+    
     private SectionsPagerAdapter viewPagerAdapter;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_player_music);
         parent_view = findViewById(R.id.parent_view);
-
+        
         initToolbar();
         initComponent();
     }
-
+    
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
@@ -52,44 +52,44 @@ public class PlayerMusicTabsIcon extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setSystemBarColor(this);
     }
-
+    
     private void initComponent() {
         ViewPager view_pager = findViewById(R.id.view_pager);
         TabLayout tab_layout = findViewById(R.id.tab_layout);
-
+        
         setupViewPager(view_pager);
         tab_layout.setupWithViewPager(view_pager);
-
+        
         tab_layout.getTabAt(0).setIcon(R.drawable.ic_person);
         tab_layout.getTabAt(1).setIcon(R.drawable.ic_person);
         tab_layout.getTabAt(2).setIcon(R.drawable.ic_person);
         tab_layout.getTabAt(3).setIcon(R.drawable.ic_person);
-
+        
         // set icon color pre-selected
         tab_layout.getTabAt(0).getIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
         tab_layout.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.Gray), PorterDuff.Mode.SRC_IN);
         tab_layout.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.Gray), PorterDuff.Mode.SRC_IN);
         tab_layout.getTabAt(3).getIcon().setColorFilter(getResources().getColor(R.color.Gray), PorterDuff.Mode.SRC_IN);
-
+        
         tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 getSupportActionBar().setTitle(viewPagerAdapter.getTitle(tab.getPosition()));
                 tab.getIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
             }
-
+            
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 tab.getIcon().setColorFilter(getResources().getColor(R.color.Gray), PorterDuff.Mode.SRC_IN);
             }
-
+            
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+            
             }
         });
     }
-
+    
     public void setSystemBarColor(Activity act) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = act.getWindow();
@@ -98,7 +98,7 @@ public class PlayerMusicTabsIcon extends AppCompatActivity {
             window.setStatusBarColor(act.getResources().getColor(R.color.colorPrimaryDark));
         }
     }
-
+    
     private void setupViewPager(ViewPager viewPager) {
         viewPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(VideoDownloadedFrg.newInstance(), "Songs");
@@ -123,40 +123,40 @@ public class PlayerMusicTabsIcon extends AppCompatActivity {
 //        }
 //        return super.onOptionsItemSelected(item);
 //    }
-
+    
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
-
+        
         private final List<Fragment> mFragmentList      = new ArrayList<>();
         private final List<String>   mFragmentTitleList = new ArrayList<>();
-
+        
         SectionsPagerAdapter(FragmentManager manager) {
             super(manager);
         }
-
+        
         @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);
         }
-
+        
         @Override
         public int getCount() {
             return mFragmentList.size();
         }
-
+        
         void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
-
+        
         public String getTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-
+        
         @Override
         public CharSequence getPageTitle(int position) {
             return null;
         }
     }
-
+    
 }
 

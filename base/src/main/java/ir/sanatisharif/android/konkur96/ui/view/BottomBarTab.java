@@ -22,32 +22,32 @@ public class BottomBarTab extends FrameLayout {
     private ImageView mIcon;
     private Context   mContext;
     private int       mTabPosition = -1;
-
+    
     public BottomBarTab(Context context, @DrawableRes int icon) {
         this(context, null, icon);
     }
-
+    
     public BottomBarTab(Context context, AttributeSet attrs, int icon) {
         this(context, attrs, 0, icon);
     }
-
+    
     public BottomBarTab(Context context, AttributeSet attrs, int defStyleAttr, int icon) {
         super(context, attrs, defStyleAttr);
         init(context, icon);
     }
-
+    
     private void init(Context context, int icon) {
         mContext = context;
         TypedArray
-                 typedArray =
+                typedArray =
                 context.obtainStyledAttributes(new int[]{R.attr.selectableItemBackgroundBorderless});
-        Drawable drawable   = typedArray.getDrawable(0);
+        Drawable drawable = typedArray.getDrawable(0);
         setBackgroundDrawable(drawable);
         typedArray.recycle();
-
+        
         mIcon = new ImageView(context);
         int
-                     size   =
+                size =
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 27, getResources().getDisplayMetrics());
         LayoutParams params = new LayoutParams(size, size);
         params.gravity = Gravity.CENTER;
@@ -56,7 +56,7 @@ public class BottomBarTab extends FrameLayout {
         mIcon.setColorFilter(ContextCompat.getColor(context, R.color.tab_unselect));
         addView(mIcon);
     }
-
+    
     @Override
     public void setSelected(boolean selected) {
         super.setSelected(selected);
@@ -66,11 +66,11 @@ public class BottomBarTab extends FrameLayout {
             mIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.tab_unselect));
         }
     }
-
+    
     public int getTabPosition() {
         return mTabPosition;
     }
-
+    
     public void setTabPosition(int position) {
         mTabPosition = position;
         if (position == 0) {

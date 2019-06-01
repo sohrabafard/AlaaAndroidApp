@@ -6,6 +6,6 @@ package ir.sanatisharif.android.konkur96.listener;
 
 public interface ScrollOnRecycler {
     void scrollUp();
-
+    
     void scrollDown();
 }

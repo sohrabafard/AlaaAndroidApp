@@ -27,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class ApiModule {
-
+    
     private static final String      HEADER_CACHE_CONTROL = "Cache-Control";
     private static final String      HEADER_PRAGMA        = "Pragma";
     private static final long        cacheSize            = 100 * 1024 * 1024; // 10 MB
@@ -35,13 +35,13 @@ public class ApiModule {
         Request          original = chain.request();
         Request.Builder  builder  = original.newBuilder();
         okhttp3.Response response = chain.proceed(builder.build());
-
+        
         handelStatusCode(response.code());
-
+        
         CacheControl cacheControl = new CacheControl.Builder()
                 .maxStale(5, TimeUnit.SECONDS)
                 .build();
-
+        
         return response.newBuilder()
                 .removeHeader(HEADER_PRAGMA)
                 .removeHeader(HEADER_CACHE_CONTROL)
@@ -62,7 +62,7 @@ public class ApiModule {
         }
         return chain.proceed(request);
     };
-
+    
     private static boolean isConnected() {
         try {
             android.net.ConnectivityManager
@@ -75,13 +75,13 @@ public class ApiModule {
         catch (Exception e) {
             Log.w("LOG", e.toString());
         }
-
+        
         return false;
     }
-
+    
     ///http://developer.android.com/
     private static boolean handelStatusCode(int code) {
-
+        
         boolean valid = true;
         if (code == 401) {
             Log.i("LOG", "handelStatusCode: " + 400);
@@ -110,7 +110,7 @@ public class ApiModule {
         }
         return valid;
     }
-
+    
     private static void handleToast(String msg) {
         AppConfig.HANDLER.post(new Runnable() {
             @Override
@@ -118,56 +118,56 @@ public class ApiModule {
                 ActivityBase.toastShow(msg, MDToast.TYPE_ERROR);
             }
         });
-
+        
     }
-
+    
     @Provides
     @Singleton
     OkHttpClient provideClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-
+        
         builder.addInterceptor(offlineInterceptor);
         builder.addNetworkInterceptor(onlineInterceptor);
         builder.cache(new Cache(AppConfig.context.getCacheDir(), cacheSize));
-
+        
         builder.connectTimeout(10, TimeUnit.SECONDS);
         builder.readTimeout(10, TimeUnit.SECONDS);
         builder.writeTimeout(10, TimeUnit.SECONDS);
-
+        
         return builder.build();
-
+        
     }
-
+    
     @Provides
     @Singleton
     Retrofit.Builder provideRetrofit(OkHttpClient okHttpClient) {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
-
+        
         return new Retrofit.Builder()
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
     }
-
+    
     @Provides
     @Singleton
     ShopAPI provideApi(Retrofit.Builder builder) {
         return builder.baseUrl(AppConfig.BASE_URL).build().create(ShopAPI.class);
     }
-
+    
     @Provides
     @Singleton
     ZarinPalAPI provideApiZarinPal(Retrofit.Builder builder) {
         return builder.baseUrl(ZarinPalAPI.BASE_URL).build().create(ZarinPalAPI.class);
     }
-
+    
     @Provides
     @Singleton
     HeadRequestInterface provideHeadRequest(Retrofit.Builder builder) {
         Log.e("Alaa\\ApiModule", builder.toString());
-
+        
         OkHttpClient okHttpClient = new OkHttpClient()
                 .newBuilder()
                 .addInterceptor(offlineInterceptor)
@@ -179,14 +179,14 @@ public class ApiModule {
                 .followRedirects(false)
                 .followSslRedirects(false)
                 .build();
-
+        
         return builder
                 .client(okHttpClient)
                 .baseUrl(AppConfig.BASE_URL)
                 .build()
                 .create(HeadRequestInterface.class);
     }
-
+    
     @Provides
     @Singleton
     MainApi provideMainApi(Retrofit.Builder builder) {

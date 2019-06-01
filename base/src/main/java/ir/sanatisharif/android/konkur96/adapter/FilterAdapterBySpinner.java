@@ -17,40 +17,40 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
  */
 
 public class FilterAdapterBySpinner extends ArrayAdapter<String> {
-
+    
     // Your sent context
     private Context  context;
     // Your custom values for the spinner (User)
     private String[] values;
-
+    
     public FilterAdapterBySpinner(Context context, int textViewResourceId, String[] values) {
         super(context, textViewResourceId, values);
         this.context = context;
         this.values = values;
     }
-
+    
     @Override
     public boolean isEnabled(int position) {
-
+        
         return position != 0;
     }
-
+    
     @Override
     public int getCount() {
         return values.length;
     }
-
+    
     @Override
     public String getItem(int position) {
         return values[position];
     }
-
+    
     @Override
     public long getItemId(int position) {
         return position;
     }
-
-
+    
+    
     // And the "magic" goes here
     // This is for the "passive" state of the spinner
     @Override
@@ -62,10 +62,10 @@ public class FilterAdapterBySpinner extends ArrayAdapter<String> {
         label.setTypeface(AppConfig.fontIRSensLight);
         label.setPadding(10, 10, 10, 10);
         label.setText(values[position]);
-
+        
         return label;
     }
-
+    
     // And here is when the "chooser" is popped up
     // Normally is the same view, but you can customize it if you want
     @Override
@@ -76,14 +76,14 @@ public class FilterAdapterBySpinner extends ArrayAdapter<String> {
         label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         label.setPadding(8, 8, 8, 8);
         label.setTypeface(AppConfig.fontIRSensLight);
-
+        
         if (position == 0) {
             // SetModel the hint text color gray
             label.setTextColor(Color.GRAY);
         } else {
             label.setTextColor(Color.BLACK);
         }
-
+        
         return label;
     }
 }

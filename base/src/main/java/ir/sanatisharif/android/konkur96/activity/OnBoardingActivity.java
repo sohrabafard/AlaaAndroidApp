@@ -31,7 +31,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
  */
 
 public class OnBoardingActivity extends ActivityBase {
-
+    
     private static final int         MAX_STEP = 4;
     private              AccountInfo accountInfo;
     private              ViewPager   viewPager;
@@ -41,7 +41,7 @@ public class OnBoardingActivity extends ActivityBase {
     ViewPager.OnPageChangeListener
             viewPagerPageChangeListener =
             new ViewPager.OnPageChangeListener() {
-
+                
                 @Override
                 public void onPageSelected(final int position) {
                     bottomProgressDots(position);
@@ -51,32 +51,32 @@ public class OnBoardingActivity extends ActivityBase {
                         btnNext.setText(getString(R.string.next));
                     }
                 }
-
+                
                 @Override
                 public void onPageScrolled(int arg0, float arg1, int arg2) {
-
+                
                 }
-
+                
                 @Override
                 public void onPageScrollStateChanged(int arg0) {
-
+                
                 }
             };
     private int[] image;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_boarding);
-
+        
         accountInfo = new AccountInfo(getApplicationContext(), this);
         loadData();
         initUI();
         bottomProgressDots(0); // adding bottom dots
     }
-
+    
     private void loadData() {
-
+        
         desc = getResources().getStringArray(R.array.onBoarding);
         image = new int[]{
                 R.drawable.illustrator_1,
@@ -85,9 +85,9 @@ public class OnBoardingActivity extends ActivityBase {
                 R.drawable.illustrator_4
         };
     }
-
+    
     private void initUI() {
-
+        
         //init ui
         viewPager = findViewById(R.id.view_pager);
         btnNext = findViewById(R.id.btn_next);
@@ -97,7 +97,7 @@ public class OnBoardingActivity extends ActivityBase {
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
         viewPager.setOffscreenPageLimit(4);
-
+        
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,17 +123,17 @@ public class OnBoardingActivity extends ActivityBase {
             }
         });
     }
-
+    
     private void bottomProgressDots(int current_index) {
         LinearLayout dotsLayout = findViewById(R.id.layoutDots);
         ImageView[]  dots       = new ImageView[MAX_STEP];
-
+        
         dotsLayout.removeAllViews();
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new ImageView(this);
-            int                       width_height = 15;
+            int width_height = 15;
             LinearLayout.LayoutParams
-                                      params       =
+                    params =
                     new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(width_height, width_height));
             params.setMargins(10, 10, 10, 10);
             dots[i].setLayoutParams(params);
@@ -141,13 +141,13 @@ public class OnBoardingActivity extends ActivityBase {
             dots[i].setColorFilter(getResources().getColor(R.color.White), PorterDuff.Mode.SRC_IN);
             dotsLayout.addView(dots[i]);
         }
-
+        
         if (dots.length > 0) {
             dots[current_index].setImageResource(R.drawable.shape_circle);
             dots[current_index].setColorFilter(getResources().getColor(R.color.shades_4), PorterDuff.Mode.SRC_IN);
         }
     }
-
+    
     private void ripple(View view, int radius) {
         MaterialRippleLayout.on(view)
                 .rippleOverlay(true)
@@ -157,41 +157,41 @@ public class OnBoardingActivity extends ActivityBase {
                 .rippleHover(true)
                 .create();
     }
-
+    
     /**
      * View pager adapter
      */
     public class MyViewPagerAdapter extends PagerAdapter {
         private LayoutInflater layoutInflater;
-
+        
         MyViewPagerAdapter() {
         }
-
+        
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+            
             View view = layoutInflater.inflate(R.layout.item_card_wizard, container, false);
             //((TextView) view.findViewById(R.id.title)).setText(about_title_array[position]);
             ((TextView) view.findViewById(R.id.description)).setText(desc[position]);
             ((ImageView) view.findViewById(R.id.image)).setImageResource(image[position]);
-
+            
             container.addView(view);
             return view;
         }
-
+        
         @Override
         public int getCount() {
             return desc.length;
         }
-
+        
         @Override
         public boolean isViewFromObject(View view, Object obj) {
             return view == obj;
         }
-
-
+        
+        
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             View view = (View) object;

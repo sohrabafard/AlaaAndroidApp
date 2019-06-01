@@ -55,7 +55,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_AUTH_TYPE;
 public class AuthenticatorActivity extends AccountAuthenticatorActivity implements
         View.OnClickListener,
         AdapterView.OnItemSelectedListener, ICheckNetwork {
-
+    
     private final String TAG = this.getClass().getSimpleName();
     FirebaseAnalytics mFirebaseAnalytics;
     private boolean                 login        = true;//flag for check status login or register
@@ -72,17 +72,17 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
     private Spinner spinnerField, spinnerGender;
     private int gender_id = 0, majer_id = 0;
     private MainRepository repository;
-
+    
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_register);
-
+        
         mAccountManager = AccountManager.get(AppConfig.context);
         AppConfig.currentActivity = this;
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -90,7 +90,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         initUI();
         setDialog();
     }
-
+    
     @Override
     protected void onResume() {
         super.onResume();
@@ -98,18 +98,18 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         if (repository == null)
             repository = new MainRepository(this);
     }
-
+    
     private void initUI() {
-
+        
         loginView = findViewById(R.id.login);
         registerView = findViewById(R.id.register);
-
+        
         //login
         btnLogin = loginView.findViewById(R.id.btnLogin);
         edtNathonalCode = loginView.findViewById(R.id.edtNathinalCode);
         edtPhone = loginView.findViewById(R.id.edtPhone);
         txtDoNotAccount = loginView.findViewById(R.id.txtDoNotAccount);
-
+        
         //register
         btnRegister = registerView.findViewById(R.id.btnRegister);
         edtNationalCodeReg = registerView.findViewById(R.id.edtNathinalCode);
@@ -120,35 +120,35 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         txtAccountExist = registerView.findViewById(R.id.txtAccountExist);
         spinnerField = registerView.findViewById(R.id.spinnerField);
         spinnerGender = registerView.findViewById(R.id.spinnerGender);
-
+        
         spinnerField.setAdapter(
                 new FilterAdapterBySpinner(getApplicationContext(),
                         R.layout.spinner_item,
                         getResources().getStringArray(R.array.field)));
-
+        
         spinnerGender.setAdapter(
                 new FilterAdapterBySpinner(getApplicationContext(),
                         android.R.layout.simple_spinner_item,
                         getResources().getStringArray(R.array.gender)));
-
+        
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         txtDoNotAccount.setOnClickListener(this);
         txtAccountExist.setOnClickListener(this);
-
+        
         spinnerGender.setOnItemSelectedListener(this);
         spinnerField.setOnItemSelectedListener(this);
-
+        
     }
-
+    
     private void getLoginInfo(User user) {
-
+        
         dialog.show();
         repository.userInfo(user, new IServerCallbackObject() {
-
+            
             @Override
             public void onSuccess(Object obj) {
-
+                
                 UserInfo u     = (UserInfo) obj;
                 Data     data  = u.getData();
                 User     user1 = data.getUser();
@@ -159,37 +159,37 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
                 startActivity(new Intent(AuthenticatorActivity.this, MainActivity.class));
                 finish();
             }
-
+            
             @Override
             public void onFailure(String message) {
                 dialog.dismiss();
                 Log.i(TAG, "onSuccess: onFailure " + message);
             }
         });
-
-
+        
+        
     }
-
+    
     private void addAccount(User user, String authToken) {
-
+        
         Bundle data     = new Bundle();
         Bundle userData = new Bundle();
         Gson   gson     = new Gson();
-
+        
         try {
             data.putString(AccountManager.KEY_ACCOUNT_NAME, user.getMobile());
             data.putString(AccountManager.KEY_ACCOUNT_TYPE, ACCOUNT_TYPE);
             data.putString(AccountManager.KEY_AUTHTOKEN, authToken);
             data.putString(AccountManager.KEY_PASSWORD, user.getNationalCode());
-
+            
             userData.putString(AccountManager.KEY_USERDATA, gson.toJson(user));
-
+            
         }
         catch (Exception e) {
             data.putString(KEY_ERROR_MESSAGE, e.getMessage());
         }
-
-
+        
+        
         Account account = new Account(user.getMobile(), ACCOUNT_TYPE);
         // Creating the account on the device and setting the auth token we got
         // (Not setting the auth token will cause another call to the server to authenticate the user)
@@ -202,45 +202,45 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         setResult(RESULT_OK, res);
         //finish();
     }
-
+    
     private void setDialog() {
         dialog = new AlertDialog.Builder(this)
                 .setView(R.layout.progress_dialog)
                 .create();
         dialog.setCancelable(true);
     }
-
+    
     @Override
     public void onClick(View view) {
-
+        
         if (view.getId() == R.id.txtDoNotAccount) {
-
+            
             if (loginView.getVisibility() == View.VISIBLE) {
                 loginView.setVisibility(View.GONE);
                 registerView.setVisibility(View.VISIBLE);
             }
-
+            
         } else if (view.getId() == R.id.txtAccountExist) {
-
+            
             if (registerView.getVisibility() == View.VISIBLE) {
                 loginView.setVisibility(View.VISIBLE);
                 registerView.setVisibility(View.GONE);
             }
-
+            
         } else if (view.getId() == R.id.btnLogin) {
             login = true;
             login();
-
+            
         } else if (view.getId() == R.id.btnRegister) {
             login = false;
             register();
-
+            
         }
     }
-
+    
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-
+        
         int i = parent.getId();
         if (i == R.id.spinnerGender) {//1= man,2=woman
             gender_id = pos;
@@ -248,19 +248,19 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             majer_id = pos;
         }
     }
-
+    
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
+    
     }
-
+    
     @Override
     public void onCheckNetwork(boolean flag) {
         if (!flag && !showNoInternetDialog) {
             showDialog();
         }
     }
-
+    
     private void login() {
         if (edtPhone.getText().length() == 0) {
             edtPhone.setError(getResources().getString(R.string.empty_phone));
@@ -279,7 +279,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             edtNathonalCode.setError(nationalCode.getMessage());
             return;
         }
-
+        
         //checked
         if (!Utils.isConnected()) {
             showDialog();
@@ -290,7 +290,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         user.setPassword(edtNathonalCode.getText().toString().trim().toLowerCase());
         getLoginInfo(user);
     }
-
+    
     private void register() {
         if (Objects.requireNonNull(edtPhoneReg.getText()).length() == 0) {
             edtPhoneReg.setError(getResources().getString(R.string.empty_phone));
@@ -304,7 +304,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             edtNationalCodeReg.setError(getResources().getString(R.string.empty_personal_code));
             return;
         }
-
+        
         nationalCode.check(edtNationalCodeReg.getText().toString());
         if (!nationalCode.isValid()) {
             edtNationalCodeReg.setError(nationalCode.getMessage());
@@ -335,7 +335,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             toastShow("رشته انتخاب شود " + majer_id, MDToast.TYPE_ERROR);
             return;
         }
-
+        
         //checked
         if (!Utils.isConnected()) {
             showDialog();
@@ -351,7 +351,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         user.setMajor_id(majer_id);
         getLoginInfo(user);
     }
-
+    
     public void showDialog() {
         final Dialog d = new Dialog(new ContextThemeWrapper(AuthenticatorActivity.this,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth));
@@ -361,11 +361,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
         showNoInternetDialog = true;
         Button    btnOK    = d.findViewById(R.id.btnOK);
         ImageView imgCLose = d.findViewById(R.id.imgCLose);
-
+        
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                
                 if (login)
                     login();
                 else
@@ -381,7 +381,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
                 d.dismiss();
             }
         });
-
+        
         try {
             d.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             d.show();
@@ -390,6 +390,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
             Log.e(TAG, ex.getMessage());
             ex.printStackTrace();
         }
-
+        
     }
 }

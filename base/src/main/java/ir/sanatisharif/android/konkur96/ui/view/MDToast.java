@@ -21,19 +21,19 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
  */
 
 public class MDToast extends Toast {
-
+    
     public static final int TYPE_INFO    = 0;
     public static final int TYPE_SUCCESS = 1;
     public static final int TYPE_WARNING = 2;
     public static final int TYPE_ERROR   = 3;
-
+    
     public static int LENGTH_LONG  = Toast.LENGTH_LONG;
     public static int LENGTH_SHORT = Toast.LENGTH_SHORT;
-
+    
     private Context mContext;
     private View    mView;
     private int     mType;
-
+    
     /**
      * Construct an empty Toast object.  You must call {@link #setView} before you
      * can call {@link #show}.
@@ -45,27 +45,27 @@ public class MDToast extends Toast {
         super(context);
         mContext = context;
     }
-
+    
     public static MDToast makeText(Context context, String message) {
         return makeText(context, message, LENGTH_SHORT, TYPE_INFO);
     }
-
+    
     public static MDToast makeText(Context context, String message, int duration) {
         return makeText(context, message, duration, TYPE_INFO);
     }
-
+    
     public static MDToast makeText(Context context, String message, int duration, int type) {
         MDToast mdToast = new MDToast(context.getApplicationContext());
-
+        
         LayoutInflater
                 inflater =
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View    view     = inflater.inflate(R.layout.custom_toast_container, null);
-
+        View view = inflater.inflate(R.layout.custom_toast_container, null);
+        
         ImageView icon = view.findViewById(R.id.icon);
         TextView  text = view.findViewById(R.id.text);
         text.setTypeface(AppConfig.fontIRSensNumber);
-
+        
         switch (type) {
             case TYPE_SUCCESS:
                 icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_check_circle_white_24dp));
@@ -94,21 +94,21 @@ public class MDToast extends Toast {
                 } else view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorInfo));
                 break;
         }
-
+        
         text.setText(message);
         //mdToast.setDuration(duration);
         mdToast.setView(view);
-
+        
         mdToast.mView = view;
         mdToast.mType = type;
         return mdToast;
     }
-
+    
     @Override
     public void setText(@StringRes int resId) {
         setText(mContext.getString(resId));
     }
-
+    
     @Override
     public void setText(CharSequence s) {
         if (mView == null) {
@@ -120,7 +120,7 @@ public class MDToast extends Toast {
         }
         tv.setText(s);
     }
-
+    
     /**
      * SetModel the icon resource id to display in the MD toast.
      *
@@ -129,7 +129,7 @@ public class MDToast extends Toast {
     public void setIcon(@DrawableRes int iconId) {
         setIcon(ContextCompat.getDrawable(mContext, iconId));
     }
-
+    
     /**
      * SetModel the icon to display in the MD toast.
      *
@@ -145,14 +145,14 @@ public class MDToast extends Toast {
         }
         iv.setImageDrawable(icon);
     }
-
+    
     /**
      * @return the type of MDToast which is actual used.
      */
     public int getType() {
         return mType;
     }
-
+    
     /**
      * SetModel the type of the MDToast.
      *

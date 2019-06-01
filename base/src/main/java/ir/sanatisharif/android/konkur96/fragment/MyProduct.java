@@ -38,56 +38,56 @@ import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
 public class MyProduct extends Fragment {
-
+    
     private RecyclerView        productMainRecyclerView;
     private TextView            txtWallet;
     private LinearLayoutManager linearLayoutManager;
-
+    
     private Repository  repository;
     private AccountInfo accountInfo;
     private User        user;
-
+    
     private MyProductAdapter        adapter;
     private ArrayList<ProductModel> items = new ArrayList<>();
-
+    
     private myProductsModel myProductsModel;
     private Context         mContext;
     private Activity        mActivity;
-
+    
     public static MyProduct newInstance() {
-
+        
         Bundle args = new Bundle();
-
+        
         MyProduct fragment = new MyProduct();
         fragment.setArguments(args);
         return fragment;
     }
-
+    
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_myproduct, container, false);
     }
-
+    
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        
         accountInfo = new AccountInfo(getContext(), getActivity());
         user = accountInfo.getInfo(ACCOUNT_TYPE);
         mActivity = getActivity();
         repository = new RepositoryImpl(mActivity);
         mContext = getContext();
-
+        
         initView(view);
         getData();
-
+        
     }
-
+    
     private void initView(View v) {
-
+        
         txtWallet = v.findViewById(R.id.txt_wallet);
-
+        
         //recyclerView
         productMainRecyclerView = v.findViewById(R.id.recyclerView_main_bought);
         productMainRecyclerView.setNestedScrollingEnabled(false);
@@ -97,14 +97,14 @@ public class MyProduct extends Fragment {
         adapter = new MyProductAdapter(getContext(), items);
         productMainRecyclerView.setAdapter(adapter);
         productMainRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
+        
     }
-
-
+    
+    
     private void getData() {
-
+        
         adapter.setItems(new ArrayList<>());
-
+        
         AuthToken.getInstant().get(mContext, mActivity, new AuthToken.Callback() {
             @Override
             public void run(@NonNull String token) {
@@ -115,7 +115,7 @@ public class MyProduct extends Fragment {
                             @Override
                             public void run() {
                                 try {
-
+                                    
                                     ir.sanatisharif.android.konkur96.api.Models.myProductsModel
                                             value =
                                             (myProductsModel) ((Result.Success) data).value;
@@ -139,32 +139,32 @@ public class MyProduct extends Fragment {
                     }
                 });
             }
-
+            
             @Override
             public void nill() {
                 startActivity(new Intent(mActivity, AuthenticatorActivity.class));
             }
         });
     }
-
+    
     private void setData(@NonNull myProductsModel data) {
-
-        Gson        gson        = new Gson();
+        
+        Gson gson = new Gson();
         WalletModel
-                    walletModel =
+                walletModel =
                 gson.fromJson(String.valueOf(user.getInfo().getWallet()).replace("[", "").replace("]", ""), WalletModel.class);
-
-
+        
+        
         //---------------------- set mainModel data ---------------------------------------------
         myProductsModel = data;
-
-
+        
+        
         String tempBlance = String.valueOf((int) Float.parseFloat(walletModel.getBlance()));
-
+        
         String walletText = tempBlance + getString(R.string.toman);
         txtWallet.setText(walletText);
-
+        
         adapter.setItems(data.getData().get(0).getProducts());
     }
-
+    
 }

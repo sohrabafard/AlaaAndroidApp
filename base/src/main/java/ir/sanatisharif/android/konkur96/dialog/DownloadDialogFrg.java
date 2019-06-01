@@ -43,7 +43,7 @@ import ir.sanatisharif.android.konkur96.utils.Utils;
  */
 
 public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
-
+    
     //------init UI
     private static final String                   TAG            = "Alaa\\DownloadDialogFrg";
     private static final String[]
@@ -57,7 +57,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     private              TextView                 txtCancel;
     private              RadioGroup               radioGroup;
     private              RadioButton              radioExcellentQuality;
-
+    
     private Context           mContext;
     //------
     private RadioButton       radioHighQuality;
@@ -65,7 +65,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
     private View              dialog;
     private SharedPreferences sharedPreferences;
     private DownloadComplete  downloadComplete;
-
+    
     //---------------------------------------------------------------------------------------
     public static boolean hasPermissions(Context context, String... permissions) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null &&
@@ -79,19 +79,19 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         }
         return true;
     }
-
+    
     public DownloadDialogFrg setData(List<FileDiskModel> v, String t, boolean free) {
         fileDiskModels.addAll(v);
         title = t;
         isFree = free;
         return this;
     }
-
+    
     public DownloadDialogFrg setComplete(DownloadComplete downloadComplete) {
         this.downloadComplete = downloadComplete;
         return this;
     }
-
+    
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,41 +104,41 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_DeviceDefault);
         }
     }
-
+    
     @Override
     public void onDestroy() {
         super.onDestroy();
         fileDiskModels.clear();
     }
-
+    
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
+        
         dialog = inflater.inflate(R.layout.download_bottom_sheet, container, false);
-
+        
         return dialog;
     }
     // ----- get Permission
-
+    
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        
         txtDownload = dialog.findViewById(R.id.txtDownload);
         txtCancel = dialog.findViewById(R.id.txtCancel);
-
+        
         radioGroup = dialog.findViewById(R.id.radioGroup);
         radioExcellentQuality = dialog.findViewById(R.id.radioExcellentQuality);
         radioHighQuality = dialog.findViewById(R.id.radioHighQuality);
         radioMediumQuality = dialog.findViewById(R.id.radioMediumQuality);
-
+        
         ripple(txtDownload, 4);
         ripple(txtCancel, 4);
-
+        
         if (fileDiskModels.size() == 1) {
             radioExcellentQuality.setText(toString(fileDiskModels.get(0).getCaption(), fileDiskModels.get(0).getRes()));
             radioHighQuality.setVisibility(View.GONE);
@@ -152,10 +152,10 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             radioHighQuality.setText(toString(fileDiskModels.get(1).getCaption(), fileDiskModels.get(1).getRes()));
             radioMediumQuality.setText(toString(fileDiskModels.get(2).getCaption(), fileDiskModels.get(2).getRes()));
         }
-
-
+        
+        
         String pref = sharedPreferences.getString(getString(R.string.player_quality), "240");
-
+        
         if (pref.contains("720")) {
             radioExcellentQuality.setChecked(true);
         } else if (pref.contains("hq")) {
@@ -163,17 +163,17 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         } else if (pref.contains("240")) {
             radioMediumQuality.setChecked(true);
         }
-
+        
         setOnClickListenerForDialogViews();
     }
-
+    
     private void setOnClickListenerForDialogViews() {
         radioGroup.setOnCheckedChangeListener((radioGroup, i) -> txtDownload.setEnabled(true));
-
+        
         txtDownload.setOnClickListener(getTxtDownloadListener());
         txtCancel.setOnClickListener(view1 -> dismiss());
     }
-
+    
     @NonNull
     private View.OnClickListener getTxtDownloadListener() {
         return new View.OnClickListener() {
@@ -184,7 +184,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                     dismiss();
                 }
             }
-
+            
             private void downloadPreProcess() {
                 String link = getLinkString();
                 if (link != null) {
@@ -201,7 +201,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                                     Log.e(TAG, e.getMessage());
                                 }
                             }
-
+                            
                             @Override
                             public void error(String message) {
                                 Log.e(TAG, "link: " + link + "\n\n" +
@@ -211,7 +211,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                     }
                 }
             }
-
+            
             private String getLinkString() {
                 String link, l0, l1, l2;
                 link = l0 = l1 = l2 = null;
@@ -255,15 +255,15 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
                 }
                 return link;
             }
-
-
+            
+            
         };
     }
-
+    
     private boolean checkLocationPermission() {
-
+        
         boolean has = hasPermissions(mContext, PERMISSIONS);
-
+        
         if (!has) {
             ActivityCompat.requestPermissions(AppConfig.currentActivity, PERMISSIONS, PERMISSION_ALL);
         } else {
@@ -271,26 +271,26 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
         }
         return false;
     }
-
+    
     private void createDir(String url, String title) {
-
+        
         String mediaPath = FileManager.getPathFromAllaUrl(url);
         File   file      = new File(FileManager.getRootPath() + mediaPath);
         String fileName  = FileManager.getFileNameFromUrl(url);
-
+        
         if (file.exists()) {
             startDL(url, title, mediaPath, fileName, file);
         } else if (file.mkdirs()) {
             startDL(url, title, mediaPath, fileName, file);
         }
     }
-
+    
     private void startDL(String url, String title, String mediaPath, String fileName, final File f) {
-
+        
         if (sharedPreferences.getBoolean(mContext.getString(R.string.setting_external_download), true)) {
             Log.i(TAG, "startDL-internal");
             DownloadFile.getInstance().init(() -> {
-
+                
                 if (downloadComplete != null) {
                     downloadComplete.complete();
                 }
@@ -303,7 +303,7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DownloadDialogFrg> {
             Utils.loadUrl(url, mContext);
         }
     }
-
+    
     public String toString(String caption, String title) {
         return String.format("%s - %s", caption, title);
     }

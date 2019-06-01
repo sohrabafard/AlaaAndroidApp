@@ -23,24 +23,24 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ARG_AUTH_TYPE;
  */
 
 public class AllaAuthenticator extends AbstractAccountAuthenticator {
-
+    
     private String  TAG = "AlaaAuthenticator";
     private Context mContext;
     private String  authToken;
-
+    
     public AllaAuthenticator(Context context) {
         super(context);
         mContext = context;
     }
-
+    
     @Override
     public Bundle editProperties(AccountAuthenticatorResponse accountAuthenticatorResponse, String s) {
         return null;
     }
-
+    
     @Override
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
-
+        
         final Intent intent = new Intent(mContext, AuthenticatorActivity.class);
         intent.putExtra(ARG_ACCOUNT_TYPE, accountType);
         intent.putExtra(ARG_AUTH_TYPE, authTokenType);
@@ -49,29 +49,29 @@ public class AllaAuthenticator extends AbstractAccountAuthenticator {
         b.putParcelable(AccountManager.KEY_INTENT, intent);
         return b;
     }
-
+    
     @Override
     public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, Bundle bundle) throws NetworkErrorException {
         return null;
     }
-
+    
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options) throws NetworkErrorException {
-
+        
         // Extract the username and password from the Account Manager, and ask
         // the server for an appropriate AuthToken.
         final AccountManager am = AccountManager.get(mContext);
-
+        
         authToken = am.peekAuthToken(account, authTokenType);
-
+        
         // Log.d("udinic", TAG + "> peekAuthToken returned - " + authToken);
-
+        
         // Lets give another try to authenticate the user
         if (TextUtils.isEmpty(authToken)) {
             final String password = am.getPassword(account);
             if (password != null) {
                 try {
-
+                    
                     authToken = MyPreferenceManager.getInatanse().getApiToken();
                     AppConfig.HANDLER.postDelayed(new Runnable() {
                         @Override
@@ -85,8 +85,8 @@ public class AllaAuthenticator extends AbstractAccountAuthenticator {
                 }
             }
         }
-
-
+        
+        
         // If we get an authToken - we return it
         if (!TextUtils.isEmpty(authToken)) {
             final Bundle result = new Bundle();
@@ -96,7 +96,7 @@ public class AllaAuthenticator extends AbstractAccountAuthenticator {
             // Log.i(TAG, "getAuthToken: " + authToken + " " + authTokenType);
             return result;
         }
-
+        
         // If we get here, then we couldn't access the user's password - so we
         // need to re-prompt them for their credentials. We do that by creating
         // an intent to display our AuthenticatorActivity.
@@ -107,21 +107,21 @@ public class AllaAuthenticator extends AbstractAccountAuthenticator {
         intent.putExtra(ARG_ACCOUNT_NAME, account.name);
         final Bundle bundle = new Bundle();
         bundle.putParcelable(AccountManager.KEY_INTENT, intent);
-
-
+        
+        
         return bundle;
     }
-
+    
     @Override
     public String getAuthTokenLabel(String s) {
         return "Full";
     }
-
+    
     @Override
     public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String s, Bundle bundle) throws NetworkErrorException {
         return null;
     }
-
+    
     @Override
     public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String[] strings) throws NetworkErrorException {
         final Bundle result = new Bundle();

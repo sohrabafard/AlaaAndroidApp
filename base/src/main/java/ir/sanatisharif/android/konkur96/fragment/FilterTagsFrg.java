@@ -34,6 +34,7 @@ import java.util.Objects;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.MyFilterPagerAdapter;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.dialog.FilterCoursesDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
@@ -43,7 +44,6 @@ import ir.sanatisharif.android.konkur96.listener.ScrollOnRecycler;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.Events;
 import ir.sanatisharif.android.konkur96.model.TabControl;
-import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
 
 /**
  * Created by Mohamad on 10/13/2018.
@@ -53,7 +53,7 @@ public class FilterTagsFrg extends BaseFragment implements
         View.OnClickListener,
         SwipeRefreshLayout.OnRefreshListener,
         ICheckNetwork, ScrollOnRecycler {
-
+    
     private static final int                       NUMBER_TABS = 5;
     private static final int                       SET         = 0;
     private static final int                       PRODUCT     = 1;
@@ -70,15 +70,15 @@ public class FilterTagsFrg extends BaseFragment implements
     private              TabLayout                 tabLayout;
     private              FrameLayout               frameViewPager;
     private              FloatingActionButton      fabFilter;
-
+    
     private LinearLayout   loaderParent;
     private ProgressBar    loader;
     private ViewPager      viewPager;
     private List<String>   params;
     private MainRepository repository;
-
+    
     public static FilterTagsFrg newInstance(String url, ArrayList<String> tags) {
-
+        
         Bundle args = new Bundle();
         args.putString("url", url);
         args.putStringArrayList("tags", tags);
@@ -86,26 +86,26 @@ public class FilterTagsFrg extends BaseFragment implements
         fragment.setArguments(args);
         return fragment;
     }
-
+    
     @Override
     public void onResume() {
         super.onResume();
         AppConfig.mInstance.setICheckNetwork(this);
     }
-
+    
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_tags_filter, container, false);
     }
-
+    
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        
         repository = new MainRepository(Objects.requireNonNull(getActivity()));
         setTabContent();
         initView(view);
-
+        
         params = new ArrayList<>();
         if (getArguments().getString("url") != null)
             getDataByUrl();
@@ -114,7 +114,7 @@ public class FilterTagsFrg extends BaseFragment implements
             getDataByList();
         }
     }
-
+    
     private void setTabContent() {
         tabControls = new TabControl[]{
                 new TabControl(SET, "set", "دروس", R.drawable.is_play_list, false),
@@ -124,29 +124,29 @@ public class FilterTagsFrg extends BaseFragment implements
                 new TabControl(ARTICLE, "article", "مقاله", R.drawable.ic_article_32, false)
         };
     }
-
+    
     @Override
     public void onDestroy() {
         super.onDestroy();
         DetailsVideoFrg.pagination = null;
     }
-
-
+    
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        
         if (item.getItemId() == android.R.id.home) {
             Events.CloseFragment closeFragment = new Events.CloseFragment();
             closeFragment.setTagFragments("");
             EventBus.getDefault().post(closeFragment);
         }
-
+        
         return super.onOptionsItemSelected(item);
     }
-
-
+    
+    
     private void initView(View view) {
-
+        
         setHasOptionsMenu(true);
         root = view.findViewById(R.id.root);
         fabFilter = view.findViewById(R.id.fabFilter);
@@ -160,12 +160,12 @@ public class FilterTagsFrg extends BaseFragment implements
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
         txtToolbarTitle = mToolbar.findViewById(R.id.txtToolbarTitle);
         txtToolbarTitle.setText("");
-
+        
         loaderParent = view.findViewById(R.id.loaderParent);
         loader = view.findViewById(R.id.loader);
         AppConfig.getInstance().changeProgressColor(loader);
         fabFilter.setOnClickListener(this);
-
+        
         //view pager
         viewPager = view.findViewById(R.id.viewpager);
         tabLayout = view.findViewById(R.id.tabLayout);
@@ -176,7 +176,7 @@ public class FilterTagsFrg extends BaseFragment implements
         //---
         tabLayout.setVisibility(View.GONE);
         viewPager.animate().translationY(0);
-
+        
         //binding
         filterShowEntityFrgArrayList = new ArrayList<>();
         myFilterAdapter =
@@ -184,11 +184,11 @@ public class FilterTagsFrg extends BaseFragment implements
         viewPager.setAdapter(myFilterAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
-
+    
     private void setupViewPager(ViewPager viewPager, FilterModel filter) {
-
+        
         int tabCount = 0, selected_first_index = -1;
-
+        
         //reset
         for (TabControl t : tabControls) {
             t.setShow(false);
@@ -213,7 +213,7 @@ public class FilterTagsFrg extends BaseFragment implements
             tabControls[PRODUCT].setShow(true);
             // Log.i("LOG", "setupViewPager:getProduct  " + PRODUCT + " " + tabControls[PRODUCT].isShow());
         }
-
+        
         //new instantiate and adding to viewpager
         filterShowEntityFrgArrayList.clear();
         for (int i = 0; i < NUMBER_TABS; i++) {
@@ -224,7 +224,7 @@ public class FilterTagsFrg extends BaseFragment implements
             }
         }
         myFilterAdapter.notifyDataSetChanged();
-
+        
         for (int i = 0; i < NUMBER_TABS; i++) {
             if (tabControls[i].isShow()) {
                 TabLayout.Tab tab = tabLayout.getTabAt(tabCount++);
@@ -238,8 +238,8 @@ public class FilterTagsFrg extends BaseFragment implements
             txtToolbarTitle.setText(tabControls[selected_first_index].getTitle());
             tabLayout.getTabAt(0).getIcon().setAlpha(255);
         }
-
-
+        
+        
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -248,36 +248,36 @@ public class FilterTagsFrg extends BaseFragment implements
                     tab.getIcon().setAlpha(255);
                 }
             }
-
+            
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 if (tab.getIcon() != null)
                     tab.getIcon().setAlpha(100);
             }
-
+            
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+            
             }
         });
-
+        
         showTab();
-
+        
     }
-
+    
     //<editor-fold desc="getDataBySearch">
     private void getDataBySearch(String query) {
-
+        
         loaderParent.setVisibility(View.VISIBLE);
-
+        
         repository.getFilterBySearchCall(query, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
-
+                
                 mapToViewpager(obj);
                 loaderParent.setVisibility(View.GONE);
             }
-
+            
             @Override
             public void onFailure(String message) {
                 loaderParent.setVisibility(View.GONE);
@@ -285,52 +285,52 @@ public class FilterTagsFrg extends BaseFragment implements
         });
     }
     //</editor-fold>
-
+    
     private void getDataByUrl() {
-
+        
         loaderParent.setVisibility(View.VISIBLE);
-
+        
         repository.getFilterTagsByUrl(getArguments().getString("url"), new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
-
+                
                 mapToViewpager(obj);
                 loaderParent.setVisibility(View.GONE);
             }
-
+            
             @Override
             public void onFailure(String message) {
                 loaderParent.setVisibility(View.GONE);
             }
         });
     }
-
+    
     private void getDataByList() {
-
+        
         loaderParent.setVisibility(View.VISIBLE);
-
+        
         repository.getFilterTagsByList(params, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
-
+                
                 mapToViewpager(obj);
                 loaderParent.setVisibility(View.GONE);
             }
-
+            
             @Override
             public void onFailure(String message) {
                 loaderParent.setVisibility(View.GONE);
             }
         });
     }
-
+    
     private void mapToViewpager(Object obj) {
-
+        
         FilterModel filter = (FilterModel) obj;
-
+        
         setupViewPager(viewPager, filter);
         int tabCount = 0;
-
+        
         if (filter.getResult().getSet() != null) {
             filterShowEntityFrgArrayList.get(tabCount++).setDataModels(filter.getResult().getSet());
         }
@@ -347,9 +347,9 @@ public class FilterTagsFrg extends BaseFragment implements
             filterShowEntityFrgArrayList.get(tabCount++).setDataModels(filter.getResult().getArticle());
         }
     }
-
+    
     private void showTab() {
-
+        
         tabLayout
                 .animate()
                 .alpha(1)
@@ -358,27 +358,27 @@ public class FilterTagsFrg extends BaseFragment implements
                 .setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animator) {
-
+                    
                     }
-
+                    
                     @Override
                     public void onAnimationEnd(Animator animator) {
                         tabLayout.setVisibility(View.VISIBLE);
                         viewPager.animate().translationY(0);
                     }
-
+                    
                     @Override
                     public void onAnimationCancel(Animator animator) {
-
+                    
                     }
-
+                    
                     @Override
                     public void onAnimationRepeat(Animator animator) {
-
+                    
                     }
                 }).start();
     }
-
+    
     private void hideTab() {
         tabLayout
                 .animate()
@@ -388,27 +388,27 @@ public class FilterTagsFrg extends BaseFragment implements
                 .setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animator) {
-
+                    
                     }
-
+                    
                     @Override
                     public void onAnimationEnd(Animator animator) {
                         tabLayout.setVisibility(View.GONE);
                         viewPager.animate().translationY(0);
                     }
-
+                    
                     @Override
                     public void onAnimationCancel(Animator animator) {
-
+                    
                     }
-
+                    
                     @Override
                     public void onAnimationRepeat(Animator animator) {
-
+                    
                     }
                 });
     }
-
+    
     public FragmentManager getHostFragmentManager() {
         FragmentManager fm = getFragmentManager();
         if (fm == null && isAdded()) {
@@ -416,7 +416,7 @@ public class FilterTagsFrg extends BaseFragment implements
         }
         return fm;
     }
-
+    
     private void showNotInternetDialogFrg() {
         try {
             if (!AppConfig.showNoInternetDialog) {
@@ -435,14 +435,14 @@ public class FilterTagsFrg extends BaseFragment implements
             ex.printStackTrace();
         }
     }
-
+    
     @Override
     public void onClick(View view) {
-
+        
         new FilterCoursesDialogFrg().setFilterSelectedCallback(new FilterCoursesDialogFrg.FilterSelectedCallback() {
             @Override
             public void onList(List<String> filters) {
-
+                
                 if (filters != null) {
                     //checked and remove
                     params = filters;
@@ -451,30 +451,30 @@ public class FilterTagsFrg extends BaseFragment implements
             }
         }).show(getFragmentManager(), "FilterCoursesDialogFrg");
     }
-
+    
     @Override
     public void scrollUp() {
         if (fabFilter.getVisibility() == View.VISIBLE)
             fabFilter.hide();
     }
-
+    
     @Override
     public void scrollDown() {
         if (fabFilter.getVisibility() == View.GONE)
             fabFilter.show();
     }
-
+    
     @Override
     public void onCheckNetwork(boolean flag) {
         if (!flag)//if false
             showNotInternetDialogFrg();
     }
-
+    
     @Override
     public void onRefresh() {
-
+    
     }
-
+    
 }
 
 

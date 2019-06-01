@@ -7,13 +7,13 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class GrandModel implements Parcelable {
-
+    
     public static final Creator<GrandModel> CREATOR = new Creator<GrandModel>() {
         @Override
         public GrandModel createFromParcel(Parcel in) {
             return new GrandModel(in);
         }
-
+        
         @Override
         public GrandModel[] newArray(int size) {
             return new GrandModel[size];
@@ -32,7 +32,7 @@ public class GrandModel implements Parcelable {
     @SerializedName("attributes")
     @Expose
     private             AttributesModel     attributes;
-
+    
     protected GrandModel(Parcel in) {
         id = in.readInt();
         name = in.readString();
@@ -41,7 +41,7 @@ public class GrandModel implements Parcelable {
         photo = in.readString();
         attributes = in.readParcelable(AttributesModel.class.getClassLoader());
     }
-
+    
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
@@ -51,7 +51,7 @@ public class GrandModel implements Parcelable {
         dest.writeString(photo);
         dest.writeParcelable(attributes, flags);
     }
-
+    
     @Override
     public int describeContents() {
         return 0;

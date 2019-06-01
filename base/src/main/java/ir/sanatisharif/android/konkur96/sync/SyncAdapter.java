@@ -17,26 +17,26 @@ import java.io.IOException;
  */
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
-
+    
     private AccountManager mAccountManager;
-
-
+    
+    
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-
+        
         mAccountManager = AccountManager.get(context);
     }
-
+    
     public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
-
-
+        
+        
         mAccountManager = AccountManager.get(context);
     }
-
+    
     @Override
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
-
+        
         try {
             String authToken = mAccountManager.blockingGetAuthToken(account, "sd", true);
         }
@@ -49,6 +49,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         catch (AuthenticatorException e) {
             e.printStackTrace();
         }
-
+        
     }
 }

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 public class PaymentVerificationResponse implements Parcelable {
-
+    
     public static final Creator<PaymentVerificationResponse>
                             CREATOR =
             new Creator<PaymentVerificationResponse>() {
@@ -14,7 +14,7 @@ public class PaymentVerificationResponse implements Parcelable {
                 public PaymentVerificationResponse createFromParcel(Parcel in) {
                     return new PaymentVerificationResponse(in);
                 }
-
+                
                 @Override
                 public PaymentVerificationResponse[] newArray(int size) {
                     return new PaymentVerificationResponse[size];
@@ -24,35 +24,35 @@ public class PaymentVerificationResponse implements Parcelable {
     private             int Status;
     @SerializedName("RefID")
     private             int RefID;
-
+    
     protected PaymentVerificationResponse(Parcel in) {
         Status = in.readInt();
         RefID = in.readInt();
     }
-
+    
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(Status);
         dest.writeInt(RefID);
     }
-
+    
     @Override
     public int describeContents() {
         return 0;
     }
-
+    
     public int getStatus() {
         return Status;
     }
-
+    
     public void setStatus(int status) {
         Status = status;
     }
-
+    
     public int getRefID() {
         return RefID;
     }
-
+    
     public void setRefID(int refID) {
         RefID = refID;
     }

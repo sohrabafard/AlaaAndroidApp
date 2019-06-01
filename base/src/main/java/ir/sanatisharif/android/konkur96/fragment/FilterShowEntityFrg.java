@@ -24,6 +24,9 @@ import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.adapter.FilterAdapter;
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.api.Models.PaginationDataModel;
+import ir.sanatisharif.android.konkur96.api.Models.PaginationModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.NotInternetDialogFrg;
@@ -31,9 +34,6 @@ import ir.sanatisharif.android.konkur96.handler.MainRepository;
 import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
 import ir.sanatisharif.android.konkur96.listener.ScrollOnRecycler;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
-import ir.sanatisharif.android.konkur96.api.Models.PaginationModel;
-import ir.sanatisharif.android.konkur96.api.Models.filter.FilterBaseModel;
-import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
 
 
 /**
@@ -41,7 +41,7 @@ import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
  */
 
 public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
-
+    
     private RecyclerView                                   myRecyclerView;
     private NestedScrollView                               nestedScrollView;
     private FilterAdapter                                  adapter;
@@ -51,28 +51,28 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
     private boolean                                        repeatLoad = true;
     private ScrollOnRecycler                               scrollOnRecycler;
     private MainRepository                                 repository;
-
+    
     public static FilterShowEntityFrg newInstance() {
-
+        
         Bundle              args     = new Bundle();
         FilterShowEntityFrg fragment = new FilterShowEntityFrg();
         fragment.setArguments(args);
         return fragment;
     }
-
+    
     @Override
     public void onResume() {
         super.onResume();
         AppConfig.mInstance.setICheckNetwork(this);
     }
-
+    
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (repository == null)
             repository = new MainRepository(Objects.requireNonNull(getActivity()));
         return inflater.inflate(R.layout.fragment_filter_video, container, false);
     }
-
+    
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -80,56 +80,56 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
             repository = new MainRepository(Objects.requireNonNull(getActivity()));
         initView(view);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        
         int id = item.getItemId();
-
+        
         switch (id) {
             case android.R.id.home:
                 break;
         }
-
+        
         return super.onOptionsItemSelected(item);
     }
-
+    
     private void initView(View v) {
-
+        
         LinearLayoutManager
                 manager =
                 new LinearLayoutManager(AppConfig.context, LinearLayoutManager.VERTICAL, false);
         myRecyclerView = v.findViewById(R.id.recyclerView);
         nestedScrollView = v.findViewById(R.id.nestedScrollView);
-
+        
         myRecyclerView.setNestedScrollingEnabled(false);
         myRecyclerView.setHasFixedSize(false);
         myRecyclerView.setLayoutManager(manager);
         adapter = new FilterAdapter(getContext(), mList);
-
+        
         myRecyclerView.setAdapter(adapter);
         myRecyclerView.setItemViewCacheSize(30);
         myRecyclerView.setDrawingCacheEnabled(true);
         myRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-
+        
         adapter.notifyDataSetChanged();
-
+        
         nestedScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
-
+                
                 int index = nestedScrollView.getChildCount() - 1;
                 if (index < 0)
                     index = 0;
                 View view = nestedScrollView.getChildAt(index);
                 int  i    = nestedScrollView.getHeight() + nestedScrollView.getScrollY();
                 int  diff = (view.getBottom() - i);
-
+                
                 if (diff == 0) {
-
+                    
                     if (pagination != null) {
                         String nextPageUrl = pagination.getNextPageUrl();
-
+                        
                         if (nextPageUrl != null) {
                             Log.i("Alaa\\FilterShowFrg", nextPageUrl);
                             getData(nextPageUrl);
@@ -148,27 +148,27 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
                 }
             }
         });
-
+        
     }
-
+    
     //<editor-fold desc="set data">
     public <T extends PaginationDataModel & FilterBaseModel> void setDataModels(PaginationModel<T> pagination) {
-
+        
         this.pagination = pagination;
-
+        
         try {
             DetailsVideoFrg.pagination = (PaginationModel<ContentModel>) pagination;
         }
         catch (ClassCastException ex) {
             DetailsVideoFrg.pagination = null;
         }
-
+        
         type = AppConstants.FILTER_VIDEO;
         mList.clear();
         mList.addAll(pagination.getData());
     }
     //</editor-fold>
-
+    
     //<editor-fold desc="get Data from server">
     void getData(String nextUrl) {
         //TODO: issue
@@ -199,7 +199,7 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
 //                adapter.notifyItemMoved(size, mList.size() - 1);
                 adapter.notifyItemRangeInserted(size, mList.size() - size);
             }
-
+            
             @Override
             public void onFailure(String message) {
                 // failLoadDialog();
@@ -208,12 +208,12 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
         });
     }
     //</editor-fold>
-
-
+    
+    
     public void setScrollOnRecycler(ScrollOnRecycler scrollOnRecycler) {
         this.scrollOnRecycler = scrollOnRecycler;
     }
-
+    
     public FragmentManager getHostFragmentManager() {
         FragmentManager fm = getFragmentManager();
         if (fm == null && isAdded()) {
@@ -221,9 +221,9 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
         }
         return fm;
     }
-
+    
     void show() {
-
+        
         try {
             if (!AppConfig.showNoInternetDialog) {
                 final String nextUrl = pagination.getNextPageUrl();
@@ -243,9 +243,9 @@ public class FilterShowEntityFrg extends BaseFragment implements ICheckNetwork {
         catch (Exception ex) {
             ex.printStackTrace();
         }
-
+        
     }
-
+    
     @Override
     public void onCheckNetwork(boolean flag) {
         if (flag) {

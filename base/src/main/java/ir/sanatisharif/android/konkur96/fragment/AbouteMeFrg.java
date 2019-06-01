@@ -28,74 +28,74 @@ import ir.sanatisharif.android.konkur96.model.Events;
  */
 
 public class AbouteMeFrg extends BaseFragment {
-
+    
     private Toolbar   mToolbar;
     private ImageView imgTelegram, imgInstagram;
     private JustifiedTextView txtContentAboutMe;
-
+    
     public static AbouteMeFrg newInstance() {
-
+        
         Bundle args = new Bundle();
-
+        
         AbouteMeFrg fragment = new AbouteMeFrg();
         fragment.setArguments(args);
         return fragment;
     }
-
+    
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
-
+    
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_about_me, container, false);
     }
-
+    
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        
         initView(view);
-
+        
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        
         int id = item.getItemId();
-
+        
         switch (id) {
             case android.R.id.home:
-
+                
                 Events.CloseFragment closeFragment = new Events.CloseFragment();
                 closeFragment.setTagFragments("");
                 EventBus.getDefault().post(closeFragment);
                 break;
         }
-
+        
         return super.onOptionsItemSelected(item);
     }
-
+    
     private void initView(View view) {
-
+        
         setToolbar(mToolbar, getString(R.string.txt_aboute_alla));
-
+        
         txtContentAboutMe = view.findViewById(R.id.txtContentAboutMe);
         imgInstagram = view.findViewById(R.id.imgInstagram);
         imgTelegram = view.findViewById(R.id.imgTelegram);
-
+        
         txtContentAboutMe.setText(getString(R.string.aboutMe));
-
+        
         imgTelegram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                
                 final String  appName        = "org.telegram.messenger";
                 final boolean isAppInstalled = isAppAvailable(getContext(), appName);
-
+                
                 if (isAppInstalled) {
                     Intent
                             intent =
@@ -105,14 +105,14 @@ public class AbouteMeFrg extends BaseFragment {
                 }
             }
         });
-
+        
         imgInstagram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                
                 final String  appName        = "com.instagram.android";
                 final boolean isAppInstalled = isAppAvailable(getContext(), appName);
-
+                
                 if (isAppInstalled) {
                     Intent
                             intent =
@@ -123,7 +123,7 @@ public class AbouteMeFrg extends BaseFragment {
             }
         });
     }
-
+    
     public boolean isAppAvailable(Context context, String appName) {
         PackageManager pm = context.getPackageManager();
         try {

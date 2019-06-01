@@ -21,13 +21,13 @@ import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
 import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
 
 public class SplashActivity extends ActivityBase {
-
+    
     private String      TAG = "Alaa\\SplashActivity";
     private AccountInfo accountInfo;
     private ImageView   img1;
     private AlertDialog mAlertDialog;
     private boolean     mInvalidate;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +35,8 @@ public class SplashActivity extends ActivityBase {
         img1 = findViewById(R.id.img1);
         containerHeight(this);
         loadAnimation();
-
-
+        
+        
         if (InstantApps.isInstantApp(getApplicationContext())) {
             if (!MyPreferenceManager.getInatanse().getOnboarding()) {
                 MyPreferenceManager.getInatanse().setOnboarding(true);
@@ -47,9 +47,9 @@ public class SplashActivity extends ActivityBase {
                         finish();
                     }
                 }, 2000);
-
+                
             } else {
-
+                
                 AppConfig.HANDLER.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -64,19 +64,19 @@ public class SplashActivity extends ActivityBase {
                 AppConfig.HANDLER.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
+                        
                         startActivity(new Intent(SplashActivity.this, OnBoardingActivity.class));
                         finish();
                     }
                 }, 2000);
-
+                
             } else {
                 accountInfo = new AccountInfo(getApplicationContext(), this);
-
+                
                 AppConfig.HANDLER.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
+                        
                         if (accountInfo.ExistAccount(ACCOUNT_TYPE)) {
                             startActivity(new Intent(SplashActivity.this, MainActivity.class));
                         }
@@ -85,12 +85,12 @@ public class SplashActivity extends ActivityBase {
                 }, 1500);
             }
         }
-
-
+        
+        
         // Log.i(TAG, "onCreate: " + MyPreferenceManager.getInatanse().sendFirebaseToken());
-
+        
         if (MyPreferenceManager.getInatanse().getFirebaseToken().length() == 0) {
-
+            
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -98,17 +98,17 @@ public class SplashActivity extends ActivityBase {
                 }
             }).start();
         }
-
+        
         // ATTENTION: This was auto-generated to handle app links.
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         Uri    appLinkData   = appLinkIntent.getData();
     }
-
+    
     private void loadAnimation() {
-
+        
         SpringAnimation springAnim = new SpringAnimation(img1, SpringAnimation.TRANSLATION_Y, 0);
-
+        
         SpringForce springForce = new SpringForce();
         springForce.setFinalPosition(-(AppConfig.height / (float) 3));
         springForce.setStiffness(SpringForce.STIFFNESS_LOW);
@@ -117,7 +117,7 @@ public class SplashActivity extends ActivityBase {
         springAnim.setSpring(springForce);
         springAnim.start();
     }
-
+    
     private void retrieveToken() {
         Log.i(TAG, "onCreate: 2 ");
         // FirebaseApp.initializeApp(this);

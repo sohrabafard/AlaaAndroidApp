@@ -36,7 +36,7 @@ import ir.sanatisharif.android.konkur96.service.NetworkChangedReceiver;
 //        ReportField.LOGCAT}, mode = ReportingInteractionMode.SILENT)
 
 public class AppConfig extends Application {
-
+    
     //new
     public static final String         TAG     = AppConfig.class.getSimpleName();
     public static       AppConfig      mInstance;
@@ -58,25 +58,25 @@ public class AppConfig extends Application {
     private final AppComponent
                                       mAppComponent        =
             DaggerAppComponent.builder().apiModule(new ApiModule()).build();
-
+    
     public static synchronized AppConfig getInstance() {
         return mInstance;
     }
-
+    
     @Override
     public void onCreate() {
         super.onCreate();
-
+        
         Stetho.initializeWithDefaults(this);
-
+        
         Fabric.with(this, new Crashlytics());
         Crashlytics.setBool("InstantApp", InstantApps.isInstantApp(this));
-
+        
         mInstance = this;
         context = getApplicationContext();
         BASE_URL = getString(R.string.alla_url);
-
-
+        
+        
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(new CalligraphyInterceptor(
                         new CalligraphyConfig.Builder()
@@ -84,28 +84,28 @@ public class AppConfig extends Application {
                                 .setFontAttrId(R.attr.fontPath)
                                 .build()))
                 .build());
-
+        
         //init
         // sAnalytics = GoogleAnalytics.getInstance(this);
         layoutinflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Manager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-
+        
+        
         fontIRSensLight = Typeface.createFromAsset(getAssets(), "fonts/IRANSans(FaNum)_Light.ttf");
         fontIRSensNumber = Typeface.createFromAsset(getAssets(), "fonts/IRANSansMobile(FaNum).ttf");
-
+        
         sharedPreferencesSetting =
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
+        
         //check and create directories
         if (!FileManager.checkFileExist(FileManager.getRootPath())) {
-
+            
             FileManager.createRootDir();//create root dir
             FileManager.createAudioDir();//create audio dir
             FileManager.createPDFDir();//create pdf dir
         }
-
+        
         if (colorSwipeRefreshing == null)
             colorSwipeRefreshing = new int[]
                     {
@@ -115,15 +115,15 @@ public class AppConfig extends Application {
                             getResources().getColor(R.color.Monochromatic_4),
                             };
     }
-
+    
     public AppComponent getAppComponent() {
         return mAppComponent;
     }
-
+    
     public void setICheckNetwork(ICheckNetwork iCheckNetwork) {
         NetworkChangedReceiver.iCheckNetwork = iCheckNetwork;
     }
-
+    
     public void changeProgressColor(ProgressBar loader) {
         if (loader != null) {
             Drawable indeterminateDrawable = loader.getIndeterminateDrawable();
@@ -131,7 +131,7 @@ public class AppConfig extends Application {
                 indeterminateDrawable.setColorFilter(0xFFFFB700, android.graphics.PorterDuff.Mode.MULTIPLY);
         }
     }
-
+    
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

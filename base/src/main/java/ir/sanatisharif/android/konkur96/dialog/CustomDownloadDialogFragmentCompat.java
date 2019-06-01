@@ -15,12 +15,12 @@ import ir.sanatisharif.android.konkur96.R;
  */
 
 public class CustomDownloadDialogFragmentCompat extends PreferenceDialogFragmentCompat {
-
+    
     String[] playerValue;
     String[] playerEntry;
     private RadioGroup radioGroup;
     private String     value;
-
+    
     public static CustomDownloadDialogFragmentCompat newInstance(String key, String value) {
         final CustomDownloadDialogFragmentCompat
                 fragment = new CustomDownloadDialogFragmentCompat();
@@ -30,26 +30,26 @@ public class CustomDownloadDialogFragmentCompat extends PreferenceDialogFragment
         fragment.setArguments(b);
         return fragment;
     }
-
-
+    
+    
     @Override
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
-
+        
         playerValue = getResources().getStringArray(R.array.player_quality_value);
         playerEntry = getResources().getStringArray(R.array.player_quality_entries);
-
+        
         init(view, getArguments().getString("value"));
-
+        
     }
-
+    
     private void init(View view, String value) {
         radioGroup = view.findViewById(R.id.radioGroup);
-
+        
         ((RadioButton) radioGroup.getChildAt(0)).setText(playerEntry[0] + " - " + playerValue[0]);
         ((RadioButton) radioGroup.getChildAt(1)).setText(playerEntry[1] + " - " + playerValue[1]);
         ((RadioButton) radioGroup.getChildAt(2)).setText(playerEntry[2] + " - " + playerValue[2]);
-
+        
         if (value != null) {
             if (value.equals(playerValue[0])) {
                 ((RadioButton) radioGroup.getChildAt(0)).setChecked(true);
@@ -59,14 +59,14 @@ public class CustomDownloadDialogFragmentCompat extends PreferenceDialogFragment
                 ((RadioButton) radioGroup.getChildAt(2)).setChecked(true);
             }
         }
-
+        
     }
-
+    
     @Override
     public void onDialogClosed(boolean positiveResult) {
-
+        
         if (positiveResult) {
-
+            
             if (radioGroup.getCheckedRadioButtonId() == R.id.radioExcellentQuality) {
                 value = playerValue[0];
             } else if (radioGroup.getCheckedRadioButtonId() == R.id.radioHighQuality) {
@@ -74,7 +74,7 @@ public class CustomDownloadDialogFragmentCompat extends PreferenceDialogFragment
             } else if (radioGroup.getCheckedRadioButtonId() == R.id.radioMediumQuality) {
                 value = playerValue[2];
             }
-
+            
             // Save the value
             DialogPreference preference = getPreference();
             if (preference instanceof DialogPrefDownload) {
@@ -86,6 +86,6 @@ public class CustomDownloadDialogFragmentCompat extends PreferenceDialogFragment
                 }
             }
         }
-
+        
     }
 }

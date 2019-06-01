@@ -47,65 +47,65 @@ import ir.sanatisharif.android.konkur96.model.Events;
 public class AllaMainFrg extends BaseFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         ICheckNetwork {
-
+    
     private Toolbar            mToolbar;
     private RecyclerView       myRecyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-
-    private BlockAdapter     adapter;
+    
+    private BlockAdapter              adapter;
     private ArrayList<BlockDataModel> items = new ArrayList<>();
-    private MainRepository   repository;
-
+    private MainRepository            repository;
+    
     public static AllaMainFrg newInstance() {
-
+        
         Bundle      args     = new Bundle();
         AllaMainFrg fragment = new AllaMainFrg();
         fragment.setArguments(args);
         return fragment;
     }
-
+    
     @Override
     public void onResume() {
         super.onResume();
         AppConfig.mInstance.setICheckNetwork(this);
     }
-
+    
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_alla, container, false);
     }
-
+    
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         repository = new MainRepository(Objects.requireNonNull(getActivity()));
-
+        
         initView(view);
         getData();
     }
-
+    
     //<editor-fold desc="menu">
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        
         int id = item.getItemId();
-
-
+        
+        
         if (id == android.R.id.home) {
             Events.CloseFragment closeFragment = new Events.CloseFragment();
             closeFragment.setTagFragments("");
             EventBus.getDefault().post(closeFragment);
-
+            
         } else if (id == R.id.actionSetting) {
             startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
         } else if (id == R.id.actionSettingSupportBuy) {
-
+            
             MyAlertDialogFrg alert = new MyAlertDialogFrg();
             alert.getTxtCancel().setVisibility(View.GONE);
             alert.getTxtDownload().setText(getString(R.string.halleh));
@@ -117,7 +117,7 @@ public class AllaMainFrg extends BaseFragment implements
             String alaaTelegramUrl = "https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ";
             Intent intent          = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
             intent.setPackage("org.telegram.messenger");
-
+            
             try {
                 if (intent.resolveActivity(AppConfig.context.getPackageManager()) != null) {
                     startActivity(intent);
@@ -129,16 +129,16 @@ public class AllaMainFrg extends BaseFragment implements
             catch (Exception ex) {
                 Toast.makeText(AppConfig.context, "@alaa_sanatisharif", Toast.LENGTH_LONG).show();
             }
-
+            
         }
-
+        
         return super.onOptionsItemSelected(item);
     }
     //</editor-fold>
-
+    
     //<editor-fold desc="initView">
     private void initView(View v) {
-
+        
         //recyclerView
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
@@ -149,36 +149,36 @@ public class AllaMainFrg extends BaseFragment implements
         adapter = new BlockAdapter(AppConfig.context, items);
         adapter.setSize(AppConfig.width, AppConfig.height);
         myRecyclerView.setAdapter(adapter);
-
+        
         setHasOptionsMenu(true);
         setToolbar(mToolbar, "آلاء مجری توسعه عدالت آموزشی");
-
+        
         //listener
         swipeRefreshLayout.setOnRefreshListener(this);
-
+        
     }
     //</editor-fold>
-
+    
     //<editor-fold desc="get data from server">
     private void getData() {
-
+        
         items.clear();
         adapter.notifyDataSetChanged();
-
+        
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
-
+        
         repository.mainPages(new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
                 mapData((MainModel) obj);
                 swipeRefreshLayout.setRefreshing(false);
             }
-
+            
             @Override
             public void onFailure(String message) {
                 Log.i("LOG", "onFailure1: fai");
@@ -187,21 +187,21 @@ public class AllaMainFrg extends BaseFragment implements
         });
     }
     //</editor-fold>
-
+    
     //<editor-fold desc="data mapping to list">
     private void mapData(MainModel mainPagesInfo) {
-
+        
         //sliders
         BlockDataModel item = new BlockDataModel();
         item.setType(AppConstants.ITEM_SLIDER);
         item.setBanners(mainPagesInfo.getMainBanner());
         items.add(item);
-
+        
         //sets - contents- products- banners
         for (int i = 0; i < mainPagesInfo.getBlock().getData().size(); i++) {
-
+            
             BlockDataModel block = mainPagesInfo.getBlock().getData().get(i);
-
+            
             item = new BlockDataModel();
             item.setId(block.getId());
             item.setTitle(block.getTitle());
@@ -209,7 +209,7 @@ public class AllaMainFrg extends BaseFragment implements
             item.setOffer(block.isOffer());
             item.setType(AppConstants.HEADER_DATA);
             items.add(item);
-
+            
             if (block.getSets() != null && block.getSets().size() > 0) {
                 item = new BlockDataModel();
                 item.setType(AppConstants.ITEM_SET);
@@ -235,21 +235,21 @@ public class AllaMainFrg extends BaseFragment implements
                 items.add(item);
             }
         }
-
+        
         adapter.notifyDataSetChanged();
     }
     //</editor-fold>
-
+    
     //<editor-fold desc="onRefresh">
     @Override
     public void onRefresh() {
-
+        
         items.clear();
         getData();
     }
-
+    
     //</editor-fold>
-
+    
     public FragmentManager getHostFragmentManager() {
         FragmentManager fm = getFragmentManager();
         if (fm == null && isAdded()) {
@@ -257,7 +257,7 @@ public class AllaMainFrg extends BaseFragment implements
         }
         return fm;
     }
-
+    
     private void showNotInternetDialogFrg() {
         try {
             if (!AppConfig.showNoInternetDialog) {
@@ -276,8 +276,8 @@ public class AllaMainFrg extends BaseFragment implements
             ex.printStackTrace();
         }
     }
-
-
+    
+    
     @Override
     public void onCheckNetwork(boolean flag) {
         if (!flag)//if false

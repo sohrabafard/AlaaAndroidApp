@@ -9,20 +9,20 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.item.ErrorItem;
 import ir.sanatisharif.android.konkur96.ui.component.paginate.item.LoadingItem;
 
 public final class myPaginateBuilder {
-
-
+    
+    
     private RecyclerView       recyclerView;
     private OnLoadMoreListener loadMoreListener;
     private LoadingItem        loadingItem;
     private ErrorItem          errorItem;
     private int                loadingTriggerThreshold = 0;
-
-
+    
+    
     myPaginateBuilder(@NonNull RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
     }
-
-
+    
+    
     /**
      * This method setup OnLoadMoreListener object, which will called when you need load data
      *
@@ -33,8 +33,8 @@ public final class myPaginateBuilder {
         this.loadMoreListener = loadMoreListener;
         return this;
     }
-
-
+    
+    
     /**
      * SetModel the offset from the end of the list at which the load more event needs to be triggered. Default offset
      * if 5.
@@ -46,7 +46,7 @@ public final class myPaginateBuilder {
         this.loadingTriggerThreshold = loadingTriggerThreshold;
         return this;
     }
-
+    
     /**
      * This method set custom loading item.
      *
@@ -57,7 +57,7 @@ public final class myPaginateBuilder {
         this.loadingItem = loadingItem;
         return this;
     }
-
+    
     /**
      * This method set custom error item.
      *
@@ -68,7 +68,7 @@ public final class myPaginateBuilder {
         this.errorItem = errorItem;
         return this;
     }
-
+    
     /**
      * This method build all configurations
      *
@@ -81,9 +81,9 @@ public final class myPaginateBuilder {
         if (errorItem == null) {
             errorItem = ErrorItem.DEFAULT;
         }
-
+        
         return new myPaginate(recyclerView, loadMoreListener, loadingTriggerThreshold, loadingItem, errorItem);
     }
-
-
+    
+    
 }

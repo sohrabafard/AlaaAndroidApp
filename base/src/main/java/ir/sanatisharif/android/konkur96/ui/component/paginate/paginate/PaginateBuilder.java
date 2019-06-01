@@ -9,23 +9,23 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.item.LoadingItem;
 
 @Deprecated
 public class PaginateBuilder {
-
-
+    
+    
     private RecyclerView       recyclerView;
     private OnLoadMore         paginateCallback;
     private OnLoadMoreListener loadMoreListener;
     private LoadingItem        loadingItem;
     private ErrorItem          errorItem;
     private int                loadingTriggerThreshold = 0;
-
+    
     /**
      * @deprecated use {@link myPaginateBuilder}
      */
     @Deprecated
     public PaginateBuilder() {
     }
-
-
+    
+    
     /**
      * This method setup recyclerView
      *
@@ -37,8 +37,8 @@ public class PaginateBuilder {
         this.recyclerView = recyclerView;
         return this;
     }
-
-
+    
+    
     /**
      * @return current object
      * @deprecated use method {@link #setOnLoadMoreListener(OnLoadMoreListener)}
@@ -48,7 +48,7 @@ public class PaginateBuilder {
         this.paginateCallback = paginateCallback;
         return this;
     }
-
+    
     /**
      * This method setup OnLoadMoreListener object, which will called when you need load data
      *
@@ -60,8 +60,8 @@ public class PaginateBuilder {
         this.loadMoreListener = loadMoreListener;
         return this;
     }
-
-
+    
+    
     /**
      * SetModel the offset from the end of the list at which the load more event needs to be triggered. Default offset
      * if 5.
@@ -74,7 +74,7 @@ public class PaginateBuilder {
         this.loadingTriggerThreshold = loadingTriggerThreshold;
         return this;
     }
-
+    
     /**
      * This method set custom loading item.
      *
@@ -86,7 +86,7 @@ public class PaginateBuilder {
         this.loadingItem = loadingItem;
         return this;
     }
-
+    
     /**
      * This method set custom error item.
      *
@@ -98,7 +98,7 @@ public class PaginateBuilder {
         this.errorItem = errorItem;
         return this;
     }
-
+    
     /**
      * This method build all configurations
      *
@@ -112,9 +112,9 @@ public class PaginateBuilder {
         if (errorItem == null) {
             errorItem = ErrorItem.DEFAULT;
         }
-
+        
         return new Paginate(recyclerView, paginateCallback, loadMoreListener, loadingTriggerThreshold, loadingItem, errorItem);
     }
-
-
+    
+    
 }

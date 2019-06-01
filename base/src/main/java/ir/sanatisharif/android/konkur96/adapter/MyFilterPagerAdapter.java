@@ -20,28 +20,28 @@ import ir.sanatisharif.android.konkur96.fragment.FilterShowEntityFrg;
  */
 
 public class MyFilterPagerAdapter extends FragmentStatePagerAdapter {
-
+    
     private static final String                    TAG = "MyFilterPagerAdapter";
     private              List<FilterShowEntityFrg> mFrgArrayList;
     private              Context                   context;
-
+    
     public MyFilterPagerAdapter(Context context, FragmentManager fm, List<FilterShowEntityFrg> mFrgArrayList) {
         super(fm);
         this.mFrgArrayList = mFrgArrayList;
         this.context = context;
     }
-
-
+    
+    
     @Override
     public Fragment getItem(int position) {
         return mFrgArrayList.get(position);
     }
-
+    
     @Override
     public int getCount() {
         return mFrgArrayList.size();
     }
-
+    
     /**
      * This method is only gets called when we invoke {@link #notifyDataSetChanged()} on this adapter.
      * Returns the index of the currently active fragments.
@@ -56,16 +56,16 @@ public class MyFilterPagerAdapter extends FragmentStatePagerAdapter {
      */
     @Override
     public int getItemPosition(Object object) {
-
+        
         if (mFrgArrayList.contains(object)) {
             return mFrgArrayList.indexOf(object);
         } else {
             return POSITION_NONE;
         }
     }
-
+    
     public View getTabView(int position, String title) {
-
+        
         View     v  = LayoutInflater.from(context).inflate(R.layout.custom_tab, null);
         TextView tv = v.findViewById(R.id.txtTab);
         tv.setText(title);

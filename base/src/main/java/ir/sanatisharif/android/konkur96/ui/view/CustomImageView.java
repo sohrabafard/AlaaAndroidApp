@@ -15,21 +15,21 @@ import android.widget.ImageView;
 @SuppressLint("AppCompatCustomView")
 
 public class CustomImageView extends ImageView {
-
+    
     public static float radius = 24.0f;
-
+    
     public CustomImageView(Context context) {
         super(context);
     }
-
+    
     public CustomImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
+    
     public CustomImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
+    
     @Override
     protected void onDraw(Canvas canvas) {
         Path  clipPath = new Path();
@@ -38,6 +38,6 @@ public class CustomImageView extends ImageView {
         canvas.clipPath(clipPath);
         super.onDraw(canvas);
     }
-
-
+    
+    
 }

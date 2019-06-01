@@ -11,13 +11,13 @@ import androidx.annotation.Nullable;
  */
 
 public class SyncService extends Service {
-
-
+    
+    
     // Object to use as a thread-safe lock
     private static final Object      sSyncAdapterLock = new Object();
     // Storage for an instance of the sync adapter
     private static       SyncAdapter sSyncAdapter     = null;
-
+    
     /*
      * Instantiate the sync adapter object.
      */
@@ -34,12 +34,12 @@ public class SyncService extends Service {
             }
         }
     }
-
+    
     /**
      * Return an object that allows the system to invoke
      * the sync adapter.
      */
-
+    
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

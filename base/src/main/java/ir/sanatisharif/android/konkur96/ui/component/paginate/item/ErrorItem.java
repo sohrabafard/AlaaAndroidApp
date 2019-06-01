@@ -13,10 +13,10 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.callback.OnRepeatL
 
 
 public interface ErrorItem {
-
-
+    
+    
     ErrorItem DEFAULT = new ErrorItem() {
-
+        
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View
@@ -25,32 +25,32 @@ public interface ErrorItem {
             return new RecyclerView.ViewHolder(view) {
             };
         }
-
-
+        
+        
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, final OnRepeatListener onRepeatListener) {
-
+            
             Button btnRepeat = holder.itemView.findViewById(R.id.btnRepeat);
-
+            
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 btnRepeat.setBackgroundResource(R.drawable.no_pagination_button_ripple);
             } else {
                 btnRepeat.setBackgroundResource(R.drawable.no_pagination_button_selector);
             }
-
+            
             btnRepeat.setOnClickListener(v -> {
                 if (onRepeatListener != null) {
                     onRepeatListener.onClickRepeat();
                 }
             });
         }
-
-
+        
+        
     };
-
+    
     RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType);
-
+    
     void onBindViewHolder(RecyclerView.ViewHolder holder, int position, OnRepeatListener onRepeatListener);
-
-
+    
+    
 }

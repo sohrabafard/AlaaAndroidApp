@@ -17,30 +17,30 @@ import ir.sanatisharif.android.konkur96.api.ApiModule;
 import ir.sanatisharif.android.konkur96.api.MainApi;
 import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.api.Models.MainModel;
+import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.DaggerAppComponent;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredit;
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
-import ir.sanatisharif.android.konkur96.api.Models.filter.FilterModel;
 import ir.sanatisharif.android.konkur96.model.main_page.lastVersion.LastVersion;
 import ir.sanatisharif.android.konkur96.model.user.User;
 import ir.sanatisharif.android.konkur96.model.user.UserInfo;
 
 public class MainRepository implements MainRepositoryInterface {
-
+    
     @Inject
     MainApi mainApi;
     private String TAG = "Alaa\\MainRepository";
-
+    
     public MainRepository(Activity activity) {
         ((AppConfig) activity.getApplication()).getAppComponent().inject(this);
     }
-
+    
     public MainRepository() {
         DaggerAppComponent.builder().apiModule(new ApiModule()).build().inject(this);
     }
-
+    
     @SuppressLint("CheckResult")
     @Override
     public void mainPages(IServerCallbackObject iServerCallbackObject) {
@@ -59,7 +59,7 @@ public class MainRepository implements MainRepositoryInterface {
                     }
                 });
     }
-
+    
     @SuppressLint("CheckResult")
     @Override
     public void userInfo(User user, IServerCallbackObject iServerCallbackObject) {
@@ -79,7 +79,7 @@ public class MainRepository implements MainRepositoryInterface {
                     }
                 });
     }
-
+    
     @SuppressLint("CheckResult")
     @Override
     public void getContent(String url, String token, IServerCallbackContentCredit iServerCallbackObject) {
@@ -95,10 +95,10 @@ public class MainRepository implements MainRepositoryInterface {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.i(TAG, "accept-throwable: " + throwable.getClass());
-
+                        
                         if (throwable instanceof com.jakewharton.retrofit2.adapter.rxjava2.HttpException) {
                             if (((HttpException) throwable).code() == 403) {
-
+                                
                                 iServerCallbackObject.onSuccessCredit((ContentCredit) ((HttpException) throwable).response().body());
                             }
                         } else {
@@ -115,7 +115,7 @@ public class MainRepository implements MainRepositoryInterface {
                     }
                 });
     }
-
+    
     @SuppressLint("CheckResult")
     @Override
     public void getFilterBySearchCall(String search, IServerCallbackObject iServerCallbackObject) {
@@ -134,7 +134,7 @@ public class MainRepository implements MainRepositoryInterface {
                     }
                 });
     }
-
+    
     @SuppressLint("CheckResult")
     @Override
     public void getContentOnlyCall(String id, IServerCallbackObject iServerCallbackObject) {
@@ -153,7 +153,7 @@ public class MainRepository implements MainRepositoryInterface {
                     }
                 });
     }
-
+    
     @SuppressLint("CheckResult")
     @Override
     public void getFilterTagsByUrl(String url, IServerCallbackObject iServerCallbackObject) {
@@ -172,7 +172,7 @@ public class MainRepository implements MainRepositoryInterface {
                     }
                 });
     }
-
+    
     @SuppressLint("CheckResult")
     @Override
     public void getFilterTagsByList(List<String> params, IServerCallbackObject iServerCallbackObject) {
@@ -191,7 +191,7 @@ public class MainRepository implements MainRepositoryInterface {
                     }
                 });
     }
-
+    
     @SuppressLint("CheckResult")
     @Override
     public void sendRegistrationToServer(int user_id, String firebaseToken, String token, IServerCallbackObject iServerCallbackObject) {
@@ -210,7 +210,7 @@ public class MainRepository implements MainRepositoryInterface {
                     }
                 });
     }
-
+    
     @SuppressLint("CheckResult")
     @Override
     public void getLastVersion(IServerCallbackObject iServerCallbackObject) {

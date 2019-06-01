@@ -14,28 +14,28 @@ import ir.sanatisharif.android.konkur96.listener.ICheckNetwork;
  */
 
 public class NetworkChangedReceiver extends BroadcastReceiver {
-
+    
     private static final String        TAG = "NetworkChangeReceiver";
     public static        ICheckNetwork iCheckNetwork;
-
+    
     private static boolean isNetworkAvailable(Context context) {
-
-        boolean             isConnect    = false;
+        
+        boolean isConnect = false;
         ConnectivityManager
-                            connectivity =
+                connectivity =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
-
+            
             NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
             isConnect = networkInfo != null && networkInfo.isConnectedOrConnecting();
         }
-
+        
         return isConnect;
     }
-
+    
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        
         if (iCheckNetwork != null)
             iCheckNetwork.onCheckNetwork(isNetworkAvailable(context));
     }

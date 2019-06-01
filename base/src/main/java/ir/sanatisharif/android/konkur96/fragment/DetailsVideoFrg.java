@@ -119,7 +119,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConfig.currentActivity;
  */
 
 public class DetailsVideoFrg extends BaseFragment implements View.OnClickListener {
-
+    
     private final static String
                                                        TAG                     =
             "Alaa\\DetailsVideoFrg";
@@ -178,44 +178,44 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     Animator.AnimatorListener animatorHide = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
-
+        
         }
-
+        
         @Override
         public void onAnimationEnd(Animator animator) {
             controlView.findViewById(R.id.progressBar);
             controlView.setVisibility(View.VISIBLE);
         }
-
+        
         @Override
         public void onAnimationCancel(Animator animator) {
-
+        
         }
-
+        
         @Override
         public void onAnimationRepeat(Animator animator) {
-
+        
         }
     };
     Animator.AnimatorListener animatorShow = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
-
+        
         }
-
+        
         @Override
         public void onAnimationEnd(Animator animator) {
             controlView.findViewById(R.id.progressBar).setVisibility(View.GONE);
         }
-
+        
         @Override
         public void onAnimationCancel(Animator animator) {
-
+        
         }
-
+        
         @Override
         public void onAnimationRepeat(Animator animator) {
-
+        
         }
     };
     private MainRepository  repository;
@@ -223,32 +223,32 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     Player.EventListener eventListener      = new Player.EventListener() {
         @Override
         public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {
-
+        
         }
-
+        
         @Override
         public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-
+        
         }
-
+        
         @Override
         public void onLoadingChanged(boolean isLoading) {
             Log.i(TAG, "onLoadingChanged: isLoading");
         }
-
+        
         @Override
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-
+            
             switch (playbackState) {
                 case Player.STATE_IDLE:       // The player does not have any media to play yet.
                     controlView.findViewById(R.id.progressBar);
                     break;
                 case Player.STATE_BUFFERING:  // The player is buffering (loading the mContent)
-
+                    
                     controlView.findViewById(R.id.exo_play).animate().alpha(0F).setDuration(400).setListener(animatorHide);
                     controlView.findViewById(R.id.exo_pause).animate().alpha(0F).setDuration(400).setListener(animatorHide);
-
-
+                    
+                    
                     break;
                 case Player.STATE_READY:      // The player is able to immediately play
                     if (progressBarExoplaying != null)
@@ -259,21 +259,21 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 case Player.STATE_ENDED:      // The player has finished playing the media
                     if (progressBarExoplaying != null)
                         progressBarExoplaying.setVisibility(View.GONE);
-
+                    
                     break;
             }
         }
-
+        
         @Override
         public void onRepeatModeChanged(int repeatMode) {
-
+        
         }
-
+        
         @Override
         public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
-
+        
         }
-
+        
         @Override
         public void onPlayerError(ExoPlaybackException error) {
             switch (error.type) {
@@ -284,7 +284,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     relativePreview.setVisibility(View.VISIBLE);
                     mediaVideoFrame.setVisibility(View.GONE);
                     break;
-
+                
                 case ExoPlaybackException.TYPE_RENDERER:
                     Log.e(TAG, "TYPE_RENDERER: " + error.getRendererException().getMessage());
                     ActivityBase.toastShow("خطا در خواندن ویدیو", MDToast.TYPE_ERROR);
@@ -292,7 +292,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     relativePreview.setVisibility(View.VISIBLE);
                     mediaVideoFrame.setVisibility(View.GONE);
                     break;
-
+                
                 case ExoPlaybackException.TYPE_UNEXPECTED:
                     Log.e(TAG, "TYPE_UNEXPECTED: " + error.getUnexpectedException().getMessage());
                     player.stop();
@@ -301,20 +301,20 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     break;
             }
         }
-
+        
         @Override
         public void onPositionDiscontinuity(int reason) {
-
+        
         }
-
+        
         @Override
         public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-
+        
         }
-
+        
         @Override
         public void onSeekProcessed() {
-
+        
         }
     };
     //<editor-fold desc="phoneStateReceiver">
@@ -326,7 +326,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 String state = extras.getString(TelephonyManager.EXTRA_STATE);
                 if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                     player.setPlayWhenReady(false);
-
+                    
                 } else if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
                     //pause here
                     player.setPlayWhenReady(false);
@@ -353,10 +353,10 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private KeyguardManager              km;
     private KeyguardManager.KeyguardLock kl;
     private AccountInfo                  accountInfo;
-
+    
     // from list
     public static DetailsVideoFrg newInstance(List<? extends FilterBaseModel> v, int pos) {
-
+        
         Bundle          args     = new Bundle();
         DetailsVideoFrg fragment = new DetailsVideoFrg();
         fragment.setArguments(args);
@@ -365,10 +365,10 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         kind_of_Load = LOAD_LIST;
         return fragment;
     }
-
+    
     // from mContent
     public static DetailsVideoFrg newInstance(ContentModel c) {
-
+        
         Bundle          args     = new Bundle();
         DetailsVideoFrg fragment = new DetailsVideoFrg();
         fragment.setArguments(args);
@@ -376,10 +376,10 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         kind_of_Load = LOAD_CONTENT;
         return fragment;
     }
-
+    
     // from url, i.e load info from deepLink
     public static DetailsVideoFrg newInstance(String url) {
-
+        
         Bundle args = new Bundle();
         args.putString("url", url);
         DetailsVideoFrg fragment = new DetailsVideoFrg();
@@ -387,11 +387,11 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         kind_of_Load = LOAD_URL;
         return fragment;
     }
-
+    
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
+        
         try {
             mUserAction = (LogUserActionsOnPublicContentInterface) context;
         }
@@ -401,19 +401,19 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                                          " must implement LogUserActionsOnPublicContentInterface");
         }
     }
-
+    
     @Override
     public void onDetach() {
         super.onDetach();
         mUserAction = null;
     }
-
+    
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
     }
-
+    
     @Override
     public void onStart() {
         try {
@@ -429,7 +429,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             getActivity().registerReceiver(phoneStateReceiver, filter);
             initWakeLockScreen();
             savedInsPlayer = new Bundle();
-
+            
             Log.i(TAG, "onStart: ");
             if (Util.SDK_INT > 23) {
                 if (player == null)
@@ -442,10 +442,10 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         catch (Exception ex) {
             Crashlytics.logException(ex);
         }
-
+        
         super.onStart();
     }
-
+    
     @Override
     public void onResume() {
         super.onResume();
@@ -458,7 +458,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         }
         Log.i(TAG, "onStart:onResume ");
     }
-
+    
     @Override
     public void onStop() {
         try {
@@ -468,7 +468,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         catch (Exception ex) {
             Crashlytics.logException(ex);
         }
-
+        
         try {
             getActivity().unregisterReceiver(phoneStateReceiver);
             if (Util.SDK_INT > 23) {
@@ -481,45 +481,45 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         }
         super.onStop();
     }
-
+    
     @Override
     public void onPause() {
         super.onPause();
-
+        
         if (Util.SDK_INT <= 23 && player != null) {
             player.setPlayWhenReady(false);
             Log.i(TAG, "onStart:onPause ");
         }
     }
-
+    
     @Override
     public void onDestroyView() {
         releasePlayer();
         super.onDestroyView();
         Log.i(TAG, "onStart: onDesc ");
     }
-
+    
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (repository == null)
             repository = new MainRepository(getActivity());
         return inflater.inflate(R.layout.fragment_detail, container, false);
     }
-
+    
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        
         if (repository == null)
             repository = new MainRepository(getActivity());
-
+        
         initView(view, savedInstanceState);
-
+        
         if (kind_of_Load == LOAD_CONTENT) {
             course = mContent;
             setData();
             getPlayListFromContentByUrl(mContent.getSet().getContentUrl());
-
+            
         } else if (kind_of_Load == LOAD_URL) { //get data from api and url
             String url = getArguments().getString("url");
             String id  = url.substring(url.lastIndexOf("/") + 1);
@@ -531,11 +531,11 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             setData();
         }
     }
-
+    
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        
         if (ContentModels != null) {
             ContentModels = null;
             positionPlaying = 0;
@@ -544,9 +544,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             playListAdapter = null;
         }
     }
-
+    
     private void getData(String url) {
-
+        
         Context context = getContext();
         if (context != null && InstantApps.isInstantApp(context)) {
             repository.getContent(url, null, new IServerCallbackContentCredit() {
@@ -559,9 +559,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     } else {
                         Log.i(TAG, "getData-onSuccess: \n\r" + url + "object is null");
                     }
-
+                    
                 }
-
+                
                 @Override
                 public void onSuccessCredit(ContentCredit obj) {
                     if (obj != null) {
@@ -570,19 +570,19 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                         showSnackBar(obj.getMessage());
                         setProduct(obj.getProduct());
                         getPlayListFromContentByUrl(course.getSet().getContentUrl());
-
+                        
                     } else {
                         Log.i(TAG, "getData-if-onSuccessCredit: \n\r" + url + "object is null");
                     }
                 }
-
+                
                 @Override
                 public void onFailure(String message) {
                     Log.i(TAG, "onSuccess:error " + message);
                 }
             });
         } else if (context != null) {
-
+            
             AuthToken.getInstant().get(context, currentActivity, new AuthToken.Callback() {
                 @Override
                 public void run(@NonNull String token) {
@@ -590,7 +590,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                         @Override
                         public void onSuccess(Object obj) {
                             if (obj != null) {
-
+                                
                                 currentActivity.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -603,7 +603,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                                 Log.i(TAG, "getData-else-onSuccess: \n\r" + url + "object is null");
                             }
                         }
-
+                        
                         @Override
                         public void onSuccessCredit(ContentCredit obj) {
                             if (obj != null) {
@@ -622,14 +622,14 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                                            "object is null");
                             }
                         }
-
+                        
                         @Override
                         public void onFailure(String message) {
                             Log.i(TAG, "onFailure:error " + message);
                         }
                     });
                 }
-
+                
                 @Override
                 public void nill() {
                     startActivity(new Intent(currentActivity, AuthenticatorActivity.class));
@@ -637,9 +637,9 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             });
         }
     }
-
+    
     private void setProduct(ArrayList<ProductModel> productModels) {
-
+        
         // set adapter to recyclerView
         myRecyclerViewProduct.setVisibility(View.VISIBLE);
         myRecyclerViewProduct.setNestedScrollingEnabled(false);
@@ -652,25 +652,25 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         adapter = new BlockAdapter(AppConfig.context, items);
         adapter.setSize(AppConfig.width, AppConfig.height);
         myRecyclerViewProduct.setAdapter(adapter);
-
+        
         // setData
         BlockDataModel item = new BlockDataModel();
         item.setType(AppConstants.ITEM_PRODUCT);
         item.setProducts(productModels);
         items.add(item);
-
+        
         adapter.notifyDataSetChanged();
     }
-
+    
     private void getDataByUrl(String url) {
-
+        
         if (loaderPlayList != null)
             loaderPlayList.setVisibility(View.VISIBLE);
         repository.getFilterTagsByUrl(url, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
                 FilterModel filter = (FilterModel) obj;
-
+                
                 if (filter.getResult().getVideo() != null) {
                     ContentModels.addAll(filter.getResult().getVideo().getData());
                     pagination = filter.getResult().getVideo();
@@ -680,7 +680,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 if (loaderPlayList != null)
                     loaderPlayList.setVisibility(View.GONE);
             }
-
+            
             @Override
             public void onFailure(String message) {
                 Log.i(TAG, "onSuccess:error " + message);
@@ -689,25 +689,25 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             }
         });
     }
-
+    
     private void getPlayListFromContentByUrl(String url) {
-
+        
         if (loaderPlayList != null)
             loaderPlayList.setVisibility(View.VISIBLE);
         repository.getFilterTagsByUrl(url, new IServerCallbackObject() {
             @Override
             public void onSuccess(Object obj) {
                 FilterModel filter = (FilterModel) obj;
-
+                
                 if (filter.getResult().getVideo() != null) {
-
+                    
                     ContentModels = filter.getResult().getVideo().getData();
                     pagination = filter.getResult().getVideo();
-
+                    
                     initPlayList();
                     // playListAdapter = new PlayListAdapter(getContext(), ContentModels);
                     // recyclerPlayList.setAdapter(playListAdapter);
-
+                    
                     if (ContentModels.size() > 1) {
                         playListAdapter.notifyItemMoved(playListAdapter.getItemCount(),
                                 ContentModels.size() - 1);
@@ -718,7 +718,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                         loaderPlayList.setVisibility(View.GONE);
                 }
             }
-
+            
             @Override
             public void onFailure(String message) {
                 if (loaderPlayList != null)
@@ -727,10 +727,10 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             }
         });
     }
-
+    
     @Override
     public void onClick(View view) {
-
+        
         int i = view.getId();
         if (i == R.id.exo_play) {//manually change exoplayer button
             controlView.findViewById(R.id.exo_play).setVisibility(View.GONE);
@@ -738,16 +738,16 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             //play
             player.setPlayWhenReady(true);
             enableWakeLockScreen();
-
-
+            
+            
         } else if (i == R.id.exo_pause) {//manually change exoplayer button
             controlView.findViewById(R.id.exo_pause).setVisibility(View.GONE);
             controlView.findViewById(R.id.exo_play).setVisibility(View.VISIBLE);
             //pause
             player.setPlayWhenReady(false);
             disableWakeLockScreen();
-
-
+            
+            
         } else if (i == R.id.imgArrow) {
             if (!showPlayList) {
                 recyclerPlayList.setVisibility(View.VISIBLE);
@@ -758,12 +758,12 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 animationRotate(imgArrow, 180, 360, 200);
                 showPlayList = false;
             }
-
+            
         } else if (course != null) {
             FileModel           file           = course.getFile();
             List<FileDiskModel> fileDiskModels = file.getVideo();
             if (i == R.id.imgDownload) {
-
+                
                 //TODO:issue
                 if (file != null && fileDiskModels != null) {
                     DownloadDialogFrg dialog = new DownloadDialogFrg();
@@ -776,25 +776,26 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                                 }
                             })
                             .show(getFragmentManager(), "dialog");
-
-
+                    
+                    
                 }
-
-
+                
+                
             } else if (i == R.id.imgPlay) {
-
-                if (file != null && fileDiskModels != null && !checkExistVideoToSD(fileDiskModels)) {
+                
+                if (file != null && fileDiskModels != null &&
+                    !checkExistVideoToSD(fileDiskModels)) {
                     // not Exist
                     handleQualityLink();
                 }
                 startPlayer(mUrl);
-
+                
                 relativePreview.setVisibility(View.GONE);
                 mediaVideoFrame.setVisibility(View.VISIBLE);
                 mExoPlayerView.setVisibility(View.VISIBLE);
-
+                
             } else if (i == R.id.imgReady) {
-
+                
                 if (file != null && fileDiskModels != null) {
                     (new DeleteFileDialogFrg())
                             .setFileDiskModels(fileDiskModels)
@@ -808,22 +809,22 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                             .show(getFragmentManager(), "deleteFileDialogFrg");
                 }
             } else if (i == R.id.imgShare) {
-
+                
                 String alla   = getResources().getString(R.string.alla_1);
                 String title  = course.getName();
                 String author = course.getAuthor().getFullName();
                 String url    = course.getUrl();
                 int    order  = course.getOrder();
-
+                
                 String
                         share =
                         String.format("%s \n\n %s \n\n %s جلسه %d \n\n %s", alla, title, author, order, url);
-
+                
                 Utils.share(share, context);
             }
         }
     }
-
+    
     private void resume() {
         if (mExoPlayerFullscreen) {
             ((ViewGroup) mExoPlayerView.getParent()).removeView(mExoPlayerView);
@@ -831,15 +832,15 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(AppConfig.currentActivity, R.drawable.ic_fullscreen_skrink));
             mFullScreenDialog.show();
         }
-
+        
         mResumeWindow = savedInsPlayer.getInt(STATE_RESUME_WINDOW);
         mResumePosition = savedInsPlayer.getLong(STATE_RESUME_POSITION);
         mExoPlayerFullscreen = savedInsPlayer.getBoolean(STATE_PLAYER_FULLSCREEN);
-
+        
         if (player != null && mExoPlayerView.getPlayer() != null) {
-
+            
             boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
-
+            
             if (haveResumePosition) {
                 player.seekTo(mResumeWindow, mResumePosition);
             }
@@ -847,53 +848,53 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             player.setPlayWhenReady(true);
         }
     }
-
+    
     private void pausePlayer() {
-
+        
         if (savedInsPlayer != null) {
-
+            
             if (mExoPlayerView != null && mExoPlayerView.getPlayer() != null) {
                 mResumeWindow = mExoPlayerView.getPlayer().getCurrentWindowIndex();
                 mResumePosition = Math.max(0, mExoPlayerView.getPlayer().getContentPosition());
-
+                
                 player.setPlayWhenReady(false);
             }
             savedInsPlayer.putInt(STATE_RESUME_WINDOW, mResumeWindow);
             savedInsPlayer.putLong(STATE_RESUME_POSITION, mResumePosition);
             savedInsPlayer.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);
-
+            
             Log.i(TAG, "resume:pausePlayer " + mResumePosition);
         }
     }
-
+    
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
+        
         outState.putInt(STATE_RESUME_WINDOW, mResumeWindow);
         outState.putLong(STATE_RESUME_POSITION, mResumePosition);
         outState.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);
-
+        
         super.onSaveInstanceState(outState);
     }
-
+    
     //<editor-fold desc="Player">
-
+    
     private void animationRotate(View view, float of, float to, int duration) {
-
+        
         ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(view,
                 "rotation", of, to);
         imageViewObjectAnimator.setDuration(duration);
         imageViewObjectAnimator.setInterpolator(new AccelerateInterpolator());
         imageViewObjectAnimator.start();
     }
-
+    
     private void setData() {
-
+        
         //load info
         Utils.loadGlide(imgPreview,
                 course.getThumbnail(),
                 mExoPlayerView.getLayoutParams().width, mExoPlayerView.getLayoutParams().height);
-
+        
         if (course.getAuthor() != null && course.getAuthor().getFullName() != null)
             txtAuthor.setText(course.getAuthor().getFullName());
         if (course.getName() != null)
@@ -902,12 +903,12 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             txtDesc.setText(Html.fromHtml(course.getDescription()));
         if (course.getTags() != null && course.getTags().getTags() != null)
             tagGroup.setTags(course.getTags().getTags());
-
+        
         if (course != null && course.getFile() != null && course.getFile().getVideo() != null &&
             course.getFile().getVideo().size() > 0) {
-
+            
             checkExistVideoToSD(course.getFile().getVideo());
-
+            
         }
         tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
             @Override
@@ -917,17 +918,17 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 addFrg(FilterTagsFrg.newInstance(null, tags), "FilterTagsFrg");
             }
         });
-
+        
         if (course.getFile() == null) {
             imgDownload.setVisibility(View.GONE);
             imgReady.setVisibility(View.GONE);
             imgPlay.setVisibility(View.GONE);
         }
-
+        
         //select item
         playListAdapter.setItemSelect(positionPlaying);
         playListAdapter.notifyDataSetChanged();
-
+        
         AppConfig.HANDLER.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -939,24 +940,24 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 }
             }
         }, 500);
-
+        
     }
-
+    
     private void initView(View view, Bundle savedInstanceState) {
-
+        
         if (savedInstanceState != null) {
             mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
             mResumePosition = savedInstanceState.getLong(STATE_RESUME_POSITION);
             mExoPlayerFullscreen = savedInstanceState.getBoolean(STATE_PLAYER_FULLSCREEN);
         }
         if (mExoPlayerView == null) {
-
+            
             mExoPlayerView = getView().findViewById(R.id.exoplayer);
-
+            
             initFullscreenDialog();
             initFullscreenButton();
         }
-
+        
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         root = view.findViewById(R.id.root);
         myRecyclerViewProduct = view.findViewById(R.id.recyclerView);
@@ -972,32 +973,32 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         loaderPlayList = view.findViewById(R.id.loaderPlayList);
         AppConfig.getInstance().changeProgressColor(loader);
         AppConfig.getInstance().changeProgressColor(loaderPlayList);
-
+        
         //preview
         relativePreview = view.findViewById(R.id.relativePreview);
         imgPlay = view.findViewById(R.id.imgPlay);
         imgPreview = view.findViewById(R.id.imgPreview);
-
+        
         //play list
         imgArrow = view.findViewById(R.id.imgArrow);
         recyclerPlayList = view.findViewById(R.id.recyclerPlayList);
-
+        
         progressBarExoplaying = view.findViewById(R.id.progressBar);
         AppConfig.getInstance().changeProgressColor(progressBarExoplaying);
-
+        
         //--------------play list
         initPlayList();
-
+        
         resizePlayer();
         setRipple();
-
+        
         imgDownload.setOnClickListener(this);
         imgReady.setOnClickListener(this);
         imgArrow.setOnClickListener(this);
         imgPlay.setOnClickListener(this);
         imgShare.setOnClickListener(this);
     }
-
+    
     private void initPlayList() {
         playListAdapter = new PlayListAdapter(getContext(), ContentModels);
         managerPlayList =
@@ -1007,33 +1008,33 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         playListAdapter.setOnClick(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, Object item, View view, RecyclerView.ViewHolder vh) {
-
+                
                 // player.setPlayWhenReady(false);
                 // releasePlayer();
                 if (loader != null)
                     loader.setVisibility(View.VISIBLE);
-
+                
                 positionPlaying = position;
                 course = (ContentModel) item;
-
+                
                 if (loader != null)
                     loader.setVisibility(View.GONE);
                 playListAdapter.setItemSelect(positionPlaying);
                 setData();
-
+                
                 if (mExoPlayerFullscreen) {
                     ((ViewGroup) mExoPlayerView.getParent()).removeView(mExoPlayerView);
                     mFullScreenDialog.addContentView(mExoPlayerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(AppConfig.currentActivity, R.drawable.ic_fullscreen_skrink));
                     mFullScreenDialog.show();
                 }
-
+                
                 if (course != null && course.getFile() != null &&
                     course.getFile().getVideo() != null &&
                     !checkExistVideoToSD(course.getFile().getVideo())) {
                     handleQualityLink();
                 }
-
+                
                 if (isPlaying()) {
                     AppConfig.HANDLER.postDelayed(new Runnable() {
                         @Override
@@ -1046,18 +1047,18 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                             final String userAgent = Util.getUserAgent(context, "ExoPlayer");
                             player.seekTo(0);
                             player.setPlayWhenReady(true);
-
+                            
                             if (mUrl.contains("cdn")) {
                                 DataSource.Factory
                                         dataSourceFactory =
                                         new DefaultDataSourceFactory(context, userAgent);
-
+                                
                                 mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                                         .createMediaSource(Uri.parse(mUrl));
                                 player.prepare(mVideoSource, !haveResumePosition, false);
                             } else {
                                 AuthToken.getInstant().get(context, currentActivity, new AuthToken.Callback() {
-
+                                    
                                     public void initExo(String token) {
                                         DefaultHttpDataSourceFactory
                                                 httpDataSourceFactory =
@@ -1068,13 +1069,13 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                                         DataSource.Factory
                                                 dataSourceFactory =
                                                 new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
-
+                                        
                                         mVideoSource =
                                                 new ExtractorMediaSource.Factory(dataSourceFactory)
                                                         .createMediaSource(Uri.parse(mUrl));
                                         player.prepare(mVideoSource, !haveResumePosition, false);
                                     }
-
+                                    
                                     @Override
                                     public void run(@NonNull String token) {
                                         Log.i(TAG, "startPlayer, has_token");
@@ -1085,7 +1086,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                                             }
                                         });
                                     }
-
+                                    
                                     @Override
                                     public void nill() {
                                         Log.i(TAG, "startPlayer, without_token");
@@ -1093,17 +1094,17 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                                     }
                                 });
                             }
-
+                            
                         }
                     }, 200);
-
+                    
                 }
             }
         });
         endLess = new EndlessRecyclerViewScrollListener(managerPlayList) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-
+                
                 if (pagination != null && pagination.getNextPageUrl() != null) {
                     getDataByUrl(pagination.getNextPageUrl());
                 }
@@ -1112,22 +1113,22 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         if (recyclerPlayList != null)
             recyclerPlayList.addOnScrollListener(endLess);
     }
-
+    
     private void resizePlayer() {
-
+        
         int h = (int) (AppConfig.width * 0.56);
         mediaVideoFrame.getLayoutParams().height = h;
         mediaVideoFrame.getLayoutParams().width = AppConfig.width;
-
+        
         mExoPlayerView.getLayoutParams().height = h;
         mExoPlayerView.getLayoutParams().width = AppConfig.width;
-
+        
         relativePreview.getLayoutParams().height = h;
         relativePreview.getLayoutParams().width = AppConfig.width;
     }
-
+    
     private void initFullscreenDialog() {
-
+        
         mFullScreenDialog =
                 new Dialog(getActivity(), android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
                     public void onBackPressed() {
@@ -1137,38 +1138,38 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     }
                 };
     }
-
+    
     private void openFullscreenDialog() {
-
+        
         portrait_To_landscape();
         ((ViewGroup) mExoPlayerView.getParent()).removeView(mExoPlayerView);
         mFullScreenDialog.addContentView(mExoPlayerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(AppConfig.currentActivity, R.drawable.ic_fullscreen_skrink));
         mExoPlayerFullscreen = true;
         mFullScreenDialog.show();
-
+        
     }
-
+    
     public void closeFullscreenDialog() {
-
+        
         landscape_To_portrait();
         ((ViewGroup) mExoPlayerView.getParent()).removeView(mExoPlayerView);
         ((FrameLayout) getView().findViewById(R.id.mediaVideoFrame)).addView(mExoPlayerView);
         mExoPlayerFullscreen = false;
         mFullScreenDialog.dismiss();
         mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(AppConfig.currentActivity, R.drawable.ic_fullscreen_expand));
-
+        
     }
-
+    
     private boolean isPlaying() {
         return player != null
                && player.getPlaybackState() != Player.STATE_ENDED
                && player.getPlaybackState() != Player.STATE_IDLE
                && player.getPlayWhenReady();
     }
-
+    
     private void initFullscreenButton() {
-
+        
         controlView = mExoPlayerView.findViewById(R.id.exo_controller);
         mFullScreenIcon = controlView.findViewById(R.id.exo_fullscreen_icon);
         mFullScreenButton = controlView.findViewById(R.id.exo_fullscreen_button);
@@ -1182,28 +1183,28 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     closeFullscreenDialog();
             }
         });
-
+        
         controlView.findViewById(R.id.exo_play).setOnClickListener(this);
         controlView.findViewById(R.id.exo_pause).setOnClickListener(this);
-
+        
         mExoPlayerView.setControllerVisibilityListener(new PlayerControlView.VisibilityListener() {
             @Override
             public void onVisibilityChange(final int visibility) {
-
+                
                 if (visibility == View.GONE) {
-
+                    
                     mExoPlayerView.showController();
                     controlView.animate().alpha(0F).setDuration(500L).setListener(new AnimatorListenerAdapter() {
-
+                        
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             controlView.setVisibility(View.GONE);
                         }
                     });
                 } else if (visibility == View.VISIBLE) {
-
+                    
                     controlView.animate().alpha(1F).setDuration(500L).setListener(new AnimatorListenerAdapter() {
-
+                        
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             controlView.setVisibility(View.VISIBLE);
@@ -1212,13 +1213,13 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 }
             }
         });
-
+        
         // ripple(controlView.findViewById(R.id.exo_play),24);
         // ripple(controlView.findViewById(R.id.exo_pause),24);
     }
-
+    
     private void initExoPlayer() {
-
+        
         //estimating available network bandwidth based on measured download speed
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         TrackSelection.Factory
@@ -1228,18 +1229,18 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 trackSelector =
                 new DefaultTrackSelector(videoTrackSelectionFactory);
         LoadControl loadControl = new DefaultLoadControl();
-
+        
         player = ExoPlayerFactory.newSimpleInstance(getContext(),
                 new DefaultRenderersFactory(getContext()),
                 trackSelector,
                 loadControl);
-
+        
         mExoPlayerView.setPlayer(player);
     }
-
+    
     private void startPlayer(String mUrl) {
         boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
-
+        
         if (haveResumePosition) {
             player.seekTo(mResumeWindow, mResumePosition);
         }
@@ -1248,7 +1249,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         final String userAgent = Util.getUserAgent(context, "ExoPlayer");
         if (mUrl.contains("cdn")) {
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, userAgent);
-
+            
             mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(Uri.parse(mUrl));
             player.prepare(mVideoSource, !haveResumePosition, false);
@@ -1264,16 +1265,16 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     DataSource.Factory
                             dataSourceFactory =
                             new DefaultDataSourceFactory(context, null, httpDataSourceFactory);
-
+                    
                     mVideoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                             .createMediaSource(Uri.parse(mUrl));
                     player.prepare(mVideoSource, !haveResumePosition, false);
                 }
-
+                
                 @Override
                 public void run(@NonNull String token) {
                     Log.i(TAG, "startPlayer, has_token");
-
+                    
                     currentActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -1281,7 +1282,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                         }
                     });
                 }
-
+                
                 @Override
                 public void nill() {
                     Log.i(TAG, "startPlayer, without_token");
@@ -1290,44 +1291,44 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             });
         }
     }
-
+    
     //</editor-fold>
-
+    
     private void landscape_To_portrait() {
-
+        
         if (getActivity().getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
-
+    
     private void portrait_To_landscape() {
-
+        
         if (getActivity().getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
-
+    
     private void releasePlayer() {
-
+        
         if (mExoPlayerView != null && mExoPlayerView.getPlayer() != null) {
             mResumeWindow = mExoPlayerView.getPlayer().getCurrentWindowIndex();
             mResumePosition = Math.max(0, mExoPlayerView.getPlayer().getContentPosition());
             mExoPlayerView.getPlayer().release();
         }
-
+        
         if (mFullScreenDialog != null)
             mFullScreenDialog.dismiss();
-
-
+        
+        
     }
-
+    
     private void setRipple() {
-
+        
         ripple(imgArrow, 24);
         // ripple(imgDownload, 24);
         // ripple(imgReady, 24);
         ripple(imgShare, 24);
-
+        
     }
-
+    
     /**
      * if return true ie file is exist ito SD
      * if return false file not exist
@@ -1338,17 +1339,17 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
     private boolean checkExistVideoToSD(@NonNull List<FileDiskModel> fileDiskModels) {
         if (fileDiskModels == null)
             return false;
-
+        
         if (InstantApps.isInstantApp(getContext())) {
             imgDownload.setVisibility(View.GONE);
             imgReady.setVisibility(View.GONE);
             return false;
         }
-
+        
         for (int i = 0; i < fileDiskModels.size(); i++) {
-
+            
             String url = fileDiskModels.get(i).getLink();
-
+            
             String mediaPath = FileManager.getPathFromAllaUrl(url);
             String fileName  = FileManager.getFileNameFromUrl(url);
             File   file      = new File(FileManager.getRootPath() + mediaPath + "/" + fileName);
@@ -1361,11 +1362,11 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 imgDownload.setVisibility(View.VISIBLE);
                 imgReady.setVisibility(View.GONE);
             }
-
+            
         }
         return false;
     }
-
+    
     private void handleQualityLink() {
         String pref = sharedPreferences.getString(getString(R.string.player_quality), "240");
         mUrl = course.getFile().getVideo().get(0).getLink();
@@ -1387,7 +1388,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             }
         }
         catch (Exception ex) {
-
+            
             if (course.getFile().getVideo().size() == 1) {
                 mUrl = course.getFile().getVideo().get(0).getLink();
                 quality =
@@ -1406,11 +1407,11 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         // txtQuality.animate().alpha(0).setDuration(3000).start();
     }
     //</editor-fold>
-
+    
     public String toString(String caption, String title) {
         return String.format("%s - %s", caption, title);
     }
-
+    
     //<editor-fold desc="lock">
     @SuppressLint("InvalidWakeLockTag")
     private void initWakeLockScreen() {
@@ -1418,30 +1419,30 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
                             | PowerManager.ACQUIRE_CAUSES_WAKEUP
                             | PowerManager.ON_AFTER_RELEASE, "alla");
-
-
+        
+        
         km = (KeyguardManager) getContext().getSystemService(KEYGUARD_SERVICE);
         if (null != km) {
             kl = km.newKeyguardLock("alla");
         }
     }
-
+    
     private void enableWakeLockScreen() {
         wl.acquire();
         kl.reenableKeyguard();
     }
     //</editor-fold>
-
+    
     private void disableWakeLockScreen() {
         if (wl.isHeld())
             wl.release();
         kl.disableKeyguard();
     }
     //</editor-fold>
-
+    
     private void showSnackBar(String message) {
         try {
-
+            
             Snackbar snack = Snackbar.make(root, message, Snackbar.LENGTH_LONG);
             View     view  = snack.getView();
             TextView tv    = view.findViewById(com.google.android.material.R.id.snackbar_text);
@@ -1459,30 +1460,30 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             Log.e(TAG, "start-showSnackBar" + ex.getMessage());
         }
     }
-
+    
     public class VideoPlayer implements LifecycleObserver {
-
+        
         @OnLifecycleEvent(Lifecycle.Event.ON_START)
         public void start() {
             //play logic
             Log.i(TAG, "play:1 ");
             initExoPlayer();
         }
-
+        
         @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
         public void play() {
             //play logic
             Log.i(TAG, "play:2 ");
             resume();
         }
-
+        
         @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         public void pause() {
             Log.i(TAG, "play:3");
             if (Util.SDK_INT <= 23)
                 pausePlayer();
         }
-
+        
         @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
         public void stop() {
             Log.i(TAG, "play: 4");

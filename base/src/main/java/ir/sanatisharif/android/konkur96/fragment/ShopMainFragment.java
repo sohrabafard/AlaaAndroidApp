@@ -39,7 +39,7 @@ import ir.sanatisharif.android.konkur96.ui.component.paginate.paginate.myPaginat
 import ir.sanatisharif.android.konkur96.utils.ShopUtils;
 
 public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
-
+    
     boolean isPaginate = false;
     private RecyclerView            shopMainRecyclerView;
     private Toolbar                 mToolbar;
@@ -50,52 +50,52 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
     private MainModel               mainModel;
     private MainShopItemAdapter     adapter;
     private ArrayList<MainShopItem> items = new ArrayList<>();
-
+    
     public static ShopMainFragment newInstance() {
-
+        
         Bundle args = new Bundle();
-
+        
         ShopMainFragment fragment = new ShopMainFragment();
         fragment.setArguments(args);
         return fragment;
     }
-
-
+    
+    
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main_shop, container, false);
     }
-
+    
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        
         repository = new RepositoryImpl(getActivity());
-
+        
         initView(view);
         getData();
     }
-
+    
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        
         int id = item.getItemId();
-
+        
         if (id == android.R.id.home) {
             Events.CloseFragment closeFragment = new Events.CloseFragment();
             closeFragment.setTagFragments("");
             EventBus.getDefault().post(closeFragment);
-
+            
         } else if (id == R.id.actionSetting) {
             startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
         } else if (id == R.id.actionSettingSupportBuy) {
-
+            
             MyAlertDialogFrg alert = new MyAlertDialogFrg();
             alert.setTitle(getString(R.string.settingsSupportBuy));
             alert.setMessage(getString(R.string.supportBuy));
@@ -105,7 +105,7 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
             String alaaTelegramUrl = "https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ";
             Intent intent          = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
             intent.setPackage("org.telegram.messenger");
-
+            
             try {
                 if (intent.resolveActivity(AppConfig.context.getPackageManager()) != null) {
                     startActivity(intent);
@@ -117,12 +117,12 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
             catch (Exception ex) {
                 Toast.makeText(AppConfig.context, "@alaa_sanatisharif", Toast.LENGTH_LONG).show();
             }
-
+            
         }
-
+        
         return super.onOptionsItemSelected(item);
     }
-
+    
     public FragmentManager getHostFragmentManager() {
         FragmentManager fm = getFragmentManager();
         if (fm == null && isAdded()) {
@@ -130,90 +130,90 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
         }
         return fm;
     }
-
+    
     private void getData() {
-
+        
         items.clear();
         adapter.notifyDataSetChanged();
-
+        
         swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
-
+        
         repository.getMainShop(data -> {
-
+            
             if (data instanceof Result.Success) {
-
+                
                 setData((MainModel) ((Result.Success) data).value, true);
                 swipeRefreshLayout.setRefreshing(false);
-
+                
             } else {
-
+                
                 Log.d("Test", (String) ((Result.Error) data).value);
                 swipeRefreshLayout.setRefreshing(false);
             }
-
-
+            
+            
         });
-
-
+        
+        
     }
-
+    
     private void getDataPaginat() {
-
+        
         if (isPaginate) {
-
+            
             swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
-
+            
             repository.getNextPage(mainModel.getBlock().getNextPageUrl(), data -> {
-
+                
                 if (data instanceof Result.Success) {
-
+                    
                     setData((MainModel) ((Result.Success) data).value, false);
                     swipeRefreshLayout.setRefreshing(false);
-
+                    
                 } else {
-
+                    
                     Log.d("Test", (String) ((Result.Error) data).value);
                     swipeRefreshLayout.setRefreshing(false);
                 }
-
-
+                
+                
             });
-
+            
         }
-
-
+        
+        
     }
-
-
+    
+    
     private void setData(MainModel data, Boolean first) {
-
+        
         //---------------------- set mainModel data ---------------------------------------------
         mainModel = data;
-
-
+        
+        
         //---------------------- set paginate data ----------------------------------------------
         if (null != mainModel && null != mainModel.getBlock().getNextPageUrl()) {
-
+            
             isPaginate = true;
             paginate.setNoMoreItems(false);
-
+            
         } else {
-
+            
             isPaginate = false;
             paginate.setNoMoreItems(true);
         }
-
-
+        
+        
         //---------------------- convert -------------------------------------------------------
         items.addAll(ShopUtils.convertToMainShopModel(data, first));
-
-
+        
+        
         //---------------------- update adapter ------------------------------------------------
         adapter.notifyDataSetChanged();
     }
-
+    
     private void initView(View v) {
-
+        
         // swipeRefreshLayout
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
@@ -232,23 +232,23 @@ public class ShopMainFragment extends BaseFragment implements SwipeRefreshLayout
         paginate = myPaginate.with(shopMainRecyclerView)
                 .setOnLoadMoreListener(this::getDataPaginat)
                 .build();
-
+        
         setHasOptionsMenu(true);
         setToolbar(mToolbar, "فروشگاه آلاء");
-
+        
     }
-
+    
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        
         if (null != paginate) {
-
+            
             paginate.unbind();
         }
     }
-
-
+    
+    
     @Override
     public void onRefresh() {
         items.clear();

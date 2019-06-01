@@ -10,8 +10,8 @@ import ir.sanatisharif.android.konkur96.R;
 
 
 public interface LoadingItem extends BaseLinearLayoutManagerItem {
-
-
+    
+    
     LoadingItem DEFAULT = new LoadingItem() {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -21,12 +21,12 @@ public interface LoadingItem extends BaseLinearLayoutManagerItem {
             return new RecyclerView.ViewHolder(view) {
             };
         }
-
+        
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        
         }
     };
-
-
+    
+    
 }

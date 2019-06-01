@@ -12,25 +12,25 @@ import ir.sanatisharif.android.konkur96.utils.MyPreferenceManager;
  */
 
 public class MyFirebaseInstanceIDService extends FirebaseMessagingService {
-
+    
     private static final String TAG = "MyFirebaseIIDService";
-
-
+    
+    
     @Override
     public void onNewToken(String refreshedToken) {
         super.onNewToken(refreshedToken);
-
+        
         //  When you need to retrieve the current token, call
         // FirebaseInstanceId.getInstance().getInstanceId().getResult().getToken();
         //Displaying token on logcat
         Log.d(TAG, "Refreshed token: " + refreshedToken);
         Log.d(TAG, "Refreshed token: " +
                    FirebaseInstanceId.getInstance().getInstanceId().getResult().getToken());
-
+        
         storeToken(refreshedToken);
-
+        
     }
-
+    
     private void storeToken(String token) {
         //save the SFM later
         MyPreferenceManager.getInatanse().setFirebaseToken(token);

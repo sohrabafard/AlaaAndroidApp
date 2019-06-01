@@ -26,46 +26,46 @@ import ir.sanatisharif.android.konkur96.app.AppConfig;
 
 
 public class ShopBannerItemAdapter extends RecyclerView.Adapter<ShopBannerItemAdapter.BannerHolder> {
-
+    
     private ArrayList<MainBannerModel> itemsList;
     private Context                    mContext;
     private RequestOptions             requestOptions;
     private int                        h, w;
-
+    
     public ShopBannerItemAdapter(Context context, ArrayList<MainBannerModel> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
-
+        
         setSize();
     }
-
+    
     private void setSize() {
         h = AppConfig.itemHeight - 34;
         w = (int) (AppConfig.width * 0.75f);
-
+        
         requestOptions = new RequestOptions()
                 .override(AppConfig.width, h)
                 .transforms(new CenterCrop(), new RoundedCorners((int) mContext.getResources().getDimension(R.dimen.round_image)))
                 .override(w, h)
                 .fitCenter();
     }
-
+    
     @Override
     public BannerHolder onCreateViewHolder(ViewGroup parent, int typeviewsingle) {
         return new BannerHolder(LayoutInflater.from(mContext).inflate(R.layout.banner_item, parent, false));
     }
-
+    
     @Override
     public void onBindViewHolder(final BannerHolder holder, final int position) {
-
+        
         MainBannerModel item = itemsList.get(position);
-
+        
         holder.txtTitle.setText(item.getTitle());
-
+        
         holder.imgItem.getLayoutParams().width = w;
         holder.imgItem.getLayoutParams().height = h;
         holder.txtTitle.getLayoutParams().width = w;
-
+        
         Glide.with(AppConfig.context)
                 .load(item.getUrl())
                 .apply(requestOptions)
@@ -77,29 +77,29 @@ public class ShopBannerItemAdapter extends RecyclerView.Adapter<ShopBannerItemAd
                     }
                 });
     }
-
+    
     @Override
     public int getItemCount() {
         return (null != itemsList ? itemsList.size() : 0);
     }
-
-
+    
+    
     public class BannerHolder extends RecyclerView.ViewHolder {
-
+        
         private LinearLayout layout_click;
         private TextView     txtTitle;
         private ImageView    imgItem;
-
+        
         private BannerHolder(View view) {
             super(view);
-
+            
             layout_click = view.findViewById(R.id.layout_click);
             txtTitle = view.findViewById(R.id.txt_title);
             imgItem = view.findViewById(R.id.imgItem);
-
+            
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);
         }
     }
-
-
+    
+    
 }

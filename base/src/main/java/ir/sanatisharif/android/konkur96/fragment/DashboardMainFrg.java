@@ -47,7 +47,7 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.ACCOUNT_TYPE;
  */
 
 public class DashboardMainFrg extends BaseFragment {
-
+    
     private User         user;
     private AccountInfo  accountInfo;
     private ImageView    imgUser;
@@ -56,51 +56,51 @@ public class DashboardMainFrg extends BaseFragment {
     private TextView     txtNationalCode, txtMobile, txtFullName, txtField;
     private LinearLayout itemVideo, itemAboutMe, itemNewOrder, itemBasket;
     private FloatingActionButton fabItemVideo, fabItemAboutMe, fabItemNewOrder, fabItemBasket;
-
+    
     public static DashboardMainFrg newInstance() {
-
+        
         Bundle args = new Bundle();
-
+        
         DashboardMainFrg fragment = new DashboardMainFrg();
         fragment.setArguments(args);
         return fragment;
     }
-
+    
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_profile_fab_menu, container, false);
     }
-
-
+    
+    
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        
         accountInfo = new AccountInfo(getContext(), getActivity());
         user = accountInfo.getInfo(ACCOUNT_TYPE);
         initUi(view);
         setData();
     }
-
+    
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_dashbard, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        
         int id = item.getItemId();
-
+        
         if (id == android.R.id.home) {
             Events.CloseFragment closeFragment = new Events.CloseFragment();
             closeFragment.setTagFragments("");
             EventBus.getDefault().post(closeFragment);
-
+            
         } else if (id == R.id.actionSetting) {
             startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
         } else if (id == R.id.actionSettingSupportBuy) {
-
+            
             MyAlertDialogFrg alert = new MyAlertDialogFrg();
             alert.setTitle(getString(R.string.settingsSupportBuy));
             alert.setMessage(getString(R.string.supportBuy));
@@ -110,7 +110,7 @@ public class DashboardMainFrg extends BaseFragment {
             String alaaTelegramUrl = "https://telegram.me/joinchat/AAAAADwv5Wn78qn7-PT8fQ";
             Intent intent          = new Intent(Intent.ACTION_VIEW, Uri.parse(alaaTelegramUrl));
             intent.setPackage("org.telegram.messenger");
-
+            
             try {
                 if (intent.resolveActivity(AppConfig.context.getPackageManager()) != null) {
                     startActivity(intent);
@@ -123,7 +123,7 @@ public class DashboardMainFrg extends BaseFragment {
                 Toast.makeText(AppConfig.context, "@alaa_sanatisharif", Toast.LENGTH_LONG).show();
             }
         } else if (id == R.id.actionSettingLogout) {
-
+            
             MyAlertDialogFrg alert = new MyAlertDialogFrg();
             alert.setTitle("خروج از حساب کاربری");
             alert.setMessage("آیا مایلید از حساب کاربری آلاء خارج شوید؟");
@@ -138,38 +138,38 @@ public class DashboardMainFrg extends BaseFragment {
                                 // Events.CloseFragment closeFragment = new Events.CloseFragment();
                                 // closeFragment.setTagFragments("");
                                 // EventBus.getDefault().post(closeFragment);
-
+                                
                                 startActivity(new Intent(getActivity(), AuthenticatorActivity.class));
                                 AppConfig.HANDLER.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-
+                                    
                                     }
                                 }, 100);
                                 AppConfig.currentActivity.finish();
-
+                                
                             } else {
                                 ActivityBase.toastShow("خطا در حذف اکانت", MDToast.TYPE_ERROR);
                             }
                         }
                     });
-
+                    
                     // Log.i("LOG", "setOnPositive: accountInfo");
                 }
-
+                
                 @Override
                 public void setOnNegative() {
-
+                
                 }
             });
             alert.show(getHostFragmentManager(), "alert");
-
+            
         }
-
-
+        
+        
         return super.onOptionsItemSelected(item);
     }
-
+    
     public FragmentManager getHostFragmentManager() {
         FragmentManager fm = getFragmentManager();
         if (fm == null && isAdded()) {
@@ -177,17 +177,17 @@ public class DashboardMainFrg extends BaseFragment {
         }
         return fm;
     }
-
+    
     private void initUi(View view) {
-
+        
         setToolbar(mToolbar, "پروفایل من");
-
+        
         getFragmentManager().beginTransaction()
                 .add(R.id.fl_container_profile, MyProduct.newInstance(), "MyProduct")
                 .commit();
-
+        
         //init
-
+        
         final CollapsingToolbarLayout
                 collapsing_toolbar =
                 view.findViewById(R.id.collapsing_toolbar);
@@ -202,33 +202,33 @@ public class DashboardMainFrg extends BaseFragment {
                         Log.i("LOG", "onOffsetChanged: " + scale + " " + verticalOffset);
                     }
                 });
-
+        
         imgUser = view.findViewById(R.id.imgUser);
         txtFullName = view.findViewById(R.id.txtFullName);
         txtField = view.findViewById(R.id.txtField);
         txtMobile = view.findViewById(R.id.txtMobile);
         txtNationalCode = view.findViewById(R.id.txtNationalCode);
-
+        
         itemBasket = view.findViewById(R.id.itemBasket);
         itemAboutMe = view.findViewById(R.id.itemAboutMe);
         itemVideo = view.findViewById(R.id.itemVideo);
         itemNewOrder = view.findViewById(R.id.itemNewOrder);
-
+        
         fabItemBasket = itemBasket.findViewById(R.id.fabTitle);
         fabItemAboutMe = itemAboutMe.findViewById(R.id.fabTitle);
         fabItemVideo = itemVideo.findViewById(R.id.fabTitle);
         fabItemNewOrder = itemNewOrder.findViewById(R.id.fabTitle);
-
+        
         ((TextView) itemBasket.findViewById(R.id.txt_title)).setText("سبدخرید");
         ((TextView) itemAboutMe.findViewById(R.id.txt_title)).setText("درباره آلاء");
         ((TextView) itemVideo.findViewById(R.id.txt_title)).setText("فیلم\u200Cهای دانلود شده");
         ((TextView) itemNewOrder.findViewById(R.id.txt_title)).setText("سفارش\u200Cهای من");
-
+        
         fabItemBasket.setImageResource(R.drawable.ic_buy);//
         fabItemAboutMe.setImageResource(R.drawable.ic_call);
         fabItemVideo.setImageResource(R.drawable.ic_video_24dp);//
         fabItemNewOrder.setImageResource(R.drawable.ic_gift);
-
+        
         fabItemBasket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -241,7 +241,7 @@ public class DashboardMainFrg extends BaseFragment {
                 addFrg(AbouteMeFrg.newInstance(), "AbouteMeFrg");
             }
         });
-
+        
         fabItemVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -255,12 +255,12 @@ public class DashboardMainFrg extends BaseFragment {
             }
         });
     }
-
-
+    
+    
     //<editor-fold desc="set data">
     private void setData() {
         if (user != null) {
-
+            
             if (user.getLastName() != null && user.getFirstName() != null)
                 txtFullName.setText(user.getFirstName() + " " + user.getLastName());
             if (user.getInfo() != null && user.getInfo().getMajor() != null)

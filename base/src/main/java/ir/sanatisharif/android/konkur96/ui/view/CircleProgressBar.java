@@ -18,7 +18,7 @@ import ir.sanatisharif.android.konkur96.R;
  */
 
 public class CircleProgressBar extends View {
-
+    
     /**
      * ProgressBar's line thickness
      */
@@ -34,16 +34,16 @@ public class CircleProgressBar extends View {
     private RectF rectF;
     private Paint backgroundPaint;
     private Paint foregroundPaint;
-
+    
     public CircleProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
-
+    
     public float getStrokeWidth() {
         return strokeWidth;
     }
-
+    
     public void setStrokeWidth(float strokeWidth) {
         this.strokeWidth = strokeWidth;
         backgroundPaint.setStrokeWidth(strokeWidth);
@@ -51,38 +51,38 @@ public class CircleProgressBar extends View {
         invalidate();
         requestLayout();//Because it should recalculate its bounds
     }
-
+    
     public float getProgress() {
         return progress;
     }
-
+    
     public void setProgress(float progress) {
         this.progress = progress;
         invalidate();
     }
-
+    
     public int getMin() {
         return min;
     }
-
+    
     public void setMin(int min) {
         this.min = min;
         invalidate();
     }
-
+    
     public int getMax() {
         return max;
     }
-
+    
     public void setMax(int max) {
         this.max = max;
         invalidate();
     }
-
+    
     public int getColor() {
         return color;
     }
-
+    
     public void setColor(int color) {
         this.color = color;
         backgroundPaint.setColor(adjustAlpha(color, 0.3f));
@@ -90,7 +90,7 @@ public class CircleProgressBar extends View {
         invalidate();
         requestLayout();
     }
-
+    
     private void init(Context context, AttributeSet attrs) {
         rectF = new RectF();
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(
@@ -109,31 +109,31 @@ public class CircleProgressBar extends View {
         finally {
             typedArray.recycle();
         }
-
+        
         backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         backgroundPaint.setColor(adjustAlpha(color, 0.3f));
         backgroundPaint.setStyle(Paint.Style.STROKE);
         backgroundPaint.setStrokeWidth(strokeWidth);
-
+        
         foregroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         foregroundPaint.setColor(color);
         foregroundPaint.setStyle(Paint.Style.STROKE);
         foregroundPaint.setStrokeWidth(strokeWidth);
     }
-
+    
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        
         canvas.drawOval(rectF, backgroundPaint);
         float angle = 360 * progress / max;
         canvas.drawArc(rectF, startAngle, angle, false, foregroundPaint);
-
+        
     }
-
+    
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
+        
         final int height = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);
         final int width  = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
         final int min    = Math.min(width, height);
@@ -142,7 +142,7 @@ public class CircleProgressBar extends View {
                 0 + strokeWidth / 2,
                 0 + strokeWidth / 2, min - strokeWidth / 2, min - strokeWidth / 2);
     }
-
+    
     /**
      * Lighten the given color by the factor
      *
@@ -160,7 +160,7 @@ public class CircleProgressBar extends View {
         int   ia = Color.alpha(color);
         return (Color.argb(ia, ir, ig, ib));
     }
-
+    
     /**
      * Transparent the given color by the factor
      * The more the factor closer to zero the more the color gets transparent
@@ -176,7 +176,7 @@ public class CircleProgressBar extends View {
         int blue  = Color.blue(color);
         return Color.argb(alpha, red, green, blue);
     }
-
+    
     /**
      * SetModel the progress with an animation.
      * Note that the {@link ObjectAnimator} Class automatically set the progress
@@ -185,7 +185,7 @@ public class CircleProgressBar extends View {
      * @param progress The progress it should animate to it.
      */
     public void setProgressWithAnimation(float progress) {
-
+        
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(this, "progress", progress);
         objectAnimator.setDuration(1500);
         objectAnimator.setInterpolator(new DecelerateInterpolator());

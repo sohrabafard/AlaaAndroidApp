@@ -28,7 +28,7 @@ import ir.sanatisharif.android.konkur96.model.FileDiskModel;
  */
 
 public class DeleteFileDialogFrg extends BaseDialogFragment<DeleteFileDialogFrg> {
-
+    
     private static final String                   TAG            = "Alaa\\DeleteFileDialogFr";
     //------init UI
     private              View                     dialog;
@@ -36,43 +36,43 @@ public class DeleteFileDialogFrg extends BaseDialogFragment<DeleteFileDialogFrg>
     private              TextView                 txtCancel;
     private              ArrayList<FileDiskModel> fileDiskModels = new ArrayList<>();
     private              Callback                 mCallback;
-
+    
     public DeleteFileDialogFrg setCallback(Callback callback) {
         mCallback = callback;
         return this;
     }
-
+    
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog_Alert);
         } else {
             setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_DeviceDefault);
         }
     }
-
-
+    
+    
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
+        
         dialog = inflater.inflate(R.layout.dialog_delete_file, container, false);
         setCancelable(false);
         return dialog;
     }
-
+    
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        
         txtOk = dialog.findViewById(R.id.txtOk);
         txtCancel = dialog.findViewById(R.id.txtCancel);
-
+        
         txtOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,19 +86,19 @@ public class DeleteFileDialogFrg extends BaseDialogFragment<DeleteFileDialogFrg>
                 dismiss();
             }
         });
-
+        
     }
-
+    
     public DeleteFileDialogFrg setFileDiskModels(List<FileDiskModel> v) {
         Log.i(TAG, "setFileDiskModels: " + v.size());
         fileDiskModels.addAll(v);
         return this;
     }
-
+    
     private void notifyAndDeleteFile() {
         Log.i(TAG, "video-size: " + fileDiskModels.size());
         for (int i = 0; i < fileDiskModels.size(); i++) {
-
+            
             String url       = fileDiskModels.get(i).getLink();
             String mediaPath = FileManager.getPathFromAllaUrl(url);
             String fileName  = FileManager.getFileNameFromUrl(url);
@@ -111,13 +111,13 @@ public class DeleteFileDialogFrg extends BaseDialogFragment<DeleteFileDialogFrg>
         mCallback.fileDeleted();
         dismiss();
     }
-
+    
     @Override
     public void onDestroy() {
         super.onDestroy();
         fileDiskModels.clear();
     }
-
+    
     public interface Callback {
         void fileDeleted();
     }

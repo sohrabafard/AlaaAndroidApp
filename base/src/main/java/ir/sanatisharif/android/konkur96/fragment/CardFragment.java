@@ -56,85 +56,85 @@ import static ir.sanatisharif.android.konkur96.app.AppConfig.currentActivity;
 import static ir.sanatisharif.android.konkur96.app.AppConfig.showNoInternetDialog;
 
 public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, CardReviewProductAdapter.DeleteListener {
-
+    
     private int finalPrice;
-
+    
     private Toolbar            pageToolbar;
     private SwipeRefreshLayout swipeRefreshLayout;
-
+    
     private Repository               repository;
     private LinearLayoutManager      linearLayoutManager;
     private CardReviewProductAdapter adapter;
-
+    
     private RecyclerView productsRecyclerView;
     private CardView     btnShowFactor;
     private TextView     txtPriceBase, txtPriceDiscount, txtPriceFinal;
-
+    
     private Context  mContext;
     private Activity mActivity;
-
+    
     public static CardFragment newInstance() {
-
+        
         Bundle args = new Bundle();
-
+        
         CardFragment fragment = new CardFragment();
         fragment.setArguments(args);
         return fragment;
     }
-
-
+    
+    
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_card_shop, container, false);
     }
-
+    
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mActivity = currentActivity;
         repository = new RepositoryImpl(mActivity);
         mContext = getContext();
-
+        
         initView(view);
         getData();
     }
-
+    
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main_shop, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        
         int id = item.getItemId();
-
+        
         if (id == R.id.actionSetting) {
-
+        
         }
         if (id == android.R.id.home) {
             Events.CloseFragment closeFragment = new Events.CloseFragment();
             closeFragment.setTagFragments("");
             EventBus.getDefault().post(closeFragment);
-
+            
         } else if (id == R.id.actionSetting) {
             startActivity(new Intent(AppConfig.currentActivity, SettingActivity.class));
-
+            
         }
-
+        
         return super.onOptionsItemSelected(item);
     }
-
+    
     private void getData() {
-
+        
         adapter.setItems(new ArrayList<>());
-
+        
         AuthToken.getInstant().get(mContext, mActivity, new AuthToken.Callback() {
             @Override
             public void run(@NonNull String token) {
                 repository.cardReview(token, data -> {
-
+                    
                     if (data instanceof Result.Success) {
                         mActivity.runOnUiThread(new Runnable() {
                             @Override
@@ -143,27 +143,27 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                                 swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(false));
                             }
                         });
-
+                        
                     } else {
                         Log.d("Test", (String) ((Result.Error) data).value);
                     }
-
+                    
                 });
             }
-
+            
             @Override
             public void nill() {
-
+            
             }
         });
     }
-
+    
     @SuppressLint("SetTextI18n")
     private void setData(CardReviewModel data) {
-
+        
         //---------------------- set cardReviewModel data ---------------------------------------------
         finalPrice = data.getPrice().getMfinal();
-
+        
         //---------------------- set txt data ---------------------------------------------
         txtPriceBase.setText(this.getString(R.string.totalPrice) +
                              ShopUtils.formatPrice(data.getPrice().getBase()) +
@@ -174,22 +174,22 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         txtPriceFinal.setText(this.getString(R.string.payable_price) +
                               ShopUtils.formatPrice(data.getPrice().getMfinal()) +
                               this.getString(R.string.toman));
-
+        
         //---------------------- convert -------------------------------------------------------
-
+        
         adapter.setItems(data.getItems());
-
+        
         btnShowFactor.setOnClickListener(view -> {
-
+            
             /*openZarinPal();*/
-
+            
             getUrl();
-
+            
         });
-
-
+        
+        
     }
-
+    
     private void getUrl() {
         if (!Utils.isConnected()) {
             showDialog();
@@ -199,9 +199,9 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             @Override
             public void run(@NonNull String token) {
                 repository.getPaymentUrl(token, data -> {
-
+                    
                     if (data instanceof Result.Success) {
-
+                        
                         String url = ((PaymentUrlModel) ((Result.Success) data).value).getUrl();
                         if (null != url) {
                             mActivity.runOnUiThread(new Runnable() {
@@ -212,21 +212,21 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                             });
                         }
                     } else {
-
+                        
                         Log.d("Test", (String) ((Result.Error) data).value);
                     }
-
-
+                    
+                    
                 });
             }
-
+            
             @Override
             public void nill() {
-
+            
             }
         });
     }
-
+    
     public void showDialog() {
         final Dialog dialog = new Dialog(new ContextThemeWrapper(currentActivity,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth));
@@ -234,11 +234,11 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_no_internet);
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
+        
         showNoInternetDialog = true;
         Button    btnOK    = dialog.findViewById(R.id.btnOK);
         ImageView imgCLose = dialog.findViewById(R.id.imgCLose);
-
+        
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -253,20 +253,20 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 dialog.dismiss();
             }
         });
-
+        
         dialog.show();
-
+        
     }
-
+    
     private void initView(View v) {
-
+        
         //text
         txtPriceBase = v.findViewById(R.id.txt_price_base);
         txtPriceDiscount = v.findViewById(R.id.txt_price_discount);
         txtPriceFinal = v.findViewById(R.id.txt_price_final);
-
+        
         btnShowFactor = v.findViewById(R.id.btn_show_factor);
-
+        
         //swipeRefreshLayout
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(AppConfig.colorSwipeRefreshing);
@@ -280,28 +280,28 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         adapter = new CardReviewProductAdapter(getContext(), this::delete);
         productsRecyclerView.setAdapter(adapter);
         productsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-
+        
+        
         setHasOptionsMenu(true);
         setToolbar(pageToolbar, "سبد خرید");
-
+        
     }
-
-
+    
+    
     @Override
     public void onRefresh() {
         getData();
     }
-
+    
     private void openWebView(String url) {
-
+        
         try {
-            Uri                                        uri        = Uri.parse(url);
+            Uri uri = Uri.parse(url);
             Intent
-                                                       intent     =
+                    intent =
                     new Intent(Intent.ACTION_VIEW, uri);
             @SuppressLint("WrongConstant") ResolveInfo
-                                                       resolvable =
+                    resolvable =
                     getActivity().getPackageManager().resolveActivity(intent, PackageManager.GET_INTENT_FILTERS);
             if (resolvable != null) {
                 startActivity(intent);
@@ -311,13 +311,13 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             Log.e("Alla", e.getMessage(), e);
         }
     }
-
+    
     public void delete(int id) {
         AuthToken.getInstant().get(mContext, mActivity, new AuthToken.Callback() {
             @Override
             public void run(@NonNull String token) {
                 repository.delProductFromCard(token, String.valueOf(id), data -> {
-
+                    
                     if (data instanceof Result.Success) {
                         mActivity.runOnUiThread(new Runnable() {
                             @Override
@@ -331,19 +331,19 @@ public class CardFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     }
                 });
             }
-
+            
             @Override
             public void nill() {
-
+            
             }
         });
     }
-
+    
     @Override
     public void onClickDelete(int id) {
-
+        
         delete(id);
-
+        
     }
 }
 

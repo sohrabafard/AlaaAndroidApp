@@ -36,33 +36,33 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.AUTHTOKEN_TYPE_F
  */
 
 public class AccountInfo {
-
+    
     public  String         TAG = "Alla";
     private AccountManager mAccountManager;
     private Context        mContext;
     private Activity       activity;
-
+    
     public AccountInfo(Context context) {
         this.mContext = context.getApplicationContext();
         mAccountManager = AccountManager.get(this.mContext);
     }
-
+    
     public AccountInfo(Context context, Activity activity) {
         this.mContext = context.getApplicationContext();
         this.activity = activity;
         mAccountManager = AccountManager.get(this.mContext);
     }
-
+    
     public AccountInfo setActivity(Activity activity) {
         this.activity = activity;
         return this;
     }
-
+    
     public AccountInfo setmContext(Context context) {
         this.mContext = context.getApplicationContext();
         return this;
     }
-
+    
     /**
      * Add new account to the account manager
      *
@@ -82,7 +82,7 @@ public class AccountInfo {
                                     Bundle bnd = future.getResult();
                                     //  Log.i(TAG, "addNewAccount  : " + bnd);
                                     toastShow(mContext.getResources().getString(R.string.register_success), MDToast.TYPE_SUCCESS);
-
+                                    
                                 }
                                 catch (Exception e) {
                                     e.printStackTrace();
@@ -91,7 +91,7 @@ public class AccountInfo {
                             }
                         }, null);
     }
-
+    
     /**
      * Get the auth token for an existing account on the AccountManager
      *
@@ -111,7 +111,7 @@ public class AccountInfo {
             future =
                     mAccountManager.getAuthToken(account[0], authTokenType, null, activity, null, null);
         }
-
+        
         Thread t = new Thread(() -> {
             try {
                 Bundle bnd = future.getResult();
@@ -129,20 +129,20 @@ public class AccountInfo {
         });
         t.start();
     }
-
+    
     public void invalidateAuthToken(final Account account, String authTokenType) throws Exception {
         if (activity == null) {
             throw new Exception("Activity is Null!");
         }
         final AccountManagerFuture<Bundle> future =
                 mAccountManager.getAuthToken(account, authTokenType, null, activity, null, null);
-
+        
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Bundle bnd = future.getResult();
-
+                    
                     final String authtoken = bnd.getString(AccountManager.KEY_AUTHTOKEN);
                     mAccountManager.invalidateAuthToken(account.type, authtoken);
                 }
@@ -152,31 +152,31 @@ public class AccountInfo {
             }
         }).start();
     }
-
+    
     public User getInfo(String accountType) {
-
+        
         Gson      gson    = new Gson();
         Account[] account = mAccountManager.getAccountsByType(accountType);
         if (account.length == 0)
             return null;
         String userData = mAccountManager.getUserData(account[0], AccountManager.KEY_USERDATA);
-
+        
         if (userData != null)
             return gson.fromJson(userData, User.class);
-
+        
         return null;
-
+        
     }
-
+    
     public void removeAccount(String accountType, RemoveAccount removeAccount) {
-
+        
         Account[] account = mAccountManager.getAccountsByType(accountType);
         if (account == null || account.length == 0)
             return;
         mAccountManager.removeAccount(account[0], new AccountManagerCallback<Boolean>() {
             @Override
             public void run(AccountManagerFuture<Boolean> future) {
-
+                
                 try {
                     if (future.getResult()) {
                         if (removeAccount != null) {
@@ -197,7 +197,7 @@ public class AccountInfo {
             }
         }, null);
     }
-
+    
     public boolean ExistAccount(String type) {
         if (!InstantApps.isInstantApp(mContext)) {
             Account[] availableAccounts = mAccountManager.getAccountsByType(type);
@@ -227,20 +227,20 @@ public class AccountInfo {
                 .setNegativeButton("خیر", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                    
                     }
                 })
                 .create().show();
-
+        
         return false;
     }
-
+    
     public interface AuthToken {
         void onToken(@NonNull String token);
-
+        
         void onNullToken();
     }
-
+    
     public interface RemoveAccount {
         void onRemove(boolean done);
     }

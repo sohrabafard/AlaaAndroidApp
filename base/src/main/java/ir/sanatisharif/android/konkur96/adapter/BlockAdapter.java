@@ -34,22 +34,22 @@ import static ir.sanatisharif.android.konkur96.app.AppConstants.MORE_VIDEO_OFFLI
 
 
 public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    
     int width = 0;
-    private List<BlockDataModel>         dataList;
-    private Context             mContext;
-    private OnItemClickListener mClickListener;
+    private List<BlockDataModel> dataList;
+    private Context              mContext;
+    private OnItemClickListener  mClickListener;
     //private SnapHelper snapHelper;
-
+    
     public BlockAdapter(Context context, List<BlockDataModel> dataList) {
         this.dataList = dataList;
         this.mContext = context;
         //snapHelper = new GravitySnapHelper(Gravity.START);
     }
-
+    
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+        
         if (viewType == AppConstants.ITEM_SLIDER)
             return new SliderHolder(LayoutInflater.from(mContext).inflate(R.layout.item_slider_adapter, parent, false));
         else if (viewType == AppConstants.HEADER_DATA)
@@ -64,23 +64,23 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return new ItemHolder(LayoutInflater.from(mContext).inflate(R.layout.item_set_adapter, parent, false));
         else if (viewType == AppConstants.VIDEO_OFFLINE_ITEM)
             return new VideoOfflineItemHolder(LayoutInflater.from(mContext).inflate(R.layout.item_set_adapter, parent, false));
-
+        
         return null;
     }
-
+    
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-
+        
         // To Determine View Type
         int viewType = getItemViewType(position);
-
+        
         if (viewType == AppConstants.HEADER_DATA) {
-
+            
             HeaderHolder headerHolder = (HeaderHolder) holder;
             String       url          = dataList.get(position).getUrl();
-
+            
             headerHolder.txtTitle.setText(dataList.get(position).getTitle());
-
+            
             View.OnClickListener filter = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -93,7 +93,7 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     addFrg(VideoDownloadedFrg.newInstance(), "VideoDownloadedFrg");
                 }
             };
-
+            
             if (url != null) {
                 if (URLUtil.isHttpsUrl(url) || URLUtil.isHttpUrl(url)) {
                     headerHolder.txtTitle.setOnClickListener(filter);
@@ -102,20 +102,20 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     headerHolder.txtTitle.setOnClickListener(downloadVideo);
                     headerHolder.txtMore.setOnClickListener(downloadVideo);
                 }
-
+                
             } else {
                 headerHolder.txtTitle.setVisibility(View.GONE);
             }
-
+            
         } else if (viewType == AppConstants.ITEM_SET) {
-
+            
             final ItemHolder itemRowHolder = (ItemHolder) holder;
-
+            
             final List<SetModel> items = dataList.get(position).getSets();
-
+            
             CategoryItemAdapter itemListDataAdapter = new CategoryItemAdapter(mContext, items);
-
-
+            
+            
             LinearLayoutManager
                     lin =
                     new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
@@ -124,15 +124,15 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             itemRowHolder.recyclerView.setHasFixedSize(true);
             itemRowHolder.recyclerView.setAdapter(itemListDataAdapter);
             itemListDataAdapter.notifyDataSetChanged();
-
+            
         } else if (viewType == AppConstants.ITEM_CONTENT) {
-
+            
             final ItemHolder itemRowHolder = (ItemHolder) holder;
-
+            
             List<ContentModel> items = dataList.get(position).getContents();
-
+            
             ContentItemAdapter itemListDataAdapter = new ContentItemAdapter(mContext, items);
-
+            
             itemRowHolder.recyclerView.setHasFixedSize(false);
             LinearLayoutManager
                     lin =
@@ -143,17 +143,17 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             itemRowHolder.recyclerView.setHasFixedSize(true);
             itemRowHolder.recyclerView.setAdapter(itemListDataAdapter);
             itemListDataAdapter.notifyDataSetChanged();
-
+            
         } else if (viewType == AppConstants.ITEM_PRODUCT) {
-
+            
             final ItemHolder itemRowHolder = (ItemHolder) holder;
-
+            
             List<ProductModel> items = dataList.get(position).getProducts();
-
+            
             ProductMainItemAdapter
                     productMainItemAdapter =
                     new ProductMainItemAdapter(mContext, items);
-
+            
             itemRowHolder.recyclerView.setHasFixedSize(false);
             LinearLayoutManager
                     lin =
@@ -164,15 +164,15 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             itemRowHolder.recyclerView.setHasFixedSize(true);
             itemRowHolder.recyclerView.setAdapter(productMainItemAdapter);
             productMainItemAdapter.notifyDataSetChanged();
-
+            
         } else if (viewType == AppConstants.ITEM_BANNER) {
-
+            
             final ItemHolder itemRowHolder = (ItemHolder) holder;
-
+            
             List<MainBannerModel> items = dataList.get(position).getBanners();
-
+            
             BannerItemAdapter itemListDataAdapter = new BannerItemAdapter(mContext, items);
-
+            
             itemRowHolder.recyclerView.setHasFixedSize(true);
             LinearLayoutManager
                     lin =
@@ -182,30 +182,30 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             itemRowHolder.recyclerView.setAdapter(itemListDataAdapter);
             itemRowHolder.recyclerView.setNestedScrollingEnabled(false);
             // snapHelper.attachToRecyclerView(itemRowHolder.recyclerView);
-
+            
         } else if (viewType == AppConstants.ITEM_SLIDER) {
-
+            
             final SliderHolder itemRowHolder = (SliderHolder) holder;
-
+            
             List<MainBannerModel> items = dataList.get(position).getBanners();
             itemRowHolder.view_pager.setAdapter(new ViewSliderAdapter(AppConfig.context, items, null));
             itemRowHolder.view_pager.startAutoScroll();
-
+            
             itemRowHolder.indicator = itemRowHolder.itemView.findViewById(R.id.indicator);
             itemRowHolder.indicator.setViewPager(itemRowHolder.view_pager);
-
+            
         }
     }
-
+    
     @Override
     public int getItemCount() {
         return (null != dataList ? dataList.size() : 0);
     }
-
-
+    
+    
     @Override
     public int getItemViewType(int position) {
-
+        
         if (dataList.get(position).getType() == AppConstants.ITEM_SLIDER)
             return AppConstants.ITEM_SLIDER;
         else if (dataList.get(position).getType() == AppConstants.HEADER_DATA)
@@ -218,71 +218,71 @@ public class BlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return AppConstants.ITEM_CONTENT;
         else if (dataList.get(position).getType() == AppConstants.ITEM_BANNER)
             return AppConstants.ITEM_BANNER;
-
+        
         return -1;
-
+        
     }
-
+    
     public void setSize(int w, int h) {
-
+        
         AppConfig.itemHeight = (int) (w * 0.56f);
         width = w;
     }
-
+    
     //holder
     public class ItemHolder extends RecyclerView.ViewHolder {
-
+        
         protected LinearLayout root;
         protected RecyclerView recyclerView;
-
+        
         private ItemHolder(View view) {
             super(view);
-
+            
             root = view.findViewById(R.id.root);
             recyclerView = view.findViewById(R.id.recyclerView);
             recyclerView.getLayoutParams().height = AppConfig.itemHeight;
         }
     }
-
+    
     public class SliderHolder extends RecyclerView.ViewHolder {
-
+        
         public AutoScrollViewPager view_pager;
         public CirclePageIndicator indicator;
-
+        
         private SliderHolder(View view) {
             super(view);
-
+            
             view_pager = view.findViewById(R.id.view_pager);
-
+            
             view_pager.startAutoScroll(5000);
             view_pager.setBorderAnimation(true);
-
+            
             int h = (int) (AppConfig.width * 0.39f);
             view_pager.getLayoutParams().height = h;
-
+            
         }
     }
-
+    
     public class HeaderHolder extends RecyclerView.ViewHolder {
-
+        
         protected TextView txtTitle;
         protected TextView txtMore;
-
+        
         private HeaderHolder(View view) {
             super(view);
-
+            
             txtTitle = view.findViewById(R.id.txt_title);
             txtMore = view.findViewById(R.id.txtMore);
             txtTitle.setTypeface(AppConfig.fontIRSensNumber);
             txtMore.setTypeface(AppConfig.fontIRSensNumber);
         }
     }
-
+    
     public class VideoOfflineItemHolder extends ItemHolder {
-
+        
         private VideoOfflineItemHolder(View view) {
             super(view);
-
+            
         }
     }
 }

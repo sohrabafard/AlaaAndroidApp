@@ -28,13 +28,13 @@ import java.util.ArrayList;
 
 import ir.sanatisharif.android.konkur96.R;
 import ir.sanatisharif.android.konkur96.activity.ActivityBase;
+import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.MyAlertDialogFrg;
 import ir.sanatisharif.android.konkur96.handler.EncryptedDownloadInterface;
 import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.model.Events;
-import ir.sanatisharif.android.konkur96.api.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.DownloadFile;
 import ir.sanatisharif.android.konkur96.utils.OpenFile;
@@ -50,11 +50,11 @@ import static ir.sanatisharif.android.konkur96.activity.MainActivity.addFrg;
 
 public class ShowContentInfoFrg extends BaseFragment implements
         View.OnClickListener, TagGroup.OnTagClickListener {
-
+    
     private static final String[]
-                                        PERMISSIONS    =
+                                      PERMISSIONS    =
             {Manifest.permission.WRITE_EXTERNAL_STORAGE,};
-    private static final int            PERMISSION_ALL = 1;
+    private static final int          PERMISSION_ALL = 1;
     private static       ContentModel course;
     FragmentManager fragmentManager;
     private TextView txtAuthor, txtTitle;
@@ -64,16 +64,16 @@ public class ShowContentInfoFrg extends BaseFragment implements
     private Toolbar  toolbar;
     private TagGroup tagGroup;
     private String   TAG = "Alaa\\ShowContentInfoFrg";
-
+    
     public static ShowContentInfoFrg newInstance(ContentModel c) {
-
+        
         Bundle args = new Bundle();
         course = c;
         ShowContentInfoFrg fragment = new ShowContentInfoFrg();
         fragment.setArguments(args);
         return fragment;
     }
-
+    
     //---------------------------------------------------------------------------------------
     public static boolean hasPermissions(Context context, String... permissions) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null &&
@@ -87,37 +87,37 @@ public class ShowContentInfoFrg extends BaseFragment implements
         }
         return true;
     }
-
+    
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_content, container, false);
     }
-
+    
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        
         fragmentManager = getFragmentManager();
         initUI(view);
         setData();
-
+        
     }
-
+    
     private void setData() {
-
+        
         if (course != null) {
             if (course.getName() != null)
                 txtTitle.setText(course.getName());
             if (course.getAuthor().getFullName() != null)
                 txtAuthor.setText(course.getAuthor().getFullName());
-
+            
             //  Log.i(TAG, "setData: "+course.getDescription());
             //    tagGroup.setTags(course.getTags().getTags());
-
+            
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-
+                    
                     AppConfig.HANDLER.post(new Runnable() {
                         @Override
                         public void run() {
@@ -134,7 +134,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
                     });
                 }
             }).start();
-
+            
             if (course.getFile().getPamphlet().get(0).getLink() != null) {
                 String
                         fileName =
@@ -153,46 +153,46 @@ public class ShowContentInfoFrg extends BaseFragment implements
             }
         }
     }
-
+    
     private void initUI(View view) {
-
+        
         setToolbar(toolbar, "نمایش محتوا");
         txtAuthor = view.findViewById(R.id.txtAuthor);
         txtTitle = view.findViewById(R.id.txt_title);
         webView = view.findViewById(R.id.webView);
-
+        
         btnDownload = view.findViewById(R.id.btnDownload);
         btnOpenPDF = view.findViewById(R.id.btnOpenPDF);
         tagGroup = view.findViewById(R.id.tag_group);
-
+        
         for (View v : tagGroup.getTouchables()) {
             if (v instanceof TextView) {
                 ((TextView) v).setTypeface(AppConfig.fontIRSensLight);
             }
         }
-
+        
         btnDownload.setOnClickListener(this);
         btnOpenPDF.setOnClickListener(this);
         tagGroup.setOnTagClickListener(this);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        
         int id = item.getItemId();
-
+        
         if (id == android.R.id.home) {
             Events.CloseFragment closeFragment = new Events.CloseFragment();
             closeFragment.setTagFragments("");
             EventBus.getDefault().post(closeFragment);
         }
-
+        
         return super.onOptionsItemSelected(item);
     }
-
+    
     @Override
     public void onClick(View view) {
-
+        
         if (view != null) {
             if (view.getId() == R.id.btnDownload) {
                 MyAlertDialogFrg alert = new MyAlertDialogFrg();
@@ -201,21 +201,21 @@ public class ShowContentInfoFrg extends BaseFragment implements
                         .setListener(new MyAlertDialogFrg.MyAlertDialogListener() {
                             @Override
                             public void setOnPositive() {
-
+                                
                                 startFileDownload();
                                 alert.dismiss();
                             }
-
+                            
                             @Override
                             public void setOnNegative() {
                                 alert.dismiss();
                             }
                         });
-
+                
                 if (fragmentManager != null) {
                     alert.show(fragmentManager, "alert");
                 }
-
+                
             } else if (view.getId() == R.id.btnOpenPDF) {
                 String
                         fileName =
@@ -226,8 +226,8 @@ public class ShowContentInfoFrg extends BaseFragment implements
                             OpenFile.getPdfFileIntent(getActivity(),
                                     FileManager.getPDFPath() + "/" + fileName);
                     Log.i(TAG, "." + pdfFileIntent.toString());
-
-
+                    
+                    
                     try {
                         startActivity(pdfFileIntent);
                     }
@@ -238,28 +238,28 @@ public class ShowContentInfoFrg extends BaseFragment implements
                 }
             }
         }
-
+        
     }
-
+    
     private void startFileDownload() {
         if (getActivity() != null && checkLocationPermission()) {
             if (course != null && course.getFile().getPamphlet().get(0).getLink() != null) {
-                String url      = course.getFile().getPamphlet().get(0).getLink();
+                String url = course.getFile().getPamphlet().get(0).getLink();
                 String
-                       fileName =
+                        fileName =
                         Utils.getFileNameFromUrl(course.getFile().getPamphlet().get(0).getLink());
-                String name     = course.getName();
+                String name = course.getName();
                 downloadPreProcess(url, fileName, name);
             } else
                 ActivityBase.toastShow("لینک دانلود معتبر نیست!", MDToast.TYPE_ERROR);
         }
     }
-
+    
     private void downloadPreProcess(String url, String fileName, String name) {
-
+        
         Log.i(TAG, "downloadPreProcess: " + url);
-
-
+        
+        
         if (url.contains("cdn.") || url.contains("paid.")) {
             startDownload(url, fileName, name);
         } else {
@@ -269,7 +269,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
                     Log.i(TAG, newUrl);
                     startDownload(newUrl, fileName, name);
                 }
-
+                
                 @Override
                 public void error(String message) {
                     Log.e(TAG,
@@ -277,9 +277,9 @@ public class ShowContentInfoFrg extends BaseFragment implements
                 }
             });
         }
-
+        
     }
-
+    
     private void startDownload(String url, String fileName, String name) {
         String mediaPath = FileManager.getPathFromAllaUrl(url);
         File   file      = new File(FileManager.getRootPath() + mediaPath);
@@ -287,7 +287,7 @@ public class ShowContentInfoFrg extends BaseFragment implements
             file.mkdirs();
         }
         DownloadFile.getInstance().init(() -> {
-
+            
             ActivityBase.toastShow(getResources().getString(R.string.completeDownload), MDToast.TYPE_SUCCESS);
             btnDownload.setVisibility(View.GONE);
             btnOpenPDF.setVisibility(View.VISIBLE);
@@ -296,17 +296,17 @@ public class ShowContentInfoFrg extends BaseFragment implements
                 AppConstants.ROOT + "/" +
                 mediaPath, fileName, name, getResources().getString(R.string.alaa));
     }
-
+    
     @Override
     public void onTagClick(String tag) {
-
+        
         ArrayList<String> tags = new ArrayList<>();
         tags.add(tag);
         addFrg(FilterTagsFrg.newInstance(null, tags), "FilterTagsFrg");
     }
-
+    
     private boolean checkLocationPermission() {
-
+        
         boolean has = hasPermissions(getContext(), PERMISSIONS);
         if (!has) {
             ActivityCompat.requestPermissions(AppConfig.currentActivity, PERMISSIONS, PERMISSION_ALL);
@@ -314,6 +314,6 @@ public class ShowContentInfoFrg extends BaseFragment implements
         }
         return true;
     }
-
+    
 }
 
