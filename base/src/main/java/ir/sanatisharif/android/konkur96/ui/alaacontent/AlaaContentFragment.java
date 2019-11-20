@@ -21,8 +21,8 @@ import ir.sanatisharif.android.konkur96.model.ContentCredit;
 
 public class AlaaContentFragment extends Fragment {
     
-    private AlaaContentViewModel mViewModel;
-    
+    private AlaaContentViewModel                   mViewModel;
+    private ExoPlayerViewModel                     mPlayerViewModel;
     private LogUserActionsOnPublicContentInterface mUserAction;
     
     
@@ -42,6 +42,7 @@ public class AlaaContentFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(AlaaContentViewModel.class);
+        mPlayerViewModel = ViewModelProviders.of(this).get(ExoPlayerViewModel.class);
         
         mViewModel.userCanSeeContent().observe(this, new Observer<Boolean>() {
             @Override
@@ -107,7 +108,7 @@ public class AlaaContentFragment extends Fragment {
         mViewModel.getError().observe(this, new Observer<ContentCredit>() {
             @Override
             public void onChanged(ContentCredit contentCredit) {
-                if(contentCredit != null){
+                if (contentCredit != null) {
                 
                 }
             }

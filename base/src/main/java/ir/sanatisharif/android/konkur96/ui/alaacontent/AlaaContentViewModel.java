@@ -71,8 +71,10 @@ public class AlaaContentViewModel extends ViewModel {
     }
     
     private void init() {
-        if (mCanSee == null)
+        if (mCanSee == null) {
             mCanSee = new MutableLiveData<>();
+            mCanSee.setValue(false);
+        }
         if (mError == null)
             mError = new MutableLiveData<>();
         if (mContent == null)

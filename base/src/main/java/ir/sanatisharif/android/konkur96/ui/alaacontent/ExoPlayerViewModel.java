@@ -1,14 +1,24 @@
 package ir.sanatisharif.android.konkur96.ui.alaacontent;
 
+import android.net.Uri;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class ExoPlayerViewModel extends ViewModel {
-    private String                  TAG = "Alaa\\ExoPlayerViewModel";
-    private MutableLiveData<String> mUrl;
-    private String                  mToken;
-    private int                     mPositionPlaying = 0;
+    private String               TAG = "Alaa\\ExoPlayerViewModel";
+    private MutableLiveData<Uri> mVideoUri;
+    private String               mTxtQuality;
+    private String               mToken;
+    
+    public String getTxtQuality() {
+        return mTxtQuality;
+    }
+    
+    public void setTxtQuality(String txtQuality) {
+        mTxtQuality = txtQuality;
+    }
     
     public String getToken() {
         return mToken;
@@ -18,24 +28,16 @@ public class ExoPlayerViewModel extends ViewModel {
         this.mToken = token;
     }
     
-    public LiveData<String> getUrl() {
-        if (mUrl == null)
-            mUrl = new MutableLiveData<>();
+    public LiveData<Uri> getUrl() {
+        if (mVideoUri == null)
+            mVideoUri = new MutableLiveData<>();
         
-        return mUrl;
+        return mVideoUri;
     }
     
-    public void setUrl(String url) {
-        if (mUrl == null)
-            mUrl = new MutableLiveData<>();
-        mPositionPlaying = 0;
-        mUrl.setValue(url);
-    }
-    
-    public int getPositionPlaying(){
-        return mPositionPlaying;
-    }
-    public void setPositionPlaying(int positionPlaying){
-        mPositionPlaying = positionPlaying;
+    public void setUri(Uri uri) {
+        if (mVideoUri == null)
+            mVideoUri = new MutableLiveData<>();
+        mVideoUri.setValue(uri);
     }
 }

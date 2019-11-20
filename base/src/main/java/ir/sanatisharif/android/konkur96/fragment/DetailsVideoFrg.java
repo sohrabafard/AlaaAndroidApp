@@ -10,7 +10,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
@@ -33,10 +32,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -72,28 +67,26 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.android.gms.common.wrappers.InstantApps;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.sanatisharif.android.konkur96.R;
-import ir.sanatisharif.android.konkur96.account.AccountInfo;
-import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
-import ir.sanatisharif.android.konkur96.activity.ActivityBase;
-import ir.sanatisharif.android.konkur96.adapter.BlockAdapter;
-import ir.sanatisharif.android.konkur96.adapter.PlayListAdapter;
 import ir.sanatisharif.android.konkur96.Models.BlockDataModel;
 import ir.sanatisharif.android.konkur96.Models.ContentModel;
 import ir.sanatisharif.android.konkur96.Models.PaginationModel;
 import ir.sanatisharif.android.konkur96.Models.ProductModel;
 import ir.sanatisharif.android.konkur96.Models.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.Models.filter.FilterModel;
+import ir.sanatisharif.android.konkur96.R;
+import ir.sanatisharif.android.konkur96.account.AccountInfo;
+import ir.sanatisharif.android.konkur96.account.AuthenticatorActivity;
+import ir.sanatisharif.android.konkur96.activity.ActivityBase;
+import ir.sanatisharif.android.konkur96.adapter.BlockAdapter;
+import ir.sanatisharif.android.konkur96.adapter.PlayListAdapter;
 import ir.sanatisharif.android.konkur96.app.AppConfig;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.dialog.DeleteFileDialogFrg;
 import ir.sanatisharif.android.konkur96.dialog.DownloadDialogFrg;
 import ir.sanatisharif.android.konkur96.handler.MainRepository;
-import ir.sanatisharif.android.konkur96.helper.FileManager;
 import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
 import ir.sanatisharif.android.konkur96.listener.DownloadComplete;
 import ir.sanatisharif.android.konkur96.listener.OnItemClickListener;
@@ -101,10 +94,10 @@ import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackContentCredi
 import ir.sanatisharif.android.konkur96.listener.api.IServerCallbackObject;
 import ir.sanatisharif.android.konkur96.model.ContentCredit;
 import ir.sanatisharif.android.konkur96.model.FileDiskModel;
-import ir.sanatisharif.android.konkur96.model.FileModel;
 import ir.sanatisharif.android.konkur96.ui.view.MDToast;
 import ir.sanatisharif.android.konkur96.utils.AuthToken;
 import ir.sanatisharif.android.konkur96.utils.EndlessRecyclerViewScrollListener;
+import ir.sanatisharif.android.konkur96.utils.ExistsOnSD;
 import ir.sanatisharif.android.konkur96.utils.Utils;
 import me.gujun.android.taggroup.TagGroup;
 
@@ -121,20 +114,20 @@ import static ir.sanatisharif.android.konkur96.app.AppConfig.currentActivity;
 public class DetailsVideoFrg extends BaseFragment implements View.OnClickListener {
     
     private final static String
-                                                       TAG                     =
+                                                       TAG          =
             "Alaa\\DetailsVideoFrg";
-    private static final int                           LOAD_URL                = 0;
-    private static final int                           LOAD_CONTENT            = 1;
-    private static final int                           LOAD_LIST               = 2;
+    private static final int                           LOAD_URL     = 0;
+    private static final int                           LOAD_CONTENT = 1;
+    private static final int                           LOAD_LIST    = 2;
     public static        PaginationModel<ContentModel> pagination;
-    private static       int                           kind_of_Load            = -1;
+    private static       int                           kind_of_Load = -1;
     private static       List<ContentModel>            ContentModels;
     private static       ContentModel                  mContent;
     private static       int                           positionPlaying;
     
-    private final        String                        STATE_RESUME_WINDOW     = "resumeWindow";
-    private final        String                        STATE_RESUME_POSITION   = "resumePosition";
-    private final        String                        STATE_PLAYER_FULLSCREEN = "playerFullscreen";
+    private final String STATE_RESUME_WINDOW     = "resumeWindow";
+    private final String STATE_RESUME_POSITION   = "resumePosition";
+    private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
     
     RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(context) {
         @Override
@@ -143,7 +136,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         }
     };
     private LogUserActionsOnPublicContentInterface mUserAction;
-    private SharedPreferences                      sharedPreferences;
     private String                                 quality      = "";
     private Bundle                                 savedInsPlayer;
     private ContentModel                           course;
@@ -762,34 +754,35 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             }
             
         } else if (course != null) {
-            FileModel           file           = course.getFile();
-            List<FileDiskModel> fileDiskModels = file.getVideo();
+            List<FileDiskModel> fileDiskModels = course.getVideoFiles();
             if (i == R.id.imgDownload) {
                 
-                //TODO:issue
-                if (file != null && fileDiskModels != null) {
-                    DownloadDialogFrg dialog = new DownloadDialogFrg();
-                    dialog.setData(fileDiskModels, course.getName(), (course.getIsFree() > 0))
-                            .setComplete(new DownloadComplete() {
-                                @Override
-                                public void complete() {
-                                    imgDownload.setVisibility(View.GONE);
-                                    imgReady.setVisibility(View.VISIBLE);
-                                }
-                            })
-                            .show(getFragmentManager(), "dialog");
-                    
-                    
-                }
-                
-                
+                DownloadDialogFrg dialog = new DownloadDialogFrg();
+                dialog.setData(fileDiskModels, course.getName(), (course.getIsFree() > 0))
+                        .setComplete(new DownloadComplete() {
+                            @Override
+                            public void complete() {
+                                imgDownload.setVisibility(View.GONE);
+                                imgReady.setVisibility(View.VISIBLE);
+                            }
+                        })
+                        .show(getFragmentManager(), "dialog");
             } else if (i == R.id.imgPlay) {
+                ExistsOnSD.checkExistVideoToSD(fileDiskModels, new ExistsOnSD.BooleanCallback() {
+                    @Override
+                    public void onFalse() {
+                        imgDownload.setVisibility(View.VISIBLE);
+                        imgReady.setVisibility(View.GONE);
+                    }
+                    
+                    @Override
+                    public void onTrue(String path) {
+                        imgDownload.setVisibility(View.GONE);
+                        imgReady.setVisibility(View.VISIBLE);
+                        mUrl = path;
+                    }
+                });
                 
-                if (file != null && fileDiskModels != null &&
-                    !checkExistVideoToSD(fileDiskModels)) {
-                    // not Exist
-                    handleQualityLink();
-                }
                 startPlayer(mUrl);
                 
                 relativePreview.setVisibility(View.GONE);
@@ -798,7 +791,7 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                 
             } else if (i == R.id.imgReady) {
                 
-                if (file != null && fileDiskModels != null) {
+                if (fileDiskModels != null) {
                     (new DeleteFileDialogFrg())
                             .setFileDiskModels(fileDiskModels)
                             .setCallback(new DeleteFileDialogFrg.Callback() {
@@ -908,9 +901,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         
         if (course != null && course.getFile() != null && course.getFile().getVideo() != null &&
             course.getFile().getVideo().size() > 0) {
-            
-            checkExistVideoToSD(course.getFile().getVideo());
-            
         }
         tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
             @Override
@@ -959,8 +949,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
             initFullscreenDialog();
             initFullscreenButton();
         }
-        
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         root = view.findViewById(R.id.root);
         myRecyclerViewProduct = view.findViewById(R.id.recyclerView);
         imgDownload = view.findViewById(R.id.imgDownload);
@@ -1029,12 +1017,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
                     mFullScreenDialog.addContentView(mExoPlayerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(AppConfig.currentActivity, R.drawable.ic_fullscreen_skrink));
                     mFullScreenDialog.show();
-                }
-                
-                if (course != null && course.getFile() != null &&
-                    course.getFile().getVideo() != null &&
-                    !checkExistVideoToSD(course.getFile().getVideo())) {
-                    handleQualityLink();
                 }
                 
                 if (isPlaying()) {
@@ -1329,84 +1311,6 @@ public class DetailsVideoFrg extends BaseFragment implements View.OnClickListene
         // ripple(imgReady, 24);
         ripple(imgShare, 24);
         
-    }
-    
-    /**
-     * if return true ie file is exist ito SD
-     * if return false file not exist
-     *
-     * @param fileDiskModels
-     * @return
-     */
-    private boolean checkExistVideoToSD(@NonNull List<FileDiskModel> fileDiskModels) {
-        if (fileDiskModels == null)
-            return false;
-        
-        if (InstantApps.isInstantApp(getContext())) {
-            imgDownload.setVisibility(View.GONE);
-            imgReady.setVisibility(View.GONE);
-            return false;
-        }
-        
-        for (int i = 0; i < fileDiskModels.size(); i++) {
-            
-            String url = fileDiskModels.get(i).getLink();
-            
-            String mediaPath = FileManager.getPathFromAllaUrl(url);
-            String fileName  = FileManager.getFileNameFromUrl(url);
-            File   file      = new File(FileManager.getRootPath() + mediaPath + "/" + fileName);
-            if (file.exists()) {
-                imgDownload.setVisibility(View.GONE);
-                imgReady.setVisibility(View.VISIBLE);
-                mUrl = file.getPath();
-                return true;
-            } else {
-                imgDownload.setVisibility(View.VISIBLE);
-                imgReady.setVisibility(View.GONE);
-            }
-            
-        }
-        return false;
-    }
-    
-    private void handleQualityLink() {
-        String pref = sharedPreferences.getString(getString(R.string.player_quality), "240");
-        mUrl = course.getFile().getVideo().get(0).getLink();
-        txtQuality.setText("");
-        txtQuality.setVisibility(View.VISIBLE);
-        try {
-            if (pref.contains("720")) {
-                mUrl = course.getFile().getVideo().get(0).getLink();
-                quality =
-                        toString(course.getFile().getVideo().get(0).getCaption(), course.getFile().getVideo().get(0).getRes());
-            } else if (pref.contains("hq")) {
-                mUrl = course.getFile().getVideo().get(1).getLink();
-                quality =
-                        toString(course.getFile().getVideo().get(1).getCaption(), course.getFile().getVideo().get(1).getRes());
-            } else if (pref.contains("240")) {
-                quality =
-                        toString(course.getFile().getVideo().get(2).getCaption(), course.getFile().getVideo().get(2).getRes());
-                mUrl = course.getFile().getVideo().get(2).getLink();
-            }
-        }
-        catch (Exception ex) {
-            
-            if (course.getFile().getVideo().size() == 1) {
-                mUrl = course.getFile().getVideo().get(0).getLink();
-                quality =
-                        toString(course.getFile().getVideo().get(0).getCaption(), course.getFile().getVideo().get(0).getRes());
-            } else if (course.getFile().getVideo().size() == 0) {
-                ActivityBase.toastShow("لینکی موحود نیست!", MDToast.TYPE_ERROR);
-            }
-        }
-        txtQuality.setText(quality);
-        AppConfig.HANDLER.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                txtQuality.setVisibility(View.GONE);
-            }
-        }, 5000);
-        // txtQuality.animate().alpha(0).setDuration(3000).start();
     }
     //</editor-fold>
     

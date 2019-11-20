@@ -6,9 +6,12 @@ import android.util.Log;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 import ir.sanatisharif.android.konkur96.Models.filter.FilterBaseModel;
 import ir.sanatisharif.android.konkur96.app.AppConstants;
 import ir.sanatisharif.android.konkur96.interfaces.LogUserActionsOnPublicContentInterface;
+import ir.sanatisharif.android.konkur96.model.FileDiskModel;
 import ir.sanatisharif.android.konkur96.model.FileModel;
 import ir.sanatisharif.android.konkur96.model.main_page.ApiUrl;
 import ir.sanatisharif.android.konkur96.model.main_page.Author;
@@ -236,6 +239,24 @@ public class ContentModel extends PaginationDataModel implements LogUserActionsO
     
     public FileModel getFile() {
         return file;
+    }
+    
+    public ArrayList<FileDiskModel> getVideoFiles (){
+        ArrayList<FileDiskModel> result = new ArrayList<>();
+        FileModel file = getFile();
+        if(file == null)
+            return result;
+        result.addAll(file.getVideo());
+        return result;
+    }
+    
+    public ArrayList<FileDiskModel> getPamphletFiles (){
+        ArrayList<FileDiskModel> result = new ArrayList<>();
+        FileModel file = getFile();
+        if(file == null)
+            return result;
+        result.addAll(file.getPamphlet());
+        return result;
     }
     
     public void setFile(FileModel file) {
